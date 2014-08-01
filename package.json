@@ -5,7 +5,7 @@
   "description": "Boilerplate using AngularJS, SASS, Gulp, and Browserify while also utilizing best practices.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jakemmarsh/new-angular-boilerplate.git"
+    "url": "https://github.com/jakemmarsh/new-angularjs-boilerplate.git"
   },
   "keywords": [
     "express",
