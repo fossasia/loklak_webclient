@@ -1,10 +1,10 @@
-require('angular');
+'use strict';
+
+var angular = require('angular');
+
 require('angular-ui-router');
 
-require('./controllers/index.js');
+var app = angular.module('myApp', ['ui.router']);
 
-var app = angular.module('myApp', [
-          'ui.router',
-
-          'app.controllers'
-        ]);
+app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', require('./routes')])
+.controller('HomeCtrl', require('./controllers/home'));

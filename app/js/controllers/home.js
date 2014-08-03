@@ -1,9 +1,11 @@
-var controllersIndex = require('./index');
+'use strict';
 
-function HomeCtrl() {
+/**
+ * @ngInject
+ */
+module.exports = function() {
 
-  this.title = "Test Title";
+  this.title = 'Test Title';
+  this.number = 1234;
 
-}
-
-controllersIndex.controller('homeCtrl', HomeCtrl);
+};
