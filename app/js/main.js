@@ -4,7 +4,8 @@ var angular = require('angular');
 
 require('angular-ui-router');
 
-var app = angular.module('myApp', ['ui.router']);
+angular.module('myApp', ['ui.router']);
 
-app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', require('./routes')])
-.controller('HomeCtrl', require('./controllers/home'));
+angular.module('myApp').config(['$stateProvider', '$locationProvider', '$urlRouterProvider', require('./routes')]);
+
+angular.module('myApp').controller('HomeCtrl', require('./controllers/home'));
