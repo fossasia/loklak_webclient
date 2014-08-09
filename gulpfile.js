@@ -27,7 +27,7 @@ server.use(livereload({port: livereloadport}));
 server.use(express.static('./build'));
 // Server index.html for all routes to leave routing up to Angular
 server.all('/*', function(req, res) {
-    res.sendfile('index.html', { root: 'dist' });
+    res.sendfile('index.html', { root: 'build' });
 });
 
 /************************************************
