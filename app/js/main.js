@@ -2,10 +2,30 @@
 
 var angular = require('angular');
 
+// angular modules
 require('angular-ui-router');
+require('./controllers/_index');
+require('./services/_index');
+require('./directives/_index');
 
-angular.module('myApp', ['ui.router']);
+// create and bootstrap application
+angular.element(document).ready(function() {
 
-angular.module('myApp').config(['$stateProvider', '$locationProvider', '$urlRouterProvider', require('./routes')]);
+  var requires = [
+    'ui.router',
+    'app.controllers',
+    'app.services',
+    'app.directives'
+  ];
 
-angular.module('myApp').controller('HomeCtrl', require('./controllers/home'));
+  angular.module('app', requires);
+
+  angular.module('app').constant('Settings', require('./settings'));
+
+  angular.module('app').config(require('./routes'));
+
+  angular.module('app').run(require('./on_run'));
+
+  angular.bootstrap(document, ['app']);
+
+});

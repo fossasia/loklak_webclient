@@ -36,13 +36,16 @@ server.all('/*', function(req, res) {
 
 // JSHint task
 gulp.task('lint', function() {
+
   gulp.src('./app/js/**/*.js')
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
+
 });
 
 // Browserify task
 gulp.task('browserify', function() {
+
   // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
   gulp.src(['app/js/main.js'])
   .pipe(ngAnnotate())
@@ -54,20 +57,24 @@ gulp.task('browserify', function() {
   .pipe(rename({suffix: '.min'}))
   .pipe(gulp.dest('build/js'))
   .pipe(refresh(lrserver));
+
 });
 
 // Styles task
 gulp.task('styles', function() {
+
   gulp.src('app/styles/main.scss')
   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
   .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
   .pipe(rename({suffix: '.min'}))
   .pipe(gulp.dest('build/css/'))
   .pipe(refresh(lrserver));
+
 });
 
 // Views task
 gulp.task('views', function() {
+
   // Get our index.html
   gulp.src('app/index.html')
   // And put it in the dist folder
@@ -78,9 +85,11 @@ gulp.task('views', function() {
   // Will be put in the dist/views folder
   .pipe(gulp.dest('build/views/'))
   .pipe(refresh(lrserver));
+
 });
 
 gulp.task('watch', function() {
+
   // Watch our scripts
   gulp.watch(['app/js/**/*.js'],[
     'lint',
@@ -94,14 +103,17 @@ gulp.task('watch', function() {
   gulp.watch(['app/index.html', 'app/views/**/*.html'], [
     'views'
   ]);
+
 });
 
 // Dev task
 gulp.task('dev', function() {
+
   // Start webserver
   server.listen(serverport);
   // Start live reload
   lrserver.listen(livereloadport);
   // Run the watch task to keep tabs on changes
   gulp.start('watch');
+
 });

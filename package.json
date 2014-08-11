@@ -23,8 +23,6 @@
   "devDependencies": {
     "angular": "^1.2.19",
     "angular-ui-router": "^0.2.10",
-    "browserify": "^5.9.1",
-    "browserify-fs": "^1.0.0",
     "connect-livereload": "^0.4.0",
     "express": "^4.7.2",
     "gulp": "^3.8.6",
@@ -38,8 +36,7 @@
     "karma": "^0.12.21",
     "karma-browserify": "^0.2.1",
     "morgan": "^1.2.2",
-    "tiny-lr": "0.0.9",
-    "watchify": "^1.0.1"
+    "tiny-lr": "0.0.9"
   },
   "scripts": {
     "test": "karma start karma.conf"

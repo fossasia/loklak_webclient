@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = function($stateProvider, $locationProvider, $urlRouterProvider) {
+/**
+ * @ngInject
+ */
+function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
 
   $locationProvider.html5Mode(true);
 
@@ -8,9 +11,12 @@ module.exports = function($stateProvider, $locationProvider, $urlRouterProvider)
   .state('Home', {
     url: '/',
     controller: 'HomeCtrl as home',
-    templateUrl: 'views/home.html'
+    templateUrl: 'views/home.html',
+    title: 'Home'
   });
 
   $urlRouterProvider.otherwise('/');
 
-};
+}
+
+module.exports = Routes;
