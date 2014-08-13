@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function ExampleDirective() {
+function exampleDirective() {
 
   return {
     restrict: 'EA',
@@ -18,4 +18,4 @@ function ExampleDirective() {
 
 }
 
-directivesModule.directive('ExampleDirective', ExampleDirective);
+directivesModule.directive('exampleDirective', exampleDirective);

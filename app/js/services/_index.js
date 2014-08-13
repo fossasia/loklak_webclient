@@ -2,8 +2,7 @@
 
 var angular = require('angular');
 
+module.exports = angular.module('app.services', []);
+
 // Define the list of services here
 require('./example.js');
-
-// export the services module
-module.exports = angular.module('app.services', []);

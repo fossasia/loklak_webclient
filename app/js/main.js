@@ -20,7 +20,7 @@ angular.element(document).ready(function() {
 
   angular.module('app', requires);
 
-  angular.module('app').constant('Settings', require('./settings'));
+  angular.module('app').constant('AppSettings', require('./constants'));
 
   angular.module('app').config(require('./routes'));
 

@@ -10,7 +10,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'HomeCtrl as home',
+    controller: 'ExampleCtrl as home',
     templateUrl: 'views/home.html',
     title: 'Home'
   });

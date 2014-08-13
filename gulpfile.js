@@ -2,7 +2,9 @@
 
 var gulp           = require('gulp'),
     jshint         = require('gulp-jshint'),
-    browserify     = require('gulp-browserify'),
+    browserify     = require('browserify'),
+    source         = require('vinyl-source-stream'),
+    streamify      = require('gulp-streamify'),
     uglify         = require('gulp-uglify'),
     sass           = require('gulp-sass'),
     rename         = require('gulp-rename'),
@@ -46,15 +48,18 @@ gulp.task('lint', function() {
 // Browserify task
 gulp.task('browserify', function() {
 
-  // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
-  gulp.src(['app/js/main.js'])
-  .pipe(ngAnnotate())
-  .pipe(browserify({
-    insertGlobals: true,
-    debug: true
-  }))
-  .pipe(uglify())
-  .pipe(rename({suffix: '.min'}))
+  var b = browserify({
+    basedir: '.',
+    entries: './app/js/main.js',
+    debug: true,
+    insertGlobals: true
+  });
+
+  b.bundle()
+  .pipe(source('main.js'))
+  //.pipe(streamify(ngAnnotate()))
+  //.pipe(streamify(uglify()))
+  .pipe(streamify(rename({suffix: '.min'})))
   .pipe(gulp.dest('build/js'))
   .pipe(refresh(lrserver));
 
