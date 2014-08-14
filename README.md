@@ -117,4 +117,4 @@ All of the Gulp processes mentioned above are run automatically when any of the 
 
 ### Testing
 
-TODO: Add a framework for Karama testing.
+TODO: Add a framework for Karma testing.
