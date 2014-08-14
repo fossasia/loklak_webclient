@@ -1,17 +1,16 @@
 {
-  "name": "new-angularjs-boilerplate",
+  "name": "angularjs-gulp-browserify-boilerplate",
   "version": "0.1.0",
   "author": "Jake Marsh <jakemmarsh@gmail.com>",
   "description": "Boilerplate using AngularJS, SASS, Gulp, and Browserify while also utilizing best practices.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jakemmarsh/new-angularjs-boilerplate.git"
+    "url": "https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git"
   },
   "keywords": [
     "express",
     "gulp",
     "browserify",
-    "watchify",
     "angular",
     "sass",
     "boilerplate"
