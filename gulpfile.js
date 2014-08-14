@@ -126,7 +126,11 @@ gulp.task('dev', function() {
   server.listen(serverport);
   // Start live reload
   lrserver.listen(livereloadport);
-  // Run the watch task to keep tabs on changes
+
+  // Run all tasks once
+  gulp.start(['browserify', 'styles', 'views']);
+
+  // Then, run the watch task to keep tabs on changes
   gulp.start('watch');
 
 });
