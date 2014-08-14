@@ -5,10 +5,10 @@ var gulp           = require('gulp'),
     browserify     = require('browserify'),
     source         = require('vinyl-source-stream'),
     streamify      = require('gulp-streamify'),
-    uglify         = require('gulp-uglify'),
+    uglifyify      = require('uglifyify'),
     sass           = require('gulp-sass'),
     rename         = require('gulp-rename'),
-    ngAnnotate     = require('gulp-ng-annotate'),
+    ngAnnotate     = require('browserify-ngannotate'),
     refresh        = require('gulp-livereload'),
     lrserver       = require('tiny-lr')(),
     morgan         = require('morgan'),
@@ -54,6 +54,14 @@ gulp.task('browserify', function() {
     debug: true,
     insertGlobals: true
   });
+
+  b.transform({
+    global: true
+  }, ngAnnotate);
+
+  b.transform({
+    global: true
+  }, uglifyify);
 
   b.bundle()
   .pipe(source('main.js'))
