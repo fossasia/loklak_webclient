@@ -22,5 +22,6 @@ build/Release
 node_modules
 bower_components
 
-# Build directory
+# Build files
 build
+templates.js

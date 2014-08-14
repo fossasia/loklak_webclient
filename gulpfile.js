@@ -9,6 +9,7 @@ var gulp           = require('gulp'),
     sass           = require('gulp-sass'),
     rename         = require('gulp-rename'),
     ngAnnotate     = require('browserify-ngannotate'),
+    templateCache  = require('gulp-angular-templatecache'),
     refresh        = require('gulp-livereload'),
     lrserver       = require('tiny-lr')(),
     morgan         = require('morgan'),
@@ -39,9 +40,9 @@ server.all('/*', function(req, res) {
 // JSHint task
 gulp.task('lint', function() {
 
-  gulp.src('./app/js/**/*.js')
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'));
+  gulp.src(['app/js/**/*.js', '!app/js/templates.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 
 });
 
@@ -64,12 +65,10 @@ gulp.task('browserify', function() {
   }, uglifyify);
 
   b.bundle()
-  .pipe(source('main.js'))
-  //.pipe(streamify(ngAnnotate()))
-  //.pipe(streamify(uglify()))
-  .pipe(streamify(rename({suffix: '.min'})))
-  .pipe(gulp.dest('build/js'))
-  .pipe(refresh(lrserver));
+    .pipe(source('main.js'))
+    .pipe(streamify(rename({suffix: '.min'})))
+    .pipe(gulp.dest('build/js'))
+    .pipe(refresh(lrserver));
 
 });
 
@@ -77,27 +76,28 @@ gulp.task('browserify', function() {
 gulp.task('styles', function() {
 
   gulp.src('app/styles/main.scss')
-  // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-  .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest('build/css/'))
-  .pipe(refresh(lrserver));
+    // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+    .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('build/css/'))
+    .pipe(refresh(lrserver));
 
 });
 
 // Views task
 gulp.task('views', function() {
 
-  // Get our index.html
+  // Put our index.html in the dist folder
   gulp.src('app/index.html')
-  // And put it in the dist folder
-  .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('build/'));
 
-  // Any other view files from app/views
-  gulp.src('./app/views/**/*')
-  // Will be put in the dist/views folder
-  .pipe(gulp.dest('build/views/'))
-  .pipe(refresh(lrserver));
+  // Process any other view files from app/views
+  gulp.src('app/views/**/*.html')
+    .pipe(templateCache({
+      standalone: true
+    }))
+    .pipe(gulp.dest('app/js'))
+    .pipe(refresh(lrserver));
 
 });
 
