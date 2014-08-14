@@ -112,3 +112,9 @@ Files inside `/app/views/`, on the other hand, go through a slightly more comple
 ##### Watching files
 
 All of the Gulp processes mentioned above are run automatically when any of the corresponding files in the `/app` directory are changed, and this is thanks to our Gulp watch tasks. Running `gulp dev` will begin watching all of these files, while also serving to `localhost:3000`.
+
+---
+
+### Testing
+
+TODO: Add a framework for Karama testing.
