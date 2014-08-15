@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp           = require('gulp'),
+    runSequence    = require('run-sequence'),
     jshint         = require('gulp-jshint'),
     browserify     = require('browserify'),
     source         = require('vinyl-source-stream'),
@@ -30,7 +31,7 @@ server.use(livereload({port: livereloadport}));
 server.use(express.static('./build'));
 // Server index.html for all routes to leave routing up to Angular
 server.all('/*', function(req, res) {
-    res.sendfile('index.html', { root: 'build' });
+    res.sendFile('index.html', { root: 'build' });
 });
 
 /************************************************
@@ -40,9 +41,9 @@ server.all('/*', function(req, res) {
 // JSHint task
 gulp.task('lint', function() {
 
-  gulp.src(['app/js/**/*.js', '!app/js/templates.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+  return gulp.src(['app/js/**/*.js', '!app/js/templates.js'])
+          .pipe(jshint())
+          .pipe(jshint.reporter('default'));
 
 });
 
@@ -64,23 +65,23 @@ gulp.task('browserify', function() {
     global: true
   }, uglifyify);
 
-  b.bundle()
-    .pipe(source('main.js'))
-    .pipe(streamify(rename({suffix: '.min'})))
-    .pipe(gulp.dest('build/js'))
-    .pipe(refresh(lrserver));
+  return b.bundle()
+          .pipe(source('main.js'))
+          .pipe(streamify(rename({suffix: '.min'})))
+          .pipe(gulp.dest('build/js'))
+          .pipe(refresh(lrserver));
 
 });
 
 // Styles task
 gulp.task('styles', function() {
 
-  gulp.src('app/styles/main.scss')
-    // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-    .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('build/css/'))
-    .pipe(refresh(lrserver));
+  return gulp.src('app/styles/main.scss')
+          // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+          .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
+          .pipe(rename({suffix: '.min'}))
+          .pipe(gulp.dest('build/css/'))
+          .pipe(refresh(lrserver));
 
 });
 
@@ -92,12 +93,12 @@ gulp.task('views', function() {
     .pipe(gulp.dest('build/'));
 
   // Process any other view files from app/views
-  gulp.src('app/views/**/*.html')
-    .pipe(templateCache({
-      standalone: true
-    }))
-    .pipe(gulp.dest('app/js'))
-    .pipe(refresh(lrserver));
+  return gulp.src('app/views/**/*.html')
+          .pipe(templateCache({
+            standalone: true
+          }))
+          .pipe(gulp.dest('app/js'))
+          .pipe(refresh(lrserver));
 
 });
 
@@ -128,7 +129,7 @@ gulp.task('dev', function() {
   lrserver.listen(livereloadport);
 
   // Run all tasks once
-  gulp.start(['browserify', 'styles', 'views']);
+  runSequence('styles', 'views', 'browserify');
 
   // Then, run the watch task to keep tabs on changes
   gulp.start('watch');

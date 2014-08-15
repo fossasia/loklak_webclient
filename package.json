@@ -36,6 +36,7 @@
     "karma": "^0.12.21",
     "karma-browserify": "^0.2.1",
     "morgan": "^1.2.2",
+    "run-sequence": "^0.3.6",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
     "vinyl-source-stream": "^0.1.1"
