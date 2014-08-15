@@ -1,7 +1,7 @@
 angularjs-gulp-browserify-boilerplate
 =====================================
 
-A boilerplate using AngularJS, SASS, Gulp, and Browserify while also utilizing [these best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide).
+A boilerplate using AngularJS, SASS, Gulp, and Browserify that also utilizes [these best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide).
 
 ---
 
