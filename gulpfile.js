@@ -29,7 +29,7 @@ server.use(morgan('dev'));
 // Add live reload
 server.use(livereload({port: livereloadport}));
 server.use(express.static('./build'));
-// Server index.html for all routes to leave routing up to Angular
+// Serve index.html for all routes to leave routing up to Angular
 server.all('/*', function(req, res) {
     res.sendFile('index.html', { root: 'build' });
 });
