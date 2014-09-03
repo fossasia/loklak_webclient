@@ -12,7 +12,7 @@ A boilerplate using AngularJS, SASS, Gulp, and Browserify that also utilizes [th
 3. Run `gulp dev` (may require installing Gulp globally)
 4. Navigate to `localhost:3000` to view the application
 
-Now that `gulp dev` is running, the server is up as well. Any changes will be automatically processed by Gulp and the server will be updated.
+Now that `gulp dev` is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the server will be updated.
 
 ---
 
@@ -31,7 +31,7 @@ Along with many Gulp libraries (these can be seen in either `package.json` or at
 
 AngularJS is a MVW (Model-View-Whatever) Javascript Framework for creating single-page web applications. In this boilerplate, it is used for all the application routing as well as all of the frontend views and logic.
 
-##### File Organization
+//t
 
 The AngularJS files are all located within `/app/js`, structured in the following manner:
 
