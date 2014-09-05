@@ -13,6 +13,9 @@
     "browserify",
     "angular",
     "sass",
+    "karma",
+    "jasmine",
+    "protractor",
     "boilerplate"
   ],
   "private": true,
