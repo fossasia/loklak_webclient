@@ -151,7 +151,7 @@ gulp.task('dev', function() {
 // Unit test task
 gulp.task('unit', function() {
 
-  // Nonsensical source to fall back to files listened in karma.conf.js,
+  // Nonsensical source to fall back to files listed in karma.conf.js,
   // see https://github.com/lazd/gulp-karma/issues/9
   return gulp.src('./thisdoesntexist')
           .pipe(karma({
