@@ -31,8 +31,6 @@ Along with many Gulp libraries (these can be seen in either `package.json` or at
 
 AngularJS is a MVW (Model-View-Whatever) Javascript Framework for creating single-page web applications. In this boilerplate, it is used for all the application routing as well as all of the frontend views and logic.
 
-//t
-
 The AngularJS files are all located within `/app/js`, structured in the following manner:
 
 ```
@@ -113,8 +111,46 @@ Files inside `/app/views/`, on the other hand, go through a slightly more comple
 
 All of the Gulp processes mentioned above are run automatically when any of the corresponding files in the `/app` directory are changed, and this is thanks to our Gulp watch tasks. Running `gulp dev` will begin watching all of these files, while also serving to `localhost:3000`.
 
+##### Testing
+
+A Gulp tasks also exists for running the test framework (discussed in detail below). Running `gulp test` will run any and all tests inside the `/test` directory and show the results (and any errors) in the console.
+
 ---
 
 ### Testing
 
-TODO: Add a framework for Karma testing.
+This boilerplate also includes a simple framework for unit and end-to-end (e2e) testing via [Karma](http://karma-runner.github.io/) and [Jasmine](http://jasmine.github.io/). In order to test AngularJS modules, the [angular.mocks](https://docs.angularjs.org/api/ngMock/object/angular.mock) module is used.
+
+All of the tests can be run at once with the command `gulp test`. However, the tests are broken up into two main categories:
+
+##### End-to-End (e2e) Tests
+
+e2e tests, as hinted at by the name, consist of tests that involve multiple modules or require interaction between modules, similar to integration tests. These tests are carried out using the Angular library [Protractor](https://github.com/angular/protractor), which also utilizes Jasmine. The goal is to ensure that the flow of your application is performing as designed from start to finish.
+
+In this boilerplate, two end-to-end test examples are provided:
+
+- `routes_spec.js`, which tests the functionality of our AngularJS routing
+- `example_spec.js`, which tests the functionality of the example route, controller, and view
+
+More examples can be seen at the above link for Protractor.
+
+All e2e tests are run with `gulp protractor`. The command `npm run-script preprotractor` should be run once before running any Protractor tests (in order to update the webdrivers used by Selenium).
+
+**Notes:**
+
+- before running the Protractor tests, the application server must be running (start it with `gulp dev`)
+- the Protractor library used for the end-to-end tests may require installing the [Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html) beforehand.
+
+##### Unit Tests
+
+Unit tests are used to test a single module (or "unit") at a time in order to ensure that each module performs as intended individually. In AngularJS this could be thought of as a single controller, directive, filter, service, etc. That is how the unit tests are organized in this boilerplate.
+
+An example test is provided for the following types of AngularJS modules:
+
+- `unit/controllers/example_spec.js`
+- `unit/services/example_spec.js`
+- `unit/constants_spec.js`
+
+Testing AngularJS directives becomes a bit more complex involving mock data and DOM traversal, and so has been omitted from this boilerplate. This can be read about in detail [here](http://newtriks.com/2013/04/26/how-to-test-an-angularjs-directive/).
+
+All unit tests are run with `gulp unit`.

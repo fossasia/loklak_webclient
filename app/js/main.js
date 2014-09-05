@@ -20,7 +20,8 @@ angular.element(document).ready(function() {
     'app.directives'
   ];
 
-  angular.module('app', requires);
+  // mount on window for testing
+  window.app = angular.module('app', requires);
 
   angular.module('app').constant('AppSettings', require('./constants'));
 
