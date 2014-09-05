@@ -113,7 +113,7 @@ All of the Gulp processes mentioned above are run automatically when any of the 
 
 ##### Testing
 
-A Gulp tasks also exists for running the test framework (discussed in detail below). Running `gulp test` will run any and all tests inside the `/test` directory and show the results (and any errors) in the console.
+A Gulp tasks also exists for running the test framework (discussed in detail below). Running `gulp test` will run any and all tests inside the `/test` directory and show the results (and any errors) in the terminal.
 
 ---
 
