@@ -103,7 +103,7 @@ Just one task is necessary for processing our SASS files, and that is `gulp-sass
 
 ##### Images
 
-Any images placed within `/app/images` will be automatically minified via imagemin, and the minified images will be placed within the `/build/images` directory.
+Any images placed within `/app/images` will be compressed via imagemin, and the compressed images will be placed within the `/build/images` directory when preparing for production.
 
 ##### Views
 
@@ -114,6 +114,10 @@ Files inside `/app/views/`, on the other hand, go through a slightly more comple
 ##### Watching files
 
 All of the Gulp processes mentioned above are run automatically when any of the corresponding files in the `/app` directory are changed, and this is thanks to our Gulp watch tasks. Running `gulp dev` will begin watching all of these files, while also serving to `localhost:3000`.
+
+##### Production Task
+
+Just as there is the `gulp dev` task for development, there is also a `gulp prod` task for putting your project into a production-ready state. This will run each of the tasks, while also adding the `image` task discussed above. There is also an empty `gulp deploy` task that is included when running the production task. This deploy task can be fleshed out to automatically push your production-ready site to your hosting setup.
 
 ##### Testing
 
