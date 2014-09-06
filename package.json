@@ -49,12 +49,13 @@
     "karma-jasmine": "^0.1.5",
     "karma-bro": "^0.7.0",
     "protractor": "^1.2.0",
-    "gulp-protractor": "0.0.11"
+    "gulp-protractor": "0.0.11",
+    "gulp-imagemin": "^1.0.1",
+    "imagemin-pngcrush": "^0.1.0"
   },
   "scripts": {
     "pretest": "npm install",
     "test": "karma start test/karma.conf.js",
-
     "preprotractor": "npm run update-webdriver",
     "protractor": "npm run protractor test/protractor.conf.js"
   }

@@ -101,6 +101,10 @@ The resulting file (`main.min.js`) is placed inside the directory `/build/js/`.
 
 Just one task is necessary for processing our SASS files, and that is `gulp-sass`. This will read the `main.scss` file, processing and importing any dependencies and then minifying the result. This file (`main.min.css`) is placed inside the directory `/build/css/`.
 
+##### Images
+
+Any images placed within `/app/images` will be automatically minified via imagemin, and the minified images will be placed within the `/build/images` directory.
+
 ##### Views
 
 When any changes are made to the `index.html` file, the new file is simply copied to the `/build/` directory without any changes occurring.

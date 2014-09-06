@@ -12,6 +12,8 @@ var gulp            = require('gulp'),
     streamify       = require('gulp-streamify'),
     uglifyify       = require('uglifyify'),
     sass            = require('gulp-sass'),
+    imagemin        = require('gulp-imagemin'),
+    pngcrush        = require('imagemin-pngcrush'),
     rename          = require('gulp-rename'),
     ngAnnotate      = require('browserify-ngannotate'),
     templateCache   = require('gulp-angular-templatecache'),
@@ -89,6 +91,20 @@ gulp.task('styles', function() {
 
 });
 
+// Images task
+gulp.task('images', function() {
+
+  // Run imagemin task on all images
+  return gulp.src('app/images/**/*')
+          .pipe(imagemin({
+              progressive: true,
+              svgoPlugins: [{removeViewBox: false}],
+              use: [pngcrush()]
+          }))
+          .pipe(gulp.dest('build/images'));
+
+});
+
 // Views task
 gulp.task('views', function() {
 
@@ -117,6 +133,10 @@ gulp.task('watch', function() {
   gulp.watch(['app/styles/**/*.scss'], [
     'styles'
   ]);
+  // Watch our images
+  gulp.watch(['app/images/**/*'], [
+    'images'
+  ]);
   // Watch our views
   gulp.watch(['app/index.html', 'app/views/**/*.html'], [
     'views'
@@ -137,7 +157,7 @@ gulp.task('dev', function() {
   lrserver.listen(livereloadport);
 
   // Run all tasks once
-  runSequence('styles', 'views', 'browserify');
+  runSequence('styles', 'images', 'views', 'browserify');
 
   // Then, run the watch task to keep tabs on changes
   gulp.start('watch');
