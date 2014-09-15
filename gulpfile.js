@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp            = require('gulp'),
+    gulpif          = require('gulp-if'),
     runSequence     = require('run-sequence'),
     karma           = require('gulp-karma'),
     protractor      = require('gulp-protractor').protractor,
@@ -23,7 +24,8 @@ var gulp            = require('gulp'),
     express         = require('express'),
     livereload      = require('connect-livereload'),
     livereloadport  = 35728,
-    serverport      = 3000;
+    serverport      = 3000,
+    isProd          = false;
 
 /************************************************
   Web Server
@@ -67,9 +69,11 @@ gulp.task('browserify', function() {
     global: true
   }, ngAnnotate);
 
-  b.transform({
-    global: true
-  }, uglifyify);
+  if ( isProd ) {
+    b.transform({
+      global: true
+    }, uglifyify);
+  }
 
   return b.bundle()
           .pipe(source('main.js'))
@@ -84,7 +88,10 @@ gulp.task('styles', function() {
 
   return gulp.src('app/styles/main.scss')
           // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-          .pipe(sass({style: 'compressed', onError: function(e) { console.log(e); } }))
+          .pipe(sass({
+            style: isProd ? 'compressed' : 'expanded',
+            onError: function(e) { console.log(e); }
+          }))
           .pipe(rename({suffix: '.min'}))
           .pipe(gulp.dest('build/css/'))
           .pipe(refresh(lrserver));
@@ -143,6 +150,8 @@ gulp.task('watch', function() {
 // Dev task
 gulp.task('dev', function() {
 
+  isProd = false;
+
   // Start webserver if not already running
   try {
     server.listen(serverport);
@@ -160,14 +169,17 @@ gulp.task('dev', function() {
 
 });
 
+// Deploy task
 gulp.task('deploy', function() {
 
   // Deploy to your hosting setup
 
 });
 
-// Prod task
+// Production task
 gulp.task('prod', function() {
+
+  isProd = true;
 
   // Run all tasks
   runSequence('styles', 'images', 'views', 'browserify', 'deploy');
