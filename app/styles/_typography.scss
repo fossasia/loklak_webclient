@@ -1,0 +1,42 @@
+p {
+  margin-bottom: 1em;
+}
+
+.heading {
+  margin-bottom: 0.618em;
+
+  &.-large {
+    font-size: $font-size--lg;
+    font-weight: bold;
+    line-height: $half-space * 3 / 2;
+  }
+
+  &.-medium {
+    font-size: $font-size--md;
+    font-weight: normal;
+    line-height: $half-space;
+  }
+
+  &.-small {
+    font-size: $font-size--sm;
+    font-weight: bold;
+    line-height: $half-space * 2 / 3;
+  }
+
+  &.-smallest {
+    font-size: $font-size--xs;
+    font-weight: bold;
+  }
+}
+
+h1 {
+  @extend .heading.-large;
+}
+
+h2 {
+  @extend .heading.-medium;
+}
+
+h3 {
+  @extend .heading.-small;
+}
