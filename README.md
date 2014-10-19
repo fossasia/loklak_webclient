@@ -1,18 +1,19 @@
 angularjs-gulp-browserify-boilerplate
 =====================================
 
-A boilerplate using AngularJS, SASS, Gulp, and Browserify that also utilizes [these best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide).
+A boilerplate using AngularJS, SASS, Gulp, and Browserify that also utilizes [these best AngularJS practices](https://github.com/toddmotto/angularjs-styleguide)  and Gulp best practices from [this resource](https://github.com/greypants/gulp-starter).
 
 ---
 
 ### Getting up and running
 
 1. Clone this repo from `https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git`
-2. Run `npm install` from the directory
-3. Run `gulp dev` (may require installing Gulp globally)
-4. Navigate to `localhost:3000` to view the application
+2. Run `npm install` from the root directory
+3. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
+4. Your browser will automatically be opened and directed to the browser-sync proxy address
+5. To prepare assets for production, run the `gulp prod` task (Note: the production task does not fire up the express server, and won't provide you with browser-sync's live reloading. Simply use `gulp dev` during development. More information below)
 
-Now that `gulp dev` is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the server will be updated.
+Now that `gulp dev` is running, the server is up as well and serving files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp and the changes will be injected to any open browsers pointed at the proxy address.
 
 ---
 
@@ -23,7 +24,7 @@ This boilerplate uses the latest versions of the following libraries:
 - [Gulp](http://gulpjs.com/)
 - [Browserify](http://browserify.org/)
 
-Along with many Gulp libraries (these can be seen in either `package.json` or at the top of `gulpfile.js`).
+Along with many Gulp libraries (these can be seen in either `package.json`, or at the top of each task in `/gulp/tasks/`).
 
 ---
 
@@ -84,7 +85,7 @@ Gulp is a "streaming build system", providing a very fast and efficient method f
 
 ##### Web Server
 
-Gulp is used here to provide a very basic node/Express web server for viewing and testing your application as you build. It serves static files from the `build/` directory, leaving routing up to AngularJS. All Gulp tasks are configured to automatically reload the server upon file changes. The application is served to `localhost:3000` once you run the `gulp dev` task.
+Gulp is used here to provide a very basic node/Express web server for viewing and testing your application as you build. It serves static files from the `build/` directory, leaving routing up to AngularJS. All Gulp tasks are configured to automatically reload the server upon file changes. The application is served to `localhost:3000` once you run the `gulp` task. To take advantage of the fast live reload injection provided by browser-sync, you must load the site at the proxy address (which usually defaults to `server port + 1`, and within this boilerplate will by default be `localhost:3001`.)
 
 ##### Scripts
 
@@ -95,15 +96,15 @@ A number of build processes are automatically run on all of our Javascript files
 - **ngAnnotate:** This will automatically add the correct dependency injection to any AngularJS files, as mentioned previously.
 - **Uglifyify:** This will minify the file created by Browserify and ngAnnotate.
 
-The resulting file (`main.min.js`) is placed inside the directory `/build/js/`.
+The resulting file (`main.js`) is placed inside the directory `/build/js/`.
 
 ##### Styles
 
-Just one task is necessary for processing our SASS files, and that is `gulp-sass`. This will read the `main.scss` file, processing and importing any dependencies and then minifying the result. This file (`main.min.css`) is placed inside the directory `/build/css/`.
+Just one task is necessary for processing our SASS files, and that is `gulp-sass`. This will read the `main.scss` file, processing and importing any dependencies and then minifying the result. This file (`main.css`) is placed inside the directory `/build/css/`.
 
 ##### Images
 
-Any images placed within `/app/images` will be compressed via imagemin, and the compressed images will be placed within the `/build/images` directory when preparing for production.
+Any images placed within `/app/images` will be automatically copied to the `build/images` directory. If running `gulp prod`, they will also be compressed via imagemin.
 
 ##### Views
 
@@ -113,11 +114,13 @@ Files inside `/app/views/`, on the other hand, go through a slightly more comple
 
 ##### Watching files
 
-All of the Gulp processes mentioned above are run automatically when any of the corresponding files in the `/app` directory are changed, and this is thanks to our Gulp watch tasks. Running `gulp dev` will begin watching all of these files, while also serving to `localhost:3000`.
+All of the Gulp processes mentioned above are run automatically when any of the corresponding files in the `/app` directory are changed, and this is thanks to our Gulp watch tasks. Running `gulp dev` will begin watching all of these files, while also serving to `localhost:3000`, and with browser-sync proxy running at `localhost:3001` (by default).
 
 ##### Production Task
 
-Just as there is the `gulp dev` task for development, there is also a `gulp prod` task for putting your project into a production-ready state. This will run each of the tasks, while also adding the `image` task discussed above. There is also an empty `gulp deploy` task that is included when running the production task. This deploy task can be fleshed out to automatically push your production-ready site to your hosting setup.
+Just as there is the `gulp dev` task for development, there is also a `gulp prod` task for putting your project into a production-ready state. This will run each of the tasks, while also adding the image minification task discussed above. There is also an empty `gulp deploy` task that is included when running the production task. This deploy task can be fleshed out to automatically push your production-ready site to your hosting setup.
+
+**Reminder:** When running the production task, gulp will not fire up the express server and serve your index.html. This task is designed to be run before the `deploy` step that may copy the files from `/build` to a production web server.
 
 ##### Testing
 
