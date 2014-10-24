@@ -3,12 +3,12 @@
 var gulp        = require('gulp');
 var runSequence = require('run-sequence');
 
-gulp.task('dev', function(cb) {
+gulp.task('dev', ['clean'], function(cb) {
 
   cb = cb || function() {};
 
   global.isProd = false;
 
-  runSequence('clean', 'styles', 'images', 'views', 'browserify', 'watch', cb);
+  runSequence('styles', 'images', 'views', 'browserify', 'watch', cb);
 
 });
