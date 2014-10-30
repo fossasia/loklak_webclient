@@ -1,6 +1,7 @@
 'use strict';
 
 var config  = require('../config');
+var http    = require('http');
 var express = require('express');
 var gulp    = require('gulp');
 var morgan  = require('morgan');
@@ -17,6 +18,10 @@ gulp.task('server', function() {
       res.sendFile('index.html', { root: 'build' });
   });
 
-  // Start webserver
-  server.listen(config.serverport);
+  // Start webserver if not already running
+  if ( !global.serverRunning ) {
+    http.createServer(server).listen(config.serverport, function () {
+      global.serverRunning = true;
+    });
+  }
 });

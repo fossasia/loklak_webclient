@@ -34,6 +34,11 @@ module.exports = {
   'browserify': {
     'entries'   : ['./app/js/main.js'],
     'bundleName': 'main.js'
+  },
+
+  'test': {
+    'karma': 'test/karma.conf.js',
+    'protractor': 'test/protractor.conf.js'
   }
 
 };
