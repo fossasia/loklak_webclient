@@ -8,6 +8,7 @@ var gutil   = require('gulp-util');
 var morgan  = require('morgan');
 
 gulp.task('server', function() {
+
   var server = express();
 
   // log all requests to the console
@@ -29,5 +30,7 @@ gulp.task('server', function() {
       throw err;
     }
   });
+
   s.listen(config.serverport);
+
 });
