@@ -20,10 +20,11 @@ module.exports = {
   },
 
   'views': {
-    'src': [
+    'watch': [
       'app/index.html',
       'app/views/**/*.html'
     ],
+    'src': 'app/views/**/*.html',
     'dest': 'app/js'
   },
 

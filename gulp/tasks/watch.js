@@ -8,6 +8,6 @@ gulp.task('watch', ['browserSync', 'server'], function() {
   gulp.watch(config.scripts.src, ['lint', 'browserify']);
   gulp.watch(config.styles.src,  ['styles']);
   gulp.watch(config.images.src,  ['images', 'reload']);
-  gulp.watch(config.views.src,   ['views']);
+  gulp.watch(config.views.watch, ['views']);
 
 });
