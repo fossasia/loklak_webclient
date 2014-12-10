@@ -6,6 +6,7 @@ var sass         = require('gulp-sass');
 var gulpif       = require('gulp-if');
 var handleErrors = require('../util/handleErrors');
 var browserSync  = require('browser-sync');
+var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('styles', function () {
 
@@ -15,6 +16,7 @@ gulp.task('styles', function () {
       sourceMap: 'sass',
       outputStyle: global.isProd ? 'compressed' : 'nested'
     }))
+    .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
     .on('error', handleErrors)
     .pipe(gulp.dest(config.styles.dest))
     .pipe(gulpif(browserSync.active, browserSync.reload({ stream: true })));
