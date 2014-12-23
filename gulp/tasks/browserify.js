@@ -21,7 +21,7 @@ function buildScript(file) {
     cache: {},
     packageCache: {},
     fullPaths: true
-  });
+  }, watchify.args);
 
   if ( !global.isProd ) {
     bundler = watchify(bundler);
@@ -31,6 +31,7 @@ function buildScript(file) {
   }
 
   bundler.transform(ngAnnotate);
+  bundler.transform('brfs');
 
   function rebundle() {
     var stream = bundler.bundle();
