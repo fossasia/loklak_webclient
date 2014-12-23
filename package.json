@@ -33,6 +33,7 @@
     "angular": "^1.2.19",
     "angular-mocks": "^1.2.22",
     "angular-ui-router": "^0.2.10",
+    "brfs": "^1.2.0",
     "browser-sync": "^1.5.8",
     "browserify": "^5.10.0",
     "browserify-ngannotate": "^0.1.0",
