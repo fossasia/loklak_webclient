@@ -18,6 +18,7 @@ function buildScript(file) {
 
   var bundler = browserify({
     entries: config.browserify.entries,
+    debug: !global.isProd,
     cache: {},
     packageCache: {},
     fullPaths: true
