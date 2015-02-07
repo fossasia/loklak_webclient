@@ -18,7 +18,6 @@ function buildScript(file) {
 
   var bundler = browserify({
     entries: config.browserify.entries,
-    debug: !global.isProd,
     cache: {},
     packageCache: {},
     fullPaths: true
@@ -41,7 +40,9 @@ function buildScript(file) {
 
     return stream.on('error', handleErrors)
       .pipe(source(file))
-      .pipe(gulpif(global.isProd, streamify(uglify())))
+      .pipe(gulpif(global.isProd, streamify(uglify({
+        compress: { drop_console: true }
+      }))))
       .pipe(gulp.dest(config.scripts.dest))
       .pipe(browserSync.reload({ stream: true, once: true }));
   }
