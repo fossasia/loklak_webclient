@@ -38,10 +38,10 @@ function buildScript(file) {
 
   function rebundle() {
     var stream = bundler.bundle();
+    var createSourcemap = global.isProd && config.browserify.sourcemap;
 
     gutil.log('Rebundle...');
 
-    var createSourcemap = global.isProd && config.browserify.sourcemap;
     return stream.on('error', handleErrors)
       .pipe(source(file))
       .pipe(gulpif(createSourcemap, buffer()))
