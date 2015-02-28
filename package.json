@@ -27,7 +27,7 @@
   ],
   "private": true,
   "engines": {
-    "node": ">=0.10.26"
+    "node": ">=0.12.x"
   },
   "devDependencies": {
     "angular": "^1.2.19",
