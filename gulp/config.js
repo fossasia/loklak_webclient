@@ -28,6 +28,12 @@ module.exports = {
     'dest': 'app/js'
   },
 
+  'gzip': {
+    'src': 'build/**/*.{html,xml,json,css,js,js.map}',
+    'dest': 'build/',
+    'options': {}
+  },
+
   'dist': {
     'root'  : 'build'
   },
