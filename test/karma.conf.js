@@ -18,7 +18,7 @@ module.exports = function(config) {
 
     plugins: [
       'karma-jasmine',
-      'karma-bro',
+      'karma-browserify',
       'karma-coverage',
       'karma-chrome-launcher',
       'karma-firefox-launcher'
@@ -39,6 +39,7 @@ module.exports = function(config) {
 
     files: [
       // 3rd-party resources
+      'node_modules/angular/angular.min.js',
       'node_modules/angular-mocks/angular-mocks.js',
 
       // app-specific code

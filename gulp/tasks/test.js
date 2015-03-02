@@ -5,6 +5,6 @@ var runSequence = require('run-sequence');
 
 gulp.task('test', ['server'], function() {
 
-  runSequence('unit', 'protractor');
+  return runSequence('unit', 'protractor');
 
 });
