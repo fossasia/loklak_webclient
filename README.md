@@ -69,7 +69,7 @@ needs to be added directly before any Angular functions/modules. The Gulp tasks 
 
 ### SASS
 
-SASS, standing for 'Syntactically Awesome Style Sheets', is a CSS extension language adding things like extending, variables, and mixins to the language. This boilerplate provides a barebones file structure for your styles, with explicit imports into `app/sass/main.scss`. A Gulp task (discussed later) is provided for compilation and minification of the stylesheets based on this file.
+SASS, standing for 'Syntactically Awesome Style Sheets', is a CSS extension language adding things like extending, variables, and mixins to the language. This boilerplate provides a barebones file structure for your styles, with explicit imports into `app/styles/main.scss`. A Gulp task (discussed later) is provided for compilation and minification of the stylesheets based on this file.
 
 ---
 
