@@ -1,5 +1,6 @@
 {
   "node": true,
+  "jasmine": true,
   "browser": true,
   "esnext": true,
   "bitwise": true,
@@ -15,14 +16,5 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "newcap": false,
-  "globals": {
-    "describe":   false,
-    "it":         false,
-    "before":     false,
-    "beforeEach": false,
-    "after":      false,
-    "afterEach":  false,
-    "expect":     false
-  }
+  "newcap": false
 }
