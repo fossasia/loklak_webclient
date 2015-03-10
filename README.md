@@ -93,6 +93,7 @@ A number of build processes are automatically run on all of our Javascript files
 
 - **JSHint:** Gulp is currently configured to run a JSHint task before processing any Javascript files. This will show any errors in your code in the console, but will not prevent compilation or minification from occurring.
 - **Browserify:** The main build process run on any Javascript files. This processes any of the `require('module')` statements, compiling the files as necessary.
+- **Debowerify:** Parses `require()` statements in your code, mapping them to `bower_components` when necessary. This allows you to use and include bower components just as you would npm modules.
 - **ngAnnotate:** This will automatically add the correct dependency injection to any AngularJS files, as mentioned previously.
 - **Uglifyify:** This will minify the file created by Browserify and ngAnnotate.
 
