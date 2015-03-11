@@ -10,6 +10,7 @@ var buffer       = require('vinyl-buffer');
 var streamify    = require('gulp-streamify');
 var watchify     = require('watchify');
 var browserify   = require('browserify');
+var babelify     = require('babelify');
 var uglify       = require('gulp-uglify');
 var handleErrors = require('../util/handleErrors');
 var browserSync  = require('browser-sync');
@@ -34,6 +35,7 @@ function buildScript(file) {
     });
   }
 
+  bundler.transform(babelify);
   bundler.transform(debowerify);
   bundler.transform(ngAnnotate);
   bundler.transform('brfs');
