@@ -19,6 +19,11 @@ module.exports = {
     'dest': 'build/images'
   },
 
+  'fonts': {
+    'src' : ['app/fonts/**/*'],
+    'dest': 'build/fonts'
+  },
+
   'views': {
     'watch': [
       'app/index.html',
