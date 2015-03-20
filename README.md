@@ -36,13 +36,13 @@ The AngularJS files are all located within `/app/js`, structured in the followin
 
 ```
 /controllers
-  _index.js   (the main module on which to mount all controllers, loaded in main.js)
+  _index.js   (the main module on which all controllers will be mounted, loaded in main.js)
   example.js
 /directives
-  _index.js   (the main module on which to mount all directives, loaded in main.js)
+  _index.js   (the main module on which all directives will be mounted, loaded in main.js)
   example.js
 /services
-  _index.js   (the main module on which to mount all services, loaded in main.js)
+  _index.js   (the main module on which all services will be mounted, loaded in main.js)
   example.js
 constants.js  (any constant values that you want to make available to Angular)
 main.js       (the main file read by Browserify, also where the application is defined and bootstrapped)
@@ -51,13 +51,13 @@ routes.js     (all route definitions and logic)
 templates.js  (this is created via Gulp by compiling your views, and will not be present beforehand)
 ```
 
-Controllers, services, directives, etc. should all be placed within their respective folders and mounted on their respective `_index.js` module. Most other logic can be placed in an existing file, or added in new files as long as it is required inside `main.js`.
+Controllers, services, directives, etc. should all be placed within their respective folders, and will be automatically required via their respective `_index.js` using `bulk-require`. Most other logic can be placed in an existing file, or added in new files as long as it is required inside `main.js`.
 
 ##### Dependency injection
 
 Dependency injection is carried out with the `ng-annotate` library. In order to take advantage of this, a simple comment of the format:
 
-```
+```javascript
 /**
  * @ngInject
  */
