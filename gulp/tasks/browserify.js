@@ -35,10 +35,17 @@ function buildScript(file) {
     });
   }
 
-  bundler.transform(babelify);
-  bundler.transform(debowerify);
-  bundler.transform(ngAnnotate);
-  bundler.transform('brfs');
+  var transforms = [
+    babelify,
+    debowerify,
+    ngAnnotate,
+    'brfs',
+    'bulkify'
+  ];
+
+  transforms.forEach(function(transform) {
+    bundler.transform(transform);
+  });
 
   function rebundle() {
     var stream = bundler.bundle();
