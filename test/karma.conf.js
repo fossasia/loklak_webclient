@@ -9,7 +9,7 @@ module.exports = function(config) {
     basePath: '../',
     frameworks: ['jasmine', 'browserify'],
     preprocessors: {
-      'app/js/**/*.js': ['browserify', 'coverage']
+      'app/js/**/*.js': ['browserify', 'babel', 'coverage']
     },
     browsers: ['Chrome'],
     reporters: ['progress', 'coverage'],
@@ -21,7 +21,8 @@ module.exports = function(config) {
       'karma-browserify',
       'karma-coverage',
       'karma-chrome-launcher',
-      'karma-firefox-launcher'
+      'karma-firefox-launcher',
+      'karma-babel-preprocessor'
     ],
 
     browserify: {
