@@ -1,6 +1,7 @@
 'use strict';
 
 var istanbul = require('browserify-istanbul');
+var isparta = require('isparta');
 
 module.exports = function(config) {
 
@@ -27,9 +28,15 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
-      transform: ['browserify-shim', 'bulkify', istanbul({
-        ignore: ['**/node_modules/**', '**/test/**'],
-      })],
+      transform: [
+        'browserify-shim',
+        'babelify',
+        'bulkify',
+        istanbul({
+          instrumenter: isparta,
+          ignore: ['**/node_modules/**', '**/test/**']
+        })
+      ],
     },
 
     proxies: {
