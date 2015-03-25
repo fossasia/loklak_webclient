@@ -17,15 +17,6 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    plugins: [
-      'karma-jasmine',
-      'karma-browserify',
-      'karma-coverage',
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-babel-preprocessor'
-    ],
-
     browserify: {
       debug: true,
       transform: [
