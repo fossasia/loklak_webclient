@@ -21,7 +21,6 @@ module.exports = function(config) {
       debug: true,
       transform: [
         'browserify-shim',
-        'babelify',
         'bulkify',
         istanbul({
           instrumenter: isparta,
