@@ -48,7 +48,6 @@ constants.js  (any constant values that you want to make available to Angular)
 main.js       (the main file read by Browserify, also where the application is defined and bootstrapped)
 on_run.js     (any functions or logic that need to be executed on app.run)
 routes.js     (all route definitions and logic)
-templates.js  (this is created via Gulp by compiling your views, and will not be present beforehand)
 ```
 
 Controllers, services, directives, etc. should all be placed within their respective folders, and will be automatically required via their respective `_index.js` using `bulk-require`. Most other logic can be placed in an existing file, or added in new files as long as it is required inside `main.js`.
@@ -114,7 +113,7 @@ Any images placed within `/app/images` will be automatically copied to the `buil
 
 When any changes are made to the `index.html` file, the new file is simply copied to the `/build/` directory without any changes occurring.
 
-Files inside `/app/views/`, on the other hand, go through a slightly more complex process. The `gulp-angular-templatecache` module is used in order to process all views/partials, creating the `template.js` file briefly mentioned earlier. This file will contain all the views, now in Javascript format inside Angular's `$templateCache` service. This will allow us to include them in our Javascript minification process, as well as avoid extra HTTP requests for our views.
+Files inside `/app/views/`, on the other hand, go through a slightly more complex process. They are `require`'d in, using the [`partialify`](https://github.com/bclinkinbeard/partialify) browserify transform. This will allow us to include them in our Javascript minification process, as well as avoid extra HTTP requests for our views.
 
 ##### Watching files
 

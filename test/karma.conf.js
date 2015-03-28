@@ -20,6 +20,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [
+        'partialify',
         'bulkify',
         istanbul({
           instrumenter: isparta,

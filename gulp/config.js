@@ -26,11 +26,9 @@ module.exports = {
 
   'views': {
     'watch': [
-      'app/index.html',
-      'app/views/**/*.html'
+      'app/index.html'
     ],
-    'src': 'app/views/**/*.html',
-    'dest': 'app/js'
+    'src': 'app/views/**/*.html'
   },
 
   'gzip': {
