@@ -39,7 +39,6 @@
     "browserify": "^5.10.0",
     "browserify-istanbul": "^0.2.0",
     "browserify-ngannotate": "^0.1.0",
-    "browserify-shim": "^3.8.0",
     "bulk-require": "^0.2.1",
     "bulkify": "^1.1.1",
     "debowerify": "^1.2.0",
@@ -81,17 +80,6 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^2.0.0"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "angular": "./node_modules/angular/angular.js"
-  },
-  "browserify-shim": {
-    "angular": "angular"
   },
   "scripts": {
     "pretest": "npm install",
