@@ -1,6 +1,7 @@
 'use strict';
 
 var istanbul = require('browserify-istanbul');
+var isparta = require('isparta');
 
 module.exports = function(config) {
 
@@ -16,20 +17,16 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    plugins: [
-      'karma-jasmine',
-      'karma-browserify',
-      'karma-coverage',
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-babel-preprocessor'
-    ],
-
     browserify: {
       debug: true,
-      transform: ['browserify-shim', 'bulkify', istanbul({
-        ignore: ['**/node_modules/**', '**/test/**'],
-      })],
+      transform: [
+        'browserify-shim',
+        'bulkify',
+        istanbul({
+          instrumenter: isparta,
+          ignore: ['**/node_modules/**', '**/test/**']
+        })
+      ],
     },
 
     proxies: {
