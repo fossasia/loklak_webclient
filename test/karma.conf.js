@@ -26,7 +26,7 @@ module.exports = function(config) {
           instrumenter: isparta,
           ignore: ['**/node_modules/**', '**/test/**']
         })
-      ],
+      ]
     },
 
     proxies: {
