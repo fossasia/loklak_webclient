@@ -10,9 +10,9 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider) {
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'ExampleCtrl as home',
-    templateUrl: 'home.html',
-    title: 'Home'
+    controller: 'SearchCtrl as search',
+    templateUrl: 'search.html',
+    title: 'Search'
   });
 
   $urlRouterProvider.otherwise('/');
