@@ -1,0 +1,13 @@
+<div class="row status">
+	<div class="inner">
+		<div class="header">
+			<img ng-src="{{data.user.profile_image_url_https}}" class="user-avatar"/>
+			<strong class="user-fullname">{{data.user.name}}</strong>
+			<span class="user-username">@{{data.user.screen_name}}</span>
+			<small class="time" am-time-ago="data.created_at"></small>
+		</div>
+		<div class="content">
+			{{data.text}}
+		</div>
+	</div>
+</div>

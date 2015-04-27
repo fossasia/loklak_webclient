@@ -29,3 +29,29 @@ body {
 		padding: 20px;
 	}
 }
+
+.status {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 20px;
+
+	.inner {
+		margin-left: 58px;
+
+		.header {
+			.user-avatar {
+				float: left;
+				margin-top: 3px;
+				margin-left: -58px;
+				width: 48px;
+				height: 48px;
+				border-radius: 5px;
+				-moz-force-broken-image-icon: 1;
+			}
+		}
+
+		.content {
+
+		}
+	}
+}

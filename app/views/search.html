@@ -19,9 +19,7 @@
             <ul class="side-block"></ul>
         </div>
         <div class="col-md-9 main">
-            <div ng-repeat="status in search.statuses">
-                <h2>{{status.text}}</h2>
-            </div>
+            <div ng-repeat="status in search.statuses" status data="status"></div>
         </div>
     </div>
 </div>

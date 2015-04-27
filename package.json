@@ -69,5 +69,8 @@
     "test": "karma start test/karma.conf.js",
     "preprotractor": "npm run update-webdriver",
     "protractor": "npm run protractor test/protractor.conf.js"
+  },
+  "dependencies": {
+    "angular-moment": "^0.10.0"
   }
 }
