@@ -12,7 +12,9 @@ gulp.task('styles', function () {
 
   return gulp.src(config.styles.src)
     .pipe(sass({
-      includePaths: [ './node_modules/bootstrap-sass/assets/stylesheets' ],
+      includePaths: [
+        './node_modules/bootstrap-sass/assets/stylesheets',
+      ],
       sourceComments: global.isProd ? 'none' : 'map',
       sourceMap: 'sass',
       outputStyle: global.isProd ? 'compressed' : 'nested'

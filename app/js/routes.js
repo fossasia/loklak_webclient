@@ -3,7 +3,7 @@
 /**
  * @ngInject
  */
-function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) {
+function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
   $locationProvider.html5Mode(true);
 
   $stateProvider
@@ -11,11 +11,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/',
     controller: 'SearchCtrl as search',
     templateUrl: 'search.html',
-    title: 'Search'
+    title: 'search'
   });
 
   $urlRouterProvider.otherwise('/');
 
+  cfpLoadingBarProvider.includeBar = false;
 }
 
 module.exports = Routes;
