@@ -5,6 +5,27 @@
 body {
   font-family: Helvetica, sans-serif;
   color: $font-color--dark;
-  background-color: $background--light;
+  background-color: $background-light;
   padding: $half-space;
+  margin-top: 50px;
+}
+
+.navbar {
+	background-color: $background-top;
+	border: 0;
+
+	.navbar-brand {
+		color: #fff;
+	}
+}
+
+.side {
+	.side-block {
+		background-color: $background-dark;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+		-khtml-border-radius: 4px;
+		padding: 20px;
+	}
 }

@@ -14,8 +14,14 @@
     </div>
 </nav>
 <div class="container">
-    <h1>Statuses</h1>
-    <div ng-repeat="status in search.statuses">
-        <h2>{{status.text}}</h2>
+    <div class="row">
+        <div class="col-md-3 side">
+            <ul class="side-block"></ul>
+        </div>
+        <div class="col-md-9 main">
+            <div ng-repeat="status in search.statuses">
+                <h2>{{status.text}}</h2>
+            </div>
+        </div>
     </div>
 </div>
