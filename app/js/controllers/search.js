@@ -5,17 +5,17 @@ var controllersModule = require('./_index');
 /**
  * @ngInject
  */
-function SearchCtrl($http, AppSettings) {
+function SearchCtrl($http, AppSettings, SearchService) {
   var vm = this;
 
   vm.update = function(term) {
-  	$http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q: term}
-    }).success(function(data) {
- 			vm.statuses = data.statuses;
-  	}).error(function(data) {
-    	console.log(data);
-  	});
+  	SearchService.getStatuses(term)
+    	.then(function(statuses) {
+        	vm.statuses = statuses;
+        },
+        function() {
+        	console.log('statuses retrieval failed.');
+        });
   };
 }
 
