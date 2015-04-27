@@ -71,6 +71,8 @@
     "protractor": "npm run protractor test/protractor.conf.js"
   },
   "dependencies": {
-    "angular-moment": "^0.10.0"
+    "angular-loading-bar": "^0.7.1",
+    "angular-moment": "^0.10.0",
+    "isparta": "^3.0.3"
   }
 }

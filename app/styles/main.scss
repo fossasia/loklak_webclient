@@ -1,13 +1,12 @@
 @import 'bootstrap';
 @import 'vars';
-@import 'typography';
+
+@import 'loader';
 
 body {
   font-family: Helvetica, sans-serif;
-  color: $font-color--dark;
   background-color: $background-light;
-  padding: $half-space;
-  margin-top: 50px;
+  margin-top: 70px;
 }
 
 .navbar {
@@ -32,7 +31,7 @@ body {
 
 .status {
 	padding-bottom: 10px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid $border-light;
 	margin-bottom: 20px;
 
 	.inner {
@@ -48,10 +47,6 @@ body {
 				border-radius: 5px;
 				-moz-force-broken-image-icon: 1;
 			}
-		}
-
-		.content {
-
 		}
 	}
 }
