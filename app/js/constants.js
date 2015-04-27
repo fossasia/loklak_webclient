@@ -1,8 +1,7 @@
 'use strict';
 
 var AppSettings = {
-  appTitle: 'Example Application',
-  apiUrl: '/api/v1'
+  apiUrl: 'http://localhost:9100/api/'
 };
 
 module.exports = AppSettings;

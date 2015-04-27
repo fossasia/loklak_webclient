@@ -5,11 +5,11 @@ var controllersModule = require('./_index');
 /**
  * @ngInject
  */
-function SearchCtrl($http) {
+function SearchCtrl($http, AppSettings) {
   var vm = this;
 
   vm.update = function(term) {
-  	$http.jsonp('http://localhost:9100/api/search.json?callback=JSON_CALLBACK', {
+  	$http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
       params: {q: term}
     }).success(function(data) {
  			vm.statuses = data.statuses;
