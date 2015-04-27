@@ -5,14 +5,18 @@ var controllersModule = require('./_index');
 /**
  * @ngInject
  */
-function SearchCtrl() {
-
-  // ViewModel
+function SearchCtrl($http) {
   var vm = this;
 
-  vm.title = 'AngularJS';
-  vm.number = 1234;
-
+  vm.update = function(term) {
+  	$http.jsonp('http://localhost:9100/api/search.json?callback=JSON_CALLBACK', {
+      params: {q: term}
+    }).success(function(data) {
+ 			vm.statuses = data.statuses;
+  	}).error(function(data) {
+    	console.log(data);
+  	});
+  };
 }
 
 controllersModule.controller('SearchCtrl', SearchCtrl);

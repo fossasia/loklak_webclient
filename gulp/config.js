@@ -20,7 +20,10 @@ module.exports = {
   },
 
   'fonts': {
-    'src' : ['app/fonts/**/*'],
+    'src' : [
+      'node_modules/bootstrap-sass/assets/fonts/**/*',
+      'app/fonts/**/*'
+    ],
     'dest': 'build/fonts'
   },
 
