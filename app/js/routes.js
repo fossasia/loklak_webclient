@@ -12,6 +12,11 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'SearchCtrl as search',
     templateUrl: 'search.html',
     title: 'search'
+  })
+  .state('About', {
+    url: '/about',
+    templateUrl: 'about.html',
+    title: 'About Loklak Twitter Evaluation'
   });
 
   $urlRouterProvider.otherwise('/');

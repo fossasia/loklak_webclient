@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Loklak</a>
+            <a class="navbar-brand" href="/">Loklak</a>
         </div>
         <div id="navbar">
             <form class="navbar-form navbar-right">
@@ -11,15 +11,23 @@
                 <button type="submit" class="btn btn-success" ng-click="search.update(term)">Search</button>
             </form>
         </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </nav>
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 side">
-            <ul class="side-block"></ul>
-        </div>
-        <div class="col-md-9 main">
-            <div ng-repeat="status in search.statuses" status data="status"></div>
+    <div class="jumbotron">
+        <div class="row">
+            <h1>Loklak Twitter Evaluation</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque tempore delectus qui dolorem at, labore tenetur similique cumque dolores sunt repudiandae odio ullam, nesciunt, dolorum rerum adipisci quo. Hic, molestiae.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur praesentium magni, quisquam, aliquid corrupti iure eos velit accusamus. Sit maxime quidem earum, ab ratione illo amet atque beatae ea soluta!</p>
         </div>
     </div>
 </div>
