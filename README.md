@@ -18,4 +18,4 @@ Now that `gulp dev` is running, the server is up as well and serving files from 
 
 ### Config
 
-Set the apiUrl var in app/js/constants.js to set the server address
+Set the apiUrl var in `.env` to set the server address in `apiUrl`
