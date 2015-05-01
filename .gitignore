@@ -28,3 +28,6 @@ templates.js
 
 #webstorm
 .idea
+
+# Environmental file
+.env
