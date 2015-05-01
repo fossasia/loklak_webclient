@@ -19,3 +19,7 @@ Now that `gulp dev` is running, the server is up as well and serving files from 
 ### Config
 
 Set the apiUrl var in `.env` to set the server address in `apiUrl`
+
+### Troubleshooting
+
+- On *nix based systems (latest Ubuntu, Fedora version) you might get an `Error: watch ENOSPC` when running `gulp dev`. To fix, check [this post](http://stackoverflow.com/questions/16748737/grunt-watch-error-waiting-fatal-error-watch-enospc) on Stackoverflow. 
