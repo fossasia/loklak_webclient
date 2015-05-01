@@ -1,6 +1,5 @@
 'use strict';
-var env = require('node-env-file');
-env('../../.env');
+require('dotenv').config({path: '.env'});
 
 var AppSettings = {
   apiUrl: process.env.apiUrl
