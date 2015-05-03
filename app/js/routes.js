@@ -17,6 +17,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/about',
     templateUrl: 'about.html',
     title: 'About Loklak Twitter Evaluation'
+  })
+  .state('Statistics', {
+    url: '/statistics',
+    controller: 'StatisticsCtrl as statistics',
+    templateUrl: 'statistics.html',
+    title: 'Statistics'
   });
 
   $urlRouterProvider.otherwise('/');

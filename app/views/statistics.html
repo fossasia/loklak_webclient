@@ -1,0 +1,67 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Loklak</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li class="active">
+                    <a href="statistics.html">Statistics</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="q">Search query:</label>
+                <input type="text" class="form-control" ng-model="term">
+            </div>
+            <div class="form-group">
+                <label for="datetimepicker1">Date Since:</label>
+                <div class="input-group dropdown">
+                    <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+                        <div class="input-append">
+                            <input type="text" class="form-control" ng-model="sinceDate">
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+                        <datetimepicker ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+                    </ul>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="datetimepicker2">Date Until:</label>
+                <div class="input-group dropdown">
+                    <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
+                        <div class="input-append">
+                            <input type="text" class="form-control" ng-model="untilDate">
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
+                        <datetimepicker ng-model="untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+                    </ul>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <input id="timezoneOffset" type="hidden" name="timezoneOffset" value="" ng-model="timezoneOffset">
+            <script>document.getElementById("timezoneOffset").value = new Date().getTimezoneOffset();</script>
+            <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
+        </form>
+    </div>
+     <barchart xkey="xkey" ykeys="ykeys" labels="labels" data-value="{{myModel}}"></barchart>
+
+</div>
