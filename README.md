@@ -8,7 +8,7 @@ Web client for Loklak server.
 ### Dev
 
 1. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
-2. set your constant in `.env` file by moving `cp .env-dist .env`
+2. set your constant in `.env` file by copying `cp .env-dist .env`
 3. Run `npm install` from the root directory
 4. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
 5. Your browser will automatically be opened and directed to the browser-sync proxy address
