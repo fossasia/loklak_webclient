@@ -1,7 +1,8 @@
 loklak webclient
 =====================================
 
-Web client for Loklak server.
+Web client for loklak server (see: https://github.com/loklak/loklak_server ).
+To use the loklak webclient, you need a running loklak server. Install and run it first.
 
 ---
 
