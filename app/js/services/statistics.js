@@ -1,7 +1,7 @@
 'use strict';
 
 var servicesModule = require('./_index.js');
-var moment = require('moment');
+
 /**
  * @ngInject
  */
@@ -9,10 +9,8 @@ function StatisticsService($q, $http, AppSettings) {
 
   var service = {};
 
-  service.getStatistics = function(term, sinceDate, untilDate, timezoneOffset) {
+  service.getStatistics = function(term, sinceDate, untilDate) {
     var deferred = $q.defer();
-    sinceDate=moment(sinceDate).format('YYYY-MM-DD_HH:mm');
-    untilDate=moment(untilDate).format('YYYY-MM-DD_HH:mm');
     term = term + ' since:' + sinceDate + ' until:' + untilDate;
     var tzo = new Date().getTimezoneOffset();
     $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {

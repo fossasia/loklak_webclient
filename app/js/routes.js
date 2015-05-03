@@ -19,7 +19,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'About Loklak Twitter Evaluation'
   })
   .state('Statistics', {
-    url: '/statistics',
+    url: '/statistics?q&since&until',
     controller: 'StatisticsCtrl as statistics',
     templateUrl: 'statistics.html',
     title: 'Statistics'

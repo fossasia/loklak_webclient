@@ -1,3 +1,4 @@
 {
-	"apiUrl": "http://localhost:9100/api/"
+	"apiUrl": "http://localhost:9100/api/",
+	"domain": "http://localhost:3001"
 }

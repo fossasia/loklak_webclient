@@ -59,7 +59,13 @@
             </div>
             <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
         </form>
+        <p ng-hide="isValid">{{statusText}}</p>
+    </div>   
+    <div class="row">
+        <barchart xkey="xkey" ykeys="ykeys" labels="labels" data-value="{{myModel}}"></barchart>
     </div>
-     <barchart xkey="xkey" ykeys="ykeys" labels="labels" data-value="{{myModel}}"></barchart>
-
+    <div class="row" ng-show="isValid">
+        <label for="shareLink">Share Link:</label>
+        <input type="text" class="form-control" id="shareLink" ng-model="shareLink">
+    </div>
 </div>

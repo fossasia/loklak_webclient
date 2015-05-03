@@ -31,7 +31,6 @@ function histogramDirective($window) {
                 		    labels: $scope[attrs.labels]
                 		});                		
                 	}
-                    
                 } else {
                     console.log('setting chart values');
                     morris.setData(angular.fromJson(val));
