@@ -34,7 +34,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                        <datetimepicker ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+                        <datetimepicker ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }"></datetimepicker>
                     </ul>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -50,15 +50,13 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
-                        <datetimepicker ng-model="untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+                        <datetimepicker ng-model="untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }"></datetimepicker>
                     </ul>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
-            <input id="timezoneOffset" type="hidden" name="timezoneOffset" value="" ng-model="timezoneOffset">
-            <script>document.getElementById("timezoneOffset").value = new Date().getTimezoneOffset();</script>
             <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
         </form>
     </div>

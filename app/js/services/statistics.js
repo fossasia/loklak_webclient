@@ -14,8 +14,9 @@ function StatisticsService($q, $http, AppSettings) {
     sinceDate=moment(sinceDate).format('YYYY-MM-DD_HH:mm');
     untilDate=moment(untilDate).format('YYYY-MM-DD_HH:mm');
     term = term + ' since:' + sinceDate + ' until:' + untilDate;
+    var tzo = new Date().getTimezoneOffset();
     $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q: term, timezoneOffset: timezoneOffset,
+      params: {q: term, timezoneOffset: tzo,
                 source: 'cache', count: '0',
                 fields: 'created_at,screen_name,mentions,hashtags'}
     }).success(function(data) {
