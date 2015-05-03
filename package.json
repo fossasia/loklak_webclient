@@ -72,8 +72,6 @@
   },
   "dependencies": {
     "angular-loading-bar": "^0.7.1",
-    "angular-moment": "^0.10.0",
-    "node-env-file": "^0.1.7",
-    "dotenv": "^1.1.0"
+    "angular-moment": "^0.10.0"
   }
 }
