@@ -18,7 +18,7 @@ Now that `gulp dev` is running, the server is up as well and serving files from 
 
 ### Config
 
-Set the apiUrl var in `.env` to set the server address in `apiUrl`
+Set the apiUrl var in `custom_configFile.json` to set the server address in `apiUrl`
 
 ### Troubleshooting
 
