@@ -15,13 +15,14 @@
     "angular": "^1.3.15",
     "angular-mocks": "^1.3.15",
     "angular-ui-router": "^0.2.13",
-    "bootstrap-sass": "~3.3.4",
     "babelify": "^5.0.4",
+    "bootstrap-sass": "~3.3.4",
     "brfs": "^1.2.0",
     "browser-sync": "^1.5.8",
     "browserify": "^5.10.0",
     "browserify-istanbul": "^0.2.0",
     "browserify-ngannotate": "^0.1.0",
+    "browserify-shim": "^3.8.6",
     "bulk-require": "^0.2.1",
     "bulkify": "^1.1.1",
     "debowerify": "^1.2.0",
@@ -36,6 +37,7 @@
     "gulp-imagemin": "^1.1.0",
     "gulp-jshint": "^1.8.3",
     "gulp-karma": "0.0.4",
+    "gulp-minify-css": "^1.1.1",
     "gulp-notify": "^2.0.0",
     "gulp-protractor": "0.0.11",
     "gulp-rename": "^1.2.0",
@@ -72,6 +74,14 @@
   },
   "dependencies": {
     "angular-loading-bar": "^0.7.1",
-    "angular-moment": "^0.10.0"
+    "angular-moment": "^0.10.0",
+    "bootstrap": "^3.3.4",
+    "jquery": "^2.1.4",
+    "jquery-browserify": "^1.8.1",
+    "moment": "^2.10.2"
+  },
+  "browserify-shim": {
+    "jQuery": "global:$",
+    "Morris": "global:Morris"
   }
 }
