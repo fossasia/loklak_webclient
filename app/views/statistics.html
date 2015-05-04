@@ -71,4 +71,20 @@
         <label for="shareLink">Share Link:</label>
         <input type="text" class="form-control" id="shareLink" ng-model="shareLink">
     </div>
+    <div class="row container">
+        <div class="content" ng-hide="hideAtInit">
+            <div class="tweeters eval-widget col-xs-24 col-md-3">
+                <h1>top twitterers</h1>
+                <div ng-repeat="tweeter in topTweeters | limitTo:5" stat data="tweeter"></div>
+            </div>
+            <div class="mentions eval-widget col-xs-24 col-md-offset-1 col-md-4">
+                <h1>top mentions</h1>
+                <div ng-repeat="mention in topMentions | limitTo:5" stat data="mention"></div>
+            </div>
+            <div class="tags eval-widget col-xs-24 col-md-offset-1 col-md-3">
+                <h1>top tags</h1>
+                <div ng-repeat="tag in topTags | limitTo:5" stat data="tag"></div>
+            </div>
+        </div>
+    </div>
 </div>
