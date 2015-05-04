@@ -20,6 +20,7 @@ Now that `gulp dev` is running, the server is up as well and serving files from 
 ### Config
 
 Set the apiUrl var in `custom_configFile.json` to set the server address in `apiUrl`
+Set the domain var in `custom_configFile.json` to set the domain where site is hosted in `domain`
 
 ### Troubleshooting
 
