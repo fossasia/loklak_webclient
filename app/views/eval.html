@@ -11,17 +11,17 @@
                 <li>
                     <a href="/about">About</a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="statistics.html">Statistics</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/eval">Evaluation</a>
                 </li>
             </ul>
         </nav>
     </div>
 </nav>
-<div class="container">
+<div class="evaluation container">
     <div class="row">
         <form class="form-inline" role="form">
             <div class="form-group">
@@ -60,9 +60,21 @@
                     </span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
+            <button type="submit" class="btn btn-success" ng-click="eval.eval(term, sinceDate, untilDate)">Search</button>
         </form>
     </div>
-     <barchart xkey="xkey" ykeys="ykeys" labels="labels" data-value="{{myModel}}"></barchart>
-
+    <div class="content" ng-hide="hideAtInit">
+        <div class="tweeters eval-widget  col-xs-3">
+            <h1>top tweeters</h1>
+            <div ng-repeat="tweeter in topTweeters | limitTo:5" stat data="tweeter"></div>
+        </div>
+        <div class="mentions eval-widget col-xs-offset-1 col-xs-4">
+            <h1>top mentions</h1>
+            <div ng-repeat="mention in topMentions | limitTo:5" stat data="mention"></div>
+        </div>
+        <div class="tags eval-widget col-xs-offset-1 col-xs-3">
+            <h1>top tags</h1>
+            <div ng-repeat="tag in topTags | limitTo:5" stat data="tag"></div>
+        </div>
+    </div>
 </div>

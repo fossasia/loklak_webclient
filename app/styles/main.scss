@@ -50,3 +50,63 @@ body {
 		}
 	}
 }
+
+
+
+.evaluation {
+	> div.row {
+		text-align: center;
+	}
+	form {
+		display: inline-block;
+	}
+}
+.eval-widget {
+	.item {
+		min-height: 42px;
+	}
+	margin-top: 50px;
+	padding-bottom: 15px;
+	h1 {
+		text-align: center;
+	}
+	border: 1px solid black;
+	border-radius: 7px;
+	.item {
+		position: relative;
+		margin-top: 11px;
+	}
+	p {
+		display: inline-block;
+		position: relative;
+		z-index: 200;
+		font-size: 16px;
+		margin-top: 10px;
+		margin-left: 25px;
+	}
+	.percentage {
+		float: right;
+		display: inline-block;
+		position: relative;
+		z-index: 200;
+		font-size: 16px;
+		margin-top: 10px;
+		margin-right: 15px;
+	}
+	.percent-bar {
+		position: absolute;
+		z-index: 100;
+		left: 15px;
+		height: 100%;
+		border-radius: 5px;
+	}
+}
+.tweeters .percent-bar {
+	background-color: #9BD5BB;
+}
+.mentions .percent-bar {
+	background-color: #87AFCC;
+}
+.tags .percent-bar {
+	background-color: #D6A6BC;
+}
