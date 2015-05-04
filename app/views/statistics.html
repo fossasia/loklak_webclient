@@ -33,7 +33,7 @@
                 <div class="input-group dropdown">
                     <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
                         <div class="input-append">
-                            <input type="text" class="form-control" ng-model="sinceDate">
+                            <input type="text" class="form-control date-input" ng-model="sinceDate">
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
@@ -45,11 +45,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="datetimepicker2">Date Until:</label>
+                <label for="datetimepicker2"> Date Until:</label>
                 <div class="input-group dropdown">
                     <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
                         <div class="input-append">
-                            <input type="text" class="form-control" ng-model="untilDate">
+                            <input type="text" class="form-control date-input" ng-model="untilDate">
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
@@ -60,7 +60,9 @@
                     </span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" ng-click="statistics.update(term, sinceDate, untilDate, timezoneOffset)">Search</button>
+            </div>
         </form>
         <p ng-hide="isValid">{{statusText}}</p>
     </div>   
