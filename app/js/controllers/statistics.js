@@ -90,8 +90,8 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
     if (!((typeof $stateParams.q === "undefined")||(typeof $stateParams.since === "undefined")||(typeof $stateParams.until === "undefined"))) {
       $scope.isValid = false;
       try{
-        var sinceDate=new Date($stateParams.since.replace('_', ' '));
-        var untilDate=new Date($stateParams.until.replace('_', ' '));
+        var sinceDate=moment($stateParams.since.replace('_', ' '));
+        var untilDate=moment($stateParams.until.replace('_', ' '));
         $scope.term = $stateParams.q;
         $scope.sinceDate = sinceDate;
         $scope.untilDate = untilDate;
