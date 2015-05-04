@@ -20,7 +20,7 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
                       var i = -1;
                       for (var property in statistics.created_at) {
                           if (statistics.created_at.hasOwnProperty(property)) {
-                              $scope.myModel[++i] = {}
+                              $scope.myModel[++i] = {};
                               $scope.myModel[i].date = property;
                               $scope.myModel[i].tweetCount = statistics.created_at[property];
                           }
@@ -57,9 +57,7 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
       }
     }
     else{
-      $scope.statusText = 'Invalid query parameters. Please perform a new search';
       $scope.isValid = false;
-      $scope.myModel = [];
     }
 
     var vm = this;
