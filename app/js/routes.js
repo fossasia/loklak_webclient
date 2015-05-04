@@ -29,12 +29,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'StatisticsCtrl as statistics',
     templateUrl: 'statistics.html',
     title: 'Statistics'
-  })
-  .state('Evaluation', {
-    url: '/eval',
-    controller: 'EvalCtrl as eval',
-    templateUrl: 'eval.html',
-    title: 'Evaluation'
   });
 
   $urlRouterProvider.otherwise('/');
