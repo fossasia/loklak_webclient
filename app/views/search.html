@@ -4,16 +4,10 @@
             <a class="navbar-brand" href="/">Loklak</a>
         </div>
         <div id="navbar">
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" placeholder="Search" class="form-control" ng-model="term">
-                </div>
-                <button type="submit" class="btn btn-success" ng-click="search.update(term)">Search</button>
-            </form>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li>
                     <a href="/">Home</a>
                 </li>
                 <li>
@@ -22,23 +16,28 @@
                 <li>
                     <a href="/statistics">Statistics</a>
                 </li>
+                <li class="active">
+                    <a href="/search">Search</a>
+                </li>
             </ul>
         </nav>
     </div>
 </nav>
-<div class="container">
-    <div class="jumbotron">
-        <div class="row">
-            <h1>Loklak Twitter Evaluation</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque tempore delectus qui dolorem at, labore tenetur similique cumque dolores sunt repudiandae odio ullam, nesciunt, dolorum rerum adipisci quo. Hic, molestiae.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur praesentium magni, quisquam, aliquid corrupti iure eos velit accusamus. Sit maxime quidem earum, ab ratione illo amet atque beatae ea soluta!</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 side">
-            <ul class="side-block"></ul>
-        </div>
-        <div class="col-md-9 main">
-            <div ng-repeat="status in search.statuses" status data="status"></div>
-        </div>
-    </div>
+<div class="row">
+	<div class="col-md-3 side">
+		<ul class="side-block"></ul>
+	</div>
+	<div class="container">
+		<div class="col-md-9 main">
+			<div class="container">
+				<form>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football" style="width:80%;">
+					</div>
+					<button class="btn btn-success" type="submit" ng-click="search.update(term)">Show Tweets</button>
+				</form>
+			</div>
+			<div ng-repeat="status in search.statuses" status data="status"></div>
+		</div>
+	</div>
 </div>
