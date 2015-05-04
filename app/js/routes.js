@@ -9,14 +9,20 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'SearchCtrl as search',
-    templateUrl: 'search.html',
-    title: 'search'
+    controller: '',
+    templateUrl: 'home.html',
+    title: 'Home'
   })
   .state('About', {
     url: '/about',
     templateUrl: 'about.html',
     title: 'About Loklak Twitter Evaluation'
+  })
+  .state('Search', {
+    url: '/search',
+    templateUrl: 'search.html',
+    controller: 'SearchCtrl as search',
+    title: 'Search'
   })
   .state('Statistics', {
     url: '/statistics?q&since&until',
