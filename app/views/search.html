@@ -32,9 +32,16 @@
 			<div class="container">
 				<form>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football" style="width:80%;">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5">
+        						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
+                            </div>
+                            <div class="col-lg-3 col-md-3">
+                                <button class="btn btn-success pull-left" type="submit" ng-click="search.update(term)">Show Tweets</button>
+                            </div>
+                            <div class="col-lg-4 col-md-4"></div>
+                        </div>
 					</div>
-					<button class="btn btn-success" type="submit" ng-click="search.update(term)">Show Tweets</button>
 				</form>
 			</div>
 			<div ng-repeat="status in search.statuses" status data="status"></div>
