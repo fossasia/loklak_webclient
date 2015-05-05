@@ -73,7 +73,7 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
      */
     function updateAll(term, sinceDate, untilDate){     
     	var d = new Date();
-    	$scope.shareLink = AppSettings.domain + '/statistics?q=' + term + '&since=' + sinceDate + '&until=' + untilDate; 
+    	$scope.shareLink = AppSettings.domain + '/statistics?q=' + encodeURIComponent(term) + '&since=' + encodeURIComponent(sinceDate) + '&until=' + encodeURIComponent(untilDate); 
       StatisticsService.getStatistics(term, sinceDate, untilDate, d.getTimezoneOffset())
           .then(function(statistics) {
                   evalStats(statistics);
@@ -90,12 +90,16 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
     if (!((typeof $stateParams.q === "undefined")||(typeof $stateParams.since === "undefined")||(typeof $stateParams.until === "undefined"))) {
       $scope.isValid = false;
       try{
+        $stateParams.q = decodeURIComponent($stateParams.q);
+        console.log($stateParams.q);
+        $stateParams.since = decodeURIComponent($stateParams.since);
+        $stateParams.until = decodeURIComponent($stateParams.until); 
         var sinceDate=moment($stateParams.since.replace('_', ' '));
         var untilDate=moment($stateParams.until.replace('_', ' '));
         $scope.term = $stateParams.q;
         $scope.sinceDate = sinceDate;
         $scope.untilDate = untilDate;
-        updateHistogram($stateParams.q, $stateParams.since, $stateParams.until);
+        updateAll($stateParams.q, $stateParams.since, $stateParams.until);
       }
       catch(err){
         console.log("Invalid query parameters." + err);
