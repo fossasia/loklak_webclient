@@ -48,6 +48,22 @@ body {
 				-moz-force-broken-image-icon: 1;
 			}
 		}
+
+		.content {
+			.images {
+				padding: 0 25%;
+
+				img {
+					display: block;
+					width: 100%;
+					margin: 20px 0;
+					-webkit-border-radius: 4px;
+				    -moz-border-radius: 4px;
+				    -khtml-border-radius: 4px;
+				    border-radius: 4px;
+				}
+			}
+		}
 	}
 }
 
