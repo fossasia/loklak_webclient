@@ -9,9 +9,9 @@ function SearchCtrl($http, AppSettings, SearchService) {
     var vm = this;
 
     vm.update = function(term) {
-        SearchService.getStatuses(term)
-            .then(function(statuses) {
-        	   vm.statuses = statuses;
+        SearchService.getData(term)
+            .then(function(data) {
+        	   vm.statuses = data.statuses;
             },
             function() {
         	   console.log('statuses retrieval failed.');
