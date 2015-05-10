@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-9">
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5">
+                            <input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <button class="btn btn-success pull-left" type="submit" ng-click="wall.update(term)">Show Tweets</button>
+                        </div>
+                        <div class="col-lg-4 col-md-4"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+        <div ng-repeat="status in wall.statuses" status data="status"></div>
+    </div>
+</div>
