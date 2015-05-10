@@ -29,6 +29,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'StatisticsCtrl as statistics',
     templateUrl: 'statistics.html',
     title: 'Statistics'
+  })
+  .state('Wall', {
+    url: '/wall',
+    templateUrl: 'wall.html',
+    controller: 'WallCtrl as wall',
+    title: 'Loklak Wall'
   });
 
   $urlRouterProvider.otherwise('/');
