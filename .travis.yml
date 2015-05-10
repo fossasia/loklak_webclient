@@ -2,8 +2,7 @@ language: node_js
 node_js:
   - "0.10.26"
 before_script:
-  - cp .env-dist .env
   - npm install
   - npm install -g gulp
 script:
-  - gulp test
+  - npm test
