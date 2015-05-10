@@ -1,8 +1,6 @@
 'use strict';
-require('dotenv').config({path: '.env'});
 
-var AppSettings = {
-  apiUrl: process.env.apiUrl
-};
+var fs = require('fs');
+var AppSettings=JSON.parse(fs.readFileSync('custom_configFile.json', 'utf8'));
 
 module.exports = AppSettings;

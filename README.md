@@ -1,14 +1,15 @@
 loklak webclient
 =====================================
 
-Web client for Loklak server.
+Web client for loklak server (see: https://github.com/loklak/loklak_server ).
+To use the loklak webclient, you need a running loklak server. Install and run it first.
 
 ---
 
 ### Dev
 
 1. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
-2. set your constant in `.env` file by moving `cp .env-dist .env`
+2. Create your custom settings file by using `cp configFile.json custom_configFile.json`. Edit your settings inside `custom_configFile.json`.
 3. Run `npm install` from the root directory
 4. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
 5. Your browser will automatically be opened and directed to the browser-sync proxy address
@@ -18,4 +19,13 @@ Now that `gulp dev` is running, the server is up as well and serving files from 
 
 ### Config
 
-Set the apiUrl var in `.env` to set the server address in `apiUrl`
+Set the apiUrl var in `custom_configFile.json` to set the server address in `apiUrl`
+Set the domain var in `custom_configFile.json` to set the domain where site is hosted in `domain`
+
+### Troubleshooting
+
+- On *nix based systems (latest Ubuntu, Fedora version) you might get an `Error: watch ENOSPC` when running `gulp dev`. To fix, check [this post](http://stackoverflow.com/questions/16748737/grunt-watch-error-waiting-fatal-error-watch-enospc) on Stackoverflow. 
+
+### Chat with Development Team (join the development!)
+
+[![Join the chat at https://gitter.im/loklak](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loklak?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

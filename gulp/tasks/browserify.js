@@ -40,7 +40,8 @@ function buildScript(file) {
     debowerify,
     ngAnnotate,
     'brfs',
-    'bulkify'
+    'bulkify',
+    'browserify-shim' //browserify-shim should always be included last
   ];
 
   transforms.forEach(function(transform) {

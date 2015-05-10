@@ -9,9 +9,26 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'SearchCtrl as search',
+    controller: '',
+    templateUrl: 'home.html',
+    title: 'Home'
+  })
+  .state('About', {
+    url: '/about',
+    templateUrl: 'about.html',
+    title: 'About Loklak Twitter Evaluation'
+  })
+  .state('Search', {
+    url: '/search',
     templateUrl: 'search.html',
-    title: 'search'
+    controller: 'SearchCtrl as search',
+    title: 'Search'
+  })
+  .state('Statistics', {
+    url: '/statistics?q&since&until',
+    controller: 'StatisticsCtrl as statistics',
+    templateUrl: 'statistics.html',
+    title: 'Statistics'
   });
 
   $urlRouterProvider.otherwise('/');
