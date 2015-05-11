@@ -11,6 +11,7 @@ function WallCtrl($http, $interval, AppSettings, SearchService) {
     vm.oldStatuses = [];
     vm.nextStatuses = [];
     vm.statuses = [];
+    vm.displaySearch = true;
 
     var getNewStatuses = function(oldData, newData) {
         if(oldData.length === 0) return;
@@ -43,6 +44,7 @@ function WallCtrl($http, $interval, AppSettings, SearchService) {
     }, 3000);
 
     vm.update = function(term) {
+        vm.displaySearch = false;
         vm.term = term;
         SearchService.getData(term)
             .then(function(data) {

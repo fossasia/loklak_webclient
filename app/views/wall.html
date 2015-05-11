@@ -1,26 +1,24 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-3 side">
-			<ul class="side-block"></ul>
-		</div>
-		<div class="container">
-			<div class="col-md-9 main">
-				<div class="container">
-					<form>
-						<div class="form-group">
-	                        <div class="row">
-	                            <div class="col-lg-5 col-md-5">
-	        						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
-	                            </div>
-	                            <div class="col-lg-3 col-md-3">
-	                                <button class="btn btn-success pull-left" type="submit" ng-click="wall.update(term)">Show Tweets</button>
-	                            </div>
-	                            <div class="col-lg-4 col-md-4"></div>
-	                        </div>
+		<div class="col-md-12 main wall">
+			<div class="container">
+				<div class="row">
+                	<div ng-if="wall.displaySearch" class="wall-search">
+                    	<h1>Search</h1>
+						<form class="form-inline form-search">
+							<div class="form-group">
+								<input type="text" class="form-control" ng-model="term" placeholder="Search term">
+						 	</div>
+							<button type="submit" class="btn btn-success" ng-click="wall.update(term)">Show Tweets</button>
+						</form>
+					</div>
+					<div ng-if="!displaySearch" class="wall-display">
+						<h1>{{wall.term}}</h1>
+						<div class="status-list">
+							<div ng-repeat="status in wall.statuses" class="animate-repeat" status data="status" highlight="$first"></div>
 						</div>
-					</form>
+					</div>
 				</div>
-				<div ng-repeat="status in wall.statuses" status data="status" highlight="$first"></div>
 			</div>
 		</div>
 	</div>
