@@ -1,4 +1,4 @@
-<div class="row status">
+<div ng-class="highlight ? 'status highlight' : 'status'">
 	<div class="inner">
 		<div class="header">
 			<img ng-src="{{data.user.profile_image_url_https}}" class="user-avatar"/>
@@ -12,5 +12,6 @@
 				<img ng-repeat="image in data.images" ng-src="{{image}}"/>
 			</div>
 		</div>
+		<div class="clearfix"></div>
 	</div>
 </div>

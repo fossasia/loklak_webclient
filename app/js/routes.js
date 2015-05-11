@@ -24,6 +24,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'SearchCtrl as search',
     title: 'Search'
   })
+  .state('Wall', {
+    url: '/wall',
+    templateUrl: 'wall.html',
+    controller: 'WallCtrl as wall',
+    title: 'Wall'
+  })
   .state('Statistics', {
     url: '/statistics?q&since&until',
     controller: 'StatisticsCtrl as statistics',
