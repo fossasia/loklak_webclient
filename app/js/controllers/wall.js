@@ -5,36 +5,53 @@ var controllersModule = require('./_index');
 /**
  * @ngInject
  */
-function WallCtrl($http, $interval, AppSettings, SearchService) {
+function WallCtrl($http, $timeout, $interval, AppSettings, SearchService) {
     var vm = this;
     vm.term = null;
-    vm.oldStatuses = [];
+    vm.prevStatuses = [];
     vm.nextStatuses = [];
     vm.statuses = [];
     vm.displaySearch = true;
 
-    var getNewStatuses = function(oldData, newData) {
-        if(oldData.length === 0) return;
-        return newData.filter(function(data) {
-            var dataDate = new Date(data['created_at']);
-            var lastDate = new Date(oldData[0]['created_at']);
-            return dataDate > lastDate;
+    var getNewStatuses = function(oldStatuses, newStatuses) {
+        var oldIds = {}
+        oldStatuses.forEach(function(status) {
+            oldIds[status['id_str']] = status;
         });
-    };
 
-    var liveUpdate = function() {
-        $interval(function() {
-            if(!vm.term) return;
+        return newStatuses.filter(function(status) {
+            return !(status['id_str'] in oldIds);
+        });
+    }
+
+    var getRefreshTime = function(period) {
+        if(period < 7000) return 5000;
+        if(period <= 3000) return 0.7 * period;
+        return 20000;
+    }
+
+    var liveUpdate = function(refreshTime) {
+        return $timeout(function() {
             SearchService.getData(vm.term)
                 .then(function(data) {
-                    var newStatuses = getNewStatuses(vm.oldStatuses, data.statuses);
-                    angular.forEach(newStatuses, function(status) {
-                        vm.nextStatuses.push(status);
-                    });
-                    vm.oldStatuses = data.statuses;
-                });
-        }, 5000)
+                    var newRefreshTime = getRefreshTime(data.search_metadata.period);
 
+                    var newStatuses = [];
+                    if(vm.prevStatuses.length === 0) {
+                        newStatuses = data.statuses;
+                    } else {
+                        newStatuses = getNewStatuses(vm.prevStatuses, data.statuses);
+                    }
+                    
+                    angular.forEach(newStatuses, function(status) {
+                        vm.nextStatuses.unshift(status);
+                    });
+
+                    vm.prevStatuses = data.statuses;
+                
+                    return liveUpdate(newRefreshTime);
+                });
+        }, refreshTime);
     };
 
     $interval(function() {
@@ -44,20 +61,11 @@ function WallCtrl($http, $interval, AppSettings, SearchService) {
     }, 3000);
 
     vm.update = function(term) {
+        if(!term) return;
         vm.displaySearch = false;
         vm.term = term;
-        SearchService.getData(term)
-            .then(function(data) {
-                vm.oldStatuses = data.statuses;
-                vm.statuses = data.statuses;
-            },
-            function() {
-                console.log('statuses retrieval failed.');
-            });
+        liveUpdate(0);
     };
-
-    liveUpdate();
-
 }
 
 controllersModule.controller('WallCtrl', WallCtrl);

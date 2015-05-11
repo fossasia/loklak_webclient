@@ -15,7 +15,7 @@
 					<div ng-if="!displaySearch" class="wall-display">
 						<h1>{{wall.term}}</h1>
 						<div class="status-list">
-							<div ng-repeat="status in wall.statuses" class="animate-repeat" status data="status" highlight="$first"></div>
+							<div ng-repeat="status in wall.statuses | orderBy: '-created_at'" class="animate-repeat" status data="status" highlight="$first"></div>
 						</div>
 					</div>
 				</div>
