@@ -9,7 +9,8 @@ function statusDirective() {
 
   return {
     scope: {
-    	data: '=data'
+    	data: '=',
+    	highlight: '='
     },
     templateUrl: 'status.html',
   };
