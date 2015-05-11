@@ -4,6 +4,7 @@ var angular = require('angular');
 
 // angular modules
 require('angular-ui-router');
+require('angular-animate');
 require('angular-moment');
 require('angular-loading-bar');
 require('./templates');
@@ -16,9 +17,10 @@ require('./components/_index');
 angular.element(document).ready(function() {
 
   var requires = [
+    'ui.router',
+    'ngAnimate',
     'angularMoment',
     'angular-loading-bar',
-    'ui.router',
     'templates',
     'app.controllers',
     'app.services',

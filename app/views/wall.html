@@ -1,24 +1,25 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-9">
-            <form>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5">
-                            <input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
-                        </div>
-                        <div class="col-lg-3 col-md-3">
-                            <button class="btn btn-success pull-left" type="submit" ng-click="wall.update(term)">Show Tweets</button>
-                        </div>
-                        <div class="col-lg-4 col-md-4"></div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-1"></div>
-    </div>
-    <div class="row">
-        <div ng-repeat="status in wall.statuses" status data="status"></div>
-    </div>
+	<div class="row">
+		<div class="col-md-12 main wall">
+			<div class="container">
+				<div class="row">
+                	<div ng-if="wall.displaySearch" class="wall-search">
+                    	<h1>Search</h1>
+						<form class="form-inline form-search">
+							<div class="form-group">
+								<input type="text" class="form-control" ng-model="term" placeholder="Search term">
+						 	</div>
+							<button type="submit" class="btn btn-success" ng-click="wall.update(term)">Show Tweets</button>
+						</form>
+					</div>
+					<div ng-if="!wall.displaySearch" class="wall-display">
+						<h1>Wall for {{wall.term}}</h1>
+						<div class="status-list">
+							<div ng-repeat="status in wall.statuses | orderBy: '-created_at'" class="animate-repeat" status data="status" highlight="$first"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
