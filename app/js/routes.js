@@ -19,7 +19,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'About Loklak Twitter Evaluation'
   })
   .state('Search', {
-    url: '/search',
+    url: '/search?q&timezoneOffset',
     templateUrl: 'search.html',
     controller: 'SearchCtrl as search',
     title: 'Search'

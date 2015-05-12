@@ -23,6 +23,23 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
+  service.initData = function(term, tzOffset) {
+    var deferred = $q.defer();
+
+    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+      params: {
+        q: term,
+        timezoneOffset: tzOffset
+      }
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  };
+
   return service;
 
 }
