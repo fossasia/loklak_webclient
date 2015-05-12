@@ -10,9 +10,9 @@ function SearchCtrl($stateParams, $http, AppSettings, SearchService) {
 
     // Init statues if path is a search url
     angular.element(document).ready(function() {
-        console.log($stateParams.q);
+        console.log($stateParams);
         console.log($stateParams.timezoneOffset);
-         SearchService.initData($stateParams.q, $stateParams.timezoneOffset)
+         SearchService.initData($stateParams)
             .then(function(data) {
               vm.statuses = data.statuses;
             },
