@@ -6,14 +6,32 @@ var controllersModule = require('./_index');
  * @ngInject
  */
 
-function WallCtrl($http, $timeout, $interval, AppSettings, SearchService) {
+function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchService) {
     var vm = this;
     vm.term = null;
     vm.prevStatuses = [];
     vm.nextStatuses = [];
     vm.statuses = [];
     vm.displaySearch = true;
+    vm.searchQuery = $location.search().q;
+    if(vm.searchQuery) {
+        vm.term = vm.searchQuery;
 
+        $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+          params: {q: vm.term}
+        }).success(function(data) {
+            vm.update = function(term) {
+                if(!vm.term) return;
+                vm.displaySearch = false;
+                vm.term = term;
+                liveUpdate(0);
+            };
+        }).error(function(err, status) {
+            
+        });
+    }
+    console.log(vm);
+    console.log(vm.term)
     var getNewStatuses = function(oldStatuses, newStatuses) {
         var oldIds = {}
         oldStatuses.forEach(function(status) {
@@ -67,6 +85,13 @@ function WallCtrl($http, $timeout, $interval, AppSettings, SearchService) {
         vm.term = term;
         liveUpdate(0);
     };
+
+    vm.urlupdate = function URLSearch(term) {
+        if(!term) return;
+        vm.displaySearch = false;
+        vm.term = term;
+        liveUpdate(0);
+    }
 }
 
 controllersModule.controller('WallCtrl', WallCtrl);
