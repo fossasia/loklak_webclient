@@ -5,7 +5,7 @@ var controllersModule = require('./_index');
 /**
  * @ngInject
  */
-function SearchCtrl($stateParams, $http, AppSettings, SearchService) {
+function SearchCtrl($stateParams, $location, $http, AppSettings, SearchService) {
     var vm = this;
 
     // Init statues if path is a search url
@@ -23,8 +23,10 @@ function SearchCtrl($stateParams, $http, AppSettings, SearchService) {
 
     // Change stateParams on search
     function updatePath(term) {
-      var params = '?q=' + encodeURIComponent(term) + '&timezoneOffset' + (new Date()).getTimezoneOffset();
-      window.history.pushState('{type: searchurl}', 'Search query', '/search' + params);
+      $location.search({
+        q: encodeURIComponent(term), 
+        timezoneOffset: (new Date()).getTimezoneOffset()
+      });
     }
 
     // Update status and path on success search

@@ -22,7 +22,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/search?q&timezoneOffset',
     templateUrl: 'search.html',
     controller: 'SearchCtrl as search',
-    title: 'Search'
+    title: 'Search',
+    reloadOnSearch: false
   })
   .state('Wall', {
     url: '/wall?q',
