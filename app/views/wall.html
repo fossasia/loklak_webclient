@@ -29,8 +29,6 @@
 		 						</form>
 		 					</div>
 		 					<div ng-if="!wall.displaySearch" class="wall-display">
-		 						<h1>Wall for {{wall.term}}</h1>
-		 						<button type="button" class="btn btn-primary" ng-click="wall.newSearch()" style="text-align:center;margin-left:45%;">Make another search</button>
 		 						<div class="status-list">
 		 							<div ng-repeat="status in wall.statuses | orderBy: '-created_at'" class="animate-repeat" status data="status" highlight="$first"></div>
 		 						</div>
