@@ -14,20 +14,20 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
     vm.statuses = [];
     vm.displaySearch = true;
     vm.searchQuery = $location.search().q;
+
+    vm.newSearch = function() {
+        $location.url($location.path());
+    };
+
     if(vm.searchQuery) {
         vm.term = vm.searchQuery;
 
         $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
           params: {q: vm.term}
         }).success(function(data) {
-            vm.update = function(term) {
-                if(!vm.term) return;
-                vm.displaySearch = false;
-                vm.term = term;
-                liveUpdate(0);
-            };
+            vm.update(vm.term)
         }).error(function(err, status) {
-            
+            console.log("Throwing error HTTP Request.");
         });
     }
     console.log(vm);
