@@ -25,7 +25,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Search'
   })
   .state('Wall', {
-    url: '/wall',
+    url: '/wall?q',
     templateUrl: 'wall.html',
     controller: 'WallCtrl as wall',
     title: 'Wall'
