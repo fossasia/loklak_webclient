@@ -58,6 +58,12 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
                     var newStatuses = [];
                     if(vm.prevStatuses.length === 0) {
                         newStatuses = data.statuses;
+                        var len = newStatuses.length;
+                        for (var index=0; index < len; index++) {
+                            var profileURLString = newStatuses[index].user.profile_image_url_https;
+                            var splitURL = profileURLString.split('_bigger');
+                            newStatuses[index].user.profile_image_url = splitURL[0]+splitURL[1];
+                        }
                     } else {
                         newStatuses = getNewStatuses(vm.prevStatuses, data.statuses);
                     }
