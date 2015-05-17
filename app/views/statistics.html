@@ -43,7 +43,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                        <datetimepicker ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                        <datetimepicker ng-required="true" ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
                     </ul>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -53,13 +53,12 @@
             <div class="form-group">
                 &nbsp;<label for="datetimepicker2"> Date Until:</label>
                 <div class="input-group dropdown">
-                    <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
+                    <a class="dropdown-toggle my-toggle-select1" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
                         <div class="input-append">
                             <input type="text" class="form-control date-input" ng-model="untilDate">
                         </div>
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
-                        <datetimepicker ng-model="untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour'  }"></datetimepicker>
                     </ul>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
