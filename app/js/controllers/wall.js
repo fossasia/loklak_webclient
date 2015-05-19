@@ -82,8 +82,9 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
      * Create photoswipe
      * Lib's docs: http://photoswipe.com/documentation/getting-started.html
      */
-    var createPhotoSwipe = function(status_id) {
-        
+    vm.open = function(status_id) {
+        //$interval.cancel(interval);
+        console.log("Foobar");
         // Populating args
         var items = [];
         var images  = angular.element('#' + status_id + ' .masonry-brick img');        
@@ -94,8 +95,7 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
             index: 0
         };
         var swipeEle = document.querySelectorAll('.pswp')[0];
-
-        
+       
         var swipeObject = 'gallery' + status_id;
 
         $timeout(function() {
@@ -155,18 +155,9 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
 
     // Periodically insert new statuses
     // Create photoswipe from new statuses
-    $interval(function() {
+    var interval = $interval(function() {
         if(vm.nextStatuses.length === 0) return;
         vm.statuses.unshift(vm.nextStatuses[0]);
-        if (vm.statuses[0].images_count) {
-            console.log(vm.statuses[0].id_str);
-            // If timeout < masontry transition period
-            // img.css('height') -> 0
-            $timeout(function() {
-                createPhotoSwipe(vm.statuses[0].id_str);    
-            }, 1200);
-            
-        }
         vm.nextStatuses.shift();
     }, 3000);
 

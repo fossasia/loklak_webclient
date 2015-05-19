@@ -8,7 +8,7 @@
 		</div>
 		<div class="content">
 			<div class="text">{{data.text}}</div>
-			<div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick" ng-class="'masonry-' + data.id_str">	
+			<div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick" data-ng-click="open(data.id_str);">	
 			    <div class="masonry-brick" ng-repeat="image in data.images">
 			        <img class="masonry-image" ng-src="{{image}}" alt="A masonry brick">
 			    </div>
