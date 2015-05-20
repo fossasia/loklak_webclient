@@ -25,7 +25,7 @@ function SearchService($q, $http, AppSettings) {
 
   service.initData = function(paramsObj) {
     var deferred = $q.defer();
-
+    paramsObj.q = decodeURIComponent(paramsObj.q);
     $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
       params: paramsObj
     }).success(function(data) {
