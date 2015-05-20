@@ -10,7 +10,8 @@ function statusDirective() {
   return {
     scope: {
     	data: '=',
-    	highlight: '='
+    	highlight: '=',
+    	open: '='
     },
     templateUrl: 'status.html',
   };

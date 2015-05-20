@@ -59,6 +59,7 @@
     "morgan": "^1.2.2",
     "pretty-hrtime": "^0.2.2",
     "protractor": "^1.2.0",
+    "photoswipe": "4.0.7",
     "run-sequence": "^0.3.6",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
