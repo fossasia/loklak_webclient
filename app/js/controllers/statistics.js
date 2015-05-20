@@ -1,10 +1,10 @@
 'use strict';
 
-var controllersModule = require('./_index');
-var moment = require('moment');
 /**
  * @ngInject
  */
+var controllersModule = require('./_index');
+var moment = require('moment');
 function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, StatisticsService) {
     
     
