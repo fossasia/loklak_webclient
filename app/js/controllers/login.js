@@ -10,4 +10,4 @@ function LoginCtrl($scope, $auth) {
 
 }
 
-controllersModule.controller('AboutCtrl', AboutCtrl);
+controllersModule.controller('LoginCtrl', LoginCtrl);
