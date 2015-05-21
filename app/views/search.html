@@ -1,120 +1,63 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <img src="../images/loklak_icon_yellow_45x45.png" class="pull-left" alt="" width="30%" height="30%" style="margin-top:5px;">
-            <a class="navbar-brand pull-right" href="/">
-                <code>loklak</code>
-            </a>
+<div class="search-container container-fluid">
+
+    <!-- Header -->
+    <div class="header-container">
+        <div class="container">
+            <img class="logo" src="images/loklak_icon_yellow_45x45.png"></img>
+            <div class="toggle-login pull-right">
+                <p class="abs-center-y">Have an account? Log in</p>
+            </div>
+             <form class="simple-search-form pull-right">
+                <input class="simple-search" placeholder="#loklak">
+            </form>
         </div>
-        <div id="navbar">
-        </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/about">About</a>
-                </li>
-                <li>
-                    <a href="/statistics">Statistics</a>
-                </li>
-                <li>
-                    <a href="/wall">Wall</a>
-                </li>
-                <li class="active">
-                    <a href="/search">Search</a>
-                </li>
-            </ul>
-        </nav>
     </div>
-</nav>
-<div class="row">
-	<div class="col-md-3 side">
-		<ul class="side-block"></ul>
-	</div>
-	<div class="container">
-		<div class="col-md-9 main">
-			<div class="container">
-				<form>
-					<div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5">
-        						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <button class="btn btn-success pull-left" type="submit" ng-click="search.update(term)">Show Tweets</button>
-                            </div>
-                            <div class="col-lg-4 col-md-4"></div>
-                        </div>
-					</div>
-				</form>
-			</div>
-			<div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
-		</div>
-	</div>
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+    <!-- Main content -->
+    <div class="container content-container">
+           
+        <div class="dashboard dashboard-left col-md-3">
+            <div class="login">
+                <h2>New to Lollak?</h2>
+                <p>Sign up now to get your own personalized timeline!
+                </p>
+                <button>Sign up</button>
+            </div>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
+            <div class="filters">
+                <ul class="search-modes">
+                    <li><a class="active" href="#">Everything</a></li>
+                    <li><a href="#">People</a></li>
+                    <li><a href="#">Photos</a></li>
+                    <li><a href="#">Videos</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Advanced Search</a></li>
+                </ul>
+
+                <ul class="location-modes">
+                    <li><a class="active" href="#">Everywhere</a></li>
+                    <li><a href="#">Everywhere</a></li>
+                </ul>
+            </div>
+
+            <div class="statistics">
+                <!-- Trending hashtags, mentions, users -->
+            </div>
+
         </div>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+        <div class="main col-md-6">
+            
 
-            <div class="pswp__top-bar">
+        </div>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
+        <div class="dashboard dashboard-right">
+            
 
         </div>
 
     </div>
+
 </div>
+
