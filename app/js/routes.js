@@ -19,13 +19,14 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'About Loklak Twitter Evaluation'
   })
   .state('Search', {
-    url: '/search',
+    url: '/search?q&timezoneOffset',
     templateUrl: 'search.html',
     controller: 'SearchCtrl as search',
-    title: 'Search'
+    title: 'Search',
+    reloadOnSearch: false
   })
   .state('Wall', {
-    url: '/wall',
+    url: '/wall?q',
     templateUrl: 'wall.html',
     controller: 'WallCtrl as wall',
     title: 'Wall'

@@ -24,6 +24,11 @@ module.exports = {
     'dest': 'build/images'
   },
 
+  'photoswipeicons': {
+    'src' : 'app/styles/default-skin/*.*',
+    'dest': 'build/css/default-skin'
+  },
+
   'fonts': {
     'src' : [
       'node_modules/bootstrap-sass/assets/fonts/**/*',

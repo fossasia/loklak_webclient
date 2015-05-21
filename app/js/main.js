@@ -25,7 +25,8 @@ angular.element(document).ready(function() {
     'app.controllers',
     'app.services',
     'app.directives',
-    'ui.bootstrap.datetimepicker'
+    'ui.bootstrap.datetimepicker',
+    'wu.masonry'
   ];
 
   // mount on window for testing

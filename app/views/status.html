@@ -1,15 +1,17 @@
-<div ng-class="highlight ? 'status highlight' : 'status'">
+<div ng-attr-id="{{data.id_str}}" ng-class="highlight ? 'status highlight' : 'status'">
 	<div class="inner">
 		<div class="header">
-			<img ng-src="{{data.user.profile_image_url_https}}" class="user-avatar"/>
+			<img ng-src="{{data.user.profile_image_url}}" class="user-avatar"/>
 			<strong class="user-fullname">{{data.user.name}}</strong>
 			<span class="user-username">@{{data.user.screen_name}}</span>
 			<small class="time" am-time-ago="data.created_at"></small>
 		</div>
 		<div class="content">
 			<div class="text">{{data.text}}</div>
-			<div class="images">
-				<img ng-repeat="image in data.images" ng-src="{{image}}"/>
+			<div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick" data-ng-click="open(data.id_str);">	
+			    <div class="masonry-brick" ng-repeat="image in data.images">
+			        <img class="masonry-image" ng-src="{{image}}" alt="A masonry brick">
+			    </div>
 			</div>
 		</div>
 		<div class="clearfix"></div>

@@ -1,10 +1,10 @@
 'use strict';
 
-var controllersModule = require('./_index');
-var moment = require('moment');
 /**
  * @ngInject
  */
+var controllersModule = require('./_index');
+var moment = require('moment');
 function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, StatisticsService) {
     
     
@@ -73,7 +73,9 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
      */
     function updateAll(term, sinceDate, untilDate){     
     	var d = new Date();
-    	$scope.shareLink = AppSettings.domain + '/statistics?q=' + encodeURIComponent(term) + '&since=' + encodeURIComponent(sinceDate) + '&until=' + encodeURIComponent(untilDate); 
+        var sharePath = '/statistics?q=' + encodeURIComponent(term) + '&since=' + encodeURIComponent(sinceDate) + '&until=' + encodeURIComponent(untilDate); 
+    	$scope.shareLink = AppSettings.domain + sharePath;
+        $location.url(sharePath);
       StatisticsService.getStatistics(term, sinceDate, untilDate, d.getTimezoneOffset())
           .then(function(statistics) {
                   evalStats(statistics);
