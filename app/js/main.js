@@ -7,6 +7,7 @@ require('angular-ui-router');
 require('angular-animate');
 require('angular-moment');
 require('angular-loading-bar');
+require('satellizer');
 require('./templates');
 require('./controllers/_index');
 require('./services/_index');
@@ -26,7 +27,8 @@ angular.element(document).ready(function() {
     'app.services',
     'app.directives',
     'ui.bootstrap.datetimepicker',
-    'wu.masonry'
+    'wu.masonry',
+    'satellizer'
   ];
 
   // mount on window for testing

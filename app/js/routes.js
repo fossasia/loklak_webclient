@@ -3,7 +3,11 @@
 /**
  * @ngInject
  */
-function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
+function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $authProvider, cfpLoadingBarProvider) {
+  $authProvider.twitter({
+    url: '/auth/twitter'
+  });
+
   $locationProvider.html5Mode(true);
 
   $stateProvider
@@ -36,6 +40,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'StatisticsCtrl as statistics',
     templateUrl: 'statistics.html',
     title: 'Statistics'
+  })
+  .state('Login', {
+    url: '/login',
+    controller: 'LoginCtrl as login',
+    templateUrl: 'login.html',
+    title: 'Login'
   });
 
   $urlRouterProvider.otherwise('/');
