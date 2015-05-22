@@ -5,56 +5,93 @@
         <div class="container">
             <img class="logo" src="images/loklak_icon_yellow_45x45.png"></img>
             <div class="toggle-login pull-right">
-                <p class="abs-center-y">Have an account? Log in</p>
+                <p class="abs-center-y">Have an account? <a class="login" href="#">Log in</a><span class="caret"></span></p>
             </div>
              <form class="simple-search-form pull-right">
                 <input class="simple-search" placeholder="#loklak">
+                <i class="fa fa-search"></i>
             </form>
         </div>
     </div>
 
+    <!-- Search term -->
+    <div class="search-term-title">
+        <p>#berlin</p>
+    </div>
+
+    <!-- Top filters -->
+    <div class="container filters-container">
+        <ul class="search-modes">
+            <li class="active"><a href="#">Top</a></li>
+            <li><a href="#">Live</a></li>
+            <li><a href="#">Accounts</a></li>
+            <li><a href="#">Photos</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#">More options</a></li>
+        </ul>
+    </div>
 
     <!-- Main content -->
     <div class="container content-container">
-           
+        <!-- Separator -->
+        <div class="wide-hr"></div>           
+
         <div class="dashboard dashboard-left col-md-3">
             <div class="login">
-                <h2>New to Lollak?</h2>
+                <h2>New to Loklak?</h2>
                 <p>Sign up now to get your own personalized timeline!
                 </p>
-                <button>Sign up</button>
-            </div>
-
-            <div class="filters">
-                <ul class="search-modes">
-                    <li><a class="active" href="#">Everything</a></li>
-                    <li><a href="#">People</a></li>
-                    <li><a href="#">Photos</a></li>
-                    <li><a href="#">Videos</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Advanced Search</a></li>
-                </ul>
-
-                <ul class="location-modes">
-                    <li><a class="active" href="#">Everywhere</a></li>
-                    <li><a href="#">Everywhere</a></li>
-                </ul>
+               <a href="#">Sign up</a>
             </div>
 
             <div class="statistics">
                 <!-- Trending hashtags, mentions, users -->
+                <div class="trending">
+                    <h2 class="trend-title">Trends <a href="#">change</a></h2>
+                    <ul>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">term</a></li>
+                        <li><a href="#">@user</a></li>
+                        <li><a href="#">@metioned</a></li>
+                    </ul>
+                </div>
             </div>
-
         </div>
 
         <div class="main col-md-6">
-            
+            <!-- New tweets notification -->
+            <div class="new-tweet-noti">
+                <a href="#">8 new results</a>
+            </div>
 
+            <div class="tweet tweet-simple">
+                <img class="avatar" src="https://pbs.twimg.com/profile_images/593171250127704064/O1k8-iKk_bigger.jpg" alt="">
+                <div class="tweet-content">
+                    <a class="name" href="#">Leinad Allir</a>
+                    <span class="screen-name">@mecalbacur</span>
+                    <span class="created-at">- 57m</span>
+                    <p class="tweet-content-text">
+                        Photo: BLAST! <span class="tweet-hashtag">#tylerthecreator</span>#cherrybomb <span class="tweet-hashtag tweet-hashtag-current">#berlin</span> #oddfuture @berlin <span class="tweet-mention">@16again</span> http://tmblr.co/ZVesrk1lOGGGo 
+                    </p>
+                </div>
+            </div>
+            <div class="tweet tweet-simple">
+                <img class="avatar" src="https://pbs.twimg.com/profile_images/593171250127704064/O1k8-iKk_bigger.jpg" alt="">
+                <div class="tweet-content">
+                    <a class="name" href="#">Leinad Allir</a>
+                    <span class="screen-name">@mecalbacur</span>
+                    <span class="created-at">- 57m</span>
+                    <p class="tweet-content-text">
+                        Photo: BLAST! <span class="tweet-hashtag">#tylerthecreator</span>#cherrybomb <span class="tweet-hashtag tweet-hashtag-current">#berlin</span> #oddfuture @berlin <span class="tweet-mention">@16again</span> http://tmblr.co/ZVesrk1lOGGGo 
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div class="dashboard dashboard-right">
-            
-
+           
         </div>
 
     </div>
