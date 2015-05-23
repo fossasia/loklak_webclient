@@ -422,6 +422,7 @@
 			}
 		}
 		input.simple-search {
+			outline: none;
 			font-size: 12px;
 			display: block;
 			-moz-box-sizing: border-box;
@@ -505,7 +506,7 @@
 	}
 	.content-container {
 		.dashboard-left {
-			.login {
+			.sign-up {
 				color: #66757F;
 				background-color: #e1e8ed;
 				margin-top: 25px;
@@ -530,6 +531,9 @@
 					font-size: 16px;
 					padding: 11px 16px;
 					border-radius: 4px;
+					&:hover {
+						text-decoration: none;
+					}
 				}
 			}
 			.trending {
