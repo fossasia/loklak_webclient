@@ -65,6 +65,11 @@ module.exports = {
   'test': {
     'karma': 'test/karma.conf.js',
     'protractor': 'test/protractor.conf.js'
+  },
+
+  'adminJS': {
+    'src': 'app/adminjs/**/*.js',
+    'dest': 'build/js'
   }
 
 };
