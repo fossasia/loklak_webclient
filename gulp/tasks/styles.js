@@ -17,7 +17,8 @@ gulp.task('styles', function () {
       ],
       sourceComments: global.isProd ? 'none' : 'map',
       sourceMap: 'sass',
-      outputStyle: global.isProd ? 'compressed' : 'nested'
+      outputStyle: global.isProd ? 'compressed' : 'nested',
+      errLogToConsole: true
     }))
     .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
     .on('error', handleErrors)
