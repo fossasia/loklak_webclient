@@ -5,10 +5,7 @@
     <div class="tweet-content">
         <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
         <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-        <span class="created-at">- {{data.created_at | twitterFromNow }}</span>
-        <p class="tweet-content-text">
-            <!-- Photo: BLAST! <span class="tweet-hashtag">#tylerthecreator</span>#cherrybomb <span class="tweet-hashtag tweet-hashtag-current">#berlin</span> #oddfuture @berlin <span class="tweet-mention">@16again</span> http://tmblr.co/ZVesrk1lOGGGo  -->
-            {{data.text}}
-        </p>
+        <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
+        <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
     </div>
 </div>
