@@ -578,6 +578,8 @@
 				}
 			}
 			.tweet {
+				display: block;
+				min-height: 71px;
 				background: white;
 				padding: 9px 12px;
 				border-bottom: 1px solid $search-grey-border;

@@ -7,9 +7,9 @@
             <div class="toggle-login pull-right">
                 <p class="abs-center-y">Have an account? <a class="login" href="#">Log in</a><span class="caret"></span></p>
             </div>
-             <form class="simple-search-form pull-right">
-                <input class="simple-search" placeholder="#loklak">
-                <i class="fa fa-search"></i>
+             <form class="simple-search-form pull-right" ng-submit="search.update(term);">
+                <input class="simple-search" placeholder="#loklak" ng-model="term">
+                <i class="fa fa-search" ng-click="search.update(term);"></i>
             </form>
         </div>
     </div>
@@ -65,29 +65,7 @@
             <div class="new-tweet-noti">
                 <a href="#">8 new results</a>
             </div>
-
-            <div class="tweet tweet-simple">
-                <img class="avatar" src="https://pbs.twimg.com/profile_images/593171250127704064/O1k8-iKk_bigger.jpg" alt="">
-                <div class="tweet-content">
-                    <a class="name" href="#">Leinad Allir</a>
-                    <span class="screen-name">@mecalbacur</span>
-                    <span class="created-at">- 57m</span>
-                    <p class="tweet-content-text">
-                        Photo: BLAST! <span class="tweet-hashtag">#tylerthecreator</span>#cherrybomb <span class="tweet-hashtag tweet-hashtag-current">#berlin</span> #oddfuture @berlin <span class="tweet-mention">@16again</span> http://tmblr.co/ZVesrk1lOGGGo 
-                    </p>
-                </div>
-            </div>
-            <div class="tweet tweet-simple">
-                <img class="avatar" src="https://pbs.twimg.com/profile_images/593171250127704064/O1k8-iKk_bigger.jpg" alt="">
-                <div class="tweet-content">
-                    <a class="name" href="#">Leinad Allir</a>
-                    <span class="screen-name">@mecalbacur</span>
-                    <span class="created-at">- 57m</span>
-                    <p class="tweet-content-text">
-                        Photo: BLAST! <span class="tweet-hashtag">#tylerthecreator</span>#cherrybomb <span class="tweet-hashtag tweet-hashtag-current">#berlin</span> #oddfuture @berlin <span class="tweet-mention">@16again</span> http://tmblr.co/ZVesrk1lOGGGo 
-                    </p>
-                </div>
-            </div>
+             <div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
         </div>
 
         <div class="dashboard dashboard-right">
