@@ -1,5 +1,5 @@
 'use strict'
-
+var config = require('../custom_configFile.json');
 var express = require('express');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -35,9 +35,9 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new TwitterStrategy({
-        consumerKey: '4DdE88xIW3r3xcRk8Z0JXJNqo',
-        consumerSecret: 'ctzmTzpCLZQ3JD8eTdqzeWwXSr8Cxi0GvACmrPaSfbvxYnloVZ',
-        callbackURL: "http://localhost:3000/auth/twitter/callback"
+        consumerKey: config.twitterConsumerKey,
+        consumerSecret: config.twitterConsumerSecret,
+        callbackURL: config.twitterCallbackUrl
     },
     function(token, tokenSecret, profile, done) {
         process.nextTick(function() {
