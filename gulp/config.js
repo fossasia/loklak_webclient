@@ -2,7 +2,7 @@
 
 module.exports = {
 
-  'serverport': 3000,
+  'serverport': 3001,
 
   'styles': {
     'src' : 'app/styles/**/*.scss',
@@ -65,6 +65,13 @@ module.exports = {
   'test': {
     'karma': 'test/karma.conf.js',
     'protractor': 'test/protractor.conf.js'
+  },
+
+  'node_server': {
+    'index_file': 'server/index.js',
+    'scripts': {
+      'src' : ['server/index.js', 'server/**/*.js']
+    }    
   }
 
 };
