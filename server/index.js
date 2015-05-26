@@ -71,8 +71,8 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 app.post('/newTweet', ensureAuthenticated, function(req, res) {
     console.log(req.body.tweetbody);
     var client = new Twitter({
-        consumer_key: '4DdE88xIW3r3xcRk8Z0JXJNqo',
-        consumer_secret: 'ctzmTzpCLZQ3JD8eTdqzeWwXSr8Cxi0GvACmrPaSfbvxYnloVZ',
+        consumer_key: config.twitterConsumerKey,
+        consumer_secret: config.twitterConsumerSecret,
         access_token_key: req.user.token,
         access_token_secret: req.user.tokenSecret
     });
@@ -106,6 +106,7 @@ function ensureAuthenticated(req, res, next) {
 //this should always be after all the express routes have been declared.
 //it serves the angular app
 app.get('*', function(req, res) {
+    console.log(__dirname);
     res.sendFile('index.html', {
         root: require('path').resolve('.', 'build')
     });
