@@ -1,4 +1,5 @@
 'use strict';
+/* global angular */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');

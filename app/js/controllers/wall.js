@@ -1,4 +1,5 @@
 'use strict';
+/* global angular, interval, data, status, err */ // jshint ignore:line
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -31,11 +32,11 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
     var getNewStatuses = function(oldStatuses, newStatuses) {
         var oldIds = {};
         oldStatuses.forEach(function(status) {
-            oldIds[status['id_str']] = status;
+            oldIds[status.id_str] = status;
         });
 
         return newStatuses.filter(function(status) {
-            return !(status['id_str'] in oldIds);
+            return !(status.id_str in oldIds);
         });
     };
 
@@ -45,10 +46,14 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
      */
 
     var getRefreshTime = function(period) {
-        if(period < 7000) return 5000;
-        if(period <= 3000) return 0.7 * period;
+        if(period < 7000) {
+            return 5000;
+        }
+        if(period <= 3000) {
+            return 0.7 * period;
+        }
         return 20000;
-    }
+    };
 
     /* 
      * Recursively request with different timeout child processes
@@ -127,7 +132,9 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
      * Update on click/search
      */
     vm.update = function(term) {
-        if(!term) return;
+        if(!term) {
+            return;
+        }
 
         vm.displaySearch = false;
         vm.term = term;
@@ -138,7 +145,9 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
      * Update url on search/click
      */
     vm.urlupdate = function (term) {
-        if(!term) return;
+        if(!term) {
+            return;
+        }
 
         vm.displaySearch = false;
         vm.term = term;
@@ -152,17 +161,19 @@ function WallCtrl($http, $location, $timeout, $interval, AppSettings, SearchServ
 
         $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
           params: {q: vm.term}
-        }).success(function(data) {
-            vm.update(vm.term)
-        }).error(function(err, status) {
+        }).success(function(data) { // jshint ignore:line
+            vm.update(vm.term);
+        }).error(function(err, status) { // jshint ignore:line
             console.log("Throwing error HTTP Request.");
         });
     }
 
     // Periodically insert new statuses
     // Create photoswipe from new statuses
-    var interval = $interval(function() {
-        if(vm.nextStatuses.length === 0) return;
+    var interval = $interval(function() { // jshint ignore:line
+        if(vm.nextStatuses.length === 0) {
+            return;
+        }
         vm.statuses.unshift(vm.nextStatuses[0]);
         vm.nextStatuses.shift();
     }, 3000);

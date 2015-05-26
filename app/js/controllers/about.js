@@ -2,7 +2,7 @@
 
 var controllersModule = require('./_index');
 
-function AboutCtrl($http, AppSettings, SearchService) {
+function AboutCtrl($http, AppSettings, SearchService) { // jshint ignore:line
   
 }
 
