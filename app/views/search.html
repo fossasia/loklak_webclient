@@ -1,120 +1,78 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <img src="../images/loklak_icon_yellow_45x45.png" class="pull-left" alt="" width="30%" height="30%" style="margin-top:5px;">
-            <a class="navbar-brand pull-right" href="/">
-                <code>loklak</code>
-            </a>
+<div class="search-container container-fluid">
+
+    <!-- Header -->
+    <div class="header-container">
+        <div class="container">
+            <img class="logo" src="images/loklak_icon_yellow_45x45.png"></img>
+            <div class="toggle-login pull-right">
+                <p class="abs-center-y">Have an account? <a class="login" href="#">Log in</a><span class="caret"></span></p>
+            </div>
+             <form class="simple-search-form pull-right" ng-submit="search.update(term);">
+                <input class="simple-search" placeholder="#loklak" ng-model="term">
+                <i class="fa fa-search" ng-click="search.update(term);"></i>
+            </form>
         </div>
-        <div id="navbar">
-        </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/about">About</a>
-                </li>
-                <li>
-                    <a href="/statistics">Statistics</a>
-                </li>
-                <li>
-                    <a href="/wall">Wall</a>
-                </li>
-                <li class="active">
-                    <a href="/search">Search</a>
-                </li>
-            </ul>
-        </nav>
     </div>
-</nav>
-<div class="row">
-	<div class="col-md-3 side">
-		<ul class="side-block"></ul>
-	</div>
-	<div class="container">
-		<div class="col-md-9 main">
-			<div class="container">
-				<form>
-					<div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5">
-        						<input type="text" class="form-control" ng-model="term" placeholder="Search for tweets ... e.g. Football">
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <button class="btn btn-success pull-left" type="submit" ng-click="search.update(term)">Show Tweets</button>
-                            </div>
-                            <div class="col-lg-4 col-md-4"></div>
-                        </div>
-					</div>
-				</form>
-			</div>
-			<div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
-		</div>
-	</div>
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
+    <!-- Search term -->
+    <div class="search-term-title">
+        <p>#berlin</p>
+    </div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+    <!-- Top filters -->
+    <div class="container filters-container">
+        <ul class="search-modes">
+            <li class="active"><a href="#">Top</a></li>
+            <li><a href="#">Live</a></li>
+            <li><a href="#">Accounts</a></li>
+            <li><a href="#">Photos</a></li>
+            <li><a href="#">Videos</a></li>
+            <li><a href="#">More options</a></li>
+        </ul>
+    </div>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+    <!-- Main content -->
+    <div class="container content-container">
+        <!-- Separator -->
+        <div class="wide-hr"></div>           
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+        <div class="dashboard dashboard-left col-md-3">
+            <div class="sign-up">
+                <h2>New to Loklak?</h2>
+                <p>Sign up now to get your own personalized timeline!
+                </p>
+               <a href="#">Sign up</a>
+            </div>
 
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
+            <div class="statistics">
+                <!-- Trending hashtags, mentions, users -->
+                <div class="trending">
+                    <h2 class="trend-title">Trends <a href="#">change</a></h2>
+                    <ul>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">#trend1</a></li>
+                        <li><a href="#">term</a></li>
+                        <li><a href="#">@user</a></li>
+                        <li><a href="#">@metioned</a></li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
+        <div class="main col-md-6">
+            <!-- New tweets notification -->
+            <div class="new-tweet-noti">
+                <a href="#">8 new results</a>
             </div>
+             <div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
+        </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
+        <div class="dashboard dashboard-right">
+           
         </div>
 
     </div>
+
 </div>
+
