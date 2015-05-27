@@ -12,15 +12,15 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
 
     // Init statues if path is a search url
     angular.element(document).ready(function() {
-        console.log($stateParams);
-        console.log($stateParams.timezoneOffset);
-         SearchService.initData($stateParams)
-            .then(function(data) {
-              vm.statuses = data.statuses;
-            },
-            function() {
-              console.log('statuses init retrieval failed');
-            });   
+      if ($stateParams.q !== undefined) {
+          SearchService.initData($stateParams)
+             .then(function(data) {
+               vm.statuses = data.statuses;
+             },
+             function() {
+               console.log('statuses init retrieval failed');
+             });   
+      }
     });
 
     // Change stateParams on search
@@ -35,6 +35,7 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
     vm.update = function(term) {
         SearchService.getData(term)
             .then(function(data) {
+              console.log(data);
                vm.statuses = data.statuses;
                updatePath(term);
             },
@@ -68,6 +69,15 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
             window[swipeObject].init();    
         }, 0);
     };
+
+    /*
+     * Open a tweet from Twitter 
+     * in a new tab
+     */
+    // vm.openTweet = function(link) {
+    //   window.open(link, '_blank');
+    //   console.log("WOW");
+    // }
 
     /* 
      * Get img tag attr 
