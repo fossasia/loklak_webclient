@@ -7,7 +7,8 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 /**
  * @ngInject
  */
-function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, SearchService) {
+function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
+
     var vm = this;
 
     // Init statues if path is a search url
@@ -45,12 +46,13 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
         console.log("Foobar");
         // Populating args
         var items = [];
-        var images  = angular.element('#' + status_id + ' .masonry-brick img');        
+        var images  = angular.element('#' + status_id + ' .images-wrapper img');        
         angular.forEach(images, function(image) {
             this.push(scrapeImgTag(image));
         }, items);
         var options = {       
-            index: 0
+            index: 0,
+            history: false,
         };
         var swipeEle = document.querySelectorAll('.pswp')[0];
        

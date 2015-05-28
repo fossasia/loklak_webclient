@@ -14,7 +14,7 @@
         <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
         <!-- Images -->
-        <div ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
+        <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
                 <div ng-repeat="image in data.images">
                     <img ng-src="{{image}}" alt="A masonry brick">
                 </div>
