@@ -24,18 +24,6 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'SearchCtrl as search',
     title: 'Search',
     reloadOnSearch: false
-  })
-  .state('Wall', {
-    url: '/wall?q',
-    templateUrl: 'wall.html',
-    controller: 'WallCtrl as wall',
-    title: 'Wall'
-  })
-  .state('Statistics', {
-    url: '/statistics?q&since&until',
-    controller: 'StatisticsCtrl as statistics',
-    templateUrl: 'statistics.html',
-    title: 'Statistics'
   });
 
   $urlRouterProvider.otherwise('/');
