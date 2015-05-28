@@ -429,7 +429,42 @@
 						font-weight: bold;
 					}
 				}
+				.images-wrapper {
+					margin-top: 8px;
+					max-height: 203px;
+					overflow: hidden;
+					border-radius: 8px;
+				}
+				.images-wrapper.showdetail {
+					overflow: visible;
+					max-height: initial;
+					img {
+						max-width: 470px;
+						height: auto;
+					}
+				}
 			}
+
+			.detail-metadata {
+				transition: all linear 0.1s;
+				display: block;
+				margin-top: 10px;
+				span, a {
+					font-size: 13px;
+					line-height: 24px;
+					cursor: pointer;
+					color: #8899a6;
+				}
+				a.link-to-tweet {
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
+			.detail-metadata.ng-hide {
+				opacity: 0;
+			}
+
 			.action-list {
 				margin-top: 10px;
 				> div {

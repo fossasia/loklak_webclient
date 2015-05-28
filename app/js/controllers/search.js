@@ -23,14 +23,6 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
       }
     });
 
-    // Change stateParams on search
-    function updatePath(term) {
-      $location.search({
-        q: encodeURIComponent(term), 
-        timezoneOffset: (new Date()).getTimezoneOffset()
-      });
-    }
-
     // Update status and path on success search
     vm.update = function(term) {
         SearchService.getData(term)
@@ -70,19 +62,6 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
         }, 0);
     };
 
-    /*
-     * Open a tweet from Twitter 
-     * in a new tab
-     */
-    // vm.openTweet = function(link) {
-    //   window.open(link, '_blank');
-    //   console.log("WOW");
-    // }
-
-    /* 
-     * Get img tag attr 
-     * Return in objects
-     */
     function scrapeImgTag(imgTag) {
         var ngEle = angular.element(imgTag);
         return {
@@ -90,6 +69,14 @@ function SearchCtrl($stateParams, $timeout, $location, $http, AppSettings, Searc
             w: parseInt(ngEle.css('width').replace('px', '')),
             h: parseInt(ngEle.css('height').replace('px', ''))
         };
+    }
+
+    // Change stateParams on search
+    function updatePath(term) {
+      $location.search({
+        q: encodeURIComponent(term), 
+        timezoneOffset: (new Date()).getTimezoneOffset()
+      });
     }
 
 
