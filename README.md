@@ -13,7 +13,7 @@ Install and run it first.
 2. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
-3. Run `npm install` from the root directory
+3. Run `npm install` from the root directory and from the server subdirectory.
 4. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
 5. Your browser will automatically be opened and directed to the browser-sync
    proxy address
