@@ -1,5 +1,10 @@
 'use strict'
 var config = require('../custom_configFile.json');
+if(!config.twitterConsumerKey || !config.twitterConsumerSecret || !config.twitterCallbackUrl){
+    config.twitterConsumerKey = "placeholder";
+    config.twitterConsumerSecret = "placeholder";
+    config.twitterCallbackUrl = "placeholder";
+}
 var express = require('express');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
