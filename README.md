@@ -30,9 +30,16 @@ browsers pointed at the proxy address.
 ### Config
 
 - Set the apiUrl var in `custom_configFile.json`
-  to set the server address in `apiUrl`
+  to set the server address
 - Set the domain var in `custom_configFile.json`
-  to set the domain where site is hosted in `domain`
+  to set the domain where site is hosted
+
+Create a Twitter app at https://apps.twitter.com
+- Set the twitterConsumerKey var in `custom_configFile.json`
+  to set the Consumer Key (API Key) from your Twitter app
+- Set the twitterConsumerSecret var in `custom_configFile.json`
+  to set the Consumer Secret from your Twitter app
+
 
 ### Troubleshooting
 
