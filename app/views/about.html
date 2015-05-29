@@ -2,31 +2,27 @@
 <div ng-include src="'sidebar.html'"></div>
 
 <div class="content-wrapper">
-  <div class="container">
-      <div class="row">
-          <h1 class="page-header">About <code>loklak</code></h1>
-            <div class="col-lg-12 col-md-12 col-xs-12">
-  	  <p>This is the front-end of <code>loklak</code>, an application which is able to collect and analyse messages from various sources, including twitter. The application is divided into two parts: <a href="http://loklak.net"><code>loklak</code>.net</a>, the front-end (these pages) and  <a href="http://loklak.org"><code>loklak</code>.org</a>, the search- and collecting back-end.</p>
-            <img src="../images/loklak_architecture_overview.png" width="50%" height="50%">
-            <p>The back-end is not only able to collect millions of messages anonymously from twitter, it can also distribute the collection workload into a peer-to-peer network. The back-end also stores the messages into an elasticsearch search index and into a downloadable message dump which can be imported into fresh, new loklak peers. The front-end uses a simple api to retrieve messages and mass-message statistics. This front-end (these pages) are made with angular.js and node.js</p>
-            <img src="../images/loklak_architecture_details.png" width="50%" height="50%">
-            <p>This software is free and can be downloaded from the <a href="http://github.com/loklak">loklak github project</a></p>
-            
-            <h2 class="sub-header">Why Should I Use This?</h2>
-            <p>If you like to be anonymous when searching things, want to archive tweets or messages about specific topics and if you are looking for a tool to create statistics about tweet topics, then you may consider <code>loklak</code>. With <code>loklak</code> you can do:</p>
-            <ul>
-  	    <li>collect and store a very, very large amount of tweets and similar messages</li>
-  	    <li>create your own search engine for tweets</li>
-  	    <li>omit authentication enforcment for API requests on the twitter plattform</li>
-  	    <li>share tweets and tweet archives with other <code>loklak</code> users</li>
-  	    <li>search anonymously on your own search portal</li>
-  	    <li>create your own tweet search portal or statistical evaluations, i.e.:..</li>
-            </ul>
-          
-            <h2 class="sub-header">Short-Links are De-Shortened</h2>
-            <p>Twitter shortens all links, also already pre-shortened links again. We remove the shortening of almost all links in the tweets and reveal the original URL the user has attached to their tweets. This is very important when archiving tweets because shorteners may not be available in the future but it gives you another privacy advancement because the shortener services cannot track you for their purposes (yes there are business models on that). <code>loklak</code> can even de-shorten recursively, multi-shortened links.</p>
-          </div>
-      </div>
+  <div class="row cms-view">
+    <div class="col-md-12">
+      <h1 class="page-header">About <code>loklak</code></h1>
+      <p>This is the front-end of <code>loklak</code>, an application which is able to collect and analyse messages from various sources, including twitter. The application is divided into two parts: <a href="http://loklak.net"><code>loklak</code>.net</a>, the front-end (these pages) and  <a href="http://loklak.org"><code>loklak</code>.org</a>, the search- and collecting back-end.</p>
+      <img src="../images/loklak_architecture_overview.png" width="50%" height="50%">
+      <p>The back-end is not only able to collect millions of messages anonymously from twitter, it can also distribute the collection workload into a peer-to-peer network. The back-end also stores the messages into an elasticsearch search index and into a downloadable message dump which can be imported into fresh, new loklak peers. The front-end uses a simple api to retrieve messages and mass-message statistics. This front-end (these pages) are made with angular.js and node.js</p>
+      <img src="../images/loklak_architecture_details.png" width="50%" height="50%">
+      <p>This software is free and can be downloaded from the <a href="http://github.com/loklak">loklak github project</a></p>
+      <h2 class="sub-header">Why Should I Use This?</h2>
+      <p>If you like to be anonymous when searching things, want to archive tweets or messages about specific topics and if you are looking for a tool to create statistics about tweet topics, then you may consider <code>loklak</code>. With <code>loklak</code> you can do:</p>
+      <ul>
+        <li>collect and store a very, very large amount of tweets and similar messages</li>
+        <li>create your own search engine for tweets</li>
+        <li>omit authentication enforcment for API requests on the twitter plattform</li>
+        <li>share tweets and tweet archives with other <code>loklak</code> users</li>
+        <li>search anonymously on your own search portal</li>
+        <li>create your own tweet search portal or statistical evaluations, i.e.:..</li>
+      </ul>
+      <h2 class="sub-header">Short-Links are De-Shortened</h2>
+      <p>Twitter shortens all links, also already pre-shortened links again. We remove the shortening of almost all links in the tweets and reveal the original URL the user has attached to their tweets. This is very important when archiving tweets because shorteners may not be available in the future but it gives you another privacy advancement because the shortener services cannot track you for their purposes (yes there are business models on that). <code>loklak</code> can even de-shorten recursively, multi-shortened links.</p>
+    </div>
   </div>
 </div>
 
