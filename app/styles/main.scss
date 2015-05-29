@@ -333,6 +333,14 @@
 
 /* Styling for SEARCH FRONT END */
 
+.content-wrapper {
+	// Overfule adminLTE admin.css
+	min-height: 100vh !important;
+	padding-top: 50px;
+	margin-top: -50px;
+	background: #F5F8FA !important;
+}
+
 .search-container {
 	background: #F5F8FA;
 	// Helper classes
@@ -362,10 +370,20 @@
 	// Generals
 	padding: 0;
 	
-	.content-container {
+
+	.input-container {
+		margin-top: 10px;
 		width: 95%;
-		border: 1px solid $search-grey-border;
-		margin-top: 20px;
+		padding: 0;
+		form {
+			padding-left: 0;
+		}
+	}
+
+	.content-container {
+
+		width: 95%;
+		margin-top: 10px;
 		border-radius: 6px;
 		padding: 0;
 		.new-tweet-noti {
@@ -383,6 +401,11 @@
 					text-decoration: none;	
 				}
 			}
+		}
+
+		.result-container {
+			border: 1px solid $search-grey-border;
+			padding: 0;
 		}
 		.tweet {
 			display: block;
