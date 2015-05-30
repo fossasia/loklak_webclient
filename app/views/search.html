@@ -1,78 +1,37 @@
-<div class="search-container container-fluid">
+<div ng-include src="'topnav.html'"></div>
+<div ng-include src="'sidebar.html'"></div>
 
-    <!-- Header -->
-    <div class="header-container">
-        <div class="container">
-            <img class="logo" src="images/loklak_icon_yellow_45x45.png"></img>
-            <div class="toggle-login pull-right">
-                <p class="abs-center-y">Have an account? <a class="login" href="#">Log in</a><span class="caret"></span></p>
-            </div>
-             <form class="simple-search-form pull-right" ng-submit="search.update(term);">
-                <input class="simple-search" placeholder="#loklak" ng-model="term">
-                <i class="fa fa-search" ng-click="search.update(term);"></i>
-            </form>
-        </div>
-    </div>
+<div class="content-wrapper">
+    <div class="search-container container-fluid">
+        <div class="input-container container">
+            <form ng-submit="search.update(term)" class="navbar-form navbar-left" role="search">
+           <div class="form-group">
+             <input ng-model="term" type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+           </div>
+         </form>
+            <div class="clearfix"></div>
+         </div>
 
-    <!-- Search term -->
-    <div class="search-term-title">
-        <p>#berlin</p>
-    </div>
-
-    <!-- Top filters -->
-    <div class="container filters-container">
-        <ul class="search-modes">
-            <li class="active"><a href="#">Top</a></li>
-            <li><a href="#">Live</a></li>
-            <li><a href="#">Accounts</a></li>
-            <li><a href="#">Photos</a></li>
-            <li><a href="#">Videos</a></li>
-            <li><a href="#">More options</a></li>
-        </ul>
-    </div>
-
-    <!-- Main content -->
-    <div class="container content-container">
-        <!-- Separator -->
-        <div class="wide-hr"></div>           
-
-        <div class="dashboard dashboard-left col-md-3">
-            <div class="sign-up">
-                <h2>New to Loklak?</h2>
-                <p>Sign up now to get your own personalized timeline!
-                </p>
-               <a href="#">Sign up</a>
+        
+        <!-- Main content -->
+        <div class="container content-container">
+            <!-- Separator -->
+            <div class="wide-hr"></div>           
+            <div ng-show="search.showResult" class="result-container col-md-6">
+                <!-- New tweets notification -->
+<!--                 <div class="new-tweet-noti">
+                    <a href="#">Query on background to notify new results</a>
+                </div> -->
+                 <div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
             </div>
 
-            <div class="statistics">
-                <!-- Trending hashtags, mentions, users -->
-                <div class="trending">
-                    <h2 class="trend-title">Trends <a href="#">change</a></h2>
-                    <ul>
-                        <li><a href="#">#trend1</a></li>
-                        <li><a href="#">#trend1</a></li>
-                        <li><a href="#">#trend1</a></li>
-                        <li><a href="#">term</a></li>
-                        <li><a href="#">@user</a></li>
-                        <li><a href="#">@metioned</a></li>
-                    </ul>
-                </div>
+            <div class="dashboard dashboard-right">
+               
             </div>
-        </div>
 
-        <div class="main col-md-6">
-            <!-- New tweets notification -->
-            <div class="new-tweet-noti">
-                <a href="#">8 new results</a>
-            </div>
-             <div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
         </div>
-
-        <div class="dashboard dashboard-right">
-           
-        </div>
-
     </div>
-
 </div>
 
+<div ng-include src="'pswp.html'"></div>
+<div ng-include src="'controlsidebar.html'"></div>
