@@ -83,7 +83,8 @@
     "jquery": "^2.1.4",
     "jquery-browserify": "^1.8.1",
     "masonry-layout": "^3.3.0",
-    "moment": "^2.10.2"
+    "moment": "^2.10.2",
+    "ng-tags-input": "^2.3.0"
   },
   "browserify-shim": {
     "jQuery": "global:$",

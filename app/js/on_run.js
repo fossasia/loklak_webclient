@@ -11,16 +11,24 @@ function OnRun($rootScope, AppSettings) {
   root.topNavItems = [
   		{
   			'title': 'Home',
-  			'link' : '/'
+  			'link' : '/',
+        'icon' : 'home'
   		},
   		{
   			'title': 'About',
-  			'link' : '/about'
+  			'link' : '/about',
+        'icon' : 'info-circle'
   		},
   		{
   			'title': 'Search',
-  			'link' : '/search'
+  			'link' : '/search',
+        'icon' : 'search'
   		},
+      {
+        'title': 'Wall',
+        'link' : '/wall',
+        'icon' : 'tasks'
+      }
 	  ];
 
 

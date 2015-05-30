@@ -21,7 +21,7 @@
             <!-- Optionally, you can add icons to the links -->
             <li ng-repeat="navItem in root.topNavItems">
               <a ng-href="{{navItem.link}}">
-                <i class='fa fa-link'></i> <span>{{navItem.title}}</span>
+                <i class='fa fa-{{navItem.icon}}'></i> <span>{{navItem.title}}</span>
               </a>
             </li>
             <!-- <li class="treeview">

@@ -568,11 +568,17 @@
 
 }
 
-
-
-
-
-
-
-
-
+/* Styling for Wall frontend */
+.layoutRadio > input{ /* HIDE RADIO */
+  display:none;
+}
+.layoutRadio > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+.layoutRadio > input:checked + img{ /* (CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+.design-box {
+	margin-top: 20px;
+}

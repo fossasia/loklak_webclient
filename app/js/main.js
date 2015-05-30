@@ -7,6 +7,7 @@ require('angular-ui-router');
 require('angular-animate');
 require('angular-moment');
 require('angular-loading-bar');
+require('ng-tags-input');
 require('./templates');
 require('./controllers/_index');
 require('./services/_index');
@@ -28,7 +29,9 @@ angular.element(document).ready(function() {
     'app.directives',
     'app.filters',
     'ui.bootstrap.datetimepicker',
-    'wu.masonry'
+    'wu.masonry',
+    'ngTagsInput',
+    'colorpicker.module'
   ];
 
   // mount on window for testing
