@@ -37,14 +37,14 @@ function StatisticsCtrl($location, $stateParams, $scope, $http, AppSettings, Sta
     	});
 
     	$scope.hideAtInit = false;
-    	$scope.topTags = sortableTopTags.sort(function(a,b) { return b[1] - a[1] });
-    	$scope.topTweeters = sortableTopTweeters.sort(function(a,b) { return b[1] - a[1] });
-    	$scope.topMentions = sortableToptopMentions.sort(function(a,b) { return b[1] - a[1] });
+    	$scope.topTags = sortableTopTags.sort(function(a,b) { return b[1] - a[1]; });
+    	$scope.topTweeters = sortableTopTweeters.sort(function(a,b) { return b[1] - a[1]; });
+    	$scope.topMentions = sortableToptopMentions.sort(function(a,b) { return b[1] - a[1]; });
     	console.log($scope.topTags);
     }
 
     function evalHistogram(statistics) {
-    	if (!(Object.getOwnPropertyNames(statistics.created_at).length === 0)) {
+    	if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
     	    $scope.statusText = '';
     	    $scope.isValid = true;
     	    $scope.myModel = [];

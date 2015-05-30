@@ -1,4 +1,5 @@
 'use strict';
+/* global angular, Morris */
 
 var directivesModule = require('./_index.js');
 

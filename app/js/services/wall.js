@@ -21,7 +21,7 @@ function WallService($q, $http, AppSettings) {
 		});
 
 		return deferred.promise;
-	}
+	};
 
 	service.initData = function(paramsObj) {
 		var deferred = $q.defer();

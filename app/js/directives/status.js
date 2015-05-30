@@ -11,7 +11,8 @@ function statusDirective() {
     scope: {
     	data: '=',
     	highlight: '=',
-    	open: '='
+    	open: '=',
+    	openTweet: '=',
     },
     templateUrl: 'status.html',
   };
