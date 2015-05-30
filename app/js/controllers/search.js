@@ -10,6 +10,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
 
     var vm = this;
+    vm.showResult = false;
 
     // Init statues if path is a search url
     angular.element(document).ready(function() {
@@ -17,6 +18,7 @@ function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSetting
           SearchService.initData($stateParams)
              .then(function(data) {
                vm.statuses = data.statuses;
+               vm.showResult = true;
              },
              function() {
                console.log('statuses init retrieval failed');
@@ -30,6 +32,7 @@ function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSetting
             .then(function(data) {
               console.log(data);
                vm.statuses = data.statuses;
+               vm.showResult = true;
                updatePath(term);
             },
             function() {

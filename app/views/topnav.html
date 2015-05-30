@@ -15,16 +15,8 @@
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
           </a>
-
-          <form ng-submit="search.update(term)" class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input ng-model="term" type="text" class="form-control" id="navbar-search-input" placeholder="Search">
-            </div>
-          </form>
           <ul class="nav navbar-nav navbar-left">
-            <li><a href="/">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="search">Search</a></li>
+            <li ng-repeat="navItem in root.topNavItems"><a ng-href="{{navItem.link}}">{{navItem.title}}</a></li>
 
            <!--  <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
