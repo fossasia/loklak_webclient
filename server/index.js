@@ -111,7 +111,6 @@ function ensureAuthenticated(req, res, next) {
 //this should always be after all the express routes have been declared.
 //it serves the angular app
 app.get('*', function(req, res) {
-    console.log(__dirname);
     res.sendFile('index.html', {
         root: require('path').resolve('.', 'build')
     });

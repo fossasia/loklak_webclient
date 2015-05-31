@@ -1,11 +1,50 @@
-<div ng-attr-id="{{data.id_str}}" class="tweet tweet-simple">
+<div ng-attr-id="{{data.id_str}}" ng-init="showdetail = false" class="tweet tweet-simple">
     <img class="avatar" 
-    onError="this.onerror=null;this.src='/images/anon_200x200.png';"
-    ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-    <div class="tweet-content">
+    	 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
+    	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+
+    <div class="tweet-content" ng-click="showdetail = !showdetail">
+
+    	<!-- Metadata -->
         <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
         <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
         <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
+
+        <!-- Main content -->
         <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
+
+        <!-- Images -->
+        <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
+                <div ng-repeat="image in data.images">
+                    <img ng-src="{{image}}" alt="A masonry brick">
+                </div>
+        </div>
+
+        <!-- Hidden detailed metadata -->
+
+        <div ng-show="showdetail" class="detail-metadata">
+            <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+            <a class="link-to-tweet" ng-href="{{data.link}}" tabindex="-1">Details</a>
+        </div>
+
+
+        <div class="action-list">
+        	<div class="action-reply">
+        		<button class="reply" />
+        	</div>
+        	<div class="action-retweet">
+        		<button class="retweet" />	
+        	</div>
+        	<div class="action-favor">
+        		<button class="favor" />	
+        	</div>
+        	<div class="action-more">
+        		<i class="fa fa-circle"></i>
+        		<i class="fa fa-circle"></i>
+        		<i class="fa fa-circle"></i>
+        	</div>
+        </div>
+
+        
     </div>
 </div>

@@ -5,15 +5,42 @@
  * @ngInject
  */
 function OnRun($rootScope, AppSettings) {
+	var root = {};
+  
+  // Top nav items 
+  root.topNavItems = [
+  		{
+  			'title': 'Home',
+  			'link' : '/',
+        'icon' : 'home'
+  		},
+  		{
+  			'title': 'About',
+  			'link' : '/about',
+        'icon' : 'info-circle'
+  		},
+  		{
+  			'title': 'Search',
+  			'link' : '/search',
+        'icon' : 'search'
+  		},
+      {
+        'title': 'Wall',
+        'link' : '/wall',
+        'icon' : 'tasks'
+      }
+	  ];
+
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-    $rootScope.pageTitle = 'Loklak ';
-
+    var pageTitle = 'Loklak ';
     if ( toState.title ) {
-      $rootScope.pageTitle += toState.title;
+      pageTitle += toState.title;
     }
+    $rootScope.root.pageTitle = pageTitle;
   });
+  $rootScope.root = root;
 
 }
 
