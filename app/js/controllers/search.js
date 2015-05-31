@@ -7,10 +7,16 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 /**
  * @ngInject
  */
-function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
+function SearchCtrl($scope, $rootScope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
 
     var vm = this;
+    vm.modal = { text: "Tweet content placeholder"};
+    vm.showDetail = false;
     vm.showResult = false;
+
+    // Init model related to modal
+    // Used in body tag and for toggling modal
+    $rootScope.root.tweetModalShow = false;
 
     // Init statues if path is a search url
     angular.element(document).ready(function() {
@@ -40,11 +46,24 @@ function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSetting
             });
     };
 
-    /*
+    /**
+     * Given status object
+     * Popuplate the modal data
+     * Change state of the template search-modal.html
+     */
+    // To do, add onclick and ESC to close modal
+    
+    
+    vm.showModal = function(data) {
+        vm.modal = data;
+        $rootScope.root.tweetModalShow = !$rootScope.root.tweetModalShow;
+    };
+
+    /**
      * Create photoswipe
      * Lib's docs: http://photoswipe.com/documentation/getting-started.html
      */
-    vm.open = function(status_id) {
+    vm.openSwipe = function(status_id) {
         //$interval.cancel(interval);
         console.log("Foobar");
         // Populating args
@@ -67,6 +86,10 @@ function SearchCtrl($scope, $stateParams, $timeout, $location, $http, AppSetting
         }, 0);
     };
 
+
+    // Populate modal template with given tweet data 
+
+    // Scrape for imgTag to serve photoswipe requirement
     function scrapeImgTag(imgTag) {
         var ngEle = angular.element(imgTag);
         return {

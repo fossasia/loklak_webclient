@@ -11,10 +11,19 @@ function statusDirective() {
     scope: {
     	data: '=',
     	highlight: '=',
-    	open: '=',
-    	openTweet: '=',
+    	openSwipe: '=',
+    	showModal: '=',
     },
     templateUrl: 'status.html',
+    controller: function($scope, $element) {
+        // Toggle show-hide detail when clicked
+        // execept when clicked on "Details"
+        $scope.showDetail = false;
+        $scope.toggleDetail = function(event) {
+            if (!(event.target.className === "link-to-tweet")) 
+                $scope.showDetail = !$scope.showDetail;
+        };
+    }
   };
 
 }

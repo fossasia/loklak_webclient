@@ -15,11 +15,11 @@
             <!-- Separator -->
             <div class="wide-hr"></div>           
             <div ng-show="search.showResult" class="result-container col-md-6">
-                <!-- New tweets notification -->
-<!--                 <div class="new-tweet-noti">
+                <!-- New tweets notification 
+                    <div class="new-tweet-noti">
                     <a href="#">Query on background to notify new results</a>
                 </div> -->
-                 <div ng-repeat="status in search.statuses" status open="search.open" data="status"></div>
+                 <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>
             </div>
 
             <div class="dashboard dashboard-right">
@@ -29,3 +29,6 @@
         </div>
     </div>
 </div>
+
+
+<div ng-include="'search-modal.html'" ></div>

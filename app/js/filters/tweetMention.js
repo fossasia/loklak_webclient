@@ -11,7 +11,7 @@ function tweetMentionFilter() {
 		var mentionReg = /@([\wäöå]+)/gi;
 		var aTag = '<a rel="external" href="https://twitter.com/$1">@$1</a>';
 		return input.replace(mentionReg, aTag);
-	}
+	};
 }
 
 

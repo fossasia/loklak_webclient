@@ -1,0 +1,48 @@
+<div class="modal-wrapper">
+    <div ng-show="root.tweetModalShow" class="tweet tweet-modal">
+    	<div class="top-metadata">
+    		<img class="avatar" 
+    			 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
+    			 ng-src="{{search.modal.user.profile_image_url_https}}" alt="user-images">
+    			<!-- Metadata search.modal -->
+    		    <a class="name" ng-href="{{'https://twitter.com/' + search.modal.user.screen_name}}">{{search.modal.user.name}}</a>
+    		    <span class="screen-name">{{ "@" + search.modal.user.screen_name}}</span>	
+    	</div>
+        
+        <div class="tweet-content">
+            <!-- Main content -->
+            <p class="tweet-content-text" ng-bind-html="search.modal.text | tweetMention | tweetHashtag | toTrusted"></p>
+
+            <!-- Images -->
+            <div data-ng-click="search.open(search.modal.id_str);" class="images-wrapper" ng-if="search.modal.images_count">
+                    <div ng-repeat="image in search.modal.images">
+                        <img ng-src="{{image}}" alt="A masonry brick">
+                    </div>
+            </div>
+
+            <!-- Action list -->
+
+            <div class="action-list">
+            	<div class="action-reply">
+            		<button class="reply" />
+            	</div>
+            	<div class="action-retweet">
+            		<button class="retweet" />	
+            	</div>
+            	<div class="action-favor">
+            		<button class="favor" />	
+            	</div>
+            	<div class="action-more">
+            		<i class="fa fa-circle"></i>
+            		<i class="fa fa-circle"></i>
+            		<i class="fa fa-circle"></i>
+            	</div>
+            </div>
+
+            <!-- detailed metadata -->
+            <div class="detail-metadata">
+                <span class="metadata">{{ search.modal.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+            </div>        
+        </div>
+    </div>
+</div>

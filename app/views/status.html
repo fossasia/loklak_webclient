@@ -1,4 +1,4 @@
-<div ng-attr-id="{{data.id_str}}" ng-init="showdetail = false" class="tweet tweet-simple">
+<div ng-attr-id="{{data.id_str}}" ng-click="toggleDetail($event)" class="tweet tweet-simple">
     <img class="avatar" 
     	 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
     	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
@@ -14,7 +14,7 @@
         <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
         <!-- Images -->
-        <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
+        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
                 <div ng-repeat="image in data.images">
                     <img ng-src="{{image}}" alt="A masonry brick">
                 </div>
@@ -22,9 +22,9 @@
 
         <!-- Hidden detailed metadata -->
 
-        <div ng-show="showdetail" class="detail-metadata">
+        <div ng-show="showDetail" class="detail-metadata">
             <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
-            <a class="link-to-tweet" ng-href="{{data.link}}" tabindex="-1">Details</a>
+            <span class="link-to-tweet" data-ng-click="showModal(data)">Details</span>
         </div>
 
 
