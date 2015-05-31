@@ -22,7 +22,7 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
-                                        <input ng-model="wallOptions.eventName" type="email" class="form-control" id="eventNameInput" placeholder="Event Name">
+                                        <input required ng-model="wallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
                                     </div>
                                     <div class="form-group">
                                         <label>What day is your event?</label>
@@ -36,7 +36,7 @@
                                                 </div>
                                             </a>
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                                                <datetimepicker ng-required="true" ng-model="sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                                                <datetimepicker ng-required="true" ng-model="wallOptions.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
                                             </ul>
                                         </div>
                                     </div>
@@ -44,13 +44,13 @@
                                         <label for="hashtagInput">What's your main hashtag for the event? This will show prominently on your tweet wall.</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">#</span>
-                                            <input ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="Hashtag">
+                                            <input required ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="Hashtag">
                                         </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-                                    <a href="#content" data-toggle="tab" type="submit" class="btn btn-primary">Submit</a>
+                                    <a ng-disabled="wallOptions.eventName.$dirty || wallOptions.eventName.$invalid" ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
                                 </div>
                             </form>
                         </div>
@@ -83,7 +83,7 @@
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-                                    <a href="#content" data-toggle="tab" type="submit" class="btn btn-primary">Submit</a>
+                                    <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
                                 </div>
                             </form>
                         </div>
@@ -101,14 +101,13 @@
                                                 <h3 class="box-title">Select a base layout to customize</h3>
                                             </div>
                                             <div class="box-body">
-                                                <div class="row">
+                                                <div class="row" ng-init="wallOptions.layoutStyle='1'">
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
                                                             <img src="http://placehold.it/100x100/35d/fff&text=f" alt="">
                                                         </label>
                                                     </div>
-                                                    <div class="clearfix visible-md"></div>
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
@@ -135,12 +134,12 @@
                                                                 <label>Set Header Colour</label>
                                                                 <div class="input-group">
                                                                     <span ng-style="{'background-color':wallOptions.headerColour}" class="input-group-addon"></span>
-                                                                    <input ng-model="wallOptions.headerColour" colorpicker type="text" class="form-control">
+                                                                    <input ng-model="wallOptions.headerColour" colorpicker ng-init="wallOptions.headerColour = '#3c8dbc'" type="text" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 form-group">
                                                                 <label>Show Header on</label>
-                                                                <select class="form-control">
+                                                                <select ng-init="wallOptions.headerPosition = 'Top'" ng-model="wallOptions.headerPosition" class="form-control">
                                                                     <option>Top</option>
                                                                     <option>Bottom</option>
                                                                 </select>
@@ -158,7 +157,7 @@
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <a href="#content" data-toggle="tab" type="submit" class="btn btn-primary">Submit</a>
+                                <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
                             </div>
                         </div>
                     </div>
