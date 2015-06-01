@@ -1,13 +1,13 @@
-<div class="content-wrapper">
+<div>
     <div class="row wall-header">
-            <div class="hashtag col-md-4">wallOptions.mainHashtag</div>
-            <div class="event-name col-md-4">wallOptions.eventName</div>
+            <div class="hashtag col-md-4">{{wall.mainHashtag}}</div>
+            <div class="event-name col-md-4">{{wall.eventName}}</div>
             <div class="banner col-md-4">Loklak</div>
     </div>
     <div class="search-container container-fluid">
         <div class="container content-container">
-            <div class="result-container col-md-10">
-                <div ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
+            <div class="result-container col-md-8">
+                <div class="animate-repeat"  ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
             </div>
         </div>
     </div>

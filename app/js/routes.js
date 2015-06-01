@@ -40,8 +40,10 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   .state('WallDisplay', {
     url: '/wall/display',
     templateUrl: 'wall/display.html',
-    controller: 'WallCtrl as wall',
-    title: 'Wall'
+    controller: 'WallDisplay as wall',
+    title: 'Wall',
+    onEnter: function($rootScope){$rootScope.root.fullscreenDisabled=false;},
+    onExit: function($rootScope){$rootScope.root.fullscreenDisabled=true;}
   })
   .state('Statistics', {
     url: '/statistics?q&since&until',

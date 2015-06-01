@@ -31,6 +31,7 @@ function OnRun($rootScope, AppSettings) {
       }
 	  ];
 
+  root.fullscreenDisabled = true;
 
   // change page title based on state
   $rootScope.$on('$stateChangeSuccess', function(event, toState) {
