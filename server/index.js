@@ -15,6 +15,7 @@ var ejs = require('ejs');
 var passport = require('passport'),
     TwitterStrategy = require('passport-twitter').Strategy;
 var Twitter = require('twitter');
+var request = require('request');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -48,21 +49,27 @@ passport.use(new TwitterStrategy({
         process.nextTick(function() {
             console.log(token);
             console.log(tokenSecret);
-            profile.token = token;
-            profile.tokenSecret = tokenSecret;
+            profile.oauth_token = token;
+            profile.oauth_token_secret = tokenSecret;
             return done(null, profile);
         });
     }
 ));
 
 app.get('/account', ensureAuthenticated, function(req, res) {
-    //  console.log(req.user);
-    // client.post('statuses/update', {status: 'I Love Loklak!'},  function(error, tweet, response){
-    //   if(error) {res.send(error)};
-    //   console.log(tweet);  // Tweet body. 
-    //   res.send(response);  // Raw response object. 
-    // });
-    res.render('index');
+    //Code to push user data to backend
+    var userObject = {};
+    userObject['screen_name'] = req.user.username;
+    userObject['oauth_token'] = req.user.oauth_token;
+    userObject['oauth_token_secret'] = req.user.oauth_token_secret;
+    userObject['source_type'] = "TWITTER";
+    var requestJSON = JSON.stringify(userObject);
+    request('http://localhost:9100/api/account.json?action=update&data=' + requestJSON, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body);
+        res.render('index');
+      }
+    })
 });
 app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
     req.logout();
