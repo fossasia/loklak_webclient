@@ -3,7 +3,7 @@
     	 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
     	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
 
-    <div class="tweet-content" ng-click="showdetail = !showdetail">
+    <div class="tweet-content">
 
     	<!-- Metadata -->
         <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
@@ -13,12 +13,31 @@
         <!-- Main content -->
         <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
-        <!-- Images -->
-        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count">
-                <div ng-repeat="image in data.images">
+        <!-- Images - 1 img -->
+        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
+                <div class="single-masonry-item" ng-repeat="image in data.images">
                     <img ng-src="{{image}}" alt="A masonry brick">
                 </div>
         </div>
+        <!-- Images - 2 imgs -->
+        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 2">
+                <div class="double-masonry-item" ng-repeat="image in data.images">
+                    <img ng-src="{{image}}" alt="A masonry brick">
+                </div>
+        </div>
+        <!-- Images - 3 imgs -->
+        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 3">
+                <div class="triple-masonry-item" ng-repeat="image in data.images">
+                    <img ng-src="{{image}}" alt="A masonry brick">
+                </div>
+        </div>
+        <!-- Images - 4 imgs -->
+        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 4">
+                <div class="quad-masonry-item" ng-repeat="image in data.images">
+                    <img ng-src="{{image}}" alt="A masonry brick">
+                </div>
+        </div>
+
 
         <!-- Hidden detailed metadata -->
 

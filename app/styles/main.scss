@@ -422,6 +422,7 @@
 			.result-container {
 				border: 1px solid $search-grey-border;
 				padding: 0;
+				width: 600px;
 			}
 			.tweet {
 				display: block;
@@ -473,13 +474,79 @@
 						max-height: 203px;
 						overflow: hidden;
 						border-radius: 8px;
+						img {
+							width: 100%
+						}
+						> div {
+							overflow: hidden;
+						}
 					}
 					.images-wrapper.showdetail {
 						overflow: visible;
 						max-height: initial;
 						img {
-							max-width: 470px;
+							width: 100%;
 							height: auto;
+						}
+					}
+					.images-wrapper.showcomposition {
+						max-height: initial;
+					}
+					.images-wrapper {
+						.double-masonry-item {
+							width: 49%;
+							max-height: 250px;
+							float: left;
+							&:first-child {
+								margin-right: 1%;
+								border-top-left-radius: 5px;
+								border-bottom-left-radius: 5px;
+							}
+							&:last-child {
+								border-top-right-radius: 5px;
+								border-bottom-right-radius: 5px;
+							}
+						}
+						.triple-masonry-item {
+							width: 49%;
+							float: left;
+							&:first-child {
+								height: 250px;
+								border-top-left-radius: 5px;
+								border-bottom-left-radius: 5px;
+								margin-right: 1%;
+							} 
+							&:nth-child(2) {
+								margin-bottom: 5px;
+								height: 123px;
+								border-top-right-radius: 5px;
+							}
+							&:last-child {
+								height: 123px;
+								border-bottom-right-radius: 5px;
+							}
+						}
+						.quad-masonry-item {
+							width: 49%;
+							height: 123px;
+							position: relative;
+							float: left;
+							&:first-child {
+								margin-bottom: 6px;
+								margin-right: 1%;
+								border-top-left-radius: 5px;
+							}
+							&:nth-child(2) {
+								margin-bottom: 6px;
+								border-top-right-radius: 5px;
+							}
+							&:nth-child(3) {
+								border-bottom-left-radius: 5px;
+								margin-right: 1%;
+							}
+							&:last-child {
+								border-bottom-right-radius: 5px;
+							}
 						}
 					}
 				}
