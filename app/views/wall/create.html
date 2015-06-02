@@ -63,22 +63,29 @@
                             <form role="form">
                                 <div class="box-body">
                                     <div class="form-group">
+                                        <label for="">Tweets from</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">@</span>
+                                            <input ng-model="wallOptions.fromUser" type="text" placeholder="Enter username" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Hashtags</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">#</span>
-                                            <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags" ng-model="hashtags"></tags-input>
+                                            <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags"></tags-input>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Mentions</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">@</span>
-                                            <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions" ng-model="mentions"></tags-input>
+                                            <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions"></tags-input>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Keywords</label>
-                                        <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords" ng-model="keywords"></tags-input>
+                                        <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords"></tags-input>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
@@ -150,8 +157,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <img src="http://placehold.it/700x400/35d/fff" alt="">
+                                    <div class="col-md-8 wall-preview">
+                                        <div ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
+                                        </div>
+                                        <img class="row" src="http://placehold.it/700x460/35d/fff" alt="">
                                     </div>
                                 </div>
                             </div>

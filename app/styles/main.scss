@@ -655,3 +655,18 @@
   justify-content: center; /* Optional, to align inner items 
                               horizontally inside the column */
 }
+/*.spinner-hide .loading{
+  visibility: visible;
+}
+.spinner-show .loading{
+  visibility: hidden;
+}*/
+
+.wall-preview {
+	background-color: #aaa;
+	position: relative;
+	/*display: inline-block;*/
+	.wall-preview-header {
+		height: 100px;
+	}
+}
