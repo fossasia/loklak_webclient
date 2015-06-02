@@ -27,7 +27,8 @@ function statusDirective($timeout) {
     link: function(scope, element, attrs) {
         console.log(scope.$parent.$last);
         if (scope.$parent.$last) {
-            $timeout(function() {
+            var imgEle = angular.element('img');
+            imgEle.bind('load', function() {
                 var imgs = angular.element('.triple-masonry-item.first-item').find('img')   ;
                 angular.forEach(imgs, function(value, key) {
                     var height = value.clientHeight;
@@ -35,7 +36,8 @@ function statusDirective($timeout) {
                     var classToAdd = (height >= width) ? 'vertical' : 'landscape';
                     angular.element(value).addClass(classToAdd);
                 });
-            }, 0);
+            });
+            
         };
         
     }
