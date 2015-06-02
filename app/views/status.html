@@ -27,7 +27,7 @@
         </div>
         <!-- Images - 3 imgs -->
         <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 3">
-                <div class="triple-masonry-item" ng-repeat="image in data.images">
+                <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images">
                     <img ng-src="{{image}}" alt="A masonry brick">
                 </div>
         </div>

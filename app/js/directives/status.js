@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function statusDirective() {
+function statusDirective($timeout) {
 
   return {
     scope: {
@@ -23,6 +23,21 @@ function statusDirective() {
             if (!(event.target.className === "link-to-tweet")) 
                 $scope.showDetail = !$scope.showDetail;
         };
+    },
+    link: function(scope, element, attrs) {
+        console.log(scope.$parent.$last);
+        if (scope.$parent.$last) {
+            $timeout(function() {
+                var imgs = angular.element('.triple-masonry-item.first-item').find('img')   ;
+                angular.forEach(imgs, function(value, key) {
+                    var height = value.clientHeight;
+                    var width = value.clientWidth;
+                    var classToAdd = (height >= width) ? 'vertical' : 'landscape';
+                    angular.element(value).addClass(classToAdd);
+                });
+            }, 0);
+        };
+        
     }
   };
 

@@ -477,6 +477,10 @@
 						img {
 							width: 100%
 						}
+						img.landscape {
+							width: auto;
+							height: 100%;
+						}
 						> div {
 							overflow: hidden;
 						}
@@ -487,6 +491,10 @@
 						img {
 							width: 100%;
 							height: auto;
+						}
+						img.landscape {
+							width: auto;
+							height: 100%;
 						}
 					}
 					.images-wrapper.showcomposition {
