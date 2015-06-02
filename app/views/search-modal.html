@@ -1,4 +1,4 @@
-<div class="modal-wrapper">
+<div ng-class="{'modal-wrapper':  true, 'modal-show': root.tweetModalShow}">
     <div ng-show="root.tweetModalShow" class="tweet tweet-modal">
     	<div class="top-metadata">
     		<img class="avatar" 
@@ -13,12 +13,30 @@
             <!-- Main content -->
             <p class="tweet-content-text" ng-bind-html="search.modal.text | tweetMention | tweetHashtag | toTrusted"></p>
 
-            <!-- Images -->
-            <div data-ng-click="search.open(search.modal.id_str);" class="images-wrapper" ng-if="search.modal.images_count">
-                    <div ng-repeat="image in search.modal.images">
-                        <img ng-src="{{image}}" alt="A masonry brick">
-                    </div>
-            </div>
+           <!-- Images - 1 img -->
+           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix" ng-if="search.modal.images_count === 1">
+                   <div class="single-masonry-item" ng-repeat="image in search.modal.images">
+                       <img ng-src="{{image}}" alt="A masonry brick">
+                   </div>
+           </div>
+           <!-- Images - 2 imgs -->
+           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 2">
+                   <div class="double-masonry-item" ng-repeat="image in search.modal.images">
+                       <img ng-src="{{image}}" alt="A masonry brick">
+                   </div>
+           </div>
+           <!-- Images - 3 imgs -->
+           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 3">
+                   <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in search.modal.images">
+                       <img ng-src="{{image}}" alt="A masonry brick">
+                   </div>
+           </div>
+           <!-- Images - 4 imgs -->
+           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 4">
+                   <div class="quad-masonry-item" ng-repeat="image in search.modal.images">
+                       <img ng-src="{{image}}" alt="A masonry brick">
+                   </div>
+           </div>
 
             <!-- Action list -->
 

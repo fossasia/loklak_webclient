@@ -37,7 +37,6 @@ function statusDirective($timeout) {
                     angular.element(value).addClass(classToAdd);
                 });
             });
-            
         };
         
     }

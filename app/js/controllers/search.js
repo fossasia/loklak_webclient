@@ -87,6 +87,15 @@ function SearchCtrl($scope, $rootScope, $stateParams, $timeout, $location, $http
     };
 
 
+    /** 
+     * Similar to openSwipe
+     * With an extra step to close modal first
+     */
+    vm.switchToSwipe = function(status_id) {
+        $rootScope.root.tweetModalShow = !$rootScope.root.tweetModalShow;
+        vm.openSwipe(status_id);
+    }
+
     // Populate modal template with given tweet data 
 
     // Scrape for imgTag to serve photoswipe requirement
