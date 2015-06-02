@@ -40,6 +40,8 @@ Create a Twitter app at https://apps.twitter.com
 - Set the twitterConsumerSecret var in `custom_configFile.json`
   to set the Consumer Secret from your Twitter app
 
+###Trial Run
+- Try the search feature which lists recent tweets corresponding to a user input keyword at http://localhost:3000/search
 
 ### Troubleshooting
 
