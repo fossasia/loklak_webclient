@@ -1,39 +1,39 @@
-<div ng-class="{'modal-wrapper':  true, 'modal-show': root.tweetModalShow}">
-    <div ng-show="root.tweetModalShow" class="tweet tweet-modal">
+<div ng-class="{'modal-wrapper':  true, 'modal-show': tweetModalShow}">
+    <div ng-show="tweetModalShow" class="tweet tweet-modal">
     	<div class="top-metadata">
     		<img class="avatar" 
     			 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
-    			 ng-src="{{search.modal.user.profile_image_url_https}}" alt="user-images">
-    			<!-- Metadata search.modal -->
-    		    <a class="name" ng-href="{{'https://twitter.com/' + search.modal.user.screen_name}}">{{search.modal.user.name}}</a>
-    		    <span class="screen-name">{{ "@" + search.modal.user.screen_name}}</span>	
+    			 ng-src="{{modalData.user.profile_image_url_https}}" alt="user-images">
+    			<!-- Metadata modalData -->
+    		    <a class="name" ng-href="{{'https://twitter.com/' + modalData.user.screen_name}}">{{modalData.user.name}}</a>
+    		    <span class="screen-name">{{ "@" + modalData.user.screen_name}}</span>	
     	</div>
         
         <div class="tweet-content">
             <!-- Main content -->
-            <p class="tweet-content-text" ng-bind-html="search.modal.text | tweetMention | tweetHashtag | toTrusted"></p>
+            <p class="tweet-content-text" ng-bind-html="modalData.text | tweetMention | tweetHashtag | toTrusted"></p>
 
            <!-- Images - 1 img -->
-           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix" ng-if="search.modal.images_count === 1">
-                   <div class="single-masonry-item" ng-repeat="image in search.modal.images">
+           <div data-ng-click="switchToSwipe(modalData.id_str);" class="images-wrapper clearfix" ng-if="modalData.images_count === 1">
+                   <div class="single-masonry-item" ng-repeat="image in modalData.images">
                        <img ng-src="{{image}}" alt="A masonry brick">
                    </div>
            </div>
            <!-- Images - 2 imgs -->
-           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 2">
-                   <div class="double-masonry-item" ng-repeat="image in search.modal.images">
+           <div data-ng-click="switchToSwipe(modalData.id_str);" class="images-wrapper clearfix showcomposition" ng-if="modalData.images_count === 2">
+                   <div class="double-masonry-item" ng-repeat="image in modalData.images">
                        <img ng-src="{{image}}" alt="A masonry brick">
                    </div>
            </div>
            <!-- Images - 3 imgs -->
-           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 3">
-                   <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in search.modal.images">
+           <div data-ng-click="switchToSwipe(modalData.id_str);" class="images-wrapper clearfix showcomposition" ng-if="modalData.images_count === 3">
+                   <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in modalData.images">
                        <img ng-src="{{image}}" alt="A masonry brick">
                    </div>
            </div>
            <!-- Images - 4 imgs -->
-           <div data-ng-click="search.switchToSwipe(search.modal.id_str);" class="images-wrapper clearfix showcomposition" ng-if="search.modal.images_count === 4">
-                   <div class="quad-masonry-item" ng-repeat="image in search.modal.images">
+           <div data-ng-click="switchToSwipe(modalData.id_str);" class="images-wrapper clearfix showcomposition" ng-if="modalData.images_count === 4">
+                   <div class="quad-masonry-item" ng-repeat="image in modalData.images">
                        <img ng-src="{{image}}" alt="A masonry brick">
                    </div>
            </div>
@@ -59,7 +59,7 @@
 
             <!-- detailed metadata -->
             <div class="detail-metadata">
-                <span class="metadata">{{ search.modal.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+                <span class="metadata">{{ modalData.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
             </div>        
         </div>
     </div>
