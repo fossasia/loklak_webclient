@@ -1,28 +1,58 @@
 'use strict';
 
 var controllersModule = require('./_index');
+var PhotoSwipe = require('photoswipe');
+var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 
 /**
  * @ngInject
  */
-function SingleTweetCtrl($scope, $stateParams, SearchService) {
+function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 
 	var vm = this;
+	vm.status = false;
 	// Init result based on requested ID
 	angular.element(document).ready(function() {
-		console.log($stateParams);
-		console.log($stateParams.q);
 		if ($stateParams.q !== undefined) {
 			SearchService.initData($stateParams)
 				.then(function(data) {
 					vm.status = data.statuses[0];
-					console.log(vm.status);
 				}, 
 				function() {
 					console.log('status initital retrieval failed');
 				});
 		}
 	});
+
+	vm.openMasonry = function(status_id) {
+	    var items = [];
+	    var images  = angular.element('#' + status_id + ' .images-wrapper img');        
+	    angular.forEach(images, function(image) {
+	        this.push(scrapeImgTag(image));
+	    }, items);
+	    var options = {       
+	        index: 0,
+	        history: false,
+	    };
+	    var swipeEle = document.querySelectorAll('.pswp')[0];
+	   
+	    var swipeObject = 'gallery' + status_id;
+
+	    $timeout(function() {
+	        window[swipeObject] = new PhotoSwipe(swipeEle, PhotoSwipeUI_Default, items, options);
+	        window[swipeObject].init();    
+	    }, 0);
+	};
+
+	// Scrape for imgTag to serve photoswipe requirement
+	function scrapeImgTag(imgTag) {
+	    var ngEle = angular.element(imgTag);
+	    return {
+	        src: ngEle.attr('src'),
+	        w: parseInt(ngEle.css('width').replace('px', '')),
+	        h: parseInt(ngEle.css('height').replace('px', ''))
+	    };
+	}
 }
 
 controllersModule.controller('SingleTweetCtrl', SingleTweetCtrl);

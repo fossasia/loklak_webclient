@@ -1,12 +1,14 @@
 <div class="content-wrapper">
-	<div class="single-tweet tweet">
+	<div ng-if="singleTweet.status" ng-attr-id="{{singleTweet.status.id_str}}" class="single-tweet tweet">
 		<div class="top-metadata">
 			<img class="avatar" 
 				 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
 				 ng-src="{{singleTweet.status.user.profile_image_url_https}}" alt="user-images">
 				<!-- Metadata singleTweet.status -->
-		    <a class="name" ng-href="{{'https://twitter.com/' + singleTweet.status.user.screen_name}}">{{singleTweet.status.user.name}}</a>
-		    <span class="screen-name">{{ "@" + singleTweet.status.user.screen_name}}</span>	
+		    <div class="user-data-wrapper">
+		    	<a class="name" ng-href="{{'https://twitter.com/' + singleTweet.status.user.screen_name}}">{{singleTweet.status.user.name}}</a>
+		    	<span class="screen-name">{{ "@" + singleTweet.status.user.screen_name}}</span>	
+		    </div>
 		</div>
 
 		<div class="tweet-content">
@@ -14,25 +16,25 @@
 		<p class="tweet-content-text" ng-bind-html="singleTweet.status.text | tweetMention | tweetHashtag | toTrusted"></p>
 
 		<!-- Images - 1 img -->
-		<div data-ng-click="openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix" ng-if="singleTweet.status.images_count === 1">
+		<div data-ng-click="singleTweet.openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix" ng-if="singleTweet.status.images_count === 1">
 		       <div class="single-masonry-item" ng-repeat="image in singleTweet.status.images">
 		           <img ng-src="{{image}}" alt="A masonry brick">
 		       </div>
 		</div>
 		<!-- Images - 2 imgs -->
-		<div data-ng-click="openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 2">
+		<div data-ng-click="singleTweet.openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 2">
 		       <div class="double-masonry-item" ng-repeat="image in singleTweet.status.images">
 		           <img ng-src="{{image}}" alt="A masonry brick">
 		       </div>
 		</div>
 		<!-- Images - 3 imgs -->
-		<div data-ng-click="openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 3">
+		<div data-ng-click="singleTweet.openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 3">
 		       <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in singleTweet.status.images">
 		           <img ng-src="{{image}}" alt="A masonry brick">
 		       </div>
 		</div>
 		<!-- Images - 4 imgs -->
-		<div data-ng-click="openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 4">
+		<div data-ng-click="singleTweet.openMasonry(singleTweet.status.id_str);" class="images-wrapper clearfix showcomposition" ng-if="singleTweet.status.images_count === 4">
 		       <div class="quad-masonry-item" ng-repeat="image in singleTweet.status.images">
 		           <img ng-src="{{image}}" alt="A masonry brick">
 		       </div>

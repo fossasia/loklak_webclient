@@ -64,9 +64,6 @@ function SearchCtrl($scope, $rootScope, $stateParams, $timeout, $location, $http
      * Lib's docs: http://photoswipe.com/documentation/getting-started.html
      */
     vm.openSwipe = function(status_id) {
-        //$interval.cancel(interval);
-        console.log("Foobar");
-        // Populating args
         var items = [];
         var images  = angular.element('#' + status_id + ' .images-wrapper img');        
         angular.forEach(images, function(image) {
