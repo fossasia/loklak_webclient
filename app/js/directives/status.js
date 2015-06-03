@@ -25,7 +25,6 @@ function statusDirective($timeout) {
         };
     },
     link: function(scope, element, attrs) {
-        console.log(scope.$parent.$last);
         if (scope.$parent.$last) {
             var imgEle = angular.element('img');
             imgEle.bind('load', function() {
