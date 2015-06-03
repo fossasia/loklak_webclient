@@ -437,6 +437,13 @@
 					max-height: initial;
 				}
 				.images-wrapper {
+					.single-masonry-item {
+						height: auto;
+						width: auto;
+						max-width: 100%;
+						max-height: 560px;
+						overflow: hidden;
+					}
 					.double-masonry-item {
 						width: 49%;
 						max-height: 250px;
