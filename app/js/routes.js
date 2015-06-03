@@ -42,6 +42,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'StatisticsCtrl as statistics',
     templateUrl: 'statistics.html',
     title: 'Statistics'
+  })
+  .state('SingleTweet', {
+    url: '/tweet?q',
+    controller: 'SingleTweetCtrl as singleTweet',
+    templateUrl: 'single-tweet.html',
+    title: 'Tweet'
   });
 
   $urlRouterProvider.otherwise('/');

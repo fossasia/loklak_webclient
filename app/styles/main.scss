@@ -907,6 +907,95 @@
 	
 /* End styling for search frontend */
 
+/* Styles for single tweet views */
+	.single-tweet {
+		color: black;
+		display: inline-block;
+		width: 50%;
+		margin-left: 25%;
+		margin-top: 50px;
+		background-color: red;
+		padding: 10px;
+		border-radius: 9px;
+		img.avatar, .name, .screen-name {
+			display: inline-block;
+			vertical-align: top;
+		}
+		img.avatar {
+			width: 73px;
+		}
+		.tweet-content {
+			display: inline-block;
+			padding-left: 11px;
+			.tweet-content-text {
+				margin-top: 10px;
+			}
+			.action-list {
+				margin-top: 10px;
+				> div {
+					display: inline-block;
+					margin-right: 31px;
+				}
+				.action-reply {
+					button {
+						border:none;
+						width: 16px;
+						height: 16px;
+						background: url('../images/reply-sprite.png');
+					}
+					&:hover {
+						button {
+							background-position-x: 100%;
+						}
+					}
+				}
+				.action-favor {
+					button {
+						border:none;
+						width: 16px;
+						height: 16px;
+						background: url('../images/favorite-sprite.png');
+					}
+					&.already {
+						button {
+							background-position-x: 100%;
+						}
+					}
+					&:hover {
+						button {
+							background-position-x: 50%;
+						}
+					}
+				}
+				.action-retweet {
+					button {
+						border:none;
+						width: 19px;
+						height: 16px;
+						background: url('../images/retweet-sprite.png');
+					}
+					&.already {
+						button {
+							background-position-x: 100%;
+						}
+					}
+					&:hover {
+						button {
+							background-position-x: 50%;
+						}
+					}
+				}
+				.action-more {
+					font-size: 6px;
+					color: #ADAFB0;
+					vertical-align: middle;
+					
+				}
+			}
+		}
+	}
+/* End styles for single tweet views */
+
 /* Styling for Wall frontend */
 .layoutRadio > input{ /* HIDE RADIO */
   display:none;
