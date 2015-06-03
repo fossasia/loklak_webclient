@@ -58,7 +58,7 @@
                     <div class="tab-pane" id="content">
                         <div class="box box-warning">
                             <div class="box-header">
-                                <h3 class="box-title">What should show up on your Tweetwall?</h3>
+                                <h3 class="box-title">What should show up on your tweet wall?</h3>
                             </div>
                             <form role="form">
                                 <div class="box-body">
@@ -96,41 +96,43 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="design">
-                        <div class="box box-warning">
+                        <div >
                             <div class="box-header">
-                                <h3 class="box-title">What should show up on your Tweetwall?</h3>
+                                <h2 class="box-title">How should your tweet wall look?</h2>
                             </div>
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="box box-primary">
+                                        <div>
                                             <div class="box-header">
-                                                <h3 class="box-title">Select a base layout to customize</h3>
+                                                <label>Select a layout to customize</label>
                                             </div>
                                             <div class="box-body">
                                                 <div class="row" ng-init="wallOptions.layoutStyle='1'">
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
-                                                            <img src="http://placehold.it/100x100/35d/fff&text=f" alt="">
+                                                            <img src="images/linear-layout-thumb.jpg" alt="">
                                                         </label>
                                                     </div>
+
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
-                                                            <img src="http://placehold.it/100x100/35d/fff&text=f" alt="">
+                                                            <img src="images/linear-layout-thumb.jpg" alt="">
                                                         </label>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
-                                                            <img src="http://placehold.it/100x100/35d/fff&text=f" alt="">
+                                                            <img src="images/linear-layout-thumb.jpg" alt="">
                                                         </label>
                                                     </div>
+
                                                     <div class="col-md-6">
                                                         <label class="layoutRadio">
                                                             <input ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
-                                                            <img src="http://placehold.it/100x100/35d/fff&text=f" alt="">
+                                                            <img src="images/linear-layout-thumb.jpg" alt="">
                                                         </label>
                                                     </div>
                                                 </div>
@@ -154,20 +156,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="box-footer">
+                                                    <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 wall-preview">
+                                    <div class="col-md-7 wall-preview">
                                         <div ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
+                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{wallOptions.mainHashtag}}</div>
+                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-event-name col-md-4">{{wallOptions.eventName}}</div>
+                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                         </div>
-                                        <img class="row" src="http://placehold.it/700x460/35d/fff" alt="">
+                                        <div class="row">
+                                            <img class="img-responsive" src="/images/linear-layout.jpg" alt="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- /.box-body -->
-                            <div class="box-footer">
-                                <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
-                            </div>
                         </div>
                     </div>
                 </div>
