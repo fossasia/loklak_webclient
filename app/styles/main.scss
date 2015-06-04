@@ -528,6 +528,7 @@
 			}
 
 			.action-list {
+				display: inline-block;
 				margin-top: 10px;
 				> div {
 					display: inline-block;
@@ -585,8 +586,8 @@
 				.action-more {
 					font-size: 6px;
 					color: #ADAFB0;
-					vertical-align: middle;
-					
+					position: relative;
+					top: 2px;
 				}
 			}
 
@@ -830,6 +831,7 @@
 					}
 
 					.action-list {
+						display: inline-block;
 						margin-top: 10px;
 						> div {
 							display: inline-block;
@@ -885,10 +887,39 @@
 							}
 						}
 						.action-more {
+							transition: all 0.3s ease-in-out;
 							font-size: 6px;
 							color: #ADAFB0;
-							vertical-align: middle;
-							
+							position: relative;
+							top: 2px;
+							.more-actions {
+								position: absolute;
+								min-width: 150px;
+								top: 15px;
+								transform: translateX(-2%);
+								padding: 6px 0;
+								background: #FFF none repeat scroll 0% 0% padding-box;
+								border: 0px solid rgba(0, 0, 0, 0.25);
+								border-radius: 4px;
+								box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+								ul {
+									margin: 0;
+									padding: 0;
+									li {
+										a {
+											font-size: 15px;
+											display: block;
+											padding: 2px 5px;
+											color: $search-grey;
+											text-align: center;
+											&:hover {
+												background-color: $search-twitter-blue;
+												color: white;
+											}
+										}
+									}
+								}
+							}
 						}
 					}
 
@@ -944,6 +975,7 @@
 				margin-top: 10px;
 			}
 			.action-list {
+				display: inline-block;
 				margin-top: 10px;
 				> div {
 					display: inline-block;
@@ -1001,7 +1033,8 @@
 				.action-more {
 					font-size: 6px;
 					color: #ADAFB0;
-					vertical-align: middle;
+					position: relative;
+					top: 2px;
 					
 				}
 			}

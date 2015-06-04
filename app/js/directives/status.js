@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function statusDirective($timeout) {
+function statusDirective($timeout, $location) {
 
   return {
     scope: {
@@ -20,8 +20,32 @@ function statusDirective($timeout) {
         // execept when clicked on "Details"
         $scope.showDetail = false;
         $scope.toggleDetail = function(event) {
-            if (!(event.target.className === "link-to-tweet")) 
-                $scope.showDetail = !$scope.showDetail;
+            // Click on these tags would result in different action
+            var exceptionTags = ['link-to-tweet', 'action-list', 'name', 'external-hashtag', 'external-mention', 'images-wrapper', 'reply', 'retweet', 'favor', 'fa fa-circle', 'copy-link'];
+            var className = event.target.className;
+            var shouldToggleDetail = true;
+            exceptionTags.forEach(function (ele) {
+                if (className === ele) {
+                    shouldToggleDetail = false;
+                    return;
+                }
+            });
+
+            if (shouldToggleDetail) {
+                $scope.showDetail = !$scope.showDetail;    
+            }
+        };
+        $scope.showMoreAction = false;
+        $scope.toggleShowMoreAction = function() {
+            $scope.showMoreAction = !$scope.showMoreAction;
+        };
+
+        $scope.openSingleTweet = function(status_id) {
+            var newPath = '/tweet';
+            var queryArgs = {
+                q: 'id:' + status_id
+            };
+            $location.path(newPath).search(queryArgs);
         };
     },
     link: function(scope, element, attrs) {
@@ -36,7 +60,7 @@ function statusDirective($timeout) {
                     angular.element(value).addClass(classToAdd);
                 });
             });
-        };
+        }
         
     }
   };
