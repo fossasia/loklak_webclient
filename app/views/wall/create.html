@@ -1,184 +1,189 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <div class="content-wrapper">
-    <div class="container">
-        <section class="content-header">
-            <h1>Create a new twitter wall</h1>
-        </section>
-        <section class="content">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
-                    <li><a href="#content" data-toggle="tab">Content</a></li>
-                    <li><a href="#design" data-toggle="tab">Design</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="info">
-                        <div class="box box-warning">
-                            <div class="box-header">
-                                <h3 class="box-title">Just a few questions to get things started</h3>
-                            </div>
-                            <form role="form">
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
-                                        <input required ng-model="wallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>What day is your event?</label>
-                                        <div class="input-group dropdown">
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                            <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
-                                                <div class="input-append">
-                                                    <input type="text" class="form-control date-input" ng-model="wallOptions.date">
-                                                </div>
-                                            </a>
-                                            <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                                                <datetimepicker ng-required="true" ng-model="wallOptions.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hashtagInput">What's your main hashtag for the event? This will show prominently on your tweet wall.</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">#</span>
-                                            <input required ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="Hashtag">
-                                        </div>
-                                    </div>
+    <section class="content-header">
+        <h1>Create a new twitter wall</h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
+                        <li><a href="#content" data-toggle="tab">Content</a></li>
+                        <li><a ng-disabled="step1.$invalid" href="#design" data-toggle="tab">Design</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="info">
+                            <div class="box box-warning">
+                                <div class="box-header">
+                                    <h3 class="box-title">Just a few questions to get things started</h3>
                                 </div>
-                                <!-- /.box-body -->
-                                <div class="box-footer">
-                                    <a ng-disabled="wallOptions.eventName.$dirty || wallOptions.eventName.$invalid" ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="content">
-                        <div class="box box-warning">
-                            <div class="box-header">
-                                <h3 class="box-title">What should show up on your tweet wall?</h3>
-                            </div>
-                            <form role="form">
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="">Tweets from</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input ng-model="wallOptions.fromUser" type="text" placeholder="Enter username" class="form-control">
+                                <form name="step1" role="form">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
+                                            <input required ng-model="wallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Hashtags</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">#</span>
-                                            <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags"></tags-input>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Mentions</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions"></tags-input>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Keywords</label>
-                                        <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords"></tags-input>
-                                    </div>
-                                </div>
-                                <!-- /.box-body -->
-                                <div class="box-footer">
-                                    <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="design">
-                        <div >
-                            <div class="box-header">
-                                <h2 class="box-title">How should your tweet wall look?</h2>
-                            </div>
-                            <div class="box-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div>
-                                            <div class="box-header">
-                                                <label>Select a layout to customize</label>
+                                        <div class="form-group">
+                                            <label>What day is your event?</label>
+                                            <div class="input-group dropdown">
+                                                <span class="input-group-addon">
+                                               <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+                                                    <div class="input-append">
+                                                        <input type="text" class="form-control date-input" ng-model="wallOptions.date">
+                                                    </div>
+                                                </a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+                                                    <datetimepicker ng-required="true" ng-model="wallOptions.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                                                </ul>
                                             </div>
-                                            <div class="box-body">
-                                                <div class="row" ng-init="wallOptions.layoutStyle='1'">
-                                                    <div class="col-md-6">
-                                                        <label class="layoutRadio">
-                                                            <input ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
-                                                            <img src="images/linear-layout-thumb.jpg" alt="">
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <label class="layoutRadio">
-                                                            <input ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
-                                                            <img src="images/linear-layout-thumb.jpg" alt="">
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="layoutRadio">
-                                                            <input ng-model="wallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
-                                                            <img src="images/linear-layout-thumb.jpg" alt="">
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <label class="layoutRadio">
-                                                            <input ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
-                                                            <img src="images/linear-layout-thumb.jpg" alt="">
-                                                        </label>
-                                                    </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="hashtagInput">What's your main hashtag for the event? This will show prominently on your tweet wall.</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">#</span>
+                                                <input required ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="Hashtag">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <a ng-disabled="step1.$invalid" ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="content">
+                            <div class="box box-warning">
+                                <div class="box-header">
+                                    <h3 class="box-title">What should show up on your tweet wall?</h3>
+                                </div>
+                                <form role="form">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="">Tweets from</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">@</span>
+                                                <input ng-model="wallOptions.fromUser" type="text" placeholder="Enter username" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Hashtags</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">#</span>
+                                                <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags"></tags-input>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mentions</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">@</span>
+                                                <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions"></tags-input>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Keywords</label>
+                                            <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords"></tags-input>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="design">
+                            <div>
+                                <div class="box-header">
+                                    <h2 class="box-title">How should your tweet wall look?</h2>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div>
+                                                <div class="box-header">
+                                                    <label>Select a layout to customize</label>
                                                 </div>
-                                                <div class="row design-box">
-                                                    <div>
-                                                        <div class="box-body">
-                                                            <div class="col-md-6 form-group">
-                                                                <label>Set Header Colour</label>
-                                                                <div class="input-group">
-                                                                    <span ng-style="{'background-color':wallOptions.headerColour}" class="input-group-addon"></span>
-                                                                    <input ng-model="wallOptions.headerColour" colorpicker ng-init="wallOptions.headerColour = '#3c8dbc'" type="text" class="form-control">
+                                                <div class="box-body">
+                                                    <div class="row" ng-init="wallOptions.layoutStyle='1'">
+                                                        <div class="col-md-6">
+                                                            <label class="layoutRadio">
+                                                                <input ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
+                                                                <img src="images/linear-layout-thumb.jpg" alt="">
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="layoutRadio">
+                                                                <input ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
+                                                                <img src="images/linear-layout-thumb.jpg" alt="">
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="layoutRadio">
+                                                                <input ng-model="wallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
+                                                                <img src="images/linear-layout-thumb.jpg" alt="">
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="layoutRadio">
+                                                                <input ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
+                                                                <img src="images/linear-layout-thumb.jpg" alt="">
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row design-box">
+                                                        <div>
+                                                            <div class="box-body">
+                                                                <div class="col-md-6 form-group">
+                                                                    <label>Set Header Colour</label>
+                                                                    <div class="input-group">
+                                                                        <span ng-style="{'background-color':wallOptions.headerColour}" class="input-group-addon"></span>
+                                                                        <input ng-model="wallOptions.headerColour" colorpicker ng-init="wallOptions.headerColour = '#3c8dbc'" type="text" class="form-control">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6 form-group">
-                                                                <label>Show Header on</label>
-                                                                <select ng-init="wallOptions.headerPosition = 'Top'" ng-model="wallOptions.headerPosition" class="form-control">
-                                                                    <option>Top</option>
-                                                                    <option>Bottom</option>
-                                                                </select>
+                                                                <div class="col-md-6 form-group">
+                                                                    <label>Show Header on</label>
+                                                                    <select ng-init="wallOptions.headerPosition = 'Top'" ng-model="wallOptions.headerPosition" class="form-control">
+                                                                        <option>Top</option>
+                                                                        <option>Bottom</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="box-footer">
-                                                    <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
+                                                    <div class="box-footer">
+                                                        <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-7 wall-preview">
-                                        <div ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
-                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{wallOptions.mainHashtag}}</div>
-                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-event-name col-md-4">{{wallOptions.eventName}}</div>
-                                            <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
-                                        </div>
-                                        <div class="row">
-                                            <img class="img-responsive" src="/images/linear-layout.jpg" alt="">
+                                        <div class="col-md-8 wall-preview animate-switch-container" ng-switch on="wallOptions.headerPosition">
+                                            <div ng-switch-when="Top" ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{wallOptions.mainHashtag}}</div>
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-event-name col-md-4">{{wallOptions.eventName}}</div>
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
+                                            </div>
+                                            <div class="row">
+                                                <img class="img-responsive" src="/images/linear-layout.jpg" alt="">
+                                            </div>
+                                            <div ng-switch-when="Bottom" ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{wallOptions.mainHashtag}}</div>
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-event-name col-md-4">{{wallOptions.eventName}}</div>
+                                                <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /.box-body -->
                             </div>
-                            <!-- /.box-body -->
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 </div>

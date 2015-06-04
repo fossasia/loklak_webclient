@@ -1,8 +1,9 @@
 <div>
-    <div class="row wall-header">
-            <div class="hashtag col-md-4">{{wall.mainHashtag}}</div>
-            <div class="event-name col-md-4">{{wall.eventName}}</div>
-            <div class="banner col-md-4">Loklak</div>
+    <div ng-style="{'background-color': wall.wallOptions.headerColour} " class="row wall-header">
+        <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
+        <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="event-name col-md-4">{{wall.wallOptions.eventName}}</div>
+        <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="banner col-md-4">Loklak</div>
+        <div><i ng-style="{'color': wall.wallOptions.headerForeColour} " class="wall-settings-icon fa fa-cog fa-2x"></i></div>
     </div>
     <div class="search-container container-fluid">
         <div class="container content-container">

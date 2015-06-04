@@ -19,7 +19,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
                 b: parseInt(result[3], 16)
             } : null;
         }
-        //Selects foreground colour as black or white based on background
+    //Selects foreground colour as black or white based on background
     function colourCalculator(rgb) {
         var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
         if (o > 125) {
@@ -39,9 +39,9 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     };
 
     $scope.start = function() {
-        console.log($scope.wallOptions);
-        $location.path('/wall/display');
+        $location.path('/wall/display').search($scope.wallOptions);
     };
+
 }
 
 controllersModule.controller('WallCtrl', WallCtrl);
