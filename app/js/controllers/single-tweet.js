@@ -10,13 +10,14 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 
 	var vm = this;
-	vm.status = false;
+	vm.showStatus = false;
 	// Init result based on requested ID
 	angular.element(document).ready(function() {
 		if ($stateParams.q !== undefined) {
 			SearchService.initData($stateParams)
 				.then(function(data) {
 					vm.status = data.statuses[0];
+					checkImgLoad();	
 				}, 
 				function() {
 					console.log('status initital retrieval failed');
@@ -52,6 +53,20 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 	        w: parseInt(ngEle.css('width').replace('px', '')),
 	        h: parseInt(ngEle.css('height').replace('px', ''))
 	    };
+	}
+
+	// Show status when imgs are loaded
+	function checkImgLoad() {
+		var imgs = angular.element('.images-wrapper img');
+		if (imgs.length !== 0) {
+			forEach(imgs, function(value, key) {
+				angular.element(value).bind('load' ,function() {
+					vm.showStatus = true; 	
+				})
+			})
+		} else {
+			vm.showStatus = true;
+		}
 	}
 }
 

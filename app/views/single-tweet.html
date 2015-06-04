@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-	<div ng-if="singleTweet.status" ng-attr-id="{{singleTweet.status.id_str}}" class="single-tweet tweet">
+	<div ng-show="singleTweet.showStatus" ng-attr-id="{{singleTweet.status.id_str}}" class="single-tweet tweet">
 		<div class="top-metadata">
 			<img class="avatar" 
 				 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
