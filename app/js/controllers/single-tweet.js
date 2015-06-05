@@ -8,9 +8,9 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
-
 	var vm = this;
 	vm.showStatus = false;
+
 	// Init result based on requested ID
 	angular.element(document).ready(function() {
 		if ($stateParams.q !== undefined) {
@@ -25,6 +25,8 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 		}
 	});
 
+	// Given a stattus_id, evaluate its data and open a pswp
+	// See more pswp documentations
 	vm.openMasonry = function(status_id) {
 	    var items = [];
 	    var images  = angular.element('#' + status_id + ' .images-wrapper img');        
