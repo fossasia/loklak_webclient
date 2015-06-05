@@ -50,10 +50,15 @@
             	<div class="action-favor">
             		<button class="favor" />	
             	</div>
-            	<div class="action-more">
+            	<div class="action-more" ng-click="toggleShowMoreAction()">
             		<i class="fa fa-circle"></i>
             		<i class="fa fa-circle"></i>
             		<i class="fa fa-circle"></i>
+                <div ng-show="showMoreAction" class="more-actions">
+                    <ul>
+                        <li><a class="copy-link" data-ng-click="openSingleTweet(modalData.id_str)">Open this single tweet</a></li>
+                    </ul>
+                </div>
             	</div>
             </div>
 
