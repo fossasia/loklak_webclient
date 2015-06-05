@@ -23,7 +23,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 
-<body class="skin-blue sidebar-mini">
+<body ng-class="{'skin-blue': true, 'sidebar-mini': true, 'tweet-modal-show': root.tweetModalShow}">
     <div ng-include src="'topnav.html'"></div>
     <div ng-include src="'sidebar.html'"></div>
     <div class="wrapper" ui-view></div>
