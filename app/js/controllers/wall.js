@@ -30,6 +30,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     }
 
     $scope.$watch('wallOptions.headerColour', function() {
+        if($scope.wallOptions)
         $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
     });
 
