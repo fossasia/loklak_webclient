@@ -359,6 +359,8 @@
 		background: rgba(0,0,0,0);
 		transition: all 0.5s ease-in-out;
 		.tweet {
+			min-width: 30%;
+			border-radius: 6px;
 			position: absolute;
 			top: 50%;
 			left: 50%;
