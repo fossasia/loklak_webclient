@@ -48,6 +48,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'SingleTweetCtrl as singleTweet',
     templateUrl: 'single-tweet.html',
     title: 'Tweet'
+  })
+  .state('Map', {
+    url: '/map',
+    templateUrl: 'map/tweetmap.html',
+    controller: 'MapCtrl as map',
+    title: 'Tweet Map'
   });
 
   $urlRouterProvider.otherwise('/');
