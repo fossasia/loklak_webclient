@@ -1,8 +1,8 @@
 <div ng-attr-id="{{data.id_str}}" ng-click="toggleDetail($event)" class="tweet tweet-simple">
-    <img class="avatar" 
-    	 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
+    <img fallback-status-id="{{data.id_str}}" class="avatar" 
+         fallback-src="/images/anon_200x200.png"
     	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-
+         
     <div class="tweet-content">
 
     	<!-- Metadata -->
