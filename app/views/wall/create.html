@@ -26,7 +26,7 @@
                                             <input required ng-model="wallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
                                         </div>
                                         <div class="form-group">
-                                            <label>What day is your event?</label>
+                                            <label>Show tweets within this period:</label>
                                             <div class="input-group dropdown">
                                                 <span class="input-group-addon">
                                                <span class="glyphicon glyphicon-calendar"></span>
@@ -51,7 +51,7 @@
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <a ng-disabled="step1.$invalid" ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
+                                        <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
                                     </div>
                                 </form>
                             </div>
@@ -59,7 +59,7 @@
                         <div class="tab-pane" id="content">
                             <div class="box box-warning">
                                 <div class="box-header">
-                                    <h3 class="box-title">What should show up on your tweet wall?</h3>
+                                    <h3 class="box-title">What should show up on your tweet wall? (Still in development)</h3>
                                 </div>
                                 <form role="form">
                                     <div class="box-body">
@@ -74,19 +74,19 @@
                                             <label>Hashtags</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">#</span>
-                                                <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags"></tags-input>
+                                                <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags and hit enter"></tags-input>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Mentions</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">@</span>
-                                                <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions"></tags-input>
+                                                <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions and hit enter"></tags-input>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Keywords</label>
-                                            <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords"></tags-input>
+                                            <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords and hit enter"></tags-input>
                                         </div>
                                     </div>
                                     <!-- /.box-body -->
