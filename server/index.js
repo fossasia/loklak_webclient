@@ -65,6 +65,7 @@ app.get('/account', ensureAuthenticated, function(req, res) {
     userObject['source_type'] = "TWITTER";
     var requestJSON = JSON.stringify(userObject);
     request('http://localhost:9100/api/account.json?action=update&data=' + requestJSON, function (error, response, body) {
+        console.log(requestJSON);
       if (!error && response.statusCode == 200) {
         res.render('index');
       }
