@@ -47,8 +47,8 @@ passport.use(new TwitterStrategy({
     },
     function(token, tokenSecret, profile, done) {
         process.nextTick(function() {
-            console.log(token);
-            console.log(tokenSecret);
+        	console.log(token);
+        	console.log(tokenSecret);
             profile.oauth_token = token;
             profile.oauth_token_secret = tokenSecret;
             return done(null, profile);
@@ -66,13 +66,16 @@ app.get('/account', ensureAuthenticated, function(req, res) {
     var requestJSON = JSON.stringify(userObject);
     request('http://localhost:9100/api/account.json?action=update&data=' + requestJSON, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body);
         res.render('index');
+      }
+      else {
+      	console.log("The user was not saved in loklak_server. Handle this error");
+      	res.render('index');
       }
     })
 });
 app.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
-    req.logout();
+
 });
 app.get('/auth/twitter/callback', passport.authenticate('twitter', {
     failureRedirect: ''
@@ -81,12 +84,11 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 });
 
 app.post('/newTweet', ensureAuthenticated, function(req, res) {
-    console.log(req.body.tweetbody);
     var client = new Twitter({
         consumer_key: config.twitterConsumerKey,
         consumer_secret: config.twitterConsumerSecret,
-        access_token_key: req.user.token,
-        access_token_secret: req.user.tokenSecret
+        access_token_key: req.user.oauth_token,
+        access_token_secret: req.user.oauth_token_secret
     });
     client.post('statuses/update', {
         status: req.body.tweetbody
@@ -94,7 +96,6 @@ app.post('/newTweet', ensureAuthenticated, function(req, res) {
         if (error) {
             res.send(error)
         };
-        console.log(tweet); // Tweet body. 
         res.send(response); // Raw response object. 
     });
 })
