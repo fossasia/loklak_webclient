@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title ng-bind="root.pageTitle"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -23,12 +24,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 
-<body ng-class="{'skin-blue': true, 'sidebar-mini': true, 'tweet-modal-show': root.tweetModalShow}">
-    <div ng-include src="'topnav.html'"></div>
-    <div ng-include src="'sidebar.html'"></div>
-    <div class="wrapper" ui-view></div>
-    <div ng-include src="'pswp.html'"></div>
-    <div ng-include src="'controlsidebar.html'"></div>
+<body ng-class="root.sidebarEnabled? 'skin-blue fixed sidebar-mini': 'skin-blue layout-top-nav'">
+    <div class="wrapper">
+        <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
+        <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
+        <div ui-view></div>
+        <div ng-include src="'pswp.html'"></div>
+        <div ng-include ng-if="root.fullscreenDisabled" src="'controlsidebar.html'"></div>
+    </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"></script>
     <script src="js/main.js"></script>
