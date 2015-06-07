@@ -1,74 +1,80 @@
 <div ng-attr-id="{{data.id_str}}" ng-click="toggleDetail($event)" class="tweet tweet-simple">
+
+    <!-- Avatar with a fallback src -->
     <img fallback-status-id="data.user.screen_name" class="avatar" 
          fallback-src="/images/anon_200x200.png"
     	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
 
-    <div class="tweet-content">
+    <!-- Main content -->
+        <div class="tweet-content">
 
-    	<!-- Metadata -->
-        <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
-        <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-        <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
+        	<!-- Metadata -->
+                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
+                <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
+            <!-- End of metadata -->
 
-        <!-- Main content -->
-        <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
+            <!-- Text -->
+            <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
-        <!-- Images - 1 img -->
-        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
-                <div class="single-masonry-item" ng-repeat="image in data.images">
-                    <img ng-src="{{image}}" alt="A masonry brick">
+            <div debugged-link link-container="data.text"></div>
+
+            <!-- Images -->
+                <!-- Images - 1 img -->
+                <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
+                        <div class="single-masonry-item" ng-repeat="image in data.images">
+                            <img ng-src="{{image}}" alt="A masonry brick">
+                        </div>
                 </div>
-        </div>
-        <!-- Images - 2 imgs -->
-        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 2">
-                <div class="double-masonry-item" ng-repeat="image in data.images">
-                    <img ng-src="{{image}}" alt="A masonry brick">
+                <!-- Images - 2 imgs -->
+                <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 2">
+                        <div class="double-masonry-item" ng-repeat="image in data.images">
+                            <img ng-src="{{image}}" alt="A masonry brick">
+                        </div>
                 </div>
-        </div>
-        <!-- Images - 3 imgs -->
-        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 3">
-                <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images">
-                    <img ng-src="{{image}}" alt="A masonry brick">
+                <!-- Images - 3 imgs -->
+                <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 3">
+                        <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images">
+                            <img ng-src="{{image}}" alt="A masonry brick">
+                        </div>
                 </div>
-        </div>
-        <!-- Images - 4 imgs -->
-        <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 4">
-                <div class="quad-masonry-item" ng-repeat="image in data.images">
-                    <img ng-src="{{image}}" alt="A masonry brick">
+                <!-- Images - 4 imgs -->
+                <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 4">
+                        <div class="quad-masonry-item" ng-repeat="image in data.images">
+                            <img ng-src="{{image}}" alt="A masonry brick">
+                        </div>
                 </div>
-        </div>
+            <!-- End of images -->
 
-
-        <!-- Hidden detailed metadata -->
-
-        <div ng-show="showDetail" class="detail-metadata">
-            <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
-            <span class="link-to-tweet" data-ng-click="showModal(data)">Details</span>
-        </div>
-
-
-        <div class="action-list">
-        	<div class="action-reply">
-        		<button class="reply" />
-        	</div>
-        	<div class="action-retweet">
-        		<button class="retweet" />	
-        	</div>
-        	<div class="action-favor">
-        		<button class="favor" />	
-        	</div>
-        	<div ng-click="toggleShowMoreAction()" class="action-more">
-        		<i class="fa fa-circle"></i>
-        		<i class="fa fa-circle"></i>
-        		<i class="fa fa-circle"></i>
-                <div ng-show="showMoreAction" class="more-actions">
-                    <ul>
-                        <li><a class="copy-link" data-ng-click="openSingleTweet(data.id_str)">Open this single tweet</a></li>
-                    </ul>
+            <!-- Hidden detailed metadata -->
+                <div ng-show="showDetail" class="detail-metadata">
+                    <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+                    <span class="link-to-tweet" data-ng-click="showModal(data)">Details</span>
                 </div>
-        	</div>
-        </div>
 
-        
-    </div>
+
+                <div class="action-list">
+                	<div class="action-reply">
+                		<button class="reply" />
+                	</div>
+                	<div class="action-retweet">
+                		<button class="retweet" />	
+                	</div>
+                	<div class="action-favor">
+                		<button class="favor" />	
+                	</div>
+                	<div ng-click="toggleShowMoreAction()" class="action-more">
+                		<i class="fa fa-circle"></i>
+                		<i class="fa fa-circle"></i>
+                		<i class="fa fa-circle"></i>
+                        <div ng-show="showMoreAction" class="more-actions">
+                            <ul>
+                                <li><a class="copy-link" data-ng-click="openSingleTweet(data.id_str)">Open this single tweet</a></li>
+                            </ul>
+                        </div>
+                	</div>
+                </div>
+            <!-- End of hidden detailed metadata -->       
+        </div>
+    <!-- End of main content -->
 </div>
