@@ -18,6 +18,7 @@ function statusDirective($timeout, $location) {
     controller: function($scope, $element) {
         $scope.showDetail = false;
         $scope.showMoreAction = false;
+        $scope.debuggable = true;
 
         /**
          * Click on a certain area of a status will toggle/expand it

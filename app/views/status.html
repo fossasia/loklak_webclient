@@ -17,9 +17,10 @@
             <!-- Text -->
             <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
-            <div class="debugged-link-container" debugged-link link-array="data.links"></div>
+            <div class="debugged-link-container" debugged-link link-array="data.links" debuggable="debuggable"></div>
 
             <!-- Images -->
+            <div class="status-images-container" ng-show="!debuggable">
                 <!-- Images - 1 img -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
                         <div class="single-masonry-item" ng-repeat="image in data.images">
@@ -44,6 +45,7 @@
                             <img ng-src="{{image}}" alt="A masonry brick">
                         </div>
                 </div>
+            </div>
             <!-- End of images -->
 
             <!-- Hidden detailed metadata -->

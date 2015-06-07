@@ -19,48 +19,71 @@ Also filter the tweet-content-text to remove the link when success
 var directivesModule = require('./_index.js');
 
 function debuggedLinkDirective(DebugLinkService) {
+
+	/*
+	 * In short if the return debugged data type is 'link'
+	 * Meaning no videos, or complicated iframe
+	 * Render a simple preview of the link
+	 * only when a thumbnail is available
+	 */
+
+	var generateArticleParts = function(data) {
+		if (!data.thumbnail_url) {
+			return '';
+		}
+
+		var author = (data.author && data.provider_name) ? '<a href="' + data.url + '" class="article-author">' + data.provider_name + ' - ' + data.author + '</a href="' + data.url + '">' : '';
+		var title = (data.title) ? '<a href="' + data.url + '" class="article-title">' + data.title  + '</a href="' + data.url + '">' : '';
+		var thumbnail = '<a href="' + data.url + '" class="article-img-container"><img src="' + data.thumbnail_url + '"></a href="' + data.url + '">';
+		var container = '<div class="article-container" href="' + data.url + '">';
+
+		return container + author + thumbnail + title + '</div>';
+	};
+
 	return {
 		restrict: 'A',
 		scope: {
 			linkArray: "=",
+			debuggable: "=",
 		},
 		controller: function($scope) {
 			$scope.debuggable = false;
-			$scope.debuggedContent = "foo";
 		},
 		templateUrl: 'debugged-link.html',
 		link: function(scope, element, attrs) {	
+			/**
+			 * Take the embeded link 
+			 *     Pic.twitter.com is already render in images and is not processed again
+			 * Debug the link with injected service
+			 * If return data is rich content [video], embed straigtfoward
+			 * Else, generate a debugged modal for the link an embed it
+			 * If result of debugged contains video, or thumbnail images, photos should be hidden
+			 * 
+			 */
 			var undebuggedLink = scope.linkArray[0];
-			if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
-				console.log(undebuggedLink);
 
-				// Use iFramely if instagram
-				if (undebuggedLink.indexOf("instagram.com") > -1) {
-					DebugLinkService.debugLink(undebuggedLink)
-					.then(function(data) {
-						console.log(data);
+			if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
+
+				DebugLinkService.debugLink(undebuggedLink)
+				.then(
+					function(data) {
 						if (data !== "Page not found") {
 							scope.debuggable = true;
-							element.append(data.html);
-							// Else process article here
+							if (data.type == "link") {
+								var template = generateArticleParts(data);
+								if (template !== '') {
+									scope.debuggable = true;
+									element.append(template);
+								}
+							} else {
+								scope.debuggable = true;
+								element.append(data.html);
+							}
 						}
 					}, function(data) {
 						return;
-					});
-				} else {
-				// Use oEmbed for others
-					DebugLinkService.debugLinkIframely(undebuggedLink)
-					.then(function(data) {
-						if (data !== "Page not found") {
-							scope.debuggable = true;
-							if (data.links[0].html) {
-								element.append(data.links[0].html);	
-							}
-						}			
-					}, function(data) {
-						return;
-					});
-				}
+					}
+				);
 			}
 		}
 	};

@@ -971,6 +971,31 @@
 				.debugged-link-container {
 					max-height: 700px;
 					overflow: hidden;
+					.article-container {
+						> a {
+							display: block;
+						}
+						display: block;
+						.article-img-container {
+							width: 100%;
+							max-height: 285px;
+							overflow: hidden;
+							img {
+								width: 100%;
+								margin: 10px 0;
+							}
+						}
+						.article-title, .article-author {
+							margin-top: 10px;
+							color: black;
+							font-size: 15px;
+							text-transform: capitalize;
+						}
+						.article-author {
+							font-weight: 600;
+							margin: 10px 0;
+						}
+					}
 				}
 			}
 		}
