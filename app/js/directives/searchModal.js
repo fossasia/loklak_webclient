@@ -54,4 +54,4 @@ function searchModalDirective($location) {
 
 }
 
-directivesModule.directive('searchModal', searchModalDirective);
+directivesModule.directive('searchModal', ['$location', searchModalDirective]);

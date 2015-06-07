@@ -30,4 +30,4 @@ function StatisticsService($q, $http, AppSettings) {
 
 }
 
-servicesModule.service('StatisticsService', StatisticsService);
+servicesModule.service('StatisticsService',['$q', '$http', 'AppSettings', StatisticsService]);

@@ -43,4 +43,4 @@ function histogramDirective($window) {
 
 }
 
-directivesModule.directive('barchart', histogramDirective);
+directivesModule.directive('barchart', ['$window', histogramDirective]);

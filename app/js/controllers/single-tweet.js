@@ -72,4 +72,4 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 	}
 }
 
-controllersModule.controller('SingleTweetCtrl', SingleTweetCtrl);
+controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$stateParams', 'SearchService', SingleTweetCtrl]);

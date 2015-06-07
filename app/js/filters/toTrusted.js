@@ -9,8 +9,8 @@ var filtersModule = require('./_index.js');
 function toTrustedFilter($sce) {
 	return function(input) {
 		 return $sce.trustAsHtml(input);
-	}
+	};
 }
 
 
-filtersModule.filter('toTrusted', toTrustedFilter);
+filtersModule.filter('toTrusted', ['$sce', toTrustedFilter]);
