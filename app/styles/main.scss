@@ -642,7 +642,7 @@ body {
 }
 
 .wall-header {
-    min-height: 80px;
+    min-height: 100px;
     background-color: #3c8dbc;
     display: flex;
     flex-direction: row;
@@ -658,4 +658,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.wall-body {
+    min-height:100% !important;
+}
+.wall-footer {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 42;
 }

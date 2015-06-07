@@ -88,7 +88,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.update = function(refreshTime) {
         return $timeout(function() {
-            SearchService.getData(vm.searchQuery).then(function(data) {
+            SearchService.getData(vm.wallOptions.mainHashtag).then(function(data) {
                 //console.log(data);
                 //alert("wohoo");
                 if (data.statuses) {

@@ -33,11 +33,11 @@
                                                 </span>
                                                 <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
                                                     <div class="input-append">
-                                                        <input type="text" class="form-control date-input" ng-model="wallOptions.date">
+                                                        <input disabled type="text" class="form-control date-input" ng-model="wallOptions.date">
                                                     </div>
                                                 </a>
                                                 <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                                                    <datetimepicker ng-required="true" ng-model="wallOptions.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                                                    <datetimepicker ng-model="wallOptions.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
                                                 </ul>
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                             <label for="hashtagInput">What's your main hashtag for the event? This will show prominently on your tweet wall.</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">#</span>
-                                                <input required ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="Hashtag">
+                                                <input required ng-model="wallOptions.mainHashtag" type="text" class="form-control" id="hashtagInput" placeholder="loklak">
                                             </div>
                                         </div>
                                     </div>
@@ -67,26 +67,26 @@
                                             <label for="">Tweets from</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">@</span>
-                                                <input ng-model="wallOptions.fromUser" type="text" placeholder="Enter username" class="form-control">
+                                                <input disabled ng-model="wallOptions.fromUser" type="text" placeholder="Enter username" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Hashtags</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">#</span>
-                                                <tags-input ng-model="wallOptions.hashtags" placeholder="Add tags and hit enter"></tags-input>
+                                                <tags-input disabled ng-model="wallOptions.hashtags" placeholder="Add tags and hit enter"></tags-input>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Mentions</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">@</span>
-                                                <tags-input ng-model="wallOptions.mentions" placeholder="Add mentions and hit enter"></tags-input>
+                                                <tags-input disabled ng-model="wallOptions.mentions" placeholder="Add mentions and hit enter"></tags-input>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Keywords</label>
-                                            <tags-input ng-model="wallOptions.keywords" placeholder="Add keywords and hit enter"></tags-input>
+                                            <tags-input disabled ng-model="wallOptions.keywords" placeholder="Add keywords and hit enter"></tags-input>
                                         </div>
                                     </div>
                                     <!-- /.box-body -->
@@ -106,31 +106,31 @@
                                         <div class="col-md-4">
                                             <div>
                                                 <div class="box-header">
-                                                    <label>Select a layout to customize</label>
+                                                    <label>Select a layout to customize (Only layout #1 available for now)</label>
                                                 </div>
                                                 <div class="box-body">
                                                     <div class="row" ng-init="wallOptions.layoutStyle='1'">
                                                         <div class="col-md-6">
                                                             <label class="layoutRadio">
-                                                                <input ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
+                                                                <input disabled ng-model="wallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
                                                                 <img src="images/linear-layout-thumb.jpg" alt="">
                                                             </label>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="layoutRadio">
-                                                                <input ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
+                                                                <input disabled ng-model="wallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
                                                                 <img src="images/linear-layout-thumb.jpg" alt="">
                                                             </label>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="layoutRadio">
-                                                                <input ng-model="wallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
+                                                                <input disabled ng-model="wallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
                                                                 <img src="images/linear-layout-thumb.jpg" alt="">
                                                             </label>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="layoutRadio">
-                                                                <input ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
+                                                                <input disabled ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
                                                                 <img src="images/linear-layout-thumb.jpg" alt="">
                                                             </label>
                                                         </div>
@@ -156,7 +156,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="box-footer">
-                                                        <a ng-click="start()" type="submit" class="btn btn-primary">Start my twitter wall!</a>
+                                                        <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start my twitter wall!</a>
                                                     </div>
                                                 </div>
                                             </div>
