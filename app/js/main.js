@@ -15,6 +15,7 @@ require('./directives/_index');
 require('./components/_index');
 require('./filters/_index');
 
+
 // create and bootstrap application
 angular.element(document).ready(function() {
 
