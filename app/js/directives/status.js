@@ -88,4 +88,4 @@ function statusDirective($timeout, $location) {
 
 }
 
-directivesModule.directive('status', statusDirective);
+directivesModule.directive('status', ['$timeout', '$location', statusDirective]);

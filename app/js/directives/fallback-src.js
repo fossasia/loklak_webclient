@@ -32,4 +32,4 @@ function fallbackSrcDirective(SearchService) {
 }
 
 
-directivesModule.directive('fallbackSrc', fallbackSrcDirective);
+directivesModule.directive('fallbackSrc', ['SearchService', fallbackSrcDirective]);

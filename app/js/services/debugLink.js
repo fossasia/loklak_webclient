@@ -46,4 +46,4 @@ function DebugLinkService($q, $http) {
 
 }
 
-servicesModule.service('DebugLinkService', DebugLinkService);
+servicesModule.service('DebugLinkService',['$q', '$http', DebugLinkService]);

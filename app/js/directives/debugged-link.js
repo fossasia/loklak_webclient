@@ -90,4 +90,4 @@ function debuggedLinkDirective(DebugLinkService) {
 }
 
 
-directivesModule.directive('debuggedLink', debuggedLinkDirective);
+directivesModule.directive('debuggedLink', ['DebugLinkService', debuggedLinkDirective]);

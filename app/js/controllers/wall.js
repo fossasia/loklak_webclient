@@ -12,4 +12,4 @@ function WallCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings,
     var vm = this;
 }
 
-controllersModule.controller('WallCtrl', WallCtrl);
+controllersModule.controller('WallCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', WallCtrl]);

@@ -54,4 +54,4 @@ function SearchService($q, $http, AppSettings) {
 
 }
 
-servicesModule.service('SearchService', SearchService);
+servicesModule.service('SearchService',['$q', '$http', 'AppSettings', SearchService]);
