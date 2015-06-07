@@ -118,4 +118,4 @@ function SearchCtrl($scope, $rootScope, $stateParams, $timeout, $location, $http
 
 }
 
-controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', SearchCtrl]);
+controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', SearchCtrl]);
