@@ -50,24 +50,6 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
-  service.debugLink = function(linkHref) {
-    var deferred = $q.defer();
-    var debugApiUrl = 'http://api.embed.ly/1/oembed?';
-    $http.jsonp(debugApiUrl, {
-      params: {
-        key: 'f62eb52b53da4353843eed37c1e977fd',
-        url: linkHref
-      }
-    }).success(function(data) {
-        deferred.resolve(data);
-    }).error(function(err, status) {
-        deferred.reject(err, status);
-    });
-
-    return deferred.promise;
-  };
-
-
   return service;
 
 }

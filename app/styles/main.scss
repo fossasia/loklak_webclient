@@ -968,6 +968,10 @@
 						display: inline-block;
 					}
 				}
+				.debugged-link-container {
+					max-height: 700px;
+					overflow: hidden;
+				}
 			}
 		}
 	}

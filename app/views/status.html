@@ -17,7 +17,7 @@
             <!-- Text -->
             <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
 
-            <div debugged-link link-container="data.text"></div>
+            <div class="debugged-link-container" debugged-link link-array="data.links"></div>
 
             <!-- Images -->
                 <!-- Images - 1 img -->
