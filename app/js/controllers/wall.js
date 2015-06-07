@@ -45,4 +45,4 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 
 }
 
-controllersModule.controller('WallCtrl', WallCtrl);
+controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallCtrl]);

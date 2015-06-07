@@ -40,4 +40,4 @@ function WallService($q, $http, AppSettings) {
 	return service;
 }
 
-servicesModule.service('WallService', WallService);
+servicesModule.service('WallService',['$q', '$http', 'AppSettings', WallService]);
