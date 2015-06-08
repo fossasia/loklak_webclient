@@ -134,4 +134,4 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
 }
 
-controllersModule.controller('WallDisplay', WallDisplay);
+controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallDisplay]);
