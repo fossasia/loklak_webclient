@@ -1,0 +1,15 @@
+<div>
+    <div ng-style="{'background-color': wall.wallOptions.headerColour}" ng-class="wall.wallOptions.headerPosition=='Bottom'? 'row wall-header wall-footer' : 'row wall-header' ">
+        <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
+        <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="event-name col-md-4">{{wall.wallOptions.eventName}}</div>
+        <div class="banner col-md-4"><a ng-style="{'color': wall.wallOptions.headerForeColour} "  href="/">Powered by Loklak</a></div>
+    </div>
+    <div class="wall-container container-fluid">
+        <div class="container content-container wall-body">
+            <div class="result-container col-md-8">
+                <div class="animate-repeat"  ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

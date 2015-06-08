@@ -5,15 +5,17 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function SearchService($q, $http, AppSettings) {
+function DebugLinkService($q, $http) {
 
   var service = {};
 
-  service.getData = function(term) {
+  service.debugLink = function(undebuggedLink) {
     var deferred = $q.defer();
-
-    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q: term}
+    var debugApiUrl = 'http://gofullstack.me:8061/oembed';
+    $http.get(debugApiUrl, {
+      params: {
+        url: undebuggedLink,
+      }
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -23,11 +25,13 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
-  service.initData = function(paramsObj) {
+  service.debugLinkIframely = function(undebuggedLink) {
     var deferred = $q.defer();
-    paramsObj.q = decodeURIComponent(paramsObj.q);
-    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: paramsObj
+    var debugApiUrl = 'http://gofullstack.me:8061/iframely';
+    $http.get(debugApiUrl, {
+      params: {
+        url: undebuggedLink,
+      }
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -36,9 +40,10 @@ function SearchService($q, $http, AppSettings) {
 
     return deferred.promise;
   };
+
 
   return service;
 
 }
 
-servicesModule.service('SearchService',['$q', '$http', 'AppSettings', SearchService]);
+servicesModule.service('DebugLinkService',['$q', '$http', DebugLinkService]);

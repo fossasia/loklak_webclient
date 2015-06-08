@@ -6,4 +6,4 @@ function AboutCtrl($http, AppSettings, SearchService) { // jshint ignore:line
   
 }
 
-controllersModule.controller('AboutCtrl', AboutCtrl);
+controllersModule.controller('AboutCtrl', ['$http', 'AppSettings', 'SearchService', AboutCtrl]);
