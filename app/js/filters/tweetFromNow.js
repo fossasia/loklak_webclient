@@ -19,19 +19,21 @@ function tweetFromNowFilter() {
 
     // Availables formats: 10s, 20m, 23h
     // 24 May 2014 [ealier years], May 24 [same year]
-    if (difference < 60) 
+    if (difference < 60) {
       return parseInt(difference) + 's';
-    if (difference < 60 * 60)
+    }
+    if (difference < 60 * 60) {
       return parseInt(difference/60) + 'm';
-    if (difference < 24 * 60 * 60)
+    }
+    if (difference < 24 * 60 * 60) {
       return parseInt(difference/60/60) + 'h';
-    if (currentTime.getFullYear() !== evalTime.getFullYear())
-      return evalTime.getDate()  
-             + ' ' + evalMonth
-             + ' ' + evalTime.getFullYear();
+    }
+    if (currentTime.getFullYear() !== evalTime.getFullYear()) {
+      return evalTime.getDate()  + ' ' + evalMonth + ' ' + evalTime.getFullYear();
+    }
 
     return evalMonth + ' ' + evalTime.getDate();
-  }
+  };
   
 }
 
