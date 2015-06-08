@@ -23,7 +23,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 
-<body class="skin-blue" onload="getLocation()">
+<body class="skin-blue">
 	<!-- Main Header -->
 	<header class="main-header">
 
@@ -223,13 +223,11 @@
 				<h2>Feel like telling the world about something ? Why not start here ?</h2>
 				<h3>Share your tweet !! </h3>
 				<h3>We are planning to support you to post as many words as you want to twitter ! Support us on <a href="https://github.com/loklak">Github</a></h3>
-				<form action="/newTweet" method="POST">
+				<form action="/mediaTweet" method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<div class="row">
 							<div class="col-lg-10">
-								<input type="text" name="tweetbody" class="form-control" style="margin-right:2px;" maxlength="140">
-								<input type="text" name="latitude" id="latitude" class="form-control" style="margin-right:2px;" maxlength="140">
-								<input type="text" name="longitude" id="longitude" class="form-control" style="margin-right:2px;" maxlength="140">
+								<input type="file" name="tweetimage" class="form-control" style="margin-right:2px;" maxlength="140">
 							</div>
 							<div class="col-lg-2" class="pull-left">
 								<input class="btn btn-info btn-flat" type="submit" value="Tweet !"></input>
@@ -241,21 +239,4 @@
 		</div>
 	</div>
 </body>
-<script>
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
-function showPosition(position) {
-	var latitude = position.coords.latitude;
-	var longitude = position.coords.longitude;
-	document.getElementById('latitude').value = latitude;
-	document.getElementById('longitude').value = longitude;
-    console.log("Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude);
-}
-</script>
 </html>

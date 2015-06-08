@@ -91,12 +91,35 @@ app.post('/newTweet', ensureAuthenticated, function(req, res) {
         access_token_key: req.user.oauth_token,
         access_token_secret: req.user.oauth_token_secret
     });
+    console.log(req.body.latitude);
+    console.log(req.body.longitude);
+    console.log(req.body.tweetbody);
     client.post('statuses/update', {
-        status: req.body.tweetbody
+        status: req.body.tweetbody,
+        lat : req.body.latitude,
+        long : req.body.longitude
     }, function(error, tweet, response) {
         if (error) {
             res.send(error)
         };
+        res.send(response); // Raw response object. 
+    });
+})
+
+app.post('/mediaTweet', ensureAuthenticated, function(req, res) {
+    var client = new Twitter({
+        consumer_key: config.twitterConsumerKey,
+        consumer_secret: config.twitterConsumerSecret,
+        access_token_key: req.user.oauth_token,
+        access_token_secret: req.user.oauth_token_secret
+    });
+    client.post('media/upload', {
+        media: req.body.tweetimage
+    }, function(error, tweet, response) {
+        if (error) {
+            res.send(error)
+        };
+        console.log(response);
         res.send(response); // Raw response object. 
     });
 })
@@ -119,6 +142,11 @@ function ensureAuthenticated(req, res, next) {
 
 //this should always be after all the express routes have been declared.
 //it serves the angular app
+
+app.get('/postTweet', ensureAuthenticated, function(req, res) {
+    res.render('tweet');
+});
+
 app.get('*', function(req, res) {
     res.sendFile('index.html', {
         root: require('path').resolve('.', 'build')
