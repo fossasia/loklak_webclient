@@ -1,24 +1,8 @@
-'use strict';
-/* global angular */
 
-var controllersModule = require('./_index');
-//var Leaflet = require('angular-leaflet-directive');
-var Leaflet = require('../components/leaflet');
-var LeafletTweet = require('../components/tweet');
-/**
- * @ngInject
- */
-function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
-	var map = L.map('map').setView([39.74739, -105], 13);
 
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-20v6611k'
-		}).addTo(map);
-		var tweets = {
+
+
+var tweet = {
     "type": "FeatureCollection",
     "features": [
         {
@@ -31,7 +15,7 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
             },
             "type": "Feature",
             "properties": {
-                "popupContent": "Hi I am the first Tweet to Pop Up. Many others to follow!!"
+                "tweetContent": "Hi I am the first Tweet to Pop Up. Many others to follow!!"
             },
             "id": 51
         },
@@ -45,7 +29,7 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
             },
             "type": "Feature",
             "properties": {
-                "popupContent": "Cool! I am the second Tweet.Currently we are being plotted from a locally hosted geoJSON.Soon.."
+                "tweetContent": "Cool! I am the second Tweet.Currently we are being plotted from a locally hosted geoJSON.Soon.."
             },
             "id": 52
         },
@@ -107,42 +91,4 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
         }
     ]
 };
-		
 
-		function onEachFeature(feature, layer) {
-			
-			if (feature.properties && feature.properties.popupContent) {
-				var popupContent = feature.properties.popupContent;
-			}
-
-			layer.bindPopup(popupContent);
-		}
-
-		L.geoJson([tweets], {
-
-			style: function (feature) {
-				return feature.properties && feature.properties.style;
-			},
-
-			onEachFeature: onEachFeature,
-
-			pointToLayer: function (feature, latlng) {
-				return L.circleMarker(latlng, {
-					radius: 8,
-					fillColor: "#ff7800",
-					color: "#000",
-					weight: 1,
-					opacity: 1,
-					fillOpacity: 0.8
-				});
-			}
-		}).addTo(map);
-
-
-		
-
-
-
-}
-
-controllersModule.controller('MapCtrl', MapCtrl);
