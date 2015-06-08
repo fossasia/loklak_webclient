@@ -37,6 +37,14 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'WallCtrl as wall',
     title: 'Wall'
   })
+  .state('WallDisplay', {
+    url: '/wall/display',
+    templateUrl: 'wall/display.html',
+    controller: 'WallDisplay as wall',
+    title: 'Wall',
+    onEnter: function($rootScope){$rootScope.root.fullscreenDisabled=false;},
+    onExit: function($rootScope){$rootScope.root.fullscreenDisabled=true;}
+  })
   .state('Statistics', {
     url: '/statistics?q&since&until',
     controller: 'StatisticsCtrl as statistics',
@@ -48,6 +56,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'SingleTweetCtrl as singleTweet',
     templateUrl: 'single-tweet.html',
     title: 'Tweet'
+  })
+  .state('Map', {
+    url: '/map',
+    templateUrl: 'map/tweetmap.html',
+    controller: 'MapCtrl as map',
+    title: 'Tweet Map'
   });
 
   $urlRouterProvider.otherwise('/');

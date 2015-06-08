@@ -1,5 +1,5 @@
 {
-	"apiUrl": "http://localhost:9100/api/",
+	"apiUrl": "http://localhost:9000/api/",
 	"domain": "http://localhost:3001",
 	"twitterConsumerKey": "<KEY HERE>",
 	"twitterConsumerSecret": "<KEY HERE>",
