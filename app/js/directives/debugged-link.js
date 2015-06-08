@@ -13,7 +13,6 @@ When done, implement (or get help) locally the oembed server.
 Also filter the tweet-content-text to remove the link when success
 */
 
-
 'use strict';
 
 var directivesModule = require('./_index.js');
