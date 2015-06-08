@@ -4,7 +4,7 @@
 var controllersModule = require('./_index');
 //var Leaflet = require('angular-leaflet-directive');
 var Leaflet = require('../components/leaflet');
-var LeafletTweet = require('../components/tweet');
+
 /**
  * @ngInject
  */
