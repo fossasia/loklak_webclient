@@ -14,16 +14,6 @@ function OnRun($rootScope, AppSettings) {
   			'link' : '/',
         'icon' : 'fa fa-home'
   		},
-  		{
-  			'title': 'About',
-  			'link' : '/about',
-        'icon' : 'fa fa-info-circle'
-  		},
-  		{
-  			'title': 'Search',
-  			'link' : '/search',
-        'icon' : 'fa fa-search'
-  		},
       {
         'title': 'Wall',
         'link' : '/wall',
