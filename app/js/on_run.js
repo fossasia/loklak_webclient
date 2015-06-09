@@ -12,22 +12,17 @@ function OnRun($rootScope, AppSettings) {
   		{
   			'title': 'Home',
   			'link' : '/',
-        'icon' : 'home'
-  		},
-  		{
-  			'title': 'About',
-  			'link' : '/about',
-        'icon' : 'info-circle'
-  		},
-  		{
-  			'title': 'Search',
-  			'link' : '/search',
-        'icon' : 'search'
+        'icon' : 'fa fa-home'
   		},
       {
         'title': 'Wall',
         'link' : '/wall/create',
-        'icon' : 'tasks'
+        'icon' : 'fa fa-list'
+      },
+      {
+        'title': 'Maps',
+        'link' : '/map',
+        'icon' : 'fa fa-map-marker'
       }
 	  ];
 
