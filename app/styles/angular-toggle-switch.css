@@ -1,0 +1,73 @@
+.toggle-switch {
+    border: 1px solid;
+    cursor: pointer;
+    display: inline-block;
+    text-align: left;
+    overflow: hidden;
+    line-height: 8px;
+    min-width: 100px;
+}
+
+.toggle-switch.disabled > div > span.knob {
+    background: #AAA;
+}
+
+.toggle-switch span {
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    height: 100%;
+    line-height: 20px;
+    padding: 4px;
+    text-align: center;
+    width: 33%;
+    white-space: nowrap;
+
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.toggle-switch > div {
+    position: relative;
+    width: 150%;
+}
+
+.toggle-switch .knob {
+    background: red;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #f5f5f5;
+    width: 34%;
+    z-index: 100;
+}
+
+.toggle-switch .switch-on {
+    left: 0%;
+}
+
+.toggle-switch .switch-off {
+    left: -50%
+}
+
+.toggle-switch .switch-left, .toggle-switch .switch-right {
+    z-index: 1;
+}
+
+.toggle-switch .switch-left {
+    color: #fff;
+    background: #005fcc;
+}
+
+.toggle-switch .switch-right {
+    color: #333;
+    background: #f0f0f0;
+}
+
+.toggle-switch-animate {
+    transition: left 0.5s;
+    -o-transition: left 0.5s;
+    -moz-transition: left 0.5s;
+    -webkit-transition: left 0.5s;
+}

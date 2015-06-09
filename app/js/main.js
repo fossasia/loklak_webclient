@@ -32,7 +32,8 @@ angular.element(document).ready(function() {
     'ui.bootstrap.datetimepicker',
     'wu.masonry',
     'ngTagsInput',
-    'colorpicker.module'
+    'colorpicker.module',
+    'toggle-switch'
   ];
 
   // mount on window for testing

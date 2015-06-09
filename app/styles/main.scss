@@ -1205,6 +1205,10 @@ body {
     
     cursor: pointer;
     border: 4px solid transparent;
+    &:hover {
+        border: 4px solid #D8D8D8;
+        cursor: pointer;
+    }
 }
 
 .layoutRadio > input:checked + img {
@@ -1537,4 +1541,20 @@ body {
             }
         }
     }
+}
+.wall-creation-form {
+	max-width: 75%;
+	line-height:200%;
+	font-size: 16px;
+}
+.wall-creation-form > * input[type="text"] {
+	width: 50%;
+}
+.tabs-left > li {
+	padding: 0;
+}
+.tabs-left > li > a {
+	min-height: 150px;
+	text-align: center;
+	padding: 20% 0;
 }
