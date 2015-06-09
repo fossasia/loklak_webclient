@@ -17,8 +17,13 @@ Also filter the tweet-content-text to remove the link when success
 
 var directivesModule = require('./_index.js');
 
-function debuggedLinkDirective(DebugLinkService) {
+function debuggedLinkDirective() {
 
+	
+}
+
+
+directivesModule.directive('debuggedLink', ['DebugLinkService', function(DebugLinkService) {
 	/*
 	 * In short if the return debugged data type is 'link'
 	 * Meaning no videos, or complicated iframe
@@ -86,7 +91,4 @@ function debuggedLinkDirective(DebugLinkService) {
 			}
 		}
 	};
-}
-
-
-directivesModule.directive('debuggedLink', ['DebugLinkService', debuggedLinkDirective]);
+}]);
