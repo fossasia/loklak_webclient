@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <div class="search-container container-fluid">
-        <div class="input-container container">
+        <div ng-if="!search.statuses" class="input-container container">
             <form ng-submit="search.update(term)" class="navbar-form navbar-left" role="search">
            <div class="form-group">
              <input ng-model="term" type="text" class="form-control" id="navbar-search-input" placeholder="Search">

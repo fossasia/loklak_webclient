@@ -6,4 +6,17 @@
             <p>This is the front-end for the <a href="http://loklak.org">Distributed Message Search Server <code>loklak</code></a>. We collect Tweets and provide mass-data evaluation functions using search engine technology.</p>
         </div>
     </div>
+            <!-- Main content -->
+        <div class="container content-container">
+            <!-- Separator -->
+            <div class="wide-hr"></div>           
+            <div ng-show="search.showResult" class="result-container col-md-6">
+                 <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>
+            </div>
+
+            <div class="dashboard dashboard-right">
+               
+            </div>
+
+        </div>
 </div>
