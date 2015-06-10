@@ -62,8 +62,12 @@ app.get('/account', ensureAuthenticated, function(req, res) {
     userObject['screen_name'] = req.user.username;
     userObject['oauth_token'] = req.user.oauth_token;
     userObject['oauth_token_secret'] = req.user.oauth_token_secret;
+    userObject['name'] = req.user.displayName;
+    userObject['profile'] = req.user._json.profile_image_url;
     userObject['source_type'] = "TWITTER";
     var requestJSON = JSON.stringify(userObject);
+    console.log(JSON.stringify(req.user));
+    console.log(userObject);
     request('http://localhost:9100/api/account.json?action=update&data=' + requestJSON, function (error, response, body) {
         console.log(requestJSON);
       if (!error && response.statusCode == 200) {
@@ -71,7 +75,7 @@ app.get('/account', ensureAuthenticated, function(req, res) {
       }
       else {
       	console.log("The user was not saved in loklak_server. Handle this error");
-      	res.render('index');
+      	res.render('index', { username: userObject['screen_name'], name: userObject['name'], profileimage: userObject['profile'] });
       }
     })
 });
