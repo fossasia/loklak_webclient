@@ -16,7 +16,7 @@ function OnRun($rootScope, AppSettings) {
   		},
       {
         'title': 'Wall',
-        'link' : '/wall',
+        'link' : '/wall/create',
         'icon' : 'fa fa-list'
       },
       {

@@ -4,6 +4,7 @@
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
 var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
+var moment = require('moment');
 /**
  * @ngInject
  */
@@ -16,6 +17,16 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     vm.statuses = [];
     vm.displaySearch = true;
     vm.wallOptions = $location.search();
+    var term = vm.wallOptions.mainHashtag;
+    if(vm.wallOptions.onlyImages == true){
+        term = term + ' /image';
+    }
+    if(vm.wallOptions.sinceDate) {
+        term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
+    }
+    if(vm.wallOptions.untilDate) {
+        term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
+    }
 
     var getRefreshTime = function(period) {
         if (period < 7000) {
@@ -88,7 +99,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.update = function(refreshTime) {
         return $timeout(function() {
-            SearchService.getData(vm.wallOptions.mainHashtag).then(function(data) {
+            SearchService.getData(term).then(function(data) {
                 //console.log(data);
                 //alert("wohoo");
                 if (data.statuses) {
@@ -117,6 +128,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     };
 
+    var tweetRefreshTime = 4000;
+
     var interval = $interval(function() { // jshint ignore:line
         if (vm.nextStatuses.length === 0) {
             return;
@@ -125,7 +138,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.statuses.unshift(vm.nextStatuses.pop());
         if (vm.statuses.length > maxStatusCount)
             vm.statuses.pop();
-    }, 4000);
+    }, tweetRefreshTime);
 
 
     //On INIT
