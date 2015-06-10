@@ -156,8 +156,15 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav">
+                    <li class="initial-userinfo" ng-show="root.twitterSession">
+                            <span>
+                                {{root.twitterSession.name}}
+                            </span>
+                            <img ng-src="{{root.twitterSession.profile_image_url_https}}">
+                            <span ng-click="root.hello('twitter').logout()" >Log out</span>
+                    </li>
                     <li>
-                        <div class="signin-twitter" signin-twitter hello="root.hello" ></div>
+                        <div ng-show="!root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                     </li>
                     <!-- <li>
                         <a ng-href="/auth/twitter" target="_self">

@@ -2,30 +2,49 @@
 
 var directivesModule = require('./_index.js');
 
-function signinTwitterDirective() {
+
+
+
+directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', function($rootScope, HelloService) {
 	return {
 		scope: {
 			hello: '=',
 		},
 		templateUrl: 'signin-twitter.html',
-		link: function(scope) {
-			scope.hello.on('auth.login', function(auth) {
+		controller: function($scope) {
+			var hello = HelloService;
 
-				// Call user information, for the given network
-				scope.hello(auth.network).api('/me').then(function(r) {
-					// Inject it into the container
-					var label = document.getElementById('profile_' + auth.network);
-					if (!label) {
-						label = document.createElement('div');
-						label.id = 'profile_' + auth.network;
-						document.getElementById('profile').appendChild(label);
-					}
-					label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
-				});
+			/**
+			*  Init hellojs service and session 
+			*
+			*/
+			$rootScope.root.hello = hello;
+
+			// Init service, will also evaluate available cookies
+			hello.init({
+				twitter: '0CbZ9fnYkxdBB7mRsbGtggkiW'
 			});
+
+			// If service init result in e.g. login
+			// Create global session variable
+			hello.on('auth.login', function(auth) {
+				hello(auth.network).api('/me').then(function(twitterSession) {
+					$rootScope.$apply(function() {
+						$rootScope.root.twitterSession = twitterSession;	
+					});
+				}, function(err) {
+					console.log("Authentication failed, try again later");
+				});   
+			});
+
+			hello.on('auth.logout', function(auth) {
+				alert('Signed out');
+				$rootScope.$apply(function() {
+					$rootScope.root.twitterSession = false;	
+				});	
+			}, function(err) {
+					console.log("Signed out failed, try again later");
+			});   
 		}
 	};
-}
-
-
-directivesModule.directive('signinTwitter', signinTwitterDirective);
+}]);

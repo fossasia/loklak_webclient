@@ -13,12 +13,29 @@
     display: inline-block;
 }
 
-.signin-twitter {
-	display: inline-block;
-	padding: 15px;
-	line-height: 20px;
-	color: white;
-}
+// Twitter sign in
+    .initial-userinfo {
+    	height: 50px;
+    	span {
+    		display: inline-block;
+    		height: 50px;
+    		font-size: 14px;
+    		padding: 17px;
+    		color: white;
+    	}
+    	img {
+    		height: 40px;
+    		display: inline-block;
+    		border-radius: 20px;
+    	}
+    }
+	.signin-twitter {
+		display: inline-block;
+		padding: 15px;
+		line-height: 20px;
+		color: white;
+	}
+
 /* Old styles */
 
 body {
