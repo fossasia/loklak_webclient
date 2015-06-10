@@ -4,8 +4,16 @@
 /**
  * @ngInject
  */
-function OnRun($rootScope, AppSettings) {
+function OnRun($rootScope, AppSettings, HelloService) {
 	var root = {};
+
+  // Hellojs services
+  HelloService.init({
+    twitter: '0CbZ9fnYkxdBB7mRsbGtggkiW'
+  }, {
+  });
+
+  root.hello = HelloService;
   
   // Top nav items 
   root.topNavItems = [
@@ -38,6 +46,9 @@ function OnRun($rootScope, AppSettings) {
     $rootScope.root.pageTitle = pageTitle;
   });
   $rootScope.root = root;
+
+
+  
 
 }
 
