@@ -23,7 +23,7 @@ function debuggedLinkDirective() {
 }
 
 
-directivesModule.directive('debuggedLink', ['DebugLinkService', function(DebugLinkService) {
+directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', function(DebugLinkService, $timeout) {
 	/*
 	 * In short if the return debugged data type is 'link'
 	 * Meaning no videos, or complicated iframe
@@ -64,31 +64,40 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', function(DebugLi
 			 * If result of debugged contains video, or thumbnail images, photos should be hidden
 			 * 
 			 */
-			var undebuggedLink = scope.linkArray[0];
 
-			if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
+			$timeout(function() {
+				var undebuggedLink = scope.linkArray[0];
 
-				DebugLinkService.debugLink(undebuggedLink)
-				.then(
-					function(data) {
-						if (data !== "Page not found") {
-							scope.debuggable = true;
-							if (data.type == "link") {
-								var template = generateArticleParts(data);
-								if (template !== '') {
-									scope.debuggable = true;
-									element.append(template);
-								}
-							} else {
+				if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
+
+					DebugLinkService.debugLink(undebuggedLink)
+					.then(
+						function(data) {
+							if (data !== "Page not found") {
 								scope.debuggable = true;
-								element.append(data.html);
+								if (data.type == "link") {
+									var template = generateArticleParts(data);
+									if (template !== '') {
+										scope.debuggable = true;
+										element.append(template);
+									}
+								} else {
+									scope.debuggable = true;
+									element.append(data.html);
+								}
 							}
+						}, function(data) {
+							return;
 						}
-					}, function(data) {
-						return;
-					}
-				);
-			}
+					);
+				}
+			}, 1000);
+			/** 
+			 * Why timeout?
+			 * scope is available
+			 * but scope's properties is not initialized fast enough
+			 * Not yet found a way around this
+			 */			
 		}
 	};
 }]);
