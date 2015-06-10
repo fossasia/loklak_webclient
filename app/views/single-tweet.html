@@ -47,10 +47,10 @@
 				<button class="reply" />
 			</div>
 			<div class="action-retweet">
-				<button class="retweet" />	
+				<button class="retweet" /><span ng-if="singleTweet.status.retweet_count" class="rt-count">{{singleTweet.status.retweet_count}}</span>	
 			</div>
 			<div class="action-favor">
-				<button class="favor" />	
+				<button class="favor" /><span ng-if="singleTweet.status.favourites_count" class="fav-count">{{singleTweet.status.favourites_count}}</span>		
 			</div>
 			<!-- <div class="action-more">
 				<i class="fa fa-circle"></i>

@@ -511,6 +511,16 @@ body {
 			}
 
 			.action-list {
+				.rt-count, .fav-count {
+					color: #8899A6;
+					font-size: 12px;
+					font-weight: bold;
+					display: inline-block;
+					height: 16px;
+					margin-left: 5px;
+					margin-top: 0;
+					vertical-align: middle
+				}
 				display: inline-block;
 				margin-top: 10px;
 				> div {
@@ -843,6 +853,16 @@ body {
 					}
 
 					.action-list {
+						.rt-count, .fav-count {
+							color: #8899A6;
+							font-size: 12px;
+							font-weight: bold;
+							display: inline-block;
+							height: 16px;
+							margin-left: 5px;
+							margin-top: 0;
+							vertical-align: middle
+						}
 						display: inline-block;
 						margin-top: 10px;
 						> div {
@@ -1018,6 +1038,16 @@ body {
 				margin-top: 10px;
 			}
 			.action-list {
+				.rt-count, .fav-count {
+					color: #8899A6;
+					font-size: 12px;
+					font-weight: bold;
+					display: inline-block;
+					height: 16px;
+					margin-left: 5px;
+					margin-top: 0;
+					vertical-align: middle
+				}
 				display: inline-block;
 				margin-top: 10px;
 				> div {
@@ -1465,6 +1495,16 @@ body {
                 opacity: 0;
             }
             .action-list {
+            	.rt-count, .fav-count {
+            		color: #8899A6;
+            		font-size: 12px;
+            		font-weight: bold;
+            		display: inline-block;
+            		height: 16px;
+            		margin-left: 5px;
+            		margin-top: 0;
+            		vertical-align: middle
+            	}
                 margin-top: 10px;
                 > div {
                     display: inline-block;
