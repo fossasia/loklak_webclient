@@ -27,7 +27,7 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 
 	// Given a stattus_id, evaluate its data and open a pswp
 	// See more pswp documentations
-	vm.openMasonry = function(status_id) {
+	vm.openSwipe = function(status_id) {
 	    var items = [];
 	    var images  = angular.element('#' + status_id + ' .images-wrapper img');        
 	    angular.forEach(images, function(image) {
