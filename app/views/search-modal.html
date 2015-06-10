@@ -45,10 +45,10 @@
             		<button class="reply" />
             	</div>
             	<div class="action-retweet">
-            		<button class="retweet" />	
+            		<button class="retweet" /><span ng-if="modalData.retweet_count" class="rt-count">{{modalData.retweet_count}}</span> 	
             	</div>
             	<div class="action-favor">
-            		<button class="favor" />	
+            		<button class="favor" /><span ng-if="modalData.favourites_count" class="fav-count">{{modalData.favourites_count}}</span>  	
             	</div>
             	<div class="action-more" ng-click="toggleShowMoreAction()">
             		<i class="fa fa-circle"></i>

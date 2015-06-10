@@ -511,6 +511,16 @@ body {
 			}
 
 			.action-list {
+				.rt-count, .fav-count {
+					color: #8899A6;
+					font-size: 12px;
+					font-weight: bold;
+					display: inline-block;
+					height: 16px;
+					margin-left: 5px;
+					margin-top: 0;
+					vertical-align: middle
+				}
 				display: inline-block;
 				margin-top: 10px;
 				> div {
@@ -843,6 +853,16 @@ body {
 					}
 
 					.action-list {
+						.rt-count, .fav-count {
+							color: #8899A6;
+							font-size: 12px;
+							font-weight: bold;
+							display: inline-block;
+							height: 16px;
+							margin-left: 5px;
+							margin-top: 0;
+							vertical-align: middle
+						}
 						display: inline-block;
 						margin-top: 10px;
 						> div {
@@ -948,40 +968,42 @@ body {
 						display: inline-block;
 					}
 				}
-				.debugged-link-container {
-					max-height: 700px;
-					overflow: hidden;
-					.article-container {
-						> a {
-							display: block;
-						}
-						display: block;
-						.article-img-container {
-							width: 100%;
-							max-height: 285px;
-							overflow: hidden;
-							img {
-								width: 100%;
-								margin: 10px 0;
-							}
-						}
-						.article-title, .article-author {
-							margin-top: 10px;
-							color: black;
-							font-size: 15px;
-							text-transform: capitalize;
-						}
-						.article-author {
-							font-weight: 600;
-							margin: 10px 0;
-						}
-					}
-				}
 			}
 		}
 	}
 	
 /* End styling for search frontend */
+
+/* Link's debugged content */
+	.debugged-link-container {
+		overflow: hidden;
+		.article-container {
+			> a {
+				display: block;
+			}
+			display: block;
+			.article-img-container {
+				width: 100%;
+				max-height: 285px;
+				overflow: hidden;
+				img {
+					width: 100%;
+					margin: 10px 0;
+				}
+			}
+			.article-title, .article-author {
+				margin-top: 10px;
+				color: black;
+				font-size: 15px;
+				text-transform: capitalize;
+			}
+			.article-author {
+				font-weight: 600;
+				margin: 10px 0;
+			}
+		}
+	}
+/* End link's debugged content */
 
 /* Styles for single tweet views */
 	.single-tweet {
@@ -1018,6 +1040,16 @@ body {
 				margin-top: 10px;
 			}
 			.action-list {
+				.rt-count, .fav-count {
+					color: #8899A6;
+					font-size: 12px;
+					font-weight: bold;
+					display: inline-block;
+					height: 16px;
+					margin-left: 5px;
+					margin-top: 0;
+					vertical-align: middle
+				}
 				display: inline-block;
 				margin-top: 10px;
 				> div {
@@ -1469,6 +1501,16 @@ body {
                 opacity: 0;
             }
             .action-list {
+            	.rt-count, .fav-count {
+            		color: #8899A6;
+            		font-size: 12px;
+            		font-weight: bold;
+            		display: inline-block;
+            		height: 16px;
+            		margin-left: 5px;
+            		margin-top: 0;
+            		vertical-align: middle
+            	}
                 margin-top: 10px;
                 > div {
                     display: inline-block;
