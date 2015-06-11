@@ -1,0 +1,5 @@
+'use strict';
+
+module.exports = {
+	twitter_client_id: '0CbZ9fnYkxdBB7mRsbGtggkiW',
+};
