@@ -8,16 +8,16 @@ Install and run it first.
 ---
 
 ### Dev
-0. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
-1. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
-2. Create your custom settings file by doing
+1. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
+2. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
+3. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
-3. Run `npm install` from the root directory and from the server subdirectory.
-4. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
-5. Your browser will automatically be opened and directed to the browser-sync
+4. Run `npm install` from the root directory and from the server subdirectory.
+5. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
+6. Your browser will automatically be opened and directed to the browser-sync
    proxy address (port 3000 by default)
-6. To prepare assets for production, run the `gulp prod` task (Note: the
+7. To prepare assets for production, run the `gulp prod` task (Note: the
    production task does not fire up the express server, and won't provide you
    with browser-sync's live reloading. Simply use `gulp dev` during
    development. More information below)
