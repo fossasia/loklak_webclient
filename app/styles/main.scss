@@ -14,28 +14,42 @@
 }
 
 // Twitter sign in
-    .initial-userinfo {
-    	height: 50px;
-    	span {
-    		display: inline-block;
-    		height: 50px;
-    		font-size: 14px;
-    		padding: 17px;
-    		color: white;
-    	}
-    	img {
-    		height: 40px;
-    		display: inline-block;
-    		border-radius: 20px;
-    	}
-    }
 	.signin-twitter {
+		height: 50px;
+		min-width: 300px;
+		overflow: hidden;
 		display: inline-block;
-		padding: 15px;
 		line-height: 20px;
 		color: white;
+		.initial-userinfo {
+			height: 50px;
+			span {
+				display: inline-block;
+				height: 50px;
+				font-size: 14px;
+				padding: 17px;
+				color: white;
+			}
+			span.avatar-container {
+				padding: 5px 0;
+			}
+			img {
+				height: 40px;
+				display: inline-block;
+				border-radius: 20px;
+				vertical-align: middle;
+			}
+		}
+		.signin {
+			span {
+				display: inline-block;
+				height: 50px;
+				font-size: 14px;
+				padding: 17px;
+				color: white;
+			}
+		}
 	}
-
 /* Old styles */
 
 body {

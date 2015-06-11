@@ -1,7 +1,7 @@
 'use strict';
 
 var directivesModule = require('./_index.js');
-
+var hellojsConfig = require('../../../helloConfig');
 
 
 
@@ -9,9 +9,10 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', funct
 	return {
 		scope: {
 			hello: '=',
+			twitterSession: '=',
 		},
 		templateUrl: 'signin-twitter.html',
-		controller: function($scope) {
+		controller: function() {
 			var hello = HelloService;
 
 			/**
@@ -22,7 +23,7 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', funct
 
 			// Init service, will also evaluate available cookies
 			hello.init({
-				twitter: '0CbZ9fnYkxdBB7mRsbGtggkiW'
+				twitter: hellojsConfig.twitter_client_id
 			});
 
 			// If service init result in e.g. login
