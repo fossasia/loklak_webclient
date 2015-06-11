@@ -48,6 +48,12 @@ Create a Twitter app at https://apps.twitter.com
 5. Use the consumer key (API Key) and Consumer Secret (API Secret) of your application
 6. Set the access level to Read and Write
 
+### Deployment to server
+1. Follow steps 1-3 of Dev (See above). You will also need `gulp` installed. (`npm install gulp -g`)
+2. Minify everything and prepare assets for production using `gulp prod`.
+3. Start the node server using `node server/index.js`
+4. Better approach is to use [pm2](https://github.com/Unitech/pm2) to start the server using `pm2 start server/index.js`
+
 ### Known Authentication issues
 In case you encounter a screen with the oauthorize having a long parameter appended to it in the URL, remove the appending URL from `?....` and try again. That should land you onto the `/account` page
 
