@@ -8,7 +8,7 @@ Install and run it first.
 ---
 
 ### Dev
-
+0. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
 1. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
 2. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
