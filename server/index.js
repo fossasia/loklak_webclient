@@ -16,6 +16,7 @@ var passport = require('passport'),
     TwitterStrategy = require('passport-twitter').Strategy;
 var Twitter = require('twitter');
 var request = require('request');
+var fs = require('fs');
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -63,11 +64,13 @@ app.get('/account', ensureAuthenticated, function(req, res) {
     userObject['oauth_token'] = req.user.oauth_token;
     userObject['oauth_token_secret'] = req.user.oauth_token_secret;
     userObject['name'] = req.user.displayName;
-    userObject['profile'] = req.user._json.profile_image_url;
+    console.log(req.user.photos[0].value);
+    userObject['profile'] = req.user.photos[0].value;
+    console.log(userObject['profile']);
     userObject['source_type'] = "TWITTER";
     var requestJSON = JSON.stringify(userObject);
-    console.log(JSON.stringify(req.user));
-    console.log(userObject);
+    // console.log(JSON.stringify(req.user));
+    // console.log(userObject);
     request('http://localhost:9100/api/account.json?action=update&data=' + requestJSON, function (error, response, body) {
         console.log(requestJSON);
       if (!error && response.statusCode == 200) {
