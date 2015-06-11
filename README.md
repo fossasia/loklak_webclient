@@ -65,6 +65,7 @@ In case you encounter a screen with the oauthorize having a long parameter appen
 - On *nix based systems (latest Ubuntu, Fedora version) you might get an
   `Error: watch ENOSPC` when running `gulp dev`.
    To fix, check [this post](http://stackoverflow.com/questions/16748737/grunt-watch-error-waiting-fatal-error-watch-enospc) on Stackoverflow. 
+- `version 'GLIBC_2.14' not found required by imagemin-jpegtran`. To fix this, make sure you have installed nasm, libpng-dev, dh-autoreconf. Then do `rm node_modules -r` and `npm install`.
 
 ### Chat with Development Team
 
