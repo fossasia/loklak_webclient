@@ -1,11 +1,10 @@
 'use strict';
 
 var directivesModule = require('./_index.js');
-var hellojsConfig = require('../../../helloConfig');
 
 
 
-directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', function($rootScope, HelloService) {
+directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', 'AppSettings', function($rootScope, HelloService, AppSettings) {
 	return {
 		scope: {
 			hello: '=',
@@ -23,8 +22,16 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', funct
 
 			// Init service, will also evaluate available cookies
 			hello.init({
-				twitter: hellojsConfig.twitter_client_id
-			});
+				twitter: AppSettings.twitterConsumerKey
+			},
+			{
+				oauth_proxy: AppSettings.oauthProxyUrl
+			},
+			{
+				redirect_uri: AppSettings.oauthProxyRedirectUrl
+			}
+			);
+			console.log(hello);
 
 			// If service init result in e.g. login
 			// Create global session variable
