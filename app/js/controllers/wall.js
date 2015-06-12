@@ -34,6 +34,19 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
     });
 
+    $scope.$watch('wallOptions.mainHashtagText', function() {
+        if($scope.wallOptions.mainHashtagText)
+        if($scope.wallOptions.mainHashtagText.length!==0)
+        {
+            if($scope.wallOptions.mainHashtagText[0] != '#') {
+                $scope.wallOptions.mainHashtag = '#' + $scope.wallOptions.mainHashtagText;
+            }
+            else {
+                $scope.wallOptions.mainHashtag = $scope.wallOptions.mainHashtagText;
+            }
+        }
+    });
+
     $scope.proceed = function() {
         console.log("clicked");
         $('.nav-tabs > .active').next('li').find('a').trigger('click');
@@ -43,6 +56,12 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         $location.path('/wall/display').search($scope.wallOptions);
     };
 
+    $scope.resetDate = function() {
+        $scope.wallOptions.sinceDate = null;
+        $scope.wallOptions.untilDate = null;
+    }
+
 }
 
 controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallCtrl]);
+

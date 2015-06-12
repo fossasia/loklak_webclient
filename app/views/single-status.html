@@ -1,0 +1,72 @@
+<div ng-show="showStatus" ng-attr-id="{{data.id_str}}" class="single-tweet tweet">
+	<div class="top-metadata">
+		<img class="avatar" 
+			 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
+			 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+			<!-- Metadata data -->
+	    <div class="user-data-wrapper">
+	    	<a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+	    	<span class="screen-name">{{ "@" + data.user.screen_name}}</span>	
+	    </div>
+	</div>
+
+	<div class="tweet-content">
+	<!-- Main content -->
+	<p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
+
+	<div class="debugged-link-container" debugged-link link-array="data.links" debuggable="debuggable"></div>
+
+	<!-- Images -->
+	<div class="status-images-container" ng-show="!debuggable">
+		<!-- Images - 1 img -->
+		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix" ng-if="data.images_count === 1">
+		       <div class="single-masonry-item" ng-repeat="image in data.images">
+		           <img ng-src="{{image}}" alt="A masonry brick">
+		       </div>
+		</div>
+		<!-- Images - 2 imgs -->
+		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 2">
+		       <div class="double-masonry-item" ng-repeat="image in data.images">
+		           <img ng-src="{{image}}" alt="A masonry brick">
+		       </div>
+		</div>
+		<!-- Images - 3 imgs -->
+		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 3">
+		       <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images">
+		           <img ng-src="{{image}}" alt="A masonry brick">
+		       </div>
+		</div>
+		<!-- Images - 4 imgs -->
+		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 4">
+		       <div class="quad-masonry-item" ng-repeat="image in data.images">
+		           <img ng-src="{{image}}" alt="A masonry brick">
+		       </div>
+		</div>
+	</div>
+	<!-- End of images -->
+
+	<!-- Action list -->
+
+	<div class="action-list">
+		<div class="action-reply">
+			<button class="reply" />
+		</div>
+		<div class="action-retweet">
+			<button class="retweet" /><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
+		</div>
+		<div class="action-favor">
+			<button class="favor" /><span ng-if="data.favourites_count" class="fav-count">{{data.favourites_count}}</span>		
+		</div>
+		<!-- <div class="action-more">
+			<i class="fa fa-circle"></i>
+			<i class="fa fa-circle"></i>
+			<i class="fa fa-circle"></i>
+		</div> -->
+	</div>
+
+	<!-- detailed metadata -->
+	<div class="detail-metadata">
+	    <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+	</div>        
+	</div>
+</div>

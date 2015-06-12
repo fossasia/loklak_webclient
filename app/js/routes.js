@@ -42,8 +42,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     templateUrl: 'wall/display.html',
     controller: 'WallDisplay as wall',
     title: 'Wall',
-    onEnter: function($rootScope){$rootScope.root.fullscreenDisabled=false;},
-    onExit: function($rootScope){$rootScope.root.fullscreenDisabled=true;}
+    onEnter: ['$rootScope',function($rootScope){$rootScope.root.fullscreenDisabled=false;}],
+    onExit: ['$rootScope',function($rootScope){$rootScope.root.fullscreenDisabled=true;}]
   })
   .state('Statistics', {
     url: '/statistics?q&since&until',
@@ -69,4 +69,4 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   cfpLoadingBarProvider.includeBar = false;
 }
 
-module.exports = Routes;
+module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];

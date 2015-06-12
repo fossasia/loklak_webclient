@@ -5,8 +5,8 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function DebugLinkService($q, $http) {
 
+servicesModule.service('DebugLinkService',['$q', '$http', function($q, $http) {
   var service = {};
 
   service.debugLink = function(undebuggedLink) {
@@ -43,7 +43,4 @@ function DebugLinkService($q, $http) {
 
 
   return service;
-
-}
-
-servicesModule.service('DebugLinkService',['$q', '$http', DebugLinkService]);
+}]);
