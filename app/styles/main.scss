@@ -697,6 +697,9 @@ body {
 			.result-container {
 				border: 1px solid $search-grey-border;
 				padding: 0;
+				.main-result-container {
+					padding-top: 5px;
+				}
 				.tweet {
 					display: block;
 					min-height: 71px;
@@ -1004,6 +1007,54 @@ body {
 		}
 	}
 /* End link's debugged content */
+
+/* Search filters */
+	.filters-container {
+		height: 46px;
+		text-align: center;
+		ul li {
+			display: inline-block;
+			position: relative;
+			//font-size: 18px;
+			padding: 14px 0;
+			transition: all 0.15s ease-in-out;
+			&:hover {
+				cursor: pointer;
+			}
+			&::after {
+				content: " ";
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				height: 4px;
+				background: rgba(85, 172, 238, 0);
+				transition: all 0.15s ease-in-out;
+			}
+			&.active::after, &:hover::after {
+				background: #66A9E2;
+			}
+
+			a {
+				display: inline-block;
+				padding: 0 24px;
+				color: #505050;
+				font-size: 14px;
+				border-left: 1px solid #ccd6dd;
+				text-decoration: none;
+				text-transform: capitalize;
+				&:hover {
+					text-decoration: none;
+				}
+			}
+			&:first-child {
+				a {
+					border-left: none;	
+				}
+			}
+		}
+	}
+/* End search filters */
 
 /* Styles for single tweet views */
 	.single-tweet {
