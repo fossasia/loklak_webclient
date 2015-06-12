@@ -67,10 +67,10 @@ module.exports = {
         'protractor': 'test/protractor.conf.js'
     },
 
-    'node_server': {
-        'index_file': 'server/index.js',
+    'oauth_proxy': {
+        'index_file': 'oauth-proxy/index.js',
         'scripts': {
-            'src': ['server/index.js', 'server/**/*.js']
+            'src': ['oauth-proxy/index.js', 'oauth-proxy/**/*.js']
         }
     },
 

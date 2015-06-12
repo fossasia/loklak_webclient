@@ -3,5 +3,7 @@
 	"domain": "http://localhost:3001",
 	"twitterConsumerKey": "<KEY HERE>",
 	"twitterConsumerSecret": "<KEY HERE>",
-	"twitterCallbackUrl": "http://localhost:3000/auth/twitter/callback"
+	"twitterCallbackUrl": "http://localhost:3000/auth/twitter/callback",
+	"oauthProxyUrl": "http://localhost:5500/oauthproxy",
+	"oauthProxyRedirectUrl": "http://localhost:5500/proxy"
 }

@@ -1,0 +1,14 @@
+<li ng-show="twitterSession" class="initial-userinfo" ng-show="twitterSession">
+    <span>
+        {{twitterSession.name}}
+    </span>
+    <img ng-src="{{twitterSession.profile_image_url_https}}">
+    <span ng-click="hello('twitter').logout()" >Log out</span>
+</li>
+
+<li ng-show="!twitterSession" class="signin">
+	<span ng-click="hello('twitter').login()">
+		<i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter
+	</span>
+</li>
+

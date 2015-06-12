@@ -156,11 +156,12 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav">
-                <li>
-                    <a ng-href="/auth/twitter" target="_self">
-                        <span><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter</span>
-                    </a>
-                </li>
+                    <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
+                    <!-- <li>
+                        <a ng-href="/auth/twitter" target="_self">
+                            <span><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter</span>
+                        </a>
+                    </li> -->
                 </ul>
                 <!-- <ul class="dropdown-menu">
                   User image 

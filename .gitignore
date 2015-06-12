@@ -32,3 +32,4 @@ templates.js
 # Environmental file
 .env
 custom_configFile.json
+helloConfig.js
