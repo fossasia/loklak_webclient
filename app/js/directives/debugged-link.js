@@ -1,26 +1,6 @@
-/*Summarize the:
-
-x Choose only the first link of status.links to debug. The rest are images.
-x Create a directive to contain debugged link
-x In the new directive recipe, pass in the chosen link to a SearchService method
-x Meanwhile, create a service in SearchService to debug the link
-API for debugging: http://gofullstack.me:8061/oembed?url=:URL_HERE
-Successful debugging should result embedding tags
-x Process type
-Else, it's a video. Create a container for it and interpolate the whole thing.
-When done, implement (or get help) locally the oembed server.
-
-Also filter the tweet-content-text to remove the link when success
-*/
-
 'use strict';
 
 var directivesModule = require('./_index.js');
-
-function debuggedLinkDirective() {
-
-	
-}
 
 
 directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', function(DebugLinkService, $timeout) {
@@ -33,7 +13,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 
 	var generateArticleParts = function(data) {
 		if (!data.thumbnail_url) {
-			return '';
+			return false;
 		}
 
 		var author = (data.author && data.provider_name) ? '<a href="' + data.url + '" class="article-author">' + data.provider_name + ' - ' + data.author + '</a href="' + data.url + '">' : '';
@@ -75,11 +55,13 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						function(data) {
 							if (data !== "Page not found") {
 								scope.debuggable = true;
-								if (data.type == "link") {
+								if (data.type == "link" || data.type == "photo") {
 									var template = generateArticleParts(data);
-									if (template !== '') {
+									if (template) {
 										scope.debuggable = true;
 										element.append(template);
+									} else {
+										scope.debuggable = false;
 									}
 								} else {
 									scope.debuggable = true;
@@ -87,6 +69,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 								}
 							}
 						}, function(data) {
+							scope.debuggable = false;
 							return;
 						}
 					);
