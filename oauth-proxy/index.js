@@ -10,9 +10,9 @@ if(!config.twitterConsumerKey || !config.twitterConsumerSecret || !config.twitte
 var app = express();
 
 // Set application to list on PORT
-app.listen(3002);
+app.listen(config.oauthProxyPort);
 
-console.log("OAuth Shim listening on "+ 3002);
+console.log("OAuth Shim listening on "+ config.oauthProxyPort);
 
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};
