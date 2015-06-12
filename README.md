@@ -8,16 +8,16 @@ Install and run it first.
 ---
 
 ### Dev
-
-1. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
-2. Create your custom settings file by doing
+1. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
+2. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
+3. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
-3. Run `npm install` from the root directory and from the server subdirectory.
-4. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
-5. Your browser will automatically be opened and directed to the browser-sync
+4. Run `npm install` from the root directory and from the server subdirectory.
+5. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
+6. Your browser will automatically be opened and directed to the browser-sync
    proxy address (port 3000 by default)
-6. To prepare assets for production, run the `gulp prod` task (Note: the
+7. To prepare assets for production, run the `gulp prod` task (Note: the
    production task does not fire up the express server, and won't provide you
    with browser-sync's live reloading. Simply use `gulp dev` during
    development. More information below)
@@ -48,6 +48,12 @@ Create a Twitter app at https://apps.twitter.com
 5. Use the consumer key (API Key) and Consumer Secret (API Secret) of your application
 6. Set the access level to Read and Write
 
+### Deployment to server
+1. Follow steps 1-3 of Dev (See above). You will also need `gulp` installed. (`npm install gulp -g`)
+2. Minify everything and prepare assets for production using `gulp prod`.
+3. Start the node server using `node server/index.js`
+4. Better approach is to use [pm2](https://github.com/Unitech/pm2) to start the server using `pm2 start server/index.js`
+
 ### Known Authentication issues
 In case you encounter a screen with the oauthorize having a long parameter appended to it in the URL, remove the appending URL from `?....` and try again. That should land you onto the `/account` page
 
@@ -59,6 +65,7 @@ In case you encounter a screen with the oauthorize having a long parameter appen
 - On *nix based systems (latest Ubuntu, Fedora version) you might get an
   `Error: watch ENOSPC` when running `gulp dev`.
    To fix, check [this post](http://stackoverflow.com/questions/16748737/grunt-watch-error-waiting-fatal-error-watch-enospc) on Stackoverflow. 
+- `version 'GLIBC_2.14' not found required by imagemin-jpegtran`. To fix this, make sure you have installed nasm, libpng-dev, dh-autoreconf. Then do `rm node_modules -r` and `npm install`.
 
 ### Chat with Development Team
 
