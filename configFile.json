@@ -1,9 +1,11 @@
 {
 	"apiUrl": "http://localhost:9000/api/",
 	"domain": "http://localhost:3001",
-	"twitterConsumerKey": "<KEY HERE>",
-	"twitterConsumerSecret": "<KEY HERE>",
+	"twitterConsumerKey": "KEY_HERE",
+	"twitterConsumerSecret": "KEY_HERE",
 	"twitterCallbackUrl": "http://localhost:3000/auth/twitter/callback",
 	"oauthProxyUrl": "http://localhost:3002/oauthproxy",
-	"oauthProxyRedirectUrl": "http://localhost:3002/proxy"
+	"oauthProxyRedirectUrl": "http://localhost:3002/proxy",
+	"oauthProxyPort": "3002",
+	"gulpDevExpressPort": "3001"
 }

@@ -1,8 +1,10 @@
 'use strict';
 
+var config = require('../custom_configFile.json');
+
 module.exports = {
 
-    'serverport': 3001,
+    'serverport': config.gulpDevExpressPort,
 
     'styles': {
         'src': 'app/styles/**/*.scss',
