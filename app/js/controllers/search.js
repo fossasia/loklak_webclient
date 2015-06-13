@@ -12,10 +12,11 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
 
     var vm = this;
         vm.modal = { text: "Tweet content placeholder"};
-        vm.searchFilters = ['live', 'photos'];
-        vm.currentFiltter = 'live';
+        vm.currentFilter = 'live';
         vm.showDetail = false;
         vm.showResult = false;
+        vm.searchFilters = ['live', 'photos', 'videos'];
+        vm.term = '';
 
         // Init model related to modal
         // Used in body tag and for toggling modal
@@ -27,8 +28,8 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
               SearchService.initData($stateParams)
                  .then(function(data) {
                    vm.statuses = data.statuses;
-                   vm.filteredStatuses = vm.statuses;
                    vm.showResult = true;
+                   evalSearchQuery();
                  },
                  function() {
                    console.log('statuses init retrieval failed');
@@ -40,10 +41,10 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
         vm.update = function(term) {
             SearchService.getData(term)
                 .then(function(data) {
-                  console.log(data);
                    vm.statuses = data.statuses;
                    vm.showResult = true;
                    updatePath(term);
+                   evalSearchQuery();
                 },
                 function() {
                  console.log('statuses retrieval failed.');
@@ -54,13 +55,27 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
          * Filter result based on given filter
          *
          */
-        var filterSearch = function(filter) {
-            vm.currentFiltter = filter;
-            var searchFilter = filter + 'Search';
-            vm.filteredStatuses = $filter(searchFilter)(vm.statuses);
+        var filterToQuery = {
+            'live': '',
+            'photos': '/image',
+            'videos': '/video',
         };
 
-        vm.filterSearch = filterSearch;
+        var queryToFilter = (function() {
+              var ret = {};
+              for(var key in filterToQuery){
+                ret[filterToQuery[key]] = key;
+              }
+              return ret;
+        })();
+
+        vm.filterSearch = function(filter) {
+            if (filter !== vm.currentFilter) {
+                vm.currentFilter = filter;
+                var newTerm = setNewTerm();
+                vm.update(newTerm);
+            }
+        };
 
         /**
          * Given status object
@@ -107,7 +122,7 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
         vm.switchToSwipe = function(status_id) {
             $rootScope.root.tweetModalShow = !$rootScope.root.tweetModalShow;
             vm.openSwipe(status_id);
-        }
+        };
 
         // Populate modal template with given tweet data 
 
@@ -122,10 +137,20 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
         }
 
         // Change stateParams on search
-        function updatePath(term) {
+        function updatePath(query) {
           $location.search({
-            q: encodeURIComponent(term), 
+            q: query,
             timezoneOffset: (new Date()).getTimezoneOffset()
           });
+        }
+
+        function evalSearchQuery() {
+            var queryParts = $location.search().q.split('+');
+            vm.term = queryParts[0];
+            vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
+        }
+
+        function setNewTerm() {
+            return (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery[vm.currentFilter];
         }
 }]);

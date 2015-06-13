@@ -20,7 +20,7 @@
                 <!-- Filters -->
                 <div class="filters-container">
                     <ul class="search-modes">
-                        <li ng-repeat="filter in search.searchFilters" ng-class="(search.currentFiltter == filter) ? 'active' : ''" ng-click="search.filterSearch(filter)">
+                        <li ng-repeat="filter in search.searchFilters" ng-class="(search.currentFilter === filter) ? 'active' : ''" ng-click="search.filterSearch(filter)">
                             <a href="#">{{filter}}</a>
                         </li>
 
@@ -36,7 +36,7 @@
 
                 <!-- Main results -->
                 <div class="main-result-container">
-                    <div ng-repeat="status in search.filteredStatuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>   
+                    <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>   
                 </div>
             </div>
 
