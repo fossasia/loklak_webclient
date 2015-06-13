@@ -12,30 +12,37 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     var vm = this;
     vm.term = null;
-    vm.allStatuses = [];
-    vm.nextStatuses = [];
+    var allStatuses = [];
+    var nextStatuses = [];
     vm.statuses = [];
     vm.displaySearch = true;
     vm.wallOptions = $location.search();
     var term = vm.wallOptions.mainHashtag;
-    if(vm.wallOptions.onlyImages == true){
+    if (vm.wallOptions.onlyImages == true) {
         term = term + ' /image';
     }
-    if(vm.wallOptions.sinceDate) {
+    if (vm.wallOptions.sinceDate) {
         term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
     }
-    if(vm.wallOptions.untilDate) {
+    if (vm.wallOptions.untilDate) {
         term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
     }
+    var maxStatusCount = 0;
+    if (vm.wallOptions.layoutStyle == 1)
+        maxStatusCount = 3; //linear
+    else if (vm.wallOptions.layoutStyle == 2)
+        maxStatusCount = 10; //masonry
+    else if (vm.wallOptions.layoutStyle == 3)
+        maxStatusCount = 1; //single
 
     var getRefreshTime = function(period) {
         if (period < 7000) {
-            return 5000;
+            return 3000;
         }
         if (period <= 3000) {
             return 0.7 * period;
         }
-        return 20000;
+        return 5000;
     };
 
 
@@ -95,22 +102,18 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return 0;
     }
 
-    var maxStatusCount = 3;
-
     vm.update = function(refreshTime) {
         return $timeout(function() {
             SearchService.getData(term).then(function(data) {
-                //console.log(data);
-                //alert("wohoo");
                 if (data.statuses) {
                     for (var i = data.statuses.length - 1; i >= 0; i--) {
-                        if (!contains(vm.allStatuses, data.statuses[i].id_str)) {
+                        if (!contains(allStatuses, data.statuses[i].id_str)) {
                             try {
-                                var profileURLString = data.statuses[i].user.profile_image_url_https;
-                                var splitURL = profileURLString.split('_bigger');
-                                data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
-                                vm.nextStatuses.push(data.statuses[i]);
-                                vm.allStatuses.push(data.statuses[i].id_str);
+                                // var profileURLString = data.statuses[i].user.profile_image_url_https;
+                                // var splitURL = profileURLString.split('_bigger');
+                                // data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
+                                nextStatuses.push(data.statuses[i]);
+                                allStatuses.push(data.statuses[i].id_str);
                             } catch (ex) {
 
                             }
@@ -118,7 +121,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                         }
                     };
                 }
-                vm.nextStatuses.sort(compare);
+                nextStatuses.sort(compare);
                 var newRefreshTime = getRefreshTime(data.search_metadata.period);
                 vm.update(newRefreshTime);
             }, function(error) {
@@ -128,21 +131,57 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     };
 
+    vm.update2 = function(refreshTime) {
+        return $timeout(function() {
+            SearchService.getData(term).then(function(data) {
+                if (data.statuses) {
+                    if(vm.statuses.length <=0){
+                        vm.statuses = data.statuses.splice(0,3);
+                        nextStatuses = vm.statuses;
+                    }
+                    else {
+                        for (var i = data.statuses.length-1; i > -1; i--) {
+                            if(data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                vm.statuses.unshift(data.statuses[i]);
+                                vm.statuses.pop();
+                            }
+                        };
+                    }
+                    // for (var i = 0; i < data.statuses.length; i++) {
+                    //     if (!contains(allStatuses, data.statuses[i].id_str)) {
+                    //         if (vm.statuses <= 0) {
+                    //             vm.statuses = da
+                    //         }
+                    //     }
+                    // };
+                }
+                //nextStatuses.sort(compare);
+                var newRefreshTime = getRefreshTime(data.search_metadata.period);
+                vm.update2(newRefreshTime);
+            }, function(error) {
+
+            });
+        }, refreshTime);
+    }
+
     var tweetRefreshTime = 4000;
 
-    var interval = $interval(function() { // jshint ignore:line
-        if (vm.nextStatuses.length === 0) {
-            return;
-        }
+    // var interval = $interval(function() { // jshint ignore:line
+    //     if (nextStatuses.length === 0) {
+    //         return;
+    //     }
 
-        vm.statuses.unshift(vm.nextStatuses.pop());
-        if (vm.statuses.length > maxStatusCount)
-            vm.statuses.pop();
-    }, tweetRefreshTime);
+    //     vm.statuses.unshift(nextStatuses.shift());
+    //     if (vm.statuses.length > maxStatusCount)
+    //         vm.statuses.pop();
+    // }, tweetRefreshTime);
 
+    var showTweets = function() {
+
+    };
 
     //On INIT
-    vm.update(0);
+    vm.update2(0);
 
 
 }
