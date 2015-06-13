@@ -7,58 +7,40 @@ Install and run it first.
 
 ---
 
-### Dev
+### Build
+
 1. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
 2. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
 3. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
-4. Run `npm install` from the root directory and from the server subdirectory.
-5. Run `gulp dev` (may require installing Gulp globally `npm install gulp -g`)
-6. Your browser will automatically be opened and directed to the browser-sync
-   proxy address (port 3000 by default)
-7. To prepare assets for production, run the `gulp prod` task (Note: the
-   production task does not fire up the express server, and won't provide you
-   with browser-sync's live reloading. Simply use `gulp dev` during
-   development. More information below)
+4. Run `npm install` from the root directory **AND** from `oauth-proxy` subdirectory.
 
-Now that `gulp dev` is running, the server is up as well and serving files
-from the `/build` directory. Any changes in the `/app` directory will be
-automatically processed by Gulp and the changes will be injected to any open
-browsers pointed at the proxy address.
-
-### Config
-
-- Set the apiUrl var in `custom_configFile.json`
-  to set the server address
-- Set the domain var in `custom_configFile.json`
-  to set the domain where site is hosted
-
-Create a Twitter app at https://apps.twitter.com
-- Set the twitterConsumerKey var in `custom_configFile.json`
+### Add twitter credentials
+Create an twitter application at `https://apps.twitter.com`, remember to set the correct website url & callback url (for localhost, `http://127.0.0.1/` works better), then modify `custom_configFile.json`:
+1. Set the twitterConsumerKey var in `custom_configFile.json`
   to set the Consumer Key (API Key) from your Twitter app
-- Set the twitterConsumerSecret var in `custom_configFile.json`
-  to set the Consumer Secret from your Twitter app
+2. Set the twitterConsumerSecret var in `custom_configFile.json`
+  to set the Consumer Secret from your Twitter app  
 
-### Setting up a twitter application with the correct hosts
-1. Edit your hosts file and alias `127.0.0.1     loklak.net` present at /etc/hosts
-2. Create a twitter app with the required name
-3. Set the callback URL as http://loklak.net:3001/auth/twitter/callback
-4. Move to the Keys and Access Tokens tab on the app page and use the credentials present there in custom_configFile.json
-5. Use the consumer key (API Key) and Consumer Secret (API Secret) of your application
-6. Set the access level to Read and Write
+A twitter app is valid only for a domain (defined when creating the app). So the credentails above need to be changed also according to the domain (e.g. you'll need to create 2 twitter apps separately for a clone in localhost and for a clone in a remote server)
 
-### Deployment to server
-1. Follow steps 1-3 of Dev (See above). You will also need `gulp` installed. (`npm install gulp -g`)
-2. Minify everything and prepare assets for production using `gulp prod`.
-3. Start the node server using `node server/index.js`
-4. Better approach is to use [pm2](https://github.com/Unitech/pm2) to start the server using `pm2 start server/index.js`
+### Loklak server
+See here to run your own https://github.com/loklak/loklak_server (reccommended), and change `apiUrl` in config accordingly. Last resource, or for production is `http://loklak.org/api/`
 
-### Known Authentication issues
-In case you encounter a screen with the oauthorize having a long parameter appended to it in the URL, remove the appending URL from `?....` and try again. That should land you onto the `/account` page
+## Development
+After adding twitter credentials and `apiUrl`, you can leave the rest as is and run `gulp dev` for development. `gulp dev` includes an express server to serve the build at `gulpDevExpressPort`, a proxy server at `oauthProxyPort`, and `browser-sync` at 3000. A browser window will be opened automatically.
 
-###Trial Run
-- Try the search feature which lists recent tweets corresponding to a user input keyword at http://localhost:3000/search
+For a remote server, along with twitter credential for the remote server: change all `localhost` to your domain e.g. `"oauthProxyUrl": "http://mydomain.org:3002/oauthproxy"`
+
+## Production
+We recommend using `screen` of `pm2` to manage your node processes.
+
+1. If you have your own web server engine, `gulp prod` will create static files only at directory `build`. You'll need to run `oauth` service manually, by e.g. ```node oauth-proxy/index.js```
+
+2. If your server don't have a web serve, `gulp live` will serve the app `gulpDevExpressPort` along with `oauth` service at `oauthProxyPort`.
+
+When there is a need to change default port `oauthProxyUrl, oauthProxyRedirectUrl, oauthProxyPort` should have the same port. The port to the application can be change at `gulpDevExpressPort`
 
 ### Troubleshooting
 

@@ -1,8 +1,10 @@
 'use strict';
 
+var config = require('../custom_configFile.json');
+
 module.exports = {
 
-    'serverport': 3001,
+    'serverport': config.gulpDevExpressPort,
 
     'styles': {
         'src': 'app/styles/**/*.scss',
@@ -67,10 +69,10 @@ module.exports = {
         'protractor': 'test/protractor.conf.js'
     },
 
-    'node_server': {
-        'index_file': 'server/index.js',
+    'oauth_proxy': {
+        'index_file': 'oauth-proxy/index.js',
         'scripts': {
-            'src': ['server/index.js', 'server/**/*.js']
+            'src': ['oauth-proxy/index.js', 'oauth-proxy/**/*.js']
         }
     },
 

@@ -1,22 +1,49 @@
 <div class="content-wrapper">
+    <!-- Main content -->
+    <div class="container-fluid content-container">
+      <!-- Center result + option filters -->
+      <!-- Left content: Who to follow, trends -->
+      <div class="result-container col-md-3" style="margin-top:4%;">
+        <div class="row cms-view direct-chat-messages" ng-if="root.twitterSession">
+            <div class="direct-chat-msg">
+              <div class="direct-chat-info clearfix">
+                <span class="direct-chat-name pull-left">{{root.twitterSession.first_name}}</span>
+                <span class="direct-chat-timestamp pull-right fa fa-map-marker">&nbsp;{{root.twitterSession.location}}</span>
+            </div><!-- /.direct-chat-info -->
+            <img class="direct-chat-img" src="{{root.twitterSession.profile_image_url}}" alt="" style="padding-bottom:0px;"><!-- /.direct-chat-img -->
+            <div class="direct-chat-text" style="background-color:#3c8dbc;color:white;">
+                {{root.twitterSession.description}}
+            </div><!-- /.direct-chat-text -->
+        </div>
+    </div>
+</div>
+<div class="result-container col-md-6">
     <div class="row cms-view">
         <div class="col-md-12">
             <h1 class="page-header"><code>loklak</code></h1>
             <h2>Mass Message (aka Tweets) Evaluation</h2>
             <p>This is the front-end for the <a href="http://loklak.org">Distributed Message Search Server <code>loklak</code></a>. We collect Tweets and provide mass-data evaluation functions using search engine technology.</p>
         </div>
-    </div>
-            <!-- Main content -->
-        <div class="container content-container">
-            <!-- Separator -->
-            <div class="wide-hr"></div>           
-            <div ng-show="search.showResult" class="result-container col-md-6">
-                 <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>
+        <div class="col-md-12" ng-if="root.twitterSession">
+            <h1>Your recent tweets</h1>
+            <div class="main-result-container">
+                <div class="box-body chat" id="chat-box" style="overflow: hidden; width: auto; height: 250px;">
+                    <div ng-repeat="status in root.twitterStatuses.data">
+                        <div class="item">
+                            <img src="{{root.twitterSession.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
+                            <p class="message">
+                            {{status.text}}
+                        </p>
+                    </div>
+                </div> 
             </div>
-
-            <div class="dashboard dashboard-right">
-               
-            </div>
-
         </div>
+    </div>
+</div>
+</div>
+
+<!-- Right content: Other statistics -->
+<div class="result-container col-md-3">
+
+</div>
 </div>

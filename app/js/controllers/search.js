@@ -8,10 +8,12 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', function($scope, $rootScope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
+controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', '$http', '$filter', 'AppSettings', 'SearchService', function($scope, $rootScope, $stateParams, $timeout, $location, $http, $filter, AppSettings, SearchService) {
 
     var vm = this;
         vm.modal = { text: "Tweet content placeholder"};
+        vm.searchFilters = ['live', 'photos'];
+        vm.currentFiltter = 'live';
         vm.showDetail = false;
         vm.showResult = false;
 
@@ -25,6 +27,7 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
               SearchService.initData($stateParams)
                  .then(function(data) {
                    vm.statuses = data.statuses;
+                   vm.filteredStatuses = vm.statuses;
                    vm.showResult = true;
                  },
                  function() {
@@ -46,6 +49,18 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
                  console.log('statuses retrieval failed.');
                 });
         };
+
+        /**
+         * Filter result based on given filter
+         *
+         */
+        var filterSearch = function(filter) {
+            vm.currentFiltter = filter;
+            var searchFilter = filter + 'Search';
+            vm.filteredStatuses = $filter(searchFilter)(vm.statuses);
+        };
+
+        vm.filterSearch = filterSearch;
 
         /**
          * Given status object
