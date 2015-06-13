@@ -42,7 +42,20 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', 'AppS
 					});
 				}, function(err) {
 					console.log("Authentication failed, try again later");
-				});   
+				});
+
+				hello(auth.network).api('/me/share').then(function(twitterStatuses) {
+					$rootScope.$apply(function() {
+						$rootScope.root.twitterStatuses = twitterStatuses; 
+						console.log($rootScope.root.twitterStatuses);
+						console.log($rootScope.root);
+						// profileUrl = $rootScope.root.twitterSession.profile_image_url;
+						// getFullImage = profileUrl.split('_normal');
+						// profileUrl = getFullImage[0]+getFullImage[1];
+					});
+				}, function(err) {
+					console.log("Unable to get your recent tweets")
+				})
 			});
 
 			hello.on('auth.logout', function(auth) {
