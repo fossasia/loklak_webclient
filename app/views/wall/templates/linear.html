@@ -1,5 +1,5 @@
 <div ng-attr-id="{{data.id_str}}" class="linear linear-simple">
-    <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url}}" alt="user-images">
+    <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
     <div class="linear-content">
         <!-- Main content -->
         <p class="linear-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
