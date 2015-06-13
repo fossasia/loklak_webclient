@@ -18,6 +18,7 @@
   "homepage": "https://github.com/loklak/loklak_webclient",
   "dependencies": {
     "express": "^4.12.4",
-    "oauth-shim": "^0.2.3"
+    "oauth-shim": "^0.2.3",
+    "request": "^2.57.0"
   }
 }
