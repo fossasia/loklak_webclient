@@ -1,9 +1,26 @@
-<li ng-show="twitterSession" class="initial-userinfo" ng-show="twitterSession">
-    <span>
-        {{twitterSession.name}}
-    </span>
-    <img ng-src="{{twitterSession.profile_image_url_https}}">
-    <span ng-click="hello('twitter').logout()" >Log out</span>
+<li class="dropdown user user-menu open" ng-show="twitterSession" ng-show="twitterSession">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+		<img ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
+		<span class="hidden-xs">{{twitterSession.name}}</span>
+	</a>
+	<ul class="dropdown-menu">
+		<!-- User image -->
+		<li class="user-header">
+			<img ng-src="{{twitterSession.profile_image_url_https}}" class="img-circle" alt="User Image">
+			<p>
+				{{twitterSession.name}}
+			</p>
+		</li>
+		<!-- Menu Footer-->
+		<li class="user-footer">
+			<div class="pull-left">
+				<a href="#" class="btn btn-default btn-flat">Profile</a>
+			</div>
+			<div class="pull-right">
+				<a ng-click="hello('twitter').logout()" class="btn btn-default btn-flat">Sign out</a>
+			</div>
+		</li>
+	</ul>
 </li>
 
 <li ng-show="!twitterSession" class="signin">
@@ -11,4 +28,3 @@
 		<i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter
 	</span>
 </li>
-
