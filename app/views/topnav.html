@@ -163,6 +163,14 @@
                         </a>
                     </li> -->
                 </ul>
+                <ul class="nav navbar-nav" ng-if="root.twitterSession">
+                    <li style="margin-top:15%;">
+                    <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" style="background-color:#339DC3;color:white;">
+                  <span class="fa fa-twitter"></span>
+                  <span class="text">Tweet</span>
+                </button>
+                </li>
+                </ul>
                 <!-- <ul class="dropdown-menu">
                   User image 
                   <li class="user-header">
@@ -188,3 +196,24 @@
         </div>
     </nav>
 </header>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Post a tweet</h4>
+      </div>
+      <div class="modal-body">
+        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
