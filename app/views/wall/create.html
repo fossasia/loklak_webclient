@@ -1,19 +1,19 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
-<link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css"> -->
 <div class="content-wrapper">
     <section class="content-header">
         <!-- <h1>Create a new twitter wall</h1> -->
     </section>
     <section class="content">
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#wall-modal">Open Modal</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#wall-modal">Create a new wall</button>
         <div class="modal fade" id="wall-modal" role="dialog">
             <div class="modal-dialog modal-lg wall-modal-dialog">
                 <div class="modal-content wall-modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2 class="modal-title">Loklak Twitter Wall</h2>
+                        <h2 class="modal-title">Create a new Twitter Wall</h2>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -91,72 +91,134 @@
                                                 <div class="box-header">
                                                     <h3 class="box-title">What should show up on your tweet wall?</h3>
                                                 </div>
-                                                <div class="box-body">
+                                                <div class="box-body" id="accordion">
                                                     <p class="text-muted">Don't worry, you can leave some fields blank if you want.</p>
-                                                    <div class="row">
-                                                        <div class="col-xs-6">
-                                                            <h4>Words</h4>
-                                                            <div class="form-group">
-                                                                <label>All of these words</label>
-                                                                <tags-input ng-model="soo1" placeholder="Type and hit enter" name="ands"></tags-input>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Any of these words</label>
-                                                                <tags-input ng-model="soo2" placeholder="Type and hit enter" name="ors"></tags-input>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>None of these words</label>
-                                                                <tags-input ng-model="soo3" placeholder="Type and hit enter" name="nots"></tags-input>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>These hashtags</label>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">#</span>
-                                                                    <tags-input ng-model="soo4" placeholder="Type and hit enter" name="tag"></tags-input>
-                                                                </div>
-                                                            </div>
+                                                    <div class="panel box">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Words</a></h4>
                                                         </div>
-                                                        <div class="col-xs-6">
-                                                            <h4>People</h4>
-                                                            <div class="form-group">
-                                                                <label>From these accounts</label>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">@</span>
-                                                                    <tags-input ng-model="soo5" placeholder="Type and hit enter" name="from"></tags-input>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>To these accounts</label>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">@</span>
-                                                                    <tags-input ng-model="soo6" nput placeholder="Type and hit enter" name="to"></tags-input>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Mentioning these accounts</label>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">@</span>
-                                                                    <tags-input ng-model="soo7" placeholder="Type and hit enter" name="mwnt"></tags-input>
+                                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>All of these words</label>
+                                                                            <tags-input ng-model="wallOptions.allWords" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Any of these words</label>
+                                                                            <tags-input disabled ng-model="wallOptions.anyWords" placeholder="Type and hit enter" name="ors"></tags-input>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>None of these words</label>
+                                                                            <tags-input disabled ng-model="wallOptions.noWords" placeholder="Type and hit enter" name="nots"></tags-input>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>These hashtags</label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon">#</span>
+                                                                                <tags-input disabled ng-model="wallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-xs-6">
-                                                            <h4>Places</h4>
-                                                            <div class="form-group">
-                                                                <label>From these places</label>
-                                                                <input class="form-control" type="text" name="to">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>From these locations</label>
-                                                                <input class="form-control" type="text" name="mwnt">
-                                                            </div>
+                                                    <div class="panel box">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" class="collapsed">People</a></h4>
                                                         </div>
-                                                        <div class="col-xs-6">
-                                                            <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
+                                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>From these accounts</label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon">@</span>
+                                                                                <tags-input disabled ng-model="wallOptions.from" placeholder="Type and hit enter" name="from"></tags-input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>To these accounts</label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon">@</span>
+                                                                                <tags-input disabled ng-model="wallOptions.to" nput placeholder="Type and hit enter" name="to"></tags-input>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>Mentioning these accounts</label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon">@</span>
+                                                                                <tags-input disabled ng-model="wallOptions.mentioning" placeholder="Type and hit enter" name="mwnt"></tags-input>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <div class="panel box">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" class="collapsed">Media</a></h4>
+                                                        </div>
+                                                        <div id="collapseThree" class="panel-collapse collapse">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>Images</label><br>
+                                                                            <choices data-type="array" ng-model="wallOptions.images">
+                                                                                <choice active value="both">No preference</choice>
+                                                                                <choice value="only">Only images</choice>
+                                                                                <choice value="none">No images</choice>
+                                                                            </choices>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Videos</label><br>
+                                                                            <choices data-type="array" ng-model="wallOptions.videos">
+                                                                                <choice active value="both">No preference</choice>
+                                                                                <choice value="only">Only Videos</choice>
+                                                                                <choice value="none">No Videos</choice>
+                                                                            </choices>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <div class="form-group">
+                                                                            <label>Audio</label><br>
+                                                                            <choices data-type="array" ng-model="wallOptions.audio">
+                                                                                <choice active value="both">No preference</choice>
+                                                                                <choice value="only">Only Audio</choice>
+                                                                                <choice value="none">No Audio</choice>
+                                                                            </choices>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel box">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" class="collapsed">Places</a></h4>
+                                                        </div>
+                                                        <div id="collapseFour" class="panel-collapse collapse">
+                                                            <div class="box-body">
+                                                                <h4>Coming soon.</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box-footer">
+                                                    <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +279,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="box-footer">
-                                                                        <a data-dismiss="modal" ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start my twitter wall!</a>
+                                                                        <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start my twitter wall!</a>
                                                                         <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an Event Name and your event's main #hashtag</p>
                                                                     </div>
                                                                 </div>

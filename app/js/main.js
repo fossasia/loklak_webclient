@@ -33,7 +33,8 @@ angular.element(document).ready(function() {
     'wu.masonry',
     'ngTagsInput',
     'colorpicker.module',
-    'toggle-switch'
+    'toggle-switch',
+    'ui.choices'
   ];
 
   // mount on window for testing

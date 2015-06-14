@@ -10,6 +10,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService) {
 
     var vm = this;
+    var flag = false;
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -19,7 +20,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
                 b: parseInt(result[3], 16)
             } : null;
         }
-    //Selects foreground colour as black or white based on background
+        //Selects foreground colour as black or white based on background
     function colourCalculator(rgb) {
         var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
         if (o > 125) {
@@ -30,21 +31,19 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     }
 
     $scope.$watch('wallOptions.headerColour', function() {
-        if($scope.wallOptions)
-        $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
+        if ($scope.wallOptions)
+            $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
     });
 
     $scope.$watch('wallOptions.mainHashtagText', function() {
-        if($scope.wallOptions.mainHashtagText)
-        if($scope.wallOptions.mainHashtagText.length!==0)
-        {
-            if($scope.wallOptions.mainHashtagText[0] != '#') {
-                $scope.wallOptions.mainHashtag = '#' + $scope.wallOptions.mainHashtagText;
+        if ($scope.wallOptions.mainHashtagText)
+            if ($scope.wallOptions.mainHashtagText.length !== 0) {
+                if ($scope.wallOptions.mainHashtagText[0] != '#') {
+                    $scope.wallOptions.mainHashtag = '#' + $scope.wallOptions.mainHashtagText;
+                } else {
+                    $scope.wallOptions.mainHashtag = $scope.wallOptions.mainHashtagText;
+                }
             }
-            else {
-                $scope.wallOptions.mainHashtag = $scope.wallOptions.mainHashtagText;
-            }
-        }
     });
 
     $scope.proceed = function() {
@@ -53,8 +52,40 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     };
 
     $scope.start = function() {
-        $location.path('/wall/display').search($scope.wallOptions);
+        //$scope.wallOptions.allWords = JSON.stringify($scope.wallOptions.allWords);
+        for (var i = 0; i < $scope.wallOptions.allWords.length; i++) {
+            $scope.wallOptions.allWords[i] = $scope.wallOptions.allWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.anyWords.length; i++) {
+            $scope.wallOptions.anyWords[i] = $scope.wallOptions.anyWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.noWords.length; i++) {
+            $scope.wallOptions.noWords[i] = $scope.wallOptions.noWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.allHashtags.length; i++) {
+            $scope.wallOptions.allHashtags[i] = '#' + $scope.wallOptions.allHashtags[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.from.length; i++) {
+            $scope.wallOptions.from[i] = $scope.wallOptions.from[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.to.length; i++) {
+            $scope.wallOptions.to[i] = $scope.wallOptions.to[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.mentioning.length; i++) {
+            $scope.wallOptions.mentioning[i] = $scope.wallOptions.mentioning[i].text;
+        };
+        console.log($scope.wallOptions);
+        $('#wall-modal').modal('toggle');
+        flag = true;
     };
+
+    $("#wall-modal").on('hidden.bs.modal', function() {
+        if (flag == true) {
+            flag = false;
+            $location.path('/wall/display').search($scope.wallOptions);
+            $scope.$apply();
+        }
+    });
 
     $scope.resetDate = function() {
         $scope.wallOptions.sinceDate = null;
@@ -64,4 +95,3 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 }
 
 controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallCtrl]);
-

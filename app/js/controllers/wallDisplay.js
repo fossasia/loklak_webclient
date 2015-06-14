@@ -18,8 +18,32 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     vm.displaySearch = true;
     vm.wallOptions = $location.search();
     var term = vm.wallOptions.mainHashtag;
-    if (vm.wallOptions.onlyImages == true) {
-        term = term + ' /image';
+    for (var word in vm.wallOptions.allWords){
+        term = term + " " + word;
+    }
+    if (vm.wallOptions.images) {
+        if(vm.wallOptions.images=="only"){
+            term = term + ' /image';    
+        }
+        else if(vm.wallOptions.images=="none"){
+            term = term + ' -/image';    
+        }    
+    }
+    if (vm.wallOptions.videos) {
+        if(vm.wallOptions.videos=="only"){
+            term = term + ' /video';    
+        }
+        else if(vm.wallOptions.videos=="none"){
+            term = term + ' -/video';    
+        }    
+    }
+    if (vm.wallOptions.audio) {
+        if(vm.wallOptions.audio=="only"){
+            term = term + ' /audio';    
+        }
+        else if(vm.wallOptions.audio=="none"){
+            term = term + ' -/audio';    
+        }    
     }
     if (vm.wallOptions.sinceDate) {
         term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');

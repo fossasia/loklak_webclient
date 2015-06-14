@@ -19,7 +19,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
     		},
         {
           'title': 'Wall',
-          'link' : '/wall/create',
+          'link' : '/wall',
           'icon' : 'fa fa-list'
         },
         {
