@@ -8,89 +8,81 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', '$http', '$filter', 'AppSettings', 'SearchService', function($scope, $rootScope, $stateParams, $timeout, $location, $http, $filter, AppSettings, SearchService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, SearchService, DebugLinkService) {
 
     // Define models here
     var vm = this;
     vm.modal = { text: "Tweet content placeholder"};
     vm.showDetail = false;
     vm.showResult = false;
-    vm.searchFilters = ['live', 'photos'];
     vm.term = '';
-
-    //Other vars
-    var filterToQuery = { 'live': '', 'photos': '/image'};
-    var queryToFilter = (function() { // Just the reversed object of the above
-          var ret = {};
-          for(var key in filterToQuery){
-            ret[filterToQuery[key]] = key;
-          }
-          return ret;
-    })();
-
+    vm.currentFilter = '';
         
-    // Init statues if path is a search url
+    // Init statuses if path is a search url
     angular.element(document).ready(function() {
-      if ($stateParams.q !== undefined) {
-          SearchService.initData($stateParams)
-             .then(function(data) {
-               vm.statuses = data.statuses;
-               vm.originStatuses = JSON.parse(JSON.stringify(vm.statuses));
-               vm.showResult = true;
-               evalSearchQuery();
-             },
-             function() {
-               console.log('statuses init retrieval failed');
-             });   
+        if ($stateParams.q !== undefined) {
+            evalSearchQuery();
+            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
+            console.log(filterFn);
+            console.log(vm.filterFn);
+            vm[filterFn]();   
+            vm.showResult = true;
       }
     });
 
     // Update status and path on successful search
     vm.update = function(term) {
-        SearchService.getData(term)
-            .then(function(data) {
+        SearchService.getData(term).then(function(data) {
                vm.statuses = data.statuses;
                vm.showResult = true;
                updatePath(term);
-               evalSearchQuery();
             },
             function() {
              console.log('statuses retrieval failed.');
-            });
+            }
+        );
     };
 
 
-    // Filter result based on given filter
-    vm.filterSearch = function(filter) {
-        if (vm.currentFilter === "live" && filter !== "live") {
-            console.log("Foo");
-            vm.originStatuses = JSON.parse(JSON.stringify(vm.statuses));
-        }
-        if (filter !== vm.currentFilter) {
-            vm.currentFilter = filter;
-            var newTerm = setNewTerm();
-            vm.update(newTerm);
-        }
+    // No filter search
+    vm.filterLive = function() {
+        vm.currentFilter = 'live';
+        var term = vm.term;
+        vm.update(term);
     };
 
-    // Filter videos, can't be used with 
+    // Photos search
+    vm.filterPhotos = function() {
+        vm.currentFilter = 'photos';
+        var term = vm.term + '+' + '/image';
+        vm.update(term);
+    };
+
+    // Videos search
+    // Do manual req, when done, filter status with video, and then update vm.statuses
+    // With help of DebugLinkService
     vm.filterVideos = function() {
-        
+        vm.currentFilter = 'videos';
+        var videoStatuses = '';
 
-        if (vm.currentFilter === "live") {
-            // Storing original result for videos filter
-            vm.currentFilter = "videos";
-            vm.statuses = vm.statuses.filter(function(status) {
-                return status.isVideo;
-            });    
-        } else {
-            vm.currentFilter = "videos";
-            vm.statuses = vm.originStatuses.filter(function(status) {
-                return status.isVideo;
-            });    
-        }
-        
+        SearchService.getData(vm.term).then(function(data) {
+            var statuses = data.statuses;
+            videoStatuses = statuses.filter(function(status) {
+                if (hasExternalLink(status)) {
+                    return (getLinkType(status.links[0]) === 'video');    
+                } else {
+                    return false;
+                }      
+            });
+            vm.statuses = videoStatuses;
+        }, function() {
+             console.log('statuses retrieval failed.');
+           }
+        );
+
+        updatePath(vm.term + '+' + '/video');
     };
+
 
     // Create photoswipe
     // Lib's docs: http://photoswipe.com/documentation/getting-started.html
@@ -136,12 +128,29 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
     // Evaluate current search query to extract term & filter
     function evalSearchQuery() {
         var queryParts = $location.search().q.split('+');
+        var queryToFilter = {
+            '/image': 'photos',
+            '/video': 'videos'
+        };
+
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
     }
 
-    // Return query for search based on current term & filter
-    function setNewTerm() {
-        return (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery[vm.currentFilter];
+    // Debug link to get type
+    function getLinkType(link) {
+       var debugResult = DebugLinkService.debugLinkSync(link);
+       return debugResult.type;
+    }
+
+    // Check if a status has external link, twitter pic src is not considered as external
+    function hasExternalLink(status) {
+        if (!status.links[0]) {
+            return false;
+        } else if (status.links[0].indexOf('pbs.twimg.com') > -1) {
+            return false;
+        } else {
+            return true;    
+        }
     }
 }]);

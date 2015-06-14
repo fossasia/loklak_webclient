@@ -21,12 +21,16 @@
                 <div class="filters-container">
                     <ul class="search-modes">
                         <!-- General filters -->
-                        <li ng-repeat="filter in search.searchFilters" ng-class="(search.currentFilter === filter) ? 'active' : ''" ng-click="search.filterSearch(filter)">
-                            <a href="#">{{filter}}</a>
+                        <li  ng-class="(search.currentFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
+                            <a href="#">live</a>
+                        </li>
+                        <li  ng-class="(search.currentFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
+                            <a href="#">photos</a>
+                        </li>
+                        <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
+                            <a href="#">videos</a>
                         </li>
 
-                        <!-- Others -->
-                        <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()"><a href="#">Videos</a></li>
                         <li><a href="#">More options</a></li>
                     </ul>
                 </div>
