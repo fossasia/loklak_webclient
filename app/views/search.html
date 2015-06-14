@@ -20,16 +20,13 @@
                 <!-- Filters -->
                 <div class="filters-container">
                     <ul class="search-modes">
+                        <!-- General filters -->
                         <li ng-repeat="filter in search.searchFilters" ng-class="(search.currentFilter === filter) ? 'active' : ''" ng-click="search.filterSearch(filter)">
                             <a href="#">{{filter}}</a>
                         </li>
 
-                        <!-- <li class="active" filter-attr="top"><a href="#">Top</a></li>
-                        <li><a href="#">Live</a></li>
-                        <li><a href="#">Accounts</a></li>
-                        <li><a href="#">Photos</a></li>
-                        <li><a href="#">Videos</a></li> -->
-
+                        <!-- Others -->
+                        <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()"><a href="#">Videos</a></li>
                         <li><a href="#">More options</a></li>
                     </ul>
                 </div>

@@ -61,11 +61,32 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
 
     // Filter result based on given filter
     vm.filterSearch = function(filter) {
+        if (vm.currentFilter === "live" && filter !== "live") {
+            console.log("Foo");
+            vm.originStatuses = JSON.parse(JSON.stringify(vm.statuses));
+        }
         if (filter !== vm.currentFilter) {
             vm.currentFilter = filter;
             var newTerm = setNewTerm();
             vm.update(newTerm);
         }
+    };
+
+    // Filter videos, can't be used with 
+    vm.filterVideos = function() {
+        vm.currentFilter = "videos";
+
+        if (vm.currentFilter === "live") {
+            // Storing original result for videos filter
+            vm.statuses = vm.statues.filter(function(status) {
+                return status.isVideo;
+            });    
+        } else {
+            vm.statuses = vm.originStatuses.filter(function(status) {
+                return status.isVideo;
+            });    
+        }
+        
     };
 
     // Create photoswipe
