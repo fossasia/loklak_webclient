@@ -140,7 +140,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     // Debug link to get type
     function getLinkType(link) {
        var debugResult = DebugLinkService.debugLinkSync(link);
-       return debugResult.type;
+       return (debugResult) ? debugResult.type : '';
     }
 
     // Check if a status has external link, twitter pic src is not considered as external
