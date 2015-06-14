@@ -4,32 +4,27 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', 'AppSettings', function($rootScope, HelloService, AppSettings) {
+directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', function($timeout, $rootScope, HelloService, AppSettings) {
 	return {
 		scope: {
 			hello: '=',
 			twitterSession: '=',
 		},
 		templateUrl: 'signin-twitter.html',
-		controller: function() {
-			var hello = HelloService;
-
-			/**
-			*  Init hellojs service and session 
-			*
-			*/
-			$rootScope.root.hello = hello;
+		controller: function($scope) {
+			var hello = $scope.hello;
 
 			// Init service, will also evaluate available cookies
 			hello.init({
 				twitter: AppSettings.twitterConsumerKey
 			},
 			{
-				oauth_proxy: AppSettings.oauthProxyUrl,
-				redirect_uri: 'redirect'
+				oauth_proxy: AppSettings.oauthProxyUrl
+			},
+			{
+				redirect_uri: AppSettings.oauthProxyRedirectUrl
 			}
 			);
-			console.log(hello);
 
 			// If service init result in e.g. login
 			// Create global session variable
@@ -38,32 +33,34 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', 'AppS
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 					});
-				}, function(err) {
+				}, function() {
 					console.log("Authentication failed, try again later");
 				});
 
-				hello(auth.network).api('/me/share').then(function(twitterStatuses) {
-					$rootScope.$apply(function() {
-						$rootScope.root.twitterStatuses = twitterStatuses; 
-						console.log($rootScope.root.twitterStatuses);
-						console.log($rootScope.root);
-						// profileUrl = $rootScope.root.twitterSession.profile_image_url;
-						// getFullImage = profileUrl.split('_normal');
-						// profileUrl = getFullImage[0]+getFullImage[1];
-					});
-				}, function(err) {
-					console.log("Unable to get your recent tweets")
-				})
 			});
 
 			hello.on('auth.logout', function(auth) {
-				alert('Signed out');
 				$rootScope.$apply(function() {
 					$rootScope.root.twitterSession = false;	
 				});	
-			}, function(err) {
+				console.log("Signed out");
+			}, function() {
 					console.log("Signed out failed, try again later");
 			});   
+		},
+		link: function(scope) {
+			var hello = scope.hello;
+			var isOnline = hello('twitter').getAuthResponse();
+
+			angular.element(document).ready(function() {
+				if (!isOnline) {
+					$('#signupModal').modal('show');	
+				}
+			});
+
+			hello.on('auth.login', function(auth) {
+				angular.element('.modal-backdrop').remove();
+			});
 		}
 	};
 }]);
