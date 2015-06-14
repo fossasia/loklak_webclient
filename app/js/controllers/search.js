@@ -23,8 +23,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         if ($stateParams.q !== undefined) {
             evalSearchQuery();
             var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            console.log(filterFn);
-            console.log(vm.filterFn);
             vm[filterFn]();   
             vm.showResult = true;
       }
@@ -36,11 +34,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                vm.statuses = data.statuses;
                vm.showResult = true;
                updatePath(term);
-            },
-            function() {
-             console.log('statuses retrieval failed.');
-            }
-        );
+        }, function() {});
     };
 
 
@@ -62,24 +56,36 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     // Do manual req, when done, filter status with video, and then update vm.statuses
     // With help of DebugLinkService
     vm.filterVideos = function() {
+        vm.statuses = [];   
         vm.currentFilter = 'videos';
-        var videoStatuses = '';
+        vm.showResult = true;
 
+        // Get most videos
         SearchService.getData(vm.term).then(function(data) {
             var statuses = data.statuses;
-            videoStatuses = statuses.filter(function(status) {
+            statuses.forEach(function(status) {
                 if (hasExternalLink(status)) {
-                    return (getLinkType(status.links[0]) === 'video');    
-                } else {
-                    return false;
-                }      
+                    DebugLinkService.debugLink(status.links[0]).then(function(data) {
+                        if (data.type === 'video') {
+                            vm.statuses.push(status);        
+                        }
+                    }, function() {return;});
+                }
             });
-            vm.statuses = videoStatuses;
-        }, function() {
-             console.log('statuses retrieval failed.');
-           }
-        );
+        }, function() {});
 
+        // Get native videos
+        $timeout(function() {
+            SearchService.getData(vm.term + '+' + '/video').then(function(data) {
+                var statuses = data.statuses;
+                statuses.forEach(function(status) {
+                    if (status.videos_count && status.videos[0].substr(-4) === '.mp4') {
+                        vm.statuses.push(status);
+                    }
+                });
+            }, function() {});    
+        }, 2000);
+        
         updatePath(vm.term + '+' + '/video');
     };
 
@@ -135,12 +141,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
-    }
-
-    // Debug link to get type
-    function getLinkType(link) {
-       var debugResult = DebugLinkService.debugLinkSync(link);
-       return (debugResult) ? debugResult.type : '';
     }
 
     // Check if a status has external link, twitter pic src is not considered as external
