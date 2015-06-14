@@ -1,5 +1,5 @@
 <ul class="nav navbar-nav pull-right">
-<li class="dropdown user user-menu" ng-show="twitterSession" ng-show="twitterSession">
+<li class="dropdown user user-menu" ng-show="twitterSession" ng-show="twitterSession" style="margin-right: 20px;">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<img ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
 		<span class="hidden-xs">&nbsp;</span>
@@ -7,7 +7,7 @@
 	<ul class="dropdown-menu">
 		<!-- Menu Footer-->
 		<li class="user-header">
-			<img ng-src="{{twitterSession.profile_image_url_https}}" alt="" class="img-circle">
+			<img ng-src="{{twitterSession.profileURL}}" alt="" class="img-circle">
 			<p>{{twitterSession.name}}</p>
 		</li>
 		<li class="user-footer">

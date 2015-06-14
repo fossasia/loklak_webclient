@@ -30,6 +30,9 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				hello(auth.network).api('/me').then(function(twitterSession) {
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
+						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
+						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
+						console.log($rootScope.root.twitterSession);
 					});
 				}, function() {
 					console.log("Authentication failed, try again later");
