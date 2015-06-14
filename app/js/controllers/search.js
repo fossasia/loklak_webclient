@@ -35,6 +35,7 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
           SearchService.initData($stateParams)
              .then(function(data) {
                vm.statuses = data.statuses;
+               vm.originStatuses = JSON.parse(JSON.stringify(vm.statuses));
                vm.showResult = true;
                evalSearchQuery();
              },
@@ -74,14 +75,16 @@ controllersModule.controller('SearchCtrl', ['$scope', '$rootScope', '$stateParam
 
     // Filter videos, can't be used with 
     vm.filterVideos = function() {
-        vm.currentFilter = "videos";
+        
 
         if (vm.currentFilter === "live") {
             // Storing original result for videos filter
-            vm.statuses = vm.statues.filter(function(status) {
+            vm.currentFilter = "videos";
+            vm.statuses = vm.statuses.filter(function(status) {
                 return status.isVideo;
             });    
         } else {
+            vm.currentFilter = "videos";
             vm.statuses = vm.originStatuses.filter(function(status) {
                 return status.isVideo;
             });    
