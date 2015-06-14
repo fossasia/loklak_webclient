@@ -17,7 +17,7 @@
             <!-- Text -->
             <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
 
-            <div class="debugged-link-container" debugged-link link-array="data.links" debuggable="debuggable"></div>
+            <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
 
             <!-- Images -->
             <div class="status-images-container" ng-show="!debuggable">

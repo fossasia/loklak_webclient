@@ -29,12 +29,13 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		scope: {
 			linkArray: "=",
 			debuggable: "=",
+			data: "=",
 		},
 		templateUrl: 'debugged-link.html',
 		controller: function($scope) {
 			$scope.debuggable = false;
 		},
-		link: function(scope, element, attrs) {	
+		link: function(scope, element) {	
 			/**
 			 * Take the embeded link 
 			 *     Pic.twitter.com is already render in images and is not processed again
@@ -57,7 +58,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						function(data) {
 							if (data !== "Page not found") {
 								scope.debuggable = true;
-								if (data.type == "link" || data.type == "photo") {
+								if (data.type === "link" || data.type === "photo") {
 									var template = generateArticleParts(data);
 									if (template) {
 										scope.debuggable = true;
@@ -66,11 +67,14 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 										scope.debuggable = false;
 									}
 								} else {
+									if (data.type === "video") {
+										scope.data.isVideo = true;
+									}
 									scope.debuggable = true;
 									element.append(data.html);
 								}
 							}
-						}, function(data) {
+						}, function() {
 							scope.debuggable = false;
 							return;
 						}
