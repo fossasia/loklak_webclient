@@ -26,7 +26,7 @@ directivesModule.directive('signinTwitter', ['$rootScope', 'HelloService', 'AppS
 			},
 			{
 				oauth_proxy: AppSettings.oauthProxyUrl,
-				redirect_uri: 'redirect'
+				redirect_uri: '/redirect'
 			}
 			);
 			console.log(hello);
