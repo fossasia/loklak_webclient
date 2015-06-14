@@ -25,9 +25,14 @@
 </li>
 </ul>
 
+<ul class=nav navbar-nav>
 <li ng-show="!twitterSession" class="signin">
-	<span ng-click="hello('twitter').login()">
-		<i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter
+	<a href="">
+		<span class="link" ng-click="hello('twitter').login()">
+		<i style="padding-right: 4px;" class="fa fa-twitter"></i><span class="hidden-sm hidden-xs">Signup Via Twitter</span>
 	</span>
+	</a>
+
 </li>
+</ul>
 
