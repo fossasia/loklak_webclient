@@ -13,10 +13,51 @@
     display: inline-block;
 }
 
+@media(max-width:767px) {
+    .navbar .navbar-form {
+        width: 65%;
+        padding-left:0;
+        padding-right:0;
+    }
+}
+@media(min-width:768px) {
+    .navbar .navbar-form {
+        width: 250px;
+    }
+}
+@media(max-width:767px) {
+    .pull-responsive {
+        float: left;
+    }
+}
+@media(min-width:768px) {
+    .pull-responsive {
+        float: right;
+    }
+}
+.navbar .navbar-form {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    float: none;
+}
+.main-header #navbar-search-input
+{
+	width:auto;
+	border-radius:21px;
+}
+#brandimage{
+    margin-top: -15px;
+}
+
 // Twitter sign in
 	.signin-twitter {
 		height: 50px;
-		min-width: 300px;
+		width:auto;
 		overflow: hidden;
 		display: inline-block;
 		line-height: 20px;
@@ -27,7 +68,7 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding: 17px;
+				padding-top: 5px;
 				color: white;
 			}
 			span.avatar-container {
@@ -45,13 +86,12 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding: 17px;
+				padding-top: 3px;
 				color: white;
 			}
 		}
 	}
 /* Old styles */
-
 body {
     font-family: Helvetica, sans-serif;
     background-color: #F5F8FA;
