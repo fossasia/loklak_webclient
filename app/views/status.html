@@ -51,7 +51,7 @@
             <!-- Hidden detailed metadata -->
                 <div ng-show="showDetail" class="detail-metadata">
                     <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
-                    <span class="link-to-tweet" data-ng-click="showModal(data)">Details</span>
+                    <span class="link-to-tweet" data-ng-click="openSingleTweet(data.id_str)">Details</span>
                 </div>
 
 

@@ -12,7 +12,6 @@ directivesModule.directive('status', ['$location', function($location) {
             data: '=',
             highlight: '=',
             openSwipe: '=',
-            showModal: '=',
         },
         templateUrl: 'status.html',
         controller: function($scope) {
