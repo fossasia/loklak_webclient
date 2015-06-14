@@ -57,8 +57,13 @@
 // Twitter sign in
 	.signin-twitter {
 		height: 50px;
+<<<<<<< HEAD
+		min-width: 300px;
+		// overflow: hidden;
+=======
 		width:auto;
 		overflow: hidden;
+>>>>>>> bc7d61089b816055175635d3082f176b54e58f14
 		display: inline-block;
 		line-height: 20px;
 		color: white;
@@ -91,6 +96,8 @@
 			}
 		}
 	}
+
+.dropdown.user.user-menu span { color: white; }
 /* Old styles */
 body {
     font-family: Helvetica, sans-serif;
@@ -1729,6 +1736,7 @@ body {
 	text-align: center;
 	padding: 20% 0;
 }
+
 .wall-modal-dialog {
   width: 100%;
   height: 100%;
@@ -1740,6 +1748,7 @@ body {
   height: 100%;
   border-radius: 0;
 }
+>>>>>>> bc7d61089b816055175635d3082f176b54e58f14
 .redirect-page {background:#F5F8FA;height:100%;text-align:center;display:-webkit-flex;display:flex;height:100%;-webkit-flex-flow:column wrap;flex-flow:column wrap;-webkit-justify-content:center;justify-content:center;margin:0;padding:10px}
 .loading-redirect{font-size:50px;height:1em;-webkit-animation:fadeout .5s 5s;animation:fadeout .5s 5s;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.loading-redirect span{-webkit-animation:fadein .5s .5s alternate infinite;animation:fadein .5s .5s alternate infinite}.loading-redirect span:nth-child(2){-webkit-animation-delay:.75s;animation-delay:.75s}.loading-redirect span:nth-child(3){-webkit-animation-delay:1s;animation-delay:1s}#redirect-text{text-align:center;font-family:helvetica;opacity:0;-webkit-animation:fadein .5s 3s;animation:fadein .5s 3s;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.overflow{background:#000;color:#fff;max-width:100%;text-align:left}@-webkit-keyframes fadein{from{opacity:0;-webkit-transform:scale(.2)}to{opacity:1;-webkit-transform:scale(1)}}@-webkit-keyframes fadeout{to{opacity:0;height:0}}@keyframes fadein{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}@keyframes fadeout{to{opacity:0;height:0}}
 .loading-redirect-img {
