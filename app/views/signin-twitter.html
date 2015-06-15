@@ -1,14 +1,38 @@
-<li ng-show="twitterSession" class="initial-userinfo" ng-show="twitterSession">
-    <span>
-        {{twitterSession.name}}
-    </span>
-    <img ng-src="{{twitterSession.profile_image_url_https}}">
-    <span ng-click="hello('twitter').logout()" >Log out</span>
+<ul class="nav navbar-nav pull-right">
+<li class="dropdown user user-menu" ng-show="twitterSession" ng-show="twitterSession" style="margin-right: 20px;">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<img ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
+		<span class="hidden-xs">&nbsp;</span>
+	</a>
+	<ul class="dropdown-menu">
+		<!-- Menu Footer-->
+		<li class="user-header">
+			<img ng-src="{{twitterSession.profileURL}}" alt="" class="img-circle">
+			<p>{{twitterSession.name}}</p>
+		</li>
+		<li class="user-footer">
+			<div class="col-lg-4 col-md-4">
+				<a href="#" class="btn btn-default btn-flat">Profile</a>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<a href="#" class="btn btn-default btn-flat">Settings</a>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<a ng-click="hello('twitter').logout()" class="btn btn-default btn-flat">Sign out</a>
+			</div>
+		</li>
+	</ul>
 </li>
+</ul>
 
+<ul class=nav navbar-nav>
 <li ng-show="!twitterSession" class="signin">
-	<span ng-click="hello('twitter').login()">
-		<i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter
+	<a href="">
+		<span class="link" ng-click="hello('twitter').login()">
+		<i style="padding-right: 4px;" class="fa fa-twitter"></i><span class="hidden-sm hidden-xs">Signup Via Twitter</span>
 	</span>
+	</a>
+
 </li>
+</ul>
 
