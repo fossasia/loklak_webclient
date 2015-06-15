@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 
 directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', function(DebugLinkService, $timeout) {
 
-	/*
+	/**
 	 * In short if the return debugged data type is 'link'
 	 * Meaning no videos, or complicated iframe
 	 * Render a simple preview of the link
@@ -24,6 +24,13 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		}		
 	};
 
+	/**
+	 * Generate template for mp4 video
+	 */
+	var generateMp4Template = function(src) {
+		return '<video width="100%"" style="min-height: 350px;" controls><source src="' + src + '" type="video/mp4">Your browser does not support HTML5 video.</video>';
+	};
+	
 	return {
 		restrict: 'A',
 		scope: {
@@ -52,33 +59,27 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			$timeout(function() {
 				var undebuggedLink = scope.linkArray[0];
 
-				if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
-					DebugLinkService.debugLink(undebuggedLink)
-					.then(
-						function(data) {
-							if (data !== "Page not found") {
-								scope.debuggable = true;
-								if (data.type === "link" || data.type === "photo") {
-									var template = generateArticleParts(data);
-									if (template) {
-										scope.debuggable = true;
-										element.append(template);
-									} else {
-										scope.debuggable = false;
-									}
-								} else {
-									if (data.type === "video") {
-										scope.data.isVideo = true;
-									}
+				if (undebuggedLink.substr(-4) === '.mp4') {
+					element.append(generateMp4Template(undebuggedLink));
+					scope.debuggable = true;
+					return;
+				} else if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
+					DebugLinkService.debugLink(undebuggedLink).then(function(data) {
+						if (data !== "Page not found") {
+							scope.debuggable = true;
+							if (data.type === "link" || data.type === "photo") {
+								var template = generateArticleParts(data);
+								if (template) {
 									scope.debuggable = true;
-									element.append(data.html);
-								}
+									element.append(template);
+								} else {scope.debuggable = false;}
+							} else {
+								if (data.type === "video") {scope.data.isVideo = true;}
+								scope.debuggable = true;
+								element.append(data.html);
 							}
-						}, function() {
-							scope.debuggable = false;
-							return;
 						}
-					);
+					}, function() {scope.debuggable = false;});
 				}
 			}, 1000);	
 		}

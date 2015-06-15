@@ -80,6 +80,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                 var statuses = data.statuses;
                 statuses.forEach(function(status) {
                     if (status.videos_count && status.videos[0].substr(-4) === '.mp4') {
+                        status.links[0] = status.videos[0];
                         vm.statuses.push(status);
                     }
                 });
