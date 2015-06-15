@@ -74,9 +74,10 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 									element.append(template);
 								} else {scope.debuggable = false;}
 							} else {
-								if (data.type === "video") {scope.data.isVideo = true;}
-								scope.debuggable = true;
-								element.append(data.html);
+								if (data.type === "video") {
+									scope.debuggable = true;
+									element.append(data.html);
+								}
 							}
 						}
 					}, function() {scope.debuggable = false;});
