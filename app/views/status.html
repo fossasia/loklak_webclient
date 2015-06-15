@@ -17,7 +17,7 @@
             <!-- Text -->
             <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
 
-            <div class="debugged-link-container" debugged-link link-array="data.links" debuggable="debuggable"></div>
+            <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
 
             <!-- Images -->
             <div class="status-images-container" ng-show="!debuggable">
@@ -51,7 +51,7 @@
             <!-- Hidden detailed metadata -->
                 <div ng-show="showDetail" class="detail-metadata">
                     <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
-                    <span class="link-to-tweet" data-ng-click="showModal(data)">Details</span>
+                    <span class="link-to-tweet" data-ng-click="openSingleTweet(data.id_str)">Details</span>
                 </div>
 
 
