@@ -30,7 +30,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 	var generateMp4Template = function(src) {
 		return '<video width="100%"" style="min-height: 350px;" controls><source src="' + src + '" type="video/mp4">Your browser does not support HTML5 video.</video>';
 	};
-	
+
 	return {
 		restrict: 'A',
 		scope: {

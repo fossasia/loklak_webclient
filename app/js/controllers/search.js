@@ -60,32 +60,38 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         vm.currentFilter = 'videos';
         vm.showResult = true;
 
-        // Get most videos
-        SearchService.getData(vm.term).then(function(data) {
+
+        // Get native videos
+        SearchService.getData(vm.term + '+' + '/video').then(function(data) {
+            var statuses = data.statuses;
+            statuses.forEach(function(status) {
+                if (status.videos_count) {
+                    if (status.videos[0].substr(-4) === '.mp4') {
+                        status.links[0] = status.videos[0];
+                    }
+                    vm.statuses.push(status);
+                }
+            });
+        }, function() {});    
+
+        /**
+         * Get other videos, enable these when milestones2 comes
+         * and loklak_server can't recongize others than youtube and vimeo
+         *
+        $timeout(SearchService.getData(vm.term).then(function(data) {
             var statuses = data.statuses;
             statuses.forEach(function(status) {
                 if (hasExternalLink(status)) {
                     DebugLinkService.debugLink(status.links[0]).then(function(data) {
                         if (data.type === 'video') {
-                            vm.statuses.push(status);        
+                            insertToStatusesByTimeOrder(status, vm.statuses)
                         }
                     }, function() {return;});
                 }
             });
-        }, function() {});
-
-        // Get native videos
-        $timeout(function() {
-            SearchService.getData(vm.term + '+' + '/video').then(function(data) {
-                var statuses = data.statuses;
-                statuses.forEach(function(status) {
-                    if (status.videos_count && status.videos[0].substr(-4) === '.mp4') {
-                        status.links[0] = status.videos[0];
-                        vm.statuses.push(status);
-                    }
-                });
-            }, function() {});    
-        }, 2000);
+        }, function() {}), 2000);
+        */
+        
         
         updatePath(vm.term + '+' + '/video');
     };
@@ -152,6 +158,17 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
             return false;
         } else {
             return true;    
+        }
+    }
+
+    // Insert into status based on time created
+    function insertToStatusesByTimeOrder(ele, arr) {
+        var eleTime = new Date(ele.created_at);
+        for (var i = 0; i < arr.length; i++) {
+            if (eleTime > (new Date(arr[i].created_at))) {
+                arr.splice(i, 0, arr);
+                i = arr.length;
+            };
         }
     }
 }]);
