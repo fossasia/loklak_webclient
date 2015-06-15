@@ -121,6 +121,28 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     };
 
 
+    // News search
+    vm.filterNews = function() {
+        vm.peopleSearch = false;
+        vm.currentFilter = 'news';
+        vm.statuses = [];
+        var term = vm.term;
+
+        SearchService.getData(term).then(function(data) {
+            data.statuses.forEach(function(status) {
+                if (hasExternalLink(status)) {
+                    DebugLinkService.debugLink(status.links[0]).then(function(data) {
+                        if (data.type === 'link' && data.thumbnail_url) {
+                            vm.statuses.push(status);
+                        }
+                    }, function() {return;});
+                }
+            })
+        }, function() {});
+
+        updatePath(vm.term + '+' + '/news');
+    }
+
     // Create photoswipe
     // Lib's docs: http://photoswipe.com/documentation/getting-started.html
     vm.openSwipe = function(status_id) {
@@ -169,6 +191,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
             '/image': 'photos',
             '/video': 'videos',
             '/accounts': 'accounts', 
+            '/news' : 'news'
         };
 
         vm.term = queryParts[0];
