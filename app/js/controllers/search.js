@@ -40,22 +40,46 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
     // No filter search
     vm.filterLive = function() {
+        vm.peopleSearch = false;
         vm.currentFilter = 'live';
         var term = vm.term;
         vm.update(term);
     };
 
+    // Accounts search
+    // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
+    vm.filterAccounts = function() {
+        vm.peopleSearch = true;
+        vm.currentFilter = 'accounts';
+        vm.accounts = [];
+        var term = vm.term;
+        SearchService.getData(term).then(function(data) {
+            data.statuses.forEach(function(ele) {
+                var notYetInAccounts = true;
+                vm.accounts.forEach(function(account) {
+                    if (account.screen_name === ele.screen_name) {
+                        return notYetInAccounts = false;
+                    }
+                })
+                if (notYetInAccounts) { vm.accounts.push(ele);}
+            })
+        }, function() {});
+
+        updatePath(vm.term + '+' + '/accounts');
+
+    }
+
     // Photos search
     vm.filterPhotos = function() {
+        vm.peopleSearch = false;
         vm.currentFilter = 'photos';
         var term = vm.term + '+' + '/image';
         vm.update(term);
     };
 
     // Videos search
-    // Do manual req, when done, filter status with video, and then update vm.statuses
-    // With help of DebugLinkService
     vm.filterVideos = function() {
+        vm.peopleSearch = false;
         vm.statuses = [];   
         vm.currentFilter = 'videos';
         vm.showResult = true;
@@ -143,7 +167,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         var queryParts = $location.search().q.split('+');
         var queryToFilter = {
             '/image': 'photos',
-            '/video': 'videos'
+            '/video': 'videos',
+            '/accounts': 'accounts', 
         };
 
         vm.term = queryParts[0];

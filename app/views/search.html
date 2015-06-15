@@ -24,6 +24,9 @@
                         <li  ng-class="(search.currentFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
                             <a href="#">live</a>
                         </li>
+                        <li  ng-class="(search.currentFilter === 'accounts') ? 'active' : ''" ng-click="search.filterAccounts()">
+                            <a href="#">accounts</a>
+                        </li>
                         <li  ng-class="(search.currentFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
                             <a href="#">photos</a>
                         </li>
@@ -36,8 +39,13 @@
                 </div>
 
                 <!-- Main results -->
-                <div class="main-result-container">
+                <div ng-if="!search.peopleSearch" class="main-result-container">
                     <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status"></div>   
+                </div>
+
+                <!-- People results -->
+                <div ng-if="search.peopleSearch" class="main-result-container">
+                    <div ng-repeat="account in search.accounts" account data="account"></div>
                 </div>
             </div>
 
