@@ -13,6 +13,26 @@
     display: inline-block;
 }
 
+
+.navbar .navbar-form {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    float: none;
+}
+.main-header #navbar-search-input
+{
+	width:auto;
+	border-radius:21px;
+}
+#brandimage{
+    margin-top: -15px;
+}
+
 // Twitter sign in
 	.signin-twitter {
 		height: 50px;
