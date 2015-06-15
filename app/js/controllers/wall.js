@@ -4,6 +4,7 @@
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
 var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
+var moment = require('moment');
 /**
  * @ngInject
  */
@@ -11,6 +12,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 
     var vm = this;
     var flag = false;
+    var term ='';
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -53,28 +55,60 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 
     $scope.start = function() {
         //$scope.wallOptions.allWords = JSON.stringify($scope.wallOptions.allWords);
+        //construct term
+        term = $scope.wallOptions.mainHashtag;
         for (var i = 0; i < $scope.wallOptions.allWords.length; i++) {
-            $scope.wallOptions.allWords[i] = $scope.wallOptions.allWords[i].text;
+            term = term + ' ' + $scope.wallOptions.allWords[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.anyWords.length; i++) {
-            $scope.wallOptions.anyWords[i] = $scope.wallOptions.anyWords[i].text;
+            term = term + ' ' + $scope.wallOptions.anyWords[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.noWords.length; i++) {
-            $scope.wallOptions.noWords[i] = $scope.wallOptions.noWords[i].text;
+            term = term + ' -' + $scope.wallOptions.noWords[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.allHashtags.length; i++) {
-            $scope.wallOptions.allHashtags[i] = '#' + $scope.wallOptions.allHashtags[i].text;
+            term = term + ' #' + $scope.wallOptions.allHashtags[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.from.length; i++) {
-            $scope.wallOptions.from[i] = $scope.wallOptions.from[i].text;
+            term = term + ' from:' + $scope.wallOptions.from[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.to.length; i++) {
-            $scope.wallOptions.to[i] = $scope.wallOptions.to[i].text;
+            term = term + ' @' + $scope.wallOptions.to[i].text;
         };
         for (var i = 0; i < $scope.wallOptions.mentioning.length; i++) {
-            $scope.wallOptions.mentioning[i] = $scope.wallOptions.mentioning[i].text;
+            term = term + ' @' + $scope.wallOptions.mentioning[i].text;
         };
-        console.log($scope.wallOptions);
+        if ($scope.wallOptions.images) {
+            if($scope.wallOptions.images=="only"){
+                term = term + ' /image';    
+            }
+            else if($scope.wallOptions.images=="none"){
+                term = term + ' -/image';    
+            }    
+        }
+        if ($scope.wallOptions.videos) {
+            if($scope.wallOptions.videos=="only"){
+                term = term + ' /video';    
+            }
+            else if($scope.wallOptions.videos=="none"){
+                term = term + ' -/video';    
+            }    
+        }
+        if ($scope.wallOptions.audio) {
+            if($scope.wallOptions.audio=="only"){
+                term = term + ' /audio';    
+            }
+            else if($scope.wallOptions.audio=="none"){
+                term = term + ' -/audio';    
+            }    
+        }
+        if ($scope.wallOptions.sinceDate) {
+            term = term + ' since:' + moment($scope.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
+        }
+        if ($scope.wallOptions.untilDate) {
+            term = term + ' until:' + moment($scope.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
+        }
+        $scope.wallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
         flag = true;
     };
