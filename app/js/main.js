@@ -34,7 +34,8 @@ angular.element(document).ready(function() {
     'ngTagsInput',
     'colorpicker.module',
     'toggle-switch',
-    'ui.choices'
+    'ui.choices',
+    'FBAngular'
   ];
 
   // mount on window for testing

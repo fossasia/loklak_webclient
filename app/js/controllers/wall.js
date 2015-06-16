@@ -12,7 +12,10 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 
     var vm = this;
     var flag = false;
-    var term ='';
+    var term = '';
+    $scope.wallOptions = {};
+    $scope.wallOptions.headerColour = '#3c8dbc';
+    $scope.wallOptions.headerPosition = 'Top';
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -33,7 +36,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     }
 
     $scope.$watch('wallOptions.headerColour', function() {
-        if ($scope.wallOptions)
+        if ($scope.wallOptions.headerColour)
             $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
     });
 
@@ -79,28 +82,25 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
             term = term + ' @' + $scope.wallOptions.mentioning[i].text;
         };
         if ($scope.wallOptions.images) {
-            if($scope.wallOptions.images=="only"){
-                term = term + ' /image';    
+            if ($scope.wallOptions.images == "only") {
+                term = term + ' /image';
+            } else if ($scope.wallOptions.images == "none") {
+                term = term + ' -/image';
             }
-            else if($scope.wallOptions.images=="none"){
-                term = term + ' -/image';    
-            }    
         }
         if ($scope.wallOptions.videos) {
-            if($scope.wallOptions.videos=="only"){
-                term = term + ' /video';    
+            if ($scope.wallOptions.videos == "only") {
+                term = term + ' /video';
+            } else if ($scope.wallOptions.videos == "none") {
+                term = term + ' -/video';
             }
-            else if($scope.wallOptions.videos=="none"){
-                term = term + ' -/video';    
-            }    
         }
         if ($scope.wallOptions.audio) {
-            if($scope.wallOptions.audio=="only"){
-                term = term + ' /audio';    
+            if ($scope.wallOptions.audio == "only") {
+                term = term + ' /audio';
+            } else if ($scope.wallOptions.audio == "none") {
+                term = term + ' -/audio';
             }
-            else if($scope.wallOptions.audio=="none"){
-                term = term + ' -/audio';    
-            }    
         }
         if ($scope.wallOptions.sinceDate) {
             term = term + ' since:' + moment($scope.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
@@ -110,16 +110,17 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         }
         $scope.wallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
+        $("#wall-modal").on('hidden.bs.modal', function() {
+            if (flag == true) {
+                flag = false;
+                console.log('here');
+                $location.path('/wall/display').search($scope.wallOptions);
+                $scope.$apply();
+            }
+        });
         flag = true;
     };
 
-    $("#wall-modal").on('hidden.bs.modal', function() {
-        if (flag == true) {
-            flag = false;
-            $location.path('/wall/display').search($scope.wallOptions);
-            $scope.$apply();
-        }
-    });
 
     $scope.resetDate = function() {
         $scope.wallOptions.sinceDate = null;

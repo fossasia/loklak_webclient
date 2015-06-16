@@ -8,49 +8,30 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService) {
+function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, AppSettings, SearchService, Fullscreen) {
 
-    var vm = this;
-    vm.term = null;
-    var allStatuses = [];
-    var nextStatuses = [];
-    vm.statuses = [];
-    vm.displaySearch = true;
-    vm.wallOptions = $location.search();
-    var term = vm.wallOptions.mainHashtag;
-    for (var word in vm.wallOptions.allWords){
-        term = term + " " + word;
+    var vm, flag, allStatuses, nextStatuses, term, count;
+    vm = this;
+    count = 0;
+    init();
+    $scope.wallOptions = vm.wallOptions;
+    function init () {
+        
+        flag = false;
+        vm.showEmpty = false;
+        allStatuses = [];
+        nextStatuses = [];
+        vm.statuses = [];
+        vm.displaySearch = true;
+        vm.wallOptions = $location.search();
+        term = vm.wallOptions.term;
     }
-    if (vm.wallOptions.images) {
-        if(vm.wallOptions.images=="only"){
-            term = term + ' /image';    
-        }
-        else if(vm.wallOptions.images=="none"){
-            term = term + ' -/image';    
-        }    
+    
+
+    $scope.getHeaderClass = function() {
+        return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
     }
-    if (vm.wallOptions.videos) {
-        if(vm.wallOptions.videos=="only"){
-            term = term + ' /video';    
-        }
-        else if(vm.wallOptions.videos=="none"){
-            term = term + ' -/video';    
-        }    
-    }
-    if (vm.wallOptions.audio) {
-        if(vm.wallOptions.audio=="only"){
-            term = term + ' /audio';    
-        }
-        else if(vm.wallOptions.audio=="none"){
-            term = term + ' -/audio';    
-        }    
-    }
-    if (vm.wallOptions.sinceDate) {
-        term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
-    }
-    if (vm.wallOptions.untilDate) {
-        term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
-    }
+
     var maxStatusCount = 0;
     if (vm.wallOptions.layoutStyle == 1)
         maxStatusCount = 3; //linear
@@ -77,7 +58,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
      */
     vm.open = function(status_id) {
         //$interval.cancel(interval);
-        console.log("Foobar");
         // Populating args
         var items = [];
         var images = angular.element('#' + status_id + ' .masonry-brick img');
@@ -155,33 +135,31 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     };
 
-    vm.update2 = function(refreshTime) {
+    vm.update2 = function(refreshTime, currCount) {
+        if(currCount==count)
         return $timeout(function() {
             SearchService.getData(term).then(function(data) {
                 if (data.statuses) {
-                    if(vm.statuses.length <=0){
-                        vm.statuses = data.statuses.splice(0,3);
-                        nextStatuses = vm.statuses;
+                    if (data.statuses.length <= 0) {
+                        vm.showEmpty = true;
+                    } else {
+                        if (vm.statuses.length <= 0) {
+                            vm.statuses = data.statuses.splice(0, 3);
+                            nextStatuses = vm.statuses;
+                        } else {
+                            for (var i = data.statuses.length - 1; i > -1; i--) {
+                                if (data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                    vm.statuses.unshift(data.statuses[i]);
+                                    vm.statuses.pop();
+                                }
+                            };
+                        }
+                        var newRefreshTime = getRefreshTime(data.search_metadata.period);
+                        vm.update2(newRefreshTime, currCount);
+                        vm.showEmpty = false;
                     }
-                    else {
-                        for (var i = data.statuses.length-1; i > -1; i--) {
-                            if(data.statuses[i].created_at > vm.statuses[0].created_at) {
-                                vm.statuses.unshift(data.statuses[i]);
-                                vm.statuses.pop();
-                            }
-                        };
-                    }
-                    // for (var i = 0; i < data.statuses.length; i++) {
-                    //     if (!contains(allStatuses, data.statuses[i].id_str)) {
-                    //         if (vm.statuses <= 0) {
-                    //             vm.statuses = da
-                    //         }
-                    //     }
-                    // };
-                }
-                //nextStatuses.sort(compare);
-                var newRefreshTime = getRefreshTime(data.search_metadata.period);
-                vm.update2(newRefreshTime);
+                } else {}
+
             }, function(error) {
 
             });
@@ -200,14 +178,127 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     //         vm.statuses.pop();
     // }, tweetRefreshTime);
 
-    var showTweets = function() {
-
-    };
+    $scope.fullscreen = function() {
+        if (Fullscreen.isEnabled())
+            Fullscreen.cancel();
+        else
+            Fullscreen.all();
+    }
 
     //On INIT
-    vm.update2(0);
+    vm.update2(0, count);
+    //code for modal
+    function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        //Selects foreground colour as black or white based on background
+    function colourCalculator(rgb) {
+        var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
+        if (o > 125) {
+            return '#000000';
+        } else {
+            return '#FFFFFF';
+        }
+    }
 
+    $scope.$watch('wallOptions.headerColour', function() {
+        if ($scope.wallOptions.headerColour)
+            $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
+    });
+
+    $scope.$watch('wallOptions.mainHashtagText', function() {
+        if ($scope.wallOptions.mainHashtagText)
+            if ($scope.wallOptions.mainHashtagText.length !== 0) {
+                if ($scope.wallOptions.mainHashtagText[0] != '#') {
+                    $scope.wallOptions.mainHashtag = '#' + $scope.wallOptions.mainHashtagText;
+                } else {
+                    $scope.wallOptions.mainHashtag = $scope.wallOptions.mainHashtagText;
+                }
+            }
+    });
+
+    $scope.proceed = function() {
+        $('.nav-tabs > .active').next('li').find('a').trigger('click');
+    };
+
+    $scope.start = function() {
+        //$scope.wallOptions.allWords = JSON.stringify($scope.wallOptions.allWords);
+        //construct term
+        var newTerm = $scope.wallOptions.mainHashtag;
+        for (var i = 0; i < $scope.wallOptions.allWords.length; i++) {
+            newTerm = newTerm + ' ' + $scope.wallOptions.allWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.anyWords.length; i++) {
+            newTerm = newTerm + ' ' + $scope.wallOptions.anyWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.noWords.length; i++) {
+            newTerm = newTerm + ' -' + $scope.wallOptions.noWords[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.allHashtags.length; i++) {
+            newTerm = newTerm + ' #' + $scope.wallOptions.allHashtags[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.from.length; i++) {
+            newTerm = newTerm + ' from:' + $scope.wallOptions.from[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.to.length; i++) {
+            newTerm = newTerm + ' @' + $scope.wallOptions.to[i].text;
+        };
+        for (var i = 0; i < $scope.wallOptions.mentioning.length; i++) {
+            newTerm = newTerm + ' @' + $scope.wallOptions.mentioning[i].text;
+        };
+        if ($scope.wallOptions.images) {
+            if ($scope.wallOptions.images == "only") {
+                newTerm = newTerm + ' /image';
+            } else if ($scope.wallOptions.images == "none") {
+                newTerm = newTerm + ' -/image';
+            }
+        }
+        if ($scope.wallOptions.videos) {
+            if ($scope.wallOptions.videos == "only") {
+                newTerm = newTerm + ' /video';
+            } else if ($scope.wallOptions.videos == "none") {
+                newTerm = newTerm + ' -/video';
+            }
+        }
+        if ($scope.wallOptions.audio) {
+            if ($scope.wallOptions.audio == "only") {
+                newTerm = newTerm + ' /audio';
+            } else if ($scope.wallOptions.audio == "none") {
+                newTerm = newTerm + ' -/audio';
+            }
+        }
+        if ($scope.wallOptions.sinceDate) {
+            newTerm = newTerm + ' since:' + moment($scope.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
+        }
+        if ($scope.wallOptions.untilDate) {
+            newTerm = newTerm + ' until:' + moment($scope.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
+        }
+        $scope.wallOptions['term'] = newTerm;
+        $('#wall-modal').modal('toggle');
+        $("#wall-modal").on('hidden.bs.modal', function() {
+            if (flag == true) {
+                init();
+                vm.wallOptions = $scope.wallOptions;
+                term = newTerm;
+                count++;
+                $location.path('/wall/display').search($scope.wallOptions);
+                vm.update2(0, count);
+            }
+        });
+        flag = true;
+    };
+
+
+    $scope.resetDate = function() {
+        $scope.wallOptions.sinceDate = null;
+        $scope.wallOptions.untilDate = null;
+    }
 
 }
 
-controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallDisplay]);
+controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', '$window', 'AppSettings', 'SearchService', 'Fullscreen', WallDisplay]);
