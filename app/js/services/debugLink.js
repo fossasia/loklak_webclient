@@ -6,12 +6,28 @@ var servicesModule = require('./_index.js');
  * @ngInject
  */
 
-servicesModule.service('DebugLinkService',['$q', '$http', function($q, $http) {
+servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', function($q, $http, AppSettings) {
+  //Given domain 
+
+  var getPosition = function(str, m, i) {
+         return str.split(m, i).join(m).length;
+  };
+  
+  var debugServiceApi = (function() {
+    var domain = AppSettings.domain;
+    if (domain.match(/:/g).length > 2) {
+       var indexOfPort = getPosition(domain, ":", 2);
+       domain = domain.substr(0, indexOfPort);
+    }
+
+    return domain + ':' + AppSettings.linkDebuggingServicePort;
+  })();
+
   var service = {};
 
   service.debugLink = function(undebuggedLink) {
     var deferred = $q.defer();
-    var debugApiUrl = 'http://gofullstack.me:8061/oembed';
+    var debugApiUrl = debugServiceApi + '/oembed';
     $http.get(debugApiUrl, {
       params: {
         url: undebuggedLink,
@@ -26,7 +42,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', function($q, $http) {
   };
 
   service.debugLinkSync = function(undebuggedLink) {
-    var query = 'http://gofullstack.me:8061/oembed?url=' + encodeURIComponent(undebuggedLink);
+    var query = debugServiceApi + '/oembed?url=' + encodeURIComponent(undebuggedLink);
     var request = new XMLHttpRequest();
     request.open('GET', query, false);  // `false` makes the request synchronous
     request.send(null);
@@ -38,7 +54,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', function($q, $http) {
 
   service.debugLinkIframely = function(undebuggedLink) {
     var deferred = $q.defer();
-    var debugApiUrl = 'http://gofullstack.me:8061/iframely';
+    var debugApiUrl = debugServiceApi + '/iframely';
     $http.get(debugApiUrl, {
       params: {
         url: undebuggedLink,
