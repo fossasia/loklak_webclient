@@ -9,7 +9,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: '',
+    controller: 'HomeCtrl as home',
     templateUrl: 'home.html',
     title: 'Home'
   })
@@ -62,6 +62,13 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     templateUrl: 'map/tweetmap.html',
     controller: 'MapCtrl as map',
     title: 'Tweet Map'
+  })
+  .state('Redirecting', {
+    url: '/redirect',
+    templateUrl: 'redirect.html',
+    title: 'Redirecting',
+    onEnter: ['$rootScope',function($rootScope){$rootScope.root.fullscreenDisabled=false;}],
+    onExit: ['$rootScope',function($rootScope){$rootScope.root.fullscreenDisabled=true;}]
   });
 
   $urlRouterProvider.otherwise('/');

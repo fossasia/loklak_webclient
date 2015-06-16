@@ -25,6 +25,17 @@ servicesModule.service('DebugLinkService',['$q', '$http', function($q, $http) {
     return deferred.promise;
   };
 
+  service.debugLinkSync = function(undebuggedLink) {
+    var query = 'http://gofullstack.me:8061/oembed?url=' + encodeURIComponent(undebuggedLink);
+    var request = new XMLHttpRequest();
+    request.open('GET', query, false);  // `false` makes the request synchronous
+    request.send(null);
+
+    if (request.status === 200) {
+      return (JSON.parse(request.responseText));
+    }
+  };
+
   service.debugLinkIframely = function(undebuggedLink) {
     var deferred = $q.defer();
     var debugApiUrl = 'http://gofullstack.me:8061/iframely';

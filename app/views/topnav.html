@@ -145,7 +145,7 @@
                 </ul>
             </div>
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse" style="margin-left: 15%;">
-                <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
+                <img class="hidden-xs hidden-sm hidden-md" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
             </div>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -156,10 +156,19 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav">
-                <li>
-                    <a ng-href="/auth/twitter" target="_self">
-                        <span><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter</span>
-                    </a>
+                    <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
+                    <!-- <li>
+                        <a ng-href="/auth/twitter" target="_self">
+                            <span><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter</span>
+                        </a>
+                    </li> -->
+                </ul>
+                <ul class="nav navbar-nav" ng-if="root.twitterSession">
+                    <li style="margin-top:15%;">
+                    <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" style="background-color:#339DC3;color:white;">
+                  <span class="fa fa-twitter"></span>
+                  <span class="text">Tweet</span>
+                </button>
                 </li>
                 </ul>
                 <!-- <ul class="dropdown-menu">
@@ -187,3 +196,45 @@
         </div>
     </nav>
 </header>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Post a tweet</h4>
+      </div>
+      <div class="modal-body">
+        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Signup modal -->
+<div id="signupModal" class="modal fade" role="dialog" ng-if="!root.twitterSession">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
+      </div>
+      <div class="modal-body">
+        <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
+        <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
+      </div>
+      <div class="modal-footer" style="text-align:center;">
+        <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
+      </div>
+    </div>
+
+  </div>
+</div>

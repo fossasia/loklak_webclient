@@ -18,7 +18,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     vm.displaySearch = true;
     vm.wallOptions = $location.search();
     var term = vm.wallOptions.mainHashtag;
-    if(vm.wallOptions.onlyImages == true){
+    if(vm.wallOptions.onlyImages === true){
         term = term + ' /image';
     }
     if(vm.wallOptions.sinceDate) {
@@ -81,17 +81,20 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function contains(Statuses, status_id) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i] === status_id)
+            if (Statuses[i] === status_id) {
                 return true;
+            }
         };
         return false;
     }
 
     function compare(a, b) {
-        if (a.created_at < b.created_at)
+        if (a.created_at < b.created_at) {
             return -1;
-        else if (a.created_at > b.created_at)
+        }
+        else if (a.created_at > b.created_at) {
             return 1;
+        }
         return 0;
     }
 
