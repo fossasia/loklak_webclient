@@ -1,0 +1,8152 @@
+.BlockGrid-item {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 50px;
+    border-radius: 10px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 5px solid transparent
+}
+
+.BlockGrid-item img {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+.BlockGrid-item--size1 {
+    width: 50%
+}
+
+.BlockGrid-item--size4 {
+    width: 100%
+}
+
+.BlockGrid-itemTitle {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 8px;
+    background: #000;
+    background: rgba(0,0,0,0.8);
+    width: 100%;
+    color: #fff
+}
+
+.ImportFriendsCallout p {
+    color: #8899a6;
+    font-weight: 300;
+    font-size: 28px;
+    line-height: 32px;
+    margin: 15px 0 30px 0
+}
+
+.ImportFriendsCallout-title {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px
+}
+
+.ImportFriendsCallout-photo {
+    width: 420px;
+    margin-top: 16px
+}
+
+.ImportFriendsCallout-smallImageContainer {
+    width: 132px;
+    height: 132px;
+    float: left
+}
+
+.ImportFriendsCallout-smallFriendImage {
+    display: block;
+    width: 100%;
+    border-radius: 4px
+}
+
+.ImportFriendsCallout-smallFriendImage+.ImportFriendsCallout-smallFriendImage {
+    margin-top: 10px
+}
+
+.ImportFriendsCallout-largeFriendImage {
+    width: 273px;
+    height: 273px;
+    border-radius: 4px;
+    margin-left: 10px
+}
+
+.ImportFriendsCallout-primaryBtn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 16px 16px;
+    width: auto
+}
+
+.ImportFriendsCallout-primaryBtn--big {
+    padding: 16px 24px;
+    min-width: 312px
+}
+
+.ImportFriendsCallout-btn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    width: 100%
+}
+
+.ImportFriendsCallout-emailIcon {
+    vertical-align: middle;
+    margin-right: 5px
+}
+
+.ImportFriendsCallout-disclaimer {
+    font-size: 12px;
+    margin-top: 5px;
+    color: #8899a6
+}
+
+.ImportFriendsCallout-list {
+    counter-reset: ImportFriendsListCounter
+}
+
+.ImportFriendsCallout-list li {
+    counter-increment: ImportFriendsListCounter;
+    margin: 20px 0;
+    padding-left: 50px;
+    min-height: 50px;
+    position: relative;
+    color: #8899a6;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 22px
+}
+
+.ImportFriendsCallout-list li:before {
+    content: counter(ImportFriendsListCounter);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 2px;
+    height: 22px;
+    width: 22px;
+    padding: 4px;
+    background-color: #ccd6dd;
+    color: #66757f;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.ImportFriendsCallout-tooltip {
+    color: #3b94d9;
+    transition: .5s all;
+    text-shadow: 0 0 0 transparent;
+    cursor: default
+}
+
+.ImportFriendsCallout-tooltip:hover {
+    color: #1c6399;
+    text-shadow: 0 0 5px rgba(136,201,249,0.6)
+}
+
+.HomeNavPopover {
+    position: fixed;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    max-width: 250px;
+    left: 10px;
+    top: -50px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px
+}
+
+.HomeNavPopover h2 {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #292f33
+}
+
+.HomeNavPopover-content p+p {
+    margin-top: 15px
+}
+
+.HomeNavPopover.fadingOut {
+    transition: opacity .7s
+}
+
+.HomeNavPopover-arrow {
+    position: absolute;
+    border-left: 1px solid #e1e8ed;
+    border-top: 1px solid #e1e8ed;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 15px;
+    height: 15px;
+    top: -8px;
+    left: 17px;
+    background-color: #fff
+}
+
+@-webkit-keyframes underOverNavBar {
+    0% {
+        top: -50px;
+        z-index: 999
+    }
+
+    50% {
+        top: 0;
+        z-index: 999
+    }
+
+    70% {
+        top: 47px;
+        z-index: 999
+    }
+
+    80% {
+        top: 65px;
+        z-index: 999
+    }
+
+    84% {
+        top: 65px;
+        z-index: 1001
+    }
+
+    100% {
+        top: 47px;
+        z-index: 1001
+    }
+}
+
+@keyframes underOverNavBar {
+    0% {
+        top: -50px;
+        z-index: 999
+    }
+
+    50% {
+        top: 0;
+        z-index: 999
+    }
+
+    70% {
+        top: 47px;
+        z-index: 999
+    }
+
+    80% {
+        top: 65px;
+        z-index: 999
+    }
+
+    84% {
+        top: 65px;
+        z-index: 1001
+    }
+
+    100% {
+        top: 47px;
+        z-index: 1001
+    }
+}
+
+.StartFollowContext {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    top: -2px
+}
+
+.StartFollowContext-item {
+    border: 1px dashed #e1e8ed;
+    border-radius: 4px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    height: 24px;
+    margin-right: 7px;
+    overflow: hidden;
+    width: 24px
+}
+
+.StartFollowContext-item:last-child {
+    margin-right: 0
+}
+
+.StartFollowContext-item.is-active {
+    border: 0
+}
+
+.StartFollowContext-item img {
+    width: 100%;
+    height: 100%
+}
+
+.StartHeader {
+    margin-bottom: 37px;
+    min-height: 80px
+}
+
+.StartHeader p {
+    color: #66757f;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    padding-right: 40px
+}
+
+.StartHeader-title {
+    color: #292f33;
+    font-size: 32px;
+    line-height: 30px;
+    margin-top: 3px;
+    margin-bottom: 15px!important
+}
+
+.StartHeader-tooltip {
+    color: #3b94d9;
+    transition: .5s all;
+    text-shadow: 0 0 0 transparent;
+    cursor: default
+}
+
+.StartHeader-tooltip:hover {
+    color: #1c6399;
+    text-shadow: 0 0 5px rgba(136,201,249,0.6)
+}
+
+.StartHeader--complete .StartHeader-default,.StartHeader-complete {
+    display: none
+}
+
+.StartHeader--complete .StartHeader-complete {
+    display: block
+}
+
+.StartActions {
+    margin: 0 auto;
+    text-align: center;
+    width: 80%
+}
+
+.StartActions .btn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    width: 100%
+}
+
+.StartSetupProfile {
+    width: 440px
+}
+
+.StartSetupProfile-profileCard {
+    position: relative;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 800;
+    -webkit-transform-style: preserve-3d
+}
+
+.StartSetupProfile-profileCardInner {
+    padding-top: 39.090909090909086%;
+    padding-bottom: 1px
+}
+
+.StartSetupProfile-profileCardBackground {
+    padding-top: 23.18181818181818%;
+    border-radius: 5px 5px 0 0;
+    top: 0;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    background-color: #e1e8ed
+}
+
+.StartSetupProfile-profileCardPhoto {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 26.36363636363636%;
+    border-radius: 8px;
+    border: solid #fff 5px;
+    background-color: #fff;
+    top: 32.55813953488372%;
+    left: 4.772727272727273%
+}
+
+.StartSetupProfile-profileCardPhoto img {
+    display: block;
+    width: 100%;
+    border-radius: 5px
+}
+
+.StartSetupProfile-photoOverlay {
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 6px;
+    bottom: 0;
+    color: #fff;
+    left: 0;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    position: absolute;
+    right: 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,.75);
+    top: 0;
+    transition: all .2s;
+    visibility: hidden;
+    z-index: 1000
+}
+
+.StartSetupProfile-profileCardPhotoDrag {
+    cursor: copy
+}
+
+.StartSetupProfile-removePhoto .Icon--close {
+    cursor: pointer
+}
+
+.StartSetupProfile.with-custom-photo .StartSetupProfile-profileCardPhoto:hover .StartSetupProfile-removePhoto,.StartSetupProfile-profileCardPhotoDrag--show {
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)";
+    visibility: visible
+}
+
+.StartSetupProfile-profileCardPhotoDrag:before {
+    border: dashed 3px #fff;
+    position: absolute;
+    content: "";
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: 5px
+}
+
+.StartSetupProfile-photoOverlayIcon {
+    color: #fff;
+    position: absolute;
+    top: 7px;
+    right: 11px
+}
+
+.StartSetupProfile-profileCardPhotoDragMessage {
+    text-align: center;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 50%;
+    margin-top: -14px;
+    font-size: 14px
+}
+
+.StartSetupProfile-profileCardPhotoOrDrag,.StartSetupProfile-profileCardPhotoDragHere {
+    display: none
+}
+
+.StartSetupProfile-profileCardPhotoDrag--showOrDrag .StartSetupProfile-profileCardPhotoOrDrag,.StartSetupProfile-profileCardPhotoDrag--showDragHere .StartSetupProfile-profileCardPhotoDragHere {
+    display: block
+}
+
+.StartSetupProfile-profileCardText {
+    top: 71.51162790697674%;
+    left: 37.27272727272727%;
+    position: absolute;
+    z-index: 2
+}
+
+.StartSetupProfile-profileCardName {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.25
+}
+
+.StartSetupProfile-profileCardUsername {
+    font-size: 16px;
+    color: #8899a6
+}
+
+.StartSetupProfile-profileCard+.StartSetupProfile-actions {
+    margin-top: 38px
+}
+
+.StartSetupProfile-actions .btn {
+    width: 93%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.StartSetupProfile-actions .Icon {
+    vertical-align: top;
+    font-size: 120%;
+    line-height: 1
+}
+
+.StartSetupProfile-actions .btn:focus {
+    border-color: #aab8c2
+}
+
+.StartSetupProfile-uploadButton {
+    position: relative
+}
+
+.StartSetupProfile-uploadButton .StartSetupProfile-uploadButtonInput {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    font-size: 50px;
+    cursor: pointer;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.StartSetupProfile-profileCard--animateWait .StartSetupProfile-profileCardPhoto,.StartSetupProfile-profileCard--animateWait .StartSetupProfile-profileCardName,.StartSetupProfile-profileCard--animateWait .StartSetupProfile-profileCardUsername {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.StartSetupProfile-profileCard--animateIn .StartSetupProfile-profileCardPhoto,.StartSetupProfile-profileCard--animateIn .StartSetupProfile-profileCardName,.StartSetupProfile-profileCard--animateIn .StartSetupProfile-profileCardUsername {
+    -webkit-animation-name: StartSetupProfile-popIn;
+    animation-name: StartSetupProfile-popIn;
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards
+}
+
+@-webkit-keyframes StartSetupProfile-popIn {
+    0% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        -webkit-transform: translateY(15px);
+        transform: translateY(15px)
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+@keyframes StartSetupProfile-popIn {
+    0% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        -webkit-transform: translateY(15px);
+        transform: translateY(15px)
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.StartSetupProfile-protectAccount {
+    margin-left: 7px;
+    margin-top: 10px
+}
+
+.StartSetupProfile-protectAccountDescription {
+    font-size: 12px;
+    color: #8899a6
+}
+
+.StartCongratulations-bodyText {
+    margin-bottom: 1em;
+    color: #66757f;
+    font-size: 22px;
+    line-height: 1.2
+}
+
+.StartCongratulations-heading1,.StartCongratulations-heading2 {
+    color: #292f33;
+    font-weight: 300;
+    margin-bottom: 1em
+}
+
+.StartCongratulations-heading1 {
+    font-size: 30px;
+    line-height: 1.2em;
+    margin-bottom: 50px
+}
+
+.StartCongratulations-leftCol {
+    padding-top: 40px
+}
+
+.StartCongratulations-buttons {
+    margin-top: 40px
+}
+
+.StartCongratulations-button {
+    text-align: center;
+    padding: 16px 24px
+}
+
+.StartCongratulations-image {
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    -webkit-animation-name: StartCongratulationsFadeIn;
+    animation-name: StartCongratulationsFadeIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards
+}
+
+.StartCongratulations-image:nth-child(odd) {
+    float: right
+}
+
+.StartCongratulations-image:nth-child(1) {
+    -webkit-animation-delay: .6s;
+    animation-delay: .6s
+}
+
+.StartCongratulations-image:nth-child(2) {
+    -webkit-animation-delay: .8s;
+    animation-delay: .8s
+}
+
+.StartCongratulations-image:nth-child(3) {
+    -webkit-animation-delay: 1.0s;
+    animation-delay: 1.0s
+}
+
+.StartCongratulations-image:nth-child(4) {
+    -webkit-animation-delay: 1.2s;
+    animation-delay: 1.2s
+}
+
+@-webkit-keyframes StartCongratulationsFadeIn {
+    0% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        -webkit-transform: translateY(10px);
+        transform: translateY(10px)
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px)
+    }
+}
+
+@keyframes StartCongratulationsFadeIn {
+    0% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        -webkit-transform: translateY(10px);
+        transform: translateY(10px)
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px)
+    }
+}
+
+.StartNavigation {
+    background: #55acee;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000
+}
+
+.StartNavigation-container {
+    height: 55px;
+    position: relative;
+    width: 100%
+}
+
+.StartNavigation-containerInner {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 55px;
+    margin: 0 auto;
+    padding: 0 30px;
+    width: auto;
+    max-width: 970px;
+    min-width: 530px
+}
+
+.StartNavigation-search {
+    float: right;
+    transition: opacity .2s;
+    margin: 5px 0 0
+}
+
+.StartNavigation .form-search {
+    width: 250px;
+    margin-right: 0
+}
+
+@media screen and (max-width: 600px) {
+    .StartNavigation .form-search {
+        width:180px
+    }
+}
+
+.StartNavigation-container.global-nav .search-input {
+    background-color: #fff;
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input:focus {
+    background-color: #fff;
+    color: #66757f;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.StartNavigation-container.global-nav .search-input::-webkit-input-placeholder {
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input:-moz-placeholder {
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input::-moz-placeholder {
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input:-ms-input-placeholder {
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input::placeholder {
+    color: #292f33
+}
+
+.StartNavigation-container.global-nav .search-input:focus::-webkit-input-placeholder {
+    color: #66757f
+}
+
+.StartNavigation-container.global-nav .search-input:focus:-moz-placeholder {
+    color: #66757f
+}
+
+.StartNavigation-container.global-nav .search-input:focus::-moz-placeholder {
+    color: #66757f
+}
+
+.StartNavigation-container.global-nav .search-input:focus:-ms-input-placeholder {
+    color: #66757f
+}
+
+.StartNavigation-container.global-nav .search-input:focus::placeholder {
+    color: #66757f
+}
+
+.StartNavigation-search .search-icon .Icon {
+    color: #66757f
+}
+
+.StartNavigationItem {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    height: 55px;
+    padding: 17px 18px 17px 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    transition: opacity .2s
+}
+
+.StartNavigationItem .Icon--large {
+    position: relative;
+    top: -3px;
+    left: 0;
+    transition: all .5s ease .15s
+}
+
+.StartNavigationItem-title {
+    display: inline-block;
+    margin-right: 5px;
+    max-width: 155px;
+    font-size: 15px;
+    font-weight: 300;
+    transition: opacity .5s
+}
+
+.StartPage {
+    background: #e1e8ed
+}
+
+.StartPage .ProfilePopupContainer .go-to-profile,.StartPage .ProfilePopupContainer--bellbird .go-to-profile,.StartPage .ProfilePopupContainer .UserActions .dropdown,.StartPage .ProfilePopupContainer--bellbird .UserActions .dropdown {
+    display: none
+}
+
+.StartPage #nux-search-dialog {
+    z-index: 4999
+}
+
+.StartPage #page-container.wrapper {
+    padding-top: 55px;
+    margin-bottom: 30px;
+    width: 970px
+}
+
+.StartPage .wrapper .content-main {
+    border-radius: 0;
+    float: none;
+    padding: 0;
+    margin: 0;
+    width: 100%
+}
+
+.StartPage-import .wrapper .content-main {
+    background-color: transparent
+}
+
+.StartPage-import .StartActions {
+    width: 100%
+}
+
+.StartPage-import .ContactImportButtons-primaryBtn {
+    padding: 12px 20px;
+    width: auto
+}
+
+.StartPage .content-main>.StartPage-module {
+    background-color: #fff;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin: 0;
+    padding: 40px 30px 20px
+}
+
+.StartPage-interest .content-main>.StartPage-module {
+    padding: 0
+}
+
+.StartPage .content-main>.StartPage-module+.StartPage-module {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 20px
+}
+
+.StartPage .tweet,.StartPage .tweet:hover {
+    cursor: auto;
+    background-color: transparent
+}
+
+.StartPage .listview-find-friends-result .contact-select-box {
+    right: 0
+}
+
+.StartPage-notice {
+    color: #8899a6;
+    font-size: 18px;
+    max-width: 600px
+}
+
+.StartPage-next {
+    font-size: 14px;
+    display: block;
+    text-align: center
+}
+
+.StartPage-next--below {
+    margin-top: 10px;
+    font-size: 12px
+}
+
+.StartPage-next--heavy {
+    color: #8899a6;
+    font-size: 14px;
+    margin: -34px 30px 0 0
+}
+
+.StartPage-next--faint {
+    color: #aab8c2
+}
+
+.StartPage-next--faint:hover,.StartPage-next--faint:focus {
+    text-decoration: none;
+    color: #aab8c2
+}
+
+.StartPage-disclaimer {
+    width: 60%;
+    color: #8899a6;
+    margin-top: 10px;
+    line-height: 1.3em;
+    font-size: 12px
+}
+
+.StartPage-error {
+    padding: 100px 0
+}
+
+.StartPage-error p {
+    margin: 20px auto
+}
+
+.StartPage-errorButton {
+    padding: 20px 40px;
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 10px
+}
+
+.StartPage .stream-item {
+    border-left-color: transparent;
+    border-right-color: transparent
+}
+
+.StartPage .stream-end-item,.StartPage .stream-end,.StartPage .stream-loading,.StartPage .stream-placeholder {
+    border: 0
+}
+
+.StartPage-transitioning .StartNavigationItem:not(.StartNavigationItem--logo),.StartPage-transitioning .StartNavigation-search {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.StartPage-transitioning .StartNavigationItem .Icon--bird {
+    left: 450px
+}
+
+.StartPage.StartPage-valueOfTwitter-02 #page-container.wrapper,.StartPage.StartPage-valueOfTwitter-03 #page-container.wrapper,.StartPage.StartPage-valueOfTwitter-05 #page-container.wrapper {
+    width: 1200px
+}
+
+.StartFindFriends-timelineHeader {
+    background: #fff;
+    border-bottom: 1px solid #e1e8ed;
+    font-size: 14px;
+    padding: 20px 0;
+    transition: top .15s ease-out
+}
+
+.StartFindFriends-timelineHeader h5 {
+    color: #66757f;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 22px
+}
+
+.StartFindFriends-timelineHeader label {
+    color: #2b7bb9;
+    display: inline-block;
+    margin-bottom: 0
+}
+
+.StartFindFriends-timelineHeader .Checkbox {
+    margin-left: 5px
+}
+
+.StartFindFriends-loadMore {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    margin: 20px 0
+}
+
+.StartFindFriends .ContactImportButtons {
+    width: 50%
+}
+
+.StartInterestsHeader {
+    border-bottom: 1px solid #e1e8ed;
+    padding: 20px 0 10px 0;
+    position: relative;
+    left: -10px
+}
+
+.StartInterestsHeader p {
+    color: #66757f;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 20px
+}
+
+.StartInterestsHeader h3 {
+    margin-top: 20px
+}
+
+.StartInterestsHeader .StartSearchBox {
+    border-top: 1px solid #e1e8ed;
+    padding: 20px 40px;
+    margin-top: 20px
+}
+
+.StartInterestNav {
+    margin-left: -10px;
+    margin-top: -80px
+}
+
+.StartInterestNav-item {
+    padding-bottom: 25px
+}
+
+.StartInterestNav-itemWrapper {
+    padding: 10px
+}
+
+.StartInterestNav-text {
+    box-shadow: 0 0 1px #e1e8ed;
+    white-space: pre;
+    padding: 10px;
+    background-color: #88c9f9;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff
+}
+
+.StartInterestNav-text.is-active,.StartInterestNav-text:hover,.StartInterestNav-text:focus,.StartInterestNav-text:active {
+    background-color: #269;
+    text-decoration: none;
+    color: #fff
+}
+
+.StartInterestFooter {
+    background-color: #50aaf0;
+    padding: 40px 0;
+    color: #fff
+}
+
+.StartInterestFooter-label {
+    font-weight: 300;
+    color: #fff
+}
+
+.StartInterestFooter-label a.is-active,.StartInterestFooter-label a:hover,.StartInterestFooter-label a:focus,.StartInterestFooter-label a:active {
+    color: #fff
+}
+
+.StartInterestFooter-label span {
+    font-weight: bold
+}
+
+.StartInterestFooter-userList {
+    padding: 15px 0
+}
+
+.StartInterestFooter-user {
+    padding-right: 5px;
+    display: inline-block
+}
+
+.StartInterestFooter-user img {
+    border-radius: 4px
+}
+
+.StartInterestTypeahead {
+    position: relative;
+    margin-bottom: 20px;
+    width: 425px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.StartInterestTypeahead-input {
+    background-color: #f5f8fa;
+    color: #aab8c2;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 300;
+    height: 42px;
+    padding: 12px 30px 8px 14px;
+    width: 100%
+}
+
+.StartInterestTypeahead-input:focus {
+    background-color: #fff
+}
+
+.StartInterestTypeahead-add {
+    color: #8899a6;
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    width: 20px;
+    height: 20px
+}
+
+.StartInterestTypeahead .dropdown-menu {
+    border-radius: 4px;
+    margin: 9px -7px 0 0;
+    width: 100%
+}
+
+.StartInterestTypeahead .dropdown-caret {
+    display: block
+}
+
+@-webkit-keyframes StartValueOfTwitter-fadeIn {
+    from {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)"
+    }
+
+    to {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)"
+    }
+}
+
+@keyframes StartValueOfTwitter-fadeIn {
+    from {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)"
+    }
+
+    to {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)"
+    }
+}
+
+@-webkit-keyframes StartValueOfTwitter-04-imageEnlarge {
+    from {
+        height: 200px;
+        padding-top: 77px;
+        width: 200px
+    }
+
+    to {
+        height: 246px;
+        padding-top: 44px;
+        width: 246px
+    }
+}
+
+@keyframes StartValueOfTwitter-04-imageEnlarge {
+    from {
+        height: 200px;
+        padding-top: 77px;
+        width: 200px
+    }
+
+    to {
+        height: 246px;
+        padding-top: 44px;
+        width: 246px
+    }
+}
+
+.StartValueOfTwitter-animate-fadeIn {
+    -webkit-animation: StartValueOfTwitter-fadeIn ease-in 1;
+    animation: StartValueOfTwitter-fadeIn ease-in 1;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.StartValueOfTwitter-04-imageEnlarge {
+    -webkit-animation: StartValueOfTwitter-04-imageEnlarge ease-in 1;
+    animation: StartValueOfTwitter-04-imageEnlarge ease-in 1;
+    -webkit-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards
+}
+
+.StartValueOfTwitter-animationDelay-250 {
+    -webkit-animation-delay: 250ms;
+    animation-delay: 250ms
+}
+
+.StartValueOfTwitter-animationDelay-500 {
+    -webkit-animation-delay: 500ms;
+    animation-delay: 500ms
+}
+
+.StartValueOfTwitter-animationDelay-750 {
+    -webkit-animation-delay: 750ms;
+    animation-delay: 750ms
+}
+
+.StartValueOfTwitter-animationDelay-1000 {
+    -webkit-animation-delay: 1000ms;
+    animation-delay: 1000ms
+}
+
+.StartValueOfTwitter {
+    background-color: #fff
+}
+
+.StartValueOfTwitter-welcome {
+    color: #292f33;
+    line-height: 1;
+    padding: 60px 54px 180px
+}
+
+.StartValueOfTwitter-header {
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 27px
+}
+
+.StartValueOfTwitter-description {
+    font-size: 18px;
+    font-weight: 300
+}
+
+.StartValueOfTwitter-button {
+    margin-top: 10px;
+    padding: 17px 80px
+}
+
+.StartValueOfTwitter .Icon {
+    height: 32px;
+    width: 32px
+}
+
+.StartValueOfTwitter-collage .Icon {
+    -webkit-animation: StartValueOfTwitter-fadein 3s;
+    animation: StartValueOfTwitter-fadein 3s;
+    color: #fff;
+    position: absolute
+}
+
+.StartValueOfTwitter-collage .column1 {
+    left: 14px
+}
+
+.StartValueOfTwitter-collage .column2 {
+    left: 74px
+}
+
+.StartValueOfTwitter-collage .column3 {
+    left: 134px
+}
+
+.StartValueOfTwitter-collage .column4 {
+    left: 194px
+}
+
+.StartValueOfTwitter-collage .column5 {
+    left: 254px
+}
+
+.StartValueOfTwitter-collage .column6 {
+    left: 314px
+}
+
+.StartValueOfTwitter-collage .column7 {
+    left: 374px
+}
+
+.StartValueOfTwitter-collage .column8 {
+    left: 434px
+}
+
+.StartValueOfTwitter-collage .column9 {
+    left: 494px
+}
+
+.StartValueOfTwitter-collage .column10 {
+    left: 554px
+}
+
+.StartValueOfTwitter-collage .column11 {
+    left: 614px
+}
+
+.StartValueOfTwitter-collage .column12 {
+    left: 674px
+}
+
+.StartValueOfTwitter-collage .column13 {
+    left: 734px
+}
+
+.StartValueOfTwitter-collage .column14 {
+    left: 794px
+}
+
+.StartValueOfTwitter-collage .column15 {
+    left: 854px
+}
+
+.StartValueOfTwitter-collage .column16 {
+    left: 914px
+}
+
+.StartValueOfTwitter-collage .column17 {
+    left: 974px
+}
+
+.StartValueOfTwitter-collage .column18 {
+    left: 1034px
+}
+
+.StartValueOfTwitter-collage .column19 {
+    left: 1094px
+}
+
+.StartValueOfTwitter-collage .column20 {
+    left: 1154px
+}
+
+.StartValueOfTwitter-collage .row1 {
+    top: 14px
+}
+
+.StartValueOfTwitter-collage .row2 {
+    top: 74px
+}
+
+.StartValueOfTwitter-collage .row3 {
+    top: 134px
+}
+
+.StartValueOfTwitter-collage .row4 {
+    top: 194px
+}
+
+.StartValueOfTwitter-collageTop {
+    background: url(../../img/t1/start/welcome/value_of_twitter/02/collage_top.jpg) no-repeat;
+    height: 120px;
+    position: relative
+}
+
+.StartValueOfTwitter-collageBottom {
+    background: url(../../img/t1/start/welcome/value_of_twitter/02/collage_bottom.jpg) no-repeat;
+    height: 240px;
+    position: relative
+}
+
+.StartValueOfTwitter-steps li {
+    margin-bottom: 24px;
+    position: relative
+}
+
+.StartValueOfTwitter-steps li:last-child {
+    margin-bottom: 0
+}
+
+.StartValueOfTwitter-stepDescription {
+    display: table-cell;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+    padding-left: 30px;
+    vertical-align: middle;
+    width: 380px
+}
+
+.StartValueOfTwitter-steps .Icon:before {
+    margin-top: -2px;
+    margin-left: 1px
+}
+
+.StartValueOfTwitter-steps .Icon-wrap {
+    display: table-cell
+}
+
+.StartValueOfTwitter-steps .Icon.Icon--heart {
+    background-image: url(../../img/t1/start/welcome/value_of_twitter/03/icon_heart.png);
+    background-repeat: no-repeat;
+    background-position: center center
+}
+
+.StartValueOfTwitter-steps .Icon-wrap:after {
+    background-color: #55acee;
+    content: '';
+    height: 100%;
+    left: 28px;
+    position: absolute;
+    top: 62px;
+    width: 6px
+}
+
+.StartValueOfTwitter-steps li:last-child .Icon-wrap:after {
+    height: 0
+}
+
+.StartValueOfTwitter-steps .Icon {
+    background-color: #fff;
+    border-radius: 35px;
+    color: #55acee;
+    padding: 15px
+}
+
+.StartValueOfTwitter-01-image {
+    outline: 0;
+    position: relative
+}
+
+.StartValueOfTwitter-01-image:after {
+    background-image: linear-gradient(to bottom,#333 0,transparent 20%,transparent 90%,#333);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%
+}
+
+.StartValueOfTwitter-01-image img {
+    vertical-align: top
+}
+
+.StartValueOfTwitter-01 span {
+    color: #fff;
+    display: none;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 1
+}
+
+.StartValueOfTwitter-01-image:active img,.StartValueOfTwitter-01-image:focus img,.StartValueOfTwitter-01-image:hover img {
+    -webkit-filter: grayscale(.5);
+    filter: grayscale(.5)
+}
+
+.StartValueOfTwitter-01-image:active span,.StartValueOfTwitter-01-image:focus span,.StartValueOfTwitter-01-image:hover span {
+    display: block
+}
+
+.StartValueOfTwitter-01-title {
+    font-size: 20px;
+    font-weight: 300;
+    top: 15px
+}
+
+.StartValueOfTwitter-01-user {
+    bottom: 10px;
+    font-size: 14px;
+    font-weight: 300
+}
+
+.StartValueOfTwitter-02,.StartValueOfTwitter-03,.StartValueOfTwitter-05 {
+    background-color: #1a6195
+}
+
+.StartValueOfTwitter-02 .StartValueOfTwitter-welcome {
+    color: #fff;
+    padding: 84px
+}
+
+.StartValueOfTwitter-02 .StartValueOfTwitter-header,.StartValueOfTwitter-05 .StartValueOfTwitter-header {
+    font-size: 64px;
+    margin-bottom: 32px
+}
+
+.StartValueOfTwitter-02 .StartValueOfTwitter-description,.StartValueOfTwitter-05 .StartValueOfTwitter-description {
+    font-size: 24px;
+    line-height: 30px;
+    width: 600px
+}
+
+.StartValueOfTwitter-02 .StartValueOfTwitter-button {
+    margin-top: 69px
+}
+
+.StartValueOfTwitter-03 .StartValueOfTwitter-welcome {
+    color: #fff;
+    padding: 48px 84px 48px 120px
+}
+
+.StartValueOfTwitter-03 .StartValueOfTwitter-button {
+    margin-top: 135px
+}
+
+.StartValueOfTwitter-04-image {
+    color: #fff;
+    height: 452px;
+    padding: 0 30px
+}
+
+.StartValueOfTwitter-04-image-you {
+    background: #2e6792
+}
+
+.StartValueOfTwitter-04-image-we {
+    background: #50a5e6
+}
+
+.StartValueOfTwitter-04-image-together {
+    background: #9266cc
+}
+
+.StartValueOfTwitter-04-image-bounds {
+    height: 334px;
+    width: 246px
+}
+
+.StartValueOfTwitter-04-image img {
+    display: block;
+    margin: 0 auto;
+    padding: 44px 0 54px
+}
+
+.StartValueOfTwitter-04-who {
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 4px
+}
+
+.StartValueOfTwitter-04-who {
+    display: block;
+    font-size: 18px;
+    line-height: 28px;
+    text-transform: uppercase
+}
+
+.StartValueOfTwitter-04 .StartValueOfTwitter-header {
+    margin-top: 22px
+}
+
+.StartValueOfTwitter-05 .StartValueOfTwitter-welcome {
+    color: #fff;
+    height: 234px;
+    padding: 96px 84px 96px 120px
+}
+
+.StartValueOfTwitter-05 .StartValueOfTwitter-sequence1of2 {
+    padding: 45px 0
+}
+
+.StartValueOfTwitter-05 .StartValueOfTwitter-button {
+    margin-top: 87px
+}
+
+.FollowPopover {
+    position: absolute;
+    display: none;
+    max-width: 160px;
+    top: -50px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px
+}
+
+.FollowPopover-content {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #292f33
+}
+
+.FollowPopover-arrow {
+    display: none
+}
+
+body:not(.ie8) .FollowPopover-arrow {
+    position: absolute;
+    border-color: #e1e8ed;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    -webkit-transform: rotate(315deg);
+    -ms-transform: rotate(315deg);
+    transform: rotate(315deg);
+    width: 15px;
+    height: 15px;
+    top: 15px;
+    left: -8px;
+    background-color: #fff;
+    display: block
+}
+
+.FollowPopover-footer {
+    padding-top: 15px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 15px;
+    color: #8899a6
+}
+
+.StartAlertModal-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 20px
+}
+
+.StartAlertModal-message {
+    font-size: 16px;
+    line-height: 1.3;
+    margin-right: 40px
+}
+
+.StartExitTransitionDialog {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: white;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: opacity .5s ease .2s
+}
+
+.StartExitTransitionDialog--active {
+    z-index: 999;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.StartExitTransitionDialog-content {
+    position: relative;
+    top: -100px;
+    transition: all .5s ease .7s
+}
+
+.StartExitTransitionDialog--active .StartExitTransitionDialog-content {
+    top: 200px
+}
+
+.StartExitTransitionDialog-content img {
+    margin-top: 20px;
+    height: 70px;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: all .5s ease .9s
+}
+
+.StartExitTransitionDialog--active .StartExitTransitionDialog-content img {
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.ProfileThumbnailPicker .StartWCSelectTeam-team {
+    position: relative;
+    height: auto;
+    width: auto
+}
+
+.ProfileThumbnailPicker .StartWCFlag {
+    margin: 4px;
+    width: 60px;
+    height: 60px
+}
+
+.ProfileThumbnailPicker p {
+    color: #66757f;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 40px;
+    margin-bottom: 12px;
+    padding-left: 5px
+}
+
+.ProfileThumbnailPicker-manual {
+    width: 60px;
+    height: 60px;
+    background-color: #88c9f9;
+    background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0));
+    border-radius: 3px;
+    margin: 4px;
+    color: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.166);
+    transition-property: background box-shadow;
+    transition-duration: .3s
+}
+
+.ProfileThumbnailPicker-manual:focus,.ProfileThumbnailPicker-manual:hover {
+    background-color: #55acee;
+    background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.15));
+    box-shadow: 0 0 3px rgba(0,0,0,0.33)
+}
+
+.ProfileThumbnailPicker-manual .Icon {
+    margin: 10px 0 0 0
+}
+
+.ProfileThumbnailPicker-manual .Icon--camera.Icon--large {
+    margin-top: 6px
+}
+
+.ProfileThumbnailPicker .photo-file-name {
+    display: none
+}
+
+.ProfileThumbnailPicker .DashboardProfileCard-avatarLink {
+    margin: -60px 0 0 15px
+}
+
+.ProfileThumbnailPicker .DashboardProfileCard-avatarImage {
+    height: 120px;
+    width: 120px
+}
+
+.ProfileThumbnailPicker .DashboardProfileCard-userFields {
+    left: 152px;
+    margin: 0 6px 3px 0
+}
+
+.ProfileThumbnailPicker .DashboardProfileCard-screennameLink {
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 3px
+}
+
+.ProfileThumbnailPicker .DashboardProfileCard-name {
+    font-size: 22px;
+    line-height: 25px
+}
+
+.StandaloneQuestionModule {
+    width: 350px;
+    margin: 0 auto;
+    padding: 10px 30px;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    background: #fff
+}
+
+.StandaloneQuestionModule-question {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px auto 20px
+}
+
+.StandaloneQuestionModule p {
+    margin-bottom: 20px
+}
+
+.StandaloneQuestionModule .btn {
+    padding: 15px;
+    font-size: 16px;
+    margin-bottom: 10px
+}
+
+.StartCheckboxList-item {
+    padding-bottom: 18px
+}
+
+.StartCheckboxList-label {
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 24px;
+    line-height: 20px
+}
+
+.ContactImportButtons {
+    position: relative
+}
+
+.ContactImportButtons-btn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    width: 100%
+}
+
+.ContactImportButtons-primaryBtn {
+    padding: 12px 20px
+}
+
+.ContactImportButtons-emailIcon {
+    vertical-align: middle;
+    margin-right: 5px
+}
+
+.ContactImportButtons-toggle {
+    cursor: pointer
+}
+
+.ContactImportButtons--transition.ContactImportButtons--showSingleService .ContactImportButtons-singleService,.ContactImportButtons--transition.ContactImportButtons--showMultipleServices .ContactImportButtons-multipleServices {
+    -webkit-animation-name: ContactImportButtonsTransitionIn;
+    animation-name: ContactImportButtonsTransitionIn;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+.ContactImportButtons--showSingleService .ContactImportButtons-multipleServices,.ContactImportButtons--showMultipleServices .ContactImportButtons-singleService {
+    visibility: hidden;
+    position: absolute;
+    top: 0
+}
+
+.ContactImportButtons--transition.ContactImportButtons--showSingleService .ContactImportButtons-multipleServices,.ContactImportButtons--transition.ContactImportButtons--showMultipleServices .ContactImportButtons-singleService {
+    -webkit-animation-name: ContactImportButtonsTransitionOut;
+    animation-name: ContactImportButtonsTransitionOut;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+@-webkit-keyframes ContactImportButtonsTransitionOut {
+    0% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        visibility: visible;
+        position: absolute
+    }
+
+    50% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        visibility: hidden;
+        position: absolute
+    }
+}
+
+@keyframes ContactImportButtonsTransitionOut {
+    0% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)";
+        visibility: visible;
+        position: absolute
+    }
+
+    50% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        visibility: hidden;
+        position: absolute
+    }
+}
+
+@-webkit-keyframes ContactImportButtonsTransitionIn {
+    0% {
+        visibility: hidden;
+        position: absolute;
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)"
+    }
+
+    50.5% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        visibility: visible;
+        position: static
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)"
+    }
+}
+
+@keyframes ContactImportButtonsTransitionIn {
+    0% {
+        visibility: hidden;
+        position: absolute;
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)"
+    }
+
+    50.5% {
+        opacity: 0;
+        -ms-filter: "alpha(opacity=0)";
+        visibility: visible;
+        position: static
+    }
+
+    100% {
+        opacity: 1;
+        -ms-filter: "alpha(opacity=100)"
+    }
+}
+
+.Avatar {
+    -moz-force-broken-image-icon: 1;
+    display: block;
+    border-radius: 3px
+}
+
+.Avatar--size48 {
+    height: 48px;
+    width: 48px
+}
+
+.BlocksYouTimeline {
+    margin: 40px 0 35px 15px
+}
+
+.BlocksYouTimeline-heading {
+    color: #66757f;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 15px
+}
+
+.BlocksYouTimeline-explanation {
+    color: #66757f
+}
+
+.BlockedWarningTimeline {
+    margin: 35px 0 35px 15px;
+    display: none
+}
+
+.BlockedWarningTimeline-heading {
+    color: #66757f;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 15px;
+    margin-top: -5px
+}
+
+.BlockedWarningTimeline-explanation {
+    color: #66757f
+}
+
+.BlockedWarningTimeline-button {
+    margin-top: 30px;
+    margin-bottom: 15px
+}
+
+.FollowStatus {
+    color: #8899a6;
+    font-size: 11px;
+    font-weight: 400;
+    margin-left: 3px;
+    text-transform: uppercase
+}
+
+.GridTimeline {
+    margin-bottom: 50px;
+    position: relative
+}
+
+.GridTimeline-emptyText {
+    color: #66757f;
+    font-size: 22px;
+    font-weight: 300;
+    margin: 35px 0 35px 15px
+}
+
+.GridTimeline .has-items .GridTimeline-emptyText {
+    display: none
+}
+
+.GridTimeline .ProfileTweet {
+    margin-bottom: -1px
+}
+
+.GridTimeline .ProfileTweet--promoted {
+    margin-bottom: 12px
+}
+
+.GridTimeline-failure {
+    border-top: 1px solid #e1e8ed;
+    color: #66757f;
+    font-size: 16px;
+    padding: 25px 0 20px 0;
+    text-align: center
+}
+
+.GridTimeline-retry {
+    margin: 20px 0
+}
+
+.GridTimeline-footer {
+    margin-top: 20px;
+    position: relative;
+    text-align: center
+}
+
+.GridTimeline-footer:before {
+    background: #e1e8ed;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 45%;
+    z-index: -1
+}
+
+.GridTimeline-footerIcon {
+    background-color: #f5f8fa;
+    color: #ccd6dd;
+    display: inline-block;
+    padding: 0 15px
+}
+
+.GridTimeline .has-more-items .spinner {
+    display: block;
+    background: url(../../img/t1/spinner-rosetta-gray-26x26.gif) no-repeat 0 0
+}
+
+.GridTimeline .spinner,.GridTimeline .has-more-items .Icon,.GridTimeline .has-items-error .spinner {
+    display: none
+}
+
+.GridTimeline-end .GridTimeline-smsFollowers {
+    display: block
+}
+
+.GridTimeline-end.has-more-items .GridTimeline-smsFollowers {
+    display: none
+}
+
+.GridTimeline-smsFollowers {
+    margin-top: 20px;
+    text-align: center
+}
+
+.ListCreationModule-title {
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 18px;
+    margin: 25px 0 15px
+}
+
+.ListCreationModule-description {
+    color: #66757f;
+    margin-bottom: 10px
+}
+
+.ListCreationModule-moreInfoLink {
+    font-size: 12px;
+    font-weight: bold
+}
+
+.ListCreationModule-action .btn {
+    font-size: 14px
+}
+
+.PhotoRail {
+    display: none
+}
+
+.PhotoRail-heading {
+    color: #8899a6;
+    font-size: 14px;
+    line-height: 1;
+    margin-bottom: 10px
+}
+
+.PhotoRail-heading .Icon {
+    min-width: 18px
+}
+
+.PhotoRail-mediaBox {
+    margin: -5px 0 0 -5px;
+    max-height: 176px;
+    overflow: hidden
+}
+
+.PhotoRail-mediaBox .media-thumbnail {
+    background-color: #66757f;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+    height: 83px;
+    margin: 5px 0 0 5px;
+    overflow: hidden;
+    position: relative;
+    width: 83px
+}
+
+.PhotoRail-mediaBox .grid-tweet-actions-container {
+    display: none
+}
+
+.PhotoRail-headingWithCount,.PhotoRail-headingWithoutCount {
+    display: none
+}
+
+.PhotoRail-headingText--withCount .PhotoRail-headingWithCount,.PhotoRail-headingText--withoutCount .PhotoRail-headingWithoutCount {
+    display: initial
+}
+
+.ProfileAvatar {
+    background: #fff;
+    border: 5px solid #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 1px rgba(136,153,166,0.15);
+    height: 200px;
+    position: relative;
+    width: 200px
+}
+
+.ProfileAvatar-image,.ProfileAvatar-placeholderImage {
+    -moz-force-broken-image-icon: 1;
+    border-radius: 8px;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%
+}
+
+.ProfileCanopy {
+    position: relative
+}
+
+.ProfileCanopy,.ProfileCanopy-header {
+    height: 175px;
+    transition: height .3s
+}
+
+.ProfileCanopy-header:before {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    box-shadow: inset 0 0 1px 1px rgba(0,0,0,0.2);
+    z-index: 1
+}
+
+.ProfileCanopy--withNav {
+    padding-bottom: 60px
+}
+
+.ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+    height: 280px
+}
+
+.ProfileCanopy-inner {
+    position: relative;
+    width: 100%;
+    z-index: 4
+}
+
+.ProfileCanopy-header {
+    max-width: 2560px;
+    position: relative;
+    z-index: 3;
+    background-color: #63aeee
+}
+
+.ProfileCanopy-headerBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden
+}
+
+.ProfileCanopy-headerBg img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -9999px;
+    bottom: -9999px;
+    margin: auto 0;
+    width: 100%
+}
+
+.ProfileCanopy-header .AppContainer {
+    height: 100%;
+    position: relative
+}
+
+.ProfileCanopy-addHeaderCallout {
+    height: 100%;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    text-align: center;
+    transition: opacity .25s ease-in-out;
+    width: 100%
+}
+
+.ProfileCanopy-addHeaderCallout:focus {
+    outline: 0
+}
+
+.ProfileCanopy-addHeaderCallout:hover {
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.ProfileCanopy-addHeaderCalloutText {
+    bottom: 25px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    left: 0;
+    position: absolute;
+    width: 100%
+}
+
+.ProfileCanopy-avatar {
+    bottom: -87px;
+    left: 10px;
+    position: absolute;
+    transition: bottom .3s;
+    z-index: 3
+}
+
+.ProfileCanopy-navBar {
+    background-color: #fff;
+    border-bottom: 1px solid #e1e8ed;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 60px
+}
+
+.ProfileCanopy-card {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 60px;
+    margin-right: -10px;
+    max-width: 100%;
+    overflow: hidden;
+    padding-top: 60px;
+    transition: padding-top .3s
+}
+
+.ProfileCanopy-nav .ProfileNav {
+    margin-bottom: -1px
+}
+
+.ProfileCanopy.is-locked .ProfileCanopy-inner {
+    position: fixed;
+    top: 0;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    width: 100%
+}
+
+.ProfileCanopy.is-locked .ProfileCanopy-header {
+    cursor: pointer
+}
+
+.ProfileCanopy.is-locked .ProfileCanopy-avatar {
+    bottom: 100px
+}
+
+.ProfileCanopy.is-locked .ProfileCanopy-card {
+    padding-top: 0
+}
+
+@media(min-width: 1100px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:300px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 110px
+    }
+}
+
+@media(min-width: 1200px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:320px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 125px
+    }
+}
+
+@media(min-width: 1370px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:360px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 145px
+    }
+}
+
+@media(min-width: 1450px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:380px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 150px
+    }
+}
+
+@media(min-width: 1510px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:420px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 170px
+    }
+}
+
+@media(min-width: 1670px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:460px
+    }
+
+    .ProfileCanopy-header .EventCanopy-addHeaderCalloutContainer--large {
+        bottom: 195px
+    }
+}
+
+@media(min-width: 1820px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:500px
+    }
+}
+
+@media(min-width: 1990px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:540px
+    }
+}
+
+@media(min-width: 2150px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:580px
+    }
+}
+
+@media(min-width: 2300px) {
+    .ProfileCanopy--large,.ProfileCanopy--large .ProfileCanopy-header {
+        height:600px
+    }
+}
+
+.ProfileCard {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: left
+}
+
+.ProfileCard .pretty-link s,.ProfileCard .pretty-link:hover s,.ProfileCard .pretty-link:focus s,.ProfileCard .pretty-link:active s,.ProfileCard .pretty-link b,.ProfileCard .pretty-link:hover b,.ProfileCard .pretty-link:focus b,.ProfileCard .pretty-link:active b {
+    color: inherit
+}
+
+.ProfileCard a,.ProfileCard a:hover,.ProfileCard a:focus,.ProfileCard a:active,.ProfileCard .pretty-link,.ProfileCard .pretty-link:hover,.ProfileCard .pretty-link:focus,.ProfileCard .pretty-link:active {
+    color: #0084b4
+}
+
+.ProfileCard-bg {
+    background-size: 100%;
+    border-bottom: 1px solid #e1e8ed;
+    display: block;
+    height: 95px;
+    border-radius: 4px 4px 0 0;
+    background-position: 0 50%
+}
+
+.ProfileCard-avatarLink {
+    background-color: #fff;
+    border-radius: 6px;
+    display: inline-block;
+    margin: -45px 2px 0 -3px;
+    padding: 3px;
+    position: relative;
+    vertical-align: bottom;
+    z-index: 1
+}
+
+.ProfileCard-avatarImage {
+    border-radius: 5px;
+    display: block;
+    height: 70px;
+    width: 70px
+}
+
+.ProfileCard-actions {
+    display: inline-block;
+    height: 35px;
+    margin: 0 0 -4px 0;
+    position: absolute;
+    right: 0;
+    vertical-align: bottom
+}
+
+.ProfileCard-actions .edit-button.small .button-text,.ProfileCard-actions .AcceptDeclineActions-buttonText {
+    color: #292f33;
+    display: block;
+    max-height: 19px;
+    padding-top: 3px
+}
+
+.ProfileCard-userActions.is-hidden {
+    display: none
+}
+
+.ProfileCard-content {
+    margin: 13px 15px;
+    position: relative
+}
+
+.ProfileCard-userFields {
+    color: #292f33;
+    margin-top: 5px
+}
+
+.ProfileCard-screenname {
+    height: 14px;
+    margin-bottom: 10px
+}
+
+.ProfileCard-screenname>* {
+    vertical-align: text-top
+}
+
+.ProfileCard .ProfileCard-screennameLink,.ProfileCard .ProfileCard-screennameLink:hover,.ProfileCard .ProfileCard-screennameLink:focus {
+    color: #66757f;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1
+}
+
+.ProfileCard-bio {
+    color: #66757f;
+    font-weight: 400;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.375em;
+    height: 5.5em
+}
+
+.ProfileCard-bio a .invisible {
+    font-size: 0;
+    line-height: 0
+}
+
+.ProfileCard-promoted {
+    color: #8899a6;
+    font-size: 13px;
+    line-height: 1;
+    margin-left: 4px
+}
+
+.ProfileCard-promotedIcon {
+    position: relative;
+    top: 1px;
+    margin-right: 2px;
+    font-size: 13px
+}
+
+.ProfileCard-promotedText {
+    color: #8899a6;
+    font-size: 13px
+}
+
+.ProfileCard-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+
+.ProfileCard--withheld .ProfileCard-bg,.ProfileCard--withheld .ProfileCard-avatarImage {
+    background-color: #f5f8fa
+}
+
+.ProfileCard-userActions .user-actions.following:hover .UserActions-moreActions {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.ProfileCard-userActions .user-actions.following:hover .UserActions-moreActions:hover {
+    opacity: 100;
+    -ms-filter: "alpha(opacity=10000)"
+}
+
+@media(max-width: 1200px) {
+    .ProfileCard .favorite-user-button,.ProfileCard .unmute-button,.ProfileCard .mute-button {
+        display:none
+    }
+}
+
+.ProfileCard .unmute-button,.ProfileCard .mute-button {
+    padding: 0
+}
+
+.ProfileCardMini {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 60px;
+    padding: 12px 15px;
+    text-align: left
+}
+
+.ProfileCardMini-avatar {
+    float: left;
+    height: 36px;
+    margin-right: 10px;
+    width: 36px
+}
+
+.ProfileCardMini-avatarImage {
+    border-radius: 4px;
+    height: 36px;
+    max-width: 100%;
+    width: 36px
+}
+
+.ProfileCardMini-details {
+    height: 36px;
+    margin-left: 46px
+}
+
+.ProfileCardMini-screenname {
+    height: 14px
+}
+
+.ProfileCardMini-screenname>* {
+    vertical-align: text-top
+}
+
+.ProfileCardMini-screennameLink,.ProfileCardMini-screennameLink:hover {
+    color: #66757f;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1
+}
+
+.ProfileClusterFollow {
+    padding: 20px 0 20px;
+    border-bottom: 1px solid #e1e8ee;
+    background-color: #f5f8fa
+}
+
+.ProfileClusterFollow-header {
+    margin-bottom: 20px;
+    line-height: 1
+}
+
+.ProfileClusterFollow-title {
+    color: #8899a6;
+    font-size: 22px;
+    font-weight: 300;
+    margin-left: 2px
+}
+
+.ProfileClusterFollow-closeButtonText {
+    font-size: 13px;
+    color: #3b88c3
+}
+
+.ProfileClusterFollow-closeButtonIcon {
+    color: #8899a6;
+    font-size: 11px;
+    margin-left: 4px
+}
+
+.ProfileCustomTimelineItem {
+    border-top: 1px solid #e1e8ed;
+    padding: 10px 0;
+    margin: 0 15px
+}
+
+.ProfileCustomTimelineItem-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 5px;
+    display: block
+}
+
+.ProfileCustomTimelineItem-name {
+    line-height: 1;
+    font-weight: bold
+}
+
+.ProfileCustomTimelineItem-ownerName {
+    color: #8899a6
+}
+
+.ProfileCustomTimelineItem-byLine {
+    font-size: 12px;
+    color: #8899a6
+}
+
+.ProfileCustomTimelineItem-bio {
+    line-height: 1;
+    margin-top: 12px
+}
+
+.ProfileCustomTimelineItem-memberCount {
+    font-size: 13px;
+    line-height: 1;
+    margin-top: 12px;
+    color: #8899a6
+}
+
+.ProfileEmptyTimeline-prefilledTweetsHeading {
+    color: #66757f;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 20px
+}
+
+.ProfileEmptyTimeline .ProfileHeading-title {
+    font-size: 22px;
+    padding-left: 15px;
+    padding-right: 20px
+}
+
+.ProfileEmptyTimeline .ProfilePrefilledTweet {
+    color: #66757f;
+    margin-top: 20px
+}
+
+.ProfileEmptyTimeline-tweetBoxHeading {
+    color: #66757f;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 15px;
+    margin-top: 30px
+}
+
+.ProfileEmptyTimeline-tweetBox {
+    margin-bottom: 20px
+}
+
+.ProfileFeatureBox {
+    text-align: center;
+    width: 250px;
+    float: left;
+    margin-left: 65px
+}
+
+.ProfileFeatureBox:first-child {
+    margin-left: 0
+}
+
+.ProfileFeatureBox-img {
+    margin-bottom: 25px;
+    width: 122px
+}
+
+.ProfileFeatureBox-heading {
+    font-size: 15px;
+    line-height: 25px;
+    margin-bottom: 3px;
+    font-weight: 600
+}
+
+.ProfileFeatureBox-description {
+    font-size: 13px;
+    line-height: 20px
+}
+
+.ProfileHeaderCard {
+    margin-top: 37px
+}
+
+.ProfileHeaderCard-name {
+    line-height: 1
+}
+
+.ProfileHeaderCard-nameLink {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    word-wrap: break-word
+}
+
+.ProfileHeaderCard-screenname {
+    color: #8899a6;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 10px
+}
+
+.ProfileHeaderCard-screennameLink,.ProfileHeaderCard-screennameLink:hover {
+    color: #8899a6
+}
+
+.ProfileHeaderCard-bio {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-bottom: 10px;
+    word-wrap: break-word
+}
+
+.ProfileHeaderCard-location,.ProfileHeaderCard-url,.ProfileHeaderCard-joinDate {
+    color: #8899a6;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 6px
+}
+
+.ProfileHeaderCard-locationText,.ProfileHeaderCard-joinDateText {
+    color: #292f33
+}
+
+.ProfileHeaderCard-location .Icon,.ProfileHeaderCard-url .Icon,.ProfileHeaderCard-joinDate .Icon {
+    min-width: 18px
+}
+
+.ProfileHeaderCard-location>*,.ProfileHeaderCard-url>*,.ProfileHeaderCard-joinDate>* {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.ProfileHeaderCard-url .Icon {
+    position: absolute
+}
+
+.ProfileHeaderCard-urlText {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 23px;
+    width: 100%;
+    word-wrap: break-word
+}
+
+.ProfileHeaderCard-joinDateText {
+    margin-top: 3px
+}
+
+.ProfileHeaderCard-bio a .invisible {
+    font-size: 0;
+    line-height: 0
+}
+
+.ProfileHeaderCard-more {
+    line-height: 22px;
+    margin-bottom: 16px
+}
+
+.ProfileHeaderCard-userActions {
+    margin: 14px 12px 0 0
+}
+
+.ProfileHeaderCard-nameWithBadges--1 {
+    padding-right: 23px
+}
+
+.ProfileHeaderCard-nameWithBadges--2 {
+    padding-right: 46px
+}
+
+.ProfileHeaderCard-badges {
+    font-size: 18px
+}
+
+.ProfileHeaderCard-badges .Icon {
+    margin-left: 5px
+}
+
+.ProfileHeaderCard-badges--1 {
+    margin-left: -23px
+}
+
+.ProfileHeaderCard-badges--2 {
+    margin-left: -46px
+}
+
+.ProfileHeaderCard .ProfileMessagingActions {
+    margin-top: 15px
+}
+
+.ProfileHeading {
+    position: relative;
+    z-index: 1
+}
+
+.ProfileHeading-spacer {
+    margin-top: 10px
+}
+
+.ProfileHeading .NotificationsHeadingContent {
+    margin-bottom: -1px
+}
+
+.ProfileHeading-content {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: -1px
+}
+
+.ProfileHeading-content--noFill {
+    background-color: transparent;
+    border: 0;
+    margin-bottom: 5px
+}
+
+.ProfileHeading-title {
+    color: #66757f;
+    display: block;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 15px 15px 12px
+}
+
+.ProfileHeading-toggleItem {
+    display: inline-block;
+    color: #ccd6dd;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 15px 15px 12px
+}
+
+.ProfileHeading-toggleItem.is-active,.ProfileHeading-toggleItem.is-active:hover,.ProfileHeading-toggleItem.is-active:focus {
+    color: #292f33;
+    cursor: default;
+    font-weight: 500;
+    text-decoration: none
+}
+
+.ProfileLifelineInfo {
+    font-size: 14px;
+    line-height: 18px
+}
+
+.ProfileLifelineInfo .Icon {
+    margin-right: 10px
+}
+
+.ProfileLifelineInfo-text {
+    color: #8899a6
+}
+
+.ProfileListItem {
+    border-top: 1px solid #e1e8ed;
+    padding: 10px 0;
+    margin: 0 15px
+}
+
+.ProfileListItem-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 5px;
+    display: block
+}
+
+.ProfileListItem-name {
+    line-height: 1;
+    font-weight: bold
+}
+
+.ProfileListItem-ownerName {
+    color: #8899a6
+}
+
+.ProfileListItem-byLine {
+    font-size: 12px;
+    color: #8899a6
+}
+
+.ProfileListItem-bio {
+    line-height: 1;
+    margin-top: 12px
+}
+
+.ProfileListItem-memberCount,.ProfileListItem-listActions,.ProfileListItem-listAction {
+    display: inline-block
+}
+
+.ProfileListItem-memberCount {
+    font-size: 13px;
+    line-height: 1;
+    margin-top: 12px;
+    color: #8899a6
+}
+
+.ProfileListItem-linkDivider {
+    padding: 0 1px
+}
+
+.ProfileListItem-listActions {
+    color: #ccd6dd;
+    font-size: 13px;
+    line-height: 1
+}
+
+.ProfileListItem:hover .ProfileListItem-listAction {
+    color: #8899a6
+}
+
+.ProfileListItem-listAction button:hover {
+    text-decoration: underline
+}
+
+.ProfileListItem-listActionButton.is-featured .ProfileListItem-featureListText,.ProfileListItem-listActionButton.is-unfeatured .ProfileListItem-unfeatureListText {
+    display: none
+}
+
+.ProfileMessagingActions-actionsContainer {
+    margin: 0 0 -5px -5px
+}
+
+.ProfileMessagingActions-buttonWrapper {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0 0 5px 5px;
+    vertical-align: top;
+    width: 50%
+}
+
+@media(max-width: 1200px) {
+    .ProfileMessagingActions .NewTweetButton-text,.ProfileMessagingActions .DMButton-text {
+        display:none
+    }
+
+    .ProfileMessagingActions-buttonWrapper.u-sizeFull .NewTweetButton-text,.ProfileMessagingActions-buttonWrapper.u-sizeFull .DMButton-text {
+        display: inline-block
+    }
+}
+
+.ProfileNameTruncated {
+    height: 22px;
+    line-height: 1.3;
+    margin-top: -2px;
+    margin-bottom: 2px
+}
+
+.ProfileNameTruncated-link {
+    color: #292f33;
+    font-weight: 700;
+    font-size: 18px
+}
+
+.ProfileNameTruncated-withBadges {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative
+}
+
+.ProfileNameTruncated-withBadges--1 {
+    padding-right: 21px
+}
+
+.ProfileNameTruncated-withBadges--2 {
+    padding-right: 42px
+}
+
+.ProfileNameTruncated-badges {
+    bottom: 0;
+    font-size: 16px;
+    position: absolute;
+    right: 0
+}
+
+.ProfileNameTruncated-badges .Icon {
+    margin-left: 5px
+}
+
+.ProfileNav {
+    height: 60px;
+    position: relative
+}
+
+.ProfileNav-item {
+    display: inline-block
+}
+
+.ProfileNav .is-hidden {
+    display: none
+}
+
+.ProfileNav-item--userActions {
+    background-color: #FFF;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 59px;
+    padding: 12px 0 0 2px;
+    position: absolute;
+    right: 0;
+    top: 0
+}
+
+.ProfileNav-stat {
+    height: 60px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 0 solid;
+    display: block;
+    line-height: 1;
+    padding: 14px 15px 7px;
+    transition: all .15s ease-in-out
+}
+
+.ProfileNav-stat--link:hover,.ProfileNav-stat--link:focus {
+    text-decoration: none
+}
+
+.ProfileNav-label,.ProfileNav-value {
+    display: block
+}
+
+.ProfileNav-label {
+    color: #66757f;
+    font-size: 11px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    transition: color .15s ease-in-out
+}
+
+.ProfileNav-value {
+    font-size: 18px;
+    padding-top: 3px;
+    font-weight: 500;
+    transition: color .15s ease-in-out
+}
+
+.ProfileNav-item.is-active,.ProfileNav-item.is-active:hover {
+    border-color: #66757f;
+    color: #66757f;
+    cursor: default
+}
+
+.ProfileNav-item.is-active .ProfileNav-label,.ProfileNav-item.is-active:hover .ProfileNav-label {
+    color: #66757f
+}
+
+.ProfileNav-item.is-active .ProfileNav-value,.ProfileNav-item.is-active:hover .ProfileNav-value {
+    color: #292f33
+}
+
+.ProfileNav-item.is-active .ProfileNav-stat,.ProfileNav-stat:hover,.ProfileNav-stat:focus {
+    border-bottom-width: 4px
+}
+
+.ProfileNav-stat--moreLink:hover,.ProfileNav-stat--moreLink:focus {
+    border-bottom-width: 0
+}
+
+.ProfileNav-stat:hover .ProfileNav-label,.ProfileNav-stat:focus .ProfileNav-label,.ProfileNav-stat:hover .ProfileNav-value,.ProfileNav-stat:focus .ProfileNav-value {
+    color: inherit
+}
+
+.ProfileNav-dropdownCaret {
+    font-size: 12px;
+    line-height: 1;
+    color: #8899a6
+}
+
+.ProfileNav-item--more.open .ProfileNav-dropdownCaret,.ProfileNav-item--more:hover .ProfileNav-dropdownCaret {
+    color: inherit
+}
+
+.ProfileNav-item--more .dropdown-menu {
+    margin-top: -1px
+}
+
+.ProfileNav-dropdownItem {
+    font-size: 14px!important
+}
+
+.ProfilePage {
+    background-image: none!important;
+    background-color: #f5f8fa!important;
+    line-height: 1.375;
+    min-width: 936px
+}
+
+.ProfilePage .content-main {
+    border-radius: 0;
+    float: none;
+    position: relative;
+    width: auto
+}
+
+.ProfilePage.three-col .AppContent-main.content-main {
+    float: none;
+    margin: 0
+}
+
+.ProfilePage .AppContent {
+    padding: 46px 0 0
+}
+
+.ProfilePage .topbar-with-navBanner+#page-outer .AppContent {
+    padding-top: 91px
+}
+
+.ProfilePage .withheld-message {
+    margin: 10px 0
+}
+
+.ProfilePage--withBlockedWarning.is-showingWarning .GridTimeline,.ProfilePage--withBlockedWarning.is-showingWarning #timeline,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileHeading-content,.ProfilePage--withBlockedWarning.is-showingWarning .PhotoRail-heading,.ProfilePage--withBlockedWarning.is-showingWarning .PhotoRail-mediaBox,.ProfilePage--withBlockedWarning.is-showingWarning .PhotoRail-headingText,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileUserList,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileHeaderCard-bio,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileHeaderCard-location,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileHeaderCard-url,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileHeaderCard-joinDate,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileMessagingActions,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--tweets,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--following,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--followers,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--favorites,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--more,.ProfilePage--withBlockedWarning.is-showingWarning .ProfileNav-item--lists {
+    display: none
+}
+
+.ProfilePage--withBlockedWarning.is-showingWarning .BlockedWarningTimeline {
+    display: inline-block
+}
+
+.ProfilePage .ProfileNav-item--userActions.profile-blocks-you .user-actions-follow-button {
+    display: none
+}
+
+.ProfilePage-editingButtons,.ProfilePage-editingOverlay,.ProfilePage .ProfileHeaderCardEditing,.ProfilePage .ProfileAvatarEditing,.ProfilePage .ProfileHeaderEditing,.ProfilePage-testForEditingCss {
+    display: none
+}
+
+.ProfilePage .timeline-end .stream-end {
+    border: 1px solid #e1e8ed
+}
+
+.ProfilePage .timeline-end.has-items .stream-end {
+    border-top: 0
+}
+
+.ProfilePage .timeline-end .stream-end-inner,.ProfilePage .timeline-end .stream-end {
+    border-radius: 5px
+}
+
+.ProfilePage .timeline-end.has-items .stream-end-inner,.ProfilePage .timeline-end .stream-end-inner {
+    border-radius: inherit
+}
+
+.ProfilePopupContainer .modal {
+    min-height: 200px;
+    width: 520px;
+    width: 522px\9;
+    overflow: visible
+}
+
+.ProfilePopupContainer .modal-content {
+    overflow: visible
+}
+
+.ProfilePopupContainer .modal-body {
+    padding: 0
+}
+
+.ProfilePopupContainer .follow-status {
+    display: inline
+}
+
+.ProfilePopupContainer .stats a {
+    padding-left: 15px;
+    padding-right: 15px
+}
+
+.ProfilePopupContainer .recent-tweets {
+    margin-bottom: 0
+}
+
+.ProfilePopupContainer .recent-tweets p {
+    font-size: 100%;
+    margin: 0
+}
+
+.ProfilePopupContainer .draggable .profile-modal-header {
+    cursor: default
+}
+
+.ProfilePopupContainer .profile-popup-rounded-bottom {
+    border-radius: 0 0 6px 6px
+}
+
+.ProfilePopupContainer .profile-modal-header-inner .fullname a {
+    display: inline-block;
+    max-width: 290px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.ProfilePopupContainer .profile-header .profile-header-inner,.ProfilePopupContainer .profile-header .profile-banner-footer,.ProfilePopupContainer .profile-header .profile-social-proof {
+    border-radius: 0
+}
+
+.ProfilePopupContainer .user-actions {
+    float: right
+}
+
+.ProfilePopupContainer .profile-header {
+    float: none;
+    border: 0;
+    margin-bottom: 0
+}
+
+.ProfilePopupContainer .profile-card.profile-header {
+    width: 520px
+}
+
+.ProfilePopupContainer .go-to-profile {
+    border-top: 1px solid #e1e8ed
+}
+
+.ProfilePopupContainer .go-to-profile .view-profile {
+    display: inline-block;
+    padding: 14px 12px 14px 56px;
+    font-size: 13px
+}
+
+.ProfilePopupContainer .social-proof {
+    border-bottom: 1px solid #e1e8ed;
+    height: 32px
+}
+
+.ProfilePopupContainer .QuoteTweet {
+    cursor: default
+}
+
+.ProfilePopupContainer--bellbird .modal {
+    width: 590px
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader a,.ProfilePopupContainer--bellbird .ProfileHeader a b,.ProfilePopupContainer--bellbird .ProfileHeader a strong,.ProfilePopupContainer--bellbird .ProfileHeader a s,.ProfilePopupContainer--bellbird .tweet-text a,.ProfilePopupContainer--bellbird .tweet-text a b,.ProfilePopupContainer--bellbird .tweet-text a s,.ProfilePopupContainer--bellbird .tweet-text a:hover,.ProfilePopupContainer--bellbird .tweet-text a:hover b,.ProfilePopupContainer--bellbird .tweet-text a:hover s,.ProfilePopupContainer--bellbird .simple-tweet:hover .details b .simple-details-link,.ProfilePopupContainer--bellbird .ProfileHeader .user-dropdown:hover,.ProfilePopupContainer--bellbird .account-group:hover .fullname,.ProfilePopupContainer--bellbird a.details:hover b,.ProfilePopupContainer--bellbird a.view-profile {
+    color: #3b88c3
+}
+
+.ProfilePopupContainer--bellbird .modal-body {
+    padding: 0
+}
+
+.ProfilePopupContainer--bellbird .follow-status {
+    top: 0
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader-userActions {
+    position: absolute;
+    right: 0
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader .profile-header-inner {
+    height: 194px;
+    border-radius: 0;
+    background-size: cover;
+    background-repeat: none;
+    background-position: center center;
+    border-bottom: 1px solid #e1e8ed
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader .profile-header-inner.no-image {
+    height: 85px
+}
+
+.ProfilePopupContainer--bellbird .profile-social-proof {
+    background-color: #f5f8fa;
+    border-radius: 0;
+    border-top: 1px solid #e1e8ed
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader .profile-picture {
+    background: white;
+    border: 4px solid #fff;
+    border-radius: 9px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 120px;
+    margin: -70px 10px 0 10px;
+    width: 120px
+}
+
+.ProfilePopupContainer--bellbird .ProfileHeader .profile-picture .avatar {
+    border-radius: 6px;
+    height: 100%;
+    width: 100%
+}
+
+.ProfilePopupContainer--bellbird .stats {
+    margin-top: 1px
+}
+
+.ProfilePopupContainer--bellbird .stats th {
+    color: #66757f;
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 16px;
+    padding-top: 7px;
+    text-align: left;
+    text-transform: uppercase
+}
+
+.ProfilePopupContainer--bellbird .stats td {
+    padding-bottom: 0
+}
+
+.ProfilePopupContainer--bellbird .stats th,.ProfilePopupContainer--bellbird .stats td {
+    padding-left: 25px
+}
+
+.ProfilePopupContainer--bellbird .stats th:first-child,.ProfilePopupContainer--bellbird .stats td:first-child {
+    padding-left: 0
+}
+
+.ProfilePopupContainer--bellbird .stats a {
+    padding: 0
+}
+
+.ProfilePopupContainer--bellbird .stats a strong {
+    color: #3b94d9;
+    font-weight: 500;
+    font-size: 18px
+}
+
+.ProfilePopupContainer--bellbird .stats li+li a {
+    padding-left: 30px;
+    padding-right: 0
+}
+
+.ProfilePopupContainer--bellbird .user-actions {
+    margin-right: 15px
+}
+
+.ProfilePopupContainer--bellbird .user-actions>.dropdown+button {
+    margin-left: 5px
+}
+
+.ProfilePopupContainer--bellbird .profile-details {
+    text-align: left;
+    margin: 5px 15px 0
+}
+
+.ProfilePopupContainer--bellbird .profile-details .fullname {
+    text-align: left;
+    margin-bottom: 5px
+}
+
+.ProfilePopupContainer--bellbird .profile-details .fullname a {
+    color: #292f33;
+    font-weight: 700;
+    font-size: 22px
+}
+
+.ProfilePopupContainer--bellbird .profile-details .screen-name {
+    color: #66757f;
+    font-weight: 400;
+    font-size: 14px
+}
+
+.ProfilePopupContainer--bellbird .profile-details .screen-name s {
+    color: #66757f
+}
+
+.ProfilePopupContainer--bellbird .bio-container {
+    margin: 9px 0
+}
+
+.ProfilePopupContainer--bellbird .bio-container p {
+    color: #292f33
+}
+
+.ProfilePopupContainer--bellbird .divider {
+    color: #292f33
+}
+
+.ProfilePopupContainer--bellbird .go-to-profile {
+    border-top: 1px solid #e1e8ed
+}
+
+.ProfilePopupContainer--bellbird .go-to-profile .view-profile {
+    display: inline-block;
+    padding: 14px 12px 14px 15px;
+    font-weight: bold;
+    font-size: 14px
+}
+
+.ProfilePopupContainer--bellbird .badges {
+    margin-left: 5px
+}
+
+.ProfilePopupContainer--bellbird .badges .Icon {
+    font-size: 18px
+}
+
+.ProfilePopupContainer--bellbird .facepile a {
+    float: left;
+    margin-right: 5px
+}
+
+.ProfilePopupContainer--bellbird .social-proof {
+    padding-left: 15px
+}
+
+.ProfilePopupContainer--bellbird .recent-tweets {
+    margin-bottom: 0
+}
+
+.ProfilePopupContainer--bellbird .recent-tweets .tweet {
+    border-color: #e1e8ed
+}
+
+.ProfilePopupContainer--bellbird .recent-tweets .content {
+    margin-left: 61px
+}
+
+.ProfilePopupContainer--bellbird .recent-tweets .avatar {
+    border-radius: 5px;
+    height: 48px;
+    margin-left: -60px;
+    width: 48px
+}
+
+.ProfilePopupContainer--bellbird .profile-details .profile-dialog-blocks-you {
+    background-color: #f5f8fa;
+    margin-top: 20px;
+    margin-left: -15px;
+    margin-right: -15px;
+    border-top: 1px solid #e1e8ed
+}
+
+.ProfilePopupContainer--bellbird .profile-dialog-blocks-you-inner {
+    padding: 20px
+}
+
+.ProfilePopupContainer--bellbird .profile-dialog-blocks-you-inner p {
+    color: #66757f;
+    margin-top: 12px
+}
+
+.ProfilePopupContainer--bellbird .blocks-you .user-actions-follow-button {
+    display: none
+}
+
+.ProfilePrefilledTweet .ProfileTweet {
+    border-radius: 5px
+}
+
+.ProfilePrefilledTweet-tweetBtn {
+    padding-left: 20px;
+    min-width: 100px;
+    padding-right: 15px;
+    position: relative
+}
+
+.ProfilePrefilledTweet-tweetBtn .btn,.ProfilePrefilledTweet.is-sending .ProfilePrefilledTweet-spinner {
+    display: inline-block
+}
+
+.ProfilePrefilledTweet.is-sending .ProfilePrefilledTweet-spinner {
+    position: absolute;
+    margin-top: -7px;
+    right: 0;
+    top: 50%
+}
+
+.ProfilePrefilledTweet .tweet {
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.375em;
+    padding: 13px 15px 15px;
+    position: relative
+}
+
+.ProfilePrefilledTweet .tweet .avatar {
+    margin-left: 0;
+    margin-right: 10px
+}
+
+.ProfilePrefilledTweet .tweet .tweet-text {
+    color: #292f33
+}
+
+.ProfileSidebar .ProfileHeaderCard,.ProfileSidebar .ProfileTweetbox,.ProfileSidebar .ProfileLifelineInfo,.ProfileSidebar .ProfileUserList,.ProfileSidebar .PhotoRail,.ProfileSidebar .EventFollowAll {
+    padding-right: 15px;
+    padding-left: 15px
+}
+
+.ProfileSidebar .ProfileTweetbox,.ProfileSidebar .ProfileUserList,.ProfileSidebar .PhotoRail {
+    margin-top: 20px
+}
+
+.ProfileSidebar .siderail-related-tweets-container {
+    margin-top: 10px
+}
+
+.ProfileSidebar .EventFollowAll+.SidebarCommonModules {
+    margin-top: 10px
+}
+
+.ProfileSidebar .ProfileHeaderCard,.ProfileSidebar .ProfileUserList,.ProfileSidebar .PhotoRail {
+    margin-bottom: 25px
+}
+
+.ProfileSidebar .ProfileLifelineInfo,.ProfileSidebar .EventFollowAll,.ProfileSidebar .RelatedUsers,.ProfileSidebar .ProfileRecommendedHashtags {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 15px
+}
+
+.ProfileSidebar .flex-module-header h3 {
+    font-size: 18px;
+    color: #292f33;
+    font-weight: inherit
+}
+
+.ProfileSidebar .flex-module-header {
+    margin-bottom: 15px
+}
+
+.ProfileTweetbox {
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 15px
+}
+
+.ProfileTweetbox .tweet-box {
+    padding: 11px;
+    font-size: 14px;
+    color: #8899a6
+}
+
+.ProfileTweetbox .Icon--geo {
+    margin: 0
+}
+
+.ProfileTweetbox .photo-selector .text {
+    display: none
+}
+
+.ProfileTweetbox .condensed .tweet-box {
+    padding-right: 30px
+}
+
+.ProfileTweetbox .tweet-action {
+    background-image: none;
+    text-shadow: none
+}
+
+.ProfileUserList-heading {
+    color: #8899a6;
+    margin-bottom: 13px
+}
+
+.ProfileUserList-title {
+    font-size: 14px;
+    line-height: 1
+}
+
+.ProfileUserList-name .Icon {
+    min-width: 18px
+}
+
+.ProfileUserList-description {
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 6px
+}
+
+.ProfileUserList-details {
+    font-size: 12px;
+    margin-top: 5px
+}
+
+.ProfileUserList-actions button:hover {
+    text-decoration: underline
+}
+
+.ProfileUserList-linkDivider {
+    padding: 0 1px
+}
+
+.ProfileUserList-subscribeAction.is-subscribed .ProfileUserList-subscribeText,.ProfileUserList-subscribeAction.is-unsubscribed .ProfileUserList-removeText {
+    display: none
+}
+
+.ProfileUserList-facepile {
+    margin: -5px -5px 0
+}
+
+.ProfileUserList-facepileItem {
+    float: left;
+    margin: 5px 0 0 5px
+}
+
+.ProfileUserList-footer {
+    margin-top: 5px;
+    font-size: 12px
+}
+
+.ProfileUserList .Avatar {
+    border-radius: 4px
+}
+
+.ProtectedTimeline {
+    margin: 35px 0 35px 15px
+}
+
+.ProtectedTimeline-heading {
+    color: #66757f;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 15px
+}
+
+.ProtectedTimeline-explanation {
+    color: #66757f
+}
+
+.ScrollBump {
+    margin: 30px 0
+}
+
+.ScrollBump-header {
+    margin-bottom: 10px;
+    margin-left: 16px
+}
+
+.ScrollBump-title {
+    color: #66757f;
+    font-size: 13px;
+    padding-left: 22px;
+    position: relative
+}
+
+.ScrollBump-title a,.ScrollBump-title a:hover,.ScrollBump-title a:focus,.ScrollBump-title a:active {
+    color: #0084b4
+}
+
+.ScrollBump-title .Icon {
+    left: 0;
+    position: absolute;
+    top: -1px
+}
+
+.ScrollBump .ScrollBump-profileCard.selected-stream-item {
+    border-radius: 5px
+}
+
+.ScrollBumpDialog .modal-body {
+    padding: 0;
+    overflow-y: scroll;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px
+}
+
+.ScrollBumpDialog-usersList {
+    margin-left: 0;
+    list-style: none
+}
+
+.ScrollBumpDialog .stream-item:last-child .account {
+    border-bottom: 0
+}
+
+.StreamItem {
+    position: relative
+}
+
+.StreamToggler-item {
+    display: inline-block
+}
+
+.StreamToggler-link {
+    color: #ccd6dd;
+    display: block;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 15px 15px 12px
+}
+
+.StreamToggler-link.is-active,.StreamToggler-link.is-active:hover,.StreamToggler-link.is-active:focus {
+    color: #292f33;
+    cursor: default;
+    font-weight: 500;
+    text-decoration: none
+}
+
+.Trends {
+    background-color: #fff;
+    background-clip: inherit;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    line-height: inherit;
+    padding: 15px
+}
+
+.Trends .flex-module {
+    background-color: inherit;
+    border: 0;
+    line-height: inherit;
+    padding: 0
+}
+
+.Trends .flex-module-header {
+    line-height: 20px;
+    margin-bottom: 10px
+}
+
+.Trends .flex-module-header .middot {
+    color: #66757f;
+    font-size: 12px
+}
+
+.Trends .trend-location {
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300
+}
+
+.Trends .change-trends {
+    font-size: 12px
+}
+
+.Trends .trend-items {
+    margin-top: -4px
+}
+
+.Trends .trend-item {
+    font-size: 13px;
+    line-height: 13px;
+    margin-bottom: 7px;
+    word-wrap: break-word
+}
+
+.Trends .trend-item:last-child {
+    margin-bottom: 0
+}
+
+.Trends .promoted .with-icn {
+    display: block;
+    margin-top: -1px;
+    padding-bottom: 3px
+}
+
+.Trends .promoted-text {
+    font-size: 13px;
+    color: #8899a6
+}
+
+.Trends .Icon--promoted,.Trends .Icon--political,.Trends .Icon--top {
+    font-size: 14px;
+    position: relative;
+    top: 2px
+}
+
+.Trends--wide {
+    padding: 0
+}
+
+.Trends--wide .flex-module {
+    background-color: #fff;
+    padding: 15px 40px
+}
+
+.Trends--wide .flex-module-header h3 {
+    display: block
+}
+
+.Trends--wide .flex-module-header .middot,.Trends--wide .flex-module-header .change-trends {
+    display: none
+}
+
+.Trends--wide li {
+    display: inline;
+    padding-right: 15px
+}
+
+.Trends--wide .trend-item,.Trends--wide .promoted-text {
+    font-size: 12px;
+    line-height: 20px
+}
+
+.Trends--wide .promoted .with-icn {
+    display: inline
+}
+
+.Trends--blankBackground {
+    background-color: transparent;
+    border: 0
+}
+
+.Trends .context-trend-item {
+    line-height: 17px;
+    margin-bottom: 10px
+}
+
+.Trends .context-trend-item:last-child {
+    margin-bottom: 0
+}
+
+.Trends .context-trend-item a {
+    display: block
+}
+
+.Trends .context-trend-item .trend-name {
+    font-weight: bold
+}
+
+.Trends .context-trend-item .trend-item-context,.Trends .context-trend-item .trend-item-stats {
+    color: #292f33;
+    max-height: 34px;
+    overflow: hidden;
+    font-weight: normal
+}
+
+.Trends .context-trend-item .trend-item-stats {
+    color: #8899a6
+}
+
+.Trends .context-trend-item .promoted .with-icn {
+    margin-top: 0;
+    padding-bottom: 0
+}
+
+.Trends .context-trend-item .promoted .promoted-text {
+    text-decoration: inherit;
+    color: inherit
+}
+
+.Trends .context-trends-container .Icon--promoted {
+    margin-top: -3px
+}
+
+.TwitterMultiPhoto-image {
+    position: absolute;
+    cursor: pointer;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+    cursor: zoom-in;
+    overflow: hidden
+}
+
+.TwitterMultiPhoto-image img {
+    position: absolute
+}
+
+.TwitterMultiPhoto-collection {
+    overflow: hidden;
+    border-radius: 5px
+}
+
+.TwitterMultiPhoto-collection--count1 .TwitterMultiPhoto-image--1 {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+
+.TwitterMultiPhoto-collection--count2 .TwitterMultiPhoto-image--1 {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 50.5%
+}
+
+.TwitterMultiPhoto-collection--count2 .TwitterMultiPhoto-image--2 {
+    top: 0;
+    bottom: 0;
+    left: 50.5%;
+    right: 0
+}
+
+.TwitterMultiPhoto-collection--count3 .TwitterMultiPhoto-image--1 {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 50.5%
+}
+
+.TwitterMultiPhoto-collection--count3 .TwitterMultiPhoto-image--2 {
+    top: 0;
+    bottom: 51%;
+    left: 50.5%;
+    right: 0
+}
+
+.TwitterMultiPhoto-collection--count3 .TwitterMultiPhoto-image--3 {
+    top: 51%;
+    bottom: 0;
+    left: 50.5%;
+    right: 0
+}
+
+.TwitterMultiPhoto-collection--count4 .TwitterMultiPhoto-image--1 {
+    top: 0;
+    bottom: 51%;
+    left: 0;
+    right: 50.5%
+}
+
+.TwitterMultiPhoto-collection--count4 .TwitterMultiPhoto-image--2 {
+    top: 0;
+    bottom: 51%;
+    left: 50.5%;
+    right: 0
+}
+
+.TwitterMultiPhoto-collection--count4 .TwitterMultiPhoto-image--3 {
+    top: 51%;
+    bottom: 0;
+    left: 0;
+    right: 50.5%
+}
+
+.TwitterMultiPhoto-collection--count4 .TwitterMultiPhoto-image--4 {
+    top: 51%;
+    bottom: 0;
+    left: 50.5%;
+    right: 0
+}
+
+.UserActions .user-actions .dropdown-menu {
+    right: -6px;
+    margin-top: 4px
+}
+
+.UserActions .user-actions .dropdown.open button {
+    border-color: transparent
+}
+
+.UserActions-moreActions {
+    padding-right: 4px;
+    min-height: 29px
+}
+
+.UserActions-moreActions>* {
+    vertical-align: baseline
+}
+
+.UserActions-editButton {
+    padding-top: 9px;
+    padding-bottom: 9px
+}
+
+.UserActions .user-dropdown {
+    color: #8899a6;
+    padding-top: 2px
+}
+
+.UserActions--small .user-dropdown {
+    padding-top: 0
+}
+
+.UserActions--withheld .user-actions {
+    display: none
+}
+
+.UserActions--withheld .user-actions.following,.UserActions--withheld .user-actions.pending {
+    display: block
+}
+
+.WhoToFollow {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    display: none;
+    font-size: 12px;
+    padding: 15px
+}
+
+.WhoToFollow.is-visible {
+    display: block
+}
+
+.WhoToFollow-header {
+    margin-bottom: 15px
+}
+
+.WhoToFollow-title {
+    color: #66757f;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1
+}
+
+.WhoToFollow-users>.account-summary {
+    margin-bottom: 15px
+}
+
+.WhoToFollow-users .fullname {
+    color: #292f33;
+    font-size: 13px
+}
+
+.WhoToFollow-users .username {
+    color: #8899a6
+}
+
+.WhoToFollow--blankBackground {
+    background: transparent;
+    border: 0
+}
+
+.RelatedUsers {
+    font-size: 12px
+}
+
+.RelatedUsers-header {
+    line-height: 20px;
+    margin-bottom: 10px
+}
+
+.RelatedUsers-title {
+    color: #66757f;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1
+}
+
+.RelatedUsers-users>.account-summary {
+    min-height: 36px
+}
+
+.RelatedUsers-users .avatar {
+    border-radius: 4px;
+    width: 36px;
+    height: 36px
+}
+
+.RelatedUsers-users .fullname {
+    color: #292f33;
+    font-size: 13px
+}
+
+.RelatedUsers-users .username {
+    color: #8899a6;
+    display: block
+}
+
+.RelatedUsers-users .account-summary .content {
+    margin-left: 46px
+}
+
+.ProfileRecommendedHashtags {
+    font-size: 13px
+}
+
+.ProfileRecommendedHashtags-header {
+    line-height: 20px;
+    margin-bottom: 10px
+}
+
+.ProfileRecommendedHashtags-title {
+    color: #66757f;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1
+}
+
+.ProfileRecommendedHashtags-item {
+    margin-top: 10px
+}
+
+.ProfileRecommendedHashtags-name {
+    font-weight: bold
+}
+
+.ProfileRecommendedHashtags-description,.ProfileRecommendedHashtags-tweetCount {
+    color: #292f33;
+    font-weight: normal;
+    max-height: 34px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal
+}
+
+.ProfileRecommendedHashtags-tweetCount {
+    color: #8899a6
+}
+
+.CommerceDiscoveryProfileButton-wrapper {
+    text-align: center
+}
+
+.CommerceDiscoveryProfileButton {
+    width: 260px;
+    padding-top: 5px;
+    margin: 15px auto
+}
+
+.CommerceDiscoveryProfileButton-contentText {
+    font-weight: normal;
+    color: white
+}
+
+.CommerceDiscovery {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding: 15px
+}
+
+.CommerceDiscovery-title {
+    margin-bottom: 5px
+}
+
+.CommerceDiscovery-discription {
+    font-size: 16px;
+    margin-top: 5px
+}
+
+.CommerceDiscovery-header {
+    margin-bottom: 10px
+}
+
+.CommerceDiscovery-image {
+    height: 103px;
+    overflow: hidden;
+    border-radius: 6px;
+    margin: 0 0 10px 0;
+    cursor: pointer;
+    position: relative
+}
+
+.CommerceDiscovery-image img {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    position: absolute;
+    top: -100%;
+    bottom: -100%;
+    margin: auto
+}
+
+.CommerceDiscovery-profileButton {
+    height: 33px;
+    font-size: 13px;
+    font-weight: normal;
+    padding-bottom: 7px;
+    border-color: transparent
+}
+
+.CommerceProductPageContainer.wrapper-product {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 47px 0 0 0;
+    height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.CommerceProductPageContainer .CommerceProductPage {
+    height: 100%
+}
+
+.CommerceProductPageContainer .CommerceProductPageIframe {
+    color: white;
+    width: 100%;
+    height: 100%
+}
+
+.EventCanopy-addHeaderCalloutContainer {
+    position: absolute;
+    text-align: center;
+    width: 100%
+}
+
+.EventCanopy-addHeaderCalloutContainer--large {
+    bottom: 105px
+}
+
+.EventCanopy-addHeaderCalloutContainer--small {
+    bottom: 50px
+}
+
+.EventCanopy-addHeaderCallout {
+    background: transparent;
+    color: #fff;
+    display: inline-block;
+    font-size: 52px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px #000
+}
+
+.EventCanopy-attribution {
+    bottom: 20px;
+    text-shadow: 1px 1px 8px #292f33;
+    color: #fff;
+    left: 0;
+    position: absolute
+}
+
+.EventCanopy-cardHeader {
+    color: #292f33;
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 15px;
+    padding-top: 18px
+}
+
+.EventCanopy-scoreboard {
+    padding-top: 15px
+}
+
+.EventCanopy-scoreboardLogo {
+    border-radius: 3px;
+    height: 24px;
+    position: relative;
+    top: 2px
+}
+
+.EventCanopy-scoreboardVs,.EventCanopy-scoreboardDash {
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 500
+}
+
+.EventCanopy-scoreboardVs {
+    padding: 0 15px
+}
+
+.EventCanopy-scoreboardScore {
+    padding: 0 10px;
+    white-space: nowrap
+}
+
+.EventCanopy-scoreboardStatus {
+    color: #66757f;
+    padding-left: 15px
+}
+
+.EventPage {
+    background-image: none!important;
+    background-color: #f5f8fa!important;
+    line-height: 1.375;
+    min-width: 936px
+}
+
+.EventPage .AppContent {
+    padding: 46px 0 0
+}
+
+.EventPage .ProfileCanopy-navBar .NewTweetButton {
+    float: right;
+    margin-right: 15px;
+    margin-top: 11px
+}
+
+.EventPage .GridTimeline .new-tweets-bar {
+    background-color: #fff;
+    border-bottom: 0;
+    top: 0
+}
+
+.EventPage .GridTimeline .new-tweets-bar:hover {
+    background-color: #f5f8fa
+}
+
+.EventPage .content-main {
+    margin: 0!important
+}
+
+.EventPage .ProfileTweet-context .Icon {
+    color: #8899a6
+}
+
+.EventPage.de .EventCanopy-scoreboardStatus--isFinal,.EventPage.ru .EventCanopy-scoreboardStatus--isFinal {
+    display: none
+}
+
+@media(max-width: 1110px) {
+    .EventPage .EventCanopy-scoreboardStatus {
+        display:none
+    }
+
+    .EventPage.ru .NewTweetButton {
+        font-size: 12px
+    }
+}
+
+.EventNav-label {
+    font-weight: 500;
+    color: #292f33;
+    font-size: 18px
+}
+
+.EventNav-stat {
+    height: 60px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 0 solid;
+    display: block;
+    line-height: 1;
+    padding: 21px 15px 7px;
+    transition: all .15s ease-in-out
+}
+
+.EventFollowAll {
+    padding: 20px
+}
+
+.EventFollowAll-heading {
+    font-size: 24px;
+    font-weight: 300;
+    padding: 10px 0 0
+}
+
+.EventFollowAll-content {
+    color: #66757f;
+    padding: 10px 0 20px 0
+}
+
+.EventFollowAll-footer {
+    border-top: 1px solid #e1e8ed;
+    margin: 0 -15px;
+    padding: 20px 20px 10px
+}
+
+.EventFollowAll-action .follow-button {
+    min-width: 140px
+}
+
+.EventPeopleModule-heading {
+    font-size: 14px;
+    line-height: 1;
+    margin: 20px 0 5px 15px
+}
+
+.EventPeopleModule-heading .Icon {
+    color: #8899a6
+}
+
+.EventPeopleModule-memberList {
+    margin: 0 0 4px 15px
+}
+
+.EventPeopleModule-member {
+    float: left;
+    margin: 5px 5px 0 0
+}
+
+.CurrentMatches--withBackground {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px
+}
+
+.CurrentMatches--withBackground .CurrentMatches-heading {
+    border-bottom: 1px solid #e1e8ed;
+    margin: 0;
+    padding: 13px 15px
+}
+
+.CurrentMatches--withBackground .CurrentMatches-headingText {
+    font-size: 20px;
+    font-weight: 300
+}
+
+.CurrentMatches--withBackground .CurrentMatches-undismiss {
+    border-top: 0;
+    margin: 0;
+    padding: 10px 15px
+}
+
+.CurrentMatches--withBackground .MatchItem:last-child {
+    border-bottom: 0
+}
+
+.CurrentMatches--withBackground .CurrentMatches-footer {
+    margin: 0;
+    padding: 12px 15px 15px 15px
+}
+
+.CurrentMatches--withBackground .MatchItem-viewMatch:hover {
+    text-decoration: none
+}
+
+.CurrentMatches--withBackground .MatchItem-viewMatch {
+    color: #292f33;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-top: 8px
+}
+
+.CurrentMatches-heading {
+    margin: 0 15px;
+    padding: 24px 0 0 0
+}
+
+.CurrentMatches-headingText {
+    color: #292f33;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1
+}
+
+.CurrentMatches-footer {
+    color: #66757f;
+    background-color: #f5f8fa;
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid #e1e8ed;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 15px;
+    padding: 12px 0 15px 0
+}
+
+.CurrentMatches-footer a {
+    display: inline-block;
+    margin-top: 3px
+}
+
+.CurrentMatches-footer .btn {
+    font-size: 13px;
+    padding: 4px 12px;
+    margin-top: 10px;
+    font-weight: 500
+}
+
+.CurrentMatches-dismiss {
+    color: #ccd6dd;
+    float: right;
+    position: relative;
+    top: 2px
+}
+
+.CurrentMatches-dismiss:hover {
+    color: #66757f
+}
+
+.CurrentMatches-undismiss {
+    border: solid #e1e8ed;
+    border-width: 1px 0;
+    display: none;
+    margin: 15px 15px 0 15px;
+    padding: 10px 0
+}
+
+.CurrentMatches-undismissIcon {
+    color: #66757f;
+    padding-right: 10px
+}
+
+.CurrentMatches-undismissText,.CurrentMatches-leagueLinkText {
+    position: relative;
+    top: 1px
+}
+
+.CurrentMatches-leagueLink {
+    border-bottom: 1px solid #e1e8ed;
+    margin: 0 15px;
+    padding: 10px 0
+}
+
+.CurrentMatches-leagueLinkIcon {
+    color: #8899a6;
+    padding-right: 5px
+}
+
+.CurrentMatches .MatchItem {
+    margin: 0 15px;
+    padding-bottom: 15px
+}
+
+.CurrentMatches--withBackground .MatchItem {
+    margin: 0;
+    padding: 0 15px 15px 15px
+}
+
+.MatchItem {
+    border-bottom: 1px solid #e1e8ed
+}
+
+.MatchItem:hover {
+    background-color: #f5f8fa
+}
+
+.MatchItem-time {
+    color: #66757f;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 15px 0 6px 0
+}
+
+.MatchItem-live {
+    background-color: #dd2e44;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 11px;
+    margin-right: 7px;
+    padding: 1px 4px;
+    text-transform: uppercase
+}
+
+.MatchItem-status {
+    vertical-align: middle
+}
+
+.MatchItem-teams {
+    width: 100%
+}
+
+.MatchItem-logoContainer {
+    width: 56px
+}
+
+.MatchItem-logoImg {
+    border-radius: 3px;
+    height: 24px
+}
+
+.MatchItem-teamName {
+    color: #292f33;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 6px 0;
+    width: 124px
+}
+
+.MatchItem-teamName--withLongName {
+    font-size: 16px;
+    line-height: 18px
+}
+
+.MatchItem-scoreContainer {
+    width: 80px;
+    white-space: nowrap
+}
+
+.MatchItem-score {
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 15px
+}
+
+.MatchItem-viewMatch {
+    font-size: 13px;
+    font-weight: 400;
+    padding-top: 6px
+}
+
+.MatchItem-viewMatch:hover {
+    text-decoration: underline
+}
+
+.AdaptiveFiltersBar {
+    border-bottom: 1px solid #e1e8ed;
+    margin: 0 auto
+}
+
+.AdaptiveFiltersBar-nav {
+    text-align: center
+}
+
+.AdaptiveFiltersBar-item {
+    border-bottom: 0 solid #55acee;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 46px;
+    transition: all .15s ease
+}
+
+.AdaptiveFiltersBar-item:hover,.AdaptiveFiltersBar-item:focus,.AdaptiveFiltersBar-item.is-selected {
+    border-bottom-width: 4px;
+    border-bottom-color: #55acee
+}
+
+.AdaptiveFiltersBar-item--more {
+    vertical-align: top
+}
+
+.AdaptiveFiltersBar-target {
+    color: #55acee;
+    display: block;
+    padding: 14px 0
+}
+
+.AdaptiveFiltersBar-target--link {
+    text-decoration: none
+}
+
+.AdaptiveFiltersBar-target--link:hover,.AdaptiveFiltersBar-target--link:focus {
+    text-decoration: none
+}
+
+.AdaptiveFiltersBar-target--more {
+    padding: 14px 24px 10px
+}
+
+.AdaptiveFiltersBar-target--more:focus {
+    outline: 0
+}
+
+.AdaptiveFiltersBar-label {
+    border-right: 1px solid #ccd6dd;
+    padding-left: 24px;
+    padding-right: 24px
+}
+
+.AdaptiveFiltersBar-moreCaretIcon {
+    font-size: 8px;
+    line-height: 8px
+}
+
+.AdaptiveFiltersDropdown.dropdown-menu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 8px 0;
+    margin-top: 4px;
+    text-align: left
+}
+
+.AdaptiveFiltersDropdown.dropdown-menu li>.AdaptiveFiltersDropdown-target {
+    color: #66757f;
+    padding-left: 10px;
+    padding-right: 30px
+}
+
+.AdaptiveFiltersDropdown.dropdown-menu li>.AdaptiveFiltersDropdown-target:hover,.AdaptiveFiltersDropdown.dropdown-menu li>.AdaptiveFiltersDropdown-target:focus {
+    background-color: #55acee;
+    color: #fff
+}
+
+.AdaptiveFiltersDropdown.dropdown-menu li>.AdaptiveFiltersDropdown-target--advanced {
+    color: #55acee;
+    font-weight: bold
+}
+
+.AdaptiveFiltersDropdown-label {
+    padding-left: 20px
+}
+
+.AdaptiveFiltersDropdown-label.is-selected {
+    padding-left: 8px
+}
+
+.AdaptiveFiltersDropdown-checkIcon {
+    color: #55acee
+}
+
+.AdaptiveFiltersDropdown-target:hover .AdaptiveFiltersDropdown-checkIcon {
+    color: #fff
+}
+
+.AdaptiveNewsHeadlineDetails {
+    display: table;
+    font-size: 12px;
+    width: 100%
+}
+
+.AdaptiveNewsHeadlineDetails-userContainer,.AdaptiveNewsHeadlineDetails-dateContainer {
+    display: table-cell;
+    vertical-align: middle
+}
+
+.AdaptiveNewsHeadlineDetails-user,.AdaptiveNewsHeadlineDetails-date {
+    display: inline-block;
+    line-height: 14px
+}
+
+.AdaptiveNewsHeadlineDetails-dateContainer {
+    padding-left: 0;
+    text-align: right
+}
+
+.AdaptiveNewsHeadlineDetails-date,.AdaptiveNewsHeadlineDetails-date:focus,.AdaptiveNewsHeadlineDetails-date:hover {
+    color: #8899a6
+}
+
+.AdaptiveNewsHeadlineDetails-userContainer {
+    padding-right: 0;
+    text-align: left
+}
+
+.AdaptiveNewsHeadlineDetails-user {
+    max-width: 185px
+}
+
+.AdaptiveNewsHeadlineDetails-user,.AdaptiveNewsHeadlineDetails-user:focus,.AdaptiveNewsHeadlineDetails-user:hover {
+    color: #292f33
+}
+
+.AdaptiveNewsHeadlineDetails-userImage {
+    height: 16px;
+    margin-right: 5px;
+    position: relative;
+    top: 3px
+}
+
+.AdaptiveNewsHeadlineDetails-userName {
+    font-weight: bold;
+    max-width: 200px
+}
+
+.AdaptiveNewsImageGallery-images {
+    font-size: 0;
+    padding: 0 15px 15px 15px
+}
+
+.AdaptiveNewsImageGallery-images .AdaptiveNewsImageGalleryItem--large {
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 1px
+}
+
+.AdaptiveNewsImageGallery-images .AdaptiveNewsImageGalleryItem--small {
+    margin-left: 1px
+}
+
+.AdaptiveNewsImageGallery-images .AdaptiveNewsImageGalleryItem--small:nth-child(2) {
+    border-bottom-left-radius: 5px;
+    margin-left: 0
+}
+
+.AdaptiveNewsImageGallery-images .AdaptiveNewsImageGalleryItem--small:nth-child(4) {
+    border-bottom-right-radius: 5px
+}
+
+.AdaptiveNewsImageGalleryItem {
+    background-size: cover;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top
+}
+
+.AdaptiveNewsImageGalleryItem--large {
+    height: 163px;
+    width: 260px
+}
+
+.AdaptiveNewsImageGalleryItem--small {
+    height: 85px;
+    width: 86px
+}
+
+.AdaptiveNewsImageGalleryItem--hidden {
+    display: none
+}
+
+.AdaptiveNewsLargeImageHeadline {
+    margin-bottom: 10px
+}
+
+.AdaptiveNewsLargeImageHeadline-image {
+    background-color: #fff;
+    background-size: cover;
+    border-radius: 5px 5px 0 0;
+    display: block;
+    height: 300px;
+    width: 100%
+}
+
+.AdaptiveNewsLargeImageHeadline-body {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 0 0 5px 5px;
+    font-weight: 300;
+    padding: 10px 15px
+}
+
+.AdaptiveNewsLargeImageHeadline-title {
+    color: #292f33;
+    display: inline-block;
+    font-size: 24px;
+    line-height: 30px;
+    max-height: 60px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsLargeImageHeadline-title:focus,.AdaptiveNewsLargeImageHeadline-title:hover {
+    color: #292f33
+}
+
+.AdaptiveNewsLargeImageHeadline-description {
+    color: #66757f;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    margin-bottom: 5px;
+    max-height: 42px;
+    overflow: hidden;
+    width: 100%;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsLargeImageHeadline-description:focus,.AdaptiveNewsLargeImageHeadline-description:hover {
+    text-decoration: none
+}
+
+.AdaptiveNewsRelatedHeadlines-headline {
+    border-bottom: 1px solid #e1e8ed;
+    margin: 15px 15px 0;
+    padding-bottom: 15px
+}
+
+.AdaptiveNewsRelatedHeadlines-headline:first-child {
+    margin-top: 0;
+    padding-top: 0
+}
+
+.AdaptiveNewsRelatedHeadlines-headline:last-child {
+    border-bottom: 0
+}
+
+.AdaptiveNewsRelatedHeadlines-title {
+    color: #292f33;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    max-height: 36px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsRelatedHeadlines-headline:focus,.AdaptiveNewsRelatedHeadlines-headline:hover {
+    color: #292f33
+}
+
+.AdaptiveNewsRelatedHeadlines-description {
+    color: #66757f;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 18px;
+    max-height: 36px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsRelatedHeadlines-description:focus,.AdaptiveNewsRelatedHeadlines-description:hover {
+    text-decoration: none
+}
+
+.AdaptiveNewsSmallImageHeadline {
+    margin-bottom: 10px
+}
+
+.AdaptiveNewsSmallImageHeadline-body {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding: 15px 15px 10px 15px
+}
+
+.AdaptiveNewsSmallImageHeadline-article {
+    display: inline-block;
+    font-weight: 300;
+    vertical-align: middle;
+    width: 390px
+}
+
+.AdaptiveNewsSmallImageHeadline-image {
+    background-size: cover;
+    border-radius: 5px;
+    display: inline-block;
+    height: 150px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    vertical-align: middle;
+    width: 150px
+}
+
+.AdaptiveNewsSmallImageHeadline-title {
+    color: #292f33;
+    display: inline-block;
+    font-size: 24px;
+    line-height: 30px;
+    max-height: 60px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsSmallImageHeadline-title:focus,.AdaptiveNewsSmallImageHeadline-title:hover {
+    color: #292f33
+}
+
+.AdaptiveNewsSmallImageHeadline-description {
+    color: #66757f;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    max-height: 63px;
+    overflow: hidden;
+    width: 100%;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsSmallImageHeadline-description:focus,.AdaptiveNewsSmallImageHeadline-description:hover {
+    text-decoration: none
+}
+
+.AdaptiveNewsTextHeadline {
+    margin-bottom: 10px
+}
+
+.AdaptiveNewsTextHeadline-body {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    font-weight: 300;
+    padding: 10px 15px
+}
+
+.AdaptiveNewsTextHeadline-title {
+    color: #292f33;
+    display: inline-block;
+    font-size: 36px;
+    line-height: 41px;
+    margin: 7px 0 2px;
+    max-height: 92px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsTextHeadline-title:focus,.AdaptiveNewsTextHeadline-title:hover {
+    color: #292f33
+}
+
+.AdaptiveNewsTextHeadline-description {
+    color: #66757f;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 21px;
+    margin-bottom: 10px;
+    max-height: 42px;
+    overflow: hidden;
+    word-wrap: break-word
+}
+
+.AdaptiveNewsTextHeadline-description:focus,.AdaptiveNewsTextHeadline-description:hover {
+    text-decoration: none
+}
+
+.AdaptiveNewsUserGallery--white {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    margin-bottom: 10px
+}
+
+.AdaptiveNewsUserGallery-user {
+    margin: 0 15px 15px
+}
+
+.AdaptiveNewsUserGallery-user:first-child {
+    border-bottom: 1px solid #e1e8ed;
+    padding-bottom: 15px
+}
+
+.AdaptiveNewsUserGallery-user:only-child {
+    border-bottom: 0;
+    padding-bottom: 0
+}
+
+.AdaptiveNewsUserGallery-userHeader {
+    position: relative
+}
+
+.AdaptiveNewsUserGallery-userLinkable {
+    display: inline-block
+}
+
+.AdaptiveNewsUserGallery-userLinkable:hover {
+    text-decoration: none
+}
+
+.AdaptiveNewsUserGallery-userImage {
+    border-radius: 5px;
+    width: 36px
+}
+
+.AdaptiveNewsUserGallery-userTitle {
+    display: inline-block;
+    padding-left: 5px;
+    vertical-align: top
+}
+
+.AdaptiveNewsUserGallery-userFullName {
+    color: #292f33;
+    font-size: 15px;
+    font-weight: bold
+}
+
+.AdaptiveNewsUserGallery-userLinkable:hover .AdaptiveNewsUserGallery-userFullName {
+    color: inherit;
+    text-decoration: underline
+}
+
+.AdaptiveNewsUserGallery-userScreenName {
+    color: #8899a6;
+    font-size: 13px
+}
+
+.AdaptiveNewsUserGallery-userFullName,.AdaptiveNewsUserGallery-userScreenName {
+    display: inline-block;
+    max-width: 150px;
+    vertical-align: top
+}
+
+.AdaptiveNewsUserGallery-userActions {
+    position: absolute;
+    right: 0;
+    top: 4px
+}
+
+.AdaptiveNewsUserGallery-followButton {
+    font-size: 18px;
+    padding: 1px 8px 3px
+}
+
+.AdaptiveNewsUserGallery-followButton .Icon {
+    color: inherit;
+    padding: 0
+}
+
+.AdaptiveNewsUserGallery-followButton .Icon--follow {
+    color: #55acee
+}
+
+.AdaptiveNewsUserGallery-followButton .Icon--clock,.AdaptiveNewsUserGallery-followButton:hover .Icon--clock,.AdaptiveNewsUserGallery-followButton:hover .Icon--report {
+    color: #66757f
+}
+
+.AdaptiveNewsUserGallery-userActions .Icon,.AdaptiveNewsUserGallery-userActions.following:hover .cancel-hover-style .Icon--unfollow,.AdaptiveNewsUserGallery-userActions.pending:hover .cancel-hover-style .Icon--report,.AdaptiveNewsUserGallery-userActions.following:hover .Icon--following,.AdaptiveNewsUserGallery-userActions.pending:hover .Icon--clock {
+    display: none
+}
+
+.AdaptiveNewsUserGallery-userActions.not-following .Icon--follow,.AdaptiveNewsUserGallery-userActions.following .Icon--following,.AdaptiveNewsUserGallery-userActions.pending .Icon--clock,.AdaptiveNewsUserGallery-userActions.following:hover .cancel-hover-style .Icon--following,.AdaptiveNewsUserGallery-userActions.pending:hover .cancel-hover-style .Icon--clock,.AdaptiveNewsUserGallery-userActions.following:hover .Icon--unfollow,.AdaptiveNewsUserGallery-userActions.pending:hover .Icon--report {
+    display: inline-block
+}
+
+.AdaptiveNewsUserGallery-userDescription {
+    color: #8899a6;
+    max-height: 54px;
+    overflow: hidden;
+    padding-top: 5px
+}
+
+.AdaptiveRelatedSearches-items {
+    padding: 0 15px 15px
+}
+
+.AdaptiveRelatedSearches-item {
+    margin-bottom: 6px
+}
+
+.AdaptiveRelatedSearches-item:last-child {
+    margin-bottom: 0
+}
+
+.AdaptiveRelatedSearches-itemAnchor {
+    word-wrap: break-word
+}
+
+.AdaptiveSearchPage {
+    background-color: #f5f8fa!important;
+    background-image: none!important
+}
+
+.AdaptiveSearchPage .AppContent {
+    min-width: 910px;
+    padding: 46px 0 15px
+}
+
+.AdaptiveSearchPage .AppContent-main {
+    max-width: 1190px;
+    min-width: 890px;
+    margin: 15px auto 0
+}
+
+.AdaptiveSearchPage.three-col .content-main {
+    float: none;
+    margin: 0
+}
+
+.AdaptiveSearchPage-moduleHeader {
+    line-height: 1;
+    padding: 15px 15px 10px 15px;
+    position: relative
+}
+
+.AdaptiveSearchPage-moduleTitle {
+    color: #66757f;
+    font-size: 18px
+}
+
+.AdaptiveSearchPage-moduleLink {
+    color: #55acee;
+    float: right;
+    font-size: 12px;
+    font-weight: normal;
+    padding-top: 2px
+}
+
+.AdaptiveSearchPage-relatedModule {
+    float: right
+}
+
+.AdaptiveSearchPage .SignupCallOut,.AdaptiveSearchPage .Trends,.AdaptiveSearchPage .WhoToFollow {
+    margin-top: 0
+}
+
+.AdaptiveSearchPage.AdaptiveNewsPage .AppContainer,.AdaptiveSearchPage.AdaptiveCricketPage .AppContainer,.AdaptiveSearchPage.AdaptiveSoccerPage .AppContainer {
+    max-width: 1236px;
+    min-width: 1236px
+}
+
+.AdaptiveSearchPage.AdaptiveNewsPage .AppContent,.AdaptiveSearchPage.AdaptiveCricketPage .AppContent,.AdaptiveSearchPage.AdaptiveSoccerPage .AppContent {
+    min-width: 1236px
+}
+
+.AdaptiveSearchTitle {
+    background-color: #55acee;
+    padding: 11px 0
+}
+
+.AdaptiveSearchTitle-title {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.3;
+    margin: 0 10%;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.AdaptiveSpellingSuggestion {
+    color: #fff;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center
+}
+
+.AdaptiveSpellingSuggestion-query {
+    color: #fff;
+    font-weight: bold
+}
+
+.AdaptiveSpellingSuggestion-originalQuery {
+    text-decoration: underline
+}
+
+.AdaptiveSpellingSuggestion-query:hover,.AdaptiveSpellingSuggestion-query:focus,.AdaptiveSpellingSuggestion-query:active {
+    color: #fff
+}
+
+.AdaptiveStreamImageGallery-images {
+    border-radius: 6px;
+    overflow: hidden
+}
+
+.AdaptiveStreamImageGallery-image.first-row {
+    margin-top: 0!important
+}
+
+.CricketScore-module {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    overflow: hidden
+}
+
+.CricketScore-header {
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 15px 15px 0 15px
+}
+
+.CricketScore-logo {
+    width: 32px
+}
+
+.CricketScore-inlineTeams {
+    display: table;
+    padding: 15px;
+    width: 90%
+}
+
+.CricketScore-inlineTeams .CricketScore-team {
+    display: table-cell;
+    font-weight: bold
+}
+
+.CricketScore-versus {
+    bottom: 12px;
+    display: table-cell;
+    position: relative
+}
+
+.CricketScore-inlineTeams .CricketScore-teamHome {
+    text-align: left
+}
+
+.CricketScore-inlineTeams .CricketScore-teamAway {
+    text-align: right
+}
+
+.CricketScore-teamHome .CricketScore-logo {
+    padding-right: 10px
+}
+
+.CricketScore-teamAway .CricketScore-logo {
+    padding-left: 10px
+}
+
+.CricketScore-team .CricketScore-abbrevName,.CricketScore-team .CricketScore-abbrevNameLight {
+    bottom: 11px;
+    position: relative
+}
+
+.CricketScore-score {
+    font-size: 15px;
+    font-weight: 300;
+    margin-top: 0
+}
+
+.CricketScore-message {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 15px 21px 15px
+}
+
+.CricketScore-link,.CricketScore-link:hover,.CricketScore-link:visited,.CricketScore-link:active {
+    color: #292f33;
+    text-decoration: none
+}
+
+.CricketScore-players {
+    display: table;
+    margin-top: 10px;
+    width: 100%
+}
+
+.CricketScore-player {
+    display: table-cell
+}
+
+.CricketScore-playerName {
+    color: #66757f;
+    display: table-cell;
+    font-size: 12px;
+    line-height: 1.3;
+    position: relative;
+    top: 2px;
+    vertical-align: top
+}
+
+.CricketScore-teams .CricketScore-team {
+    padding: 15px
+}
+
+.CricketScore-teams .CricketScore-team .CricketScore-abbrevName {
+    font-weight: bold
+}
+
+.CricketScore-teams .CricketScore-logo {
+    padding-right: 8px
+}
+
+.CricketScore-playerInfo {
+    display: table;
+    width: 50%
+}
+
+.CricketScore-batting .CricketScore-playerInfo {
+    width: 100%
+}
+
+.CricketScore-playerName {
+    width: 100%
+}
+
+.CricketScore-playerAvatar {
+    border-radius: 16px;
+    display: table-cell;
+    margin-right: 13px;
+    width: 32px
+}
+
+.CricketScore-teams .CricketScore-teamAwayDetails {
+    border-top: 1px solid #e1e8ed;
+    padding-top: 13px
+}
+
+.CricketScore-abbrevNameLight {
+    font-weight: normal
+}
+
+.CricketScore-inlineScore {
+    font-weight: bold
+}
+
+.AdaptiveSearchTimeline .search-stream .stream-item:first-child {
+    border-top: 1px solid #e1e8ed;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px
+}
+
+.AdaptiveSearchTimeline .search-stream .stream-item:first-child .tweet {
+    border-top-left-radius: 6px!important;
+    border-top-right-radius: 6px!important
+}
+
+.AdaptiveSearchTimeline-separationModule {
+    margin-bottom: 15px
+}
+
+.AdaptiveSearchTimeline-separationModule+.stream-item {
+    border-top: 1px solid #e1e8ed;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px
+}
+
+.AdaptiveSearchTimeline-separationModule+.stream-item .tweet {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px
+}
+
+.AdaptiveSearchTimeline-separationModule.before-expanded,.AdaptiveSearchTimeline-separationModule.after-expanded {
+    border: 0;
+    border-radius: 0
+}
+
+.AdaptiveSearchTimeline-beforeModule:not(.AdaptiveSearchTimeline-separationModule) {
+    border-bottom: 1px solid #e1e8ed;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px
+}
+
+.AdaptiveSearchTimeline-beforeModule:not(.AdaptiveSearchTimeline-separationModule) .tweet,.AdaptiveSearchTimeline.content-main .AdaptiveSearchTimeline-beforeModule:not(.AdaptiveSearchTimeline-separationModule) .original-tweet-container {
+    border-bottom: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px
+}
+
+.AdaptiveSearchTimeline .new-tweets-bar-visible+.search-stream .stream-item:first-child {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0
+}
+
+.AdaptiveSearchTimeline .stream-container .media-thumbnail.grid-tweet {
+    margin: 1px 0 0 1px;
+    transition: height .5s,width .5s ease
+}
+
+.AdaptiveSearchTimeline--mediaGrid .stream-items:before,.AdaptiveSearchTimeline--mediaGrid .stream-items:after {
+    content: " ";
+    display: table
+}
+
+.AdaptiveSearchTimeline--mediaGrid .stream-items:after {
+    clear: both
+}
+
+.AdaptiveSearchTimeline--mediaGrid .stream-end-inner {
+    background: transparent
+}
+
+.AdaptiveSearchTimeline--mediaGrid .stream-end-item,.AdaptiveSearchTimeline--mediaGrid .stream-end,.AdaptiveSearchTimeline--mediaGrid .stream-loading,.AdaptiveSearchTimeline--mediaGrid .stream-placeholder {
+    border: 0
+}
+
+.SiderailRelatedTweets {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px
+}
+
+.SiderailRelatedTweets-header {
+    border-bottom: 1px solid #e1e8ed;
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 10px
+}
+
+.SiderailRelatedTweets-hiddenTweets {
+    border-top: 1px solid #e1e8ed;
+    display: none
+}
+
+.SiderailRelatedTweets-viewMore {
+    border-top: 1px solid #e1e8ed;
+    color: #66757f;
+    padding: 8px 10px;
+    text-align: center;
+    width: 100%
+}
+
+.SiderailRelatedTweets-viewMore:hover {
+    background-color: #f5f8fa;
+    cursor: pointer
+}
+
+.SiderailRelatedTweets-viewMore:focus {
+    outline: 0
+}
+
+.SiderailRelatedTweets-viewMore:last-child,.SiderailRelatedTweets-visibleTweets:last-child .SiderailRelatedTweet:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px
+}
+
+.SiderailRelatedTweet {
+    border-bottom: 1px solid #e1e8ed;
+    display: block;
+    font-size: 13px;
+    line-height: 18px;
+    padding: 10px;
+    position: relative
+}
+
+.SiderailRelatedTweet:hover {
+    background-color: #f5f8fa
+}
+
+.SiderailRelatedTweet:last-child {
+    border-bottom: 0
+}
+
+.SiderailRelatedTweet-tweetLink {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0
+}
+
+.SiderailRelatedTweet-authorContainer {
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+    z-index: 1
+}
+
+.SiderailRelatedTweet-authorContainer:hover {
+    text-decoration: none
+}
+
+.SiderailRelatedTweet-authorImage {
+    border-radius: 5px;
+    width: 36px
+}
+
+.SiderailRelatedTweet-authorDetails {
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 5px;
+    vertical-align: top
+}
+
+.SiderailRelatedTweet-authorDetails .Icon--verified {
+    position: relative;
+    top: 1px
+}
+
+.SiderailRelatedTweet-authorFullName {
+    color: #292f33;
+    font-weight: bold
+}
+
+.SiderailRelatedTweet-authorContainer:hover .SiderailRelatedTweet-authorFullName {
+    color: inherit;
+    text-decoration: underline
+}
+
+.SiderailRelatedTweet-authorScreenName {
+    color: #8899a6
+}
+
+.SiderailRelatedTweet-authorFullName,.SiderailRelatedTweet-authorScreenName {
+    display: inline-block;
+    max-width: 120px;
+    vertical-align: top
+}
+
+.SiderailRelatedTweet-date {
+    color: #8899a6;
+    position: absolute;
+    right: 10px;
+    text-align: right;
+    top: 10px
+}
+
+.SiderailRelatedTweet:hover .SiderailRelatedTweet-date {
+    display: none
+}
+
+.SiderailRelatedTweet-dismiss {
+    display: none
+}
+
+.SiderailRelatedTweet:hover .SiderailRelatedTweet-dismiss {
+    color: #8899a6;
+    display: inline;
+    position: absolute;
+    right: 10px;
+    text-align: right;
+    top: 9px
+}
+
+.SiderailRelatedTweet .SiderailRelatedTweet-imageContainer {
+    border-radius: 5px;
+    display: block;
+    line-height: 0;
+    margin-top: 6px;
+    max-height: 160px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    background-position: center;
+    background-size: cover
+}
+
+.SiderailRelatedTweet-image {
+    position: relative;
+    width: 268px
+}
+
+.SiderailRelatedTweet-videoThumbnail {
+    background-position: center;
+    background-size: cover
+}
+
+.SiderailRelatedTweet-imageContainer .SiderailRelatedTweet-videoThumbnail {
+    min-height: 160px
+}
+
+.SiderailRelatedTweet-collapsedThumbnails {
+    margin: 10px;
+    overflow: auto
+}
+
+.SiderailRelatedTweet-collapsedThumbnail:first-child {
+    margin-left: 0
+}
+
+.SiderailRelatedTweet-collapsedThumbnail {
+    border-radius: 4px;
+    display: inline-block;
+    float: left;
+    height: 84px;
+    margin: 0 0 0 8px;
+    overflow: hidden;
+    position: relative;
+    width: 84px
+}
+
+.SiderailRelatedTweet-videoInformation {
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 2px;
+    bottom: 8px;
+    color: white;
+    font-size: 13px;
+    left: 8px;
+    line-height: 18px;
+    padding: 3px 5px;
+    position: absolute
+}
+
+.SiderailRelatedTweet-viewCount:before {
+    content: "·";
+    padding: 5px 3px 0 0
+}
+
+.SiderailRelatedTweet-playIcon {
+    font-size: 34px;
+    margin: -45px 0 0 -18px
+}
+
+.SiderailRelatedTweet-textContainer {
+    position: static
+}
+
+.SiderailRelatedTweet-textContainer a {
+    position: relative
+}
+
+.Streams {
+    background-color: #fff
+}
+
+.Streams .AppContent {
+    padding-top: 30px
+}
+
+.Streams-mainContent {
+    margin-bottom: 80px
+}
+
+.Streams-module {
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 18px 23px;
+    margin-bottom: 10px
+}
+
+.Streams-headerModule {
+    background-color: #55acee;
+    line-height: 32px;
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 45px 23px;
+    margin-bottom: 10px
+}
+
+.Streams-headerModule h2,.Streams-headerModule p {
+    color: white
+}
+
+.Streams-headerModule p {
+    font-weight: 300
+}
+
+.Streams-featuredStreamsDescription {
+    font-size: 16px;
+    color: #8899a6;
+    margin: 5px 0 33px 0
+}
+
+.Streams-recentStreamsList,.Streams-featuredStreamList {
+    text-align: justify
+}
+
+.Streams-featuredStreamList:after {
+    content: "";
+    display: inline-block;
+    width: 100%
+}
+
+.Streams-featuredStream {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    width: 264px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    *display: inline;
+    zoom:1}
+
+.Streams .dashboard-right-fixed .LoginCallOut,.Streams .dashboard-right-fixed .SignupCallOut,.Streams .stream-dashboard-right-fixed .LoginCallOut,.Streams .stream-dashboard-right-fixed .SignupCallOut {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position: fixed;
+    width: 290px
+}
+
+.Streams .dashboard-right-fixed .LoginCallOut {
+    top: 60px
+}
+
+.Streams .dashboard-right-fixed .SignupCallOut {
+    top: 285px
+}
+
+.Streams .dashboard-right-fixed.dashboard-single-module .LoginCallout,.Streams .dashboard-right-fixed.dashboard-single-module .SignupCallOut {
+    top: 60px
+}
+
+.Streams .stream-dashboard-right-fixed .LoginCallOut {
+    top: 140px
+}
+
+.Streams .stream-dashboard-right-fixed .SignupCallOut {
+    top: 365px
+}
+
+.Streams .SignupCallOut,.Streams .LoginCallOut {
+    background: #fff!important;
+    border: 0;
+    margin-bottom: 10px
+}
+
+.Streams .LoginCallOut-title,.Streams .SignupCallOut-title {
+    color: #667585;
+    font-size: 16px;
+    font-weight: normal
+}
+
+.Streams .LoginCallOut .primary-btn,.Streams .SignupCallOut .primary-btn,.Streams .LoginDialog .primary-btn {
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 11px 16px
+}
+
+.Streams .LoginCallOut .primary-btn:active,.Streams .SignupCallOut .primary-btn:active,.Streams .LoginDialog .primary-btn:active {
+    background-color: #2379c8
+}
+
+.Streams .LoginForm input::-webkit-input-placeholder,.Streams .SignupForm input::-webkit-input-placeholder {
+    color: #a8b6c0
+}
+
+.Streams .LoginForm input:-moz-placeholder,.Streams .SignupForm input:-moz-placeholder {
+    color: #a8b6c0
+}
+
+.Streams .LoginForm input::-moz-placeholder,.Streams .SignupForm input::-moz-placeholder {
+    color: #a8b6c0
+}
+
+.Streams .LoginForm input:-ms-input-placeholder,.Streams .SignupForm input:-ms-input-placeholder {
+    color: #a8b6c0
+}
+
+.Streams .LoginForm input::placeholder,.Streams .SignupForm input::placeholder {
+    color: #a8b6c0
+}
+
+.Streams .SignupCallOut-subheader {
+    color: #8599a7
+}
+
+.Streams .front-warning {
+    height: auto;
+    margin: 0 0 10px 0;
+    position: static;
+    width: auto
+}
+
+.Streams .stream-items .stream-item:first-child {
+    border-radius: 6px 6px 0 0;
+    border-top: 1px solid #e1e8ed
+}
+
+.StreamsCategoryNav-header {
+    padding-bottom: 30px
+}
+
+.StreamsCategoryNav-item {
+    margin-bottom: 19px;
+    padding-left: 22px;
+    position: relative
+}
+
+.StreamsCategoryNav-itemName {
+    color: #afbcc5;
+    cursor: pointer;
+    font-size: 16px
+}
+
+.StreamsCategoryNav-stream {
+    padding-top: 14px
+}
+
+.StreamsCategoryNav-streamLink {
+    color: #55acee;
+    font-size: 16px;
+    line-height: 22px
+}
+
+.StreamsCategoryNav-streamsList {
+    display: none
+}
+
+.StreamsCategoryNav-item--active .StreamsCategoryNav-streamsList {
+    display: block
+}
+
+.StreamsCategoryNav-item .Icon--chevronDown {
+    color: #afbcc5;
+    cursor: pointer;
+    font-size: 8px;
+    left: 0;
+    position: absolute;
+    top: -1px;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    transition: -webkit-transform 300ms linear;
+    transition: transform 300ms linear
+}
+
+.StreamsCategoryNav-item--expanded .Icon--chevronDown,.StreamsCategoryNav-item--active .Icon--chevronDown {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg)
+}
+
+.StreamsCategoryNav-stream--active .StreamsCategoryNav-streamLink,.StreamsCategoryNav-streamLink:hover,.StreamsCategoryNav-streamLink:active,.StreamsCategoryNav-streamLink:focus {
+    color: #8899a6
+}
+
+.StreamCard {
+    background-color: #f5f8fa;
+    border-radius: 6px;
+    height: 170px;
+    overflow: hidden;
+    position: relative
+}
+
+.StreamCard-coverImageBlurred,.StreamCard-coverImage {
+    background-position: center;
+    background-size: cover;
+    border-radius: 6px;
+    height: 170px;
+    left: 0;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)";
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    transition: all .3s ease .2s;
+    width: 100%
+}
+
+.StreamCard-coverImageBlurred {
+    -webkit-filter: blur(6px);
+    filter: blur(6px)
+}
+
+.StreamCard-coverImageOverlay {
+    background: #000;
+    border-radius: 6px;
+    height: 100%;
+    opacity: .6;
+    -ms-filter: "alpha(opacity=60)";
+    position: absolute;
+    transition: all .3s;
+    width: 100%
+}
+
+.StreamCard-details {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    padding-top: 70px;
+    position: absolute;
+    top: 0;
+    transition: all .3s
+}
+
+.StreamCard-users,.StreamCard-usersDescription {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: all .3s
+}
+
+.StreamCard-user {
+    display: inline-block;
+    margin-left: 5px
+}
+
+.StreamCard-userAvatar {
+    border: 2px solid #fff;
+    border-radius: 3px;
+    height: 30px;
+    width: 30px
+}
+
+.StreamCard-usersDescription {
+    max-height: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.StreamCard-usersDescription span {
+    font-weight: bold
+}
+
+.StreamCard-name {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 100;
+    height: 40px;
+    letter-spacing: 1px;
+    line-height: 23px;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)";
+    text-transform: capitalize;
+    top: 25px;
+    transition: all .3s ease .2s
+}
+
+.StreamCard:hover .StreamCard-coverImage {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: all .3s
+}
+
+.StreamCard:hover .StreamCard-coverImageOverlay {
+    opacity: .7;
+    -ms-filter: "alpha(opacity=70)";
+    transition: all .3s ease .2s
+}
+
+.StreamCard:hover .StreamCard-name {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: all .3s
+}
+
+.StreamCard:hover .StreamCard-details {
+    padding-top: 10px;
+    transition: all .3s ease .2s
+}
+
+.StreamCard:hover .StreamCard-users,.StreamCard:hover .StreamCard-usersDescription {
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)";
+    transition: all .3s ease .2s
+}
+
+.RelatedStream {
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding: 15px
+}
+
+.RelatedStream-header {
+    margin-bottom: 15px
+}
+
+.RelatedStream-title {
+    color: #66757f;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1
+}
+
+.StreamDescription {
+    background: #fff;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #e1e8ed;
+    padding: 20px 12px 12px 12px
+}
+
+.StreamDescription-name,.StreamDescription-text {
+    color: #66757f;
+    margin-bottom: 10px
+}
+
+.StreamDescription-name {
+    font-size: 22px
+}
+
+.StreamDescription-text {
+    font-size: 16px;
+    font-weight: 300
+}
+
+.StreamsFooter {
+    border-top: 1px solid #e1e8ed;
+    padding: 30px 0 40px 0
+}
+
+.StreamsFooter-list {
+    margin: 0 auto;
+    text-align: center;
+    width: 890px
+}
+
+@media screen and (min-width: 1236px) {
+    .StreamsFooter-list {
+        width:1190px
+    }
+}
+
+.StreamsFooter-item {
+    display: inline-block;
+    padding: 10px 9px 0 9px
+}
+
+.StreamsFooter-item a {
+    color: #55acee
+}
+
+.StreamsFooter-copyright {
+    color: #aab8c2
+}
+
+.StreamsHero {
+    position: relative
+}
+
+.StreamsHero-image {
+    background-size: 100%;
+    background-repeat: none;
+    background-position: center;
+    position: absolute
+}
+
+.StreamsHero,.StreamsHero-image {
+    height: 300px;
+    width: 100%
+}
+
+.StreamsHero-content {
+    padding-top: 100px;
+    position: relative;
+    text-align: center;
+    transition: padding 300ms linear
+}
+
+.StreamsHero--birdTop .StreamsHero-content {
+    padding-top: 111px
+}
+
+.StreamsHero .Icon--bird {
+    color: #fff;
+    font-size: 32px
+}
+
+.StreamsHero-header {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 100;
+    line-height: 48px;
+    margin-bottom: 2px;
+    transition: font-size 300ms linear
+}
+
+.StreamsHero-blurb {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 200;
+    line-height: 28px;
+    opacity: .5;
+    -ms-filter: "alpha(opacity=50)";
+    transition: opacity 300ms linear
+}
+
+.StreamsHero--condensed .StreamsHero-header,.StreamsHero--condensed .StreamsHero-blurb {
+    display: none
+}
+
+.StreamsHero--condensed.StreamsHero,.StreamsHero--condensed .StreamsHero-image {
+    height: 130px
+}
+
+.StreamsHero--condensed .StreamsHero-content {
+    padding-top: 50px
+}
+
+.StreamsHero-buttonContainer {
+    color: #fff;
+    margin: -173px auto 0 auto;
+    position: relative;
+    text-align: right;
+    width: 1195px
+}
+
+@media(max-width: 1236px) {
+    .StreamsHero-buttonContainer {
+        width:95%
+    }
+}
+
+.StreamsHero-buttonContainer .Icon {
+    margin-top: 8px;
+    float: left
+}
+
+.StreamsHero--condensed .StreamsHero-buttonContainer {
+    margin: -70px auto 0 auto
+}
+
+.StreamsHero-buttonContainer .Button {
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 35px
+}
+
+.StreamsHero-buttonContainer .Button+.Button {
+    margin-left: 8px
+}
+
+.StreamsHero-buttonContainer .Button.StreamsLogin {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid transparent
+}
+
+.StreamsHero-buttonContainer .Button:hover {
+    background: #fff;
+    color: #55acee
+}
+
+.StreamsTopBar-container {
+    height: 60px
+}
+
+.StreamsTopBar {
+    background-color: #fff;
+    border-bottom: 1px solid #e1e8ed;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 60px;
+    z-index: 1000
+}
+
+.StreamsTopBar--fixed {
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+.StreamsTopBar-container--withNoSearch {
+    height: 0
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar {
+    border-bottom: 0;
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)";
+    transition: opacity 300ms linear
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar--fixed {
+    border-bottom: 1px solid #e1e8ed;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar-innerContainer {
+    padding-top: 0;
+    text-align: center
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar-iconContainer {
+    left: -15px;
+    position: relative;
+    width: 100%
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar .Icon--bird {
+    visibility: hidden;
+    top: 10px
+}
+
+.StreamsTopBar-container--withNoSearch .StreamsTopBar--fixed .Icon--bird {
+    visibility: visible
+}
+
+.StreamsTopBar-innerContainer {
+    margin: 0 auto;
+    padding-top: 10px;
+    position: relative;
+    width: 890px
+}
+
+@media(min-width: 1236px) {
+    .StreamsTopBar-innerContainer {
+        width:1180px
+    }
+}
+
+.StreamsTopBar-iconContainer {
+    height: 50px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 9px;
+    width: 35px
+}
+
+.StreamsTopBar-rightContainer {
+    height: 55px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 250px
+}
+
+.StreamsTopBar .StreamsTopBar-signin {
+    position: absolute;
+    right: 0;
+    top: 70px;
+    transition: top 300ms linear
+}
+
+.StreamsTopBar--fixed .StreamsTopBar-signin {
+    top: 20px
+}
+
+.StreamsTopBar .Icon--bird {
+    color: #55acee;
+    font-size: 30px;
+    position: absolute;
+    top: 54px;
+    transition: top 300ms linear
+}
+
+.StreamsTopBar--fixed .Icon--bird {
+    top: 10px
+}
+
+.StreamsTopBar-searchContainer {
+    margin: 0 auto;
+    width: 544px
+}
+
+@media(max-width: 1236px) {
+    .StreamsTopBar-searchContainer {
+        width:450px
+    }
+}
+
+.StreamsTopBar-searchButton {
+    color: #a8b6c0;
+    font-size: 20px;
+    height: 22px;
+    left: 15px;
+    padding-left: 1px;
+    position: absolute;
+    top: 7px
+}
+
+.StreamsTopBar-searchInput {
+    background-color: #edf0f3;
+    border: 0;
+    border-radius: 6px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 10px 10px 10px 45px;
+    width: 100%
+}
+
+.StreamsTopBar-searchInput::-webkit-input-placeholder {
+    color: #aab8c2;
+    text-overflow: ellipsis!important
+}
+
+.StreamsTopBar-searchInput:-moz-placeholder {
+    color: #aab8c2;
+    text-overflow: ellipsis!important
+}
+
+.StreamsTopBar-searchInput::-moz-placeholder {
+    color: #aab8c2;
+    text-overflow: ellipsis!important
+}
+
+.StreamsTopBar-searchInput:-ms-input-placeholder {
+    color: #aab8c2;
+    text-overflow: ellipsis!important
+}
+
+.StreamsTopBar-searchInput::placeholder {
+    color: #aab8c2;
+    text-overflow: ellipsis!important
+}
+
+.StreamsTopBar-container--withStreamHero,.StreamsTopBar-container--withStreamHero .StreamsTopBar {
+    height: 190px;
+    transition: height 300ms linear
+}
+
+.StreamsTopBar .StreamsHero,.StreamsTopBar .StreamsHero-image {
+    height: 130px;
+    transition: height 300ms linear
+}
+
+.StreamsTopBar .StreamsHero-content {
+    padding-top: 20px
+}
+
+.StreamsTopBar-container--collapsedHero,.StreamsTopBar-container--collapsedHero .StreamsTopBar {
+    height: 140px
+}
+
+.StreamsTopBar-container--collapsedHero .StreamsHero,.StreamsTopBar-container--collapsedHero .StreamsHero-image {
+    height: 80px
+}
+
+.StreamsTopBar-container--collapsedHero .StreamsHero-content {
+    padding-top: 15px
+}
+
+.StreamsTopBar-container--collapsedHero .StreamsHero-header {
+    font-size: 32px
+}
+
+.StreamsTopBar-container--collapsedHero .StreamsHero-blurb {
+    opacity: 0;
+    -ms-filter: "alpha(opacity=0)"
+}
+
+.StreamsTopBar-container--withStreamHero .StreamsTopBar-searchContainer {
+    width: 564px
+}
+
+.Streams .TweetForwardTimeline {
+    margin: -20px auto 0 auto;
+    width: 1220px
+}
+
+.Streams .TweetForwardTimeline>.Grid-cell {
+    max-width: 400px
+}
+
+.Streams .TweetForwardTimeline>.Grid-cell+.Grid-cell {
+    margin-left: 10px
+}
+
+.Streams .TweetForwardTimeline .tweet {
+    border-radius: 4px;
+    border: 1px solid #e1e8ed;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 15px;
+    padding: 15px;
+    width: 370px
+}
+
+.Streams .TweetForwardTimeline .tweet .stream-item-header {
+    margin-bottom: 10px
+}
+
+.Streams .TweetForwardTimeline .tweet .stream-item-header .avatar {
+    height: 28px;
+    margin-left: 0;
+    margin-right: 5px;
+    width: 28px
+}
+
+.Streams .TweetForwardTimeline .tweet .username {
+    display: block
+}
+
+.Streams .TweetForwardTimeline .tweet .time {
+    float: right;
+    position: relative;
+    top: -53px
+}
+
+.Streams .TweetForwardTimeline .tweet .tweet-timestamp {
+    display: inline-block
+}
+
+.Streams .TweetForwardTimeline .tweet .time:before {
+    content: ""
+}
+
+.Streams .TweetForwardTimeline .tweet.animated-gif-playing .AdaptiveMedia-videoPreview.is-playing {
+    display: none
+}
+
+.Streams .u-textUserColorHover:hover,.Streams .tweet-timestamp:hover {
+    color: #55acee
+}
+
+.Streams .ProfileTweet-actionButton:active {
+    outline: 0
+}
+
+.TweetWithPivotModule {
+    display: inline-block
+}
+
+.TweetWithPivotModule-header {
+    font-size: 16px;
+    margin: 25px 0 0 20px
+}
+
+.TweetWithPivotModule-header a {
+    color: #55acee;
+    text-transform: capitalize
+}
+
+.TweetWithPivotModule-header .Icon--caretRight {
+    font-size: 10px
+}
+
+.Streams .StreamsCategoryBar {
+    border-bottom: 1px solid #e1e8ed
+}
+
+.Streams .StreamsCategoryBar ul {
+    font-size: 0;
+    text-align: center
+}
+
+.Streams .StreamsCategoryBar-item {
+    border-left: 1px solid #e1e8ed;
+    color: #55acee;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 200;
+    vertical-align: top
+}
+
+.Streams .StreamsCategoryBar-item:first-child {
+    border-left: none
+}
+
+.Streams .StreamsCategoryBar-itemName {
+    color: #55acee;
+    display: inline-block;
+    height: 18px;
+    padding: 21px 40px
+}
+
+.Streams .StreamsCategoryBar-item:active,.Streams .StreamsCategoryBar-item:hover,.Streams .StreamsCategoryBar-item:focus,.Streams .StreamsCategoryBar-itemName:active,.Streams .StreamsCategoryBar-itemName:hover,.Streams .StreamsCategoryBar-itemName:focus,.Streams .StreamsCategoryBar-item:active .Icon,.Streams .StreamsCategoryBar-item:hover .Icon,.Streams .StreamsCategoryBar-item:focus .Icon {
+    background-color: #55acee;
+    color: white;
+    cursor: pointer
+}
+
+.StreamsCategoryMoreOverlay {
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(85,172,238,0.85);
+    display: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    z-index: 1000000
+}
+
+.StreamsCategoryMoreOverlay ul {
+    line-height: 34px;
+    margin: 200px auto 0 auto;
+    text-align: center;
+    width: 500px
+}
+
+.StreamsCategoryMoreOverlay-itemName {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 100;
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)"
+}
+
+.StreamsCategoryMoreOverlay-dismiss {
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px
+}
+
+.Streams .InStreamSignup {
+    background-color: #55acee;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 40px 15px 15px 15px;
+    padding: 15px;
+    width: 370px
+}
+
+.Streams .InStreamSignup .SignupCallOut {
+    background-color: #55acee!important;
+    border-radius: 5px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupCallOut-title,.Streams .InStreamSignup .SignupCallOut .SignupCallOut-subheader {
+    color: white;
+    text-align: center;
+    font-weight: 100
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupCallOut-title {
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 15px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupCallOut-subheader {
+    color: #e1e8ed;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 1px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-submit {
+    background-color: #fff;
+    border: 1px solid white;
+    color: #55acee;
+    margin-top: 30px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid white;
+    border-radius: 0;
+    color: white;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 100
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 1px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input:-moz-placeholder {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 1px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input::-moz-placeholder {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 1px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input:-ms-input-placeholder {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 1px
+}
+
+.Streams .InStreamSignup .SignupCallOut .SignupForm-input input::placeholder {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 1px
+}
+
+.Streams .TweetForwardTimeline .AdaptiveMedia {
+    border: 1px solid #e1e8ed;
+    border-radius: 5px 5px 0 0;
+    margin: -16px -16px 11px -16px;
+    max-width: 368px;
+    max-height: 276px
+}
+
+.Streams .AdaptiveMedia-singlePhoto {
+    width: 368px
+}
+
+.Streams .AdaptiveMedia-singlePhoto img {
+    width: 100%
+}
+
+.Streams .AdaptiveMedia-doublePhoto .AdaptiveMedia-doublePhotoContainer:first-child {
+    margin-right: 2px
+}
+
+.Streams .AdaptiveMedia-doublePhotoContainer {
+    height: 184px;
+    width: 183px
+}
+
+.Streams .AdaptiveMedia-triplePhotoContainer.is-main {
+    height: 245px;
+    width: 245px;
+    margin-right: 2px
+}
+
+.Streams .AdaptiveMedia-triplePhotoContainer.is-small {
+    width: 120px;
+    height: 120px
+}
+
+.Streams .AdaptiveMedia-smallTriplePhotoContainer {
+    width: 120px;
+    height: 245px
+}
+
+.Streams .AdaptiveMedia-triplePhotoContainer.is-small:first-child {
+    margin-bottom: 2px
+}
+
+.Streams .AdaptiveMedia-quadPhotoContainer.is-main {
+    height: 276px;
+    width: 276px;
+    margin-right: 2px
+}
+
+.Streams .AdaptiveMedia-quadPhotoContainer.is-small {
+    width: 90px;
+    height: 92px
+}
+
+.Streams .AdaptiveMedia-smallQuadPhotoContainer {
+    width: 90px;
+    height: 276px
+}
+
+.Streams .AdaptiveMedia-quadPhotoContainer.is-small {
+    margin-top: 2px+1px
+}
+
+.Streams .AdaptiveMedia-video {
+    width: 368px
+}
+
+.Streams .AdaptiveMedia-video.card2[data-card2-name="animated_gif"] {
+    min-height: 200px;
+    border-radius: 5px 5px 0 0
+}
+
+.login-responsive .nav .dropdown-signin,.nav li .dropdown-signup {
+    display: none
+}
+
+.login-responsive .nav .dropdown-signup {
+    display: block
+}
+
+.login-responsive .nav .dropdown-signup .emphasize {
+    color: #fc0
+}
+
+.login-responsive .page-canvas {
+    background-color: #fff;
+    box-shadow: 0 0 225px rgba(255,255,255,.55)
+}
+
+.language-dropdown,.country-dropdown {
+    display: none
+}
+
+.session-dropdown {
+    display: block
+}
+
+.route-mobile-gallery .topbar .form-search,.route-download .topbar .form-search,.route-unsubscribe .topbar .form-search {
+    display: none
+}
+
+.front-page .language-dropdown,.route-mobile-gallery .language-dropdown,.route-download .language-dropdown,.login-responsive .language-dropdown,.front-page .country-dropdown,.route-mobile-gallery .country-dropdown,.route-download .country-dropdown,.login-responsive .country-dropdown {
+    display: block
+}
+
+.front-page .session-dropdown,.login-responsive .session-dropdown,.route-download .session-dropdown {
+    display: none
+}
+
+.country-dropdown .dropdown-menu,.language-dropdown .dropdown-menu {
+    width: 375px;
+    position: absolute;
+    right: 0
+}
+
+.country-dropdown .dropdown-menu li,.language-dropdown .dropdown-menu li {
+    width: 125px;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.language-dropdown .dropdown-menu {
+    width: 250px
+}
+
+.language-dropdown .dropdown-menu li {
+    width: 50%
+}
+
+body.de .country-dropdown .dropdown-menu {
+    width: 432px
+}
+
+.dropdown-form {
+    padding: 15px;
+    left: auto;
+    right: 0
+}
+
+.dropdown-form label {
+    color: #292f33
+}
+
+.dropdown-form .remember {
+    float: right;
+    line-height: 25px;
+    cursor: pointer
+}
+
+.dropdown-form .divider {
+    margin: 15px -15px
+}
+
+.dropdown-form p a {
+    display: inline
+}
+
+.signin-wrapper,.signup-wrapper,.resend-password-wrapper,.mobile-complete-wrapper {
+    display: block;
+    width: 585px;
+    clear: both
+}
+
+.signin-wrapper,.signup-wrapper {
+    margin: 0 auto 10px
+}
+
+.resend-password-wrapper {
+    margin: 0 auto 30px
+}
+
+.mobile-complete-wrapper {
+    margin: 0 auto 40px
+}
+
+.signin-wrapper h1,.signup-wrapper h1,.resend-password-wrapper h1,.mobile-complete-wrapper h1 {
+    padding: 40px 0 20px 0;
+    clear: both
+}
+
+.signup,.resend-password,.mobile-complete {
+    padding: 10px 0;
+    border-radius: 5px
+}
+
+.signin fieldset,.resend-password fieldset {
+    margin-bottom: 16px
+}
+
+.resend-password .separator {
+    padding: 10px 0
+}
+
+.resend-password .input-prepend input.username-prepended-input {
+    width: 254px
+}
+
+.notification-prepended {
+    margin-left: 4px
+}
+
+.twttr-dialog-body .signin fieldset {
+    margin-bottom: 0
+}
+
+.signin .password,.signin .username {
+    width: 150px;
+    font-size: 13px
+}
+
+.signin .subchck {
+    display: inline-block;
+    margin-bottom: 0
+}
+
+.ie9 .signin .remember input {
+    min-height: 0
+}
+
+.signin .remember {
+    margin-left: 12px;
+    text-align: left;
+    color: #292f33;
+    line-height: 30px
+}
+
+.signin .field {
+    margin-bottom: 15px
+}
+
+.login-responsive .mobile,.route-resend-password .mobile,.contact-support {
+    background-color: #f4f4f4;
+    padding: 20px 12px 20px 126px;
+    font-size: 13px;
+    line-height: 13px;
+    color: #8899a6;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px
+}
+
+.signin-wrapper form input[type=text],.signin-wrapper form input[type=password],.resend-password-wrapper form input[type=text] {
+    width: 97%;
+    max-width: 280px;
+    margin-right: 10px
+}
+
+.signin-wrapper form .help-text-inline {
+    position: relative;
+    left: 0;
+    top: 0;
+    display: inline-block
+}
+
+.dropdown-menu,.dropdown-menu .signin label {
+    width: auto
+}
+
+.dropdown-menu .signin {
+    width: 240px;
+    padding: 0
+}
+
+.dropdown-menu .signin p a {
+    padding: 0
+}
+
+.dropdown-menu .password {
+    padding-top: 10px
+}
+
+.dropdown-menu .remember {
+    margin: 0;
+    color: #8899a6
+}
+
+.dropdown-menu .subchck {
+    display: block
+}
+
+.dropdown-menu .button {
+    float: right
+}
+
+.dropdown-menu input[type=text],.dropdown-menu input[type=password] {
+    width: 230px
+}
+
+.permalink-footer .SignupCallOut {
+    margin-bottom: 10px
+}
+
+.link-form {
+    display: inline
+}
+
+.link-form .btn-link {
+    font-size: 14px;
+    color: #0084b4
+}
+
+#sms-codes-dialog #sms_codes {
+    width: 100%
+}
+
+#sms-codes-dialog #sms_codes th {
+    font-weight: bold;
+    text-align: left
+}
+
+#sms-codes-dialog #sms_codes tfoot td {
+    padding-top: 1em
+}
+
+.login-responsive .global-nav .container {
+    width: auto;
+    max-width: 865px
+}
+
+.login-responsive .wrapper {
+    width: auto;
+    max-width: 837px
+}
+
+.login-responsive .page-canvas {
+    width: auto;
+    max-width: 835px
+}
+
+.login-responsive .signin-wrapper {
+    width: auto;
+    max-width: 585px;
+    padding: 0 10px
+}
+
+.login-responsive .mobile {
+    width: auto;
+    padding: 20px 10px
+}
+
+.login-responsive .mobile p {
+    max-width: 585px;
+    margin: 0 auto
+}
+
+.login-responsive .mobile .signup-helper {
+    margin-bottom: 15px
+}
+
+@media screen and (max-width: 1024px) {
+    .login-responsive .signin-wrapper form {
+        font-size:14px;
+        line-height: 22px
+    }
+
+    .login-responsive .signin-wrapper input,.login-responsive .subchck {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 6px
+    }
+
+    .signin-wrapper .primary-btn {
+        font-size: 18px;
+        padding: 9px 13px
+    }
+
+    .login-responsive .signin .remember {
+        font-size: 14px;
+        line-height: 35px
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .login-responsive .page-canvas {
+        border:0
+    }
+
+    .login-responsive .signin-wrapper {
+        padding: 0 3%
+    }
+
+    .login-responsive .wrapper {
+        padding: 20px 0 0
+    }
+
+    .login-responsive .signin-wrapper form input[type=text],.login-responsive .signin-wrapper form input[type=password] {
+        display: block;
+        width: 94%;
+        max-width: none
+    }
+
+    .login-responsive .signin-wrapper form .help-text-inline {
+        line-height: 2.1
+    }
+
+    .login-responsive .signin .field {
+        margin-bottom: 4px
+    }
+
+    .login-responsive .signin-wrapper .primary-btn {
+        width: 98%;
+        padding-left: 0;
+        padding-right: 0
+    }
+
+    .login-responsive .signin .remember {
+        margin-left: 0
+    }
+
+    .message {
+        width: 92%
+    }
+}
+
+.login-verification {
+    margin: 0 0 20px 0
+}
+
+.login-verification-push p {
+    margin-bottom: 16px
+}
+
+.logged-out .topbar {
+    box-shadow: none
+}
+
+.logged-out .nav>li>a {
+    color: inherit;
+    text-shadow: none
+}
+
+.logged-out .nav>li>a:hover {
+    color: inherit
+}
+
+.logged-out .home {
+    color: #55acee
+}
+
+.logged-out .nav>li>.nav-logo-link {
+    display: block;
+    font-size: 24px;
+    height: 46px;
+    padding: 0 20px
+}
+
+.logged-out .pull-right {
+    margin: 7px 30px 0 0
+}
+
+.logged-out .global-nav .pull-right .nav {
+    margin-top: 8px
+}
+
+.logged-out .global-nav .pull-right .dropdown-toggle {
+    height: auto;
+    padding-bottom: 5px;
+    margin-top: 0
+}
+
+.logged-out .global-nav .pull-right .dropdown-toggle .caret {
+    margin-top: 0;
+    vertical-align: middle
+}
+
+.logged-out .pull-right .open.dropdown .caret,.logged-out .pull-right .dropdown-toggle:hover .caret {
+    border-top-color: #66757f
+}
+
+.logged-out .global-nav .form-search {
+    margin-top: 0;
+    text-align: left
+}
+
+.front-signin .submit,.front-signup .signup-btn {
+    line-height: 11px
+}
+
+.cricket-companion-tweets {
+    width: 300px
+}
+
+.front-page .wrapper {
+    display: none
+}
+
+.front-page {
+    background-color: #292929
+}
+
+.front-page.front-random-image-cricket {
+    background-color: #882811
+}
+
+.front-page.front-random-image-iphone-concert {
+    background-color: #aa0030
+}
+
+.front-page.front-random-image-city-balcony {
+    background-color: #0067c8
+}
+
+.front-page.front-random-image-jp-square {
+    background-color: #343841
+}
+
+.front-page.front-random-image-jp-boat {
+    background-color: #4e4a40
+}
+
+.front-page.front-random-image-jp-mountain {
+    background-color: #27506c
+}
+
+.front-page.front-random-image-de-flags {
+    background-color: #a21700
+}
+
+.front-page.front-random-image-de-mobile {
+    background-color: #dcb100
+}
+
+.front-page.front-random-image-de-plaza {
+    background-color: #0667c8
+}
+
+.front-container {
+    bottom: 0;
+    display: none;
+    left: 0;
+    max-height: 750px;
+    min-height: 545px;
+    position: absolute;
+    right: 0;
+    top: 0
+}
+
+.front-page .front-container {
+    display: block
+}
+
+.front-card {
+    left: 50%;
+    position: absolute;
+    width: 838px
+}
+
+.front-card {
+    height: 328px;
+    margin: -154px 0 0 -418px;
+    top: 50%;
+    width: 838px
+}
+
+.front-welcome {
+    background: #000 url(../../img/t1/front_page/cricket.jpg) no-repeat left top;
+    border: 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 125px rgba(255,255,255,0.35);
+    display: block;
+    float: left;
+    height: 328px;
+    width: 520px
+}
+
+.front-random-image-cricket .front-welcome {
+    background-image: url(../../img/t1/front_page/cricket.jpg);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 125px rgba(255,190,43,0.35)
+}
+
+.front-random-image-jp-mountain .front-welcome {
+    background-image: url(../../img/t1/front_page/jp-mountain.jpg);
+    border-radius: 6px
+}
+
+.front-random-image-city-balcony .front-welcome {
+    background-image: url(../../img/t1/front_page/city-balcony.jpg);
+    border-radius: 6px
+}
+
+.front-random-image-de-flags .front-welcome {
+    background-image: url(../../img/t1/front_page/de-flags.png)
+}
+
+.front-random-image-de-mobile .front-welcome {
+    background-image: url(../../img/t1/front_page/de-mobile.png)
+}
+
+.front-random-image-de-plaza .front-welcome {
+    background-image: url(../../img/t1/front_page/de-plaza.png)
+}
+
+.front-random-image-de-flags .front-welcome,.front-random-image-de-mobile .front-welcome,.front-random-image-de-plaza .front-welcome {
+    border-radius: 6px
+}
+
+.front-welcome-text {
+    bottom: 0;
+    color: #ccd6dd;
+    font-size: 20px;
+    font-weight: 300;
+    left: 0;
+    line-height: 22px;
+    padding: 20px;
+    position: absolute;
+    text-align: left;
+    text-shadow: #000 0 1px 2px;
+    width: 470px
+}
+
+.front-welcome-text h1 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 3px
+}
+
+.front-signin {
+    float: right;
+    margin-bottom: 11px;
+    width: 300px
+}
+
+.front-signup {
+    height: 206px;
+    float: right;
+    width: 300px
+}
+
+.front-welcome,.front-signin,.front-signup {
+    border-radius: 4px
+}
+
+.front-signup .signup {
+    padding: 0
+}
+
+.front-welcome .signup-welcome-link {
+    color: #fa2
+}
+
+.front-signin,.front-signup {
+    background: #fff;
+    background: linear-gradient(#fff,#ddd);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#dddddd, GradientType=0)";
+    border-bottom: 1px solid #ccd6dd;
+    border-left: 1px solid #e1e8ed;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.1)
+}
+
+.front-card .text-input {
+    border: 1px solid #ccd6dd;
+    box-shadow: inset 0 1px 0 #eee,#fff 0 1px 0
+}
+
+.front-signin .signin {
+    margin: 12px 12px 6px
+}
+
+.front-signin .field {
+    height: 30px
+}
+
+.front-card .text-input:focus {
+    border: 1px solid #56b4ef;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05),0 0 8px rgba(82,168,236,0.6)
+}
+
+.front-card .text-input {
+    height: 20px
+}
+
+.front-signin .username .text-input {
+    width: 266px
+}
+
+.front-signin .password .text-input {
+    height: 30px
+}
+
+.front-signin .username {
+    color: #292f33;
+    width: 276px
+}
+
+.front-signin .password {
+    width: 100%
+}
+
+.front-signin .password-signin {
+    margin-top: 6px
+}
+
+.front-signin .remember-forgot {
+    margin-top: 4px
+}
+
+.front-signin .submit {
+    box-shadow: 0 1px 0 #fff;
+    height: 30px
+}
+
+.front-signin .remember,.front-signin .forgot,.front-signin .separator {
+    color: #8899a6;
+    display: inline;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.6)
+}
+
+.front-signin .remember input[type="checkbox"] {
+    height: 13px;
+    margin: 0;
+    vertical-align: text-top
+}
+
+.ie9 .front-signin .remember input[type="checkbox"] {
+    min-height: auto
+}
+
+.front-signin .separator {
+    color: #8899a6;
+    font-weight: bold;
+    margin: 0 1px 0 2px
+}
+
+.front-signup h2,.front-signin h2 {
+    border-bottom: 1px solid #e1e8ed;
+    box-shadow: 0 1px 0 #fff;
+    color: #66757f;
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.6)
+}
+
+.front-signup h2 strong,.front-signin h2 strong {
+    color: #292f33;
+    font-weight: 500
+}
+
+body.ru .front-signup h2,body.pl .front-signup h2 {
+    font-size: 13px
+}
+
+body.ru .front-signup h2 strong,body.pl .front-signup h2 strong {
+    font-weight: bold
+}
+
+.front-signup .field {
+    display: block;
+    margin: 6px auto;
+    width: 276px
+}
+
+.front-signup .text-input {
+    width: 266px
+}
+
+.front-signup .btn {
+    box-shadow: 0 1px 0 #fff;
+    height: 30px;
+    margin: 1px 12px 0;
+    padding-left: 12px;
+    padding-right: 12px
+}
+
+.front-signup .legal {
+    padding-left: 12px;
+    color: #999;
+    font-size: 11px;
+    width: 280px;
+    line-height: 14px
+}
+
+.front-container .footer {
+    bottom: 30px;
+    color: #fff;
+    font-size: 11px;
+    position: absolute;
+    text-align: center;
+    width: 100%
+}
+
+.front-container .footer {
+    color: rgba(255,255,255,0.25)
+}
+
+.front-container .footer a {
+    color: #fff
+}
+
+.front-container .footer a {
+    color: rgba(255,255,255,0.5)
+}
+
+.front-container .footer ul {
+    display: inline-block
+}
+
+.front-container .footer a:hover {
+    color: #fff;
+    text-decoration: none
+}
+
+.front-container .footer li {
+    display: inline;
+    margin: 0 3px
+}
+
+.front-container .footer .divider {
+    display: none
+}
+
+.front-warning {
+    background-color: #111;
+    background-color: rgba(20,20,20,0.9);
+    border-radius: 6px;
+    color: #ccd6dd;
+    height: 30px;
+    left: 50%;
+    line-height: 1.5;
+    margin: 0 0 0 -418px;
+    padding: 15px 20px;
+    position: absolute;
+    top: 50px;
+    width: 798px;
+    z-index: 2
+}
+
+.front-warning h3 {
+    color: #fec632;
+    font-weight: bold
+}
+
+.front-warning a {
+    color: #75c6f7
+}
+
+#front-no-cookies-warn {
+    display: none
+}
+
+.front-page-photo-set .front-signin {
+    background: white;
+    border: 1px solid #6fa3c4;
+    box-shadow: none
+}
+
+.front-page-photo-set .front-signin h2 {
+    font-size: 14px;
+    padding: 12px 12px
+}
+
+.front-page-photo-set .front-signin .username {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto
+}
+
+.front-page-photo-set .username input {
+    width: 266px
+}
+
+.front-page-photo-set .password input {
+    width: 98%
+}
+
+.front-page-photo-set .session-dropdown .username span,.front-page-photo-set .session-dropdown .password span {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 25px
+}
+
+.front-page-photo-set .front-signin .subchck {
+    display: block;
+    text-align: right
+}
+
+.front-page-photo-set .front-signin .remember,.front-page-photo-set .front-signin .forgot {
+    font-size: 12px
+}
+
+.front-page-photo-set .front-signin .remember {
+    line-height: 20px
+}
+
+.front-page-photo-set .front-signin .forgot {
+    color: #0084b4
+}
+
+.front-page-photo-set .front-signin .remember input[type="checkbox"] {
+    vertical-align: baseline
+}
+
+.front-page-photo-set .front-signin .footer-links {
+    color: #0084b4;
+    position: absolute;
+    bottom: 14px
+}
+
+.front-page-photo-set .front-signup {
+    background: #fff;
+    box-shadow: none
+}
+
+.front-page-photo-set .front-container .footer a,.front-page-photo-set .front-container .footer .copyright {
+    color: white
+}
+
+.front-page-photo-set .footer.inline-list {
+    text-shadow: 0 1px 1px rgba(0,0,0,.2)
+}
+
+.front-page-photo-set .front-signup {
+    border: 1px solid #6fa3c4
+}
+
+.front-page-photo-set .front-container {
+    min-height: 690px
+}
+
+.front-page-photo-set .front-bg .front-image {
+    display: block
+}
+
+.front-page-photo-set .front-card {
+    margin-top: -228px
+}
+
+.front-page-photo-set .front-card,.front-page-photo-set .front-container-full-signup .front-welcome {
+    height: 410px
+}
+
+.front-page-photo-set .front-welcome-text {
+    height: 328px;
+    top: 0
+}
+
+.front-page-photo-set .front-welcome-text h1 {
+    color: #fff;
+    font-size: 38px;
+    line-height: 44px;
+    margin-bottom: 30px;
+    text-shadow: none
+}
+
+.front-page-photo-set .front-welcome-text p {
+    color: #fff;
+    font-size: 21px;
+    line-height: 31px;
+    text-shadow: none
+}
+
+.front-page-photo-set .background-companion-tweets {
+    bottom: 0;
+    height: 82px;
+    position: absolute;
+    width: 400px
+}
+
+.front-page-photo-set .companion-tweet {
+    display: none
+}
+
+.front-page-photo-set .companion-tweet a {
+    color: #fff
+}
+
+.front-page-photo-set .companion-tweet .text {
+    margin-bottom: 20px;
+    white-space: pre-line
+}
+
+.front-page-photo-set .companion-tweet .time {
+    clear: both;
+    float: left;
+    margin-bottom: 7px;
+    text-align: left;
+    text-decoration: underline;
+    white-space: nowrap
+}
+
+.front-page-photo-set .companion-tweet .username {
+    clear: both;
+    direction: ltr;
+    float: left;
+    margin-bottom: 7px;
+    text-align: left;
+    text-decoration: underline;
+    white-space: nowrap
+}
+
+.front-page-photo-set .front-signin,.front-page-photo-set .front-signup {
+    border: 1px solid #e1e8ed
+}
+
+.front-page-photo-set .front-signin .text-input,.front-page-photo-set .front-signup .text-input {
+    border: 1px solid #ccd6dd
+}
+
+.front-page-photo-set .front-container-full-signup .footer ul {
+    text-align: center;
+    width: auto
+}
+
+.front-page-photo-set .cricket-companion-tweets {
+    position: relative;
+    top: 40px;
+    width: 300px
+}
+
+.front-page-cricketWidget {
+    bottom: 82px;
+    height: 82px;
+    position: absolute;
+    width: 400px
+}
+
+.front-page-cricketWidget.front-page-cricketInProgress {
+    bottom: 100px
+}
+
+.front-page-cricketIcon {
+    height: 28px;
+    position: relative;
+    padding-right: 2px;
+    top: 7px;
+    width: 28px
+}
+
+.front-page-cricketAction {
+    background-color: #fff;
+    border-radius: 6px;
+    color: #50a5e6;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 30px;
+    padding: 10px;
+    position: relative;
+    top: 32px
+}
+
+.front-page-cricketInProgress .front-page-cricketAction {
+    top: 20px
+}
+
+.front-page-cricketAction:hover {
+    text-decoration: none
+}
+
+.front-page-cricketWelcome {
+    color: #fff;
+    font-size: 18px
+}
+
+.front-page-cricketScoreCard {
+    color: #fff;
+    display: table;
+    width: 300px
+}
+
+.front-page-cricketTeam {
+    display: table-cell
+}
+
+.front-page-cricketFlag {
+    width: 60px
+}
+
+.front-page-cricketHomeTeam {
+    text-align: left
+}
+
+.front-page-cricketHomeTeam .front-page-cricketTeamData {
+    margin-left: 70px
+}
+
+.front-page-cricketHomeTeam .front-page-cricketFlag {
+    float: left
+}
+
+.front-page-cricketAwayTeam .front-page-cricketTeamData {
+    margin-right: 70px
+}
+
+.front-page-cricketAwayTeam .front-page-cricketFlag {
+    float: right
+}
+
+.front-page-cricketTeamData {
+    margin-top: 12px
+}
+
+.front-page-cricketAwayTeam {
+    text-align: right
+}
+
+.front-page-cricketTeamName {
+    display: block;
+    font-weight: bold
+}
+
+.front-page-cricketVersus {
+    display: table-cell;
+    font-weight: bold
+}
+
+.front-bg {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    background: #000
+}
+
+.front-bg img {
+    display: none;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.front-random-image-cricket .front-bg .front-image,.front-random-image-city-balcony .front-bg .front-image,.front-random-image-jp-mountain .front-bg .front-image {
+    display: block
+}
+
+.front-container-full-signup .front-welcome {
+    background: 0;
+    box-shadow: none
+}
+
+.front-container-full-signup .front-welcome-text {
+    padding: 0;
+    bottom: 50%
+}
+
+.front-container-full-signup .footer ul {
+    width: 838px;
+    text-align: left;
+    margin: 0 auto
+}
+
+.front-container-full-signup .footer ul li {
+    margin: 0 6px 0 0
+}
+
+.WebUpdatedHomepage {
+    font-size: 12px
+}
+
+.WebUpdatedHomepage.front-page {
+    background: #f5f8fa
+}
+
+.WebUpdatedHomepage .front-container {
+    height: 650px
+}
+
+.WebUpdatedHomepage-frontmain {
+    background: url(../../img/t1/front_page/nh-headerbg.png) repeat-x;
+    height: 550px
+}
+
+.WebUpdatedHomepage-frontmain a {
+    color: #1f9ecc;
+    text-decoration: none
+}
+
+.WebUpdatedHomepage-frontmain a:hover,.WebUpdatedHomepage-frontmain a:focus {
+    text-decoration: underline
+}
+
+.WebUpdatedHomepage .global-nav {
+    background-color: #FFF
+}
+
+.WebUpdatedHomepage .global-nav-inner {
+    max-width: 950px;
+    margin: 0 auto
+}
+
+.WebUpdatedHomepage .global-nav-inner>li .Icon {
+    float: left
+}
+
+.WebUpdatedHomepage .global-nav-inner .dropdown {
+    float: right
+}
+
+.WebUpdatedHomepage .front-container .footer {
+    font-size: 12px;
+    color: #8899a6;
+    position: absolute;
+    line-height: 20px
+}
+
+.WebUpdatedHomepage .front-container .footer {
+    color: #8899a6
+}
+
+.WebUpdatedHomepage .front-container .footer a {
+    color: #0084b4;
+    text-decoration: none
+}
+
+.WebUpdatedHomepage .front-container .footer a {
+    color: #0084b4
+}
+
+.WebUpdatedHomepage .front-container .footer a:focus,.WebUpdatedHomepage .front-container .footer a:hover {
+    color: #0084b4;
+    text-decoration: underline
+}
+
+.WebUpdatedHomepage .front-container .footer li {
+    margin: 0 4px
+}
+
+.FrontCard {
+    margin: 0 auto 0 auto;
+    padding-top: 120px;
+    width: 892px
+}
+
+.FrontCard-welcome {
+    letter-spacing: .5px
+}
+
+.FrontCard-welcome-blurb {
+    color: #f5f8fa;
+    padding-left: 5px;
+    padding-bottom: 30px;
+    width: 500px
+}
+
+.FrontCard-welcome-blurb .Icon {
+    font-size: 46px;
+    line-height: 44px;
+    padding-right: 10px
+}
+
+.FrontCard-welcome h1 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 44px
+}
+
+.FrontCard-welcome h3 {
+    color: #f5f8fa;
+    font-size: 16px;
+    font-weight: 500;
+    padding-top: 5px
+}
+
+.FrontCard-sidebar {
+    margin-top: -30px;
+    width: 300px
+}
+
+.FrontCard-sidebarMobile {
+    color: #292f33;
+    font-size: 12px;
+    line-height: 45px
+}
+
+.FrontCard-sidebarMobile a {
+    margin: 0 4px
+}
+
+.FrontCard .front-signin,.FrontCard .front-signup,.FrontCard-sidebarMobile {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e1e8ed;
+    border-width: 0 1px 1px;
+    margin-bottom: 12px;
+    position: static
+}
+
+.FrontCard .front-signin {
+    padding-top: 10px
+}
+
+.FrontCard .front-signup {
+    height: 204px
+}
+
+.FrontCard .text-input {
+    border-radius: 6px;
+    font-size: 12px;
+    height: 20px;
+    padding-left: 5px
+}
+
+.FrontCard .front-signin .username,.FrontCard .front-signin .password-signin,.FrontCard .front-signin .remember-forgot {
+    height: 30px;
+    margin: 6px auto;
+    position: static
+}
+
+.FrontCard .front-signin .password .text-input {
+    height: 30px
+}
+
+.FrontCard .front-signin .forgot a {
+    color: #1f9ecc
+}
+
+.FrontCard .front-signin .primary-btn {
+    font-size: 13px;
+    letter-spacing: .5px;
+    padding: 0 10px
+}
+
+.FrontCard .signup-btn.btn {
+    font-size: 13px;
+    letter-spacing: .5px;
+    margin-right: 12px;
+    padding: 0 7px;
+    position: static;
+    text-shadow: none
+}
+
+.SignupCallOut {
+    background-color: #8899a6;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    padding: 15px
+}
+
+.SignupCallOut--wide {
+    padding: 30px 40px;
+    border: 1px solid rgba(0,0,0,0.1)
+}
+
+.SignupCallOut--collapsed .SignupForm {
+    display: none
+}
+
+.SignupCallOut-title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 26px;
+    margin-bottom: 5px
+}
+
+.SignupCallOut-title b {
+    font-weight: 700
+}
+
+.SignupCallOut-subheader {
+    color: #8899a6
+}
+
+.SignupCallOut .SignupCallOut-expand {
+    width: 100%;
+    margin-top: 10px
+}
+
+.SignupCallOut--fastSignup {
+    background-color: #e1e8ed;
+    color: #8899a6
+}
+
+.SignupCallOut--fastSignup .SignupForm--wide .SignupForm-submit {
+    float: left
+}
+
+.SignupCallOut--fastSignup .SignupCallOut-title {
+    color: #66757f
+}
+
+.SignupCallOut--fastSignup .signup {
+    padding-bottom: 0
+}
+
+.SignupDialog .SignupDialog-body {
+    padding: 30px
+}
+
+.SignupDialog-bird {
+    color: #55acee
+}
+
+.SignupDialog-heading {
+    color: #66757f;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 26px;
+    margin: 20px 0
+}
+
+.SignupDialog-form {
+    width: 260px;
+    margin: 0 auto
+}
+
+.SignupDialog .SignupDialog-footer {
+    border-color: #e1e8ed;
+    color: #8899a6;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1
+}
+
+.SignupDialog-signinLink {
+    color: #3b94d9
+}
+
+.SignupForm input {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 10px
+}
+
+.SignupForm--wide .SignupForm-inputsContainer {
+    padding-right: -10px;
+    margin-bottom: 15px
+}
+
+.SignupForm--wide .SignupForm-input {
+    width: 33.33333333333333%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block
+}
+
+.SignupForm--wide .SignupForm-name {
+    padding-right: 5px
+}
+
+.SignupForm--wide .SignupForm-email {
+    padding: 0 5px
+}
+
+.SignupForm--wide .SignupForm-password {
+    padding-left: 5px
+}
+
+.SignupForm--wide .SignupForm-submit {
+    width: auto;
+    float: right;
+    margin-top: 0
+}
+
+.SignupForm .SignupForm-submit {
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 11px 16px
+}
+
+.SignupForm .btn:focus,.SignupForm .btn.focus {
+    box-shadow: none
+}
+
+.SignupForm-submit.SignupForm-submit--yellowButton {
+    color: #292f33;
+    background-color: #fd9a0f;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(#fee94f,#fd9a0f);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#fee94f, endColorstr=#fd9a0f, GradientType=0)";
+    border-color: #fa2
+}
+
+.SignupForm-submit.SignupForm-submit--yellowButton:hover,.SignupForm-submit.SignupForm-submit--yellowButton:focus {
+    background-color: #fd9512;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(#fedc4d,#fd9512);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#fedc4d, endColorstr=#fd9512, GradientType=0)";
+    border-color: #ec8b11
+}
+
+.SignupForm-submit.SignupForm-submit--yellowButton:active {
+    background-image: none;
+    border-color: #ec8b11
+}
+
+.SignupForm input:focus {
+    border-color: #55acee;
+    box-shadow: none
+}
+
+.SignupForm .primary-btn:focus {
+    border-color: #fff
+}
+
+.LoginCallOut {
+    background-color: #8899a6!important;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    padding: 15px
+}
+
+.LoginCallOut-title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 26px;
+    margin-bottom: 5px
+}
+
+.LoginDialog .LoginDialog-body {
+    padding: 30px
+}
+
+.LoginDialog-bird {
+    color: #55acee
+}
+
+.LoginDialog-form {
+    width: 260px;
+    margin: 0 auto
+}
+
+.LoginDialog .LoginForm-rememberForgot {
+    text-align: left
+}
+
+.LoginDialog .LoginDialog-footer {
+    border-color: #e1e8ed;
+    color: #8899a6;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1
+}
+
+.LoginDialog-signupLink {
+    color: #3b94d9
+}
+
+.LoginForm input {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 10px
+}
+
+.LoginForm input[type=checkbox] {
+    width: auto
+}
+
+.LoginForm label,.LoginForm .separator {
+    color: #8899a6
+}
+
+.LoginForm-rememberForgot {
+    font-size: 12px
+}
+
+.LoginForm--wide .LoginForm-inputsContainer {
+    padding-right: -10px;
+    margin-bottom: 15px
+}
+
+.LoginForm--wide .LoginForm-input {
+    width: 33.33333333333333%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block
+}
+
+.LoginForm--wide .LoginForm-name {
+    padding-right: 5px
+}
+
+.LoginForm--wide .LoginForm-email {
+    padding: 0 5px
+}
+
+.LoginForm--wide .LoginForm-password {
+    padding-left: 5px
+}
+
+.LoginForm--wide .LoginForm-submit {
+    width: auto;
+    float: right;
+    margin-top: 0
+}
+
+.LoginForm input:focus {
+    border-color: #55acee;
+    box-shadow: none
+}
+
+.LoginForm .primary-btn:focus {
+    border-color: #fff
+}
