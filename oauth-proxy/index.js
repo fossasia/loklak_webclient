@@ -54,7 +54,7 @@ function customHandler(req, res, next) {
         var requestJSON = JSON.stringify(userObject);   
         console.log(requestJSON);     
         //got it. Now send to backend
-        request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
+        request('http://localhost:9000/api/account.json?action=update&data=' + requestJSON, function(error, response, body) {
             console.log(requestJSON);
             if (!error && response.statusCode == 200) {
                 console.log("user saved");
