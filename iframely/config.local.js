@@ -69,7 +69,8 @@
         // Access-Control-Allow-Origin list.
         allowedOrigins: [
             appDomain,
-            appDomain + ':' + repoConfig.gulpDevExpressPort
+            appDomain + ':' + repoConfig.gulpDevExpressPort,
+	    appDomain + ':3000'
         ],
         
 
