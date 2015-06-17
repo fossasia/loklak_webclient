@@ -2,13 +2,27 @@
 
     var repoConfig = require('../custom_configFile.json'); 
 
+    var getPosition = function(str, m, i) {
+           return str.split(m, i).join(m).length;
+    };
+    
+    var appDomain = (function() {
+      var domain = repoConfig.domain;
+      if (domain.match(/:/g).length > 2) {
+         var indexOfPort = getPosition(domain, ":", 2);
+         domain = domain.substr(0, indexOfPort);
+      }
+
+      return domain;
+    })();
+
     var config = {
 
         DEBUG: false,
         RICH_LOG_ENABLED: false,
 
         // For embeds that require render, baseAppUrl will be used as the host.
-        baseAppUrl: repoConfig.domain,
+        baseAppUrl: appDomain,
         relativeStaticUrl: "/r",
 
         SKIP_OEMBED_RE_LIST: [
@@ -51,13 +65,13 @@
         }
         */
 
-        /*
+        
         // Access-Control-Allow-Origin list.
         allowedOrigins: [
-            "*",
-            "http://another_domain.com"
+            appDomain,
+            appDomain + ':' + repoConfig.gulpDevExpressPort
         ],
-        */
+        
 
         /*
         // Uncomment to enable plugin testing framework.
