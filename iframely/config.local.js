@@ -70,7 +70,10 @@
         allowedOrigins: [
             appDomain,
             appDomain + ':' + repoConfig.gulpDevExpressPort,
-	    appDomain + ':3000'
+	        appDomain + ':3000',
+            repoConfig.domain,
+            repoConfig.domain + ':' + repoConfig.gulpDevExpressPort,
+            repoConfig.domain + ':3000'
         ],
         
 
