@@ -17,7 +17,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     vm.showResult = false;
     vm.term = '';
     vm.currentFilter = '';
-    var intervalPromise = {};
+    var intervals = [];
         
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
@@ -35,6 +35,10 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                vm.statuses = data.statuses;
                vm.showResult = true;
                updatePath(term);
+               angular.forEach(intervals, function(interval) {
+                   $interval.cancel(interval);
+               });
+               intervals.push($interval(bgUpdateTemp, 10000));
         }, function() {});
     };
 
@@ -61,9 +65,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                     if (account.screen_name === ele.screen_name) {
                         return notYetInAccounts = false;
                     }
-                })
+                });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
-            })
+            });
         }, function() {});
 
         updatePath(vm.term + '+' + '/accounts');
@@ -164,19 +168,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     };
 
 
-
-    /////// Brief process of updating statuses
-    // After every search, a interval is called with at least a filter argument
-    // The interval process the filter, and latest status to make new request for data accordingly
-    // If have new data, show a small notice on top of the current result
-    // Click on that notice will concatenate the result with the old one
-    // 
-    // Create a separate but similar one for accounts since it use different models
-
-
-    // Background updating process, given a interval and a filter (except for account filter)
-    // And a point of time of the lastest status
-
     // Concat new status with vm.statuses when e.g. ng-click
     vm.showNewStatuses = function() {
         vm.statuses = vm.statuses.concat(vm.newStasuses);
@@ -185,17 +176,25 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
     // HELPERS FN
     ///////////////////
-
-    var bgUpdate = function(interval, filter, since) {
-        var sinceDate = $filter('date')(since, 'yyyy-MM-dd');
-        $interval.cancel(intervalPromise);
-        intervalPromise = $interval(function() {
-            var term = vm.term + '+/' + filter + '+' + 'since:=' + sinceDate;
-            SearchService.getData(term).then(function(data) {
-                vm.newStasuses = data.statuses;
-            }, function() {});
-        }, interval);
+    var bgUpdateTemp = function() {
+        var lastestDateObj = new Date(vm.statuses[0].created_at);
+        var term = (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery(vm.currentFilter);
+        console.log(term);
+        SearchService.getData(term).then(function(data) {
+            console.log(data);
+            var keepComparing = true; var i = 0;
+            while (keepComparing) {
+               if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
+                 vm.newStasuses = data.statuses.slice(0, i);
+                 console.log(vm.newStasuses);
+                 vm.statuses = vm.newStasuses.concat(vm.statuses);
+                 keepComparing = false;
+               }
+               i++;
+            }
+        }, function() {});
     };
+
 
     // Scrape for imgTag to serve photoswipe requirement
     function scrapeImgTag(imgTag) {
@@ -227,6 +226,18 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
+    }
+
+    // Turn filter parameter to the right query parameter
+    function filterToQuery(filterName) {
+        var filtersToQueries = {
+            'photos' : '/image',
+            'videos' :'/video',
+            'accounts' : '/accounts', 
+            'news' : '/news'
+        };
+        return filtersToQueries[filterName
+        ];
     }
 
     // Check if a status has external link, twitter pic src is not considered as external
