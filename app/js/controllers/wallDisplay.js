@@ -148,7 +148,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                             vm.showEmpty = true;
                         } else {
                             if (vm.statuses.length <= 0) {
-                                vm.statuses = data.statuses.splice(0, 3);
+                                vm.statuses = data.statuses.splice(0, maxStatusCount);
                                 nextStatuses = vm.statuses;
                             } else {
                                 for (var i = data.statuses.length - 1; i > -1; i--) {

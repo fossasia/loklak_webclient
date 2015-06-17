@@ -1730,3 +1730,53 @@ body {
 	margin: 0 auto;
 }
 
+.coa {
+    display: block;
+    min-height: 164px;
+    background: white;
+    padding: 30px 22px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid $search-grey-border;
+    &:first-child {
+        border-top-left-radius: 6px;
+        border-right-left-radius: 6px;
+    }
+    &:hover {
+        background: $search-grey-bg;
+        cursor: pointer;
+    }
+    .avatar {
+        height: 180px;
+        max-width: 180px;
+        float: left;
+        border-radius: 6px;
+    }
+    .coa-content {
+        position: relative;
+        margin-left: 200px;
+        min-height: 180px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
+        .coa-content-text {
+            word-break: break-all;
+            color: #292f33;
+            font-size: 36px;
+            line-height: 140%;
+            .coa-hashtag {
+                color: #55ACEE;
+            }
+            .coa-hashtag-current {
+                font-weight: bold;
+            }
+        }
+        .metadata {
+            font-size: 18px;
+            color: #8899A6;
+            font-weight: normal;
+            font-style: italic;
+        }
+    }
+}

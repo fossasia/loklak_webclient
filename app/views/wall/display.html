@@ -14,7 +14,7 @@
     <div class="wall-container container-fluid">
         <div class="container content-container wall-body">
             <div ng-show="wall.statuses.length>0" class="result-container col-md-8">
-                <div class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
+                <div class="animate-repeat" ng-repeat="status in wall.statuses"  ng-attr-coa="wall.wallOptions.layoutStyle==3" open="wall.open" data="status"></div>
             </div>
             <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>
