@@ -8,7 +8,7 @@
     
     var appDomain = (function() {
       var domain = repoConfig.domain;
-      if (domain.match(/:/g).length > 2) {
+      if (domain.match(/:/g).length > 1) {
          var indexOfPort = getPosition(domain, ":", 2);
          domain = domain.substr(0, indexOfPort);
       }
