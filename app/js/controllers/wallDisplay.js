@@ -12,11 +12,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     var vm, flag, allStatuses, nextStatuses, term, count;
     vm = this;
-    count = 0;
-    init();
-    $scope.wallOptions = vm.wallOptions;
-    function init () {
-        
+    var caller = null;
+    var init = function () {
         flag = false;
         vm.showEmpty = false;
         allStatuses = [];
@@ -25,12 +22,15 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.displaySearch = true;
         vm.wallOptions = $location.search();
         term = vm.wallOptions.term;
-    }
-    
+        $timeout.cancel(caller);
+    }  
+    count = 0;
+    init();
+    $scope.wallOptions = vm.wallOptions;    
 
     $scope.getHeaderClass = function() {
         return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
-    }
+    };
 
     var maxStatusCount = 0;
     if (vm.wallOptions.layoutStyle == 1)
@@ -49,8 +49,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         return 5000;
     };
-
-
 
     /*
      * Create photoswipe
@@ -94,7 +92,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         for (var i = 0; i < Statuses.length; i++) {
             if (Statuses[i] === status_id)
                 return true;
-        };
+        }
         return false;
     }
 
@@ -106,87 +104,87 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return 0;
     }
 
-    vm.update = function(refreshTime) {
-        return $timeout(function() {
-            SearchService.getData(term).then(function(data) {
-                if (data.statuses) {
-                    for (var i = data.statuses.length - 1; i >= 0; i--) {
-                        if (!contains(allStatuses, data.statuses[i].id_str)) {
-                            try {
-                                // var profileURLString = data.statuses[i].user.profile_image_url_https;
-                                // var splitURL = profileURLString.split('_bigger');
-                                // data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
-                                nextStatuses.push(data.statuses[i]);
-                                allStatuses.push(data.statuses[i].id_str);
-                            } catch (ex) {
+    // vm.update = function(refreshTime) {
+    //     return $timeout(function() {
+    //         SearchService.getData(term).then(function(data) {
+    //             if (data.statuses) {
+    //                 for (var i = data.statuses.length - 1; i >= 0; i--) {
+    //                     if (!contains(allStatuses, data.statuses[i].id_str)) {
+    //                         try {
+    //                             // var profileURLString = data.statuses[i].user.profile_image_url_https;
+    //                             // var splitURL = profileURLString.split('_bigger');
+    //                             // data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
+    //                             nextStatuses.push(data.statuses[i]);
+    //                             allStatuses.push(data.statuses[i].id_str);
+    //                         } catch (ex) {
 
-                            }
+    //                         }
 
-                        }
-                    };
-                }
-                nextStatuses.sort(compare);
-                var newRefreshTime = getRefreshTime(data.search_metadata.period);
-                vm.update(newRefreshTime);
-            }, function(error) {
+    //                     }
+    //                 }
+    //             }
+    //             nextStatuses.sort(compare);
+    //             var newRefreshTime = getRefreshTime(data.search_metadata.period);
+    //             vm.update(newRefreshTime);
+    //         }, function(error) {
 
-            });
-        }, refreshTime);
+    //         });
+    //     }, refreshTime);
 
-    };
+    // };
 
     vm.update2 = function(refreshTime, currCount) {
+        console.log(currCount + ":" + count);
         if(currCount==count)
-        return $timeout(function() {
-            SearchService.getData(term).then(function(data) {
-                if (data.statuses) {
-                    if (data.statuses.length <= 0) {
-                        vm.showEmpty = true;
-                    } else {
-                        if (vm.statuses.length <= 0) {
-                            vm.statuses = data.statuses.splice(0, 3);
-                            nextStatuses = vm.statuses;
+        {
+            return $timeout(function() {
+                console.log(term);
+                SearchService.getData(term).then(function(data) {
+                    if (data.statuses) {
+                        if (data.statuses.length <= 0) {
+                            vm.showEmpty = true;
                         } else {
-                            for (var i = data.statuses.length - 1; i > -1; i--) {
-                                if (data.statuses[i].created_at > vm.statuses[0].created_at) {
-                                    vm.statuses.unshift(data.statuses[i]);
-                                    vm.statuses.pop();
+                            if (vm.statuses.length <= 0) {
+                                vm.statuses = data.statuses.splice(0, 3);
+                                nextStatuses = vm.statuses;
+                            } else {
+                                for (var i = data.statuses.length - 1; i > -1; i--) {
+                                    if (data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                        vm.statuses.unshift(data.statuses[i]);
+                                        vm.statuses.pop();
+                                    }
                                 }
-                            };
+                            }
+                            var newRefreshTime = getRefreshTime(data.search_metadata.period);
+                            caller = vm.update2(newRefreshTime, currCount);
+                            vm.showEmpty = false;
                         }
-                        var newRefreshTime = getRefreshTime(data.search_metadata.period);
-                        vm.update2(newRefreshTime, currCount);
-                        vm.showEmpty = false;
-                    }
-                } else {}
+                    } else {}
 
-            }, function(error) {
+                }, function(error) {
 
-            });
-        }, refreshTime);
-    }
+                });
+            }, refreshTime);
+        }
+        else {
+            $timeout.cancel(caller);
+            vm.statuses = [];
+            return null;
+        }
+        
+    };
 
     var tweetRefreshTime = 4000;
-
-    // var interval = $interval(function() { // jshint ignore:line
-    //     if (nextStatuses.length === 0) {
-    //         return;
-    //     }
-
-    //     vm.statuses.unshift(nextStatuses.shift());
-    //     if (vm.statuses.length > maxStatusCount)
-    //         vm.statuses.pop();
-    // }, tweetRefreshTime);
 
     $scope.fullscreen = function() {
         if (Fullscreen.isEnabled())
             Fullscreen.cancel();
         else
             Fullscreen.all();
-    }
+    };
 
     //On INIT
-    vm.update2(0, count);
+    caller = vm.update2(0, count);
     //code for modal
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -227,30 +225,29 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     $scope.start = function() {
-        //$scope.wallOptions.allWords = JSON.stringify($scope.wallOptions.allWords);
         //construct term
         var newTerm = $scope.wallOptions.mainHashtag;
         for (var i = 0; i < $scope.wallOptions.allWords.length; i++) {
             newTerm = newTerm + ' ' + $scope.wallOptions.allWords[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.anyWords.length; i++) {
             newTerm = newTerm + ' ' + $scope.wallOptions.anyWords[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.noWords.length; i++) {
             newTerm = newTerm + ' -' + $scope.wallOptions.noWords[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.allHashtags.length; i++) {
             newTerm = newTerm + ' #' + $scope.wallOptions.allHashtags[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.from.length; i++) {
             newTerm = newTerm + ' from:' + $scope.wallOptions.from[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.to.length; i++) {
             newTerm = newTerm + ' @' + $scope.wallOptions.to[i].text;
-        };
+        }
         for (var i = 0; i < $scope.wallOptions.mentioning.length; i++) {
             newTerm = newTerm + ' @' + $scope.wallOptions.mentioning[i].text;
-        };
+        }
         if ($scope.wallOptions.images) {
             if ($scope.wallOptions.images == "only") {
                 newTerm = newTerm + ' /image';
@@ -278,16 +275,18 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if ($scope.wallOptions.untilDate) {
             newTerm = newTerm + ' until:' + moment($scope.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
         }
-        $scope.wallOptions['term'] = newTerm;
+        $scope.wallOptions.term = newTerm;
         $('#wall-modal').modal('toggle');
         $("#wall-modal").on('hidden.bs.modal', function() {
             if (flag == true) {
+                count++;
+                console.log(count);
                 init();
+                console.log(vm.statuses.length);
                 vm.wallOptions = $scope.wallOptions;
                 term = newTerm;
-                count++;
                 $location.path('/wall/display').search($scope.wallOptions);
-                vm.update2(0, count);
+                caller = vm.update2(0, count);
             }
         });
         flag = true;
@@ -297,7 +296,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     $scope.resetDate = function() {
         $scope.wallOptions.sinceDate = null;
         $scope.wallOptions.untilDate = null;
-    }
+    };
 
 }
 
