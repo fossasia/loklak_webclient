@@ -13,28 +13,6 @@
     display: inline-block;
 }
 
-@media(max-width:767px) {
-    .navbar .navbar-form {
-        width: 65%;
-        padding-left:0;
-        padding-right:0;
-    }
-}
-@media(min-width:768px) {
-    .navbar .navbar-form {
-        width: 250px;
-    }
-}
-@media(max-width:767px) {
-    .pull-responsive {
-        float: left;
-    }
-}
-@media(min-width:768px) {
-    .pull-responsive {
-        float: right;
-    }
-}
 .navbar .navbar-form {
     padding-top: 0;
     padding-bottom: 0;
@@ -57,7 +35,7 @@
 // Twitter sign in
 	.signin-twitter {
 		height: 50px;
-		width:auto;
+		min-width: 300px;
 		overflow: hidden;
 		display: inline-block;
 		line-height: 20px;
@@ -68,7 +46,7 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding-top: 5px;
+				padding: 17px;
 				color: white;
 			}
 			span.avatar-container {
@@ -86,12 +64,13 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding-top: 3px;
+				padding: 17px;
 				color: white;
 			}
 		}
 	}
 /* Old styles */
+
 body {
     font-family: Helvetica, sans-serif;
     background-color: #F5F8FA;
@@ -1719,13 +1698,13 @@ body {
 	font-size: 16px;
 }
 .wall-creation-form > * input[type="text"] {
-	/*width: 50%;*/
+	width: 50%;
 }
 .tabs-left > li {
 	padding: 0;
 }
 .tabs-left > li > a {
-	height: 150px;
+	min-height: 150px;
 	text-align: center;
 	padding: 20% 0;
 }
@@ -1747,4 +1726,5 @@ body {
 	width: 100px;
 	height: 100px;
 	margin: 0 auto;
+}
 }

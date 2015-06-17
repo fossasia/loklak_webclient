@@ -1,4 +1,5 @@
 'use strict';
+/* global angular, forEach */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -64,8 +65,8 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 			forEach(imgs, function(value, key) {
 				angular.element(value).bind('load' ,function() {
 					vm.showStatus = true; 	
-				})
-			})
+				});
+			});
 		} else {
 			vm.showStatus = true;
 		}
