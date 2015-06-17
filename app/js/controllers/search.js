@@ -8,7 +8,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, SearchService, DebugLinkService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
 
     // Define models here
     var vm = this;
@@ -17,6 +17,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     vm.showResult = false;
     vm.term = '';
     vm.currentFilter = '';
+    var intervalPromise = {};
         
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
@@ -67,7 +68,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
         updatePath(vm.term + '+' + '/accounts');
 
-    }
+    };
 
     // Photos search
     vm.filterPhotos = function() {
@@ -141,7 +142,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         }, function() {});
 
         updatePath(vm.term + '+' + '/news');
-    }
+    };
 
     // Create photoswipe
     // Lib's docs: http://photoswipe.com/documentation/getting-started.html
@@ -163,8 +164,38 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     };
 
 
+
+    /////// Brief process of updating statuses
+    // After every search, a interval is called with at least a filter argument
+    // The interval process the filter, and latest status to make new request for data accordingly
+    // If have new data, show a small notice on top of the current result
+    // Click on that notice will concatenate the result with the old one
+    // 
+    // Create a separate but similar one for accounts since it use different models
+
+
+    // Background updating process, given a interval and a filter (except for account filter)
+    // And a point of time of the lastest status
+
+    // Concat new status with vm.statuses when e.g. ng-click
+    vm.showNewStatuses = function() {
+        vm.statuses = vm.statuses.concat(vm.newStasuses);
+    };
+
+
     // HELPERS FN
     ///////////////////
+
+    var bgUpdate = function(interval, filter, since) {
+        var sinceDate = $filter('date')(since, 'yyyy-MM-dd');
+        $interval.cancel(intervalPromise);
+        intervalPromise = $interval(function() {
+            var term = vm.term + '+/' + filter + '+' + 'since:=' + sinceDate;
+            SearchService.getData(term).then(function(data) {
+                vm.newStasuses = data.statuses;
+            }, function() {});
+        }, interval);
+    };
 
     // Scrape for imgTag to serve photoswipe requirement
     function scrapeImgTag(imgTag) {
