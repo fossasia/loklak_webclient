@@ -8,7 +8,6 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-<<<<<<< HEAD
 function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, AppSettings, SearchService, Fullscreen) {
 
     var vm, flag, allStatuses, nextStatuses, term, count;
@@ -40,27 +39,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         maxStatusCount = 10; //masonry
     else if (vm.wallOptions.layoutStyle == 3)
         maxStatusCount = 1; //single
-=======
-function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService) {
-
-    var vm = this;
-    vm.term = null;
-    vm.allStatuses = [];
-    vm.nextStatuses = [];
-    vm.statuses = [];
-    vm.displaySearch = true;
-    vm.wallOptions = $location.search();
-    var term = vm.wallOptions.mainHashtag;
-    if(vm.wallOptions.onlyImages === true){
-        term = term + ' /image';
-    }
-    if(vm.wallOptions.sinceDate) {
-        term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
-    }
-    if(vm.wallOptions.untilDate) {
-        term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
-    }
->>>>>>> 4160756776aee794bf5b49251c2eb187b1cf7022
 
     var getRefreshTime = function(period) {
         if (period < 7000) {
@@ -114,12 +92,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         for (var i = 0; i < Statuses.length; i++) {
             if (Statuses[i] === status_id) {
                 return true;
-<<<<<<< HEAD
-        }
-=======
             }
         };
->>>>>>> 4160756776aee794bf5b49251c2eb187b1cf7022
         return false;
     }
 
