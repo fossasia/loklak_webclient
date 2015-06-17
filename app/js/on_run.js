@@ -6,6 +6,7 @@
  */
 function OnRun($rootScope, AppSettings, HelloService) {
 	var root = {};
+  root.hello = HelloService;
   
   /**
    * UI related root variables
@@ -41,10 +42,6 @@ function OnRun($rootScope, AppSettings, HelloService) {
       $rootScope.root.pageTitle = pageTitle;
     });
     $rootScope.root = root;
-
-
-  
-
 }
 
 module.exports = OnRun;
