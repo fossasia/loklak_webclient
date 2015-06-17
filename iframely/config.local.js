@@ -7,7 +7,7 @@
     };
     
     var appDomain = (function() {
-      var domain = repoConfig.domain;
+      var domain = repoConfig.linkDebuggingServiceHost;
       if (domain.match(/:/g).length > 1) {
          var indexOfPort = getPosition(domain, ":", 2);
          domain = domain.substr(0, indexOfPort);

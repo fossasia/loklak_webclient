@@ -14,7 +14,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
   };
   
   var debugServiceApi = (function() {
-    var domain = AppSettings.domain;
+    var domain = AppSettings.linkDebuggingServiceHost;
     if (domain.match(/:/g).length > 1) {
        var indexOfPort = getPosition(domain, ":", 2);
        domain = domain.substr(0, indexOfPort);
