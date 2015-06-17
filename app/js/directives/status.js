@@ -1,5 +1,4 @@
 'use strict';
-/* global angular */
 
 var directivesModule = require('./_index.js');
 
@@ -13,6 +12,7 @@ directivesModule.directive('status', ['$location', function($location) {
             data: '=',
             highlight: '=',
             openSwipe: '=',
+            showModal: '=',
         },
         templateUrl: 'status.html',
         controller: function($scope) {

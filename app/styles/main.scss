@@ -13,6 +13,28 @@
     display: inline-block;
 }
 
+@media(max-width:767px) {
+    .navbar .navbar-form {
+        width: 65%;
+        padding-left:0;
+        padding-right:0;
+    }
+}
+@media(min-width:768px) {
+    .navbar .navbar-form {
+        width: 250px;
+    }
+}
+@media(max-width:767px) {
+    .pull-responsive {
+        float: left;
+    }
+}
+@media(min-width:768px) {
+    .pull-responsive {
+        float: right;
+    }
+}
 .navbar .navbar-form {
     padding-top: 0;
     padding-bottom: 0;
@@ -35,7 +57,7 @@
 // Twitter sign in
 	.signin-twitter {
 		height: 50px;
-		min-width: 300px;
+		width:auto;
 		overflow: hidden;
 		display: inline-block;
 		line-height: 20px;
@@ -46,7 +68,7 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding: 17px;
+				padding-top: 5px;
 				color: white;
 			}
 			span.avatar-container {
@@ -64,13 +86,12 @@
 				display: inline-block;
 				height: 50px;
 				font-size: 14px;
-				padding: 17px;
+				padding-top: 3px;
 				color: white;
 			}
 		}
 	}
 /* Old styles */
-
 body {
     font-family: Helvetica, sans-serif;
     background-color: #F5F8FA;
@@ -1698,16 +1719,15 @@ body {
 	font-size: 16px;
 }
 .wall-creation-form > * input[type="text"] {
-	width: 50%;
+	/*width: 50%;*/
 }
 .tabs-left > li {
 	padding: 0;
 }
 .tabs-left > li > a {
-	min-height: 150px;
+	height: 150px;
 	text-align: center;
 	padding: 20% 0;
-<<<<<<< HEAD
 }
 .wall-modal-dialog {
   width: 100%;
@@ -1728,6 +1748,3 @@ body {
 	height: 100px;
 	margin: 0 auto;
 }
-=======
-}
->>>>>>> 4160756776aee794bf5b49251c2eb187b1cf7022

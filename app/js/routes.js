@@ -9,7 +9,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'HomeCtrl as home',
+    controller: '',
     templateUrl: 'home.html',
     title: 'Home'
   })

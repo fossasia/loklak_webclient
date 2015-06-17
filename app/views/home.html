@@ -27,14 +27,13 @@
         <div class="col-md-12" ng-if="root.twitterSession">
             <h1>Your recent tweets</h1>
             <div class="main-result-container">
-                <div class="box-body chat" id="chat-box" style="width: auto;">
-                    <div ng-repeat="status in root.twitterStatuses.data | limitTo: 7">
+                <div class="box-body chat" id="chat-box" style="overflow: hidden; width: auto; height: 250px;">
+                    <div ng-repeat="status in root.twitterStatuses.data">
                         <div class="item">
                             <img src="{{root.twitterSession.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
                             <p class="message">
                             {{status.text}}
-                            </p>
-                            <hr>
+                        </p>
                     </div>
                 </div> 
             </div>

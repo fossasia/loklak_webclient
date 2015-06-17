@@ -20,16 +20,15 @@
                 <!-- Filters -->
                 <div class="filters-container">
                     <ul class="search-modes">
-                        <!-- General filters -->
-                        <li  ng-class="(search.currentFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
-                            <a href="#">live</a>
+                        <li ng-repeat="filter in search.searchFilters" ng-class="(search.currentFiltter == filter) ? 'active' : ''" ng-click="search.filterSearch(filter)">
+                            <a href="#">{{filter}}</a>
                         </li>
-                        <li  ng-class="(search.currentFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
-                            <a href="#">photos</a>
-                        </li>
-                        <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
-                            <a href="#">videos</a>
-                        </li>
+
+                        <!-- <li class="active" filter-attr="top"><a href="#">Top</a></li>
+                        <li><a href="#">Live</a></li>
+                        <li><a href="#">Accounts</a></li>
+                        <li><a href="#">Photos</a></li>
+                        <li><a href="#">Videos</a></li> -->
 
                         <li><a href="#">More options</a></li>
                     </ul>
@@ -37,7 +36,7 @@
 
                 <!-- Main results -->
                 <div class="main-result-container">
-                    <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status"></div>   
+                    <div ng-repeat="status in search.filteredStatuses" status open-swipe="search.openSwipe" data="status" show-modal="search.showModal"></div>   
                 </div>
             </div>
 

@@ -1,39 +1,18 @@
-<ul class="nav navbar-nav pull-right">
-	<li class="dropdown user user-menu" ng-show="twitterSession" ng-show="twitterSession" style="margin-right: 20px;">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-			<img ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
-			<span class="hidden-xs">{{twitterSession.name}}</span>
-		</a>
-		<ul class="dropdown-menu">
-			<!-- Menu Footer-->
-			<li class="user-header">
-				<img ng-src="{{twitterSession.profileURL}}" alt="" class="img-circle">
-				<p>{{twitterSession.name}}</p>
-			</li>
-			<li class="user-footer">
-				<div class="col-lg-4 col-md-4">
-					<a href="#" class="btn btn-default btn-flat">Profile</a>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<a href="#" class="btn btn-default btn-flat">Settings</a>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<a ng-click="hello('twitter').logout()" class="btn btn-default btn-flat">Sign out</a>
-				</div>
-			</li>
-		</ul>
-	</li>
-</ul>
-
+<li ng-show="twitterSession" class="initial-userinfo" ng-show="twitterSession">
+    <span>
+        {{twitterSession.name}}
+    </span>
+    <img ng-src="{{twitterSession.profile_image_url_https}}">
+    <span ng-click="hello('twitter').logout()" >Log out</span>
+</li>
 <ul class=nav navbar-nav>
-	<li ng-show="!twitterSession" class="signin">
-		<a href="" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
-			<span class="link" ng-click="#signupModal" data-target="#signupModal" style="padding-top: 4px;">
-				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal" style="background-color:transparent; border-color:transparent;"><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup via Twitter</button>
-			</span>
-		</a>
+<li ng-show="!twitterSession" class="signin">
+	<a href="">
+		<span class="link" ng-click="hello('twitter').login()">
+		<i style="padding-right: 4px;" class="fa fa-twitter"></i><span class="hidden-sm hidden-xs">Signup Via Twitter</span>
+	</span>
+	</a>
 
-	</li>
+</li>
 </ul>
-
 
