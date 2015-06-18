@@ -151,7 +151,7 @@
                 <ul class="nav navbar-nav">
                     <form class="navbar-form navbar-left" role="search" action="/search" >
                         <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
+                            <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
                         </div>
                     </form>
                 </ul>

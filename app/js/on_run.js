@@ -11,6 +11,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
    * UI related root variables
    *
    */
+    root.globalSearchTerm = '';
     root.topNavItems = [
     		{
     			'title': 'Home',

@@ -12,6 +12,12 @@
 .universal-search {
     display: inline-block;
 }
+#navbar-search-input {
+	color: white;
+	&:focus {
+		color: rgb(85,85,85);
+	}
+}
 
 // Twitter sign in
 	.signin-twitter {

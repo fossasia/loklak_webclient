@@ -8,7 +8,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $rootScope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
 
     // Define models here
     var vm = this;
@@ -71,7 +71,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         }, function() {});
 
         updatePath(vm.term + '+' + '/accounts');
-
     };
 
     // Photos search
@@ -142,7 +141,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                         }
                     }, function() {return;});
                 }
-            })
+            });
         }, function() {});
 
         updatePath(vm.term + '+' + '/news');
@@ -210,6 +209,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         q: query,
         timezoneOffset: (new Date()).getTimezoneOffset()
       });
+      $rootScope.root.globalSearchTerm = $location.search().q;
     }
 
     // Evaluate current search query to extract term & filter
@@ -224,6 +224,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
+
     }
 
     // Turn filter parameter to the right query parameter
