@@ -16,6 +16,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     $scope.wallOptions = {};
     $scope.wallOptions.headerColour = '#3c8dbc';
     $scope.wallOptions.headerPosition = 'Top';
+    $scope.wallOptions.layoutStyle = 1;
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

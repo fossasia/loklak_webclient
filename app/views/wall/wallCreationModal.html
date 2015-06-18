@@ -284,8 +284,10 @@
                                                         <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-event-name col-md-4">{{wallOptions.eventName}}</div>
                                                         <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                     </div>
-                                                    <div class="row">
-                                                        <img class="img-responsive" src="/images/linear-layout.jpg" alt="">
+                                                    <div class="row animate-switch-container" ng-switch on="wallOptions.layoutStyle">
+                                                        <img ng-switch-when="1" class="img-responsive animate-switch" src="/images/linear-layout.jpg" alt="">
+                                                        <img ng-switch-when="2" class="img-responsive animate-switch" src="/images/masonry-layout.jpg" alt="">
+                                                        <img ng-switch-when="3" class="img-responsive animate-switch" src="/images/coa-layout.jpg" alt="">
                                                     </div>
                                                     <div ng-switch-when="Bottom" ng-style="{'background-color': wallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': wallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{wallOptions.mainHashtag}}</div>
