@@ -13,7 +13,7 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
 
 
         
-        var map = L.map('map').setView([2.252776,48.845261], 9);
+        var map = L.map('map').setView([2.252776,48.845261],5);
 
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -62,4 +62,4 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
 
 }
 
-controllersModule.controller('MapCtrl', MapCtrl);
+controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService',MapCtrl]);
