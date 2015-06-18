@@ -38,7 +38,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                angular.forEach(intervals, function(interval) {
                    $interval.cancel(interval);
                });
-               intervals.push($interval(bgUpdateTemp, 10000));
+               intervals.push($interval(bgUpdateTemp, parseInt(data.search_metadata.period)));
         }, function() {});
     };
 
@@ -180,9 +180,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     var bgUpdateTemp = function() {
         var lastestDateObj = new Date(vm.statuses[0].created_at);
         var term = (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery(vm.currentFilter);
-        console.log(term);
         SearchService.getData(term).then(function(data) {
-            console.log(data);
             var keepComparing = true; var i = 0;
             while (keepComparing) {
                if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
