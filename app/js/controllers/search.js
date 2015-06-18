@@ -8,7 +8,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $rootScope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
 
     // Define models here
     var vm = this;
@@ -29,18 +29,36 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$time
       }
     });
 
+
     // Update status and path on successful search
     vm.update = function(term) {
+        updatePath(term);
         SearchService.getData(term).then(function(data) {
                vm.statuses = data.statuses;
                vm.showResult = true;
-               updatePath(term);
                angular.forEach(intervals, function(interval) {
                    $interval.cancel(interval);
                });
                intervals.push($interval(bgUpdateTemp, parseInt(data.search_metadata.period)));
         }, function() {});
+
+        
     };
+    
+    // On search term change, based a a clicked on a hashtag
+    // Compare with old term, then search with no filter
+    $scope.$watch(function() {
+        return $location.search();
+    }, function(value) {
+        if (value.q.split("+")[0] !== vm.term) {
+            evalSearchQuery();
+            var filterFn = 'filterLive';
+            vm[filterFn]();   
+            vm.showResult = true;
+        }
+    });
+
+
 
 
     // No filter search
