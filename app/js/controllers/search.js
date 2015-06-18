@@ -8,7 +8,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, SearchService, DebugLinkService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
 
     // Define models here
     var vm = this;
@@ -17,6 +17,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     vm.showResult = false;
     vm.term = '';
     vm.currentFilter = '';
+    var intervals = [];
         
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
@@ -34,28 +35,56 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
                vm.statuses = data.statuses;
                vm.showResult = true;
                updatePath(term);
+               angular.forEach(intervals, function(interval) {
+                   $interval.cancel(interval);
+               });
+               intervals.push($interval(bgUpdateTemp, parseInt(data.search_metadata.period)));
         }, function() {});
     };
 
 
     // No filter search
     vm.filterLive = function() {
+        vm.peopleSearch = false;
         vm.currentFilter = 'live';
         var term = vm.term;
         vm.update(term);
     };
 
+    // Accounts search
+    // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
+    vm.filterAccounts = function() {
+        vm.peopleSearch = true;
+        vm.currentFilter = 'accounts';
+        vm.accounts = [];
+        var term = vm.term;
+        SearchService.getData(term).then(function(data) {
+            data.statuses.forEach(function(ele) {
+                var notYetInAccounts = true;
+                vm.accounts.forEach(function(account) {
+                    if (account.screen_name === ele.screen_name) {
+                        return notYetInAccounts = false;
+                    }
+                });
+                if (notYetInAccounts) { vm.accounts.push(ele);}
+            });
+        }, function() {});
+
+        updatePath(vm.term + '+' + '/accounts');
+
+    };
+
     // Photos search
     vm.filterPhotos = function() {
+        vm.peopleSearch = false;
         vm.currentFilter = 'photos';
         var term = vm.term + '+' + '/image';
         vm.update(term);
     };
 
     // Videos search
-    // Do manual req, when done, filter status with video, and then update vm.statuses
-    // With help of DebugLinkService
     vm.filterVideos = function() {
+        vm.peopleSearch = false;
         vm.statuses = [];   
         vm.currentFilter = 'videos';
         vm.showResult = true;
@@ -97,6 +126,28 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     };
 
 
+    // News search
+    vm.filterNews = function() {
+        vm.peopleSearch = false;
+        vm.currentFilter = 'news';
+        vm.statuses = [];
+        var term = vm.term;
+
+        SearchService.getData(term).then(function(data) {
+            data.statuses.forEach(function(status) {
+                if (hasExternalLink(status)) {
+                    DebugLinkService.debugLink(status.links[0]).then(function(data) {
+                        if (data.type === 'link' && data.thumbnail_url) {
+                            vm.statuses.push(status);
+                        }
+                    }, function() {return;});
+                }
+            })
+        }, function() {});
+
+        updatePath(vm.term + '+' + '/news');
+    };
+
     // Create photoswipe
     // Lib's docs: http://photoswipe.com/documentation/getting-started.html
     vm.openSwipe = function(status_id) {
@@ -117,8 +168,31 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
     };
 
 
+    // Concat new status with vm.statuses when e.g. ng-click
+    vm.showNewStatuses = function() {
+        vm.statuses = vm.newStasuses.concat(vm.statuses);
+        vm.newStasuses = [];
+    };
+
+
     // HELPERS FN
     ///////////////////
+    var bgUpdateTemp = function() {
+        var lastestDateObj = new Date(vm.statuses[0].created_at);
+        var term = (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery(vm.currentFilter);
+        SearchService.getData(term).then(function(data) {
+            var keepComparing = true; var i = 0;
+            while (keepComparing) {
+               if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
+                 vm.newStasuses = data.statuses.slice(0, i);
+                 vm.noOfNewStatuses = vm.newStasuses.length;
+                 keepComparing = false;
+               }
+               i++;
+            }
+        }, function() {});
+    };
+
 
     // Scrape for imgTag to serve photoswipe requirement
     function scrapeImgTag(imgTag) {
@@ -143,11 +217,25 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
         var queryParts = $location.search().q.split('+');
         var queryToFilter = {
             '/image': 'photos',
-            '/video': 'videos'
+            '/video': 'videos',
+            '/accounts': 'accounts', 
+            '/news' : 'news'
         };
 
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
+    }
+
+    // Turn filter parameter to the right query parameter
+    function filterToQuery(filterName) {
+        var filtersToQueries = {
+            'photos' : '/image',
+            'videos' :'/video',
+            'accounts' : '/accounts', 
+            'news' : '/news'
+        };
+        return filtersToQueries[filterName
+        ];
     }
 
     // Check if a status has external link, twitter pic src is not considered as external
