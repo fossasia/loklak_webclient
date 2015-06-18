@@ -7,5 +7,7 @@
 	"oauthProxyUrl": "http://localhost:3002/oauthproxy",
 	"oauthProxyRedirectUrl": "http://localhost:3002/proxy",
 	"oauthProxyPort": "3002",
-	"gulpDevExpressPort": "3001"
+	"gulpDevExpressPort": "3001",
+	"linkDebuggingServiceHost":"http://localhost",
+	"linkDebuggingServicePort": "8061"
 }

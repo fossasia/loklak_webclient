@@ -33,7 +33,9 @@ angular.element(document).ready(function() {
     'wu.masonry',
     'ngTagsInput',
     'colorpicker.module',
-    'toggle-switch'
+    'toggle-switch',
+    'ui.choices',
+    'FBAngular'
   ];
 
   // mount on window for testing

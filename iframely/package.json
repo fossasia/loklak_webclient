@@ -1,0 +1,70 @@
+{
+    "name": "iframely",
+    "version": "0.8.6",
+    
+    "description": "oEmbed/2 gateway endpoint. Get embed data for various http links through one self-hosted API",
+    "keywords": ["oembed", "embed", "open graph", "og", "twitter cards"],
+    "homepage": "http://iframely.com",
+
+    "repository" : {
+        "type":         "git",
+        "url":          "https://github.com/itteco/iframely.git"
+    },
+
+    "bugs": {
+        "url": "https://github.com/itteco/iframely/issues"
+    },
+
+    "license": "MIT",
+    
+    "dependencies": {
+
+        "jslint":       "0.8",
+        "async":        "0.2.8",
+        "underscore":   "1.4.4",
+        "request":      "2.9",
+        "express":      "3.2.4",
+        "send":         "0.1.0",
+        "connect":      "2.7.9",
+        "ejs":          "0.8.4",
+        "moment":       "2.0",
+        "chokidar":     "0.6.3",
+        "jsontoxml":    "0.0.11",
+
+        "feedparser":   "0.16",
+        "mongoose":     "4.0.3",
+
+        "sax":          "0.3",
+        "htmlparser2":  "3.1.x",
+        "entities":     "0.3.x",
+        "imagesize":    "1.0.0",
+        "iconv-lite":   "0.4.5",
+        "mimelib":      "0.2",
+        "oauth":        "0.9",
+
+        "redis":        "0.8.3",
+        "memcached":    "0.2.3",
+        "node-cache":   "1.0.3",
+
+        "readabilitySAX":"1.6.1",
+        "cheerio":      "0.18.0",
+
+        "usage":        "*"
+    },
+
+    "devDependencies": {
+        "vows": "~0.7.0"
+    },
+
+    "iframely-proxy-plugins": true,
+
+    "main": "./lib/core",
+
+    "scripts": {
+        "test": "vows test/main.js --isolate --spec"
+    },
+
+    "engines": {
+        "node": ">=0.10.21"
+    }
+}
