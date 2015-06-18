@@ -33,12 +33,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     var maxStatusCount = 0;
-    if (vm.wallOptions.layoutStyle == 1)
+    if (vm.wallOptions.layoutStyle == '1')
         maxStatusCount = 3; //linear
-    else if (vm.wallOptions.layoutStyle == 2)
-        maxStatusCount = 10; //masonry
-    else if (vm.wallOptions.layoutStyle == 3)
+    else if (vm.wallOptions.layoutStyle == '2')
+        maxStatusCount = 9; //masonry
+    else if (vm.wallOptions.layoutStyle == '3')
         maxStatusCount = 1; //single
+    console.log(vm.wallOptions.layoutStyle);
 
     var getRefreshTime = function(period) {
         if (period < 7000) {
