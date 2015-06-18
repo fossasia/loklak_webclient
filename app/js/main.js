@@ -36,7 +36,8 @@ angular.element(document).ready(function() {
     'toggle-switch',
     'ui.choices',
     'FBAngular',
-    'akoenig.deckgrid'
+    'akoenig.deckgrid',
+    'tc.chartjs'
   ];
 
   // mount on window for testing

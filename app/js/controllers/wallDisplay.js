@@ -8,10 +8,17 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, AppSettings, SearchService, Fullscreen) {
+function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, AppSettings, SearchService, StatisticsService, Fullscreen) {
 
     var vm, flag, allStatuses, nextStatuses, term, count;
     vm = this;
+    vm.histogram2 = [
+      { value : 50, color : "#F7464A" },
+      { value : 90, color : "#E2EAE9" },
+      { value : 75, color : "#D4CCC5" },
+      { value : 30, color : "#949FB1"}
+    ];    
+    var params = {};
     var caller = null;
     var init = function () {
         flag = false;
@@ -19,6 +26,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         allStatuses = [];
         nextStatuses = [];
         vm.statuses = [];
+        params = {};
         vm.displaySearch = true;
         vm.wallOptions = $location.search();
         term = vm.wallOptions.term;
@@ -26,6 +34,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     }  
     count = 0;
     init();
+    params.q = term;
+    params.count = maxStatusCount;    
     $scope.wallOptions = vm.wallOptions;    
 
     $scope.getHeaderClass = function() {
@@ -143,9 +153,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         {
             return $timeout(function() {
                 console.log(term);
-                var params = {};
-                params.q = term;
-                params.count = maxStatusCount;
                 SearchService.initData(params).then(function(data) {
                     if (data.statuses) {
                         if (data.statuses.length <= 0) {
@@ -305,6 +312,39 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         $scope.wallOptions.untilDate = null;
     };
 
+    //Statistics Code
+    function evalHistogram(statistics) {
+        console.log(statistics);
+        if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
+            $scope.histogram = [];
+            $scope.xkey = 'date';
+            $scope.ykeys = ['tweetCount'];
+            $scope.labels = ['Tweet Count'];
+            var i = -1;
+            for (var property in statistics.created_at) {
+                if (statistics.created_at.hasOwnProperty(property)) {
+                    $scope.histogram[++i] = {};
+                    $scope.histogram[i].date = property;
+                    $scope.histogram[i].tweetCount = statistics.created_at[property];
+                }
+            }
+        } else {
+            $scope.histogram = [];
+        }
+    }
+
+    // $interval(function () {
+    //     StatisticsService.getStatistics(params)
+    //         .then(function(statistics) {
+    //                 evalHistogram(statistics);
+    //             },
+    //             function() {
+    //                 console.log('statuses retrieval failed.');
+    //             }
+    //         );
+    // }, 3000);
+
+
 }
 
-controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', '$window', 'AppSettings', 'SearchService', 'Fullscreen', WallDisplay]);
+controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', '$window', 'AppSettings', 'SearchService', 'StatisticsService', 'Fullscreen', WallDisplay]);

@@ -9,14 +9,15 @@ function StatisticsService($q, $http, AppSettings) {
 
   var service = {};
 
-  service.getStatistics = function(term, sinceDate, untilDate) {
+  service.getStatistics = function(params) {
     var deferred = $q.defer();
-    term = term + ' since:' + sinceDate + ' until:' + untilDate;
     var tzo = new Date().getTimezoneOffset();
+    params.timezoneOffset = tzo;
+    params.source = 'cache';
+    params.count = '0';
+    params.fields = 'created_at,screen_name,mentions,hashtags';
     $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q: term, timezoneOffset: tzo,
-                source: 'cache', count: '0',
-                fields: 'created_at,screen_name,mentions,hashtags'}
+      params: params
     }).success(function(data) {
         deferred.resolve(data.aggregations);
     }).error(function(err, status) {

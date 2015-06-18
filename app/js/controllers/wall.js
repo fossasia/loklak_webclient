@@ -127,7 +127,6 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         $scope.wallOptions.sinceDate = null;
         $scope.wallOptions.untilDate = null;
     }
-
 }
 
 controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallCtrl]);
