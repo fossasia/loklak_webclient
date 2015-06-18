@@ -170,7 +170,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
 
     // Concat new status with vm.statuses when e.g. ng-click
     vm.showNewStatuses = function() {
-        vm.statuses = vm.statuses.concat(vm.newStasuses);
+        vm.statuses = vm.newStasuses.concat(vm.statuses);
+        vm.newStasuses = [];
     };
 
 
@@ -186,8 +187,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$timeout', '$locati
             while (keepComparing) {
                if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
                  vm.newStasuses = data.statuses.slice(0, i);
-                 console.log(vm.newStasuses);
-                 vm.statuses = vm.newStasuses.concat(vm.statuses);
+                 vm.noOfNewStatuses = vm.newStasuses.length;
                  keepComparing = false;
                }
                i++;

@@ -735,8 +735,22 @@ body {
 			.result-container {
 				border: 1px solid $search-grey-border;
 				padding: 0;
+				.more-result {
+						width: 100%;
+						background: none;
+						border: none;
+						border-top: 1px solid $search-grey-border;
+						border-bottom: 1px solid $search-grey-border;
+						font-size: 15px;
+						text-align: center;
+						padding: 13px;
+						&:hover {
+							font-weight: bold;
+							color: $search-twitter-blue;
+						}
+				}
 				.main-result-container {
-					padding-top: 5px;
+
 				}
 				.tweet {
 					display: block;
@@ -1092,6 +1106,8 @@ body {
 			}
 		}
 	}
+
+	
 /* End search filters */
 
 /* Styles for single tweet views */

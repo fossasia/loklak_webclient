@@ -41,6 +41,8 @@
                     </ul>
                 </div>
 
+                <!-- New status from background updating process -->
+                <button ng-show="search.newStasuses.length > 0" class="more-result" ng-click="search.showNewStatuses();">Load {{search.noOfNewStatuses}} new results!</button>
                 <!-- Main results -->
                 <div ng-if="!search.peopleSearch" class="main-result-container">
                     <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status"></div>   
