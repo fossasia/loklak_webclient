@@ -143,7 +143,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         {
             return $timeout(function() {
                 console.log(term);
-                SearchService.getData(term).then(function(data) {
+                var params = {};
+                params.q = term;
+                params.count = maxStatusCount;
+                SearchService.initData(params).then(function(data) {
                     if (data.statuses) {
                         if (data.statuses.length <= 0) {
                             vm.showEmpty = true;
