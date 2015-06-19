@@ -1412,10 +1412,6 @@ body {
         border-top-left-radius: 6px;
         border-right-left-radius: 6px;
     }
-    &:hover {
-        background: $search-grey-bg;
-        cursor: pointer;
-    }
     .avatar {
         height: 130px;
         max-width: 130px;
@@ -1757,10 +1753,6 @@ body {
         border-top-left-radius: 6px;
         border-right-left-radius: 6px;
     }
-    &:hover {
-        background: $search-grey-bg;
-        cursor: pointer;
-    }
     .avatar {
         height: 180px;
         max-width: 180px;
@@ -1786,6 +1778,73 @@ body {
                 color: #55ACEE;
             }
             .coa-hashtag-current {
+                font-weight: bold;
+            }
+        }
+        .metadata {
+            font-size: 18px;
+            color: #8899A6;
+            font-weight: normal;
+            padding-top: 20px;
+            font-style: italic;
+        }
+    }
+}
+
+
+.deckgrid[deckgrid]::before {
+    /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
+    content: '3 .column.column-1-3';
+    font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+    visibility: hidden;
+}
+
+.deckgrid .column {
+    float: left;
+    display: table;
+}
+
+.deckgrid .column-1-3 {
+    width: 33.3%;
+}
+
+.card {
+	min-height: 200px;
+	margin: 20px;
+	background: white;
+	overflow: hidden;
+	padding: 12px;
+    border: 1px solid $search-grey-border;
+    &:first-child {
+        border-top-left-radius: 6px;
+        border-right-left-radius: 6px;
+    }
+    .avatar {
+        height: 60px;
+        max-width: 60px;
+        float: left;
+        border-radius: 6px;
+    }
+    .card-content {
+    	padding-left: 2px;
+        position: relative;
+        margin-left: 70px;
+        min-height: 180px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
+        .card-content-text {
+            word-break: break-all;
+            color: #292f33;
+            font-size: 18px;
+            line-height: 120%;
+            min-height: 140px;
+            .card-hashtag {
+                color: #55ACEE;
+            }
+            .card-hashtag-current {
                 font-weight: bold;
             }
         }

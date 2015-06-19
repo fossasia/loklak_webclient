@@ -33,12 +33,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     var maxStatusCount = 0;
-    if (vm.wallOptions.layoutStyle == 1)
+    if (vm.wallOptions.layoutStyle == '1')
         maxStatusCount = 3; //linear
-    else if (vm.wallOptions.layoutStyle == 2)
-        maxStatusCount = 10; //masonry
-    else if (vm.wallOptions.layoutStyle == 3)
+    else if (vm.wallOptions.layoutStyle == '2')
+        maxStatusCount = 9; //masonry
+    else if (vm.wallOptions.layoutStyle == '3')
         maxStatusCount = 1; //single
+    console.log(vm.wallOptions.layoutStyle);
 
     var getRefreshTime = function(period) {
         if (period < 7000) {
@@ -142,7 +143,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         {
             return $timeout(function() {
                 console.log(term);
-                SearchService.getData(term).then(function(data) {
+                var params = {};
+                params.q = term;
+                params.count = maxStatusCount;
+                SearchService.initData(params).then(function(data) {
                     if (data.statuses) {
                         if (data.statuses.length <= 0) {
                             vm.showEmpty = true;

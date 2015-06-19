@@ -1,20 +1,25 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
+<link rel="stylesheet" type="text/css" href="css/angular-chart.css">
 <div>
     <div ng-style="{'background-color': wall.wallOptions.headerColour}" ng-class="getHeaderClass()">
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="event-name col-md-4">{{wall.wallOptions.eventName}}</div>
         <div class="banner col-md-3"><a ng-style="{'color': wall.wallOptions.headerForeColour} " href="/">Powered by Loklak</a></div>
         <div class="banner col-md-1">
-            <i ng-style="{'color': wall.wallOptions.headerForeColour} " data-toggle="modal" data-target="#wall-modal" class="fa fa-fw fa-gear"></i>
+            <!-- <i ng-style="{'color': wall.wallOptions.headerForeColour} " data-toggle="modal" data-target="#wall-modal" class="fa fa-fw fa-gear"></i> -->
             <i ng-style="{'color': wall.wallOptions.headerForeColour} " ng-click="fullscreen()" class="fa fa-fw fa-arrows-alt"></i>
         </div>
     </div>
     <div class="wall-container container-fluid">
         <div class="container content-container wall-body">
-            <div ng-show="wall.statuses.length>0" class="result-container col-md-8">
-                <div class="animate-repeat" ng-repeat="status in wall.statuses"  ng-attr-coa="wall.wallOptions.layoutStyle==3" open="wall.open" data="status"></div>
+            <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.layoutStyle==1?'result-container col-md-8':'result-container col-md-12'">
+                <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses"  linear open="wall.open" data="status"></div>
+                <div ng-switch-when="2">
+                    <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
+                </div>
+                <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
             </div>
             <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>

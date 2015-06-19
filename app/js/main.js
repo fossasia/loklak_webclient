@@ -35,7 +35,8 @@ angular.element(document).ready(function() {
     'colorpicker.module',
     'toggle-switch',
     'ui.choices',
-    'FBAngular'
+    'FBAngular',
+    'akoenig.deckgrid'
   ];
 
   // mount on window for testing
