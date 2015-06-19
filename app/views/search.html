@@ -33,16 +33,16 @@
                         <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
                             <a href="#">videos</a>
                         </li>
-                        <li ng-class="(search.currentFilter === 'news') ? 'active' : ''" ng-click="search.filterNews()">
-                            <a href="#">news</a>
+                        <li ng-class="(search.currentFilter === 'map') ? 'active' : ''" ng-click="search.filterMap()">
+                            <a href="#">map</a>
                         </li>
-
                         <li><a href="#">More options</a></li>
                     </ul>
                 </div>
 
                 <!-- New status from background updating process -->
                 <button ng-show="search.newStasuses.length > 0" class="more-result" ng-click="search.showNewStatuses();">Load {{search.noOfNewStatuses}} new results!</button>
+
                 <!-- Main results -->
                 <div ng-if="!search.peopleSearch" class="main-result-container">
                     <div ng-repeat="status in search.statuses" status open-swipe="search.openSwipe" data="status"></div>   
@@ -52,6 +52,12 @@
                 <div ng-if="search.peopleSearch" class="main-result-container">
                     <div ng-repeat="account in search.accounts" account data="account"></div>
                 </div>
+
+               
+            </div>
+             <!-- Map result -->
+            <div ng-show="search.showMap" class="search-map-wrapper">
+                <div id="search-map" style="width:100%; height:100vh;"></div>
             </div>
 
             <!-- Right content: Other statistics -->
@@ -62,4 +68,3 @@
         </div>
     </div>
 </div>
-<div search-modal modal-data="search.modal" switch-to-swipe="search.switchToSwipe" tweet-modal-show="root.tweetModalShow"></div>

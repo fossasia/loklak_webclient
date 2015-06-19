@@ -12,6 +12,12 @@
 .universal-search {
     display: inline-block;
 }
+#navbar-search-input {
+	color: white;
+	&:focus {
+		color: rgb(85,85,85);
+	}
+}
 
 .navbar .navbar-form {
     padding-top: 0;
@@ -374,7 +380,7 @@ body {
 
 .content-wrapper {
     // Overfule adminLTE admin.css
-    min-height: 100vh !important;
+   // min-height: 100vh !important;
     background: #F5F8FA !important;
 }
 
@@ -1043,6 +1049,15 @@ body {
 					}
 				}
 			}
+
+			#search-map {
+				width: 100%;
+				height: 100vh;
+				position: fixed !important;
+				margin-top: 0 !important;
+				top: 52px;
+				left: 0;
+			}
 		}
 	}
 	
@@ -1082,6 +1097,9 @@ body {
 /* Search filters */
 	.filters-container {
 		height: 46px;
+		position: relative;
+		z-index: 100;
+		background: rgba(245, 248, 250, 0.5);
 		text-align: center;
 		ul li {
 			display: inline-block;
