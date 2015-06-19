@@ -19,16 +19,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.currentFilter = '';
     var intervals = [];
         
-    // Init statuses if path is a search url
-    angular.element(document).ready(function() {
-        if ($stateParams.q !== undefined) {
-            evalSearchQuery();
-            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            vm[filterFn]();   
-            vm.showResult = true;
-      }
-    });
-
 
     // Update status and path on successful search
     vm.update = function(term) {
@@ -45,22 +35,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         
     };
     
-    // On search term change, based a a clicked on a hashtag
-    // Compare with old term, then search with no filter
-    $scope.$watch(function() {
-        return $location.search();
-    }, function(value) {
-        if (value.q.split("+")[0] !== vm.term) {
-            evalSearchQuery();
-            var filterFn = 'filterLive';
-            vm[filterFn]();   
-            vm.showResult = true;
-        }
-    });
-
-
-
-
     // No filter search
     vm.filterLive = function() {
         vm.peopleSearch = false;
@@ -278,4 +252,29 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             };
         }
     }
+
+    // Init statuses if path is a search url
+    angular.element(document).ready(function() {
+        console.log("foo");
+        if ($stateParams.q !== undefined) {
+            evalSearchQuery();
+            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
+            vm[filterFn]();   
+            vm.showResult = true;
+      }
+    });
+
+    // On search term change, based a a clicked on a hashtag
+    // Compare with old term, then search with no filter
+    $scope.$watch(function() {
+        return $location.search();
+    }, function(value) {
+        if (value.q.split("+")[0] !== vm.term) {
+            evalSearchQuery();
+            var filterFn = 'filterLive';
+            vm[filterFn]();   
+            vm.showResult = true;
+        }
+    });
+
 }]);
