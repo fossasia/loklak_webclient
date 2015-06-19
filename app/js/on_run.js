@@ -22,11 +22,6 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'title': 'Wall',
           'link' : '/wall/create',
           'icon' : 'fa fa-list'
-        },
-        {
-          'title': 'Maps',
-          'link' : '/map',
-          'icon' : 'fa fa-map-marker'
         }
   	  ];
 
