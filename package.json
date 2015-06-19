@@ -72,6 +72,7 @@
     "angular-loading-bar": "^0.7.1",
     "angular-moment": "^0.10.0",
     "bootstrap": "^3.3.4",
+    "chart.js": "^1.0.2",
     "gulp-nodemon": "^2.0.3",
     "imagesloaded": "^3.1.8",
     "jquery": "^2.1.4",

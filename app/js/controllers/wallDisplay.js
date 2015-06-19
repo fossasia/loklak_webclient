@@ -12,15 +12,16 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     var vm, flag, allStatuses, nextStatuses, term, count;
     vm = this;
-    vm.histogram2 = [
-      { value : 50, color : "#F7464A" },
-      { value : 90, color : "#E2EAE9" },
-      { value : 75, color : "#D4CCC5" },
-      { value : 30, color : "#949FB1"}
-    ];    
+    // vm.histogram2 = [
+    //   { value : 50, color : "#F7464A" },
+    //   { value : 90, color : "#E2EAE9" },
+    //   { value : 75, color : "#D4CCC5" },
+    //   { value : 30, color : "#949FB1"}
+    // ];
+    
     var params = {};
     var caller = null;
-    var init = function () {
+    var init = function() {
         flag = false;
         vm.showEmpty = false;
         allStatuses = [];
@@ -31,12 +32,20 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.wallOptions = $location.search();
         term = vm.wallOptions.term;
         $timeout.cancel(caller);
-    }  
+    }
     count = 0;
     init();
     params.q = term;
-    params.count = maxStatusCount;    
-    $scope.wallOptions = vm.wallOptions;    
+    params.count = maxStatusCount;
+    $scope.wallOptions = vm.wallOptions;
+    vm.histogramOptions ={
+        //scaleBeginAtZero: true
+        responsive: true
+    };
+    vm.topHashTagsOptions = {
+
+    };
+
 
     $scope.getHeaderClass = function() {
         return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
@@ -111,8 +120,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     function compare(a, b) {
         if (a.created_at < b.created_at) {
             return -1;
-        }
-        else if (a.created_at > b.created_at) {
+        } else if (a.created_at > b.created_at) {
             return 1;
         }
         return 0;
@@ -149,14 +157,14 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.update2 = function(refreshTime, currCount) {
         console.log(currCount + ":" + count);
-        if(currCount==count)
-        {
+        if (currCount == count) {
             return $timeout(function() {
                 console.log(term);
                 SearchService.initData(params).then(function(data) {
                     if (data.statuses) {
                         if (data.statuses.length <= 0) {
                             vm.showEmpty = true;
+                            console.log(data);
                         } else {
                             if (vm.statuses.length <= 0) {
                                 vm.statuses = data.statuses.splice(0, maxStatusCount);
@@ -172,6 +180,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                             var newRefreshTime = getRefreshTime(data.search_metadata.period);
                             caller = vm.update2(newRefreshTime, currCount);
                             vm.showEmpty = false;
+                            // $timeout(function () {
+                                
+                            // }, 500);
+                                                       
                         }
                     } else {}
 
@@ -179,13 +191,12 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
                 });
             }, refreshTime);
-        }
-        else {
+        } else {
             $timeout.cancel(caller);
             vm.statuses = [];
             return null;
         }
-        
+
     };
 
     var tweetRefreshTime = 4000;
@@ -314,35 +325,46 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     //Statistics Code
     function evalHistogram(statistics) {
-        console.log(statistics);
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
-            $scope.histogram = [];
-            $scope.xkey = 'date';
-            $scope.ykeys = ['tweetCount'];
-            $scope.labels = ['Tweet Count'];
-            var i = -1;
+            var data = [];
+            var labels = [];
             for (var property in statistics.created_at) {
                 if (statistics.created_at.hasOwnProperty(property)) {
-                    $scope.histogram[++i] = {};
-                    $scope.histogram[i].date = property;
-                    $scope.histogram[i].tweetCount = statistics.created_at[property];
+                    labels.push(property);
+                    data.push(statistics.created_at[property]);
                 }
             }
+            vm.histogram2 = [];
+            vm.histogram2.push(data);
+            vm.labels = labels;
+            data = [];
+            labels = [];
+            for (var property in statistics.hashtags) {
+                if (statistics.hashtags.hasOwnProperty(property)) {
+                    labels.push('#' + property);
+                    data.push(statistics.hashtags[property]);
+                }
+            }
+            //vm.topHashtagsData = [];
+            vm.topHashtagsData = data;
+            vm.topHashtagsLabels = labels;
         } else {
-            $scope.histogram = [];
+            //vm.histogram2 = [];
         }
     }
-
-    // $interval(function () {
-    //     StatisticsService.getStatistics(params)
-    //         .then(function(statistics) {
-    //                 evalHistogram(statistics);
-    //             },
-    //             function() {
-    //                 console.log('statuses retrieval failed.');
-    //             }
-    //         );
-    // }, 3000);
+    
+    $interval(function () {        
+        if(vm.statuses.length>0){
+            StatisticsService.getStatistics(params)
+                .then(function(statistics) {
+                        evalHistogram(statistics);
+                    },
+                    function() {
+                        console.log('statuses retrieval failed.');
+                    }
+                );
+        }
+    }, 5000);
 
 
 }

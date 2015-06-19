@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 <div>
     <div ng-style="{'background-color': wall.wallOptions.headerColour}" ng-class="getHeaderClass()">
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
@@ -24,31 +25,36 @@
             <div ng-show="wall.statuses.length>0" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Browser Usage</h3>
+                        <h3 class="box-title">Tweets frequency</h3>
                         <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <canvas tc-chartjs-doughnut chart-data="wall.histogram2" width="350" height="350"></canvas>
+                            <canvas class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
                         </div>
                     </div>
-                    <div class="box-footer no-padding">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">United States of America <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
-                            <li><a href="#">India <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a></li>
-                            <li><a href="#">China <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-                        </ul>
-                    </div>
                 </div>
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Top Hashtags</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas>
+                        </div>
+                    </div>
+                </div>                
             </div>
             <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>
                 <h2 id="redirect-text">Loading your tweet wall...</h2>
             </div>
-            <div ng-show="wall.showEmpty" class="col-md-12" style="text-align: center;">
+            <div ng-hide="!wall.showEmpty" class="col-md-12" style="text-align: center;">
                 <h3>No tweets to show yet. Try changing the search parameters or come back here after some time!</h3>
             </div>
         </div>
