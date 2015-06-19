@@ -38,14 +38,25 @@
                 </div>
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Top Hashtags</h3>
+                        <h3 class="box-title">Top Stats</h3>
                         <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
-                        <div class="row">
-                            <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-xs-6">
+                                <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas>
+                                <h5>Top Hashtags</h5>
+                            </div>
+                            <div class="col-xs-6">
+                                <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas>
+                                <h5>Top Twitterers</h5>
+                            </div>
+                            <div class="col-xs-6">
+                                <canvas class="chart chart-pie" options="wall.topMentionsOptions" labels="wall.topMentionsLabels" data="wall.topMentionsData"></canvas>
+                                <h5>Top Mentions</h5>
+                            </div>
                         </div>
                     </div>
                 </div>                

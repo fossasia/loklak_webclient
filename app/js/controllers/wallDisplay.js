@@ -18,7 +18,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     //   { value : 75, color : "#D4CCC5" },
     //   { value : 30, color : "#949FB1"}
     // ];
-    
+    var ongoingRequest = false;
     var params = {};
     var caller = null;
     var init = function() {
@@ -38,11 +38,17 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     params.q = term;
     params.count = maxStatusCount;
     $scope.wallOptions = vm.wallOptions;
-    vm.histogramOptions ={
+    vm.histogramOptions = {
         //scaleBeginAtZero: true
         responsive: true
     };
     vm.topHashTagsOptions = {
+
+    };
+    vm.topTwitterersOptions = {
+
+    };
+    vm.topMentionsOptions = {
 
     };
 
@@ -157,9 +163,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.update2 = function(refreshTime, currCount) {
         console.log(currCount + ":" + count);
+        while (ongoingRequest == true){}
         if (currCount == count) {
             return $timeout(function() {
                 console.log(term);
+                ongoingRequest = true;
                 SearchService.initData(params).then(function(data) {
                     if (data.statuses) {
                         if (data.statuses.length <= 0) {
@@ -181,15 +189,16 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                             caller = vm.update2(newRefreshTime, currCount);
                             vm.showEmpty = false;
                             // $timeout(function () {
-                                
+
                             // }, 500);
-                                                       
+
                         }
                     } else {}
 
                 }, function(error) {
 
                 });
+                ongoingRequest = false;
             }, refreshTime);
         } else {
             $timeout.cancel(caller);
@@ -324,6 +333,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     //Statistics Code
+
+    var randomColorGenerator = function() {
+        return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+    };
+
     function evalHistogram(statistics) {
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
             var data = [];
@@ -341,25 +355,58 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             labels = [];
             for (var property in statistics.hashtags) {
                 if (statistics.hashtags.hasOwnProperty(property)) {
+                    if(statistics.hashtags[property]>1){
                     labels.push('#' + property);
                     data.push(statistics.hashtags[property]);
+                    }
                 }
             }
             //vm.topHashtagsData = [];
             vm.topHashtagsData = data;
             vm.topHashtagsLabels = labels;
+            data = [];
+            labels = [];
+            for (var property in statistics.screen_name) {
+                if (statistics.screen_name.hasOwnProperty(property)) {
+                    if(statistics.screen_name[property]>1){
+                    labels.push('@' + property);
+                    data.push(statistics.screen_name[property]);
+                    }
+                }
+            }
+            //vm.topHashtagsData = [];
+            vm.topTwitterersData = data;
+            vm.topTwitterersLabels = labels;
+            data = [];
+            labels = [];
+            for (var property in statistics.mentions) {
+                if (statistics.mentions.hasOwnProperty(property)) {
+                    if(statistics.mentions[property]>1){
+                    labels.push('@' + property);
+                    data.push(statistics.mentions[property]);
+                    }
+                }
+            }
+            //vm.topHashtagsData = [];
+            vm.topMentionsData = data;
+            vm.topMentionsLabels = labels;
         } else {
             //vm.histogram2 = [];
         }
     }
-    
-    $interval(function () {        
-        if(vm.statuses.length>0){
-            StatisticsService.getStatistics(params)
+
+    $interval(function() {
+        if (vm.statuses.length > 0) {
+            while (ongoingRequest == true){}
+            ongoingRequest = true;
+            var statParams = params;
+            StatisticsService.getStatistics(statParams)
                 .then(function(statistics) {
+                        ongoingRequest = false;
                         evalHistogram(statistics);
                     },
                     function() {
+                        ongoingRequest = false;
                         console.log('statuses retrieval failed.');
                     }
                 );
