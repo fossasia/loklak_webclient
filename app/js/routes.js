@@ -55,7 +55,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/tweet?q',
     controller: 'SingleTweetCtrl as singleTweet',
     templateUrl: 'single-tweet.html',
-    title: 'Tweet'
+    title: 'SingleTweet'
   })
   .state('Map', {
     url: '/map',

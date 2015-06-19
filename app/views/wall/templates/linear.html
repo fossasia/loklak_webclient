@@ -7,7 +7,7 @@
         <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
         <div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick">
             <div class="masonry-brick" ng-repeat="image in data.images">
-                <img ng-click="wall.open()" class="masonry-image spinner" ng-src="{{image}}" alt="A masonry brick">
+                <img ng-click="wall.open()" class="masonry-image spinner" ng-src="{{image | biggerProfileImage}}" alt="A masonry brick">
             </div>
         </div>
         <!-- Metadata -->

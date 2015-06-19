@@ -12,6 +12,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
    * UI related root variables
    *
    */
+    root.globalSearchTerm = '';
     root.topNavItems = [
     		{
     			'title': 'Home',
@@ -22,11 +23,6 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'title': 'Wall',
           'link' : '/wall',
           'icon' : 'fa fa-list'
-        },
-        {
-          'title': 'Maps',
-          'link' : '/map',
-          'icon' : 'fa fa-map-marker'
         }
   	  ];
 

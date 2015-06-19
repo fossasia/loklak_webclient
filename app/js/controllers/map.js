@@ -2,23 +2,28 @@
 /* global angular */
 
 var controllersModule = require('./_index');
-//var Leaflet = require('angular-leaflet-directive');
 var Leaflet = require('../components/leaflet');
+var GeoJSON = require('../components/geojson');
+var tweets,result;
 
 /**
  * @ngInject
  */
 function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
-	var map = L.map('map').setView([39.74739, -105], 6);
 
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-20v6611k'
-		}).addTo(map);
-	$http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
+
+        
+        var map = L.map('map').setView([2.252776,48.845261],5);
+
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'examples.map-20v6611k'
+        }).addTo(map);
+    
+         $http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
          .success(function (response) {
             tweets = response.statuses;
             result = GeoJSON.parse(tweets, {Point: 'location_point' , include:['text']}); 
@@ -49,12 +54,12 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
                     fillOpacity: 0.8
                 });
             }
-        }).addTo(map); 
+        }).addTo(map);
 
-		
-
+        });
+          
 
 
 }
 
-controllersModule.controller('MapCtrl', MapCtrl);
+controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService',MapCtrl]);

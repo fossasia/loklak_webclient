@@ -1,0 +1,16 @@
+<div ng-attr-id="{{data.id_str}}" class="tweet tweet-simple">
+
+    <!-- Avatar with a fallback src -->
+    <img fallback-status-id="data.user.screen_name" class="avatar" 
+         fallback-src="/images/anon_200x200.png"
+    	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+
+    <!-- Main content -->
+        <div class="tweet-content">
+        	<!-- Metadata -->
+                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
+            <!-- End of metadata -->
+        </div>
+    <!-- End of main content -->
+</div>
