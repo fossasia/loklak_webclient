@@ -26,10 +26,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         SearchService.getData(term).then(function(data) {
                vm.statuses = data.statuses;
                vm.showResult = true;
-               angular.forEach(intervals, function(interval) {
-                   $interval.cancel(interval);
-               });
-               intervals.push($interval(bgUpdateTemp, parseInt(data.search_metadata.period)));
+               startNewInterval(data.search_metadata.period);
         }, function() {});
 
         
@@ -38,6 +35,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // No filter search
     vm.filterLive = function() {
         vm.peopleSearch = false;
+        vm.showMap = false;
         vm.currentFilter = 'live';
         var term = vm.term;
         vm.update(term);
@@ -47,6 +45,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
         vm.peopleSearch = true;
+        vm.showMap = false;
         vm.currentFilter = 'accounts';
         vm.accounts = [];
         var term = vm.term;
@@ -68,6 +67,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Photos search
     vm.filterPhotos = function() {
         vm.peopleSearch = false;
+        vm.showMap = false;
         vm.currentFilter = 'photos';
         var term = vm.term + '+' + '/image';
         vm.update(term);
@@ -76,6 +76,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Videos search
     vm.filterVideos = function() {
         vm.peopleSearch = false;
+        vm.showMap = false;
         vm.statuses = [];   
         vm.currentFilter = 'videos';
         vm.showResult = true;
@@ -92,27 +93,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                     vm.statuses.push(status);
                 }
             });
+            startNewInterval(data.search_metadata.period);
         }, function() {});    
 
-        /**
-         * Get other videos, enable these when milestones2 comes
-         * and loklak_server can't recongize others than youtube and vimeo
-         *
-        $timeout(SearchService.getData(vm.term).then(function(data) {
-            var statuses = data.statuses;
-            statuses.forEach(function(status) {
-                if (hasExternalLink(status)) {
-                    DebugLinkService.debugLink(status.links[0]).then(function(data) {
-                        if (data.type === 'video') {
-                            insertToStatusesByTimeOrder(status, vm.statuses)
-                        }
-                    }, function() {return;});
-                }
-            });
-        }, function() {}), 2000);
-        */
-        
-        
         updatePath(vm.term + '+' + '/video');
     };
 
@@ -120,6 +103,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // News search
     vm.filterNews = function() {
         vm.peopleSearch = false;
+        vm.showMap = false;
         vm.currentFilter = 'news';
         vm.statuses = [];
         var term = vm.term;
@@ -134,9 +118,31 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                     }, function() {return;});
                 }
             });
+            startNewInterval(data.search_metadata.period);
         }, function() {});
 
         updatePath(vm.term + '+' + '/news');
+    };
+
+    // Map search, show results on a map
+    vm.filterMap = function() {
+        vm.currentFilter = "map";
+        vm.statuses = [];
+        vm.accounts = [];
+        vm.showMap = true;
+
+        updatePath(vm.term + '+' + '/map');
+        var params = {
+            q: vm.term,
+            count: 300
+        };
+        SearchService.initData(params).then(function(data) {
+            initMap(data.statuses);    
+        }, function() {});
+
+        angular.forEach(intervals, function(interval) {
+            $interval.cancel(interval);
+        });
     };
 
     // Create photoswipe
@@ -184,6 +190,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }, function() {});
     };
 
+    var startNewInterval = function(period) {
+        angular.forEach(intervals, function(interval) {
+            $interval.cancel(interval);
+        });
+        intervals.push($interval(bgUpdateTemp, parseInt(period)));
+    };
+
 
     // Scrape for imgTag to serve photoswipe requirement
     function scrapeImgTag(imgTag) {
@@ -211,9 +224,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             '/image': 'photos',
             '/video': 'videos',
             '/accounts': 'accounts', 
-            '/news' : 'news'
+            '/news' : 'news',
+            '/map' : 'map'
         };
-
         vm.term = queryParts[0];
         vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
 
@@ -225,7 +238,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             'photos' : '/image',
             'videos' :'/video',
             'accounts' : '/accounts', 
-            'news' : '/news'
+            'news' : '/news',
+            'map' : '/map'
         };
         return filtersToQueries[filterName
         ];
@@ -253,9 +267,76 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
     }
 
+    // Init map
+    function initMap(data) {
+        var map = L.map('search-map').setView(new L.LatLng(5.3,-4.9), 2);
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'examples.map-20v6611k'
+        }).addTo(map);
+
+        var tweets = {
+            "type": "FeatureCollection",
+            "features": [
+            ]
+        };
+        data.forEach(function(ele) {
+            if (ele.location_point) {
+                var text = $filter('tweetHashtag')($filter('tweetMention')(ele.text));
+                var pointObject = {
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            ele.location_point[0],
+                            ele.location_point[1]
+                        ]
+                    },
+                    "type": "Feature",
+                    "properties": {
+                        "popupContent": text
+                    },
+                    "id": ele.id_str
+                };
+                tweets.features.push(pointObject);
+            }
+        });
+
+        function onEachFeature(feature, layer) {
+            
+            if (feature.properties && feature.properties.popupContent) {
+                var popupContent = feature.properties.popupContent;
+            }
+
+            layer.bindPopup(popupContent);
+        }
+
+        L.geoJson([tweets], {
+
+            style: function (feature) {
+                return feature.properties && feature.properties.style;
+            },
+
+            onEachFeature: onEachFeature,
+
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 8,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            }
+        }).addTo(map);    
+    };
+        
+
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
-        console.log("foo");
         if ($stateParams.q !== undefined) {
             evalSearchQuery();
             var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
@@ -271,7 +352,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     }, function(value) {
         if (value.q.split("+")[0] !== vm.term) {
             evalSearchQuery();
-            var filterFn = 'filterLive';
+            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
             vm[filterFn]();   
             vm.showResult = true;
         }
