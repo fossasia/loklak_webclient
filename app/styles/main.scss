@@ -13,6 +13,12 @@
 .universal-search {
     display: inline-block;
 }
+#navbar-search-input {
+	color: white;
+	&:focus {
+		color: rgb(85,85,85);
+	}
+}
 
 .navbar .navbar-form {
     padding-top: 0;
@@ -375,7 +381,7 @@ body {
 
 .content-wrapper {
     // Overfule adminLTE admin.css
-    min-height: 100vh !important;
+   // min-height: 100vh !important;
     background: #F5F8FA !important;
 }
 
@@ -755,8 +761,22 @@ body {
 			.result-container {
 				border: 1px solid $search-grey-border;
 				padding: 0;
+				.more-result {
+						width: 100%;
+						background: none;
+						border: none;
+						border-top: 1px solid $search-grey-border;
+						border-bottom: 1px solid $search-grey-border;
+						font-size: 15px;
+						text-align: center;
+						padding: 13px;
+						&:hover {
+							font-weight: bold;
+							color: $search-twitter-blue;
+						}
+				}
 				.main-result-container {
-					padding-top: 5px;
+
 				}
 				.tweet {
 					display: block;
@@ -1030,6 +1050,15 @@ body {
 					}
 				}
 			}
+
+			#search-map {
+				width: 100%;
+				height: 100vh;
+				position: fixed !important;
+				margin-top: 0 !important;
+				top: 52px;
+				left: 0;
+			}
 		}
 	}
 	
@@ -1069,6 +1098,9 @@ body {
 /* Search filters */
 	.filters-container {
 		height: 46px;
+		position: relative;
+		z-index: 100;
+		background: rgba(245, 248, 250, 0.5);
 		text-align: center;
 		ul li {
 			display: inline-block;
@@ -1112,6 +1144,8 @@ body {
 			}
 		}
 	}
+
+	
 /* End search filters */
 
 /* Styles for single tweet views */
@@ -1396,10 +1430,6 @@ body {
     &:first-child {
         border-top-left-radius: 6px;
         border-right-left-radius: 6px;
-    }
-    &:hover {
-        background: $search-grey-bg;
-        cursor: pointer;
     }
     .avatar {
         height: 130px;
@@ -1705,7 +1735,7 @@ body {
 	padding: 0;
 }
 .tabs-left > li > a {
-	min-height: 150px;
+	height: 150px;
 	text-align: center;
 	padding: 20% 0;
 }
@@ -1713,3 +1743,141 @@ body {
 @import 'loklakcore';
 @import 'loklak_more_1';
 @import 'loklak_more_2';
+
+.wall-modal-dialog {
+  width: 100%;
+  height: 95%;
+  margin-top: 10px;
+  padding: 0px 10px 0 10px;
+
+}
+
+.wall-modal-content {
+  min-height: 100%;
+  border-radius: 25;
+  width: 100%;
+}
+
+.redirect-page {background:#F5F8FA;height:100%;text-align:center;display:-webkit-flex;display:flex;height:100%;-webkit-flex-flow:column wrap;flex-flow:column wrap;-webkit-justify-content:center;justify-content:center;margin:0;padding:10px}
+.loading-redirect{font-size:50px;height:1em;-webkit-animation:fadeout .5s 5s;animation:fadeout .5s 5s;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.loading-redirect span{-webkit-animation:fadein .5s .5s alternate infinite;animation:fadein .5s .5s alternate infinite}.loading-redirect span:nth-child(2){-webkit-animation-delay:.75s;animation-delay:.75s}.loading-redirect span:nth-child(3){-webkit-animation-delay:1s;animation-delay:1s}#redirect-text{text-align:center;font-family:helvetica;opacity:0;-webkit-animation:fadein .5s 3s;animation:fadein .5s 3s;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.overflow{background:#000;color:#fff;max-width:100%;text-align:left}@-webkit-keyframes fadein{from{opacity:0;-webkit-transform:scale(.2)}to{opacity:1;-webkit-transform:scale(1)}}@-webkit-keyframes fadeout{to{opacity:0;height:0}}@keyframes fadein{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}@keyframes fadeout{to{opacity:0;height:0}}
+.loading-redirect-img {
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+}
+
+.coa {
+    display: block;
+    min-height: 164px;
+    background: white;
+    padding: 30px 22px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid $search-grey-border;
+    &:first-child {
+        border-top-left-radius: 6px;
+        border-right-left-radius: 6px;
+    }
+    .avatar {
+        height: 180px;
+        max-width: 180px;
+        float: left;
+        border-radius: 6px;
+    }
+    .coa-content {
+    	padding-left: 20px;
+        position: relative;
+        margin-left: 200px;
+        min-height: 180px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
+        .coa-content-text {
+            word-break: break-all;
+            color: #292f33;
+            font-size: 36px;
+            line-height: 140%;
+            .coa-hashtag {
+                color: #55ACEE;
+            }
+            .coa-hashtag-current {
+                font-weight: bold;
+            }
+        }
+        .metadata {
+            font-size: 18px;
+            color: #8899A6;
+            font-weight: normal;
+            padding-top: 20px;
+            font-style: italic;
+        }
+    }
+}
+
+
+.deckgrid[deckgrid]::before {
+    /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
+    content: '3 .column.column-1-3';
+    font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+    visibility: hidden;
+}
+
+.deckgrid .column {
+    float: left;
+    display: table;
+}
+
+.deckgrid .column-1-3 {
+    width: 33.3%;
+}
+
+.card {
+	min-height: 200px;
+	margin: 20px;
+	background: white;
+	overflow: hidden;
+	padding: 12px;
+    border: 1px solid $search-grey-border;
+    &:first-child {
+        border-top-left-radius: 6px;
+        border-right-left-radius: 6px;
+    }
+    .avatar {
+        height: 60px;
+        max-width: 60px;
+        float: left;
+        border-radius: 6px;
+    }
+    .card-content {
+    	padding-left: 2px;
+        position: relative;
+        margin-left: 70px;
+        min-height: 180px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
+        .card-content-text {
+            word-break: break-all;
+            color: #292f33;
+            font-size: 18px;
+            line-height: 120%;
+            min-height: 140px;
+            .card-hashtag {
+                color: #55ACEE;
+            }
+            .card-hashtag-current {
+                font-weight: bold;
+            }
+        }
+        .metadata {
+            font-size: 18px;
+            color: #8899A6;
+            font-weight: normal;
+            padding-top: 20px;
+            font-style: italic;
+        }
+    }
+}

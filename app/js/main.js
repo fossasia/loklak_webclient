@@ -33,7 +33,10 @@ angular.element(document).ready(function() {
     'wu.masonry',
     'ngTagsInput',
     'colorpicker.module',
-    'toggle-switch'
+    'toggle-switch',
+    'ui.choices',
+    'FBAngular',
+    'akoenig.deckgrid'
   ];
 
   // mount on window for testing

@@ -84,5 +84,7 @@ directivesModule.directive('status', ['$location', function($location) {
             }
             
         }
+        
     };
+
 }]);

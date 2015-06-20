@@ -1,5 +1,5 @@
 <div ng-attr-id="{{data.id_str}}" class="linear linear-simple">
-    <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url}}" alt="user-images">
+    <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
     <div class="linear-content">
         <!-- Main content -->
         <p class="linear-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
@@ -7,7 +7,7 @@
         <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
         <div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick">
             <div class="masonry-brick" ng-repeat="image in data.images">
-                <img ng-click="wall.open()" class="masonry-image spinner" ng-src="{{image}}" alt="A masonry brick">
+                <img ng-click="wall.open()" class="masonry-image spinner" ng-src="{{image | biggerProfileImage}}" alt="A masonry brick">
             </div>
         </div>
         <!-- Metadata -->
