@@ -21,7 +21,9 @@
                     <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
-                <div ng-switch-when="4" data="status" mapLayout id="map" style="width:100%; height:800px"></div>
+                <div ng-switch-when="4">
+                    <div data="wall.statuses" id="map" maplayout style="width:100%; height:800px"></div>
+                </div>
             </div>
             <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>
