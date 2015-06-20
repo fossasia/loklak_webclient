@@ -2814,7 +2814,7 @@ table.text-center th {
   right: 100%;
   top: 15px;
   border: solid transparent;
-  border-right-color: #d2d6de;
+/*  border-right-color: #d2d6de;*/
   content: ' ';
   height: 0;
   width: 0;
