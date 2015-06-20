@@ -19,21 +19,19 @@
 </div>
 <div class="result-container col-md-6">
     <div class="row cms-view">
-        <div class="col-md-12">
-            <h1 class="page-header"><code>loklak</code></h1>
-            <h2>Mass Message (aka Tweets) Evaluation</h2>
-            <p>This is the front-end for the <a href="http://loklak.org">Distributed Message Search Server <code>loklak</code></a>. We collect Tweets and provide mass-data evaluation functions using search engine technology.</p>
-        </div>
-        <div class="col-md-12" ng-if="root.twitterSession">
-            <h1>Your recent tweets</h1>
+    <div class="col-md-12" ng-if="!root.twitterFriends">
+        <img src="../images/loading.gif" alt="">
+    </div>
+    <div class="col-md-12" ng-if="root.twitterSession">
             <div class="main-result-container">
                 <div class="box-body chat" id="chat-box" style="width: auto;">
-                    <div ng-repeat="status in root.twitterStatuses.data | limitTo: 7">
+                    <div ng-repeat="status in root.twitterFriends.data | limitTo: 20">
                         <div class="item">
-                            <img src="{{root.twitterSession.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
+                            <img src="{{status.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
                             <p class="message">
-                            {{status.text}}
+                            {{status.status.text}}
                             </p>
+                            <small class="pull-left">{{status.screen_name}}</small>
                             <hr>
                     </div>
                 </div> 
