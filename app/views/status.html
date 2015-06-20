@@ -15,7 +15,7 @@
             <!-- End of metadata -->
 
             <!-- Text -->
-            <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
+            <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | tweetTextLink | removeTwitterPicLink | toTrusted"></p>
 
             <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
 
