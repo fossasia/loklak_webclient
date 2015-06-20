@@ -37,6 +37,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			linkArray: "=",
 			debuggable: "=",
 			data: "=",
+			imageLink: "=",
 		},
 		templateUrl: 'debugged-link.html',
 		controller: function($scope) {
@@ -60,6 +61,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 				var undebuggedLink = scope.linkArray[0];
 
 				if (undebuggedLink.substr(-4) === '.mp4') {
+					// native twitter video
 					element.append(generateMp4Template(undebuggedLink));
 					scope.debuggable = true;
 					return;
@@ -68,13 +70,15 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						if (data !== "Page not found") {
 							scope.debuggable = true;
 							if (data.type === "link" || data.type === "photo") {
+								// no html given, have to generate before append
 								var template = generateArticleParts(data);
 								if (template) {
 									scope.debuggable = true;
 									element.append(template);
 								} else {scope.debuggable = false;}
 							} else {
-								if (data.type === "video") {
+								// html given from the result
+								if (data.type === "video" || data.type === "rich") {
 									scope.debuggable = true;
 									element.append(data.html);
 								}
