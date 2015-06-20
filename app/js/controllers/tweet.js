@@ -1,20 +1,21 @@
 'use strict';
 
-
 var controllersModule = require('./_index');
+var hello=require('../components/hello.all');
 
-function tweetCtrl($http, AppSettings, SearchService, hello) { // jshint ignore:line
-    // SAid you use ng-click="tweetCtrl.postTweet()" on somewhere
 
-    var vm = this;
+controllersModule.controller('HomeCtrl', ['$rootScope', function($rootScope) {
 
-    vm.postTweet = function() {
-        var paramsObject = {};
-        // Do something to gather the fields in your form
-        hello('twitter').api('blabla', 'bla', paramsObject, function(result) {
-            // Process your result by updating your models etc etc
-        });
+    $rootScope.root.tweet="";
+    $rootScope.root.foo = function() 
+    {    
+    var message = $rootScope.root.tweet;
+    var tweet = encodeURIComponent(message);
+    console.log(message);
+    hello('twitter').api('me/share', 'POST', {
+        message : tweet
+    });
+    
     };
-}
 
-controllersModule.controller('tweetCtrl', ['$http', 'AppSettings', 'SearchService', 'HelloService', tweetCtrl]);
+}]);
