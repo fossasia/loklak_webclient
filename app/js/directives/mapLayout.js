@@ -42,6 +42,14 @@ function mapLayoutDirective() {
                             bounceOnAdd: true
                         });
                     marker[i].addTo(map);
+
+                     var customOptions =
+                    {
+                        'maxWidth': '500px',
+                        'className' : 'custom'
+                    }   
+                    var popup="<div id='TweetBox'></div>";
+                    marker[i].bindPopup(popup,customOptions);
                     marker[i].on('click', showTweet);
                     };
                 }
