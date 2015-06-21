@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style>
-.modal-backdrop {
-  z-index: -100;
-}
+    .modal-backdrop {
+        z-index: -100;
+    }
 </style>
 <div class="topbar js-topbar">
     <div class="global-nav">
@@ -10,7 +10,7 @@
             <div class="container">
 
                 <h1 class="" style="display: inline-block; width: 24px; height: 21px;text-align:center;">
-            <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
+            <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Logo" style="margin-left: 280%;margin-top: 35%;">
           <span class="visuallyhidden">Loklak</span>
         </h1>
                 <div class="pushstate-spinner"></div>
@@ -68,8 +68,8 @@
                         <ul class="nav right-actions" ng-show="!twitterSession">
                             <li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
                                 <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title="" data-toggle="modal" data-target="#signupModal">
-                                <span class="fa fa-user text"></span>
-                                <span class="text">Sign up with twitter</span>
+                                    <span class="fa fa-user text"></span>
+                                    <span class="text">Sign up with twitter</span>
                                 </button>
                             </li>
                         </ul>
@@ -91,35 +91,36 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-tweet-form-container">
-                    <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+                        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf030; Add Photo">&nbsp;
+                    <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf041; Add Location">&nbsp;
                     <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
-    <!-- Signup modal -->
-    <div id="signupModal" class="modal-container fade-in" role="dialog" ng-if="!root.twitterSession">
-        <div class="modal-dialog"  style="margin-top: 100px;">
+<!-- Signup modal -->
+<div id="signupModal" class="modal-container fade-in" role="dialog" ng-if="!root.twitterSession">
+    <div class="modal-dialog" style="margin-top: 100px;">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
-                </div>
-                <div class="modal-body">
-                    <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
-                    <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
-                </div>
-                <div class="modal-footer" style="text-align:center;">
-                    <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
-                </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
             </div>
-
+            <div class="modal-body">
+                <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
+                <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
+            </div>
         </div>
+
     </div>
+</div>
