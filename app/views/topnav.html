@@ -1,4 +1,9 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<style>
+.modal-backdrop {
+  z-index: -100;
+}
+</style>
 <div class="topbar js-topbar">
     <div class="global-nav">
         <div class="global-nav-inner">
@@ -41,9 +46,10 @@
 
                         </form>
                         </div>
-                        <ul class="nav right-actions">
+                        <ul class="nav right-actions" ng-show="twitterSession">
                             <li class="me dropdown session js-session" data-global-action="t1me" id="user-dropdown">
-                                <a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" title="Profile and settings" data-placement="bottom" role="button" aria-haspopup="true"><img class="avatar size32" src="https://pbs.twimg.com/profile_images/500559201542762498/IvDEqWy1_normal.jpeg" alt="Profile and settings" data-user-id="390171807"></a>
+                                <a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" title="Profile and settings" data-placement="bottom" role="button" aria-haspopup="true"><img class="avatar size32" ng-src="{{twitterSession.profile_image_url_https}}" alt="Profile and settings" data-user-id="390171807"></a>
+                                <span class="hidden-xs">{{twitterSession.name}}</span>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-caret">
                                         <span class="caret-outer"></span>
@@ -59,6 +65,14 @@
                                 </button>
                             </li>
                         </ul>
+                        <ul class="nav right-actions" ng-show="!twitterSession">
+                            <li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
+                                <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title="" data-toggle="modal" data-target="#signupModal">
+                                <span class="fa fa-user text"></span>
+                                <span class="text">Sign up with twitter</span>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -66,8 +80,8 @@
     </div>
 
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div id="myModal" class="modal-container fade-in" role="dialog">
+        <div class="modal-dialog" style="margin-top: 100px;">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -76,7 +90,9 @@
                     <h4 class="modal-title">Post a tweet</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="modal-tweet-form-container">
                     <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
@@ -87,8 +103,8 @@
         </div>
     </div>
     <!-- Signup modal -->
-    <div id="signupModal" class="modal fade" role="dialog" ng-if="!root.twitterSession">
-        <div class="modal-dialog">
+    <div id="signupModal" class="modal-container fade-in" role="dialog" ng-if="!root.twitterSession">
+        <div class="modal-dialog"  style="margin-top: 100px;">
 
             <!-- Modal content-->
             <div class="modal-content">
