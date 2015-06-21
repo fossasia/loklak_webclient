@@ -17,12 +17,17 @@ function OnRun($rootScope, AppSettings, HelloService) {
     		{
     			'title': 'Home',
     			'link' : '/',
-          'icon' : 'fa fa-home'
+          'icon' : 'fa fa-home text'
     		},
         {
           'title': 'Wall',
           'link' : '/wall',
-          'icon' : 'fa fa-list'
+          'icon' : 'fa fa-list text'
+        },
+        {
+          'title': 'Map',
+          'link' : '/map',
+          'icon' : 'fa fa-map-marker text'
         }
   	  ];
 

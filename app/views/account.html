@@ -1,16 +1,23 @@
-<div ng-attr-id="{{data.id_str}}" class="tweet tweet-simple">
-
-    <!-- Avatar with a fallback src -->
-    <img fallback-status-id="data.user.screen_name" class="avatar" 
-         fallback-src="/images/anon_200x200.png"
-    	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-
-    <!-- Main content -->
-        <div class="tweet-content">
-        	<!-- Metadata -->
-                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
-                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-            <!-- End of metadata -->
+<a class="ProfileCard-bg js-nav" href="/IPL" tabindex="-1" aria-hidden="true" style="
+    background-color: #0099B9;
+    background-image: url();">
+  </a>
+<div class="ProfileCard-content u-size2of2 u-lg-size2of3" ng-attr-id="{{data.id_str}}">
+    <a ng-href="{{'https://twitter.com/' + data.user.screen_name}}" class="ProfileCard-avatarLink js-nav js-tooltip">
+        <img fallback-status-id="data.user.screen_name" class="ProfileCard-avatarImage js-action-profile-avatar" fallback-src="/images/anon_200x200.png" ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+    </a>
+    <div class="ProfileCard-userFields">
+        <div class="ProfileNameTruncated">
+            <div class="u-textTruncate u-inlineBlock ProfileNameTruncated-withBadges ProfileNameTruncated-withBadges--1">
+                <a class="ProfileNameTruncated-link u-textInheritColor js-nav js-action-profile-name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}" data-aria-label-part="">
+              {{data.user.name}}
+          </a>
+            </div>
         </div>
-    <!-- End of main content -->
+        <div class="ProfileCard-screenname u-dir" dir="ltr">
+            <a href="/IPL" class="ProfileCard-screennameLink u-linkComplex js-nav" data-aria-label-part="">
+      @<span class="u-linkComplex-target">{{data.user.name}}</span>
+  </a>
+        </div>
+    </div>
 </div>

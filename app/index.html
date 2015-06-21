@@ -13,10 +13,6 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/datetimepicker.css">
     <link rel="stylesheet" href="css/photoswipe.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/_loklakcore.scss">
-    <link rel="stylesheet" href="css/_loklak_more_1.scss">
-    <link rel="stylesheet" href="css/_loklak_more_2.scss">
     <link rel="stylesheet" href="css/skins/skin-blue.css">
     <link rel="stylesheet" href="css/default-skin/default-skin.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -29,12 +25,14 @@
 </head>
 
 <body ng-class="root.sidebarEnabled? 'skin-blue fixed sidebar-mini': 'skin-blue layout-top-nav'">
-    <div class="wrapper">
-        <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
-        <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
-        <div ui-view></div>
-        <div ng-include src="'pswp.html'"></div>
-        <div ng-include ng-if="root.fullscreenDisabled" src="'controlsidebar.html'"></div>
+    <div id="page-outer">
+        <div id="page-container" class="AppContent  wrapper-search" style="padding-left: 0px;padding-right: 0px;padding-top: 45px;">
+            <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
+            <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
+            <div ui-view></div>
+            <div ng-include src="'pswp.html'"></div>
+            <div ng-include ng-if="root.fullscreenDisabled" src="'controlsidebar.html'"></div>
+        </div>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.1.8/imagesloaded.pkgd.min.js"></script>

@@ -1,26 +1,22 @@
-<div ng-attr-id="{{data.id_str}}" ng-click="toggleDetail($event)" class="tweet tweet-simple">
-
-    <!-- Avatar with a fallback src -->
-    <img fallback-status-id="data.user.screen_name" class="avatar" 
+<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-user-actions" ng-attr-id="{{data.id_str}}"  ng-click="toggleDetail($event)" >
+        <div class="context">
+        </div>
+        <div class="content">
+            <div class="stream-item-header">
+                <a ng-href="{{'https://twitter.com/' + data.user.screen_name}}" class="account-group js-account-group js-action-profile js-user-profile-link js-nav">
+                    <img fallback-status-id="data.user.screen_name" class="avatar js-action-profile-avatar" 
          fallback-src="/images/anon_200x200.png"
-    	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-
-    <!-- Main content -->
-        <div class="tweet-content">
-
-        	<!-- Metadata -->
-                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
-                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-                <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
-            <!-- End of metadata -->
-
-            <!-- Text -->
-            <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
-
-            <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
-
-            <!-- Images -->
-            <div class="status-images-container" ng-show="!debuggable">
+         ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+                    <strong class="fullname js-action-profile-name show-popup-with-id">{{data.user.name}}</strong>
+                    <!-- <span>&rlm;</span> -->
+                    <span class="username js-action-profile-name">{{ "@" + data.user.screen_name}}</span>
+                    <small class="time">
+                        <span class="_timestamp js-short-timestamp js-relative-timestamp">{{data.created_at | tweetFromNow }}</span>
+                    </small>
+                </a>
+            </div>
+            <p class="tweet-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted">
+                <div class="status-images-container" ng-show="!debuggable">
                 <!-- Images - 1 img -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
                         <div class="single-masonry-item" ng-repeat="image in data.images">
@@ -45,38 +41,64 @@
                             <img ng-src="{{image}}" alt="A masonry brick">
                         </div>
                 </div>
-            </div>
-            <!-- End of images -->
+                <div class="stream-item-footer">
+                    <div role="group" aria-label="Tweet actions" class="ProfileTweet-actionList u-cf js-actions">
+            </p>
+            <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
+  
+  <div class="ProfileTweet-action ProfileTweet-action--reply">
+    <button class="ProfileTweet-actionButton u-textUserColorHover js-actionButton js-actionReply js-tooltip" data-modal="ProfileTweet-reply" type="button" data-original-title="Reply">
+      <span class="fa fa-reply"></span>
+      <span class="u-hiddenVisually">Reply</span>
+    </button>
+  </div>
 
-            <!-- Hidden detailed metadata -->
-                <div ng-show="showDetail" class="detail-metadata">
-                    <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
-                    <span class="link-to-tweet" data-ng-click="openSingleTweet(data.id_str)">Details</span>
-                </div>
+  
+  <div class="ProfileTweet-action ProfileTweet-action--retweet js-toggleState js-toggleRt">
+    <button class="ProfileTweet-actionButton  js-actionButton js-actionRetweet js-tooltip" data-modal="ProfileTweet-retweet" type="button" data-original-title="Retweet">
+      <span class="fa fa-retweet"></span>
+      <span class="u-hiddenVisually">Retweet</span>
+        <span class="ProfileTweet-actionCount">
+          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">{{data.retweet_count}}</span>
+        </span>
+    </button><button class="ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet js-tooltip" data-modal="ProfileTweet-retweet" title="Undo retweet" type="button">
+      <span class="fa fa-retweet"></span>
+      <span class="u-hiddenVisually">Retweeted</span>
+        <span class="ProfileTweet-actionCount">
+          <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">{{data.retweet_count}}</span>
+        </span>
+    </button>
+  </div>
 
-
-                <div class="action-list">
-                	<div class="action-reply">
-                		<button class="reply" />
-                	</div>
-                	<div class="action-retweet">
-                		<button class="retweet" /><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
-                	</div>
-                	<div class="action-favor">
-                		<button class="favor" /><span ng-if="data.favourites_count" class="fav-count">{{data.favourites_count}}</span>	
-                	</div>
-                	<div ng-click="toggleShowMoreAction()" class="action-more">
-                		<i class="fa fa-circle"></i>
-                		<i class="fa fa-circle"></i>
-                		<i class="fa fa-circle"></i>
-                        <div ng-show="showMoreAction" class="more-actions">
+  
+  <div class="ProfileTweet-action ProfileTweet-action--favorite js-toggleState">
+    <button class="ProfileTweet-actionButton js-actionButton js-actionFavorite js-tooltip" type="button" data-original-title="Favorite">
+      <span class="fa fa-star"></span>
+      <span class="u-hiddenVisually">Favorite</span>
+        <span class="ProfileTweet-actionCount">
+            <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">{{data.favourites_count}}</span>
+        </span>
+    </button><button class="ProfileTweet-actionButtonUndo u-linkClean js-actionButton js-actionFavorite js-tooltip" title="Undo favorite" type="button">
+      <span class="Icon Icon--favorite"></span>
+      <span class="u-hiddenVisually">Favorited</span>
+        <span class="ProfileTweet-actionCount">
+            <span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">{{data.favourites_count}}</span>
+        </span>
+    </button>
+  </div>
+        <div ng-show="showMoreAction" class="more-actions">
                             <ul>
                                 <li><a class="copy-link" data-ng-click="openSingleTweet(data.id_str)">Open this single tweet</a></li>
                             </ul>
                         </div>
-                	</div>
+      </div>
                 </div>
-            <!-- End of hidden detailed metadata -->       
+                <!-- Hidden detailed metadata -->
+                <div ng-show="showDetail" class="detail-metadata">
+                    <span class="metadata">{{ data.created_at | date:'h:mm a - dd MMM yyyy .' }}</span> · 
+                    <span class="link-to-tweet" data-ng-click="openSingleTweet(data.id_str)">Details</span>
+                </div>
+            <!-- End of hidden detailed metadata -->
+            </div>
         </div>
-    <!-- End of main content -->
-</div>
+    </div>

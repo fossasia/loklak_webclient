@@ -1,240 +1,109 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<header ng-if="root.sidebarEnabled" class="main-header">
-    <a href="index2.html" class="logo">
-        <span class="logo-mini"><b>A</b>LT</span>
-        <span class="logo-lg"><b>Loklak</b></span>
-    </a>
-    <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-        <ul class="nav navbar-nav navbar-left">
-            <li ng-repeat="navItem in root.topNavItems"><a ng-href="{{navItem.link}}">{{navItem.title}}</a></li>
-        </ul>
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 4 messages</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left">
-                                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                                        </div>
-                                        <h4>
-                                            Support Team
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
-                                        <p>Why not buy a new awesome theme?</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">See All Messages</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-flag-o"></i>
-                        <span class="label label-danger">9</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 9 tasks</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <h3>
-                                            Design some buttons
-                                            <small class="pull-right">20%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer">
-                            <a href="#">View all tasks</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs">Loklak user</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                            <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
-                            </p>
-                        </li>
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<div class="topbar js-topbar">
+    <div class="global-nav">
+        <div class="global-nav-inner">
+            <div class="container">
 
-<header ng-if="!root.sidebarEnabled" class="main-header">
-    <nav class="navbar navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand"><code>Loklak</code></a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li ng-repeat="navItem in root.topNavItems">
-                        <a ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span> {{navItem.title}}</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse" style="margin-left: 15%;">
-                <img class="hidden-xs hidden-sm hidden-md" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
-            </div>
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <form class="navbar-form navbar-left" role="search" action="/search" >
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
+                <h1 class="" style="display: inline-block; width: 24px; height: 21px;text-align:center;">
+            <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
+          <span class="visuallyhidden">Loklak</span>
+        </h1>
+                <div class="pushstate-spinner"></div>
+
+
+                <div role="navigation" style="display: inline-block;">
+                    <ul class="nav js-global-actions" id="global-actions">
+                        <li id="global-nav-home" class="home" data-global-action="home" ng-repeat="navItem in root.topNavItems">
+                            <a class="js-nav js-tooltip js-dynamic-tooltip" data-placement="bottom" ng-href="{{navItem.link}}" data-component-term="home_nav" data-nav="home">
+                                <h1 class="{{navItem.icon}}"></h1>
+                                <span class="text">{{navItem.title}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="pull-right" style="display: inline-block;">
+                    <div role="search">
+                        <form class="t1-form form-search js-search-form" action="/search" id="global-nav-search">
+                            <label class="visuallyhidden" for="search-query">Search query</label>
+                            <input class="search-input" type="text" id="search-query" placeholder="Search Loklak" name="q" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
+                            <span class="search-icon js-search-action">
+      <button type="submit" class="fa fa-search" tabindex="-1">
+        <span class="visuallyhidden">Search Loklak</span>
+                            </button>
+                            </span>
+                            <div role="listbox" class="dropdown-menu typeahead" id="typeahead-dropdown-1">
+                                <div aria-hidden="true" class="dropdown-caret">
+                                    <div class="caret-outer"></div>
+                                    <div class="caret-inner"></div>
+                                </div>
+
+                        </form>
                         </div>
-                    </form>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
-                    <!-- <li>
-                        <a ng-href="/auth/twitter" target="_self">
-                            <span><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup Via Twitter</span>
-                        </a>
-                    </li> -->
-                </ul>
-                <ul class="nav navbar-nav" ng-if="root.twitterSession">
-                    <li style="margin-top:15%;">
-                    <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" style="background-color:#339DC3;color:white;">
-                  <span class="fa fa-twitter"></span>
-                  <span class="text">Tweet</span>
-                </button>
-                </li>
-                </ul>
-                <!-- <ul class="dropdown-menu">
-                  User image 
-                  <li class="user-header">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                    <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
-                    </p>
-                  </li>
-                  Menu Footer
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        <ul class="nav right-actions">
+                            <li class="me dropdown session js-session" data-global-action="t1me" id="user-dropdown">
+                                <a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" title="Profile and settings" data-placement="bottom" role="button" aria-haspopup="true"><img class="avatar size32" src="https://pbs.twimg.com/profile_images/500559201542762498/IvDEqWy1_normal.jpeg" alt="Profile and settings" data-user-id="390171807"></a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-caret">
+                                        <span class="caret-outer"></span>
+                                        <span class="caret-inner"></span>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
+                                <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button">
+                                    <span class="fa fa-pencil text"></span>
+                                    <span class="text">Tweet</span>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-                </ul> -->
+                </div>
             </div>
         </div>
-    </nav>
-</header>
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Post a tweet</h4>
-      </div>
-      <div class="modal-body">
-        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
-      </div>
-      <div class="modal-footer">
-        <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
-        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-      </div>
     </div>
 
-  </div>
-</div>
-<!-- Signup modal -->
-<div id="signupModal" class="modal fade" role="dialog" ng-if="!root.twitterSession">
-  <div class="modal-dialog">
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
-      </div>
-      <div class="modal-body">
-        <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
-        <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
-      </div>
-      <div class="modal-footer" style="text-align:center;">
-        <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
-      </div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Post a tweet</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
     </div>
+    <!-- Signup modal -->
+    <div id="signupModal" class="modal fade" role="dialog" ng-if="!root.twitterSession">
+        <div class="modal-dialog">
 
-  </div>
-</div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
+                </div>
+                <div class="modal-body">
+                    <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
+                    <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
