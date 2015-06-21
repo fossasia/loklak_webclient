@@ -211,8 +211,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Change stateParams on search
     function updatePath(query) {
       $location.search({
-        q: query,
-        timezoneOffset: (new Date()).getTimezoneOffset()
+        q: query
       });
       $rootScope.root.globalSearchTerm = $location.search().q;
     }
