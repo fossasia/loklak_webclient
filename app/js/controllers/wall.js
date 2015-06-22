@@ -13,10 +13,10 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     var vm = this;
     var flag = false;
     var term = '';
-    $scope.wallOptions = {};
-    $scope.wallOptions.headerColour = '#3c8dbc';
-    $scope.wallOptions.headerPosition = 'Top';
-    $scope.wallOptions.layoutStyle = 1;
+    $scope.newWallOptions = {};
+    $scope.newWallOptions.headerColour = '#3c8dbc';
+    $scope.newWallOptions.headerPosition = 'Top';
+    $scope.newWallOptions.layoutStyle = 1;
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -36,18 +36,18 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         }
     }
 
-    $scope.$watch('wallOptions.headerColour', function() {
-        if ($scope.wallOptions.headerColour)
-            $scope.wallOptions.headerForeColour = colourCalculator(hexToRgb($scope.wallOptions.headerColour));
+    $scope.$watch('newWallOptions.headerColour', function() {
+        if ($scope.newWallOptions.headerColour)
+            $scope.newWallOptions.headerForeColour = colourCalculator(hexToRgb($scope.newWallOptions.headerColour));
     });
 
-    $scope.$watch('wallOptions.mainHashtagText', function() {
-        if ($scope.wallOptions.mainHashtagText)
-            if ($scope.wallOptions.mainHashtagText.length !== 0) {
-                if ($scope.wallOptions.mainHashtagText[0] != '#') {
-                    $scope.wallOptions.mainHashtag = '#' + $scope.wallOptions.mainHashtagText;
+    $scope.$watch('newWallOptions.mainHashtagText', function() {
+        if ($scope.newWallOptions.mainHashtagText)
+            if ($scope.newWallOptions.mainHashtagText.length !== 0) {
+                if ($scope.newWallOptions.mainHashtagText[0] != '#') {
+                    $scope.newWallOptions.mainHashtag = '#' + $scope.newWallOptions.mainHashtagText;
                 } else {
-                    $scope.wallOptions.mainHashtag = $scope.wallOptions.mainHashtagText;
+                    $scope.newWallOptions.mainHashtag = $scope.newWallOptions.mainHashtagText;
                 }
             }
     });
@@ -58,64 +58,65 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     };
 
     $scope.start = function() {
-        //$scope.wallOptions.allWords = JSON.stringify($scope.wallOptions.allWords);
+        //$scope.newWallOptions.allWords = JSON.stringify($scope.newWallOptions.allWords);
         //construct term
-        term = $scope.wallOptions.mainHashtag;
-        for (var i = 0; i < $scope.wallOptions.allWords.length; i++) {
-            term = term + ' ' + $scope.wallOptions.allWords[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.anyWords.length; i++) {
-            term = term + ' ' + $scope.wallOptions.anyWords[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.noWords.length; i++) {
-            term = term + ' -' + $scope.wallOptions.noWords[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.allHashtags.length; i++) {
-            term = term + ' #' + $scope.wallOptions.allHashtags[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.from.length; i++) {
-            term = term + ' from:' + $scope.wallOptions.from[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.to.length; i++) {
-            term = term + ' @' + $scope.wallOptions.to[i].text;
-        };
-        for (var i = 0; i < $scope.wallOptions.mentioning.length; i++) {
-            term = term + ' @' + $scope.wallOptions.mentioning[i].text;
-        };
-        if ($scope.wallOptions.images) {
-            if ($scope.wallOptions.images == "only") {
-                term = term + ' /image';
-            } else if ($scope.wallOptions.images == "none") {
-                term = term + ' -/image';
-            }
-        }
-        if ($scope.wallOptions.videos) {
-            if ($scope.wallOptions.videos == "only") {
-                term = term + ' /video';
-            } else if ($scope.wallOptions.videos == "none") {
-                term = term + ' -/video';
-            }
-        }
-        if ($scope.wallOptions.audio) {
-            if ($scope.wallOptions.audio == "only") {
-                term = term + ' /audio';
-            } else if ($scope.wallOptions.audio == "none") {
-                term = term + ' -/audio';
-            }
-        }
-        if ($scope.wallOptions.sinceDate) {
-            term = term + ' since:' + moment($scope.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
-        }
-        if ($scope.wallOptions.untilDate) {
-            term = term + ' until:' + moment($scope.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
-        }
-        $scope.wallOptions['term'] = term;
+        var dataParams = encodeURI(JSON.stringify($scope.newWallOptions));
+        // term = $scope.newWallOptions.mainHashtag;
+        // for (var i = 0; i < $scope.newWallOptions.allWords.length; i++) {
+        //     term = term + ' ' + $scope.newWallOptions.allWords[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.anyWords.length; i++) {
+        //     term = term + ' ' + $scope.newWallOptions.anyWords[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.noWords.length; i++) {
+        //     term = term + ' -' + $scope.newWallOptions.noWords[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
+        //     term = term + ' #' + $scope.newWallOptions.allHashtags[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.from.length; i++) {
+        //     term = term + ' from:' + $scope.newWallOptions.from[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.to.length; i++) {
+        //     term = term + ' @' + $scope.newWallOptions.to[i].text;
+        // };
+        // for (var i = 0; i < $scope.newWallOptions.mentioning.length; i++) {
+        //     term = term + ' @' + $scope.newWallOptions.mentioning[i].text;
+        // };
+        // if ($scope.newWallOptions.images) {
+        //     if ($scope.newWallOptions.images == "only") {
+        //         term = term + ' /image';
+        //     } else if ($scope.newWallOptions.images == "none") {
+        //         term = term + ' -/image';
+        //     }
+        // }
+        // if ($scope.newWallOptions.videos) {
+        //     if ($scope.newWallOptions.videos == "only") {
+        //         term = term + ' /video';
+        //     } else if ($scope.newWallOptions.videos == "none") {
+        //         term = term + ' -/video';
+        //     }
+        // }
+        // if ($scope.newWallOptions.audio) {
+        //     if ($scope.newWallOptions.audio == "only") {
+        //         term = term + ' /audio';
+        //     } else if ($scope.newWallOptions.audio == "none") {
+        //         term = term + ' -/audio';
+        //     }
+        // }
+        // if ($scope.newWallOptions.sinceDate) {
+        //     term = term + ' since:' + moment($scope.newWallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
+        // }
+        // if ($scope.newWallOptions.untilDate) {
+        //     term = term + ' until:' + moment($scope.newWallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
+        // }
+        $scope.newWallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
         $("#wall-modal").on('hidden.bs.modal', function() {
             if (flag == true) {
                 flag = false;
                 console.log('here');
-                $location.path('/wall/display').search($scope.wallOptions);
+                $location.path('/wall/display').search({data: dataParams});
                 $scope.$apply();
             }
         });
@@ -124,8 +125,8 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
 
 
     $scope.resetDate = function() {
-        $scope.wallOptions.sinceDate = null;
-        $scope.wallOptions.untilDate = null;
+        $scope.newWallOptions.sinceDate = null;
+        $scope.newWallOptions.untilDate = null;
     }
 }
 
