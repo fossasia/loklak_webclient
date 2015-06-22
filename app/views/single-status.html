@@ -5,56 +5,56 @@
     padding-bottom: 0px;
 ">
 <div ng-show="showStatus" ng-attr-id="{{data.id_str}}" class="tweet permalink-tweet js-actionable-user js-actionable-tweet js-original-tweet                            with-user-actions           logged-in       is-loaded opened-tweet">
-	<div class="content clearfix">
-		<div class="permalink-header">
-			<div class="follow-bar">
-				<div class="user-actions btn-group not-following not-muting" data-name="" data-protected="false">
-					<button class="user-actions-follow-button js-follow-btn follow-button btn" type="button">
-						<span class="button-text follow-text">
-							<span class="fa fa-twitter"></span> Follow 
-						</span>
-					</button>
-				</div>
-			</div>
-			<a ng-href="{{'https://twitter.com/' + data.user.screen_name}}" class="account-group js-account-group js-action-profile js-user-profile-link js-nav">
-				<img class="avatar js-action-profile-avatar" 
-			 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
-			 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-			 	<strong class="fullname js-action-profile-name show-popup-with-id">{{data.user.name}}</strong>
-			 	<span class="username js-action-profile-name">{{ "@" + data.user.screen_name }}</span>
-			</a>
-		</div>
-		<p class="TweetTextSize TweetTextSize--28px js-tweet-text tweet-text" ng-bind-html="data.text | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
-		<div class="debugged-link-container" debugged-link link-array="data.links" debuggable="debuggable"></div>
-		<!-- Images -->
-	<div class="status-images-container" ng-show="!debuggable">
-		<!-- Images - 1 img -->
-		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix" ng-if="data.images_count === 1">
-		       <div class="single-masonry-item" ng-repeat="image in data.images">
-		           <img ng-src="{{image}}" alt="A masonry brick">
-		       </div>
-		</div>
-		<!-- Images - 2 imgs -->
-		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 2">
-		       <div class="double-masonry-item" ng-repeat="image in data.images">
-		           <img ng-src="{{image}}" alt="A masonry brick">
-		       </div>
-		</div>
-		<!-- Images - 3 imgs -->
-		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 3">
-		       <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images">
-		           <img ng-src="{{image}}" alt="A masonry brick">
-		       </div>
-		</div>
-		<!-- Images - 4 imgs -->
-		<div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 4">
-		       <div class="quad-masonry-item" ng-repeat="image in data.images">
-		           <img ng-src="{{image}}" alt="A masonry brick">
-		       </div>
-		</div>
-	</div>
-	<!-- End of images -->
-	<div class="stream-item-footer">
+  <div class="content clearfix">
+    <div class="permalink-header">
+      <div class="follow-bar">
+        <div class="user-actions btn-group not-following not-muting" data-name="" data-protected="false">
+          <button class="user-actions-follow-button js-follow-btn follow-button btn" type="button">
+            <span class="button-text follow-text">
+              <span class="fa fa-twitter"></span> Follow 
+            </span>
+          </button>
+        </div>
+      </div>
+      <a ng-href="{{'https://twitter.com/' + data.user.screen_name}}" class="account-group js-account-group js-action-profile js-user-profile-link js-nav">
+        <img class="avatar js-action-profile-avatar" 
+       onError="this.onerror=null;this.src='/images/anon_200x200.png';"
+       ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
+        <strong class="fullname js-action-profile-name show-popup-with-id">{{data.user.name}}</strong>
+        <span class="username js-action-profile-name">{{ "@" + data.user.screen_name }}</span>
+      </a>
+    </div>
+    <p class="TweetTextSize TweetTextSize--28px js-tweet-text tweet-text" ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
+    <div class="debugged-link-container" debugged-link image-link="data.images" link-array="data.links" debuggable="debuggable"></div>
+    <!-- Images -->
+  <div class="status-images-container" ng-show="!debuggable">
+    <!-- Images - 1 img -->
+    <div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix" ng-if="data.images_count === 1">
+           <div class="single-masonry-item" ng-repeat="image in data.images track by $index">
+               <img ng-src="{{image}}" alt="A masonry brick">
+           </div>
+    </div>
+    <!-- Images - 2 imgs -->
+    <div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 2">
+           <div class="double-masonry-item" ng-repeat="image in data.images track by $index">
+               <img ng-src="{{image}}" alt="A masonry brick">
+           </div>
+    </div>
+    <!-- Images - 3 imgs -->
+    <div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 3">
+           <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images track by $index">
+               <img ng-src="{{image}}" alt="A masonry brick">
+           </div>
+    </div>
+    <!-- Images - 4 imgs -->
+    <div data-ng-click="openSwipe(data.id_str);" class="images-wrapper clearfix showcomposition" ng-if="data.images_count === 4">
+           <div class="quad-masonry-item" ng-repeat="image in data.images track by $index">
+               <img ng-src="{{image}}" alt="A masonry brick">
+           </div>
+    </div>
+  </div>
+  <!-- End of images -->
+  <div class="stream-item-footer">
                     <div role="group" aria-label="Tweet actions" class="ProfileTweet-actionList u-cf js-actions">
             </p>
             <div class="debugged-link-container" debugged-link data="data" link-array="data.links" debuggable="debuggable"></div>
@@ -114,7 +114,7 @@
             <!-- End of hidden detailed metadata -->
             </div>
         </div>
-	</div>
+  </div>
 
 </div>
 </div>
