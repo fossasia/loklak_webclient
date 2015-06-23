@@ -258,10 +258,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     $scope.fullscreen = function() {
         if (Fullscreen.isEnabled()) {
             Fullscreen.cancel();
-            vm.fullscreenEnabled = false;
         } else {
             Fullscreen.all();
-            vm.fullscreenEnabled = true;
         }
     };
 
@@ -485,14 +483,16 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     }
 
     $interval(function() {
-        if (vm.statuses.length > 0) {
-            var statParams = searchParams;
-            StatisticsService.getStatistics(statParams)
-                .then(function(statistics) {
-                        evalHistogram(statistics);
-                    },
-                    function() {}
-                );
+        if(vm.wallOptions.showStatistics==true){
+            if (vm.statuses.length > 0) {
+                var statParams = searchParams;
+                StatisticsService.getStatistics(statParams)
+                    .then(function(statistics) {
+                            evalHistogram(statistics);
+                        },
+                        function() {}
+                    );
+            }
         }
     }, 10000);
 

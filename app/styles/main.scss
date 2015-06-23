@@ -1414,7 +1414,7 @@ body {
         .linear-content-text {
             word-break: break-all;
             color: #292f33;
-            font-size: 28px;
+            font-size: 26px;
             line-height: 120%;
             .linear-hashtag {
                 color: #55ACEE;
@@ -1424,8 +1424,8 @@ body {
             }
         }
         .metadata {
-            /*			position: absolute;
-			bottom: 0;*/
+            position: absolute;
+			bottom: 0;
             
             font-size: 18px;
             color: #8899A6;
@@ -1850,6 +1850,36 @@ body {
 	text-align: left;
 	border-bottom: 2px solid $background-dark;
 	/*margin: 8px;*/
-	padding: 4px;
+	padding: 4px 0;
+
 	font-size: 14px;
+	img {
+		border-radius: 50%;
+	}
 }
+.leaderboard-item td {
+	position: relative;
+}
+.leaderboard-count {
+	background-color: #00a65a;
+	min-height: 48px;
+	min-width: 48px;
+	padding: 14px 0;
+	text-align: center;
+	border-radius: 50%;
+	font-weight: bold;
+}
+.leaderboard-label {
+	top:9px;
+	position: absolute;
+	right: 7px;
+	background-color: #8FB40D;
+}
+.histogram-loader {
+	margin-right: auto;
+	margin-left: auto;
+	width: 64px;
+	display: block;
+	margin-top: 20px;
+}
+
