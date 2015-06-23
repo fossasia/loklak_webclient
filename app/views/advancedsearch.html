@@ -23,14 +23,14 @@
 				<span class="field-title">From these accounts</span>
 				<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
 				<span class="field-title">Mentioning those accounts</span>
-				<input class="field-value" ng-model="aSearch.accountMentionIntersect" type="text"><br>
+				<input class="field-value" ng-model="aSearch.accountMentionUnion" type="text"><br>
 			</div>
 
 			<div class="form-section location-section">
 				<h3>Place</h3>
 				<h4 class="field-title">Near this place</h4>
-				<h5 class="chosen-location" ng-click="advanced.toggleShowLookUp()">{{advanced.chosenLocation}}</h5>
-				<span class="location-hint">Click to change/chose location</span>
+				<h5 class="chosen-location" ng-click="advanced.toggleShowLookUp()">{{advanced.chosenLocation.name}}</h5>
+				<span class="location-hint">Click to change/choose location</span>
 				<br>
 				<div class="location-lookup-container" ng-show="advanced.showLookUp">
 					<h2 class="field-title">Location Lookup</h2>
