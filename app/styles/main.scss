@@ -6,7 +6,11 @@
 * {
     font-family: $font-family;
 }
-/* Admin LTE */
+/* Admin LTE related */
+	.wrapper {
+		background-color: white !important;
+	}
+
 /* Topnav */
 
 /* Miscs */
@@ -1729,129 +1733,175 @@
 	}
 
 /* Style for advanced search */
-.advanced-search-view-container {
-	min-height: 100vh;
-	background-color: white;
-	margin-top: -20px;
-	padding-bottom: 100px;
-	text-align: center;
-	.advanced-search-title {
-		font-size: 40px;
-		font-weight: 500;
+	.advanced-search-view-container {
+		min-height: 100vh;
+		background-color: white;
+		margin-top: -20px;
+		padding-bottom: 100px;
 		text-align: center;
-		margin: 20px 0 0 0;
-		padding: 15px;
-		span {
-			font-weight: 700;
-		}
-	}
-	.advanced-search-form-container {
-		display: inline-block;
-		text-align: left;
-		.form-section {
-			margin-bottom: 20px;
-			.field-title {
-				font-size: 14px;
-				font-weight: 500;
-				display: inline-block;
-				min-width: 200px;
+		.advanced-search-title {
+			font-size: 27px;
+			font-weight: 500;
+			text-align: center;
+			margin: 20px 0 -30px 0;
+			padding: 20px;
+			span {
+				font-weight: 700;
 			}
 		}
-		.words-section, .people-section, .location-section {
-			input[type="text"] {
-				width: 400px;
-				background-color: #fff;
-				border: 1px solid #e1e8ed;
-				border-radius: 3px;
-				padding: 8px;
-				display: inline-block;
+		.advanced-search-form-container {
+			display: inline-block;
+			text-align: left;
+			.form-section {
 				margin-bottom: 20px;
-			}
-		}
-		.location-section {
-			.chosen-location {
-				display: inline-block;
-				font-size: 15px;
-				color: $search-twitter-blue;
-				font-weight: 600;
-				margin: 0;
-				padding: 10px 10px;
-				border: 1px solid #e1e8ed;
-				border-radius: 3px;
-				&:hover {
-					cursor: pointer;
-					background-color: $search-twitter-blue;
-					color: white;
+				.field-title {
+					font-size: 14px;
+					font-weight: 500;
+					display: inline-block;
+					min-width: 200px;
 				}
 			}
-			.location-hint {
-				display: inline-block;
-				margin-left: 10px;
-				font-size: 13px;
-				font-style: italic;
-			}
-			ul {
-				display: inline-block;
-				margin: 0;
-				padding: 0;
-				li {
-					background-color: rgba(85,172,238,0.7);
-					color: white;
-					display: block;
+			.words-section, .people-section, .location-section {
+				input[type="text"] {
+					width: 400px;
+					background-color: #fff;
+					border: 1px solid #e1e8ed;
+					border-radius: 3px;
 					padding: 8px;
-					border: none;
-					&:hover {
-						background-color: white;
-						color: rgba(85,172,238,1);
-						cursor: pointer;
-					}
-					&:first-child {
-						border-top-left-radius: 5px;
-						border-top-right-radius: 5px;
-					}
-					&:last-child {
-						border-bottom-left-radius: 5px;
-						border-bottom-right-radius: 5px;
-					}
+					display: inline-block;
+					margin-bottom: 20px;
 				}
 			}
-			.search-box input[type="text"] {
-				margin-bottom: 20;
+			.location-section {
+				.chosen-location {
+					display: inline-block;
+					font-size: 15px;
+					color: $search-twitter-blue;
+					font-weight: 600;
+					margin: 0;
+					padding: 10px 10px;
+					border: 1px solid #e1e8ed;
+					border-radius: 3px;
+					&:hover {
+						cursor: pointer;
+						background-color: $search-twitter-blue;
+						color: white;
+					}
+				}
+				.location-hint {
+					display: inline-block;
+					margin-left: 10px;
+					font-size: 13px;
+					font-style: italic;
+				}
+				ul {
+					display: inline-block;
+					margin: 0;
+					padding: 0;
+					li {
+						background-color: rgba(85,172,238,0.7);
+						color: white;
+						display: block;
+						padding: 8px;
+						border: none;
+						&:hover {
+							background-color: white;
+							color: rgba(85,172,238,1);
+							cursor: pointer;
+						}
+						&:first-child {
+							border-top-left-radius: 5px;
+							border-top-right-radius: 5px;
+						}
+						&:last-child {
+							border-bottom-left-radius: 5px;
+							border-bottom-right-radius: 5px;
+						}
+					}
+				}
+				.search-box input[type="text"] {
+					margin-bottom: 20;
+				}
+			}
+
+			.date-range-section {
+				.from-this-date {
+				}
+				.form-inline {
+					display: inline-block;
+					margin-bottom: 20px;
+				}
 			}
 		}
+		.reset-advanced-search, .submit-advanced-search {
+			display: inline-block;
+			min-width: 150px;
+			box-sizing: border-box;
+			font-size: 15px;
+			padding: 12px 12px;
+			border: none;
+			border-radius: 5px;
 
-		.date-range-section {
-			.from-this-date {
+		}
+		.reset-advanced-search {
+			margin-left: 20px;
+			color: white;
+			background: rgba(20,20,20,0.2);
+			&:hover {
+				background: rgba(20,20,20,0.6);
 			}
-			.form-inline {
+		}
+		.submit-advanced-search {
+			color: white;
+			background-color: rgba(85, 172, 238, 0.8);
+			&:hover {
+				background-color: rgba(85, 172, 238, 1);
+			}
+		}
+	}
+	.search-container.advanced-result-container {
+		.content-container {
+			width: 100%;
+			border-radius: 0;
+			margin-top: 0;
+			display: block;
+			text-align: center;
+			.final-search-term {
+				margin: 0;
+				padding: 15px 0;
+				background-color: white;
+				span {
+					font-style: italic;
+				}
+			}
+			.result-message {
+				margin: 0;
+				padding: 15px 0;
+				text-align: center;
+				span {
+					font-size: 22px;
+					display: inline-block;
+					color: $search-twitter-blue;
+				}
+				.create-new-search {
+					display: block;
+					span {
+						font-size: 15px;
+						color: black;
+						padding: 2px 1px;
+						border-bottom: 1px solid rgba(0,0,0,0.7);
+						display: inline-block;	
+						font-style: italic;
+					}
+					
+				}
+			}
+			.result-container {
 				display: inline-block;
-				margin-bottom: 20px;
+				width: 70%;
+				max-width: 900px;
+				text-align: left;
+				
 			}
 		}
 	}
-	.reset-advanced-search, .submit-advanced-search {
-		display: inline-block;
-		min-width: 150px;
-		box-sizing: border-box;
-		font-size: 15px;
-		padding: 12px 12px;
-		border: none;
-		border-radius: 5px;
-
-	}
-	.reset-advanced-search {
-		margin-left: 20px;
-		color: white;
-		background: rgba(20,20,20,0.2);
-		&:hover {
-			background: rgba(20,20,20,0.6);
-		}
-	}
-	.submit-advanced-search {
-		color: white;
-		background-color: rgba(85, 172, 238, 0.8);
-		&:hover {
-			background-color: rgba(85, 172, 238, 1);
-		}
-	}
-}
