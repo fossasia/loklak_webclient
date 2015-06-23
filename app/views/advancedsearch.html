@@ -23,7 +23,7 @@
 				<span class="field-title">From these accounts</span>
 				<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
 				<span class="field-title">Mentioning those accounts</span>
-				<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
+				<input class="field-value" ng-model="aSearch.accountMentionIntersect" type="text"><br>
 			</div>
 
 			<div class="form-section location-section">
@@ -51,11 +51,11 @@
 			                </span>
 			                <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
 			                    <div class="input-append">
-			                        <input type="text" class="form-control date-input" ng-model="advanced.sinceDate">
+			                        <input type="text" class="form-control date-input" ng-model="aSearch.sinceDate">
 			                    </div>
 			                </a>
 			                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-			                    <datetimepicker ng-model="advanced.sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+			                    <datetimepicker ng-model="aSearch.sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
 			                </ul>
 		            	</div>
 		            </div>
@@ -68,18 +68,18 @@
 			                </span>
 			                <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
 			                    <div class="input-append">
-			                        <input type="text" class="form-control date-input" ng-model="advanced.untilDate">
+			                        <input type="text" class="form-control date-input" ng-model="aSearch.untilDate">
 			                    </div>
 			                </a>
 			                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
-			                    <datetimepicker ng-model="advanced.untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+			                    <datetimepicker ng-model="aSearch.untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
 			                </ul>
 			            </div>
 
 		            </div>
 				</div>	
 			<!-- End Time period pickers-->	
-			<input class="submit-advanced-search" type="submit" ng-click="advanced.process(aSearch)" value="Save" />
+			<input class="submit-advanced-search" type="submit" ng-click="advanced.processSearch()" value="Submit" />
 			<input class="reset-advanced-search" type="button" ng-click="advanced.reset()" value="Reset" />
 		    
 		</form>
