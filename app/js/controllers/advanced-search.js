@@ -2,15 +2,27 @@
 
 var controllersModule = require('./_index');
 
-function AdvancedSearchCtrl($http, AppSettings, SearchService) {
+function AdvancedSearchCtrl($http, $scope, AppSettings, SearchService) {
 
 	var vm = this;
-	// Init period to search - 6 month
-/*	vm.sinceDate = new Date();
-	vm.sinceDate.setMonth(getMonth()-6);
-	vm.untilDate = new Date();*/  		
-	vm.foo = "foo";
+	vm.chosenLocation = "None chosen";
+	vm.showLookUp = false;
+	vm.toggleShowLookUp = function() {
+		console.log("Foo");
+		vm.showLookUp = true;
+	}
+    $scope.processLookedLocation = function() {
+      if ($scope.lookedUpLocation) {
+      	vm.chosenLocation = $scope.lookedUpLocation.name;
+      	console.log($scope.lookedUpLocation);	
+      	vm.showLookUp = false;
+      }
+      
+    };
+    $scope.$watch('lookedUpLocation', $scope.processLookedLocation);
+
+    
 }
 
-controllersModule.controller('AdvancedSearchCtrl', ['$http', 'AppSettings', 'SearchService', AdvancedSearchCtrl
+controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', 'AppSettings', 'SearchService', AdvancedSearchCtrl
 ]);
