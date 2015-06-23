@@ -8,7 +8,9 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	
 	vm.showLookUp = false;
 	vm.currentResult = [];
-	vm.showResult = false;
+	vm.isResultShow = false;
+	vm.isNumberOfResultShown = false;
+	vm.resultMessage = "";
 
 
 	/* Location Ui related view model */
@@ -33,6 +35,47 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 			vm.chosenLocation.name = "None chosen";
 		}
 
+	/** 
+	 * Process search with given
+	 * Union params & Intersect params
+	 */
+		vm.processSearch = function() {
+			var unionQ = getUnionTerm(); // Union related params
+			var intersectQ = getIntersectTerm(); // Intersect related params
+			var finalParams = {}; // Intersect related params
+			
+			// Intersect params will overrule union params until further support
+			finalParams.q = (intersectQ) ? intersectQ : unionQ;
+			vm.getResult(finalParams);
+			vm.isResultShow = true;
+		}
+
+	/* Get search result */
+		vm.getResult = function(Params) {
+			console.log(Params);
+			SearchService.initData(Params).then(function(data) {
+				vm.currentResult = data.statuses;
+				processResultLayout();
+				if (vm.currentResult.length === 0) {
+					console.log("No result from data");
+				}
+			}, function() {
+				console.log("No result");
+			});
+		}
+
+	/**
+	 * Process result related view
+	 */
+	    function processResultLayout() {
+	    	if (vm.currentResult.length === 0) {
+	    		vm.resultMessage = "No result found";
+	    		vm.isResultShow = false;
+	    	} else {
+	    		vm.resultMessage = "Found " + vm.currentResult.length + " results!";
+	    		vm.isResultShow = true;
+	    	}
+	    }
 
 	/**
 	 * Process union values including 
@@ -95,35 +138,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	 			return intersectTermResult;	
 	 		} else {
 	 			return false;
-	 		}
-	 		
+	 		} 		
 	 	}
-
-
-
-	/** 
-	 * Process search with given
-	 * Union params & Intersect params
-	 */
-		vm.processSearch = function() {
-			var unionQ = getUnionTerm(); // Union related params
-			var intersectQ = getIntersectTerm(); // Intersect related params
-			var finalParams = {}; // Intersect related params
-			
-			// Intersect params will overrule union params until further support
-			finalParams.q = (intersectQ) ? intersectQ : unionQ;
-			vm.getResult(finalParams);
-		}
-
-	/* Get search result */
-		vm.getResult = function(Params) {
-			console.log(Params);
-			SearchService.initData(Params).then(function(data) {
-				vm.currentResult = data.statuses;
-				console.log(vm.currentResult);
-			}, function() {});
-		}
-
 
 	/**
 	 * Helper fn. Get distance from to location lat & long
