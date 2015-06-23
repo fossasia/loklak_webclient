@@ -12,7 +12,11 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	vm.isNumberOfResultShown = false;
 	vm.resultMessage = "";
 	vm.finalParams = {};
-	vm.showAdvancedSearch = false;
+	if ($stateParams.q === undefined) {
+		vm.showAdvancedSearch = true;
+	} else {
+		vm.showAdvancedSearch = false;
+	}
 
 
 	/* Location Ui related view model */
@@ -81,8 +85,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    if ($stateParams.q !== undefined) {
 	    	vm.finalParams.q = $stateParams.q;
 	    	vm.getResult(vm.finalParams);
-	    } else {
-	    	vm.showAdvancedSearch = true;
 	    }
 	});
 
