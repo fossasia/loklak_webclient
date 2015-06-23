@@ -1,48 +1,109 @@
-<div class="wrapper">
+<div class="page-outer">
+<div id="page-container" class="AppContent  wrapper-search wrapper-home" style="padding-left: 0px;padding-right: 0px;padding-top: 45px;">
+<div class="dashboard dashboard-left" style="margin-left:14px;">
     <!-- Main content -->
-    <div class="container-fluid content-container">
+    <div class="DashboardProfileCard module">
       <!-- Center result + option filters -->
       <!-- Left content: Who to follow, trends -->
-      <div class="result-container col-md-3" style="margin-top:4%;">
-        <div class="row cms-view direct-chat-messages" ng-if="root.twitterSession">
-            <div class="direct-chat-msg">
-              <div class="direct-chat-info clearfix">
-                <span class="direct-chat-name pull-left">{{root.twitterSession.first_name}}</span>
-                <span class="direct-chat-timestamp pull-right fa fa-map-marker">&nbsp;{{root.twitterSession.location}}</span>
-            </div><!-- /.direct-chat-info -->
-            <img class="direct-chat-img" src="{{root.twitterSession.profile_image_url}}" alt="" style="padding-bottom:0px;"><!-- /.direct-chat-img -->
-            <div class="direct-chat-text" style="background-color:#3c8dbc;color:white;">
-                {{root.twitterSession.description}}
-            </div><!-- /.direct-chat-text -->
-        </div>
-    </div>
+      <a href="#" class="DashboardProfileCard-bg u-bgUserColor u-block"  style="background-color:cornflowerblue;"></a>
+      <div class="DashboardProfileCard-content">
+          <a href="#" class="DashboardProfileCard-avatarLink u-inlineBlock" aria-hidden="true" tabindex="-1" title="{{root.twitterSession.first_name}}">
+              <img src="{{root.twitterSession.profile_image_url }}" alt="" class="DashboardProfileCard-avatarImage js-action-profile-avatar">
+          </a>
+          <div class="DashboardProfileCard-userFields">
+              <div class="DashboardProfileCard-name u-textTruncate">
+                  <a href="#" class="u-textInheritColor">
+                      {{root.twitterSession.first_name}}
+                  </a>
+              </div>
+              <span class="DashboardProfileCard-screenname u-inlineBlock u-dir" dir="ltr">
+                  <a href="" class="DashboardProfileCard-screennameLink u-linkComplex u-linkClean">
+                      {{root.twitterSession.screen_name}}
+                  </a>
+              </span>
+          </div>
+          <div class="DashboardProfileCard-stats">
+              <ul class="DashboardProfileCard-statList Arrange Arrange--bottom Arrange--equal">
+                  <li class="DashboardProfileCard-stat Arrange-sizeFit">
+                      <a href="#" class="DashboardProfileCard-statLink u-textUserColor u-linkClean u-block" data-element-term="tweet_stats">
+                          <span class="DashboardProfileCard-statLabel u-block">
+                              Tweets
+                          </span>
+                          <span class="DashboardProfileCard-statValue" data-is-compact="false">
+                              {{root.twitterSession.statuses_count}}
+                          </span>
+                      </a>
+                  </li>
+                  <li class="DashboardProfileCard-stat Arrange-sizeFit">
+                      <a href="#" class="DashboardProfileCard-statLink u-textUserColor u-linkClean u-block" data-element-term="tweet_stats">
+                          <span class="DashboardProfileCard-statLabel u-block">
+                              Following
+                          </span>
+                          <span class="DashboardProfileCard-statValue" data-is-compact="false">
+                              {{root.twitterSession.friends_count}}
+                          </span>
+                      </a>
+                  </li>
+                  <li class="DashboardProfileCard-stat Arrange-sizeFit">
+                      <a href="#" class="DashboardProfileCard-statLink u-textUserColor u-linkClean u-block" data-element-term="tweet_stats">
+                          <span class="DashboardProfileCard-statLabel u-block">
+                              Followers
+                          </span>
+                          <span class="DashboardProfileCard-statValue" data-is-compact="false">
+                              {{root.twitterSession.followers_count}}
+                          </span>
+                      </a>
+                  </li>
+              </ul>
+          </div>
+          <div id="dashboard-profile-prompt"></div>
+      </div>
+
 </div>
-<div class="result-container col-md-6">
-    <div class="row cms-view">
-    <div class="col-md-12" ng-if="!root.twitterFriends">
-        <img src="../images/loading.gif" alt="">
-    </div>
-    <div class="col-md-12" ng-if="root.twitterSession">
-            <div class="main-result-container">
-                <div class="box-body chat" id="chat-box" style="width: auto;">
-                    <div ng-repeat="status in root.twitterFriends.data | limitTo: 20">
-                        <div class="item">
-                            <img src="{{status.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
-                            <p class="message">
-                            {{status.status.text}}
-                            </p>
-                            <small class="pull-left">{{status.screen_name}}</small>
-                            <hr>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-</div>
+<div class="Trends module trends">
+  <div class="trends-inner"><div class="flex-module trends-container ">
+  <div class="flex-module-header">
+    
+    <h3><span class="trend-location js-trend-location">Trends</span></h3>
+      <span class="middot">·</span> <a role="button" href="#" data-modal="change-trends" class="change-trends js-trend-toggle">Change</a>
+  </div>
+  <div class="flex-module-inner">
+    <ul class="trend-items js-trends">
+        <li class="trend-item js-trend-item  " data-trend-name="#LameSuperGroups">
+            <a class="js-nav trend-name" dir="ltr" href="#" data-query-source="trend_click">#loklak</a>
+        </li>
+    </ul>
+  </div>
+</div></div>
 </div>
 
-<!-- Right content: Other statistics -->
-<div class="result-container col-md-3">
+
+</div>
+<div role="main" aria-labelledby="content-main-heading" class="content-main top-timeline-tweetbox" id="timeline" style="float:left;margin-left: 5%;margin-right: 5%;">
+    <div id="above-timeline-prompt"></div>
+    <div class="timeline-tweet-box">
+        <div ng-repeat="status in root.twitterStatuses.data" status open-swipe="search.openSwipe" data="status"></div> 
+  </div>
+</div>
+<div class="dashboard dashboard-right" style="margin-right:14px;margin-left:14px;">
+    <!-- Main content -->
+<div class="Trends module trends">
+  <div class="trends-inner"><div class="flex-module trends-container ">
+  <div class="flex-module-header">
+    
+    <h3><span class="trend-location js-trend-location">Trends</span></h3>
+      <span class="middot">·</span> <a role="button" href="#" data-modal="change-trends" class="change-trends js-trend-toggle">Change</a>
+  </div>
+  <div class="flex-module-inner">
+    <ul class="trend-items js-trends">
+        <li class="trend-item js-trend-item  " data-trend-name="#LameSuperGroups">
+            <a class="js-nav trend-name" dir="ltr" href="#" data-query-source="trend_click">#loklak</a>
+        </li>
+    </ul>
+  </div>
+</div></div>
+</div>
+
 
 </div>
 </div>
