@@ -26,7 +26,12 @@
 
 		<div class="form-section">
 			<h3>Place</h3>
-			<span class="field-title">Near this place</span>
+			<h4 class="field-title">Near this place</h4><h5 class="current-location">{{advanced.chosenLocation}}</h5>
+			<div class="column black flex-item">
+			      <h2>Location Lookup</h2>
+			      <location-lookup ng-model="lookedUpLocation" limit-to="4"></location-lookup>
+		    </div>
+
 		</div>
 
 		<!-- Time period pickers-->

@@ -24,6 +24,7 @@ angular.element(document).ready(function() {
     'ngAnimate',
     'angularMoment',
     'angular-loading-bar',
+    'locator',
     'templates',
     'app.controllers',
     'app.services',
