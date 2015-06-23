@@ -1892,6 +1892,9 @@
 						border-bottom: 1px solid rgba(0,0,0,0.7);
 						display: inline-block;	
 						font-style: italic;
+						&:hover {
+							cursor: pointer;
+						}
 					}
 					
 				}
