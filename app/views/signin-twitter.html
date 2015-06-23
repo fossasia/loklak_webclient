@@ -1,38 +1,71 @@
-<ul class="nav navbar-nav pull-right">
-	<li class="dropdown user user-menu" ng-show="twitterSession" ng-show="twitterSession" style="margin-right: 20px;">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-			<img ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
-			<span class="hidden-xs">{{twitterSession.name}}</span>
-		</a>
-		<ul class="dropdown-menu">
-			<!-- Menu Footer-->
-			<li class="user-header">
-				<img ng-src="{{twitterSession.profileURL}}" alt="" class="img-circle">
-				<p>{{twitterSession.name}}</p>
-			</li>
-			<li class="user-footer">
-				<div class="col-lg-4 col-md-4">
-					<a href="#" class="btn btn-default btn-flat">Profile</a>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<a href="#" class="btn btn-default btn-flat">Settings</a>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<a ng-click="hello('twitter').logout()" class="btn btn-default btn-flat">Sign out</a>
-				</div>
-			</li>
-		</ul>
+<ul class="nav right-actions" ng-if="root.twitterSession">
+	<li class="me dropdown session js-session" data-global-action="t1me" id="user-dropdown">
+		<a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" data-placement="bottom" role="button" aria-haspopup="true" data-original-title="Profile and settings"><img class="avatar size32" src="{{root.twitterSession.profile_image_url }}" alt="Profile and settings" data-user-id=""></a>
+		<div class="dropdown-menu">
+			<div class="dropdown-caret">
+				<span class="caret-outer"></span>
+				<span class="caret-inner"></span>
+			</div>
+			<ul>
+
+				<li class="current-user" data-name="profile">
+
+
+					<a href="#" class="account-summary account-summary-small js-nav" data-nav="view_profile">
+						<div class="content">
+							<div class="account-group js-mini-current-user" data-user-id="" data-screen-name="{{root.twitterSession.screen_name}}"><b class="fullname">{{root.twitterSession.first_name}}</b><span class="screen-name hidden" dir="ltr">@{{root.twitterSession.screen_name}}</span><small class="metadata">View profile</small></div>
+						</div>
+					</a>
+
+				</li>
+
+				<li class="dropdown-divider"></li>
+
+				<li data-name="lists"><a href="/sudheesh001/lists" data-nav="all_lists">Lists</a></li>
+				<li class="dropdown-divider"></li>
+
+
+
+
+				<li><a href="//support.twitter.com" data-nav="help_center">Help</a></li>
+
+
+				<li class="js-keyboard-shortcut-trigger" data-nav="shortcuts">
+					<button type="button" class="dropdown-link">Keyboard shortcuts</button>
+				</li>
+
+
+
+
+
+				<li class="dropdown-divider"></li>
+
+
+				<li><a href="/settings/account" data-nav="settings" class="js-nav">Settings</a></li>
+
+
+				<li class="js-signout-button" id="signout-button" data-nav="logout">
+					<button type="button" class="dropdown-link">Log out</button>
+				</li>
+
+			</ul>
+		</div>
+
+	</li>
+	<li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
+		<button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-toggle="modal" data-target="#myModal">
+			<span class="fa fa-twitter text"></span>
+			<span class="text">Tweet</span>
+		</button>
 	</li>
 </ul>
 
-<ul class=nav navbar-nav>
-	<li ng-show="!twitterSession" class="signin">
-		<a href="" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
-			<span class="link" ng-click="#signupModal" data-target="#signupModal" style="padding-top: 4px;">
-				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal" style="background-color:transparent; border-color:transparent;"><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup via Twitter</button>
-			</span>
-		</a>
-
+<ul class="nav right-actions" ng-if="!root.twitterSession">
+	<li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
+		<button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-toggle="modal" data-target="#signupModal">
+			<span class="fa fa-twitter text"></span>
+			<span class="text">Sign up with Twitter</span>
+		</button>
 	</li>
 </ul>
 
