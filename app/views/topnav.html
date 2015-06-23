@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style>
     .modal-backdrop {
-        z-index: -100;
+        z-index: 1;
     }
 </style>
 <div class="topbar js-topbar">
@@ -34,8 +34,8 @@
                             <label class="visuallyhidden" for="search-query">Search query</label>
                             <input class="search-input" type="text" id="search-query" placeholder="Search Loklak" name="q" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
                             <span class="search-icon js-search-action">
-      <button type="submit" class="fa fa-search" tabindex="-1">
-        <span class="visuallyhidden">Search Loklak</span>
+                                <button type="submit" class="fa fa-search" tabindex="-1">
+                                    <span class="visuallyhidden">Search Loklak</span>
                             </button>
                             </span>
                             <div role="listbox" class="dropdown-menu typeahead" id="typeahead-dropdown-1">
@@ -46,34 +46,8 @@
 
                         </form>
                         </div>
-                        <ul class="nav right-actions" ng-show="twitterSession">
-                            <li class="me dropdown session js-session" data-global-action="t1me" id="user-dropdown">
-                                <a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" title="Profile and settings" data-placement="bottom" role="button" aria-haspopup="true"><img class="avatar size32" ng-src="{{twitterSession.profile_image_url_https}}" alt="Profile and settings" data-user-id="390171807"></a>
-                                <span class="hidden-xs">{{twitterSession.name}}</span>
-                                <div class="dropdown-menu">
-                                    <div class="dropdown-caret">
-                                        <span class="caret-outer"></span>
-                                        <span class="caret-inner"></span>
-                                    </div>
-                                </div>
-
-                            </li>
-                            <li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
-                                <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button">
-                                    <span class="fa fa-pencil text"></span>
-                                    <span class="text">Tweet</span>
-                                </button>
-                            </li>
-                        </ul>
-                        <ul class="nav right-actions" ng-show="!twitterSession">
-                            <li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
-                                <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title="" data-toggle="modal" data-target="#signupModal">
-                                    <span class="fa fa-user text"></span>
-                                    <span class="text">Sign up with twitter</span>
-                                </button>
-                            </li>
-                        </ul>
                     </div>
+                    <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello"></div>
                 </div>
             </div>
         </div>
@@ -103,25 +77,24 @@
             </div>
         </div>
     </div>
-<!-- Signup modal -->
-<div id="signupModal" class="modal-container fade-in" role="dialog" ng-if="!root.twitterSession">
-    <div class="modal-dialog" style="margin-top: 100px;">
+    <!-- Signup modal -->
+    <div id="signupModal" class="modal-container fade-in" role="dialog">
+        <div class="modal-dialog" style="margin-top: 100px;">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
+                </div>
+                <div class="modal-body">
+                    <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
+                    <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
-                <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-            <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
-                <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
-            </div>
+
         </div>
-
     </div>
-</div>
