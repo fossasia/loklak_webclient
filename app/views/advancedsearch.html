@@ -1,0 +1,71 @@
+<div class="advanced-search-form-container">
+	<form>
+		<div class="form-section">
+	 		<h3 class="form-section-title">Words</h3>
+			<span class="field-title">All of these words</span>
+			<input class="field-value" ng-model="aSearch.union" type="text"><br>
+			<span class="field-title">This exact phrase</span>
+			<input class="field-value" ng-model="aSearch.phrase" type="text"><br>
+			<span class="field-title">Any of these words</span>
+			<input class="field-value" ng-model="aSearch.intersect" type="text"><br>
+			<span class="field-title">None of these words</span>
+			<input class="field-value" ng-model="aSearch.negUnion" type="text"><br>
+			<span class="field-title">These hashtags</span>
+			<input class="field-value" ng-model="aSearch.hashtags" type="text"><br>
+
+			<!-- When possible, add written in language options -->
+		</div>
+
+		<div class="form-section">
+			<h3>People</h3>
+			<span class="field-title">From these accounts</span>
+			<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
+			<span class="field-title">Mentioning those accounts</span>
+			<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
+		</div>
+
+		<div class="form-section">
+			<h3>Place</h3>
+			<span class="field-title">Near this place</span>
+		</div>
+
+		<div class="form-section">
+			<h3>Dates</h3>
+			<span class="field-title">From this date</span>
+			<label>Show tweets within this period: {{advanced.foo}}</label>
+			<div class="form-inline">
+                <div class="input-group dropdown">
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+                    <div class="input-append">
+                        <input type="text" class="form-control date-input" ng-model="advanced.sinceDate">
+                    </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+                    <datetimepicker ng-model="advanced.sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                </ul>
+            </div>
+
+            <div class="input-group dropdown">
+                <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
+                    <div class="input-append">
+                        <input type="text" class="form-control date-input" ng-model="advanced.untilDate">
+                    </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
+                    <datetimepicker ng-model="advanced.untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+                </ul>
+            </div>
+            <button ng-click="resetDate()" class="btn btn-danger">Clear</button>
+            </div>
+		</div>		
+
+	</form>
+</div>
+
+		
