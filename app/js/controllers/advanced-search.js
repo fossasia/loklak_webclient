@@ -50,7 +50,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			vm.finalParams.q = (intersectQ) ? intersectQ : unionQ;
 			vm.getResult(vm.finalParams);
 			updatePath(vm.finalParams.q);
-			vm.isResultShow = true;
 		}
 
 	/* Get search result */
@@ -59,6 +58,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			SearchService.initData(Params).then(function(data) {
 				vm.currentResult = data.statuses;
 				processResultLayout();
+				vm.isResultShow = true;
 				if (vm.currentResult.length === 0) {
 					console.log("No result from data");
 				}
