@@ -1411,6 +1411,9 @@ body {
                 color: $search-twitter-blue;
             }
         }
+        img {
+        	height: 100%;
+        }
         .linear-content-text {
             word-break: break-all;
             color: #292f33;
@@ -1424,9 +1427,9 @@ body {
             }
         }
         .metadata {
-            position: absolute;
-			bottom: 0;
-            
+/*            position: absolute;
+			bottom: 0;*/
+            margin-top: 5px;
             font-size: 18px;
             color: #8899A6;
             font-weight: normal;
