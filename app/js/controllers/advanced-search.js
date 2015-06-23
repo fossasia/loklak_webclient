@@ -2,7 +2,7 @@
 
 var controllersModule = require('./_index');
 
-function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) {
+function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, AppSettings, SearchService) {
 
 	var vm = this;
 	
@@ -11,6 +11,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	vm.isResultShow = false;
 	vm.isNumberOfResultShown = false;
 	vm.resultMessage = "";
+	vm.finalParams = {};
+	vm.showAdvancedSearch = false;
 
 
 	/* Location Ui related view model */
@@ -21,7 +23,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	    $scope.processLookedLocation = function() {
 	      if ($scope.lookedUpLocation) {
 	      	vm.chosenLocation = $scope.lookedUpLocation;
-	      	console.log($scope.lookedUpLocation);	
 	      	vm.showLookUp = false;
 	      }
 	      
@@ -40,13 +41,15 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	 * Union params & Intersect params
 	 */
 		vm.processSearch = function() {
+			vm.showAdvancedSearch = false;
+			vm.currentResult = {};
 			var unionQ = getUnionTerm(); // Union related params
 			var intersectQ = getIntersectTerm(); // Intersect related params
-			var finalParams = {}; // Intersect related params
 			
 			// Intersect params will overrule union params until further support
-			finalParams.q = (intersectQ) ? intersectQ : unionQ;
-			vm.getResult(finalParams);
+			vm.finalParams.q = (intersectQ) ? intersectQ : unionQ;
+			vm.getResult(vm.finalParams);
+			updatePath(vm.finalParams.q);
 			vm.isResultShow = true;
 		}
 
@@ -63,6 +66,25 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 				console.log("No result");
 			});
 		}
+
+	/* Do a new search */
+		vm.initNewSearchView = function() {
+			vm.finalParams = {};
+			$location.search({
+			});
+			vm.showAdvancedSearch = true;
+			vm.isResultShow = false;
+		}
+
+	// Init statuses if path is a search url
+	angular.element(document).ready(function() {
+	    if ($stateParams.q !== undefined) {
+	    	vm.finalParams.q = $stateParams.q;
+	    	vm.getResult(vm.finalParams);
+	    } else {
+	    	vm.showAdvancedSearch = true;
+	    }
+	});
 
 	/**
 	 * Process result related view
@@ -142,6 +164,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	 	}
 
 	/**
+	 * Change stateParams on search
+	 */
+		function updatePath(query) {
+		  $location.search({
+		    q: query
+		  });
+		}
+	/**
 	 * Helper fn. Get distance from to location lat & long
 	 * compare to given distance
 	 
@@ -170,5 +200,5 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
     
 }
 
-controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', 'AppSettings', 'SearchService', AdvancedSearchCtrl
+controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', AdvancedSearchCtrl
 ]);

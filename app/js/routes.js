@@ -26,10 +26,11 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     reloadOnSearch: false
   })
   .state('Advanced', {
-    url: '/advancedsearch',
+    url: '/advancedsearch?q',
     templateUrl: 'advancedsearch.html',
     controller: 'AdvancedSearchCtrl as advanced',
     title: 'AdvancedSearch',
+    reloadOnSearch: false
   })
   .state('Wall', {
     url: '/wall',
