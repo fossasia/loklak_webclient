@@ -8,34 +8,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 	
 	vm.showLookUp = false;
 	vm.currentResult = [];
+	vm.showResult = false;
 
-
-	/**
-	 * Helper fn. Get distance from to location lat & long
-	 * compare to given distance
-	 
-		function deg2rad(deg) {
-		  return deg * (Math.PI/180)
-		}
-
-		function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-		  var R = 6371; // Radius of the earth in km
-		  var dLat = deg2rad(lat2-lat1);  // deg2rad below
-		  var dLon = deg2rad(lon2-lon1); 
-		  var a = 
-		    Math.sin(dLat/2) * Math.sin(dLat/2) +
-		    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-		    Math.sin(dLon/2) * Math.sin(dLon/2)
-		    ; 
-		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		  var d = R * c; // Distance in km
-		  return d;
-		}
-		function isCloseEnoughToChosenLocation(lat1,lon1,lat2,lon2, maxRangeInKm) {
-		  var distance = getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2);
-		  return distance < maxRangeInKm;
-		}
-	*/
 
 	/* Location Ui related view model */
 		vm.chosenLocation = {name: "None chosen"};
@@ -105,8 +79,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 
 	 		relatedPropArray.forEach(function(ele) {
 	 			if (rawParams && rawParams[ele]) {
-	 				intersectTermArray.push(rawParams[ele].split(" ")[0]);
 	 				hasInput = true;
+	 				if (ele === 'accountIntersect') {
+	 					intersectTermArray.push("from:" + rawParams[ele].split(" ")[0]);	
+	 				} else {
+	 					intersectTermArray.push(rawParams[ele].split(" ")[0]);	
+	 				}
+	 				
+	 				
 	 			}
 	 		});
 
@@ -144,6 +124,33 @@ function AdvancedSearchCtrl($http, $scope, $filter, AppSettings, SearchService) 
 			}, function() {});
 		}
 
+
+	/**
+	 * Helper fn. Get distance from to location lat & long
+	 * compare to given distance
+	 
+		function deg2rad(deg) {
+		  return deg * (Math.PI/180)
+		}
+
+		function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+		  var R = 6371; // Radius of the earth in km
+		  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+		  var dLon = deg2rad(lon2-lon1); 
+		  var a = 
+		    Math.sin(dLat/2) * Math.sin(dLat/2) +
+		    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+		    Math.sin(dLon/2) * Math.sin(dLon/2)
+		    ; 
+		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		  var d = R * c; // Distance in km
+		  return d;
+		}
+		function isCloseEnoughToChosenLocation(lat1,lon1,lat2,lon2, maxRangeInKm) {
+		  var distance = getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2);
+		  return distance < maxRangeInKm;
+		}
+	*/
     
 }
 
