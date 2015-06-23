@@ -1846,3 +1846,10 @@ body {
 	margin-left: 10px;
 	padding-right: 20px;
 }
+.leaderboard-item {
+	text-align: left;
+	border-bottom: 2px solid $background-dark;
+	/*margin: 8px;*/
+	padding: 4px;
+	font-size: 14px;
+}

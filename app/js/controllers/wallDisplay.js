@@ -182,6 +182,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return 0;
     }
 
+
+
     // vm.update = function(refreshTime) {
     //     return $timeout(function() {
     //         SearchService.getData(term).then(function(data) {
@@ -386,6 +388,14 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
     };
 
+    function compareP(a, b) {
+        if (a.screen_name < b.screen_name) {
+            return -1;
+        } else if (a.screen_name > b.screen_name) {
+            return 1;
+        }
+        return 0;
+    }
     function evalHistogram(statistics) {
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
             var data = [];
@@ -402,45 +412,73 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             vm.histogram2 = [];
             vm.histogram2.push(data);
             vm.labels = labels;
+            var sortable = [];
             data = [];
             labels = [];
-            for (var property in statistics.hashtags) {
-                if (statistics.hashtags.hasOwnProperty(property)) {
-                    if (statistics.hashtags[property] > 1) {
-                        labels.push('#' + property);
-                        data.push(statistics.hashtags[property]);
-                    }
-                }
-            }
-            //vm.topHashtagsData = [];
-            vm.topHashtagsData = data;
-            vm.topHashtagsLabels = labels;
-            data = [];
-            labels = [];
-            for (var property in statistics.screen_name) {
-                if (statistics.screen_name.hasOwnProperty(property)) {
-                    if (statistics.screen_name[property] > 1) {
-                        labels.push('@' + property);
-                        data.push(statistics.screen_name[property]);
-                    }
-                }
-            }
-            //vm.topHashtagsData = [];
-            vm.topTwitterersData = data;
-            vm.topTwitterersLabels = labels;
-            data = [];
-            labels = [];
-            for (var property in statistics.mentions) {
-                if (statistics.mentions.hasOwnProperty(property)) {
-                    if (statistics.mentions[property] > 1) {
-                        labels.push('@' + property);
-                        data.push(statistics.mentions[property]);
-                    }
-                }
-            }
-            //vm.topHashtagsData = [];
-            vm.topMentionsData = data;
-            vm.topMentionsLabels = labels;
+
+            //Top twitterers
+            for (var s in statistics.screen_name)
+                sortable.push([s, statistics.screen_name[s]]);
+            sortable.sort(function(a, b) {return b[1] - a[1]});
+            sortable = (sortable.slice(0, 3));
+            vm.topTwitterersData = sortable;
+
+            //Top Hashtags
+            sortable = [];
+            for (var s in statistics.hashtags)
+                sortable.push([s, statistics.hashtags[s]]);
+            sortable.sort(function(a, b) {return b[1] - a[1]});
+            sortable = (sortable.slice(0, 3));
+            vm.topHashtagsData = sortable;  
+
+            //Top Mentions
+            sortable = [];
+            for (var s in statistics.mentions)
+                sortable.push([s, statistics.mentions[s]]);
+            sortable.sort(function(a, b) {return b[1] - a[1]});
+            sortable = (sortable.slice(0, 3));
+            vm.topMentionsData = sortable;                        
+
+            // for (var property in statistics.hashtags) {
+            //     if (statistics.hashtags.hasOwnProperty(property)) {
+            //         if (statistics.hashtags[property] > 1) {
+            //             labels.push('#' + property);
+            //             data.push(statistics.hashtags[property]);
+            //         }
+            //     }
+            // }
+            // //vm.topHashtagsData = [];
+            
+            
+
+            // vm.topHashtagsData = data;
+            // vm.topHashtagsLabels = labels;
+            // data = [];
+            // labels = [];
+            // for (var property in statistics.screen_name) {
+            //     if (statistics.screen_name.hasOwnProperty(property)) {
+            //         if (statistics.screen_name[property] > 1) {
+            //             labels.push('@' + property);
+            //             data.push(statistics.screen_name[property]);
+            //         }
+            //     }
+            // }
+            // //vm.topHashtagsData = [];
+            // //vm.topTwitterersData = data;
+            // vm.topTwitterersLabels = labels;
+            // data = [];
+            // labels = [];
+            // for (var property in statistics.mentions) {
+            //     if (statistics.mentions.hasOwnProperty(property)) {
+            //         if (statistics.mentions[property] > 1) {
+            //             labels.push('@' + property);
+            //             data.push(statistics.mentions[property]);
+            //         }
+            //     }
+            // }
+            // //vm.topHashtagsData = [];
+            // vm.topMentionsData = data;
+            // vm.topMentionsLabels = labels;
         } else {
             //vm.histogram2 = [];
         }
