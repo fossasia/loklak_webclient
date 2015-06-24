@@ -1,11 +1,22 @@
-<ul class="nav right-actions" ng-if="root.twitterSession">
+<ul class="nav right-actions" ng-if="twitterSession">
 	<li class="me dropdown session js-session" data-global-action="t1me" id="user-dropdown">
-		<a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" data-placement="bottom" role="button" aria-haspopup="true" data-original-title="Profile and settings"><img class="avatar size32" src="{{root.twitterSession.profile_image_url }}" alt="Profile and settings" data-user-id=""></a>
+		<a href="/settings/account" class="btn js-tooltip settings dropdown-toggle js-dropdown-toggle" id="user-dropdown-toggle" data-placement="bottom" role="button" aria-haspopup="true" data-original-title="Profile and settings"><img class="avatar size32" src="{{ twitterSession.profile_image_url }}" alt="Profile and settings" data-user-id=""></a>
 		<div class="dropdown-menu">
 			<div class="dropdown-caret">
 				<span class="caret-outer"></span>
 				<span class="caret-inner"></span>
 			</div>
+			<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown" aria-expanded="false">Tutorials
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+      <li role="presentation" class="divider"></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+    </ul>
+  </div>
 			<ul>
 
 				<li class="current-user" data-name="profile">
@@ -60,7 +71,7 @@
 	</li>
 </ul>
 
-<ul class="nav right-actions" ng-if="!root.twitterSession">
+<ul class="nav right-actions" ng-if="!twitterSession">
 	<li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">
 		<button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-toggle="modal" data-target="#signupModal">
 			<span class="fa fa-twitter text"></span>
