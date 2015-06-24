@@ -75,7 +75,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		vm.getResult = function(Params) {
 			console.log(Params);
 			SearchService.initData(Params).then(function(data) {
-				//vm.currentResult = data.statuses;
+				vm.currentResult = data.statuses;
 				processResultLayout();
 				vm.isResultShow = true;
 				if (vm.currentResult.length === 0) {
