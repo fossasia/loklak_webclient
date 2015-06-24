@@ -37,7 +37,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			linkArray: "=",
 			debuggable: "=",
 			data: "=",
-			imageLink: "=",
+			imageLink: "="
 		},
 		templateUrl: 'debugged-link.html',
 		controller: function($scope) {

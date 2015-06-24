@@ -1,20 +1,44 @@
 'use strict';
 
-
 var controllersModule = require('./_index');
+var hello=require('../components/hello.all');
 
-function tweetCtrl($http, AppSettings, SearchService, hello) { // jshint ignore:line
-    // SAid you use ng-click="tweetCtrl.postTweet()" on somewhere
 
-    var vm = this;
+controllersModule.controller('HomeCtrl', ['$rootScope', function($rootScope) {
 
-    vm.postTweet = function() {
-        var paramsObject = {};
-        // Do something to gather the fields in your form
-        hello('twitter').api('blabla', 'bla', paramsObject, function(result) {
-            // Process your result by updating your models etc etc
-        });
-    };
+    $rootScope.root.tweet="";
+    $rootScope.root.file={};
+    $rootScope.root.foo = function() 
+    {    
+    var message = $rootScope.root.tweet;
+    var tweet = encodeURIComponent(message);
+    var files  = $rootScope.root.file.files;
+    console.log(files);
+    getLocation();
+    console.log(message);
+    hello('twitter').api('me/share', 'POST', {
+        message : tweet ,
+        file : files
+    }).then(log,log);
+    function log(){
+	console.log(arguments);
 }
 
-controllersModule.controller('tweetCtrl', ['$http', 'AppSettings', 'SearchService', 'HelloService', tweetCtrl]);
+    };
+    function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+function showPosition(position) {
+	var latitude = position.coords.latitude;
+	var longitude = position.coords.longitude;
+	document.getElementById('latitude').value = latitude;
+	document.getElementById('longitude').value = longitude;
+    console.log("Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude);
+}
+
+}]);

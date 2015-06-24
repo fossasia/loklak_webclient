@@ -207,10 +207,14 @@
         <h4 class="modal-title">Post a tweet</h4>
       </div>
       <div class="modal-body">
-        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
-      </div>
+        <form role="form" id="tweet"  ng-submit="root.foo()"  >
+        <div class="form-group">
+         <textarea name="tweet" id="tweet" cols="30" rows="5" ng-model="root.tweet" class="form-control"></textarea>
+         <input type="file" ng-model="root.file" value="https://pbs.twimg.com/profile_images/576426618622611456/oeBur07Q_bigger.jpeg"id="file"/>
+        </div>
       <div class="modal-footer">
         <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+    </form>
         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
       </div>
     </div>
