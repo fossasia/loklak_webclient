@@ -32,8 +32,13 @@
 					<h4 class="field-title">Near this place</h4>
 					<h5 class="chosen-location" ng-click="advanced.toggleShowLookUp()">{{advanced.chosenLocation.name}}</h5>
 					<span class="location-hint">Click to change/choose location</span>
+					<div ng-show="advanced.chosenLocation.name !== 'None chosen'" class="location-radius">
+						<h2 class="field-title radius-hint">Radius in km</h2>
+						<input type="text" class="radius-value" ng-model="lookedUpLocationRadius">	
+					</div>
 					<br>
 					<div class="location-lookup-container" ng-show="advanced.showLookUp">
+
 						<h2 class="field-title">Location Lookup</h2>
 						<location-lookup ng-model="lookedUpLocation" limit-to="4"></location-lookup>
 					</div>

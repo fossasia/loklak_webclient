@@ -17,6 +17,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	} else {
 		vm.showAdvancedSearch = false;
 	}
+	$scope.lookedUpLocationRadius = 500;
 
 
 	/* Location Ui related view model */
@@ -27,6 +28,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    $scope.processLookedLocation = function() {
 	      if ($scope.lookedUpLocation) {
 	      	vm.chosenLocation = $scope.lookedUpLocation;
+	      	console.log(vm.chosenLocation);
 	      	vm.showLookUp = false;
 	      }
 	      
@@ -125,7 +127,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 				unionTermArray.push("since:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
 			}
 			if (vm.chosenLocation && vm.chosenLocation.name !== "None chosen") {
-				unionTermArray.push("near:" + encodeURIComponent(vm.chosenLocation.name));
+				unionTermArray.push(getLocationSearchParams(vm.chosenLocation, $scope.lookedUpLocationRadius));
 			}
 			
 			unionTermResult = unionTermArray.join(" ");
@@ -165,6 +167,24 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	 		} 		
 	 	}
 
+
+	/**
+	 * Calculate location search params
+	 */
+		function getLocationSearchParams(point, radius) {
+			var orgLat = point.latitude;
+			var orgLong = point.longitude;
+			var offsetLat = (radius / 2) / 110.574;
+			var offsetLong = Math.abs((radius / 2) / (111.320*(Math.cos(offsetLat))));
+			console.log(offsetLat);
+			console.log(offsetLong);
+			var longWest = parseInt(orgLong - offsetLong);
+			var latSouth = parseInt(orgLat - offsetLat);
+			var longEast = parseInt(orgLong + offsetLong);
+			var latNorth = parseInt(orgLat + offsetLat);
+
+			return "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth; 
+		}
 	/**
 	 * Change stateParams on search
 	 */
@@ -173,32 +193,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		    q: query
 		  });
 		}
-	/**
-	 * Helper fn. Get distance from to location lat & long
-	 * compare to given distance
-	 
-		function deg2rad(deg) {
-		  return deg * (Math.PI/180)
-		}
-
-		function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-		  var R = 6371; // Radius of the earth in km
-		  var dLat = deg2rad(lat2-lat1);  // deg2rad below
-		  var dLon = deg2rad(lon2-lon1); 
-		  var a = 
-		    Math.sin(dLat/2) * Math.sin(dLat/2) +
-		    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-		    Math.sin(dLon/2) * Math.sin(dLon/2)
-		    ; 
-		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		  var d = R * c; // Distance in km
-		  return d;
-		}
-		function isCloseEnoughToChosenLocation(lat1,lon1,lat2,lon2, maxRangeInKm) {
-		  var distance = getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2);
-		  return distance < maxRangeInKm;
-		}
-	*/
     
 }
 
