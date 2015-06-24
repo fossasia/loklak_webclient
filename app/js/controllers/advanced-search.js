@@ -52,17 +52,30 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			var unionQ = getUnionTerm(); // Union related params
 			var intersectQ = getIntersectTerm(); // Intersect related params
 			
-			// Intersect params will overrule union params until further support
-			vm.finalParams.q = (intersectQ) ? intersectQ : unionQ;
+			// There are currently three cases to process intersect term
+			// If it's an OR, like loklak OR food, use this & overrule the rest
+			// If it's an from:screen_name, append this to union search
+			// It it's only one word, also append this to union search
+			// If empty use union
+			if (intersectQ) {
+				if (intersectQ.indexOf("OR") > -1) {
+					vm.finalParams.q = intersectQ;
+				} else {
+					vm.finalParams.q = unionQ + " " + intersectQ;
+				}
+			} else {
+				vm.finalParams.q = unionQ;
+			}
+
 			vm.getResult(vm.finalParams);
 			updatePath(vm.finalParams.q);
-		}
+		};
 
 	/* Get search result */
 		vm.getResult = function(Params) {
 			console.log(Params);
 			SearchService.initData(Params).then(function(data) {
-				vm.currentResult = data.statuses;
+				//vm.currentResult = data.statuses;
 				processResultLayout();
 				vm.isResultShow = true;
 				if (vm.currentResult.length === 0) {
@@ -71,7 +84,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			}, function() {
 				console.log("No result");
 			});
-		}
+		};
 
 	/* Do a new search */
 		vm.initNewSearchView = function() {
@@ -90,19 +103,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    }
 	});
 
-	/**
-	 * Process result related view
-	 */
-	    function processResultLayout() {
-	    	if (vm.currentResult.length === 0) {
-	    		vm.resultMessage = "No result found";
-	    		vm.isResultShow = false;
-	    	} else {
-	    		vm.resultMessage = "Found " + vm.currentResult.length + " results!";
-	    		vm.isResultShow = true;
-	    	}
-	    }
-
+	
 	/**
 	 * Process union values including 
 	 * all of these words/this exact phrase/none of these words/these hashtags/these mention
@@ -141,43 +142,56 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	 */
 	 	function getIntersectTerm() {
 	 		var rawParams = $scope.aSearch;
-	 		var intersectTermArray = [];
 	 		var intersectTermResult;
-	 		var relatedPropArray = ['accountIntersect', 'intersect'];
 	 		var hasInput = false;
 
-	 		relatedPropArray.forEach(function(ele) {
-	 			if (rawParams && rawParams[ele]) {
-	 				hasInput = true;
-	 				if (ele === 'accountIntersect') {
-	 					intersectTermArray.push("from:" + rawParams[ele].split(" ")[0]);	
-	 				} else {
-	 					intersectTermArray.push(rawParams[ele].split(" ")[0]);	
-	 				}
-	 				
-	 				
-	 			}
-	 		});
+ 			if (rawParams && rawParams.intersect) {
+ 				hasInput = true;
+ 				var words = rawParams.intersect.split(" ");
+ 				if (words.length === 1) {
+ 					intersectTermResult = words[0];
+ 				} else {
+ 					intersectTermResult = words[0] + " OR " + words[1];
+ 				}
+ 			}
+
+ 			if (rawParams && rawParams.accountIntersect) {
+ 				hasInput = true;
+ 				intersectTermResult = "from:" + rawParams.accountIntersect.split(" ")[0];
+ 			}
+
 
 	 		if (hasInput) {
-	 			intersectTermResult = intersectTermArray.join(" ");
 	 			return intersectTermResult;	
 	 		} else {
-	 			return false;
+	 			return "";
 	 		} 		
 	 	}
 
 
 	/**
-	 * Calculate location search params
+	 * Process result related view
+	 */
+	    function processResultLayout() {
+	    	if (vm.currentResult.length === 0) {
+	    		vm.resultMessage = "No result found";
+	    		vm.isResultShow = false;
+	    	} else {
+	    		vm.resultMessage = "Found " + vm.currentResult.length + " results!";
+	    		vm.isResultShow = true;
+	    	}
+	    }
+
+
+	/**
+	 * Calculate location for search params
 	 */
 		function getLocationSearchParams(point, radius) {
 			var orgLat = point.latitude;
 			var orgLong = point.longitude;
 			var offsetLat = (radius / 2) / 110.574;
 			var offsetLong = Math.abs((radius / 2) / (111.320*(Math.cos(offsetLat))));
-			console.log(offsetLat);
-			console.log(offsetLong);
+
 			var longWest = parseInt(orgLong - offsetLong);
 			var latSouth = parseInt(orgLat - offsetLat);
 			var longEast = parseInt(orgLong + offsetLong);
