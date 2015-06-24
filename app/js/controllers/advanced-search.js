@@ -12,6 +12,10 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	vm.isNumberOfResultShown = false;
 	vm.resultMessage = "";
 	vm.finalParams = {};
+	vm.filterMessage = false;
+	vm.currentFilter = 'live';
+	vm.peopleSearch = false;
+	vm.mapSearch = false;
 	if ($stateParams.q === undefined) {
 		vm.showAdvancedSearch = true;
 	} else {
@@ -24,7 +28,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		vm.chosenLocation = {name: "None chosen"};
 		vm.toggleShowLookUp = function() {
 			vm.showLookUp = true;
-		}
+		};
 	    $scope.processLookedLocation = function() {
 	      if ($scope.lookedUpLocation) {
 	      	vm.chosenLocation = $scope.lookedUpLocation;
@@ -40,7 +44,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		vm.reset = function() {
 			$scope.aSearch = {};
 			vm.chosenLocation.name = "None chosen";
-		}
+		};
 
 	/** 
 	 * Process search with given
@@ -73,10 +77,11 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 
 	/* Get search result */
 		vm.getResult = function(Params) {
+			vm.currentResult = [];
 			console.log(Params);
 			SearchService.initData(Params).then(function(data) {
 				vm.currentResult = data.statuses;
-				processResultLayout();
+				processResultLayout(vm.currentResult);
 				vm.isResultShow = true;
 				if (vm.currentResult.length === 0) {
 					console.log("No result from data");
@@ -172,12 +177,12 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	/**
 	 * Process result related view
 	 */
-	    function processResultLayout() {
-	    	if (vm.currentResult.length === 0) {
+	    function processResultLayout(resultContainer) {
+	    	if (resultContainer.length === 0) {
 	    		vm.resultMessage = "No result found";
 	    		vm.isResultShow = false;
 	    	} else {
-	    		vm.resultMessage = "Found " + vm.currentResult.length + " results!";
+	    		vm.resultMessage = "Found " + resultContainer.length + " results!";
 	    		vm.isResultShow = true;
 	    	}
 	    }
@@ -206,7 +211,148 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		    q: query
 		  });
 		}
-    
+
+
+	/* Filters */
+     	vm.filterLive = function() {
+     		vm.peopleSearch = false;
+     		vm.mapSearch = false;
+     		vm.currentFilter = 'live';
+     		vm.getResult({q: $location.search().q});
+     	};
+
+     	vm.filterPhotos = function() {
+     		vm.peopleSearch = false;
+     		vm.mapSearch = false;
+     		vm.currentFilter = 'photos';
+     		vm.getResult({q: $location.search().q + '+/image'});
+     	};
+
+     	vm.filterVideos = function() {
+     		vm.peopleSearch = false;
+     		vm.mapSearch = false;
+     		vm.currentResult = [];
+ 	        vm.currentFilter = 'videos';
+ 	        // Get native videos
+ 	        SearchService.getData({q: $location.search().q + '+/video'}).then(function(data) {
+ 	        	console.log(data);
+ 	            var statuses = data.statuses;
+ 	            statuses.forEach(function(status) {
+ 	                if (status.videos_count) {
+ 	                    if (status.videos[0].substr(-4) === '.mp4') {
+ 	                        status.links[0] = status.videos[0];
+ 	                    }
+ 	                    vm.currentResult.push(status);
+ 	                }
+ 	            });
+ 	            processResultLayout(vm.currentResult); 
+ 	        }, function() {});    
+ 	    };
+
+     	vm.filterAccounts = function() {
+     		vm.peopleSearch = true;
+     		vm.mapSearch = false;
+     		vm.currentFilter = 'accounts';
+     		vm.currentResult = [];
+     		vm.accounts = [];
+     		SearchService.getData({q: $location.search().q}).then(function(data) {
+	           data.statuses.forEach(function(ele) {
+	               var notYetInAccounts = true;
+	               vm.accounts.forEach(function(account) {
+	                   if (account.screen_name === ele.screen_name) {
+	                       return notYetInAccounts = false;
+	                   }
+	               });
+	               if (notYetInAccounts) { vm.accounts.push(ele);}
+	           });
+	           processResultLayout(vm.accounts); 
+	       }, function() {});
+     	};
+
+     	vm.filterMap = function() {
+     		vm.mapSearch = true;
+     		vm.peopleSearch = false;
+     		vm.currentFilter = "map";
+     		vm.currentResult = [];
+     		vm.accounts = [];
+
+     		var params = {
+     		    q: $location.search().q,
+     		    count: 500
+     		};
+
+     		SearchService.initData(params).then(function(data) {
+     		    initMap(data.statuses);    
+     		    vm.resultMessage = false;
+     		}, function() {});
+     	};
+
+     	// Init map
+     	function initMap(data) {
+     	    var map = L.map('advanced-search-map').setView(new L.LatLng(5.3,-4.9), 2);
+     	    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+     	        maxZoom: 18,
+     	        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+     	            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+     	            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+     	        id: 'examples.map-20v6611k'
+     	    }).addTo(map);
+
+     	    var tweets = {
+     	        "type": "FeatureCollection",
+     	        "features": [
+     	        ]
+     	    };
+     	    data.forEach(function(ele) {
+     	        if (ele.location_point) {
+     	            var text = $filter('tweetHashtag')($filter('tweetMention')(ele.text));
+     	            var pointObject = {
+     	                "geometry": {
+     	                    "type": "Point",
+     	                    "coordinates": [
+     	                        ele.location_point[0],
+     	                        ele.location_point[1]
+     	                    ]
+     	                },
+     	                "type": "Feature",
+     	                "properties": {
+     	                    "popupContent": text
+     	                },
+     	                "id": ele.id_str
+     	            };
+     	            tweets.features.push(pointObject);
+     	        }
+     	    });
+
+     	    function onEachFeature(feature, layer) {
+     	        
+     	        if (feature.properties && feature.properties.popupContent) {
+     	            var popupContent = feature.properties.popupContent;
+     	        }
+
+     	        layer.bindPopup(popupContent);
+     	    }
+
+     	    L.geoJson([tweets], {
+
+     	        style: function (feature) {
+     	            return feature.properties && feature.properties.style;
+     	        },
+
+     	        onEachFeature: onEachFeature,
+
+     	        pointToLayer: function (feature, latlng) {
+     	            return L.circleMarker(latlng, {
+     	                radius: 8,
+     	                fillColor: "#ff7800",
+     	                color: "#000",
+     	                weight: 1,
+     	                opacity: 1,
+     	                fillOpacity: 0.8
+     	            });
+     	        }
+     	    }).addTo(map);    
+     	};
 }
 
 controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', AdvancedSearchCtrl
