@@ -2,7 +2,7 @@
 
 var controllersModule = require('./_index');
 
-function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, AppSettings, SearchService) {
+function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, AppSettings, SearchService, MapPopUpTemplateService) {
 
 	var vm = this;
 	var map = false;
@@ -310,7 +310,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	    };
      	    data.forEach(function(ele) {
      	        if (ele.location_point) {
-     	            var text = $filter('tweetHashtag')($filter('tweetMention')(ele.text));
+     	            var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
      	            var pointObject = {
      	                "geometry": {
      	                    "type": "Point",
@@ -366,5 +366,5 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	}
 }
 
-controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', AdvancedSearchCtrl
+controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', 'MapPopUpTemplateService', AdvancedSearchCtrl
 ]);
