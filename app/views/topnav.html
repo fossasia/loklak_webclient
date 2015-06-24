@@ -63,9 +63,10 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Post a tweet</h4>
                 </div>
+                <form role="form" id="tweet"  ng-submit="root.foo()"  >
                 <div class="modal-body">
                     <div class="modal-tweet-form-container">
-                        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
+                        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -74,6 +75,7 @@
                     <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
