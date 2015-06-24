@@ -5,6 +5,7 @@ var controllersModule = require('./_index');
 function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, AppSettings, SearchService) {
 
 	var vm = this;
+	var map = false;
 	
 	vm.showLookUp = false;
 	vm.currentResult = [];
@@ -77,6 +78,10 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 
 	/* Get search result */
 		vm.getResult = function(Params) {
+			vm.currentFilter = 'live';
+			destroyMap();
+			vm.mapSearch = false;
+     		vm.peopleSearch = false;
 			vm.currentResult = [];
 			console.log(Params);
 			SearchService.initData(Params).then(function(data) {
@@ -282,14 +287,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      		};
 
      		SearchService.initData(params).then(function(data) {
+     			vm.resultMessage = false;
      		    initMap(data.statuses);    
-     		    vm.resultMessage = false;
      		}, function() {});
      	};
 
      	// Init map
      	function initMap(data) {
-     	    var map = L.map('advanced-search-map').setView(new L.LatLng(5.3,-4.9), 2);
+     	    map = L.map('advanced-search-map').setView(new L.LatLng(5.3,-4.9), 2);
      	    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
      	        maxZoom: 18,
      	        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -353,6 +358,12 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	        }
      	    }).addTo(map);    
      	};
+
+     	function destroyMap() {
+     		if (map) {
+     			map.remove();	
+     		}
+     	}
 }
 
 controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', AdvancedSearchCtrl
