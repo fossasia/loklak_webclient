@@ -7,7 +7,7 @@
     };
     
     var appDomain = (function() {
-      var domain = repoConfig.domain;
+      var domain = repoConfig.linkDebuggingServiceHost;
       if (domain.match(/:/g).length > 1) {
          var indexOfPort = getPosition(domain, ":", 2);
          domain = domain.substr(0, indexOfPort);
@@ -70,7 +70,10 @@
         allowedOrigins: [
             appDomain,
             appDomain + ':' + repoConfig.gulpDevExpressPort,
-	    appDomain + ':3000'
+	        appDomain + ':3000',
+            repoConfig.domain,
+            repoConfig.domain + ':' + repoConfig.gulpDevExpressPort,
+            repoConfig.domain + ':3000'
         ],
         
 
