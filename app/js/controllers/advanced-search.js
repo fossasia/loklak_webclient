@@ -125,7 +125,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 				unionTermArray.push("since:" + $filter('date')(rawParams.sinceDate, 'yyyy-MM-dd'));
 			}
 			if (rawParams && rawParams.untilDate) {
-				unionTermArray.push("since:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
+				unionTermArray.push("until:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
 			}
 			if (vm.chosenLocation && vm.chosenLocation.name !== "None chosen") {
 				unionTermArray.push(getLocationSearchParams(vm.chosenLocation, $scope.lookedUpLocationRadius));
@@ -181,7 +181,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    		vm.isResultShow = true;
 	    	}
 	    }
-
 
 	/**
 	 * Calculate location for search params
