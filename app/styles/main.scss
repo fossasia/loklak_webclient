@@ -1737,7 +1737,7 @@
 		min-height: 100vh;
 		background-color: white;
 		margin-top: -20px;
-		padding-bottom: 100px;
+		padding-bottom: 200px;
 		text-align: center;
 		.advanced-search-title {
 			font-size: 27px;
@@ -1836,6 +1836,7 @@
 		.reset-advanced-search, .submit-advanced-search {
 			display: inline-block;
 			min-width: 150px;
+			margin-top: 50px;
 			box-sizing: border-box;
 			font-size: 15px;
 			padding: 12px 12px;
