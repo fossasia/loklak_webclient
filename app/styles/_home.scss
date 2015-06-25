@@ -1,6 +1,7 @@
 
-/* Home left user info  */
+/* Left user info  */
 .home-user-info {
+	border: 1px solid #e1e8ed;
 	margin-top: 20px; 
 	border-radius: 10px;
 	background: white;
@@ -70,7 +71,30 @@
 	
 }
 
-/* Home center result */
+.home-user-trends {
+	border: 1px solid #e1e8ed;
+	margin-top: 20px;
+	background: white;
+	border-radius: 10px; 
+	padding: 15px 10px;
+	.trend-title {
+		margin: 0;
+		color: #66757f;
+		font-size: 18px;
+		font-weight: 300;
+	}
+	#home-trend-list {
+		margin-top: 5px;
+		margin: 0;
+		padding: 10px 0 5px 0; 
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+/* Center result */
 .main-result-container {
 	.statuses-container {
 		background-color: white;

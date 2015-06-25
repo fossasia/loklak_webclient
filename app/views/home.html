@@ -18,16 +18,23 @@
                     </div>
                     <div class="bottom-content">
                         <div class="user-no-tweets">
-                            <a href="">Tweets<br><span>135</span></a>
+                            <a href="">Tweets<br><span>{{root.twitterSession.statuses_count}}</span></a>
                         </div>
                         <div class="user-no-followings">
-                            <a href="">followings<br><span>135</span></a>
+                            <a href="">Followings<br><span>{{root.twitterSession.friends_count}}</span></a>
                         </div>
                         <div class="user-no-followers">
-                            <a href="">followers<br><span>135</span></a>
+                            <a href="">Followers<br><span>{{root.twitterSession.followers_count}}</span></a>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="home-user-trends">
+                <h3 class="trend-title">Trends</h3>
+                <ul id="home-trend-list">
+                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+                </ul>
             </div>
         </div>
 
@@ -41,11 +48,12 @@
                             <div class="item">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">
-                                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span><br>
-                                <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted ">
-                                </span>
+                                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                                <br>
+                                <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
                             </div>
+                        </div>
                     </div> 
                 </div>
             </div>
