@@ -29,7 +29,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			// Create global session variable
 			hello.on('auth.login', function(auth) {
 				hello(auth.network).api('/me').then(function(twitterSession) {
-					console.log(twitterSession);
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
@@ -41,9 +40,12 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+					console.log(twitterFriendFeed);
+					twitterFriendFeed.data.sort(function(a,b) {
+						return new Date(b.status.created_at) - new Date(a.status.created_at);
+					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
-						console.log(twitterFriendFeed);
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');

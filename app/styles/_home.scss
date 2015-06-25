@@ -1,5 +1,7 @@
 
+/* Home left user info  */
 .home-user-info {
+	margin-top: 20px; 
 	border-radius: 10px;
 	background: white;
 	.blue-background-placeholder {
@@ -7,6 +9,10 @@
 		border-top-right-radius: 10px;
 		height: 90px;
 		background-color: cornflowerblue;
+		overflow: hidden;
+		img {
+			width: 100%;
+		}
 	}
 	.top-content {
 		margin-top: -20px;
@@ -62,4 +68,32 @@
 		}
 	}
 	
+}
+
+/* Home center result */
+.main-result-container {
+	.statuses-container {
+		background-color: white;
+		padding: 0;
+		.item {
+			padding: 15px 10px;
+			border-bottom: 4px solid #F5F8FA;
+			.home-user-screen-name {
+				display: inline-block;
+				font-weight: 500;
+				color: grey;
+				font-size: 12px;
+			}
+			.friend-profile-img {
+				border: none;
+				padding: 0 !important;
+			}
+			.home-tweet-text {
+				padding-bottom: 0;
+				font-size: 13px;
+				line-height: 18px;
+			}
+		}
+		
+	}
 }
