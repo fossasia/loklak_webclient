@@ -29,6 +29,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			// Create global session variable
 			hello.on('auth.login', function(auth) {
 				hello(auth.network).api('/me').then(function(twitterSession) {
+					console.log(twitterSession);
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
