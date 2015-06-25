@@ -719,6 +719,17 @@
 	}
 
 	.search-container {
+		.title-as-current-search-term {
+			text-align: center;
+			background-color: #55acee;
+			span {
+				display: inline-block;
+				padding: 20px;
+				font-weight: 300;
+				font-size: 28px;
+				color: white;
+			}
+		}
 		background: #F5F8FA;
 		// Helper classes
 		.abs-center-y {
