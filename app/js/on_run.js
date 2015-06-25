@@ -20,6 +20,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'icon' : 'fa fa-home'
     		},
         {
+          'title': 'Map',
+          'link' : '/map',
+          'icon' : 'fa fa-map-marker text'
+        },
+        {
           'title': 'Wall',
           'link' : '/wall',
           'icon' : 'fa fa-list'
