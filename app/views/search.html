@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="search-container container-fluid">
 
-        <div class="title-as-current-search-term">
+        <div ng-show="!search.showMap" class="title-as-current-search-term">
             <span>{{root.globalSearchTerm}}</span>
         </div>
         <!-- <div ng-if="!search.statuses" class="input-container container">
@@ -42,7 +42,6 @@
                         </li>
                         <li><a href="#">More options</a></li>
                     </ul>
-                    <div class="result-filters-separator"></div>
                 </div>
 
                 <!-- New status from background updating process -->
