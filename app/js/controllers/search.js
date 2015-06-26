@@ -8,7 +8,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', function($stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService) {
+controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', 'MapPopUpTemplateService', function($stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService, MapPopUpTemplateService) {
 
     // Define models here
     var vm = this;
@@ -284,7 +284,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         };
         data.forEach(function(ele) {
             if (ele.location_point) {
-                var text = $filter('tweetHashtag')($filter('tweetMention')(ele.text));
+                var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
                 var pointObject = {
                     "geometry": {
                         "type": "Point",
@@ -295,7 +295,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                     },
                     "type": "Feature",
                     "properties": {
-                        "popupContent": text
+                        "popupContent": "<div class='foobar'>" + text + "</div>"
                     },
                     "id": ele.id_str
                 };

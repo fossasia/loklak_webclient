@@ -20,6 +20,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'icon' : 'fa fa-home'
     		},
         {
+          'title': 'Map',
+          'link' : '/map',
+          'icon' : 'fa fa-map-marker text'
+        },
+        {
           'title': 'Wall',
           'link' : '/wall',
           'icon' : 'fa fa-list'
@@ -34,6 +39,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
       var pageTitle = 'Loklak ';
       if ( toState.title ) {
         pageTitle += toState.title;
+        $rootScope.root.currentView = toState.title;
       }
       $rootScope.root.pageTitle = pageTitle;
     });

@@ -25,6 +25,13 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Search',
     reloadOnSearch: false
   })
+  .state('Advanced', {
+    url: '/advancedsearch?q',
+    templateUrl: 'advancedsearch.html',
+    controller: 'AdvancedSearchCtrl as advanced',
+    title: 'AdvancedSearch',
+    reloadOnSearch: false
+  })
   .state('Wall', {
     url: '/wall',
     templateUrl: 'wall/create.html',
@@ -61,7 +68,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/map',
     templateUrl: 'map/tweetmap.html',
     controller: 'MapCtrl as map',
-    title: 'Tweet Map'
+    title: 'Map'
   })
   .state('Redirecting', {
     url: '/redirect',
