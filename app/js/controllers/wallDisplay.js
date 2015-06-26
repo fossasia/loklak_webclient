@@ -39,6 +39,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         maxStatusCount = 9; //masonry
     else if (vm.wallOptions.layoutStyle == '3')
         maxStatusCount = 1; //single
+    else if (vm.wallOptions.layoutStyle == '4')
+        maxStatusCount = 1; //map
     console.log(vm.wallOptions.layoutStyle);
 
     var getRefreshTime = function(period) {
