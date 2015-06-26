@@ -1,0 +1,147 @@
+<div ng-show="advanced.showAdvancedSearch" class="advanced-search-view-container">
+	<!-- Start advanced search -->
+		<div class="advanced-search-form-container">
+			<h1 class="advanced-search-title">Advanced <span>Search</span></h1>
+			<form>
+				<div class="form-section words-section">
+			 		<h3 class="form-section-title">Words</h3>
+					<span class="field-title">All of these words</span>
+					<input class="field-value" ng-model="aSearch.union" type="text"><br>
+					<span class="field-title">This exact phrase</span>
+					<input class="field-value" ng-model="aSearch.phrase" type="text"><br>
+					<span class="field-title">Any of these words</span>
+					<input class="field-value" ng-model="aSearch.intersect" type="text"><br>
+					<span class="field-title">None of these words</span>
+					<input class="field-value" ng-model="aSearch.negUnion" type="text"><br>
+					<span class="field-title">These hashtags</span>
+					<input class="field-value" ng-model="aSearch.hashtags" type="text"><br>
+
+					<!-- When possible, add written in language options -->
+				</div>
+
+				<div class="form-section people-section">
+					<h3>People</h3>
+					<span class="field-title">From these accounts</span>
+					<input class="field-value" ng-model="aSearch.accountIntersect" type="text"><br>
+					<span class="field-title">Mentioning those accounts</span>
+					<input class="field-value" ng-model="aSearch.accountMentionUnion" type="text"><br>
+				</div>
+
+				<div class="form-section location-section">
+					<h3>Place</h3>
+					<h4 class="field-title">Near this place</h4>
+					<h5 class="chosen-location" ng-click="advanced.toggleShowLookUp()">{{advanced.chosenLocation.name}}</h5>
+					<span class="location-hint">Click to change/choose location</span>
+					<div ng-show="advanced.chosenLocation.name !== 'None chosen'" class="location-radius">
+						<h2 class="field-title radius-hint">Radius in km</h2>
+						<input type="text" class="radius-value" ng-model="lookedUpLocationRadius">	
+					</div>
+					<br>
+					<div class="location-lookup-container" ng-show="advanced.showLookUp">
+
+						<h2 class="field-title">Location Lookup</h2>
+						<location-lookup ng-model="lookedUpLocation" limit-to="4"></location-lookup>
+					</div>
+
+				</div>
+
+				<!-- Time period pickers-->
+					<div class="form-section date-range-section">
+						<h3>Dates</h3>
+						<span class="field-title from-this-date">From this date</span>
+
+						<div class="form-inline">
+			                <div class="input-group dropdown">
+				                <span class="input-group-addon">
+				                  <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				                <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+				                    <div class="input-append">
+				                        <input type="text" class="form-control date-input" ng-model="aSearch.sinceDate">
+				                    </div>
+				                </a>
+				                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+				                    <datetimepicker ng-model="aSearch.sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+				                </ul>
+			            	</div>
+			            </div>
+			            <br>
+			            <span class="field-title from-this-date">To this date</span>
+			            <div class="form-inline">
+				            <div class="input-group dropdown">
+				                <span class="input-group-addon">
+				              <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				                <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
+				                    <div class="input-append">
+				                        <input type="text" class="form-control date-input" ng-model="aSearch.untilDate">
+				                    </div>
+				                </a>
+				                <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
+				                    <datetimepicker ng-model="aSearch.untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
+				                </ul>
+				            </div>
+
+			            </div>
+					</div>	
+				<!-- End Time period pickers-->	
+				<input class="submit-advanced-search" type="submit" ng-click="advanced.processSearch()" value="Submit" />
+				<input class="reset-advanced-search" type="button" ng-click="advanced.reset()" value="Reset" />
+			    
+			</form>
+		</div>
+	<!-- ENd advanced search -->
+</div>
+
+<!-- Output result here -->
+<div ng-show="advanced.isResultShow" class="search-container advanced-result-container">
+	<div class="content-container">
+		<h3 class="final-search-term">Search options : <span>{{advanced.finalParams.q}} </span><span ng-show="advanced.filterMessage">{{advanced.filterMessage}}</span></h3>
+		<h3 class="result-message">
+			<span ng-show="advanced.resultMessage">{{advanced.resultMessage}}</span>
+			<div class="create-new-search"><span ng-click="advanced.initNewSearchView()">New search</span></div>
+		</h3>
+		<div class="result-container">
+			<div class="filters-container">
+			    <ul class="search-modes">
+			        <!-- General filters -->
+			        <li  ng-class="(advanced.currentFilter === 'live') ? 'active' : ''" ng-click="advanced.filterLive()">
+			            <a href="#">live</a>
+			        </li>
+			        <li  ng-class="(advanced.currentFilter === 'accounts') ? 'active' : ''" ng-click="advanced.filterAccounts()">
+			            <a href="#">accounts</a>
+			        </li>
+			        <li  ng-class="(advanced.currentFilter === 'photos') ? 'active' : ''" ng-click="advanced.filterPhotos()">
+			            <a href="#">photos</a>
+			        </li>
+			        <li ng-class="(advanced.currentFilter === 'videos') ? 'active' : ''" ng-click="advanced.filterVideos()">
+			            <a href="#">videos</a>
+			        </li>
+			        <li ng-class="(advanced.currentFilter === 'map') ? 'active' : ''" ng-click="advanced.filterMap()">
+			            <a href="#">map</a>
+			        </li>
+			    </ul>
+			</div>
+
+			<div ng-show="!advanced.mapSearch" class="advanced-normal-result">
+				<div ng-show="!advanced.peopleSearch" class="main-result-container">
+				    <div ng-repeat="status in advanced.currentResult" status data="status"></div>   
+				</div>	
+
+				<div ng-show="advanced.peopleSearch" class="main-result-container">
+				    <div ng-repeat="account in advanced.accounts" account data="account"></div>
+				</div>
+			</div>
+
+			<!-- Map search -->
+			
+		</div>	
+		<div ng-show="advanced.mapSearch" class="advanced-search-map-wrapper search-map-wrapper">
+		    <div id="advanced-search-map" style="width:100%; height:100vh;"></div>
+		</div>	
+	</div>
+</div>
+
+
+
+		
