@@ -61,7 +61,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/map',
     templateUrl: 'map/tweetmap.html',
     controller: 'MapCtrl as map',
-    title: 'Tweet Map'
+    title: 'Map'
   })
   .state('Redirecting', {
     url: '/redirect',
