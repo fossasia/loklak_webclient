@@ -102,12 +102,17 @@
 	    background-color: white !important;
 	 	.navbar-collapse {
 	 		a {
-	 			transition: all .15s ease-in-out;
+	 			transition: all .35s ease-in-out;
 	 			color: black !important;
 	 			padding-bottom: 10px;
-	 			&:hover {
-	 				transition: all .15s ease-in-out;
-	 				border-bottom: 5px solid #0084b4 !important;
+	 			&:hover, &.active-view-nav {
+	 				color: #55acee !important;
+	 				transition: all .35s ease-in-out;
+	 				border-bottom: 5px solid #55acee !important;
+	 				background: none !important;
+	 			}
+	 			span {
+	 				margin-right: 10px;
 	 			}
 	 		}
 	 	}  

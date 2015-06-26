@@ -134,7 +134,7 @@
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li ng-repeat="navItem in root.topNavItems">
-                        <a ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span> {{navItem.title}}</a>
+                        <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
                     </li>
                 </ul>
             </div>
