@@ -11,13 +11,18 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function
     $rootScope.root.foo = function() 
     {    
         var message = $rootScope.root.tweet;
-        var tweetLen = twttr.txt.getTweetLength($rootScope.root.tweet);
+        var tweetLen = twttr.txt.getTweetLength(message);
         var tweet = encodeURIComponent(message);
         console.log(message);
         console.log(tweetLen);
-        // hello('twitter').api('me/share', 'POST', {
-        //     message : tweet
-        // });
+        if(tweetLen <= 140 && tweetLen > 0) {
+            hello('twitter').api('me/share', 'POST', {
+                message : tweet
+            });
+        }
+        else {
+            console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
+        }
     };
 
     $rootScope.root.tweetLengthCalculate = function() {
