@@ -34,13 +34,16 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     else if (vm.wallOptions.layoutStyle == '3')
         maxStatusCount = 1; //single
     else if (vm.wallOptions.layoutStyle == '4')
-        maxStatusCount = 1; //map
+        maxStatusCount = 10; //map
     console.log(vm.wallOptions.layoutStyle);
     count = 0;
     init();
     //calculate term
     function calculateTerm(argument) {
         term = vm.wallOptions.mainHashtag;
+        if (vm.wallOptions.layoutStyle == '4'){
+            term = term + ' /location';
+        }
         for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
             term = term + ' ' + vm.wallOptions.allWords[i].text;
         };
