@@ -1,5 +1,9 @@
 <div class="content-wrapper">
     <div class="search-container container-fluid">
+
+        <div ng-show="!search.showMap" class="title-as-current-search-term">
+            <span>{{root.globalSearchTerm}}</span>
+        </div>
         <!-- <div ng-if="!search.statuses" class="input-container container">
             <form ng-submit="search.update(term)" class="navbar-form navbar-left" role="search">
            <div class="form-group">
@@ -36,7 +40,7 @@
                         <li ng-class="(search.currentFilter === 'map') ? 'active' : ''" ng-click="search.filterMap()">
                             <a href="#">map</a>
                         </li>
-                        <li><a href="#">More options</a></li>
+                        <li><a href="./advancedsearch">More options</a></li>
                     </ul>
                 </div>
 

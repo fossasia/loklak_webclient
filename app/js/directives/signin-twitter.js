@@ -39,6 +39,17 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					console.log("Authentication failed, try again later");
 				});
 
+				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+					console.log(twitterFriendFeed);
+					twitterFriendFeed.data.sort(function(a,b) {
+						return new Date(b.status.created_at) - new Date(a.status.created_at);
+					});
+					$rootScope.$apply(function() {
+						$rootScope.root.twitterFriends = twitterFriendFeed;
+					});
+				}, function(){
+					console.log('Unable to load tweets from your followers');
+				});
 			});
 
 			hello.on('auth.logout', function(auth) {

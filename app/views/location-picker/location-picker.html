@@ -1,0 +1,11 @@
+<ul>
+
+  <!-- Reverse Geocode Results -->
+  <li ng-repeat="option in options | limitTo:limitTo"
+    ng-click="pickLocation(option)"
+    item="option">{{option.formatted_address}}</li>
+
+  <!-- Loading -->
+  <li ng-if="!options">Loading &hellip;</li>
+
+</ul>

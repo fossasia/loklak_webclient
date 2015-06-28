@@ -1,0 +1,123 @@
+
+/* Left user info  */
+.home-user-info {
+	border: 1px solid #e1e8ed;
+	margin-top: 20px; 
+	border-radius: 10px;
+	background: white;
+	.blue-background-placeholder {
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		height: 90px;
+		background-color: cornflowerblue;
+		overflow: hidden;
+		img {
+			width: 100%;
+		}
+	}
+	.top-content {
+		margin-top: -20px;
+		margin-left: 10px;
+		img {
+			height: 70px;
+			width: 72px;
+			display: inline-block;
+			vertical-align: top;
+			border: 4px solid white;
+			border-radius: 9px;
+		}
+		.name-and-screen-name {
+			display: inline-block;
+			vertical-align: bottom;
+			font-size:13px;
+			margin-left: 5px;
+			span {
+				display: block;
+			}
+			.home-user-screen-name {
+				margin-top: -5px;	
+				font-style: italic;
+			}
+			.home-user-name {
+				font-size: 14px;
+				font-weight: 700;
+			}
+		}
+	}
+	.bottom-content {
+		margin-top: 6px;
+		display: block;
+		> div {
+			display: inline-block;
+			width: 32%;
+			text-align: left;
+			overflow: hidden;
+			padding: 10px 10px;
+			box-sizing: border-box;
+			a {
+				text-align: left;
+				font-size: 13px;
+				color: #8c9ca9;
+				text-transform: uppercase;
+				line-height: 22px;
+				span {
+					color: #2b7bb9;
+					font-size: 20px;
+					font-weight: 500;
+				}
+			}
+		}
+	}
+	
+}
+
+.home-user-trends {
+	border: 1px solid #e1e8ed;
+	margin-top: 20px;
+	background: white;
+	border-radius: 10px; 
+	padding: 15px 10px;
+	.trend-title {
+		margin: 0;
+		color: #66757f;
+		font-size: 18px;
+		font-weight: 300;
+	}
+	#home-trend-list {
+		margin-top: 5px;
+		margin: 0;
+		padding: 10px 0 5px 0; 
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+/* Center result */
+.main-result-container {
+	.statuses-container {
+		background-color: white;
+		padding: 0;
+		.item {
+			padding: 15px 10px;
+			border-bottom: 4px solid #F5F8FA;
+			.home-user-screen-name {
+				display: inline-block;
+				font-weight: 500;
+				color: grey;
+				font-size: 12px;
+			}
+			.friend-profile-img {
+				border: none;
+				padding: 0 !important;
+			}
+			.home-tweet-text {
+				padding-bottom: 0;
+				font-size: 13px;
+				line-height: 18px;
+			}
+		}
+		
+	}
+}

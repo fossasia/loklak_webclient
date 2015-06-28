@@ -3,7 +3,7 @@
 var gulp        = require('gulp');
 var runSequence = require('run-sequence');
 
-gulp.task('live', ['clean'], function(cb) {
+gulp.task('live', ['settings', 'clean'], function(cb) {
 
   cb = cb || function() {};
 

@@ -251,12 +251,12 @@
                                                                         <img src="images/cot-layout-thumb.jpg" alt="">
                                                                     </label>
                                                                 </div>
-                                                                <!--                                                         <div class="col-md-6">
-                                                            <label class="layoutRadio">
-                                                                <input disabled ng-model="newWallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
-                                                                <img src="images/linear-layout-thumb.jpg" alt="">
-                                                            </label>
-                                                        </div> -->
+                                                                <div class="col-md-6">
+                                                                    <label class="layoutRadio">
+                                                                        <input ng-model="wallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
+                                                                        <img src="images/map-layout-thumb.jpg" alt="">
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                             <div class="row design-box">
                                                                 <div>
@@ -295,6 +295,7 @@
                                                         <img ng-switch-when="1" class="img-responsive animate-switch" src="/images/linear-layout.jpg" alt="">
                                                         <img ng-switch-when="2" class="img-responsive animate-switch" src="/images/masonry-layout.jpg" alt="">
                                                         <img ng-switch-when="3" class="img-responsive animate-switch" src="/images/coa-layout.jpg" alt="">
+                                                        <img ng-switch-when="4" class="img-responsive animate-switch" src="/images/map-layout.jpg" alt="">
                                                     </div>
                                                     <div ng-switch-when="Bottom" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>

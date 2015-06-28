@@ -1,50 +1,69 @@
 <div class="content-wrapper">
     <!-- Main content -->
     <div class="container-fluid content-container">
-      <!-- Center result + option filters -->
-      <!-- Left content: Who to follow, trends -->
-      <div class="result-container col-md-3" style="margin-top:4%;">
-        <div class="row cms-view direct-chat-messages" ng-if="root.twitterSession">
-            <div class="direct-chat-msg">
-              <div class="direct-chat-info clearfix">
-                <span class="direct-chat-name pull-left">{{root.twitterSession.first_name}}</span>
-                <span class="direct-chat-timestamp pull-right fa fa-map-marker">&nbsp;{{root.twitterSession.location}}</span>
-            </div><!-- /.direct-chat-info -->
-            <img class="direct-chat-img" src="{{root.twitterSession.profile_image_url}}" alt="" style="padding-bottom:0px;"><!-- /.direct-chat-img -->
-            <div class="direct-chat-text" style="background-color:#3c8dbc;color:white;">
-                {{root.twitterSession.description}}
-            </div><!-- /.direct-chat-text -->
-        </div>
-    </div>
-</div>
-<div class="result-container col-md-6">
-    <div class="row cms-view">
-        <div class="col-md-12">
-            <h1 class="page-header"><code>loklak</code></h1>
-            <h2>Mass Message (aka Tweets) Evaluation</h2>
-            <p>This is the front-end for the <a href="http://loklak.org">Distributed Message Search Server <code>loklak</code></a>. We collect Tweets and provide mass-data evaluation functions using search engine technology.</p>
-        </div>
-        <div class="col-md-12" ng-if="root.twitterSession">
-            <h1>Your recent tweets</h1>
-            <div class="main-result-container">
-                <div class="box-body chat" id="chat-box" style="width: auto;">
-                    <div ng-repeat="status in root.twitterStatuses.data | limitTo: 7">
-                        <div class="item">
-                            <img src="{{root.twitterSession.profile_image_url}}" alt="user image" class="online" style="padding-bottom:0px;">
-                            <p class="message">
-                            {{status.text}}
-                            </p>
-                            <hr>
+      
+        <!-- Left content: Who to follow, trends -->
+        <div class="result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
+            <div class="home-user-info">
+                <div class="blue-background-placeholder">
+                    <img ng-src="{{root.twitterSession.profile_banner_url}}" alt="user-banner-photo">    
+                </div>
+                <div class="home-user-info-content">
+                    <div class="top-content">
+                        <img ng-src="{{root.twitterSession.profile_image_url_https}}">
+                        <div class="name-and-screen-name">
+                            <span class="home-user-name">{{root.twitterSession.name}}</span><br>
+                            <span class="home-user-screen-name">@{{root.twitterSession.screen_name}}</span>
+                        </div>
                     </div>
-                </div> 
+                    <div class="bottom-content">
+                        <div class="user-no-tweets">
+                            <a href="">Tweets<br><span>{{root.twitterSession.statuses_count}}</span></a>
+                        </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{root.twitterSession.friends_count}}</span></a>
+                        </div>
+                        <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{root.twitterSession.followers_count}}</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-user-trends">
+                <h3 class="trend-title">Trends</h3>
+                <ul id="home-trend-list">
+                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+                </ul>
             </div>
         </div>
+
+
+        <!-- Center result + option filters -->
+        <div class="result-container col-md-6" ng-show="root.twitterSession">
+            <div class="row cms-view">
+                <div class="main-result-container">
+                    <div class="statuses-container box-body chat" id="chat-box" style="width: auto;">
+                        <div ng-repeat="status in root.twitterFriends.data | limitTo: 20">
+                            <div class="item">
+                                <img class="friend-profile-img" src="{{status.profile_image_url}}">
+                                <p class="message home-tweet-text">
+                                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                                <br>
+                                <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+        <!-- Right content: Other statistics -->
+        <div class="result-container col-md-3">
+
+        </div>
+
+
     </div>
-</div>
-</div>
-
-<!-- Right content: Other statistics -->
-<div class="result-container col-md-3">
-
-</div>
 </div>

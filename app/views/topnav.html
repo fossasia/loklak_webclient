@@ -131,16 +131,10 @@
 <header ng-if="!root.sidebarEnabled" class="main-header">
     <nav class="navbar navbar-static-top">
         <div class="container">
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand"><code>Loklak</code></a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-            </div>
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li ng-repeat="navItem in root.topNavItems">
-                        <a ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span> {{navItem.title}}</a>
+                        <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
                     </li>
                 </ul>
             </div>
@@ -148,14 +142,14 @@
                 <img class="hidden-xs hidden-sm hidden-md" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
             </div>
             <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" id="search">
                     <form class="navbar-form navbar-left" role="search" action="/search" >
                         <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
+                            <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
                         </div>
                     </form>
                 </ul>
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" id="contents">
                     <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                     <!-- <li>
                         <a ng-href="/auth/twitter" target="_self">
@@ -164,7 +158,7 @@
                     </li> -->
                 </ul>
                 <ul class="nav navbar-nav" ng-if="root.twitterSession">
-                    <li style="margin-top:15%;">
+                    <li>
                     <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" style="background-color:#339DC3;color:white;">
                   <span class="fa fa-twitter"></span>
                   <span class="text">Tweet</span>
@@ -202,17 +196,25 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Post a tweet</h4>
-      </div>
-      <div class="modal-body">
-        <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control"></textarea>
-      </div>
-      <div class="modal-footer">
-        <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
-        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-      </div>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Post a tweet</h4>
+        </div>
+        <form role="form" id="tweet"  ng-submit="root.foo()"  >
+        <div class="modal-body">
+            <div class="modal-tweet-form-container">
+                <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span ng-show="root.tweetLength < 0" style="color:red;">{{root.tweetLength}}</span>
+            <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
+            <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
+            <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf030; Add Photo">&nbsp;
+            <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf041; Add Location">&nbsp;
+            <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+        </div>
+        </form>
     </div>
 
   </div>

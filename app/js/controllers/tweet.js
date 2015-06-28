@@ -1,20 +1,34 @@
 'use strict';
 
-
 var controllersModule = require('./_index');
+var twitterText = require('twitter-text');
 
-function tweetCtrl($http, AppSettings, SearchService, hello) { // jshint ignore:line
-    // SAid you use ng-click="tweetCtrl.postTweet()" on somewhere
+controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function($rootScope, hello) {
 
-    var vm = this;
-
-    vm.postTweet = function() {
-        var paramsObject = {};
-        // Do something to gather the fields in your form
-        hello('twitter').api('blabla', 'bla', paramsObject, function(result) {
-            // Process your result by updating your models etc etc
-        });
+    $rootScope.root.tweet= "";
+    $rootScope.root.tweetLength = 140;
+    console.log($rootScope.root.tweetLength);
+    $rootScope.root.foo = function() 
+    {    
+        var message = $rootScope.root.tweet;
+        var tweetLen = twttr.txt.getTweetLength(message);
+        var tweet = encodeURIComponent(message);
+        console.log(message);
+        console.log(tweetLen);
+        if(tweetLen <= 140 && tweetLen > 0) {
+            hello('twitter').api('me/share', 'POST', {
+                message : tweet
+            });
+        }
+        else {
+            console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
+        }
     };
-}
 
-controllersModule.controller('tweetCtrl', ['$http', 'AppSettings', 'SearchService', 'HelloService', tweetCtrl]);
+    $rootScope.root.tweetLengthCalculate = function() {
+        var tweet = $rootScope.root.tweet;
+        $rootScope.root.tweetLength = 140 - twttr.txt.getTweetLength(tweet);
+        console.log($rootScope.root.tweetLength);
+    }
+
+}]);

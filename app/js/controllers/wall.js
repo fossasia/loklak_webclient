@@ -8,7 +8,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService) {
+function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
 
     var vm = this;
     var flag = false;
@@ -130,4 +130,4 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     }
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService', WallCtrl]);
