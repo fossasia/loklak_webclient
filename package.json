@@ -80,7 +80,8 @@
     "masonry-layout": "^3.3.0",
     "moment": "^2.10.2",
     "ng-tags-input": "^2.3.0",
-    "sync-request": "^2.0.1"
+    "sync-request": "^2.0.1",
+    "twitter-text": "^1.12.0"
   },
   "browserify-shim": {
     "jQuery": "global:$",
