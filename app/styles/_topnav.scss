@@ -1,5 +1,6 @@
 /* Topnav */
 	.main-header {
+		max-height: 1000px !important;
 		> .topnav {
 			background: white;
 			height: 50px;
@@ -157,11 +158,9 @@
 		}
 	.hidden-items {
 		display: none;
-		width: 100%;
 		> div {
 			text-align: right;
 		}
-		width: 100%;
 		.list-of-views {		
 			width: 100%;
 			li a {
