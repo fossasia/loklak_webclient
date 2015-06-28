@@ -1,4 +1,5 @@
 @import 'bootstrap';
+@import 'respons-utils';
 @import 'reset';
 @import 'vars';
 @import 'loader';
@@ -2546,18 +2547,3 @@
 			margin-top: 10px;
 		}
 	}
-
-.navbar.navbar-static-top {
-	height: 50px;
-}
-
-.navbar.navbar-collapse a {
-	-webkit-transition: all .10s ease-in-out;
-	transition: all .10s ease-in-out;
-	color: black !important;
-	padding-bottom: 10px;
-}
-
-div.title-as-current-search-term > span {
-	margin-left:47%;
-}

@@ -1,171 +1,64 @@
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<header ng-if="root.sidebarEnabled" class="main-header">
-    <a href="index2.html" class="logo">
-        <span class="logo-mini"><b>A</b>LT</span>
-        <span class="logo-lg"><b>Loklak</b></span>
-    </a>
-    <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-        <ul class="nav navbar-nav navbar-left">
-            <li ng-repeat="navItem in root.topNavItems"><a ng-href="{{navItem.link}}">{{navItem.title}}</a></li>
-        </ul>
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 4 messages</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left">
-                                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                                        </div>
-                                        <h4>
-                                            Support Team
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
-                                        <p>Why not buy a new awesome theme?</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">See All Messages</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-flag-o"></i>
-                        <span class="label label-danger">9</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 9 tasks</li>
-                        <li>
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <h3>
-                                            Design some buttons
-                                            <small class="pull-right">20%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer">
-                            <a href="#">View all tasks</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs">Loklak user</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                            <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
-                            </p>
-                        </li>
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
-
-<!-- Things must be available in topnavs
-- Views: <li ng-repeat="navItem in root.topNavItems">
-                        <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
-                    </li>
-- Loklak logo    <img class="hidden-xs hidden-sm hidden-md" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="">
--  <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
-- Global search input <div class="form-group">
-                            <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
-                        </div>
-
-- Styles stuffs: min-heigt :50px; color: black; 
--  -->
 <header ng-if="!root.sidebarEnabled" class="main-header">
     <div class="container topnav">
         <div class="universal-topnav-container">
-            <div class="universal-topnav-item list-of-views">
-                <ul class="">
+            <!-- Left -->
+            <div class="hidden-xs universal-topnav-item list-of-views">
+                <ul>
                     <li ng-repeat="navItem in root.topNavItems">
                         <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
                     </li>
                 </ul>
             </div>
-            <div class="universal-topnav-item topnav-logo-container">
+            <!-- Right -->
+            <div class="hidden-xs universal-topnav-item topnav-user-actions">
                 <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
-            </div>
-            <div class="universal-topnav-item topnav-user-actions">
-                <div class="global-search-container">
-                    <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
-                </div>
-                <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                 <ul class="global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
-                        <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" style="background-color:#339DC3;color:white;">
+                        <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
                             <span class="fa fa-twitter"></span>
                             <span class="text">Tweet</span>
                         </button>
                     </li>
                 </ul>
+                <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
+            </div>
+
+            <!-- Mobile nav -->
+            <div class="visible-xs hidden-mobile-nav">
+                <div class="left-logo-and-brand">
+                    <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                </div>
+                <form class="global-search-container" action="/search">
+                    <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
+                </form>
+                <div class="hided">
+                    <a id="pull" href="#" ng-click="root.ToggleMobileNav()">
+                        <button id="main-nav-button" class="lines-button x arrow arrow-left" type="button" role="button" aria-label="Toggle Navigation">
+                          <span class="lines"></span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <!-- Hidden items -->
+            <div class="visible-xs hidden-items">
+                <div class="list-of-views">
+                    <ul>
+                        <li ng-repeat="navItem in root.topNavItems">
+                            <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="signin-status-container">
+                    <ul class="global-tweet-button-container" ng-if="root.twitterSession">
+                        <li>
+                            <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
+                                <span class="fa fa-twitter"></span>
+                                <span class="text">Tweet</span>
+                            </button>
+                        </li>
+                    </ul>
+                    <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,11 +1,11 @@
 /* Topnav */
 	.main-header {
 		> .topnav {
+			background: white;
 			height: 50px;
 			overflow: hidden;
 		}
 	}
-
 	.universal-topnav-container {
 		width: 100%;
 		height: 50px;
@@ -17,105 +17,333 @@
 			margin: 0;
 			vertical-align: top;
 		}
-		.list-of-views {
-			width: 45%;
+	}
+
+	.list-of-views {
+		width: 50%;
+		text-align: left;
+		> ul {
+			width: 100%;
 			padding: 0;
 			margin: 0;
-			text-align: left;
-			li {
-				padding: 0;
-				margin: 0;
-				display: inline-block;
-				a {
-					display: inline-block;
-					padding: 15px 15px 10px 15px;
-					line-height: 20px;
-					transition: all .35s ease-in-out;
-					color: black;	
-					&:hover, &.active-view-nav {
-						color: #55acee;
-						transition: all .35s ease-in-out;
-						border-bottom: 5px solid #55acee;
-						background: none;
-					}
-					span {
-						margin-right: 10px;
-					}
-				}
-			}
+			padding-left: 0 !important;	
 		}
-		.topnav-logo-container {
-			width: 10%;
-			text-align: center;
-		}
-		.topnav-user-actions {
-			text-align: right;
-			> * {
+		
+		li {
+			padding: 0;
+			margin: 0;
+			display: inline-block;
+			a {
 				display: inline-block;
-				vertical-align: top;
-				margin-left: 10px;
-			}
-			.global-search-container {
-				padding-top: 8px;
-				#global-search-input { 
-					color: #292f33;
-					background-color: #f5f8fa;
-					border: 1px solid #e1e8ed;
-					border-radius: 13px;
-					width: auto;
-					padding: 8px;
-					min-width: 199px;
-					&:focus {
-						color: #292f33;
-						text-shadow: none;
-						background-color: #fff;
-						box-shadow: none;
-						opacity: 1;
-						outline: none;
-					}
-				}
-			}
-			.signin-twitter {
-				overflow: hidden;
+				padding: 15px 15px 10px 15px;
 				line-height: 20px;
-				color: white;
-				#home-view-user-avatar {
+				transition: all .35s ease-in-out;
+				color: black;	
+				&:hover, &.active-view-nav {
+					color: #55acee;
+					transition: all .35s ease-in-out;
+					border-bottom: 5px solid #55acee;
+					background: none;
+				}
+				span {
+					margin-right: 10px;
+				}
+			}
+		}
+		img.hidden-logo {
+			margin-right: 15px;
+		}
+	}
+	.topnav-user-actions {
+		text-align: right;
+		> * {
+			display: inline-block;
+			vertical-align: top;
+			margin-left: 10px;
+		}
+		> img {
+			float: left; 
+			margin-left: 0;
+		}
+	}
+		.global-search-container {
+			padding-top: 8px;
+			#global-search-input { 
+				color: #292f33;
+				background-color: #f5f8fa;
+				border: 1px solid #e1e8ed;
+				border-radius: 13px;
+				width: auto;
+				padding: 8px;
+				min-width: 150px;
+				&:focus {
+					color: #292f33;
+					text-shadow: none;
+					background-color: #fff;
+					box-shadow: none;
+					opacity: 1;
+					outline: none;
+				}
+			}
+		}
+		.signin-twitter {
+			overflow: hidden;
+			line-height: 20px;
+			color: white;
+			#home-view-user-avatar {
+				height: 40px;
+				margin-top: 5px;
+				border-radius: 5px;
+			}
+			.initial-userinfo {
+				span {
+					display: inline-block;
+					font-size: 14px;
+					padding: 17px;
+					color: white;
+				}
+				span.avatar-container {
+					padding: 5px 0;
+				}
+				img {
 					height: 40px;
-					margin-top: 5px;
-					border-radius: 5px;
+					display: inline-block;
+					border-radius: 20px;
+					vertical-align: middle;
 				}
-				.initial-userinfo {
-					span {
-						display: inline-block;
-						font-size: 14px;
-						padding: 17px;
-						color: white;
-					}
-					span.avatar-container {
-						padding: 5px 0;
-					}
-					img {
+			}
+			.signin {
+				span {
+					display: inline-block;
+					color: white;
+					button {
 						height: 40px;
-						display: inline-block;
-						border-radius: 20px;
-						vertical-align: middle;
-					}
-				}
-				.signin {
-					span {
-						display: inline-block;
-						font-size: 14px;
-						padding: 17px;
+						margin-top: 5px;
+						margin-bottom: 7px;
+						background-color: #55acee;
 						color: white;
+						border: none;
+						font-size: 13px; 
+						i {
+							margin-right: 5px;
+						}
 					}
 				}
 			}
-			.global-tweet-button-container {
-				padding: 0;
-				#global-new-tweet-button {
-					height: 40px;
-					margin-top: 5px;
-				}
+		}
+		.global-tweet-button-container {
+			padding: 0;
+			#global-new-tweet-button {
+				height: 40px;
+				margin-top: 5px;
+				background-color:#55acee;
+				color:white;
+			}
+		}
+	
+
+/* Mobile nav */
+	.hidden-mobile-nav {
+		text-align: center;
+	}
+		.mobile-nav-toggle-button-container {
+			position: absolute;
+			top: 35px;
+			right: 30px;
+		}
+		.left-logo-and-brand {
+			float: left;
+		}
+	.hidden-items {
+		> div {
+			text-align: right;
+		}
+		width: 100%;
+		.list-of-views {		
+			width: 100%;
+		}
+		.signin-status-container {
+			margin-right: 11px;
+		}
+		.signin-twitter {
+			display: inline-block;
+			vertical-align: top;
+			#home-view-user-avatar {
+				margin-top: 11px;
+			}
+		}
+		.global-tweet-button-container {
+			margin: 0;
+			text-align: right;
+			padding: 10px 0;
+			display: inline-block;
+			vertical-align: top;
+			#global-new-tweet-button {
+				margin-top: 1px;
+				margin-right: 20px;
 			}
 		}
 	}
+/* Toggle button */
+
+ 	// Custom for this page
+ 	.hided {
+ 		position: absolute;
+ 		top: 33px;
+ 		right: 41px;
+ 		#main-nav-button {
+ 			position: absolute;
+ 			left: 50%;
+ 			top: 50%;
+ 			transform: translate(-50%, -50%);
+ 		}
+ 	} 
+
+ 	// Generating the button
+	$nav-toggle-button-color: #55acee;
+	.hided {
+		margin-right: 5px;
+		text-align: right;
+		margin-bottom: 7px;
+		margin-top: -20px;
+	}
+	.hided.hided-sivukartta {
+		margin-top: -5px;
+	}
+	#pull {
+		padding: 10px 4px 17px 4px;
+		//background: white;
+	}
+	$button-size : 24px; 
+	$transition: .3s;
+	.lines-button {
+
+	  background-color: transparent;
+	  border: none;
+	  &:focus {
+	  	outline: 0;
+	  }
+	  display: inline-block;
+	  padding: 0 $button-size/4;
+	  transition: .3s;
+	  cursor: pointer;
+	  user-select: none;
+	  border-radius: $button-size/7;
+	 
+	  // &:hover {
+	  //   opacity: 1;
+	  // }
+
+	  // &:active {
+	  //     transition: 0;
+	  //     color: white;
+	  //     background: white;
+	  //   }
+	 
+	}
+
+	@mixin line {
+	  display: inline-block;
+	  width: $button-size;
+	  height: $button-size/7;
+	  background: $nav-toggle-button-color;
+	  border-radius: $button-size/14; 
+	  transition: $transition;
+	  -webkit-transition: $transition;
+	  -ms-transition: $transition;
+	}
+
+	.lines {
+	   
+	  //create middle line
+	  @include line;
+	  position: relative; 
+	 
+	  /*create the upper and lower lines as pseudo-elements of the middle line*/
+	  &:before, &:after {
+	   
+	   @include line;
+	    position: absolute;
+	      left:0;
+	    content: '';
+	    transform-origin: $button-size/14 center;
+	    -ms-transform-origin: $button-size/14 center;
+	    -webkit-transform-origin: $button-size/14 center;
+	  }
+	  &:before { top: $button-size/4; }
+	  &:after { top: -$button-size/4; }
+	}
+
+		.lines-button:hover {
+			  // opacity: 1;
+	     
+			  // .lines {
+			  //   &:before { top: $button-size/3.5; }
+			  //   &:after { top: -$button-size/3.5; }
+			  // }
+		}
+
+	/* Transform into X */
+
+	.lines-button.x.close .lines{
+	 
+	    /*hide the middle line*/
+	    background: transparent;
+	 
+	    /*overlay the lines by setting both their top values to 0*/
+	    &:before, &:after{
+	      transform-origin: 50% 50%;
+	      -ms-transform-origin: 50% 50%;
+	      -webkit-transform-origin: 50% 50%;
+	      top:0;
+	      width: $button-size;
+	    }
+	 
+	    // rotate the lines to form the x shape
+	    &:before{
+	      transform: rotate3d(0,0,1,45deg); 
+	      -webkit-transform: rotate3d(0,0,1,45deg); 
+	      -ms-transform: rotate3d(0,0,1,45deg); 
+	    }
+	    &:after{
+	      transform: rotate3d(0,0,1,-45deg); 
+	      -webkit-transform: rotate3d(0,0,1,-45deg); 
+	      -ms-transform: rotate3d(0,0,1,-45deg); 
+	    }
+	}
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+	.main-header {
+		> .topnav {
+			height: auto;
+			overflow: visible;
+		}
+	}
+}
+
+@media screen and (min-width: 0px) and (max-width: 377px) {
+	.hidden-mobile-nav {
+		text-align: left;
+	}
+	.global-search-container {
+		padding-top: 8px;
+		margin-left: 50px;
+		#global-search-input { 
+			color: #292f33;
+			background-color: #f5f8fa;
+			border: 1px solid #e1e8ed;
+			border-radius: 13px;
+			width: auto;
+			padding: 8px;
+			width: 100px;
+			&:focus {
+				color: #292f33;
+				text-shadow: none;
+				background-color: #fff;
+				box-shadow: none;
+				opacity: 1;
+				outline: none;
+			}
+		}
+	}
+}
