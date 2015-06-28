@@ -154,13 +154,26 @@
 		.left-logo-and-brand {
 			float: left;
 		}
+	.hidden-items.hide {
+		display: block !important;
+		opacity: 0;
+		transition: all 0.4s ease-in-out;
+		height: 0;
+		overflow: hidden;
+	}
 	.hidden-items {
+		transition: all 0.4s ease-in-out;
+		opacity: 1;
+		height: auto;
 		> div {
 			text-align: right;
 		}
 		width: 100%;
 		.list-of-views {		
 			width: 100%;
+			li a {
+				padding: 15px 10px 10px 10px;
+			}
 		}
 		.signin-status-container {
 			margin-right: 11px;
