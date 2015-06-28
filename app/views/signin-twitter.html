@@ -1,18 +1,13 @@
-<ul class="nav navbar-nav pull-right">
-	<li ng-show="twitterSession" style="margin-right: 20px;">
-			<img id="home-view-user-avatar" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
-	</li>
-</ul>
+<div ng-show="twitterSession">
+		<img id="home-view-user-avatar" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
+</div>
 
-<ul class="nav navbar-nav">
-	<li ng-show="!twitterSession" class="signin">
-		<a href="" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
-			<span class="link" ng-click="#signupModal" data-target="#signupModal" style="padding-top: 4px;">
-				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal" style="background-color:transparent; border-color:transparent;"><i style="padding-right: 4px;" class="fa fa-twitter"></i>Signup via Twitter</button>
-			</span>
-		</a>
-
-	</li>
-</ul>
+<div ng-show="!twitterSession" class="signin">
+	<a href="">
+		<span class="link" ng-click="#signupModal" data-target="#signupModal">
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal"><i class="fa fa-twitter"></i>Signup via Twitter</button>
+		</span>
+	</a>
+</div>
 
 

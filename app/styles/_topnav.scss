@@ -1,0 +1,121 @@
+/* Topnav */
+	.main-header {
+		> .topnav {
+			height: 50px;
+			overflow: hidden;
+		}
+	}
+
+	.universal-topnav-container {
+		width: 100%;
+		height: 50px;
+		overflow: hidden;
+		display: table;
+		.universal-topnav-item {
+			display: table-cell;
+			padding: 0;
+			margin: 0;
+			vertical-align: top;
+		}
+		.list-of-views {
+			width: 45%;
+			padding: 0;
+			margin: 0;
+			text-align: left;
+			li {
+				padding: 0;
+				margin: 0;
+				display: inline-block;
+				a {
+					display: inline-block;
+					padding: 15px 15px 10px 15px;
+					line-height: 20px;
+					transition: all .35s ease-in-out;
+					color: black;	
+					&:hover, &.active-view-nav {
+						color: #55acee;
+						transition: all .35s ease-in-out;
+						border-bottom: 5px solid #55acee;
+						background: none;
+					}
+					span {
+						margin-right: 10px;
+					}
+				}
+			}
+		}
+		.topnav-logo-container {
+			width: 10%;
+			text-align: center;
+		}
+		.topnav-user-actions {
+			text-align: right;
+			> * {
+				display: inline-block;
+				vertical-align: top;
+				margin-left: 10px;
+			}
+			.global-search-container {
+				padding-top: 8px;
+				#global-search-input { 
+					color: #292f33;
+					background-color: #f5f8fa;
+					border: 1px solid #e1e8ed;
+					border-radius: 13px;
+					width: auto;
+					padding: 8px;
+					min-width: 199px;
+					&:focus {
+						color: #292f33;
+						text-shadow: none;
+						background-color: #fff;
+						box-shadow: none;
+						opacity: 1;
+						outline: none;
+					}
+				}
+			}
+			.signin-twitter {
+				overflow: hidden;
+				line-height: 20px;
+				color: white;
+				#home-view-user-avatar {
+					height: 40px;
+					margin-top: 5px;
+					border-radius: 5px;
+				}
+				.initial-userinfo {
+					span {
+						display: inline-block;
+						font-size: 14px;
+						padding: 17px;
+						color: white;
+					}
+					span.avatar-container {
+						padding: 5px 0;
+					}
+					img {
+						height: 40px;
+						display: inline-block;
+						border-radius: 20px;
+						vertical-align: middle;
+					}
+				}
+				.signin {
+					span {
+						display: inline-block;
+						font-size: 14px;
+						padding: 17px;
+						color: white;
+					}
+				}
+			}
+			.global-tweet-button-container {
+				padding: 0;
+				#global-new-tweet-button {
+					height: 40px;
+					margin-top: 5px;
+				}
+			}
+		}
+	}
