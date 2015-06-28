@@ -66,7 +66,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").toggleClass("hide");
+				$(".hidden-items").slideToggle(); 
 			};
 		},
 		link: function(scope) {

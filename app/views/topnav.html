@@ -12,6 +12,9 @@
             <!-- Right -->
             <div class="hidden-xs universal-topnav-item topnav-user-actions">
                 <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">  
+                <form class="global-search-container" action="/search">
+                    <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
+                </form>
                 <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                 <ul class="global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
@@ -40,7 +43,7 @@
                 </div>
             </div>
             <!-- Hidden items -->
-            <div class="visible-xs hidden-items hide">
+            <div class="hidden-items hidden-sm hidden-sm hidden-lg hidden-init">
                 <div class="list-of-views">
                     <ul>
                         <li ng-repeat="navItem in root.topNavItems">
