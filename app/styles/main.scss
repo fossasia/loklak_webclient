@@ -1697,6 +1697,58 @@
 	    }
 	}
 
+.linear {
+    display: block;
+    min-height: 164px;
+    background: white;
+    padding: 20px 12px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid $search-grey-border;
+    &:first-child {
+        border-top-left-radius: 6px;
+        border-right-left-radius: 6px;
+    }
+    .avatar {
+        height: 130px;
+        max-width: 130px;
+        float: left;
+        border-radius: 6px;
+    }
+    .linear-content {
+        position: relative;
+        margin-left: 150px;
+        min-height: 130px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
+        img {
+        	height: 100%;
+        }
+        .linear-content-text {
+            word-break: break-all;
+            color: #292f33;
+            font-size: 26px;
+            line-height: 120%;
+            .linear-hashtag {
+                color: #55ACEE;
+            }
+            .linear-hashtag-current {
+                font-weight: bold;
+            }
+        }
+        .metadata {
+/*            position: absolute;
+			bottom: 0;*/
+            margin-top: 5px;
+            font-size: 18px;
+            color: #8899A6;
+            font-weight: normal;
+            font-style: italic;
+        }
+    }
+}
 	.wall-header > [class^="col-"],
 	.wall-header > [class*=" col-"] {
 	    display: flex;
@@ -2547,3 +2599,59 @@
 			margin-top: 10px;
 		}
 	}
+
+.navbar.navbar-static-top {
+	height: 50px;
+}
+
+.navbar.navbar-collapse a {
+	-webkit-transition: all .10s ease-in-out;
+	transition: all .10s ease-in-out;
+	color: black !important;
+	padding-bottom: 10px;
+}
+
+div.title-as-current-search-term > span {
+	margin-left:47%;
+}
+
+.chart-bar {
+	margin-left: 10px;
+	padding-right: 20px;
+}
+.leaderboard-item {
+	text-align: left;
+	border-bottom: 2px solid $background-dark;
+	/*margin: 8px;*/
+	padding: 4px 0;
+
+	font-size: 14px;
+	img {
+		border-radius: 50%;
+	}
+}
+.leaderboard-item td {
+	position: relative;
+}
+.leaderboard-count {
+	background-color: #00a65a;
+	min-height: 48px;
+	min-width: 48px;
+	padding: 14px 0;
+	text-align: center;
+	border-radius: 50%;
+	font-weight: bold;
+}
+.leaderboard-label {
+	top:9px;
+	position: absolute;
+	right: 7px;
+	background-color: #8FB40D;
+}
+.histogram-loader {
+	margin-right: auto;
+	margin-left: auto;
+	width: 64px;
+	display: block;
+	margin-top: 20px;
+}

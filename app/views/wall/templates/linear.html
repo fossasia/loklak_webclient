@@ -1,21 +1,24 @@
 <div ng-attr-id="{{data.id_str}}" class="linear linear-simple">
     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
-    <div class="linear-content">
-        <!-- Main content -->
-        <p class="linear-content-text" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
-        <!-- Images -->
-        <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
-        <div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick">
+    <div class="linear-content row">
+        <!-- <div class="row"> -->
+            <!-- Main content -->
+            <p class="linear-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
+            <!-- Images -->
+            <img alt="" class="col-xs-3" ng-if="data.images.length>0" ng-src="{{data.images[0]}}">
+            <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
+            <!-- <div masonry="{ transitionDuration: '1s'}" item-selector=".masonry-brick">
             <div class="masonry-brick" ng-repeat="image in data.images">
                 <img ng-click="wall.open()" class="masonry-image spinner" ng-src="{{image | biggerProfileImage}}" alt="A masonry brick">
             </div>
-        </div>
-        <!-- Metadata -->
-        <div class="metadata">
-            <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
-            <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-            <span><i class="fa fa-twitter"></i></span>
-            <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
-        </div>
+        </div> -->
+            <!-- Metadata -->
+            <div class="metadata col-xs-12">
+                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
+                <span><i class="fa fa-twitter"></i></span>
+                <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
+            </div>
+        <!-- </div> -->
     </div>
 </div>

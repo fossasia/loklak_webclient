@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 <style>
 .custom .leaflet-popup-tip,
 .custom .leaflet-popup-content-wrapper {
@@ -20,27 +21,83 @@
         <div class="banner col-md-3"><a ng-style="{'color': wall.wallOptions.headerForeColour} " href="/">Powered by Loklak</a></div>
         <div class="banner col-md-1">
             <!-- <i ng-style="{'color': wall.wallOptions.headerForeColour} " data-toggle="modal" data-target="#wall-modal" class="fa fa-fw fa-gear"></i> -->
-            <i ng-style="{'color': wall.wallOptions.headerForeColour} " ng-click="fullscreen()" class="fa fa-fw fa-arrows-alt"></i>
+            <i ng-style="{'color': wall.wallOptions.headerForeColour} " ng-hide="wall.fullscreenEnabled" ng-click="fullscreen()" class="fa fa-fw fa-arrows-alt"></i>
         </div>
     </div>
     <div class="wall-container container-fluid">
         <div class="container content-container wall-body">
-            <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.layoutStyle==1?'result-container col-md-8':'result-container col-md-12'">
-                <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses"  linear open="wall.open" data="status"></div>
+            <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.showStatistics?'result-container col-md-8':'result-container col-md-12'">
+                <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
                 <div ng-switch-when="2">
                     <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
-                    <div data="wall.statuses" id="map" maplayout style="width:100%; height:800px"></div>
-
+                    <div data="wall.statuses" id="map" maplayout style="height:800px"></div>
+                </div>
+            </div>
+            <div ng-show="wall.statuses.length>0" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
+                <h4>LEADERBOARD</h4>
+                <div class="row">
+                    <img class="histogram-loader" ng-hide="wall.topTwitterersData"  src="images/loading.gif">
+                    <div class="col-xs-7">
+                        <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
+                        <h4 ng-show="wall.topTwitterersData">Top Twitterers</h4>
+                        <table class="table table-bordered leaderboard">
+                            <tbody>
+                                <tr class="leaderboard-item" ng-repeat="obj in wall.topTwitterersData">
+                                    <td>
+                                        <img ng-src="http://avatars.io/twitter/{{obj[0]}}" alt="">
+                                        <span ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="label leaderboard-label">{{obj[1]}}</span>
+                                    </td>
+                                    <td>
+                                        <h4>@{{obj[0]}}</h4>
+                                    </td>
+                                    <!-- <td>
+                                                <div class="leaderboard-item">{{obj[1]}}</div>
+                                            </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-4">
+                        <!-- <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas> -->
+                        <h4 ng-show="wall.topTwitterersData">Top Hashtags</h4>
+                        <!-- table.table>tbody>(tr>((td>div.leaderboard-item{{{wall.topHashtagsData[$@0][0]}}})+(td>div.leaderboard-item{{{wall.topHashtagsData[$@0][1]}}})))*3 -->
+                        <table class="table">
+                            <tbody>
+                                <tr class="leaderboard-item" ng-repeat="obj in wall.topHashtagsData">
+                                    <td>
+                                        <div ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="leaderboard-count">{{obj[1]}}</div>
+                                    </td>
+                                    <td>
+                                        <h4>#{{obj[0]}}</h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">TWEETS FREQUENCY</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <img class="histogram-loader" ng-hide="wall.histogram2"  src="images/loading.gif">
+                            <canvas class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>
                 <h2 id="redirect-text">Loading your tweet wall...</h2>
             </div>
-            <div ng-show="wall.showEmpty" class="col-md-12" style="text-align: center;">
+            <div ng-hide="!wall.showEmpty" class="col-md-12" style="text-align: center;">
                 <h3>No tweets to show yet. Try changing the search parameters or come back here after some time!</h3>
             </div>
         </div>

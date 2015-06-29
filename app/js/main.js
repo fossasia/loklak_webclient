@@ -8,6 +8,7 @@ require('angular-animate');
 require('angular-moment');
 require('angular-loading-bar');
 require('ng-tags-input');
+// /require('chart.js');
 require('./templates');
 require('./controllers/_index');
 require('./services/_index');
@@ -37,7 +38,8 @@ angular.element(document).ready(function() {
     'toggle-switch',
     'ui.choices',
     'FBAngular',
-    'akoenig.deckgrid'
+    'akoenig.deckgrid',
+    'chart.js'
   ];
 
   // mount on window for testing
