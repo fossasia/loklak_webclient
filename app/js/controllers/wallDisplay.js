@@ -44,7 +44,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if(vm.wallOptions.mainHashtag)
             term = vm.wallOptions.mainHashtag;
         if (vm.wallOptions.layoutStyle == '4'){
-            term = term + '/location';
+            if(term=="")
+                term = "/location";
+            else
+                term = term + " /location";
         }
         for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
             term = term + ' ' + vm.wallOptions.allWords[i].text;
