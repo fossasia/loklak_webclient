@@ -182,6 +182,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             while (keepComparing) {
                if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
                  vm.newStasuses = data.statuses.slice(0, i);
+                 console.log(vm.newStasuses);
                  vm.noOfNewStatuses = vm.newStasuses.length;
                  keepComparing = false;
                }
@@ -194,6 +195,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         angular.forEach(intervals, function(interval) {
             $interval.cancel(interval);
         });
+        console.log(period);
         intervals.push($interval(bgUpdateTemp, parseInt(period)));
     };
 

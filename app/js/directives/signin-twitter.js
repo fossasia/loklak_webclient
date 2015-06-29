@@ -13,6 +13,8 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
+
+			/* Hello related init*/
 			var hello = $scope.hello;
 
 			// Init service, will also evaluate available cookies
@@ -60,6 +62,12 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			}, function() {
 					console.log("Signed out failed, try again later");
 			});   
+
+			/* Listener on nav */
+			$rootScope.root.ToggleMobileNav = function() {
+				angular.element("#pull .lines-button").toggleClass("close");
+				$(".hidden-items").slideToggle(); 
+			};
 		},
 		link: function(scope) {
 			var hello = scope.hello;
