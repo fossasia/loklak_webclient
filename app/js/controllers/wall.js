@@ -8,7 +8,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
+function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, AccountsService,MapPopUpTemplateService) {
 
     var vm = this;
     var flag = false;
@@ -116,6 +116,7 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
             if (flag == true) {
                 flag = false;
                 console.log('here');
+                AccountsService.updateData(dataParams);
                 $location.path('/wall/display').search({data: dataParams});
                 $scope.$apply();
             }
@@ -130,4 +131,4 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     }
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'AccountsService','MapPopUpTemplateService', WallCtrl]);
