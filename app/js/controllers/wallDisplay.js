@@ -40,9 +40,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     init();
     //calculate term
     function calculateTerm(argument) {
-        term = vm.wallOptions.mainHashtag;
+        term = "";
+        if(vm.wallOptions.mainHashtag)
+            term = vm.wallOptions.mainHashtag;
         if (vm.wallOptions.layoutStyle == '4'){
-            term = term + ' /location';
+            term = term + '/location';
         }
         for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
             term = term + ' ' + vm.wallOptions.allWords[i].text;
@@ -120,17 +122,17 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     var getRefreshTime = function(period) {
-        // if (period < 7000) {
-        //     return 3000;
-        // }
-        // if (period <= 3000) {
-        //     return 0.7 * period;
-        // }
-        // return 5000;
-        var wall_min_showtime = 5000;
-        var refreshTime = (30000 <= (period >= wall_min_showtime ? period : wall_min_showtime) ? 30000 : (period >= wall_min_showtime ? period : wall_min_showtime));
-        console.log("Refresh Time:" + refreshTime);
-        return refreshTime;
+        if (period < 7000) {
+            return 3000;
+        }
+        if (period <= 3000) {
+            return 0.7 * period;
+        }
+        return 5000;
+        // var wall_min_showtime = 5000;
+        // var refreshTime = (30000 <= (period >= wall_min_showtime ? period : wall_min_showtime) ? 30000 : (period >= wall_min_showtime ? period : wall_min_showtime));
+        // console.log("Refresh Time:" + refreshTime);
+        // return refreshTime;
     };
 
     /*
