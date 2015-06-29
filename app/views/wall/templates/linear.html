@@ -3,7 +3,7 @@
     <div class="linear-content row">
         <!-- <div class="row"> -->
             <!-- Main content -->
-            <p class="linear-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
+            <p class="linear-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text| tweetTextLink | tweetMention | tweetHashtag | toTrusted"></p>
             <!-- Images -->
             <img alt="" class="col-xs-3" ng-if="data.images.length>0" ng-src="{{data.images[0]}}">
             <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
