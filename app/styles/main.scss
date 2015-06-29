@@ -1,109 +1,21 @@
 @import 'bootstrap';
+@import 'respons-utils';
 @import 'reset';
 @import 'vars';
 @import 'loader';
 @import 'layout/cms-view';
+
+// Partials
+@import 'topnav';
 @import 'home';
 * {
     font-family: $font-family;
 }
-/* Admin LTE related */
-	.wrapper {
-		background-color: white !important;
-	}
+.wrapper {
+	background-color: white !important;
+}
 
-/* Topnav */
 
-	.universal-search {
-	    display: inline-block;
-	}
-
-	#global-search-input { 
-		color: #292f33;
-		background-color: #f5f8fa;
-		border: 1px solid #e1e8ed;
-		border-radius: 13px;
-		width: auto;
-		padding: 8px;
-		min-width: 199px;
-		&:focus {
-			color: #292f33;
-			text-shadow: none;
-			background-color: #fff;
-			box-shadow: none;
-			opacity: 1;
-			outline: none;
-		}
-	}
-
-	.navbar .navbar-form {
-	    padding-top: 0;
-	    padding-bottom: 0;
-	    margin-right: 0;
-	    margin-left: 0;
-	    border: 0;
-	    -webkit-box-shadow: none;
-	    box-shadow: none;
-	    float: none;
-
-	}
-	#home-view-user-avatar {
-		height: 40px;
-		margin-top: 5px;
-		border-radius: 5px;
-	}
-	#global-new-tweet-button {
-		height: 40px;
-		margin-top: 5px;
-	}
-/* Miscs */
-	.universal-search {
-	    display: inline-block;
-	}
-	#navbar-search-input {
-		color: white;
-		&:focus {
-			color: rgb(85,85,85);
-		}
-	}
-
-// Twitter sign in
-	.signin-twitter {
-		height: 50px;
-		min-width: 300px;
-		overflow: hidden;
-		display: inline-block;
-		line-height: 20px;
-		color: white;
-		.initial-userinfo {
-			height: 50px;
-			span {
-				display: inline-block;
-				height: 50px;
-				font-size: 14px;
-				padding: 17px;
-				color: white;
-			}
-			span.avatar-container {
-				padding: 5px 0;
-			}
-			img {
-				height: 40px;
-				display: inline-block;
-				border-radius: 20px;
-				vertical-align: middle;
-			}
-		}
-		.signin {
-			span {
-				display: inline-block;
-				height: 50px;
-				font-size: 14px;
-				padding: 17px;
-				color: white;
-			}
-		}
-	}
 /* Old styles */
 
 	body {
@@ -111,26 +23,6 @@
 	    background-color: #F5F8FA;
 	}
 
-
-	.navbar {
-	    background-color: white !important;
-	 	.navbar-collapse {
-	 		a {
-	 			transition: all .35s ease-in-out;
-	 			color: black !important;
-	 			padding-bottom: 10px;
-	 			&:hover, &.active-view-nav {
-	 				color: #55acee !important;
-	 				transition: all .35s ease-in-out;
-	 				border-bottom: 5px solid #55acee !important;
-	 				background: none !important;
-	 			}
-	 			span {
-	 				margin-right: 10px;
-	 			}
-	 		}
-	 	}  
-	}
 
 	.side {
 	    .side-block {
@@ -2655,18 +2547,3 @@
 			margin-top: 10px;
 		}
 	}
-
-.navbar.navbar-static-top {
-	height: 50px;
-}
-
-.navbar.navbar-collapse a {
-	-webkit-transition: all .10s ease-in-out;
-	transition: all .10s ease-in-out;
-	color: black !important;
-	padding-bottom: 10px;
-}
-
-div.title-as-current-search-term > span {
-	margin-left:47%;
-}
