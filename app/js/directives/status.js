@@ -7,7 +7,7 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'HelloService', 'AppSettings',   function($location, $rootScope, hello) {
+directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'HelloService', 'AppSettings',   function($location, $rootScope, HelloService) {
     return {
         scope: {
             data: '=',
