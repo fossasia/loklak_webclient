@@ -4,13 +4,11 @@
 var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
-var widgets = require('../components/widgets');
-var tweets,result;
-
+var result;
 /**
  * @ngInject
  */
-function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService) {
+function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
 
 
         
@@ -26,45 +24,58 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
     
          $http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
          .success(function (response) {
-            tweets = response.statuses;
-            result = GeoJSON.parse(tweets, {Point: 'location_point' , include:['id_str']}); 
-           console.log(result.features[0]);
-            add_marker(result);
+                var marker = [];
+                var tweets = {
+                    "type": "FeatureCollection",
+                    "features": []
+                };
+            response.statuses.forEach(function(ele) {
+                if (ele.location_point) {
+                    var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
+                    var pointObject = {
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                ele.location_point[0],
+                                ele.location_point[1]
+                            ]
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "popupContent": "<div class='foobar'>" + text + "</div>"
+                        },
+                        "id": ele.id_str
+                    };
+                    tweets.features.push(pointObject);
+                }
+            });
+            
+            add_marker(tweets);
         });
 
-        function add_marker(result) {
-            var tweetIcon = L.icon({
-             iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
-           });
-            console.log(result.features.length);
-            var marker = [];
-            var i;
-            for (i = 0; i < result.features.length; i++) {
-            console.log("here id ");
-            var lat=result.features[i].geometry.coordinates[1];
-            var lng=result.features[i].geometry.coordinates[0];
-            marker[i] = new L.Marker([lat, lng], {
-                id: result.features[i].properties.id_str,
-                icon:tweetIcon
-            });
-            marker[i].addTo(map);
-            marker[i].on('click', showTweet);
-            };
-        }
-
-          
-        function showTweet(e)
-        {   
-            document.getElementById('TweetBox').innerHTML="";
-            var id=this.options.id; 
-             twttr.widgets.createTweet(id,
-            document.getElementById('TweetBox'),
-            {
-                theme: 'light'
-            }
-        );
-        }
+      function add_marker(result) {
+                    var tweetIcon = L.icon({
+                        iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
+                    });
+                    console.log(result.features.length);
+                    var i;
+                    for (i = 0; i < result.features.length; i++) {
+                        var lat = result.features[i].geometry.coordinates[1];
+                        var lng = result.features[i].geometry.coordinates[0];
+                        marker[i] = new L.Marker([lat, lng], {
+                            id: i,
+                            icon: tweetIcon,
+                            bounceOnAdd: true
+                        });
+                        marker[i].addTo(map);
+                        var popup = L.popup({
+                            autoPan: false
+                        }).setContent(result.features[i].properties.popupContent);
+                        marker[i].bindPopup(popup);
+                    };
+                    
+                }
 
 }
 
-controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService',MapCtrl]);
+controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService',MapCtrl]);
