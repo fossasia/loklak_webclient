@@ -8,7 +8,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $location, AccountsService) {
+function WallCtrl($scope, $rootScope, $window, AccountsService) {
 
     var vm = this;
     var flag = false;
@@ -59,7 +59,7 @@ function WallCtrl($scope, $rootScope, $location, AccountsService) {
 
     $scope.start = function() {
         //construct term
-        var dataParams = encodeURI(JSON.stringify($scope.newWallOptions));
+        var dataParams = encodeURIComponent(JSON.stringify($scope.newWallOptions));
         $scope.newWallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
         $("#wall-modal").on('hidden.bs.modal', function() {
@@ -74,7 +74,7 @@ function WallCtrl($scope, $rootScope, $location, AccountsService) {
                 //     saveData.apps.wall = $scope.newWallOptions;
                 //     AccountsService.updateData(saveData);
                 // }
-                $location.path('/wall/display').search({data: dataParams});
+                $window.open('/wall/display?data=' + dataParams, '_blank');
                 $scope.$apply();
             }
         });
@@ -87,4 +87,4 @@ function WallCtrl($scope, $rootScope, $location, AccountsService) {
     }
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$location', 'AccountsService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', WallCtrl]);
