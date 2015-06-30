@@ -37,28 +37,6 @@
                 </ul>
             </div>
         </div>
-         <div class="filters-container">
-                    <ul class="search-modes">
-                        <!-- General filters -->
-                        <li  ng-class="(search.currentFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
-                            <a href="#">live</a>
-                        </li>
-                        <li  ng-class="(search.currentFilter === 'accounts') ? 'active' : ''" ng-click="search.filterAccounts()">
-                            <a href="#">accounts</a>
-                        </li>
-                        <li  ng-class="(search.currentFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
-                            <a href="#">photos</a>
-                        </li>
-                        <li ng-class="(search.currentFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
-                            <a href="#">videos</a>
-                        </li>
-                        <li ng-class="(search.currentFilter === 'map') ? 'active' : ''" ng-click="search.filterMap()">
-                            <a href="#">map</a>
-                        </li>
-                        <li><a href="./advancedsearch">More options</a></li>
-                    </ul>
-                </div>
-
         <!-- Center result + option filters -->
         <div class="result-container col-md-6" ng-show="root.twitterSession">
             <div class="row cms-view">
