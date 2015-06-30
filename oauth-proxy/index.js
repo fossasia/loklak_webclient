@@ -19,7 +19,7 @@ app.post('/updateData', function(req, res) {
     var requestJSON = JSON.parse(req.body.data);
     request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
         console.log(response);
-        res.sendStatus(response.statusCode);
+        res.status(response.statusCode).jsonp({ok:"ok"});
     });
 });
 

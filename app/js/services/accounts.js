@@ -12,7 +12,7 @@ function AccountsService($q, $http, AppSettings) {
   service.updateData = function(obj) {
     var deferred = $q.defer();
     var temp = AppSettings.oauthProxyUrl.split('/');
-    $http.post('http://localhost:3000/updateData', {
+    $http.jsonp('http://localhost:3002/updateData', {
       params: {data: obj}
     }).success(function(data) {
         deferred.resolve(data);
