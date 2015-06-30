@@ -25,7 +25,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 
-<body ng-class="root.sidebarEnabled? 'skin-blue fixed sidebar-mini': 'skin-blue layout-top-nav'">
+<body class="skin-blue layout-top-nav" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
     <div class="wrapper">
         <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
