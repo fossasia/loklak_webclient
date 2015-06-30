@@ -15,6 +15,14 @@ app.listen(config.oauthProxyPort);
 
 console.log("OAuth Shim listening on " + config.oauthProxyPort);
 
+app.post('/updateData', function(req, res) {
+    var requestJSON = JSON.parse(req.body.data);
+    request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
+        console.log(response);
+        res.status(response.statusCode).jsonp({ok:"ok"});
+    });
+});
+
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};
 
@@ -51,8 +59,8 @@ function customHandler(req, res, next) {
         userObject['oauth_token'] = oauth_token;
         userObject['oauth_token_secret'] = oauth_token_secret;
         userObject['source_type'] = "TWITTER";
-        var requestJSON = JSON.stringify(userObject);   
-        console.log(requestJSON);     
+        var requestJSON = JSON.stringify(userObject);
+        console.log(requestJSON);
         //got it. Now send to backend
         request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
             console.log(requestJSON);

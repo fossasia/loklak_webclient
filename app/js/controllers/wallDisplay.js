@@ -406,6 +406,26 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         return 0;
     }
+
+    function calculateBins(labels, data){
+        var binCount = 10;
+        var intervalLength = Math.round(labels.length / binCount);
+        var newData =[], newLabels = [];
+        for (var i = 0; i < labels.length; i+=intervalLength) {
+            newLabels.push(labels[i]);
+            var sum = 0;
+            for(var j=i; j<(i+intervalLength); j++){
+                if(j<data.length)
+                    sum = sum + data[j];
+            }
+            newData.push(sum);
+        };
+        var retval = {
+            data: newData,
+            labels: newLabels
+        };
+        return retval;
+    }
     function evalHistogram(statistics) {
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
             var data = [];
@@ -417,8 +437,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                     data.push(statistics.created_at[property]);
                 }
             }
-            labels = labels.slice(labels.length - 25, labels.length);
-            data = data.slice(data.length - 25, data.length);
+            var bins = calculateBins(labels,data);
+            data = bins.data;
+            labels = bins.labels;
+            //labels = labels.slice(labels.length - 25, labels.length);
+            //data = data.slice(data.length - 25, data.length);
             vm.histogram2 = [];
             vm.histogram2.push(data);
             vm.labels = labels;
