@@ -5,6 +5,7 @@ var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
 var result;
+var marker=[];
 /**
  * @ngInject
  */
@@ -24,7 +25,6 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
     
          $http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
          .success(function (response) {
-                var marker = [];
                 var tweets = {
                     "type": "FeatureCollection",
                     "features": []
