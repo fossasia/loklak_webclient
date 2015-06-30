@@ -31,4 +31,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function
         console.log($rootScope.root.tweetLength);
     }
 
+    $rootScope.root.retweet = function(id) {
+        console.log(id);
+    }
+
 }]);

@@ -7,7 +7,7 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('status', ['$location', function($location) {
+directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'HelloService', 'AppSettings',   function($location, $rootScope, hello) {
     return {
         scope: {
             data: '=',
@@ -56,6 +56,20 @@ directivesModule.directive('status', ['$location', function($location) {
                 };
                 $location.path(newPath).search(queryArgs);
             };
+
+            $scope.retweet = function(id) {
+                console.log(id);
+                hello('twitter').api('me/share', 'POST', {
+                    id : id
+                });
+            }
+
+             $scope.favorite = function(id) {
+                console.log(id);
+                hello('twitter').api('me/like', 'POST', {
+                    id : id
+                });
+            }
         },
         link: function(scope, element, attrs) {
 
