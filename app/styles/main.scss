@@ -2655,3 +2655,12 @@ div.title-as-current-search-term > span {
 	display: block;
 	margin-top: 20px;
 }
+
+form#tweet > div.modal-body {
+    background-color: #E5F2F7;
+}
+
+form#tweet > div.modal-footer {
+    background-color: #E5F2F7;
+    margin-top: -1%;
+}

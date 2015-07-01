@@ -75,7 +75,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Post a tweet</h4>
+            <h4 class="modal-title" style="text-align:center">Post a tweet</h4>
         </div>
         <form role="form" id="tweet"  ng-submit="root.foo()"  >
         <div class="modal-body">
@@ -87,7 +87,9 @@
             <span ng-show="root.tweetLength < 0" style="color:red;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
-            <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf030; Add Photo">&nbsp;
+            <span  class="btn btn-default btn-file fa pull-left">
+                <input type="file">&nbsp;&#xf030; Add Photo
+            </span>
             <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf041; Add Location">&nbsp;
             <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
         </div>
