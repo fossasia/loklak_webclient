@@ -8,7 +8,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
+function WallCtrl($scope, $rootScope, $location, AccountsService) {
 
     var vm = this;
     var flag = false;
@@ -58,64 +58,22 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
     };
 
     $scope.start = function() {
-        //$scope.newWallOptions.allWords = JSON.stringify($scope.newWallOptions.allWords);
         //construct term
         var dataParams = encodeURI(JSON.stringify($scope.newWallOptions));
-        // term = $scope.newWallOptions.mainHashtag;
-        // for (var i = 0; i < $scope.newWallOptions.allWords.length; i++) {
-        //     term = term + ' ' + $scope.newWallOptions.allWords[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.anyWords.length; i++) {
-        //     term = term + ' ' + $scope.newWallOptions.anyWords[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.noWords.length; i++) {
-        //     term = term + ' -' + $scope.newWallOptions.noWords[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
-        //     term = term + ' #' + $scope.newWallOptions.allHashtags[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.from.length; i++) {
-        //     term = term + ' from:' + $scope.newWallOptions.from[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.to.length; i++) {
-        //     term = term + ' @' + $scope.newWallOptions.to[i].text;
-        // };
-        // for (var i = 0; i < $scope.newWallOptions.mentioning.length; i++) {
-        //     term = term + ' @' + $scope.newWallOptions.mentioning[i].text;
-        // };
-        // if ($scope.newWallOptions.images) {
-        //     if ($scope.newWallOptions.images == "only") {
-        //         term = term + ' /image';
-        //     } else if ($scope.newWallOptions.images == "none") {
-        //         term = term + ' -/image';
-        //     }
-        // }
-        // if ($scope.newWallOptions.videos) {
-        //     if ($scope.newWallOptions.videos == "only") {
-        //         term = term + ' /video';
-        //     } else if ($scope.newWallOptions.videos == "none") {
-        //         term = term + ' -/video';
-        //     }
-        // }
-        // if ($scope.newWallOptions.audio) {
-        //     if ($scope.newWallOptions.audio == "only") {
-        //         term = term + ' /audio';
-        //     } else if ($scope.newWallOptions.audio == "none") {
-        //         term = term + ' -/audio';
-        //     }
-        // }
-        // if ($scope.newWallOptions.sinceDate) {
-        //     term = term + ' since:' + moment($scope.newWallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
-        // }
-        // if ($scope.newWallOptions.untilDate) {
-        //     term = term + ' until:' + moment($scope.newWallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
-        // }
         $scope.newWallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
         $("#wall-modal").on('hidden.bs.modal', function() {
             if (flag == true) {
                 flag = false;
-                console.log('here');
+                console.log($rootScope.root.twitterSession);
+                // if ($rootScope.root.twitterSession) {
+                //     //save wall
+                //     var saveData ={};
+                //     saveData.screen_name = $rootScope.root.twitterSession.screen_name;
+                //     saveData.apps = {};
+                //     saveData.apps.wall = $scope.newWallOptions;
+                //     AccountsService.updateData(saveData);
+                // }
                 $location.path('/wall/display').search({data: dataParams});
                 $scope.$apply();
             }
@@ -123,11 +81,10 @@ function WallCtrl($scope, $window, $stateParams, $interval, $timeout, $location,
         flag = true;
     };
 
-
     $scope.resetDate = function() {
         $scope.newWallOptions.sinceDate = null;
         $scope.newWallOptions.untilDate = null;
     }
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$window', '$stateParams', '$interval', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$location', 'AccountsService', WallCtrl]);
