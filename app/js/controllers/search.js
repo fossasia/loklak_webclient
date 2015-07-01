@@ -327,10 +327,10 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      
         map.on("zoomend", function(event) {
             var bound = map.getBounds();
-            var longWest = parseInt(bound._southWest.lng);
-            var latSouth = parseInt(bound._southWest.lat);
-            var longEast = parseInt(bound._northEast.lng);
-            var latNorth = parseInt(bound._northEast.lat);
+            var longWest = parseFloat(bound._southWest.lng);
+            var latSouth = parseFloat(bound._southWest.lat);
+            var longEast = parseFloat(bound._northEast.lng);
+            var latNorth = parseFloat(bound._northEast.lat);
             var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth; 
             console.log(vm.term + "+" + locationTerm);
             SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
