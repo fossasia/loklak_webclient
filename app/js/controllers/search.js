@@ -34,6 +34,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     
     // No filter search
     vm.filterLive = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'live';
@@ -45,8 +46,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
         vm.newStasuses = [];
-        vm.peopleSearch = true;
-        vm.showMap = false;
         vm.currentFilter = 'accounts';
         vm.accounts = [];
         var term = vm.term;
@@ -60,6 +59,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
             });
+            vm.peopleSearch = true;
+            vm.showMap = false;
         }, function() {});
 
         updatePath(vm.term + '+' + '/accounts');
