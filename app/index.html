@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js">
+<html style="height: 100%;" class="no-js">
 
 <head>
     <base href="/">
@@ -25,11 +25,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 
-<body class="skin-blue layout-top-nav" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
-    <div class="wrapper">
+<body class="skin-blue layout-top-nav" style="height: 100%;" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
+    <div class="wrapper" style="height: 100%;">
         <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
-        <div ui-view></div>
+        <div style="height: 100%;" ui-view></div>
         <div ng-include src="'pswp.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled" src="'controlsidebar.html'"></div>
     </div>

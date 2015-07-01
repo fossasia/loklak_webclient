@@ -18,5 +18,4 @@ function biggerProfileImageFilter() {
 
     }
 }
-
 filtersModule.filter('biggerProfileImage', biggerProfileImageFilter);
