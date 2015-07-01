@@ -1269,6 +1269,10 @@
 			height: 10px;
 			background-color: #F5F8FA;
 		}
+		ul {
+			margin-left: 0 !important;
+			padding-left: 0 !important;
+		}
 		ul li {
 			display: inline-block;
 			position: relative;
@@ -1295,6 +1299,9 @@
 			a {
 				display: inline-block;
 				padding: 0 24px;
+				@media (min-width: 992px) and (max-width: 1280px) {
+					padding: 0 13px;
+				}
 				color: #505050;
 				font-size: 14px;
 				border-left: 1px solid #ccd6dd;
