@@ -61,14 +61,14 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
 
             $scope.retweet = function(id) {
                 console.log(id);
-                hello('twitter').api('me/share', 'POST', {
+                $rootScope.root.hello('twitter').api('me/share', 'POST', {
                     id : id
                 });
             }
 
              $scope.favorite = function(id) {
                 console.log(id);
-                hello('twitter').api('me/like', 'POST', {
+                $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });
             }

@@ -41,14 +41,14 @@ directivesModule.directive('searchModal', ['$location', '$timeout', '$rootScope'
 
             $scope.retweet = function(id) {
                 console.log(id);
-                HelloService('twitter').api('me/share', 'POST', {
+                $rootScope.root.hello('twitter').api('me/share', 'POST', {
                     id : id
                 });
             }
 
             $scope.favorite = function(id) {
                 console.log(id);
-                HelloService('twitter').api('me/like', 'POST', {
+                $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });
             }
