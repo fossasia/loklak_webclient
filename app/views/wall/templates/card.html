@@ -7,11 +7,13 @@
         <!--         <div card-ng-click="open(card.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="card.images_count"> -->
         
         <!-- Metacard -->
-        <div class="metacard">
-            <a class="name" ng-href="{{'https://twitter.com/' + card.user.screen_name}}">{{card.user.name}}</a>
-            <span class="screen-name">{{ "@hbhb" + card.user.screen_name}}</span>
-            <span><i class="fa fa-twitter"></i></span>
-            <span class="created-at"> • {{card.created_at | tweetFromNow }}</span>
+        <div class="row">
+            <div class="metadata">
+                <a class="name" ng-href="{{'https://twitter.com/' + card.user.screen_name}}">{{card.user.name}}</a>
+                <span class="screen-name">{{ "@hbhb" + card.user.screen_name}}</span>
+                <span><i class="fa fa-twitter"></i></span>
+                <span class="created-at"> • {{card.created_at | tweetFromNow }}</span>
+            </div>
         </div>
     </div>
 </div>
