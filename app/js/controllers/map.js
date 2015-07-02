@@ -29,27 +29,47 @@ var marker=[];
 
 
         function plotFollowersonMap()
-        {
-            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
-            $rootScope.$apply(function() {
-                console.log(twitterFollowers);
-                //$rootScope.root.twitterFollowers = twitterFollowers; 
-                });
-            }, function() {
-            console.log("Unable to get your followers");
-            });
-            
-            
+        {   
+            //defining an object to store followers info
+            var followers = {
+                "location" : [],
+                "name" : [],
+                "id_str" : []
+            };
 
-            //getting followers location
-
-          var followers = {
+            //Marker array
+            var followersMarker = {
                 "type": "FeatureCollection",
                 "features": []
             };
-            response.statuses.forEach(function(ele) {
-                if (ele.location_point) {
-                    var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
+            
+            //Calling the method to get Twitter followers
+            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            $rootScope.$apply(function() 
+            {
+                twitterFollowers.data.forEach(function(ele){
+                    if(ele.location)
+                    {
+                        followers.location.push(ele.location);
+                        followers.name.push(ele.name);
+                        followers.id_str.push(ele.id_str);
+                    }
+                });
+            });
+            }, function() {
+            console.log("Unable to get your followers");
+            });
+
+            //getting the LatLong 
+            
+            $http({
+                url: user.details_path, 
+                method: "GET",
+                params: {location: followers.location}
+            }).success(function(data, status, headers, config) {
+
+                followers.location.forEach(function(ele){
+
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -64,18 +84,36 @@ var marker=[];
                         },
                         "id": ele.id_str
                     };
-                    followers.features.push(pointObject);
-                }
-            });
+                    followersMarker.features.push(pointObject);
+
+                });
+                        
+                
+                }).error(function(data, status, headers, config) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                });
 
             
-         //   add_marker(tweets);
+
+
+
+            
+            
+
+            //getting followers location
+
+          
+            
+            
+           // add_marker(followersMarker);
+         
 
         }  
 
         function plotFollowingOnMap()
         {
-            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            hello('twitter').api('/me/following', 'GET').then(function(twitterFollowers) {
             $rootScope.$apply(function() {
                 console.log(twitterFollowing);
                 //$rootScope.root.twitterFollowers = twitterFollowers; 
