@@ -102,6 +102,9 @@
 				height: 40px;
 				margin-top: 5px;
 				border-radius: 5px;
+				&:hover {
+					cursor: pointer;
+				}
 			}
 			.initial-userinfo {
 				span {

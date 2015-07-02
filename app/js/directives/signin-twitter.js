@@ -68,6 +68,21 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				angular.element("#pull .lines-button").toggleClass("close");
 				$(".hidden-items").toggle(); 
 			};
+
+			/* Listen on user avatar */
+			$scope.toggleOptions = function() {
+				angular.element(".hidden-user-info").toggleClass("hide");
+			};
+			window.onclick = function(e) {
+				var targetClasses = e.target.className;
+				var targetId = e.target.id;
+				if (targetClasses.indexOf("hidden-user-info") === -1 && targetId.indexOf("home-view-user-avatar") === -1) {
+					console.log("Foo");
+					if (!angular.element(".hidden-user-info").hasClass("hide")) {
+						angular.element(".hidden-user-info").toggleClass("hide");
+					}		
+				}
+			};
 		},
 		link: function(scope) {
 			var hello = scope.hello;
