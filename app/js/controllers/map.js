@@ -43,7 +43,7 @@ var marker=[];
 
             //getting followers location
 
-    /*        var followers = {
+          var followers = {
                 "type": "FeatureCollection",
                 "features": []
             };
@@ -64,10 +64,55 @@ var marker=[];
                         },
                         "id": ele.id_str
                     };
-                    tweets.features.push(pointObject);
+                    followers.features.push(pointObject);
                 }
             });
-*/
+
+            
+         //   add_marker(tweets);
+
+        }  
+
+        function plotFollowingOnMap()
+        {
+            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            $rootScope.$apply(function() {
+                console.log(twitterFollowing);
+                //$rootScope.root.twitterFollowers = twitterFollowers; 
+                });
+            }, function() {
+            console.log("Unable to get your followers");
+            });
+            
+            
+
+            //getting followers location
+
+          var following = {
+                "type": "FeatureCollection",
+                "features": []
+            };
+            response.statuses.forEach(function(ele) {
+                if (ele.location_point) {
+                    var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
+                    var pointObject = {
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                ele.location_point[0],
+                                ele.location_point[1]
+                            ]
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "popupContent": "<div class='foobar'>" + text + "</div>"
+                        },
+                        "id": ele.id_str
+                    };
+                    following.features.push(pointObject);
+                }
+            });
+
             
          //   add_marker(tweets);
 
