@@ -1,5 +1,10 @@
 
 /* Left user info  */
+.left-result-container {
+	@media (min-width: 992px) {
+			padding-left: 0;
+	}
+}
 .home-user-info {
 	border: 1px solid #e1e8ed;
 	margin-top: 20px; 
@@ -68,7 +73,6 @@
 			}
 		}
 	}
-	
 }
 
 .home-user-trends {
@@ -95,6 +99,12 @@
 }
 
 /* Center result */
+.center-result-container {
+	@media (min-width: 992px) {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
 .main-result-container {
 	.statuses-container {
 		background-color: white;
@@ -119,5 +129,12 @@
 			}
 		}
 		
+	}
+}
+
+/* Right dashboard */
+.right-result-container {
+	@media (min-width: 992px) {
+		padding-right: 0;
 	}
 }
