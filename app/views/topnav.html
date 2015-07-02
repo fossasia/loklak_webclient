@@ -68,16 +68,16 @@
 </header>
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Post a tweet</h4>
+            <h4 class="modal-title" style="text-align:center">Post a tweet</h4>
         </div>
-        <form role="form" id="tweet"  ng-submit="root.foo()"  >
+        <form role="form" id="tweet"  ng-submit="root.postTweet()"  enctype="multipart/form-data">
         <div class="modal-body">
             <div class="modal-tweet-form-container">
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
@@ -87,7 +87,9 @@
             <span ng-show="root.tweetLength < 0" style="color:red;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
-            <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf030; Add Photo">&nbsp;
+            <span  class="btn btn-default btn-file fa pull-left">
+                <input type="file" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
+            </span>
             <input type="button" class="fa btn btn-info btn-flat pull-left" value="&#xf041; Add Location">&nbsp;
             <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
         </div>
@@ -97,7 +99,7 @@
   </div>
 </div>
 <!-- Signup modal -->
-<div id="signupModal" class="modal fade" role="dialog" ng-if="!root.twitterSession">
+<div id="signupModal" class="modal" role="dialog" ng-if="!root.twitterSession">
   <div class="modal-dialog">
 
     <!-- Modal content-->

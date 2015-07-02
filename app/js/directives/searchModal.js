@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('searchModal', ['$location', function($location) {
+directivesModule.directive('searchModal', ['$location', '$timeout', '$rootScope', 'HelloService', 'AppSettings',  function($location, $timeout, $rootScope, HelloService, AppSettings) {
     return {
         scope: {
             modalData: '=',
@@ -38,6 +38,20 @@ directivesModule.directive('searchModal', ['$location', function($location) {
                 };
                 $location.path(newPath).search(queryargs);
             };
+
+            $scope.retweet = function(id) {
+                console.log(id);
+                $rootScope.root.hello('twitter').api('me/share', 'POST', {
+                    id : id
+                });
+            }
+
+            $scope.favorite = function(id) {
+                console.log(id);
+                $rootScope.root.hello('twitter').api('me/like', 'POST', {
+                    id : id
+                });
+            }
         },
         link: function(scope, element, attrs) {
             // Modal can be closed by 'ESC' keydown

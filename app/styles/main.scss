@@ -1274,7 +1274,7 @@
 			position: relative;
 			//font-size: 18px;
 			padding: 14px 0;
-			transition: all 0.15s ease-in-out;
+			transition: all 0.0s ease-in-out;
 			&:hover {
 				cursor: pointer;
 			}
@@ -1286,7 +1286,7 @@
 				right: 0;
 				height: 4px;
 				background: rgba(85, 172, 238, 0);
-				transition: all 0.15s ease-in-out;
+				transition: all 0.0s ease-in-out;
 			}
 			&.active::after, &:hover::after {
 				background: #66A9E2;
@@ -2654,4 +2654,13 @@ div.title-as-current-search-term > span {
 	width: 64px;
 	display: block;
 	margin-top: 20px;
+}
+
+form#tweet > div.modal-body {
+    background-color: #E5F2F7;
+}
+
+form#tweet > div.modal-footer {
+    background-color: #E5F2F7;
+    margin-top: -1%;
 }
