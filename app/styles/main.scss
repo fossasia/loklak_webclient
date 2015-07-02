@@ -2635,8 +2635,8 @@ div.title-as-current-search-term > span {
 }
 .leaderboard-count {
 	background-color: #00a65a;
-	min-height: 48px;
-	min-width: 48px;
+	height: 48px;
+	width: 48px;
 	padding: 14px 0;
 	text-align: center;
 	border-radius: 50%;
@@ -2645,7 +2645,10 @@ div.title-as-current-search-term > span {
 .leaderboard-label {
 	top:9px;
 	position: absolute;
-	right: -6px;
+	right: 0px;
+	text-align: center;
+	line-height: .9;
+	padding: 2px 3px;
 	background-color: #8FB40D;
 }
 .histogram-loader {
