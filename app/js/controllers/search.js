@@ -34,6 +34,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     
     // No filter search
     vm.filterLive = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'live';
@@ -44,8 +45,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Accounts search
     // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
-        vm.peopleSearch = true;
-        vm.showMap = false;
+        vm.newStasuses = [];
         vm.currentFilter = 'accounts';
         vm.accounts = [];
         var term = vm.term;
@@ -59,6 +59,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
             });
+            vm.peopleSearch = true;
+            vm.showMap = false;
         }, function() {});
 
         updatePath(vm.term + '+' + '/accounts');
@@ -66,6 +68,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Photos search
     vm.filterPhotos = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'photos';
@@ -75,6 +78,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Videos search
     vm.filterVideos = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.statuses = [];   
@@ -102,6 +106,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // News search
     vm.filterNews = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'news';
@@ -126,6 +131,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Map search, show results on a map
     vm.filterMap = function() {
+        vm.newStasuses = [];
         vm.currentFilter = "map";
         vm.statuses = [];
         vm.accounts = [];

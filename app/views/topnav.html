@@ -5,7 +5,7 @@
             <div class="hidden-xs universal-topnav-item list-of-views">
                 <ul>
                     <li ng-repeat="navItem in root.topNavItems">
-                        <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span>{{navItem.title}}</a>
+                        <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span><span class="nav-item-title">{{navItem.title}}</span></a>
                     </li>
                 </ul>
             </div>

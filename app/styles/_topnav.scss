@@ -1,6 +1,7 @@
 /* Topnav */
 	.main-header {
 		max-height: 1000px !important;
+		background: white;
 		> .topnav {
 			background: white;
 			height: 50px;
@@ -87,7 +88,13 @@
 					outline: none;
 				}
 			}
+			@media (min-width: 768px) and (max-width: 991px) {
+				#global-search-input {
+					width: 100px;
+				}
+			}
 		}
+
 		.signin-twitter {
 			overflow: hidden;
 			line-height: 20px;
