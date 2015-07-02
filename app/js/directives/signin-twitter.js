@@ -35,18 +35,19 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
-						console.log($rootScope.root.twitterSession);
 					});
 				}, function() {
 					console.log("Authentication failed, try again later");
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
-					console.log(twitterFriendFeed);
+					twitterFriendFeed.data.sort(function(a,b) {
+						return new Date(b.status.created_at) - new Date(a.status.created_at);
+					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						window.debugging = $rootScope.root.twitterFriends.data;
 					});
-					console.log($rootScope.root.twitterFriends);
 				}, function(){
 					console.log('Unable to load tweets from your followers');
 				});
