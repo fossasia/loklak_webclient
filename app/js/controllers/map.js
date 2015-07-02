@@ -9,7 +9,8 @@ var marker=[];
 /**
  * @ngInject
  */
-function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
+
+    controllersModule.controller('MapCtrl', ['$rootScope', 'HelloService', function($rootScope, hello) {
 
 
         
@@ -23,12 +24,29 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
             id: 'examples.map-20v6611k'
         }).addTo(map);
     
-         $http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
-         .success(function (response) {
-                var tweets = {
-                    "type": "FeatureCollection",
-                    "features": []
-                };
+         plotFollowersonMap();
+        // plotFollowingonMap();
+
+
+        function plotFollowersonMap()
+        {
+            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            $rootScope.$apply(function() {
+                console.log(twitterFollowers);
+                //$rootScope.root.twitterFollowers = twitterFollowers; 
+                });
+            }, function() {
+            console.log("Unable to get your followers");
+            });
+            
+            
+
+            //getting followers location
+
+    /*        var followers = {
+                "type": "FeatureCollection",
+                "features": []
+            };
             response.statuses.forEach(function(ele) {
                 if (ele.location_point) {
                     var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
@@ -49,9 +67,14 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
                     tweets.features.push(pointObject);
                 }
             });
+*/
             
-            add_marker(tweets);
-        });
+         //   add_marker(tweets);
+
+        }    
+
+         
+        
 
       function add_marker(result) {
                     var tweetIcon = L.icon({
@@ -76,6 +99,5 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
                     
                 }
 
-}
+}]);
 
-controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService',MapCtrl]);
