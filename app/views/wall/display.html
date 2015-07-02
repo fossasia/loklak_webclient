@@ -14,7 +14,7 @@
     right: 100px;
 }
 </style>
-<div style="height: 100%;">
+<div>
     <div ng-style="{'background-color': wall.wallOptions.headerColour}" ng-class="getHeaderClass()">
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="event-name col-md-4">{{wall.wallOptions.eventName}}</div>
@@ -27,7 +27,7 @@
     <div class="wall-container container-fluid">
         <div class="container content-container wall-body">
             <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.showStatistics?'result-container col-md-8':'result-container col-md-12'">
-                <div style="height:30%" ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
+                <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
                 <div ng-switch-when="2">
                     <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
                 </div>

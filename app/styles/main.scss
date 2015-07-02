@@ -1699,7 +1699,7 @@
 
 .linear {
     display: block;
-    height: 90%;
+    min-height: 164px;
     background: white;
     padding: 20px 12px;
     margin-bottom: 25px;
@@ -1709,18 +1709,22 @@
         border-right-left-radius: 6px;
     }
     .avatar {
-        min-height: 130px;
-        min-width: 130px;
+        height: 130px;
+        max-width: 130px;
         float: left;
         border-radius: 6px;
     }
     .linear-content {
         position: relative;
         margin-left: 150px;
-        height: 100%;
+        min-height: 130px;
+        .name {
+            &:hover {
+                color: $search-twitter-blue;
+            }
+        }
         img {
         	height: 100%;
-        	max-width: 100%;
         }
         .linear-content-text {
             word-break: break-all;
@@ -1735,8 +1739,8 @@
             }
         }
         .metadata {
-            position: absolute;
-			bottom: 0;
+/*            position: absolute;
+			bottom: 0;*/
             margin-top: 5px;
             font-size: 18px;
             color: #8899A6;
@@ -1764,7 +1768,6 @@
 	}
 	.wall-container {
 	    background: #F5F8FA;
-	    height: 100%;
 	    // Helper classes
 	    .abs-center-y {
 	        position: absolute;
@@ -1803,7 +1806,6 @@
 	        margin-top: 10px;
 	        border-radius: 6px;
 	        padding: 0;
-	        height: 100%;
 	        .new-tweet-noti {
 	            display: block;
 	            padding: 10px 1px;
@@ -1823,7 +1825,6 @@
 	        .result-container {
 	            border: 1px solid $search-grey-border;
 	            padding: 0;
-	            height: 100%;
 	        }
 	        .tweet {
 	            display: block;
