@@ -43,11 +43,12 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
 					twitterFriendFeed.data.sort(function(a,b) {
-						return new Date(b.status.created_at) - new Date(a.status.created_at);
+						if (b.status && a.status) {
+							return new Date(b.status.created_at) - new Date(a.status.created_at);	
+						}
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
-						window.debugging = $rootScope.root.twitterFriends.data;
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
@@ -77,7 +78,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				var targetClasses = e.target.className;
 				var targetId = e.target.id;
 				if (targetClasses.indexOf("hidden-user-info") === -1 && targetId.indexOf("home-view-user-avatar") === -1) {
-					console.log("Foo");
 					if (!angular.element(".hidden-user-info").hasClass("hide")) {
 						angular.element(".hidden-user-info").toggleClass("hide");
 					}		
