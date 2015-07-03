@@ -96,6 +96,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 
 			hello.on('auth.login', function(auth) {
 				angular.element('.modal-backdrop').remove();
+				angular.element("body").removeClass("modal-open");
 			});
 		}
 	};
