@@ -34,7 +34,8 @@ var marker=[];
             var followers = {
                 "location" : [],
                 "name" : [],
-                "id_str" : []
+                "id_str" : [],
+                "propic" : []
             };
 
             //Marker array
@@ -53,6 +54,8 @@ var marker=[];
                         followers.location.push(ele.location);
                         followers.name.push(ele.name);
                         followers.id_str.push(ele.id_str);
+                        followers.propic.push(ele.profile_image_url_https);
+    
                     }
                 });
                 console.log(followers);
@@ -72,12 +75,12 @@ var marker=[];
                 console.log(locarray);
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
-
+                //console.log( followers.propic[i]);
                 
                 for(var i=0;i<followers.location.length;i++)
                 {
                     
-                    var locationkey=following.location[i];
+                    var locationkey=followers.location[i];
                     if(data.locations[locationkey].mark)
                     {
                     //console.log(data.locations[locationkey].mark);
@@ -91,9 +94,12 @@ var marker=[];
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent": followers.name[i]
+                            "popupContent" : followers.name[i]+" is following you" ,
+                            "propic" : followers.propic[i]
+
                         },
                         "id": followers.id_str[i]
+
                     };
                     followersMarker.features.push(pointObject);
 
@@ -118,7 +124,8 @@ var marker=[];
             var following = {
                 "location" : [],
                 "name" : [],
-                "id_str" : []
+                "id_str" : [],
+                "propic" : []
             };
 
             //Marker array
@@ -137,9 +144,10 @@ var marker=[];
                         following.location.push(ele.location);
                         following.name.push(ele.name);
                         following.id_str.push(ele.id_str);
+                        following.propic.push(ele.profile_image_url_https)
                     }
                 });
-                console.log(following);
+               
                 Geocode_Plot();
             });
             }, function() {
@@ -149,7 +157,7 @@ var marker=[];
             //getting the LatLong 
             function Geocode_Plot()
             {
-                console.log("I am called");
+                
                 var locarray = {
                     "places" : following.location
                 }
@@ -176,7 +184,8 @@ var marker=[];
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent": following.name[i]
+                            "popupContent": "You follow " + following.name[i],
+                            "propic" : following.propic[i]
                         },
                         "id": following.id_str[i]
                     };
@@ -204,8 +213,9 @@ var marker=[];
                     console.log(result.features.length);
                     var i;
                     for (i = 0; i < result.features.length; i++) {
+                        //console.log(result.features[i].propic-url);
                         var tweetIcon = L.icon({
-                        iconUrl: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                        iconUrl: result.features[i].properties.propic ,
                     });
                         var lat = result.features[i].geometry.coordinates[1];
                         var lng = result.features[i].geometry.coordinates[0];
