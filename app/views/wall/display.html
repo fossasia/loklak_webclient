@@ -43,7 +43,7 @@
                     <div class="col-xs-7">
                         <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
                         <h4 ng-show="wall.topTwitterersData">Top Twitterers</h4>
-                        <table class="table table-bordered leaderboard">
+                        <table class="table leaderboard">
                             <tbody>
                                 <tr class="leaderboard-item" ng-repeat="obj in wall.topTwitterersData">
                                     <td>
@@ -51,7 +51,7 @@
                                         <span ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="label leaderboard-label">{{obj[1]}}</span>
                                     </td>
                                     <td>
-                                        <h4>@{{obj[0]}}</h4>
+                                        <a ng-href="https://twitter.com/{{obj[0]}}" target="_blank"><h4>@{{obj[0]}}</h4></a>
                                     </td>
                                     <!-- <td>
                                                 <div class="leaderboard-item">{{obj[1]}}</div>

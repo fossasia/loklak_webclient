@@ -1622,7 +1622,7 @@
             }
         }
         img {
-        	height: 100%;
+        	height: 130px;
         	max-width: 100%;
         }
         .linear-content-text {
@@ -2535,6 +2535,10 @@ div.title-as-current-search-term > span {
 }
 .leaderboard-item td {
 	position: relative;
+	img {
+		height: 48px;
+		width: 48px;
+	}
 }
 .leaderboard-count {
 	background-color: #00a65a;
