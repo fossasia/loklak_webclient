@@ -25,7 +25,7 @@ var marker=[];
         }).addTo(map);
     
          plotFollowersonMap();
-        // plotFollowingonMap();
+         plotFollowingOnMap();
 
 
         function plotFollowersonMap()
@@ -76,7 +76,10 @@ var marker=[];
                 
                 for(var i=0;i<followers.location.length;i++)
                 {
-                    var locationkey=followers.location[i];
+                    
+                    var locationkey=following.location[i];
+                    if(data.locations[locationkey].mark)
+                    {
                     //console.log(data.locations[locationkey].mark);
                     var pointObject = {
                         "geometry": {
@@ -94,6 +97,7 @@ var marker=[];
                     };
                     followersMarker.features.push(pointObject);
 
+                    }
                 }
                    add_marker(followersMarker);
                   console.log(data);      
@@ -105,24 +109,13 @@ var marker=[];
                         // or server returns response with an error status.
             });
         }
-
-
-            
-            
-
-            //getting followers location
-
-          
-            
-            
-           
-         
-
-        }  
+    }  
 
         function plotFollowingOnMap()
         {
-             var followings = {
+             
+            //defining an object to store following info
+            var following = {
                 "location" : [],
                 "name" : [],
                 "id_str" : []
@@ -134,57 +127,73 @@ var marker=[];
                 "features": []
             };
             
-            //Calling the method to get Twitter followers
-            hello('twitter').api('/me/following', 'GET').then(function(twitterFollowing) {
+            //Calling the method to get Twitter followings
+            hello('twitter').api('/me/following', 'GET').then(function(twitterfollowing) {
             $rootScope.$apply(function() 
             {
-                twitterFollowing.data.forEach(function(ele){
+                twitterfollowing.data.forEach(function(ele){
                     if(ele.location)
                     {
-                        followings.location.push(ele.location);
-                        followings.name.push(ele.name);
-                        followings.id_str.push(ele.id_str);
+                        following.location.push(ele.location);
+                        following.name.push(ele.name);
+                        following.id_str.push(ele.id_str);
                     }
                 });
+                console.log(following);
+                Geocode_Plot();
             });
             }, function() {
-            console.log("Unable to get your followers");
+            console.log("Unable to get your following");
             });
 
             //getting the LatLong 
-            
-            $http({
-                url: user.details_path, 
-                method: "GET",
-                params: {location: followings.location}
-            }).success(function(data, status, headers, config) {
-
-                followings.location.forEach(function(ele){
-
+            function Geocode_Plot()
+            {
+                console.log("I am called");
+                var locarray = {
+                    "places" : following.location
+                }
+                console.log(locarray);
+            $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
+            .success(function(data, status, headers, config) {
+                console.log(data);
+                for(var i=0;i<following.location.length;i++)
+                {   
+                    var locationkey=following.location[i];
+                    if(data.locations[locationkey].mark)
+                    {
+                    //var locationkey=following.location[i];
+                    console.log(locationkey);
+                    console.log(data);
+                    //console.log(data.locations[locationkey].mark);
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
                             "coordinates": [
-                                ele.location_point[0],
-                                ele.location_point[1]
+                                data.locations[locationkey].mark[0],
+                                data.locations[locationkey].mark[1]
                             ]
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent": "<div class='foobar'>" + text + "</div>"
+                            "popupContent": following.name[i]
                         },
-                        "id": ele.id_str
+                        "id": following.id_str[i]
                     };
                     followingMarker.features.push(pointObject);
+                }
 
-                });
-                        
+                }
+                   add_marker(followingMarker);
+                  console.log(data);      
                 
                 }).error(function(data, status, headers, config) {
+                    console.log(following.places);
+                    console.log("There is error");
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
-                });
-
+            });
+        }
         }    
 
          
@@ -196,7 +205,7 @@ var marker=[];
                     var i;
                     for (i = 0; i < result.features.length; i++) {
                         var tweetIcon = L.icon({
-                        iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
+                        iconUrl: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                     });
                         var lat = result.features[i].geometry.coordinates[1];
                         var lng = result.features[i].geometry.coordinates[0];
