@@ -1,6 +1,7 @@
 /* Topnav */
 	.main-header {
 		max-height: 1000px !important;
+		background: white;
 		> .topnav {
 			background: white;
 			height: 50px;
@@ -38,11 +39,11 @@
 				display: inline-block;
 				padding: 15px 15px 10px 15px;
 				line-height: 20px;
-				transition: all .35s ease-in-out;
+				transition: all 0s ease-in-out;
 				color: black;	
 				&:hover, &.active-view-nav {
 					color: #55acee;
-					transition: all .35s ease-in-out;
+					transition: all 0s ease-in-out;
 					border-bottom: 5px solid #55acee;
 					background: none;
 				}
@@ -87,7 +88,13 @@
 					outline: none;
 				}
 			}
+			@media (min-width: 768px) and (max-width: 991px) {
+				#global-search-input {
+					width: 100px;
+				}
+			}
 		}
+
 		.signin-twitter {
 			overflow: hidden;
 			line-height: 20px;
@@ -220,7 +227,7 @@
 		//background: white;
 	}
 	$button-size : 24px; 
-	$transition: .3s;
+	$transition: 0s;
 	.lines-button {
 
 	  background-color: transparent;
@@ -230,7 +237,7 @@
 	  }
 	  display: inline-block;
 	  padding: 0 $button-size/4;
-	  transition: .3s;
+	  transition: 0s;
 	  cursor: pointer;
 	  user-select: none;
 	  border-radius: $button-size/7;

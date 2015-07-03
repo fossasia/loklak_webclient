@@ -7,18 +7,20 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('status', ['$location', function($location) {
+directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'HelloService', 'AppSettings',   function($location, $timeout, $rootScope, HelloService, AppSettings) {
     return {
         scope: {
             data: '=',
             highlight: '=',
             openSwipe: '=',
+            hello: '=',
         },
         templateUrl: 'status.html',
         controller: function($scope) {
             $scope.showDetail = false;
             $scope.showMoreAction = false;
             $scope.debuggable = true;
+            var hello = $scope.hello;
 
             /**
              * Click on a certain area of a status will toggle/expand it
@@ -56,6 +58,20 @@ directivesModule.directive('status', ['$location', function($location) {
                 };
                 $location.path(newPath).search(queryArgs);
             };
+
+            $scope.retweet = function(id) {
+                console.log(id);
+                $rootScope.root.hello('twitter').api('me/share', 'POST', {
+                    id : id
+                });
+            }
+
+             $scope.favorite = function(id) {
+                console.log(id);
+                $rootScope.root.hello('twitter').api('me/like', 'POST', {
+                    id : id
+                });
+            }
         },
         link: function(scope, element, attrs) {
 

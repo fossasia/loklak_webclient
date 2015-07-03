@@ -3,7 +3,6 @@
 var directivesModule = require('./_index.js');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
-var widgets = require('../components/widgets');
 var bouncemarker = require('../components/bouncemarker');
 /**
  * @ngInject

@@ -34,6 +34,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     
     // No filter search
     vm.filterLive = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'live';
@@ -44,8 +45,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Accounts search
     // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
-        vm.peopleSearch = true;
-        vm.showMap = false;
+        vm.newStasuses = [];
         vm.currentFilter = 'accounts';
         vm.accounts = [];
         var term = vm.term;
@@ -59,6 +59,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
             });
+            vm.peopleSearch = true;
+            vm.showMap = false;
         }, function() {});
 
         updatePath(vm.term + '+' + '/accounts');
@@ -66,6 +68,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Photos search
     vm.filterPhotos = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'photos';
@@ -75,6 +78,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Videos search
     vm.filterVideos = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.statuses = [];   
@@ -102,6 +106,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // News search
     vm.filterNews = function() {
+        vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.currentFilter = 'news';
@@ -126,6 +131,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Map search, show results on a map
     vm.filterMap = function() {
+        vm.newStasuses = [];
         vm.currentFilter = "map";
         vm.statuses = [];
         vm.accounts = [];
@@ -268,17 +274,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
     }
 
-    // Init map
-    function initMap(data) {
-        var map = L.map('search-map').setView(new L.LatLng(5.3,-4.9), 2);
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'examples.map-20v6611k'
-        }).addTo(map);
 
+    // Init map point from data
+    function initMapPoints(data) {
         var tweets = {
             "type": "FeatureCollection",
             "features": [
@@ -305,23 +303,22 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             }
         });
 
+        return tweets;
+    }
+
+    // Add points to map
+    function addPointsToMap(map, tweets) {
         function onEachFeature(feature, layer) {
-            
             if (feature.properties && feature.properties.popupContent) {
                 var popupContent = feature.properties.popupContent;
             }
-
             layer.bindPopup(popupContent);
         }
-
         L.geoJson([tweets], {
-
             style: function (feature) {
                 return feature.properties && feature.properties.style;
             },
-
             onEachFeature: onEachFeature,
-
             pointToLayer: function (feature, latlng) {
                 return L.circleMarker(latlng, {
                     radius: 8,
@@ -333,7 +330,37 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 });
             }
         }).addTo(map);    
-    };
+     
+        map.on("zoomend", function(event) {
+            var bound = map.getBounds();
+            var longWest = parseFloat(bound._southWest.lng);
+            var latSouth = parseFloat(bound._southWest.lat);
+            var longEast = parseFloat(bound._northEast.lng);
+            var latNorth = parseFloat(bound._northEast.lat);
+            var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth; 
+            console.log(vm.term + "+" + locationTerm);
+            SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
+                console.log(data);
+                addPointsToMap(window.map, initMapPoints(data.statuses));    
+            }, function(data) {});
+        });
+        
+    }
+    // Init map
+    function initMap(data) {
+        window.map = L.map('search-map').setView(new L.LatLng(5.3,-4.9), 2);
+        var tweets = initMapPoints(data);
+
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'examples.map-20v6611k'
+        }).addTo(window.map);
+
+        addPointsToMap(window.map, tweets);
+    }
         
 
     // Init statuses if path is a search url

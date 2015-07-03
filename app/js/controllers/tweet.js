@@ -8,17 +8,17 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function
     $rootScope.root.tweet= "";
     $rootScope.root.tweetLength = 140;
     console.log($rootScope.root.tweetLength);
-    $rootScope.root.foo = function() 
+    $rootScope.root.postTweet = function() 
     {    
         var message = $rootScope.root.tweet;
         var tweetLen = twttr.txt.getTweetLength(message);
         var tweet = encodeURIComponent(message);
-        console.log(message);
-        console.log(tweetLen);
+
         if(tweetLen <= 140 && tweetLen > 0) {
             hello('twitter').api('me/share', 'POST', {
                 message : tweet
             });
+            $('#myModal').modal('hide');
         }
         else {
             console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
@@ -29,6 +29,10 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function
         var tweet = $rootScope.root.tweet;
         $rootScope.root.tweetLength = 140 - twttr.txt.getTweetLength(tweet);
         console.log($rootScope.root.tweetLength);
+    }
+
+    $rootScope.root.retweet = function(id) {
+        console.log(id);
     }
 
 }]);

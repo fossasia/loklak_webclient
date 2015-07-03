@@ -1269,12 +1269,16 @@
 			height: 10px;
 			background-color: #F5F8FA;
 		}
+		ul {
+			margin-left: 0 !important;
+			padding-left: 0 !important;
+		}
 		ul li {
 			display: inline-block;
 			position: relative;
 			//font-size: 18px;
 			padding: 14px 0;
-			transition: all 0.15s ease-in-out;
+			transition: all 0.0s ease-in-out;
 			&:hover {
 				cursor: pointer;
 			}
@@ -1286,7 +1290,7 @@
 				right: 0;
 				height: 4px;
 				background: rgba(85, 172, 238, 0);
-				transition: all 0.15s ease-in-out;
+				transition: all 0.0s ease-in-out;
 			}
 			&.active::after, &:hover::after {
 				background: #66A9E2;
@@ -1295,6 +1299,9 @@
 			a {
 				display: inline-block;
 				padding: 0 24px;
+				@media (min-width: 992px) and (max-width: 1280px) {
+					padding: 0 13px;
+				}
 				color: #505050;
 				font-size: 14px;
 				border-left: 1px solid #ccd6dd;
@@ -2309,15 +2316,14 @@
 	.advanced-search-view-container {
 		min-height: 100vh;
 		background-color: white;
-		margin-top: -20px;
 		padding-bottom: 200px;
 		text-align: center;
+		background-color: #F5F8FA;
 		.advanced-search-title {
 			font-size: 27px;
 			font-weight: 500;
 			text-align: center;
-			margin: 20px 0 -30px 0;
-			padding: 20px;
+			margin: 20px 0;
 			span {
 				font-weight: 700;
 			}
@@ -2443,7 +2449,8 @@
 			.final-search-term {
 				margin: 0;
 				padding: 15px 0;
-				background-color: white;
+				background-color: #55acee;
+				color: white;
 				span {
 					font-style: italic;
 				}
@@ -2572,4 +2579,13 @@ div.title-as-current-search-term > span {
 	width: 64px;
 	display: block;
 	margin-top: 20px;
+}
+
+form#tweet > div.modal-body {
+    background-color: #E5F2F7;
+}
+
+form#tweet > div.modal-footer {
+    background-color: #E5F2F7;
+    margin-top: -1%;
 }
