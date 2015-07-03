@@ -9,7 +9,8 @@ var marker=[];
 /**
  * @ngInject
  */
-function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, SearchService,MapPopUpTemplateService) {
+
+    controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService', function($rootScope,$http,hello) {
 
 
         
@@ -23,43 +24,197 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
             id: 'examples.map-20v6611k'
         }).addTo(map);
     
-         $http.jsonp( "http://loklak.org/api/search.json?callback=JSON_CALLBACK&timezoneOffset=-330&q=/location")
-         .success(function (response) {
-                var tweets = {
-                    "type": "FeatureCollection",
-                    "features": []
-                };
-            response.statuses.forEach(function(ele) {
-                if (ele.location_point) {
-                    var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
+         plotFollowersonMap();
+         plotFollowingOnMap();
+
+
+        function plotFollowersonMap()
+        {   
+            //defining an object to store followers info
+            var followers = {
+                "location" : [],
+                "name" : [],
+                "id_str" : [],
+                "propic" : []
+            };
+
+            //Marker array
+            var followersMarker = {
+                "type": "FeatureCollection",
+                "features": []
+            };
+            
+            //Calling the method to get Twitter followers
+            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            $rootScope.$apply(function() 
+            {
+                twitterFollowers.data.forEach(function(ele){
+                    if(ele.location)
+                    {
+                        followers.location.push(ele.location);
+                        followers.name.push(ele.name);
+                        followers.id_str.push(ele.id_str);
+                        followers.propic.push(ele.profile_image_url_https);
+    
+                    }
+                });
+                
+                Geocode();
+            });
+            }, function() {
+            console.log("Unable to get your followers");
+            });
+
+            //getting the LatLong 
+            function Geocode()
+            {
+                
+                var locarray = {
+                    "places" : followers.location
+                }
+                
+            $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
+            .success(function(data, status, headers, config) {
+                //console.log( followers.propic[i]);
+                
+                for(var i=0;i<followers.location.length;i++)
+                {
+                    
+                    var locationkey=followers.location[i];
+                    if(data.locations[locationkey].mark)
+                    {
+                    
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
                             "coordinates": [
-                                ele.location_point[0],
-                                ele.location_point[1]
+                                data.locations[locationkey].mark[0],
+                                data.locations[locationkey].mark[1]
                             ]
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent": "<div class='foobar'>" + text + "</div>"
+                            "popupContent" : followers.name[i]+" is following you" ,
+                            "propic" : followers.propic[i]
+
                         },
-                        "id": ele.id_str
+                        "id": followers.id_str[i]
+
                     };
-                    tweets.features.push(pointObject);
+                    followersMarker.features.push(pointObject);
+
+                    }
                 }
+                   add_marker(followersMarker);
+                    
+                
+                }).error(function(data, status, headers, config) {
+                    
+                    console.log("There is error");
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
             });
+        }
+    }  
+
+        function plotFollowingOnMap()
+        {
+             
+            //defining an object to store following info
+            var following = {
+                "location" : [],
+                "name" : [],
+                "id_str" : [],
+                "propic" : []
+            };
+
+            //Marker array
+            var followingMarker = {
+                "type": "FeatureCollection",
+                "features": []
+            };
             
-            add_marker(tweets);
-        });
+            //Calling the method to get Twitter followings
+            hello('twitter').api('/me/following', 'GET').then(function(twitterfollowing) {
+            $rootScope.$apply(function() 
+            {
+                twitterfollowing.data.forEach(function(ele){
+                    if(ele.location)
+                    {
+                        following.location.push(ele.location);
+                        following.name.push(ele.name);
+                        following.id_str.push(ele.id_str);
+                        following.propic.push(ele.profile_image_url_https)
+                    }
+                });
+               
+                Geocode_Plot();
+            });
+            }, function() {
+            console.log("Unable to get your following");
+            });
+
+            //getting the LatLong 
+            function Geocode_Plot()
+            {
+                
+                var locarray = {
+                    "places" : following.location
+                }
+                
+            $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
+            .success(function(data, status, headers, config) {
+                
+                for(var i=0;i<following.location.length;i++)
+                {   
+                    var locationkey=following.location[i];
+                    if(data.locations[locationkey].mark)
+                    {
+                    //var locationkey=following.location[i];
+                    
+                    var pointObject = {
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                data.locations[locationkey].mark[0],
+                                data.locations[locationkey].mark[1]
+                            ]
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "popupContent": "You follow " + following.name[i],
+                            "propic" : following.propic[i]
+                        },
+                        "id": following.id_str[i]
+                    };
+                    followingMarker.features.push(pointObject);
+                }
+
+                }
+                   add_marker(followingMarker);
+                   
+                
+                }).error(function(data, status, headers, config) {
+                    
+                    console.log("There is error");
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+            });
+        }
+        }    
+
+         
+        
 
       function add_marker(result) {
-                    var tweetIcon = L.icon({
-                        iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
-                    });
-                    console.log(result.features.length);
+                    
+                    
                     var i;
                     for (i = 0; i < result.features.length; i++) {
+                        //console.log(result.features[i].propic-url);
+                        var tweetIcon = L.icon({
+                        iconUrl: result.features[i].properties.propic ,
+                    });
                         var lat = result.features[i].geometry.coordinates[1];
                         var lng = result.features[i].geometry.coordinates[0];
                         marker[i] = new L.Marker([lat, lng], {
@@ -76,6 +231,5 @@ function MapCtrl($scope, $stateParams, $timeout, $location, $http, AppSettings, 
                     
                 }
 
-}
+}]);
 
-controllersModule.controller('MapCtrl', ['$scope', '$stateParams', '$timeout', '$location', '$http', 'AppSettings', 'SearchService','MapPopUpTemplateService',MapCtrl]);
