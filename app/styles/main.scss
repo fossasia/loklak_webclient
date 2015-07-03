@@ -1933,6 +1933,7 @@
 	    background: white;
 	    padding: 30px 22px;
 	    margin-bottom: 25px;
+	    margin-top: 10%;
 	    border-bottom: 1px solid $search-grey-border;
 	    &:first-child {
 	        border-top-left-radius: 6px;
@@ -1955,11 +1956,15 @@
 	                color: $search-twitter-blue;
 	            }
 	        }
+	        img {
+	        	max-width: 100%;
+	        	max-height: 390px;
+	        }
 	        .coa-content-text {
 	            word-break: break-all;
 	            color: #292f33;
-	            font-size: 36px;
-	            line-height: 140%;
+	            font-size: 40px;
+	            line-height: 160%;
 	            .coa-hashtag {
 	                color: #55ACEE;
 	            }
@@ -1970,7 +1975,7 @@
 	        .metadata {
 	        	position: absolute;
 	        	bottom: 0;
-	            font-size: 18px;
+	            font-size: 28px;
 	            color: #8899A6;
 	            font-weight: normal;
 	            padding-top: 20px;

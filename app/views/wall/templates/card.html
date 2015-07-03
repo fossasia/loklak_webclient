@@ -2,7 +2,7 @@
     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{card.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
     <div class="card-content row">
         <!-- Main content -->
-        <p class="card-content-text" ng-class="card.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="card.text | tweetMention | tweetHashtag | tweetTextLink |  toTrusted"></p>
+        <p class="card-content-text" ng-class="card.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="card.text | tweetTextLink | tweetMention | tweetHashtag |  toTrusted"></p>
         <!-- Images -->
         <div style="height: 100%;" class="col-xs-3">
             <img alt="" ng-if="card.images.length>0" ng-src="{{card.images[0] | instaFilter}}">
