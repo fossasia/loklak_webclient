@@ -2,7 +2,7 @@
     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
     <div class="coa-content row">
         <!-- Main content -->
-        <p class="coa-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetMention | tweetHashtag | toTrusted"></p>
+        <p class="coa-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetMention | tweetHashtag | tweetTextLink | toTrusted"></p>
         <!-- Images -->
         <img alt="" class="col-xs-3" ng-if="data.images.length>0" ng-src="{{data.images[0] | instaFilter}}">
         <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->

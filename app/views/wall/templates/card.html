@@ -1,19 +1,21 @@
 <div ng-attr-id="{{card.id_str}}" class="card card-simple">
     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{card.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
-    <div class="card-content">
+    <div class="card-content row">
         <!-- Main content -->
-        <p class="card-content-text" ng-bind-html="card.text | tweetMention | tweetHashtag | toTrusted"></p>
+        <p class="card-content-text" ng-class="card.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="card.text | tweetMention | tweetHashtag | tweetTextLink |  toTrusted"></p>
         <!-- Images -->
+        <div style="height: 100%;" class="col-xs-3">
+            <img alt="" ng-if="card.images.length>0" ng-src="{{card.images[0] | instaFilter}}">
+        </div>
         <!--         <div card-ng-click="open(card.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="card.images_count"> -->
-        
         <!-- Metacard -->
-        <div class="row">
-            <div class="metadata">
-                <a class="name" ng-href="{{'https://twitter.com/' + card.user.screen_name}}">{{card.user.name}}</a>
-                <span class="screen-name">{{ "@hbhb" + card.user.screen_name}}</span>
-                <span><i class="fa fa-twitter"></i></span>
-                <span class="created-at"> • {{card.created_at | tweetFromNow }}</span>
-            </div>
+    </div>
+    <div class="row">
+        <div class="metadata col-xs-12">
+            <a class="name" ng-href="{{'https://twitter.com/' + card.user.screen_name}}">{{card.user.name}}</a>
+            <span class="screen-name">{{ "@hbhb" + card.user.screen_name}}</span>
+            <span><i class="fa fa-twitter"></i></span>
+            <span class="created-at"> • {{card.created_at | tweetFromNow }}</span>
         </div>
     </div>
 </div>

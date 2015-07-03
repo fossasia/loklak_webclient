@@ -2023,10 +2023,14 @@
 	                color: $search-twitter-blue;
 	            }
 	        }
+	        img {
+	        	max-height: 180px;
+	        	max-width: 100%;
+	        }
 	        .card-content-text {
 	            word-break: break-all;
 	            color: #292f33;
-	            font-size: 18px;
+	            font-size: 16px;
 	            line-height: 120%;
 	            min-height: 140px;
 	            .card-hashtag {
@@ -2036,13 +2040,12 @@
 	                font-weight: bold;
 	            }
 	        }
-	        .metadata {
-	            font-size: 18px;
+	    }
+	    .metadata {
+	            font-size: 16px;
 	            color: #8899A6;
 	            font-weight: normal;
-	            padding-top: 20px;
 	            font-style: italic;
-	        }
 	    }
 	}
 	.wall-body {

@@ -29,7 +29,7 @@
             <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.showStatistics?'col-md-8':'col-md-12'">
                 <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
                 <div ng-switch-when="2">
-                    <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
+                    <div deckgrid class="deckgrid" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
