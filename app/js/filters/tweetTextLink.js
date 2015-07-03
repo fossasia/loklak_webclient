@@ -9,6 +9,7 @@ var filtersModule = require('./_index.js');
 filtersModule.filter('tweetTextLink', function() {
     return function(input) {
         function geturl(url) {
+        	url = url.replace(/.*?:\/\//g, "");
             if (url.length > 22) {
                 return url.substr(0, 22) + "...";
             } else {
