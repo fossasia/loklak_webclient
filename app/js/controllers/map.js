@@ -58,7 +58,7 @@ var marker=[];
     
                     }
                 });
-                console.log(followers);
+                
                 Geocode();
             });
             }, function() {
@@ -68,11 +68,11 @@ var marker=[];
             //getting the LatLong 
             function Geocode()
             {
-                console.log("I am called");
+                
                 var locarray = {
                     "places" : followers.location
                 }
-                console.log(locarray);
+                
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 //console.log( followers.propic[i]);
@@ -83,7 +83,7 @@ var marker=[];
                     var locationkey=followers.location[i];
                     if(data.locations[locationkey].mark)
                     {
-                    //console.log(data.locations[locationkey].mark);
+                    
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -106,10 +106,10 @@ var marker=[];
                     }
                 }
                    add_marker(followersMarker);
-                  console.log(data);      
+                    
                 
                 }).error(function(data, status, headers, config) {
-                    console.log(followers.places);
+                    
                     console.log("There is error");
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
@@ -161,19 +161,17 @@ var marker=[];
                 var locarray = {
                     "places" : following.location
                 }
-                console.log(locarray);
+                
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
-                console.log(data);
+                
                 for(var i=0;i<following.location.length;i++)
                 {   
                     var locationkey=following.location[i];
                     if(data.locations[locationkey].mark)
                     {
                     //var locationkey=following.location[i];
-                    console.log(locationkey);
-                    console.log(data);
-                    //console.log(data.locations[locationkey].mark);
+                    
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -194,10 +192,10 @@ var marker=[];
 
                 }
                    add_marker(followingMarker);
-                  console.log(data);      
+                   
                 
                 }).error(function(data, status, headers, config) {
-                    console.log(following.places);
+                    
                     console.log("There is error");
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
@@ -210,7 +208,7 @@ var marker=[];
 
       function add_marker(result) {
                     
-                    console.log(result.features.length);
+                    
                     var i;
                     for (i = 0; i < result.features.length; i++) {
                         //console.log(result.features[i].propic-url);
