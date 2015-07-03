@@ -18,7 +18,7 @@ filtersModule.filter('tweetTextLink', function() {
         }
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return input.replace(urlRegex, function(url) {
-            return '<a href="' + url + '" target="_blank">' + geturl(url) + '</a>';
+            return '<a class="external_link" href="' + url + '" target="_blank">' + geturl(url) + '</a>';
         })
     };
 });
