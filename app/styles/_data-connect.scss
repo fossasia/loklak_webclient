@@ -1,0 +1,20 @@
+.data-connect-panel {
+	width: 100%;
+	margin-top: 44px ! important;
+}
+.data-connect-modal-dialog h2 {
+	margin : 0;
+}
+
+.data-connect-modal-dialog .modal-content {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+@media (min-width: 1200px) {
+	.data-connect-panel {
+		width: 1170px;
+		margin: auto;
+		padding-left: 15px;
+	}
+}
