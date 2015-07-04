@@ -62,14 +62,15 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         $scope.newWallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
         console.log($rootScope.root.twitterSession);
-        // if ($rootScope.root.twitterSession) {
-        //     //save wall
-        //     var saveData ={};
-        //     saveData.screen_name = $rootScope.root.twitterSession.screen_name;
-        //     saveData.apps = {};
-        //     saveData.apps.wall = $scope.newWallOptions;
-        //     AccountsService.updateData(saveData);
-        // }
+        if ($rootScope.root.twitterSession) {
+            //save wall
+            console.log("Saving wall");
+            var saveData = {};
+            saveData.screen_name = $rootScope.root.twitterSession.screen_name;
+            saveData.apps = {};
+            saveData.apps.wall = $scope.newWallOptions;
+            AccountsService.updateData(saveData);
+        }
         $window.open('/wall/display?data=' + dataParams, '_blank');
     };
 
@@ -77,6 +78,29 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         $scope.newWallOptions.sinceDate = null;
         $scope.newWallOptions.untilDate = null;
     }
+
+    var init = function() {
+        // if ($rootScope.root.twitterSession){
+        //     AccountsService.getData({screen_name:$rootScope.root.twitterSession.screen_name}).then(function(result){
+        //         console.log(result);
+        //     },
+        //     function(error){
+
+        //     });
+        // }
+        //if ($rootScope.root.twitterSession){
+        AccountsService.getData("aneeshd16").then(function(result) {
+                console.log(result.accounts[0].apps.wall.walls);
+                $scope.userWalls = result.accounts[0].apps.wall.walls;
+                $scope.screen_name = "sjjsn";
+            },
+            function(error) {
+
+            });
+        //}
+    }
+
+    init();
 }
 
 controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', WallCtrl]);
