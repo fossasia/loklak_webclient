@@ -26,10 +26,10 @@
     </div>
     <div class="wall-container container-fluid">
         <div class="container content-container wall-body">
-            <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.showStatistics?'result-container col-md-8':'result-container col-md-12'">
+            <div ng-switch on="wall.wallOptions.layoutStyle" ng-show="wall.statuses.length>0" ng-class="wall.wallOptions.showStatistics?'col-md-8':'col-md-12'">
                 <div ng-switch-when="1" class="animate-repeat" ng-repeat="status in wall.statuses" linear open="wall.open" data="status"></div>
                 <div ng-switch-when="2">
-                    <div deckgrid class="deckgrid animate-repeat" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
+                    <div deckgrid class="deckgrid" source="wall.statuses" cardTemplate="wall/templates/card.html"></div>
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
@@ -43,7 +43,7 @@
                     <div class="col-xs-7">
                         <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
                         <h4 ng-show="wall.topTwitterersData">Top Twitterers</h4>
-                        <table class="table table-bordered leaderboard">
+                        <table class="table leaderboard">
                             <tbody>
                                 <tr class="leaderboard-item" ng-repeat="obj in wall.topTwitterersData">
                                     <td>
@@ -51,7 +51,7 @@
                                         <span ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="label leaderboard-label">{{obj[1]}}</span>
                                     </td>
                                     <td>
-                                        <h4>@{{obj[0]}}</h4>
+                                        <a ng-href="https://twitter.com/{{obj[0]}}" target="_blank"><h4>@{{obj[0]}}</h4></a>
                                     </td>
                                     <!-- <td>
                                                 <div class="leaderboard-item">{{obj[1]}}</div>
