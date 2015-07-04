@@ -11,7 +11,6 @@ var moment = require('moment');
 function WallCtrl($scope, $rootScope, $window, AccountsService) {
 
     var vm = this;
-    var flag = false;
     var term = '';
     $scope.newWallOptions = {};
     $scope.newWallOptions.headerColour = '#3c8dbc';
@@ -62,23 +61,16 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         var dataParams = encodeURIComponent(JSON.stringify($scope.newWallOptions));
         $scope.newWallOptions['term'] = term;
         $('#wall-modal').modal('toggle');
-        $("#wall-modal").on('hidden.bs.modal', function() {
-            if (flag == true) {
-                flag = false;
-                console.log($rootScope.root.twitterSession);
-                // if ($rootScope.root.twitterSession) {
-                //     //save wall
-                //     var saveData ={};
-                //     saveData.screen_name = $rootScope.root.twitterSession.screen_name;
-                //     saveData.apps = {};
-                //     saveData.apps.wall = $scope.newWallOptions;
-                //     AccountsService.updateData(saveData);
-                // }
-                $window.open('/wall/display?data=' + dataParams, '_blank');
-                $scope.$apply();
-            }
-        });
-        flag = true;
+        console.log($rootScope.root.twitterSession);
+        // if ($rootScope.root.twitterSession) {
+        //     //save wall
+        //     var saveData ={};
+        //     saveData.screen_name = $rootScope.root.twitterSession.screen_name;
+        //     saveData.apps = {};
+        //     saveData.apps.wall = $scope.newWallOptions;
+        //     AccountsService.updateData(saveData);
+        // }
+        $window.open('/wall/display?data=' + dataParams, '_blank');
     };
 
     $scope.resetDate = function() {
