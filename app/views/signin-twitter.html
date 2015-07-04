@@ -1,5 +1,18 @@
-<div ng-show="twitterSession">
-		<img id="home-view-user-avatar" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
+<div ng-show="twitterSession" class="twitter-session">
+		<img id="home-view-user-avatar" ng-click="toggleOptions()" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
+		<div class="hidden-user-info hide">
+			<ul class="top-options">
+				<li>
+					<a href="./home">
+					<span class="full-name">{{twitterSession.name}}</span><br>
+					<span class="metadata">View profile</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="bottom-options">
+				<li><a href="#" ng-click="hello('twitter').logout()">Log out</a></li>
+			</ul>
+		</div>
 </div>
 
 <div ng-show="!twitterSession" class="signin">

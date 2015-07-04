@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <!-- Main content -->
-    <div class="container-fluid content-container">
+    <div class="container content-container">
       
         <!-- Left content: Who to follow, trends -->
-        <div class="result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
+        <div class="left-result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
             <div class="home-user-info">
                 <div class="blue-background-placeholder">
                     <img ng-src="{{root.twitterSession.profile_banner_url}}" alt="user-banner-photo" ng-show="root.twitterSession.profile_banner_url">    
@@ -38,7 +38,7 @@
             </div>
         </div>
         <!-- Center result + option filters -->
-        <div class="result-container col-md-6" ng-show="root.twitterSession">
+        <div class="center-result-container col-md-6" ng-show="root.twitterSession">
             <div class="row cms-view">
                 <div class="main-result-container">
                     <div class="statuses-container box-body chat" id="chat-box" style="width: auto;">
@@ -58,8 +58,13 @@
         </div>
 
         <!-- Right content: Other statistics -->
-        <div class="result-container col-md-3">
-
+        <div class="right-result-container col-md-3 visible-lg">
+            <div class="home-user-trends">
+                <h3 class="trend-title">Trends</h3>
+                <ul id="home-trend-list">
+                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+                </ul>
+            </div>
         </div>
 
 

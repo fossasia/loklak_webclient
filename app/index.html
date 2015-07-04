@@ -27,7 +27,7 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBE1JH_NZ0LvGeGAjV4n78pH_t7jkeKPCo&libraries=places&sensor=true"></script>
 </head>
 
-<body ng-class="root.sidebarEnabled? 'skin-blue fixed sidebar-mini': 'skin-blue layout-top-nav'">
+<body class="skin-blue layout-top-nav" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
     <div class="wrapper">
         <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>

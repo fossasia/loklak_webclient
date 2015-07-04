@@ -35,18 +35,21 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
-						console.log($rootScope.root.twitterSession);
+						console.log(twitterSession);
 					});
 				}, function() {
 					console.log("Authentication failed, try again later");
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
-					console.log(twitterFriendFeed);
+					twitterFriendFeed.data.sort(function(a,b) {
+						if (b.status && a.status) {
+							return new Date(b.status.created_at) - new Date(a.status.created_at);	
+						}
+					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
 					});
-					console.log($rootScope.root.twitterFriends);
 				}, function(){
 					console.log('Unable to load tweets from your followers');
 				});
@@ -64,7 +67,21 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").slideToggle(); 
+				$(".hidden-items").toggle(); 
+			};
+
+			/* Listen on user avatar */
+			$scope.toggleOptions = function() {
+				angular.element(".hidden-user-info").toggleClass("hide");
+			};
+			window.onclick = function(e) {
+				var targetClasses = e.target.className;
+				var targetId = e.target.id;
+				if (targetClasses.indexOf("hidden-user-info") === -1 && targetId.indexOf("home-view-user-avatar") === -1) {
+					if (!angular.element(".hidden-user-info").hasClass("hide")) {
+						angular.element(".hidden-user-info").toggleClass("hide");
+					}		
+				}
 			};
 		},
 		link: function(scope) {
@@ -79,6 +96,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 
 			hello.on('auth.login', function(auth) {
 				angular.element('.modal-backdrop').remove();
+				angular.element("body").removeClass("modal-open");
 			});
 		}
 	};
