@@ -1,5 +1,10 @@
 
 /* Left user info  */
+.left-result-container {
+	@media (min-width: 992px) {
+			padding-left: 0;
+	}
+}
 .home-user-info {
 	border: 1px solid #e1e8ed;
 	margin-top: 20px; 
@@ -52,23 +57,28 @@
 			width: 32%;
 			text-align: left;
 			overflow: hidden;
-			padding: 10px 10px;
+			padding: 10px 5px;
 			box-sizing: border-box;
+			&:first-child {
+				padding-left: 10px;
+			}
+			&:last-child {
+				padding-right: 10px;
+			}
 			a {
 				text-align: left;
-				font-size: 13px;
+				font-size: 12px;
 				color: #8c9ca9;
 				text-transform: uppercase;
 				line-height: 22px;
 				span {
 					color: #2b7bb9;
-					font-size: 20px;
+					font-size: 18px;
 					font-weight: 500;
 				}
 			}
 		}
 	}
-	
 }
 
 .home-user-trends {
@@ -95,6 +105,12 @@
 }
 
 /* Center result */
+.center-result-container {
+	@media (min-width: 992px) {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
 .main-result-container {
 	.statuses-container {
 		background-color: white;
@@ -119,5 +135,12 @@
 			}
 		}
 		
+	}
+}
+
+/* Right dashboard */
+.right-result-container {
+	@media (min-width: 992px) {
+		padding-right: 0;
 	}
 }
