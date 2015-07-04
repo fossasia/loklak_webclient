@@ -310,14 +310,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	        ]
      	    };
      	    data.forEach(function(ele) {
-     	        if (ele.location_point) {
+     	        if (ele.location_mark) {
      	            var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
      	            var pointObject = {
      	                "geometry": {
      	                    "type": "Point",
      	                    "coordinates": [
-     	                        ele.location_point[0],
-     	                        ele.location_point[1]
+     	                        ele.location_mark[0],
+     	                        ele.location_mark[1]
      	                    ]
      	                },
      	                "type": "Feature",
