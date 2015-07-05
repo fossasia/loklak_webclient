@@ -3,7 +3,7 @@
 var controllersModule = require('./_index');
 var twitterText = require('twitter-text');
 
-controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', '$http', function($rootScope, hello, $http) {
+controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileService', '$http', function($rootScope, hello, FileService, $http) {
 
     $rootScope.root.tweet= "";
     $rootScope.root.tweetLength = 140;
@@ -15,6 +15,9 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', '$http',
         var message = $rootScope.root.tweet;
         var tweetLen = twttr.txt.getTweetLength(message);
         var tweet = encodeURIComponent(message);
+        $rootScope.root.geoTile = $("#fileInput").val();
+        console.log($("#fileInput").val());
+        console.log($rootScope.root.geoTile);
         if(!$rootScope.root.geoTile) {
             if(tweetLen <= 140 && tweetLen > 0) {
                 hello('twitter').api('me/share', 'POST', {
@@ -24,13 +27,27 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', '$http',
             }
         }
         else if($rootScope.root.geoTile) {
-            if(tweetLen <= 140 && tweetLen > 0) {
-                hello('twitter').api('me/share', 'POST', {
-                    message : tweet,
-                    file : $rootScope.root.geoTile
-                });
-                $('#myModal').modal('hide');
-            }
+            var selectedFileObj = document.getElementById('fileInput').files[0];
+            var selectedFileInBlob;
+            var reader  = new FileReader();
+            reader.readAsDataURL(selectedFileObj);
+            reader.onload = function() {
+              selectedFileInBlob = FileService.Base64StrToBlobStr(reader.result.split(",")[1]);
+              if(tweetLen <= 140 && tweetLen > 0) {
+
+                  hello('twitter').api('me/share', 'POST', {
+                      message : tweet,
+                      file : selectedFileInBlob
+                  }).then(function(json) {
+                      console.log(json);
+                  }, function(e) {
+                      console.log(e);
+                  });
+                  
+                  $('#myModal').modal('hide');
+              }
+            };
+           
         }
         else {
             console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
