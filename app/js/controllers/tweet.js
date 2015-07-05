@@ -34,9 +34,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             reader.onload = function() {
               selectedFileInBlob = FileService.Base64StrToBlobStr(reader.result.split(",")[1]);
               if(tweetLen <= 140 && tweetLen > 0) {
-
                   hello('twitter').api('me/share', 'POST', {
-                      message : tweet,
+                      message : message,
                       file : selectedFileInBlob
                   }).then(function(json) {
                       console.log(json);
