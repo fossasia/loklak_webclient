@@ -88,7 +88,7 @@
             <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
             <span  class="btn btn-default btn-file fa pull-left">
-                <input type="file" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
+                <input type="file" id="fileInput" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
             </span>
             <input type="button" class="fa btn btn-info btn-flat pull-left"  ng-click="root.getLocation()" value="&#xf041; Add Location">&nbsp;
             <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
