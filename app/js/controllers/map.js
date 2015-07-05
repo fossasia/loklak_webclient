@@ -14,7 +14,15 @@ var marker=[];
 
 
         
-        var map = L.map('map').setView([2.252776,48.845261], 3);
+        var followerslayer = new L.LayerGroup();
+        var followinglayer = new L.LayerGroup();
+        var overlays = {
+            "Followers" : followerslayer ,
+            "Following" : followinglayer
+        };
+
+        var map = L.map('map',{layers:[followerslayer,followinglayer]}).setView([2.252776,48.845261], 3);
+
 
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -26,6 +34,7 @@ var marker=[];
     
          plotFollowersonMap();
          plotFollowingOnMap();
+         L.control.layers(overlays).addTo(map);
 
 
         function plotFollowersonMap()
@@ -105,7 +114,7 @@ var marker=[];
 
                     }
                 }
-                   add_marker(followersMarker);
+                   add_marker(followersMarker , 1);
                     
                 
                 }).error(function(data, status, headers, config) {
@@ -191,7 +200,7 @@ var marker=[];
                 }
 
                 }
-                   add_marker(followingMarker);
+                   add_marker(followingMarker , 0);
                    
                 
                 }).error(function(data, status, headers, config) {
@@ -206,7 +215,7 @@ var marker=[];
          
         
 
-      function add_marker(result) {
+      function add_marker(result , followerbool) {
                     
                     
                     var i;
@@ -222,7 +231,15 @@ var marker=[];
                             icon: tweetIcon,
                             bounceOnAdd: true
                         });
-                        marker[i].addTo(map);
+                        if(followerbool)
+                        {
+                          marker[i].addTo(followerslayer);  
+                        }
+                        else
+                        {
+                            marker[i].addTo(followinglayer);
+                        }
+                        
                         var popup = L.popup({
                             autoPan: false
                         }).setContent(result.features[i].properties.popupContent);
