@@ -3,10 +3,9 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService',
-	function($scope, SearchService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService',
+	function($scope, SearchService, PushService) {
 
-	var vm = this;
 	$scope.navItems = [
 		{
 			'title' : 'Data Source',
@@ -25,17 +24,43 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService',
 		}
 	];
 	$scope.dataSourceItems = [];
+	/**
+	 * Add data source form inputs values, success & error message
+	 */
+	$scope.addForm = {inputs : {}, success: '', error : ''};
+	/**
+	 * Add datasource form show state
+	 */
+	$scope.addFormOpen = false;
 
-	const query = '-/source_type=TWITTER&count=200&minified=true';
+	function getDataSources() {
+		const query = '-/source_type=TWITTER&count=200&minified=true';
 
-	SearchService.getData(query).then(function(data) {
-		console.log("Done. " + data.statuses.length + " results");
-		var statuses = data.statuses;
-		statuses.forEach(function(status) {
-			if (status.source_type !== "TWITTER") {
-				$scope.dataSourceItems.push(status);
-			}
+		SearchService.getData(query).then(function(data) {
+			var statuses = data.statuses;
+			statuses.forEach(function(status) {
+				if (status.source_type !== 'TWITTER') {
+					$scope.dataSourceItems.push(status);
+				}
+			});
+		}, function() {});
+	}
+
+	$scope.confirmAddDataSource = function() {
+		PushService.pushGeoJsonData($scope.addForm.inputs.url).then(function(data) {
+			$scope.addForm.error = '';
+			$scope.addForm.success = data.known + " source(s) known, " + data['new'] + " new source(s) added";
+		}, function(err, status) {
+			$scope.addForm.success = '';
+			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
 		});
-		console.log($scope.dataSourceItems);
-	}, function() {});
+	}
+
+	$scope.toggleAddForm = function(){
+		$scope.addForm.error = null;
+		$scope.addForm.success = null;
+		$scope.addFormOpen = !$scope.addFormOpen;
+	}
+
+	getDataSources();
 }]);

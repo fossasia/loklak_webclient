@@ -1,5 +1,5 @@
 <div id="data-connect-modal" class="modal" role="dialog">
-	<div class="modal-dialog data-connect-modal-dialog">
+	<div id="data-connect-modal-dialog" class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -22,9 +22,26 @@
 
 					<div class="col-xs-10 tab-content">
 						<div class="tab-pane active" id="data-source-tab">
-							<button class="pull-right btn btn-default">
-								Add New Source <i class="fa fa-plus"></i>
+							<button class="pull-right btn btn-default" ng-hide="addFormOpen" ng-click="toggleAddForm()">Add New Source <i class="fa fa-plus"></i>
 							</button>
+							<div id="add-datasource-form" ng-hide="!addFormOpen">
+								<div ng-show="addForm.error" class="alert alert-danger">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									  <span class="sr-only">Error : </span>{{addForm.error}}
+								</div>
+								<div ng-show="addForm.success" class="alert alert-success">
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									  <span class="sr-only">Success : </span>{{addForm.success}}
+								</div>
+								<form name="add-datasource-form">
+									<div class="form-group">
+										<label for="url-input">Source url</label>
+										<input name="url-input" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
+									</div>
+									<button ng-click="confirmAddDataSource()" type="submit" class="btn btn-primary">Confirm</button>
+									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
+								</form>
+							</div>
 							<h2>Active Data Sources</h2>
 							<hr/>
 							<ul>
