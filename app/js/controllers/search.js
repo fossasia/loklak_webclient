@@ -12,6 +12,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Define models here
     var vm = this;
+    window.vm = vm;
     vm.modal = { text: "Tweet content placeholder"};
     vm.showDetail = false;
     vm.showResult = false;
@@ -24,7 +25,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.update = function(term) {
         updatePath(term);
         SearchService.getData(term).then(function(data) {
-               vm.statuses = data.statuses;
+               vm.pool = data.statuses;
+
+               vm.statuses = [];
+               vm.statuses = vm.statuses.concat(vm.pool.slice(0,20));
+               console.log(vm.pool.length);
+               vm.pool = vm.pool.splice(20);
+
                vm.showResult = true;
                startNewInterval(data.search_metadata.period);
         }, function() {});
