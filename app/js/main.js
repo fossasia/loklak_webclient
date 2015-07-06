@@ -36,6 +36,7 @@ angular.element(document).ready(function() {
     'ngTagsInput',
     'colorpicker.module',
     'toggle-switch',
+    'infinite-scroll',
     'ui.choices',
     'FBAngular',
     'akoenig.deckgrid',
