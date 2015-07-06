@@ -2352,20 +2352,31 @@
 				}
 			}
 			.location-section {
+				> div {
+					display: inline-block;
+					margin: 0;
+					padding: 0;
+					margin-bottom: 20px;
+				}
 				.chosen-location {
 					display: inline-block;
 					font-size: 15px;
-					color: $search-twitter-blue;
-					font-weight: 600;
+					font-weight: 500;
+					width: 250px !important;
+					margin-bottom: 0 !important;
 					margin: 0;
 					padding: 10px 10px;
 					border: 1px solid #e1e8ed;
 					border-radius: 3px;
-					&:hover {
+					/* &:hover {
 						cursor: pointer;
 						background-color: $search-twitter-blue;
 						color: white;
-					}
+					} */
+				}
+				.chosen-location.chosen {
+					background-color: $search-twitter-blue;
+					color: white;
 				}
 				.location-hint {
 					display: inline-block;

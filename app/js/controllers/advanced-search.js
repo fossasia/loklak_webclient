@@ -26,19 +26,21 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 
 
 	/* Location Ui related view model */
-		vm.chosenLocation = {name: "None chosen"};
-		vm.toggleShowLookUp = function() {
-			vm.showLookUp = true;
-		};
+		$scope.chosenLocation = "None chosen";
 	    $scope.processLookedLocation = function() {
-	      if ($scope.lookedUpLocation) {
-	      	vm.chosenLocation = $scope.lookedUpLocation;
-	      	console.log(vm.chosenLocation);
-	      	vm.showLookUp = false;
+	      if ($scope.chosenLocation && $scope.chosenLocation.length >= 3) {
+	      	   SearchService.getLocationSuggestions($scope.chosenLocation).then(function(data) {
+	      	   	 console.log(data);
+	      	   }, function(e) {
+	      	   	console.log(e);
+	      	   });
 	      }
-	      
 	    };
-	    $scope.$watch('lookedUpLocation', $scope.processLookedLocation);
+	    $scope.$watch('chosenLocation', $scope.processLookedLocation);
+
+	    vm.toggleShowLookUp = function() {
+	    	vm.showLookUp = true;
+	    };
 	/* End location ui related view model */
 
 	/* Reset button */
