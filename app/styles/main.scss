@@ -2353,20 +2353,39 @@
 				}
 			}
 			.location-section {
+				> div {
+					position: relative;
+					display: inline-block;
+					margin: 0;
+					padding: 0;
+					margin-bottom: 20px;
+				}
+				.suggestions {
+					position: absolute;
+					  left: -1px;
+					  top: 120%;
+					  width: 252px;
+					  z-index: 101;
+				}
 				.chosen-location {
 					display: inline-block;
 					font-size: 15px;
-					color: $search-twitter-blue;
-					font-weight: 600;
+					font-weight: 500;
+					width: 250px !important;
+					margin-bottom: 0 !important;
 					margin: 0;
 					padding: 10px 10px;
 					border: 1px solid #e1e8ed;
 					border-radius: 3px;
-					&:hover {
+					/* &:hover {
 						cursor: pointer;
 						background-color: $search-twitter-blue;
 						color: white;
-					}
+					} */
+				}
+				.chosen-location.chosen {
+					background-color: $search-twitter-blue;
+					color: white;
 				}
 				.location-hint {
 					display: inline-block;
@@ -2379,7 +2398,7 @@
 					margin: 0;
 					padding: 0;
 					li {
-						background-color: rgba(85,172,238,0.7);
+						background-color: rgba(85,172,238,0.9);
 						color: white;
 						display: block;
 						padding: 8px;
