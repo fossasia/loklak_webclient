@@ -48,6 +48,10 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    };
 
 	    vm.toggleShowLookUp = function() {
+	    	if ($scope.chosenLocation === "None chosen") {
+	    		$scope.chosenLocation = "";
+	    	}
+	    	
 	    	angular.element(".chosen-location").removeClass("chosen");
 	    };
 	/* End location ui related view model */
@@ -209,7 +213,12 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	 */
 	 
 	function getLocationSearchParams(place) {
-		return "near:" + place;
+		if (place === "None chosen" && place === "") {
+			return "";
+		} else {
+			return "near:" + place;	
+		}
+		
 	}    
 
 	/**
