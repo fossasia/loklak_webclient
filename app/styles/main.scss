@@ -2353,10 +2353,18 @@
 			}
 			.location-section {
 				> div {
+					position: relative;
 					display: inline-block;
 					margin: 0;
 					padding: 0;
 					margin-bottom: 20px;
+				}
+				.suggestions {
+					position: absolute;
+					  left: -1px;
+					  top: 120%;
+					  width: 252px;
+					  z-index: 101;
 				}
 				.chosen-location {
 					display: inline-block;
@@ -2389,7 +2397,7 @@
 					margin: 0;
 					padding: 0;
 					li {
-						background-color: rgba(85,172,238,0.7);
+						background-color: rgba(85,172,238,0.9);
 						color: white;
 						display: block;
 						padding: 8px;

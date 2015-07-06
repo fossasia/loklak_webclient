@@ -28,18 +28,30 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	/* Location Ui related view model */
 		$scope.chosenLocation = "None chosen";
 	    $scope.processLookedLocation = function() {
-	      if ($scope.chosenLocation && $scope.chosenLocation.length >= 3) {
-	      	   SearchService.getLocationSuggestions($scope.chosenLocation).then(function(data) {
-	      	   	 console.log(data);
-	      	   }, function(e) {
-	      	   	console.log(e);
-	      	   });
-	      }
+	    	if (document.activeElement.className.indexOf("chosen-location") > -1) {
+		      if ($scope.chosenLocation && $scope.chosenLocation.length >= 3) {
+		      	   SearchService.getLocationSuggestions($scope.chosenLocation).then(function(data) {
+		      	   	 vm.hasSuggestions = true;
+		      	   	 vm.locationSuggestions = data.queries;
+		      	   	 console.log(vm.locationSuggestions);
+		      	   }, function(e) {
+		      	   	vm.hasSuggestions = false;
+		      	   	console.log(e);
+		      	   });
+		      } else {
+		      	vm.hasSuggestions = false;
+		      }
+		    }
 	    };
 	    $scope.$watch('chosenLocation', $scope.processLookedLocation);
+	    vm.setLocation = function(locationTerm) {
+	    	$scope.chosenLocation = locationTerm;
+	    	vm.hasSuggestions = false;
+	    	angular.element(".chosen-location").addClass("chosen");
+	    };
 
 	    vm.toggleShowLookUp = function() {
-	    	vm.showLookUp = true;
+	    	angular.element(".chosen-location").removeClass("chosen");
 	    };
 	/* End location ui related view model */
 
