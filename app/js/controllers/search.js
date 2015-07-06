@@ -118,14 +118,21 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         // Get native videos
         SearchService.getData(vm.term + '+' + '/video').then(function(data) {
             var statuses = data.statuses;
+            var statusesWithVideo = [];
             statuses.forEach(function(status) {
                 if (status.videos_count) {
                     if (status.videos[0].substr(-4) === '.mp4') {
                         status.links[0] = status.videos[0];
                     }
-                    vm.statuses.push(status);
+                    statusesWithVideo.push(status);
+                    
                 }
             });
+
+            vm.pool = statusesWithVideo;
+            vm.statuses = [];
+            $scope.loadMore(15);
+
             startNewInterval(data.search_metadata.period);
         }, function() {});    
 
