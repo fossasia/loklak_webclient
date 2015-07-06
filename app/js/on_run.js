@@ -28,6 +28,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'title': 'Wall',
           'link' : '/wall',
           'icon' : 'fa fa-list'
+        },
+        {
+          'title': 'Connect',
+          'link' : '/dataConnect',
+          'icon' : 'fa fa-cloud'
         }
   	  ];
 

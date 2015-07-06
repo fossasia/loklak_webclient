@@ -70,6 +70,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'MapCtrl as map',
     title: 'Map'
   })
+  .state('DataConnect', {
+    url: '/dataConnect',
+    templateUrl: 'data-connect/data-connect.html',
+    controller: 'DataConnectCtrl as dataConnect',
+    title: 'Connect Data'
+  })
   .state('Redirecting', {
     url: '/redirect',
     templateUrl: 'redirect.html',

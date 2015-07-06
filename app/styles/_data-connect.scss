@@ -1,0 +1,46 @@
+#data-connect-panel {
+	width: 100%;
+	margin-top: 44px ! important;
+}
+#data-connect-modal-dialog h2 {
+	margin : 0;
+}
+
+#data-connect-modal-dialog .modal-content {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+@media (min-width: 1200px) {
+	#data-connect-panel {
+		width: 1170px;
+		margin: auto;
+		padding-left: 15px;
+	}
+}
+
+#data-connect-modal-dialog #add-datasource-form {
+	background-color: #f4f4f4;
+	color: #444;
+	border: 1px solid #ddd;
+	padding: 12px;
+	position: absolute;
+	right: 14px;
+	z-index: 10;
+	width: 300px;
+}
+
+#data-connect-modal .alert {
+	padding: 5px;
+}
+// overwrite admin.css
+#data-connect-modal .alert-danger {
+	background-color: #f2dede !important;
+	border-color: #ebccd1;
+	color: #a94442 !important;
+}
+#data-connect-modal .alert-success {
+	background-color: #dff0d8 !important;
+	border-color: #d6e9c6;
+	color: #3c763d !important;
+}
