@@ -21,20 +21,25 @@ var marker=[];
             "Following" : followinglayer
         };
 
-        var map = L.map('map',{layers:[followerslayer,followinglayer]}).setView([40.71,74], 2);
-
-
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        
+        var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
                 '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
             id: 'examples.map-20v6611k'
-        }).addTo(map);
+        });
+        var basemapObj = {
+            "First Basemap": grayscale
+
+        }
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([40.71,74], 2);
+
+        
     
          plotFollowersonMap();
          plotFollowingOnMap();
-         L.control.layers(overlays).addTo(map);
+         L.control.layers(basemapObj,overlays).addTo(map);
 
 
         function plotFollowersonMap()
