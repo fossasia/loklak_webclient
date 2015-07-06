@@ -2589,3 +2589,15 @@ form#tweet > div.modal-footer {
     background-color: #E5F2F7;
     margin-top: -1%;
 }
+
+a.external-hashtag:hover {
+	text-decoration: underline;	
+}
+
+a.external-mention:hover {
+	text-decoration: underline;
+}
+
+a.external_link:hover {
+	text-decoration: underline;
+}
