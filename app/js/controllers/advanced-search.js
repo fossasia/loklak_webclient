@@ -22,8 +22,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	} else {
 		vm.showAdvancedSearch = false;
 	}
-	$scope.lookedUpLocationRadius = 500;
-
 
 	/* Location Ui related view model */
 		$scope.chosenLocation = "None chosen";
@@ -33,7 +31,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		      	   SearchService.getLocationSuggestions($scope.chosenLocation).then(function(data) {
 		      	   	 vm.hasSuggestions = true;
 		      	   	 vm.locationSuggestions = data.queries;
-		      	   	 console.log(vm.locationSuggestions);
 		      	   }, function(e) {
 		      	   	vm.hasSuggestions = false;
 		      	   	console.log(e);
@@ -151,8 +148,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			if (rawParams && rawParams.untilDate) {
 				unionTermArray.push("until:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
 			}
-			if (vm.chosenLocation && vm.chosenLocation.name !== "None chosen") {
-				unionTermArray.push(getLocationSearchParams(vm.chosenLocation, $scope.lookedUpLocationRadius));
+			if ($scope.chosenLocation && $scope.chosenLocation.name !== "None chosen") {
+				unionTermArray.push(getLocationSearchParams($scope.chosenLocation));
 			}
 			
 			unionTermResult = unionTermArray.join(" ");
@@ -206,10 +203,19 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    	}
 	    }
 
+
 	/**
-	 * Calculate location for search params
+	 * Calculate location for search params with radius
 	 */
-		function getLocationSearchParams(point, radius) {
+	 
+	function getLocationSearchParams(place) {
+		return "near:" + place;
+	}    
+
+	/**
+	 * Calculate location for search params with radius
+	 */
+		function getLocationSearchParamsWithRadius(point, radius) {
 			var orgLat = point.latitude;
 			var orgLong = point.longitude;
 			var offsetLat = (radius / 2) / 110.574;
