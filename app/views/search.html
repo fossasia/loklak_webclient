@@ -48,7 +48,7 @@
                 <button ng-show="search.newStasuses.length > 0" class="more-result" ng-click="search.showNewStatuses();">Load {{search.noOfNewStatuses}} new results!</button>
 
                 <!-- Main results -->
-                <div ng-if="!search.peopleSearch" class="main-result-container" infinite-scroll="loadMore(15)">
+                <div ng-if="!search.peopleSearch" class="main-result-container" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
                     <div ng-repeat="status in search.statuses track by $index" status open-swipe="search.openSwipe" data="status">
                     </div>   
                 </div>
