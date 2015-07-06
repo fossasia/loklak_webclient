@@ -2404,13 +2404,71 @@ form#tweet > div.modal-footer {
 	}
 	.wall-thumbnail {
 		display: inline-block;
-		margin-left: 15px;
-		margin-right: 15px;
-		width: 20%;
-		display: inline-block;
-		.wall-thumbnail-content {
-			background-color:#E5F2F7;
+		margin-right: 40px;
+		margin-bottom: 30px;
+		width: 250px;
+		position: relative;
+		background-color:white;
+		border: 1px solid $search-grey-border;
+		.sq-setter-w{
 			width: 100%;
-    		height: auto;
+		    height: auto;
+		    visibility: hidden;
 		}
+		.wall-thumbnail-close {
+			position: absolute;
+			top:0;
+			right: 0;
+			margin-top:12px;
+			margin-right: 10px;
+			z-index: 1;
+			color: white;
+			text-decoration: none;
+    		cursor: pointer;
+    		opacity: 0.5;
+    		padding: 10px;
+    		border: 1px solid transparent;
+    		border-radius: 50%;
+    		&:hover {
+				font-weight: bold;
+				cursor: pointer;
+			}
+		}
+		.wall-thumbnail-content {
+			position: absolute;
+			text-decoration: none;
+		    top: 0;
+		    right: 0;
+		    bottom: 0;
+		    left: 0;
+		    .wall-thumbnail-event-name {
+		    	height: 25%;
+		    	padding-top: 10%;
+		    	margin-bottom: 10%;
+		    	text-align: center;
+		    }
+		    .wall-thumbnail-mainhashtag{
+		    	text-align: center;
+		    	padding-top: 15%;
+		    }
+		}
+		.wall-thumbnail-footer{
+		    	color: black;
+		    	text-align: center;
+		    	display: block;
+		    	div {
+		    		text-align: center;
+		    		span {
+						    		&:hover {
+										font-weight: bold;
+										cursor: pointer;
+										color: red;
+									}
+		    			i {
+		    				margin-right: 5px;
+		    			}
+		    		}
+		    	}
+				
+		    }
 	}

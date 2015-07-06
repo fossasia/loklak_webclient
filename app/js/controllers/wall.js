@@ -61,22 +61,32 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         var dataParams = encodeURIComponent(JSON.stringify($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         console.log($rootScope.root.twitterSession);
-        if ($rootScope.root.twitterSession) {
-            //save wall
-            console.log("Saving wall");
-            var saveData = {};
-            saveData.screen_name = $scope.screen_name;
-            $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
-            $scope.userData.wall.walls.push($scope.newWallOptions);
-            saveData.apps = $scope.userData;
-            AccountsService.updateData(saveData);
-        }
+        //if ($rootScope.root.twitterSession) {
+        //save wall
+        console.log("Saving wall");
+        var saveData = {};
+        saveData.screen_name = $scope.screen_name;
+        $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
+        $scope.userData.wall.walls.push($scope.newWallOptions);
+        saveData.apps = $scope.userData;
+        AccountsService.updateData(saveData);
+        //}
+        $scope.newWallOptions = {};
         $window.open('/wall/display?data=' + dataParams, '_blank');
     };
 
     $scope.resetDate = function() {
         $scope.newWallOptions.sinceDate = null;
         $scope.newWallOptions.untilDate = null;
+    }
+
+    $scope.deleteWall = function(index) {
+        console.log(index);
+        $scope.userData.wall.walls.splice(index,1);
+        var saveData = {};
+        saveData.screen_name = $scope.screen_name;
+        saveData.apps = $scope.userData;
+        AccountsService.updateData(saveData);
     }
 
     var init = function() {
@@ -89,20 +99,28 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         //     });
         // }
         //if ($rootScope.root.twitterSession){
+        console.log("here");
         AccountsService.getData("aneeshd16").then(function(result) {
+            console.log(result);
                 //console.log(result.accounts[0].apps.wall.walls);
                 $scope.screen_name = result.accounts[0].screen_name;
-                if(!result.accounts[0].apps){
-                    result.accounts[0].apps = {wall:{walls:[]}};
+                if (!result.accounts[0].apps) {
+                    result.accounts[0].apps = {
+                        wall: {
+                            walls: []
+                        }
+                    };
                 }
-                if(!result.accounts[0].apps.wall){
-                    result.accounts[0].apps.wall = {walls:[]};
+                if (!result.accounts[0].apps.wall) {
+                    result.accounts[0].apps.wall = {
+                        walls: []
+                    };
                 }
-                if(!result.accounts[0].apps.wall.walls){
+                if (!result.accounts[0].apps.wall.walls) {
                     result.accounts[0].apps.wall.walls = [];
                 }
                 $scope.userData = result.accounts[0].apps;
-                $scope.userWalls = result.accounts[0].apps.wall.walls;
+                //$scope.userWalls = result.accounts[0].apps.wall.walls;
             },
             function(error) {
 

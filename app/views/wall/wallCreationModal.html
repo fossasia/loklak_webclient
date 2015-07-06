@@ -279,7 +279,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="box-footer">
-                                                                <a ng-click="start()"  type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                                                <a ng-click="start()" ng-disabled="step1.$invalid"  type="submit" class="btn btn-primary">Start twitter wall!</a>
                                                                 <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
                                                             </div>
                                                         </div>
