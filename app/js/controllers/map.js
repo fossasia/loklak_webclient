@@ -21,7 +21,7 @@ var marker=[];
             "Following" : followinglayer
         };
 
-        var map = L.map('map',{layers:[followerslayer,followinglayer]}).setView([2.252776,48.845261], 3);
+        var map = L.map('map',{layers:[followerslayer,followinglayer]}).setView([40.71,74], 2);
 
 
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
