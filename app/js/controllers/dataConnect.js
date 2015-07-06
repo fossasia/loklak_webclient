@@ -3,8 +3,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService',
-	function($scope, SearchService, PushService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService',
+	function($scope, SearchService, PushService, SourceTypeService) {
 
 	$scope.navItems = [
 		{
@@ -33,9 +33,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	 */
 	$scope.addFormOpen = false;
 
-	function getDataSources() {
-		const query = '-/source_type=TWITTER&count=200&minified=true';
+	$scope.sourceTypesList = SourceTypeService.sourceTypeList;
 
+	function getDataSources() {
+		const query = '-/source_type=TWITTER';
 		SearchService.getData(query).then(function(data) {
 			var statuses = data.statuses;
 			statuses.forEach(function(status) {
@@ -47,9 +48,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	}
 
 	$scope.confirmAddDataSource = function() {
-		PushService.pushGeoJsonData($scope.addForm.inputs.url).then(function(data) {
+		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type).then(function(data) {
 			$scope.addForm.error = '';
-			$scope.addForm.success = data.known + " source(s) known, " + data['new'] + " new source(s) added";
+			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 		}, function(err, status) {
 			$scope.addForm.success = '';
 			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';

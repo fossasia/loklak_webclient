@@ -35,8 +35,15 @@
 								</div>
 								<form name="add-datasource-form">
 									<div class="form-group">
-										<label for="url-input">Source url</label>
-										<input name="url-input" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
+										<label for="source-url">Source url</label>
+										<input name="source-url" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
+									</div>
+									<div class="form-group">
+										<label for="source-type">Source type</label>
+										<select name="source-type" required type="text" 
+												ng-options="type for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
+											<option value="">Select source type</option>
+										</select>
 									</div>
 									<button ng-click="confirmAddDataSource()" type="submit" class="btn btn-primary">Confirm</button>
 									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
