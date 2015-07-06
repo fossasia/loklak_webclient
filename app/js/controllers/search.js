@@ -21,6 +21,30 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     var intervals = [];
         
 
+    // Infinite-scroll trigger 
+    var getMore = function() {
+        var untilDate = new Date((new Date(vm.pool[vm.pool.length -1 ].created_at)).getTime() - 1);
+        var untilDateTerm = $filter("date")(untilDate, "yyyy-MM-dd_HH:mm");
+        var loadPoolTerm = $location.search().q + "+until:" + untilDateTerm;
+        var params = {
+           q: loadPoolTerm,
+           timezoneOffset: (new Date().getTimezoneOffset())
+        };
+        SearchService.getData(params).then(function(data) {
+               vm.pool = vm.pool.concat(data.statuses);
+        }, function() {});
+    };
+    $scope.loadMore = function(step) {
+        if (vm.pool.length < (2 * step + 1)) {
+            getMore();
+        }
+        vm.statuses = vm.statuses.concat(vm.pool.slice(0,step));
+        vm.pool = vm.pool.splice(step);
+        console.log(vm.statuses.length);
+    };
+
+
+
     // Update status and path on successful search
     vm.update = function(term) {
         updatePath(term);
@@ -28,9 +52,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                vm.pool = data.statuses;
 
                vm.statuses = [];
-               vm.statuses = vm.statuses.concat(vm.pool.slice(0,20));
-               console.log(vm.pool.length);
-               vm.pool = vm.pool.splice(20);
+               $scope.loadMore(20);
 
                vm.showResult = true;
                startNewInterval(data.search_metadata.period);
