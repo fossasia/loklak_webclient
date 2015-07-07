@@ -73,11 +73,23 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         $rootScope.root.userLocation.longitude = position.coords.longitude;
         // Now make a query to loklak
         var requestUrl = 'http://localhost:9000/vis/map.png?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
-        $http.get(requestUrl)
-            .success(function(response) {
-                $rootScope.root.geoTile = response;
-                console.log("Successful Query to "+requestUrl);
-            });
+        
+        $http({
+            url: requestUrl,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).success(function(response) {
+            var selectedFileInBlob;
+            console.log("Successfully retrieved for "+requestUrl);
+        });
+
+        // $http.get(requestUrl)
+        //     .success(function(response) {
+        //         $rootScope.root.geoTile = response;
+        //         console.log("Successful Query to "+requestUrl);
+        //     });
     }
 
     $rootScope.root.retweet = function(id) {
