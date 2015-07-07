@@ -413,11 +413,27 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Compare with old term, then search with no filter
     $scope.$watch(function() {
         return $location.search();
-    }, function(value) {
+    }, function(value, Oldvalue) {
+        // When changing search term through clicking on a statues
         if (value.q.split("+")[0] !== vm.term) {
             evalSearchQuery();
             var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
             vm[filterFn]();   
+            vm.showResult = true;
+        }
+        // Rare case: when click on map tweet, but search term stay the same
+        // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
+        if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] === "/map" && value.q.split("+")[1] === undefined)) {
+            evalSearchQuery();
+            SearchService.getData(vm.term).then(function(data) {
+                   vm.pool = data.statuses;
+                   vm.statuses = [];
+                   $scope.loadMore(20);
+                   vm.showResult = true;
+                   startNewInterval(data.search_metadata.period);
+            }, function() {}); 
+            $rootScope.root.globalSearchTerm = vm.term;
+            vm.showMap = false;
             vm.showResult = true;
         }
     });
