@@ -46,9 +46,6 @@
 										</select>
 									</div>
 									<label for="map-rule">Mapping rules</label>
-									<div class="add-map-rule" ng-click="addMapRule()">
-										<i class="fa fa-plus"></i> Add rule
-									</div>
 									<div class="map-rule" ng-show="mapRulesNum >= 1">
 										<label>Custom field</label>
 										<label>Tweet field</label>
@@ -56,6 +53,9 @@
 									<div class="map-rule form-group" ng-repeat="i in getMapRulesNum() track by $index">
 										<input type="text" class="form-control input-sm custom-field"  ng-model="addForm.inputs.mapRules[$index][0]"/>
 										<input type="text" class="form-control input-sm tweet-field" ng-model="addForm.inputs.mapRules[$index][1]"/>
+									</div>
+									<div class="add-map-rule" ng-click="addMapRule()">
+										<i class="fa fa-plus"></i> Add rule
 									</div>
 									<button type="submit" class="btn btn-primary">Confirm</button>
 									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
