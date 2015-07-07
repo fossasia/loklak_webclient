@@ -8,14 +8,20 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AccountsService) {
+function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
     var vm = this;
     var term = '';
-    $scope.newWallOptions = {};
-    $scope.newWallOptions.headerColour = '#3c8dbc';
-    $scope.newWallOptions.headerPosition = 'Top';
-    $scope.newWallOptions.layoutStyle = 1;
+    var isEditing = -1;
+
+    var initWallOptions = function() {
+        $scope.newWallOptions = {};
+        $scope.newWallOptions.headerColour = '#3c8dbc';
+        $scope.newWallOptions.headerPosition = 'Top';
+        $scope.newWallOptions.layoutStyle = 1;
+    }
+
+    initWallOptions();
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -58,7 +64,8 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
 
     $scope.start = function() {
         //construct term
-        var dataParams = encodeURIComponent(JSON.stringify($scope.newWallOptions));
+        delete $scope.newWallOptions.link;
+        var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         console.log($rootScope.root.twitterSession);
         //if ($rootScope.root.twitterSession) {
@@ -67,11 +74,17 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         var saveData = {};
         saveData.screen_name = $scope.screen_name;
         $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
-        $scope.userData.wall.walls.push($scope.newWallOptions);
+        if (isEditing != -1) {
+            $scope.userData.wall.walls[isEditing] = $scope.newWallOptions;
+            isEditing = -1;
+        } else {
+            $scope.userData.wall.walls.push($scope.newWallOptions);
+        }
+
         saveData.apps = $scope.userData;
         AccountsService.updateData(saveData);
         //}
-        $scope.newWallOptions = {};
+        initWallOptions();
         $window.open('/wall/display?data=' + dataParams, '_blank');
     };
 
@@ -82,26 +95,40 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
 
     $scope.deleteWall = function(index) {
         console.log(index);
-        $scope.userData.wall.walls.splice(index,1);
+        $scope.userData.wall.walls.splice(index, 1);
         var saveData = {};
         saveData.screen_name = $scope.screen_name;
         saveData.apps = $scope.userData;
         AccountsService.updateData(saveData);
     }
 
-    var init = function() {
-        // if ($rootScope.root.twitterSession){
-        //     AccountsService.getData({screen_name:$rootScope.root.twitterSession.screen_name}).then(function(result){
-        //         console.log(result);
-        //     },
-        //     function(error){
+    $scope.editWall = function(index) {
+        console.log(index);
+        $scope.newWallOptions = $scope.userData.wall.walls[index];
+        isEditing = index;
+        $('#wall-modal').modal('toggle');
+    }
 
-        //     });
-        // }
-        //if ($rootScope.root.twitterSession){
+    // var init = function() {
+
+    //     // if ($rootScope.root.twitterSession){
+    //     //     AccountsService.getData({screen_name:$rootScope.root.twitterSession.screen_name}).then(function(result){
+    //     //         console.log(result);
+    //     //     },
+    //     //     function(error){
+
+    //     //     });
+    //     // }
+    //     if ($rootScope.root.twitterSession){
+
+
+    // }
+
+    HelloService.on('auth.login', function(auth) {
         console.log("here");
-        AccountsService.getData("aneeshd16").then(function(result) {
-            console.log(result);
+        console.log(auth.authResponse.screen_name);
+        AccountsService.getData(auth.authResponse.screen_name).then(function(result) {
+                console.log(result);
                 //console.log(result.accounts[0].apps.wall.walls);
                 $scope.screen_name = result.accounts[0].screen_name;
                 if (!result.accounts[0].apps) {
@@ -125,10 +152,10 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
             function(error) {
 
             });
-        //}
-    }
+    });
 
-    init();
+    //init();
+
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', 'HelloService', WallCtrl]);

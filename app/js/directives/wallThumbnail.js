@@ -10,7 +10,8 @@ function wallThumbnailDirective() {
   return {
     scope: {
     	data: '=',
-    	deleteWall: '&'
+    	deleteWall: '&',
+    	editWall: '&'
     },
     replace: true,
     templateUrl: 'wall/templates/wallThumbnail.html',

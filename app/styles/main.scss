@@ -2403,6 +2403,9 @@ form#tweet > div.modal-footer {
 		margin-top: 30px;
 	}
 	.wall-thumbnail {
+		&:hover {
+			border: 1px solid $search-twitter-blue;
+		}
 		display: inline-block;
 		margin-right: 40px;
 		margin-bottom: 30px;
@@ -2441,34 +2444,41 @@ form#tweet > div.modal-footer {
 		    right: 0;
 		    bottom: 0;
 		    left: 0;
+	    	text-align: center;
 		    .wall-thumbnail-event-name {
 		    	height: 25%;
+		    	
 		    	padding-top: 10%;
 		    	margin-bottom: 10%;
-		    	text-align: center;
+
 		    }
 		    .wall-thumbnail-mainhashtag{
 		    	text-align: center;
 		    	padding-top: 15%;
+		    	padding-bottom: 15%;
 		    }
-		}
-		.wall-thumbnail-footer{
+		    .wall-thumbnail-footer{
 		    	color: black;
 		    	text-align: center;
-		    	display: block;
+		    	padding-top: 10%;
+		    	width: 250px;
+		    	margin-left: 0px;
+		    	border-top: 1px solid $search-grey-border;
 		    	div {
+		    		border-left: 1px solid $search-grey-border;
 		    		text-align: center;
 		    		span {
-						    		&:hover {
-										font-weight: bold;
-										cursor: pointer;
-										color: red;
-									}
+			    		&:hover {
+							text-decoration: underline;
+							cursor: pointer;
+							color: $search-light-black;
+						}
 		    			i {
 		    				margin-right: 5px;
 		    			}
 		    		}
 		    	}
-				
-		    }
+			}
+		}
+		
 	}
