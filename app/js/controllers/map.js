@@ -33,12 +33,11 @@ var marker=[];
             "First Basemap": grayscale
 
         }
-        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([40.71,74], 2);
-
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([39.74739, -105], 2);
         
-    
          plotFollowersonMap();
          plotFollowingOnMap();
+        
          L.control.layers(basemapObj,overlays).addTo(map);
 
 
@@ -57,6 +56,7 @@ var marker=[];
                 "type": "FeatureCollection",
                 "features": []
             };
+            console.log("twitter is "+$rootScope.root.twitterSession);
             
             //Calling the method to get Twitter followers
             hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
