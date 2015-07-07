@@ -53,22 +53,22 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             term = term + ' ' + vm.wallOptions.allWords[i].text;
         };
         for (var i = 0; i < vm.wallOptions.anyWords.length; i++) {
-            term = term + ' ' + vm.wallOptions.anyWords[i].text;
+            term = term + ' OR ' + vm.wallOptions.anyWords[i].text;
         };
         for (var i = 0; i < vm.wallOptions.noWords.length; i++) {
             term = term + ' -' + vm.wallOptions.noWords[i].text;
         };
         for (var i = 0; i < vm.wallOptions.allHashtags.length; i++) {
-            term = term + ' #' + vm.wallOptions.allHashtags[i].text;
+            term = term + ' OR #' + vm.wallOptions.allHashtags[i].text;
         };
         for (var i = 0; i < vm.wallOptions.from.length; i++) {
-            term = term + ' from:' + vm.wallOptions.from[i].text;
+            term = term + ' OR from:' + vm.wallOptions.from[i].text;
         };
         for (var i = 0; i < vm.wallOptions.to.length; i++) {
-            term = term + ' @' + vm.wallOptions.to[i].text;
+            term = term + ' OR @' + vm.wallOptions.to[i].text;
         };
         for (var i = 0; i < vm.wallOptions.mentioning.length; i++) {
-            term = term + ' @' + vm.wallOptions.mentioning[i].text;
+            term = term + ' OR @' + vm.wallOptions.mentioning[i].text;
         };
         if (vm.wallOptions.images) {
             if (vm.wallOptions.images == "only") {
@@ -97,7 +97,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if (vm.wallOptions.untilDate) {
             term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
         }
-
+        console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
     }

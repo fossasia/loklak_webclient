@@ -101,23 +101,23 @@
                                                             <div class="col-xs-6">
                                                                 <div class="form-group">
                                                                     <label>All of these words</label>
-                                                                    <tags-input ng-model="newWallOptions.allWords" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                                    <tags-input ng-disabled="(newWallOptions.anyWords.length>0) || (newWallOptions.allHashtags.length>0) || (newWallOptions.from.length>0) || (newWallOptions.to.length>0)|| (newWallOptions.mentioning.length>0)" ng-model="newWallOptions.allWords" placeholder="Type and hit enter" name="ands"></tags-input>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Any of these words</label>
-                                                                    <tags-input disabled ng-model="newWallOptions.anyWords" placeholder="Type and hit enter" name="ors"></tags-input>
+                                                                    <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.anyWords" placeholder="Type and hit enter" name="ors"></tags-input>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-6">
                                                                 <div class="form-group">
                                                                     <label>None of these words</label>
-                                                                    <tags-input ng-model="newWallOptions.noWords" placeholder="Type and hit enter" name="nots"></tags-input>
+                                                                    <tags-input ng-disabled="(newWallOptions.anyWords.length>0) || (newWallOptions.allHashtags.length>0) || (newWallOptions.from.length>0) || (newWallOptions.to.length>0)|| (newWallOptions.mentioning.length>0)" ng-model="newWallOptions.noWords" placeholder="Type and hit enter" name="nots"></tags-input>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>These hashtags</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon">#</span>
-                                                                        <tags-input disabled ng-model="newWallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
+                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -138,14 +138,14 @@
                                                                     <label>From these accounts</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon">@</span>
-                                                                        <tags-input ng-model="newWallOptions.from" placeholder="Type and hit enter" name="from"></tags-input>
+                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.from" placeholder="Type and hit enter" name="from"></tags-input>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>To these accounts</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon">@</span>
-                                                                        <tags-input disabled ng-model="newWallOptions.to" nput placeholder="Type and hit enter" name="to"></tags-input>
+                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.to" placeholder="Type and hit enter" name="to"></tags-input>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -154,7 +154,7 @@
                                                                     <label>Mentioning these accounts</label>
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon">@</span>
-                                                                        <tags-input ng-model="newWallOptions.mentioning" placeholder="Type and hit enter" name="mwnt"></tags-input>
+                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.mentioning" placeholder="Type and hit enter" name="mwnt"></tags-input>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -279,7 +279,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="box-footer">
-                                                                <a ng-click="start()" ng-disabled="step1.$invalid"  type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                                                <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start twitter wall!</a>
                                                                 <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
                                                             </div>
                                                         </div>
