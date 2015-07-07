@@ -170,8 +170,14 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
             function(error) {
 
             });
-
     });
+
+    HelloService.on('auth.logout', function(){
+        //clear wall list
+        $scope.userData = {};
+    });
+
+
 
     init();
 

@@ -74,12 +74,10 @@ function customHandler(req, res, next) {
         			console.log("new user!");
         		}
         		else{
-        			console.log(responseData.accounts[0].apps);
         			userObject.apps = responseData.accounts[0].apps;
         		}
         		var requestJSON = JSON.stringify(userObject);
         		request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
-        		    console.log(requestJSON);
         		    if (!error && response.statusCode == 200) {
         		        console.log("user saved");
         		    } else {
