@@ -35,15 +35,27 @@
 								</div>
 								<form name="add-datasource-form" ng-submit="confirmAddDataSource()">
 									<div class="form-group">
-										<label for="source-url">Source url</label>
+										<label for="source-url">Source url*</label>
 										<input name="source-url" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
 									</div>
 									<div class="form-group">
-										<label for="source-type">Source type</label>
+										<label for="source-type">Source type*</label>
 										<select name="source-type" required type="text" 
 												ng-options="type for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
 											<option value="">Select source type</option>
 										</select>
+									</div>
+									<label for="map-rule">Mapping rules</label>
+									<div class="add-map-rule" ng-click="addMapRule()">
+										<i class="fa fa-plus"></i> Add rule
+									</div>
+									<div class="map-rule" ng-show="mapRulesNum >= 1">
+										<label>Custom field</label>
+										<label>Tweet field</label>
+									</div>
+									<div class="map-rule form-group" ng-repeat="i in getMapRulesNum() track by $index">
+										<input type="text" class="form-control input-sm custom-field"  ng-model="addForm.inputs.mapRules[$index][0]"/>
+										<input type="text" class="form-control input-sm tweet-field" ng-model="addForm.inputs.mapRules[$index][1]"/>
 									</div>
 									<button type="submit" class="btn btn-primary">Confirm</button>
 									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
