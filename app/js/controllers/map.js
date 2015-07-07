@@ -34,9 +34,16 @@ var marker=[];
 
         }
         var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([33.74739, -105], 2);
+        $rootScope.$watch(function() {
+            return $rootScope.root.twitterSession;
+            }, function(session) {
+                if (session) {
+                    plotFollowersonMap();
+                    plotFollowingOnMap();
+                }
+            });
 
-         plotFollowersonMap();
-         plotFollowingOnMap();
+         
         
          L.control.layers(basemapObj,overlays).addTo(map);
 
