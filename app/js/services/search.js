@@ -26,7 +26,10 @@ function SearchService($q, $http, AppSettings) {
   service.getLocationSuggestions = function(term) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
-      params: {q: term}
+      params: {
+        q: term,
+        source: "geo"
+      }
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
