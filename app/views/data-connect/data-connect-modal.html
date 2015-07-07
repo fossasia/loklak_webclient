@@ -33,7 +33,7 @@
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 									  <span class="sr-only">Success : </span>{{addForm.success}}
 								</div>
-								<form name="add-datasource-form">
+								<form name="add-datasource-form" ng-submit="confirmAddDataSource()">
 									<div class="form-group">
 										<label for="source-url">Source url</label>
 										<input name="source-url" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
@@ -45,7 +45,7 @@
 											<option value="">Select source type</option>
 										</select>
 									</div>
-									<button ng-click="confirmAddDataSource()" type="submit" class="btn btn-primary">Confirm</button>
+									<button type="submit" class="btn btn-primary">Confirm</button>
 									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
 								</form>
 							</div>
