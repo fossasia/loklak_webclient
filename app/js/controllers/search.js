@@ -400,42 +400,47 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
-        if ($stateParams.q !== undefined) {
-            evalSearchQuery();
-            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            vm[filterFn]();   
-            vm.showResult = true;
-      }
+       if ($stateParams.q !== undefined) {
+           evalSearchQuery();
+           var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
+           vm[filterFn]();   
+           vm.showResult = true;
+       }
     });
+
+
+    ////////////
+    // MANAGING STATE CHANGES RESULTING IN SEARCH
+    ///////////
 
     // On search term change, based a a clicked on a hashtag
-    // Compare with old term, then search with no filter
-    $scope.$watch(function() {
-        return $location.search();
-    }, function(value, Oldvalue) {
-        // When changing search term through clicking on a statues
-        if (value.q.split("+")[0] !== vm.term) {
-            evalSearchQuery();
-            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            vm[filterFn]();   
-            vm.showResult = true;
-        }
-        // Rare case: when click on map tweet, but search term stay the same
-        // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
-        if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] && value.q.split("+")[1] === undefined)) {
-            evalSearchQuery();
-            SearchService.getData(vm.term).then(function(data) {
-                   vm.pool = data.statuses;
-                   vm.statuses = [];
-                   $scope.loadMore(20);
-                   vm.showResult = true;
-                   startNewInterval(data.search_metadata.period);
-            }, function() {}); 
-            $rootScope.root.globalSearchTerm = vm.term;
-            vm.showMap = false;
-            vm.peopleSearch = false;
-            vm.showResult = true;
-        }
-    });
+        $scope.$watch(function() {
+            return $location.search();
+        }, function(value, Oldvalue) {
+            // When changing search term through clicking on a statues
+            if (value.q.split("+")[0] !== vm.term) {
+                evalSearchQuery();
+                var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
+                vm[filterFn]();   
+                vm.showResult = true;
+            }
+            // Rare case: when click on map tweet, but search term stay the same
+            // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
+            if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] && value.q.split("+")[1] === undefined)) {
+                evalSearchQuery();
 
+                SearchService.getData(vm.term).then(function(data) {
+                       vm.pool = data.statuses;
+                       vm.statuses = [];
+                       $scope.loadMore(20);
+                       vm.showResult = true;
+                       startNewInterval(data.search_metadata.period);
+                }, function() {}); 
+
+                $rootScope.root.globalSearchTerm = vm.term;
+                vm.showMap = false;
+                vm.peopleSearch = false;
+                vm.showResult = true;
+            }
+        });
 }]);
