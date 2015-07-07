@@ -22,23 +22,38 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	} else {
 		vm.showAdvancedSearch = false;
 	}
-	$scope.lookedUpLocationRadius = 500;
-
 
 	/* Location Ui related view model */
-		vm.chosenLocation = {name: "None chosen"};
-		vm.toggleShowLookUp = function() {
-			vm.showLookUp = true;
-		};
+		$scope.chosenLocation = "None chosen";
 	    $scope.processLookedLocation = function() {
-	      if ($scope.lookedUpLocation) {
-	      	vm.chosenLocation = $scope.lookedUpLocation;
-	      	console.log(vm.chosenLocation);
-	      	vm.showLookUp = false;
-	      }
-	      
+	    	if (document.activeElement.className.indexOf("chosen-location") > -1) {
+		      if ($scope.chosenLocation && $scope.chosenLocation.length >= 3) {
+		      	   SearchService.getLocationSuggestions($scope.chosenLocation).then(function(data) {
+		      	   	 vm.hasSuggestions = true;
+		      	   	 vm.locationSuggestions = data.queries;
+		      	   }, function(e) {
+		      	   	vm.hasSuggestions = false;
+		      	   	console.log(e);
+		      	   });
+		      } else {
+		      	vm.hasSuggestions = false;
+		      }
+		    }
 	    };
-	    $scope.$watch('lookedUpLocation', $scope.processLookedLocation);
+	    $scope.$watch('chosenLocation', $scope.processLookedLocation);
+	    vm.setLocation = function(locationTerm) {
+	    	$scope.chosenLocation = locationTerm;
+	    	vm.hasSuggestions = false;
+	    	angular.element(".chosen-location").addClass("chosen");
+	    };
+
+	    vm.toggleShowLookUp = function() {
+	    	if ($scope.chosenLocation === "None chosen") {
+	    		$scope.chosenLocation = "";
+	    	}
+	    	
+	    	angular.element(".chosen-location").removeClass("chosen");
+	    };
 	/* End location ui related view model */
 
 	/* Reset button */
@@ -137,8 +152,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			if (rawParams && rawParams.untilDate) {
 				unionTermArray.push("until:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
 			}
-			if (vm.chosenLocation && vm.chosenLocation.name !== "None chosen") {
-				unionTermArray.push(getLocationSearchParams(vm.chosenLocation, $scope.lookedUpLocationRadius));
+			if ($scope.chosenLocation && $scope.chosenLocation.name !== "None chosen") {
+				unionTermArray.push(getLocationSearchParams($scope.chosenLocation));
 			}
 			
 			unionTermResult = unionTermArray.join(" ");
@@ -192,10 +207,24 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	    	}
 	    }
 
+
 	/**
-	 * Calculate location for search params
+	 * Calculate location for search params with radius
 	 */
-		function getLocationSearchParams(point, radius) {
+	 
+	function getLocationSearchParams(place) {
+		if (place === "None chosen" && place === "") {
+			return "";
+		} else {
+			return "near:" + place;	
+		}
+		
+	}    
+
+	/**
+	 * Calculate location for search params with radius
+	 */
+		function getLocationSearchParamsWithRadius(point, radius) {
 			var orgLat = point.latitude;
 			var orgLong = point.longitude;
 			var offsetLat = (radius / 2) / 110.574;
@@ -310,14 +339,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	        ]
      	    };
      	    data.forEach(function(ele) {
-     	        if (ele.location_point) {
+     	        if (ele.location_mark) {
      	            var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
      	            var pointObject = {
      	                "geometry": {
      	                    "type": "Point",
      	                    "coordinates": [
-     	                        ele.location_point[0],
-     	                        ele.location_point[1]
+     	                        ele.location_mark[0],
+     	                        ele.location_mark[1]
      	                    ]
      	                },
      	                "type": "Feature",

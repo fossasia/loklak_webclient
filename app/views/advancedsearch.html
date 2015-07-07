@@ -30,19 +30,14 @@
 				<div class="form-section location-section">
 					<h3>Place</h3>
 					<h4 class="field-title">Near this place</h4>
-					<h5 class="chosen-location" ng-click="advanced.toggleShowLookUp()">{{advanced.chosenLocation.name}}</h5>
+					<div>
+						<input type="text" ng-model="chosenLocation" class="chosen-location" ng-click="advanced.toggleShowLookUp()">
+						<ul class="suggestions" ng-show="advanced.hasSuggestions">
+							<li ng-repeat="location in advanced.locationSuggestions | limitTo:5" ng-click="advanced.setLocation(location.query)">{{location.query}}</li>
+						</ul>
+					</div>
 					<span class="location-hint">Click to change/choose location</span>
-					<div ng-show="advanced.chosenLocation.name !== 'None chosen'" class="location-radius">
-						<h2 class="field-title radius-hint">Radius in km</h2>
-						<input type="text" class="radius-value" ng-model="lookedUpLocationRadius">	
-					</div>
 					<br>
-					<div class="location-lookup-container" ng-show="advanced.showLookUp">
-
-						<h2 class="field-title">Location Lookup</h2>
-						<location-lookup ng-model="lookedUpLocation" limit-to="4"></location-lookup>
-					</div>
-
 				</div>
 
 				<!-- Time period pickers-->

@@ -1,0 +1,75 @@
+<div id="data-connect-modal" class="modal" role="dialog">
+	<div id="data-connect-modal-dialog" class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-2 tabs-list">
+						<ul class="nav nav-tabs tabs-left">
+							<li ng-repeat="navItem in navItems" 
+								ng-class="$first ? 'active' : ''">
+								<a href="#{{navItem.target}}" data-toggle="tab">
+									<i class="{{navItem.icon}} fa-2x"></i><br>
+									<h4>{{navItem.title}}</h4>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-xs-10 tab-content">
+						<div class="tab-pane active" id="data-source-tab">
+							<button class="pull-right btn btn-default" ng-hide="addFormOpen" ng-click="toggleAddForm()">Add New Source <i class="fa fa-plus"></i>
+							</button>
+							<div id="add-datasource-form" ng-hide="!addFormOpen">
+								<div ng-show="addForm.error" class="alert alert-danger">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+									  <span class="sr-only">Error : </span>{{addForm.error}}
+								</div>
+								<div ng-show="addForm.success" class="alert alert-success">
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									  <span class="sr-only">Success : </span>{{addForm.success}}
+								</div>
+								<form name="add-datasource-form">
+									<div class="form-group">
+										<label for="source-url">Source url</label>
+										<input name="source-url" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
+									</div>
+									<div class="form-group">
+										<label for="source-type">Source type</label>
+										<select name="source-type" required type="text" 
+												ng-options="type for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
+											<option value="">Select source type</option>
+										</select>
+									</div>
+									<button ng-click="confirmAddDataSource()" type="submit" class="btn btn-primary">Confirm</button>
+									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
+								</form>
+							</div>
+							<h2>Active Data Sources</h2>
+							<hr/>
+							<ul>
+							<li ng-repeat="item in dataSourceItems">
+								<div class="row">
+									<div class="col-md-4">{{item.user.name}}</div>
+									<div class="col-md-5">{{item.link}}</div>
+									<div class="col-md-2">{{item.provider_type}}</div>
+								</div>
+							</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="contact-tab">
+							Coming soon.
+						</div>
+						<div class="tab-pane" id="iot-tab">
+							Coming soon.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

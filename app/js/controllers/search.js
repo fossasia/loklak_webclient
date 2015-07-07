@@ -12,6 +12,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Define models here
     var vm = this;
+    window.vm = vm;
     vm.modal = { text: "Tweet content placeholder"};
     vm.showDetail = false;
     vm.showResult = false;
@@ -20,11 +21,39 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     var intervals = [];
         
 
+    // Infinite-scroll trigger 
+    var getMore = function() {
+        var untilDate = new Date((new Date(vm.pool[vm.pool.length -1 ].created_at)).getTime() - 1);
+        var untilDateTerm = $filter("date")(untilDate, "yyyy-MM-dd_HH:mm");
+        var loadPoolTerm = $location.search().q + "+until:" + untilDateTerm;
+        var params = {
+           q: loadPoolTerm,
+           timezoneOffset: (new Date().getTimezoneOffset())
+        };
+        SearchService.getData(params).then(function(data) {
+               vm.pool = vm.pool.concat(data.statuses);
+        }, function() {});
+    };
+    $scope.loadMore = function(step) {
+        if (vm.pool.length < (2 * step + 1)) {
+            getMore();
+        }
+        vm.statuses = vm.statuses.concat(vm.pool.slice(0,step));
+        vm.pool = vm.pool.splice(step);
+        console.log(vm.statuses.length);
+    };
+
+
+
     // Update status and path on successful search
     vm.update = function(term) {
         updatePath(term);
         SearchService.getData(term).then(function(data) {
-               vm.statuses = data.statuses;
+               vm.pool = data.statuses;
+
+               vm.statuses = [];
+               $scope.loadMore(20);
+
                vm.showResult = true;
                startNewInterval(data.search_metadata.period);
         }, function() {});
@@ -89,14 +118,21 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         // Get native videos
         SearchService.getData(vm.term + '+' + '/video').then(function(data) {
             var statuses = data.statuses;
+            var statusesWithVideo = [];
             statuses.forEach(function(status) {
                 if (status.videos_count) {
                     if (status.videos[0].substr(-4) === '.mp4') {
                         status.links[0] = status.videos[0];
                     }
-                    vm.statuses.push(status);
+                    statusesWithVideo.push(status);
+                    
                 }
             });
+
+            vm.pool = statusesWithVideo;
+            vm.statuses = [];
+            $scope.loadMore(15);
+
             startNewInterval(data.search_metadata.period);
         }, function() {});    
 
@@ -283,14 +319,14 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             ]
         };
         data.forEach(function(ele) {
-            if (ele.location_point) {
+            if (ele.location_mark) {
                 var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
                 var pointObject = {
                     "geometry": {
                         "type": "Point",
                         "coordinates": [
-                            ele.location_point[0],
-                            ele.location_point[1]
+                            ele.location_mark[0],
+                            ele.location_mark[1]
                         ]
                     },
                     "type": "Feature",
