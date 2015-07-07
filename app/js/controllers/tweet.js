@@ -59,6 +59,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         console.log($rootScope.root.tweetLength);
     }
 
+    // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
@@ -68,6 +69,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         }
     }
 
+    // Latitude and Longitude is retrieved and the request is made for the map tile
     function setPosition(position) {
         $rootScope.root.userLocation.latitude = position.coords.latitude;
         $rootScope.root.userLocation.longitude = position.coords.longitude;
