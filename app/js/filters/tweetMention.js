@@ -9,7 +9,7 @@ var filtersModule = require('./_index.js');
 function tweetMentionFilter() {
 	return function(input) {
 		var mentionReg = /@([\wäöå]+)/gi;
-		var aTag = '<a class="external-mention" rel="external" href="https://twitter.com/$1">@$1</a>';
+		var aTag = '<a class="external-mention" rel="external" href="./search?q=%40$1">@$1</a>';
 		return input.replace(mentionReg, aTag);
 	};
 }
