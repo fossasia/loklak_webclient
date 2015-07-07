@@ -19,9 +19,9 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>You haven't created any walls yet.</strong>
             </div>
-            <ul ng-if="userData.wall.walls.length>0" class="wall-thumbnail-container">
-                <li ng-repeat="wallObj in userData.wall.walls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" wallthumbnail>
-                </li>
+            <div ng-if="userData.wall.walls.length>0" class="row wall-thumbnail-container">
+                <div ng-repeat="wallObj in userData.wall.walls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" wallthumbnail>
+                </div>
             </ul>
         </section>
     </div>
