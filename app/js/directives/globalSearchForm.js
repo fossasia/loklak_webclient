@@ -2,7 +2,7 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("globalSearchForm", ["$rootScope", "$location", function($rootScope, $location) {
+directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$window", function($rootScope, $location, $window) {
 
 
 	function filterToQuery(filterName) {
@@ -28,8 +28,10 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", funct
 			    	if ($rootScope.root.globalFilter) {
 			    		console.log($rootScope.root.globalFilter)
 			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);
-			    		console.log(q);
 						$location.url("/search?q=" + encodeURIComponent(q));
+						if ($rootScope.root.globalFilter === "map") {
+							$window.location.reload();
+						}
 			    	} else {
 			    		$location.url("/search?q=" + encodeURIComponent(q));
 			    	}
