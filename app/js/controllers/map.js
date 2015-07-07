@@ -14,18 +14,31 @@ var marker=[];
 
 
         
-        var map = L.map('map').setView([2.252776,48.845261], 3);
+        var followerslayer = new L.LayerGroup();
+        var followinglayer = new L.LayerGroup();
+        var overlays = {
+            "Followers" : followerslayer ,
+            "Following" : followinglayer
+        };
 
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        
+        var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
                 '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
             id: 'examples.map-20v6611k'
-        }).addTo(map);
-    
+        });
+        var basemapObj = {
+            "First Basemap": grayscale
+
+        }
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([33.74739, -105], 2);
+
          plotFollowersonMap();
          plotFollowingOnMap();
+        
+         L.control.layers(basemapObj,overlays).addTo(map);
 
 
         function plotFollowersonMap()
@@ -43,6 +56,7 @@ var marker=[];
                 "type": "FeatureCollection",
                 "features": []
             };
+            console.log("twitter is "+$rootScope.root.twitterSession);
             
             //Calling the method to get Twitter followers
             hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
@@ -105,12 +119,13 @@ var marker=[];
 
                     }
                 }
-                   add_marker(followersMarker);
+                   add_marker(followersMarker , 1);
                     
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    Geocode();
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -191,12 +206,13 @@ var marker=[];
                 }
 
                 }
-                   add_marker(followingMarker);
+                   add_marker(followingMarker , 0);
                    
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    Geocode_Plot();
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -206,7 +222,7 @@ var marker=[];
          
         
 
-      function add_marker(result) {
+      function add_marker(result , followerbool) {
                     
                     
                     var i;
@@ -222,7 +238,15 @@ var marker=[];
                             icon: tweetIcon,
                             bounceOnAdd: true
                         });
-                        marker[i].addTo(map);
+                        if(followerbool)
+                        {
+                          marker[i].addTo(followerslayer);  
+                        }
+                        else
+                        {
+                            marker[i].addTo(followinglayer);
+                        }
+                        
                         var popup = L.popup({
                             autoPan: false
                         }).setContent(result.features[i].properties.popupContent);
