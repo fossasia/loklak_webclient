@@ -19,7 +19,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.term = '';
     vm.currentFilter = '';
     var intervals = [];
-        
 
     // Infinite-scroll trigger 
     var getMore = function() {
@@ -423,7 +422,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
         // Rare case: when click on map tweet, but search term stay the same
         // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
-        if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] === "/map" && value.q.split("+")[1] === undefined)) {
+        if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] && value.q.split("+")[1] === undefined)) {
             evalSearchQuery();
             SearchService.getData(vm.term).then(function(data) {
                    vm.pool = data.statuses;
@@ -434,6 +433,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             }, function() {}); 
             $rootScope.root.globalSearchTerm = vm.term;
             vm.showMap = false;
+            vm.peopleSearch = false;
             vm.showResult = true;
         }
     });
