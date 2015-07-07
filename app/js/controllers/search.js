@@ -319,7 +319,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             ]
         };
         data.forEach(function(ele) {
-            if (ele.location_mark) {
+            if (ele.location_mark && ele.user) {
                 var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
                 var pointObject = {
                     "geometry": {
@@ -340,6 +340,17 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         });
 
         return tweets;
+    }
+
+
+    // Get location in search term, from lat, long bound
+    function getLocationTermFromBound(bound) {
+        var longWest = parseFloat(bound._southWest.lng);
+        var latSouth = parseFloat(bound._southWest.lat);
+        var longEast = parseFloat(bound._northEast.lng);
+        var latNorth = parseFloat(bound._northEast.lat);
+        var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth;
+        return locationTerm;
     }
 
     // Add points to map
@@ -369,11 +380,16 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      
         map.on("zoomend", function(event) {
             var bound = map.getBounds();
-            var longWest = parseFloat(bound._southWest.lng);
-            var latSouth = parseFloat(bound._southWest.lat);
-            var longEast = parseFloat(bound._northEast.lng);
-            var latNorth = parseFloat(bound._northEast.lat);
-            var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth; 
+            var locationTerm = getLocationTermFromBound(bound);
+            console.log(vm.term + "+" + locationTerm);
+            SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
+                console.log(data);
+                addPointsToMap(window.map, initMapPoints(data.statuses));    
+            }, function(data) {});
+        });
+        map.on("dragend", function(event) {
+            var bound = map.getBounds();
+            var locationTerm = getLocationTermFromBound(bound);
             console.log(vm.term + "+" + locationTerm);
             SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
                 console.log(data);
