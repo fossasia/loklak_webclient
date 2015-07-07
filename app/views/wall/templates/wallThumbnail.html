@@ -1,0 +1,17 @@
+<li class="wall-thumbnail">
+    <img src="images/loklak_icon_yellow_45x45_transparent.png" class="sq-setter-w" />
+    <div class="wall-thumbnail-content">
+        <a target="_blank" ng-href="{{data.link}}">
+            <div ng-style="{'background-color': data.headerColour, 'color': data.headerForeColour}" class="wall-thumbnail-event-name">{{data.eventName}}</div>
+            <h4 class="wall-thumbnail-mainhashtag">{{data.mainHashtag}}</h4>
+        </a>
+        <div class="row wall-thumbnail-footer">
+            <div class="col-xs-6">
+                <span ng-click="editWall(data)"><i class="fa fa-pencil"></i>Edit</span>
+            </div>
+            <div class="col-xs-6">
+                <span ng-click="deleteWall(data)"><i class="fa fa-trash-o"></i>Delete</span>
+            </div>
+        </div>
+    </div>
+</li>

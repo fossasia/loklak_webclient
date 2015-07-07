@@ -15,13 +15,19 @@ app.listen(config.oauthProxyPort);
 
 console.log("OAuth Shim listening on " + config.oauthProxyPort);
 
-app.post('/updateData', function(req, res) {
-    var requestJSON = JSON.parse(req.body.data);
-    request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
-        console.log(response);
+app.get('/updateData', function(req, res) {
+    request(config.apiUrl + 'account.json?action=update&data=' + encodeURIComponent(req.query.data), function(error, response, body) {
+        console.log(response.body);
         res.status(response.statusCode).jsonp({ok:"ok"});
     });
 });
+
+app.get('/getData', function(req, res){
+    request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function(error, response, body) {
+        console.log(response.body);
+        res.jsonp(JSON.parse(response.body));
+    });    
+})
 
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};

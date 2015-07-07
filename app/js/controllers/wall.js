@@ -8,14 +8,20 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AccountsService) {
+function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
     var vm = this;
     var term = '';
-    $scope.newWallOptions = {};
-    $scope.newWallOptions.headerColour = '#3c8dbc';
-    $scope.newWallOptions.headerPosition = 'Top';
-    $scope.newWallOptions.layoutStyle = 1;
+    var isEditing = -1;
+
+    var initWallOptions = function() {
+        $scope.newWallOptions = {};
+        $scope.newWallOptions.headerColour = '#3c8dbc';
+        $scope.newWallOptions.headerPosition = 'Top';
+        $scope.newWallOptions.layoutStyle = 1;
+    }
+
+    initWallOptions();
 
     function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -58,18 +64,27 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
 
     $scope.start = function() {
         //construct term
-        var dataParams = encodeURIComponent(JSON.stringify($scope.newWallOptions));
-        $scope.newWallOptions['term'] = term;
+        delete $scope.newWallOptions.link;
+        var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         console.log($rootScope.root.twitterSession);
-        // if ($rootScope.root.twitterSession) {
-        //     //save wall
-        //     var saveData ={};
-        //     saveData.screen_name = $rootScope.root.twitterSession.screen_name;
-        //     saveData.apps = {};
-        //     saveData.apps.wall = $scope.newWallOptions;
-        //     AccountsService.updateData(saveData);
-        // }
+        if ($rootScope.root.twitterSession) {
+            //save wall
+            console.log("Saving wall");
+            var saveData = {};
+            saveData.screen_name = $scope.screen_name;
+            $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
+            if (isEditing != -1) {
+                $scope.userData.wall.walls[isEditing] = $scope.newWallOptions;
+                isEditing = -1;
+            } else {
+                $scope.userData.wall.walls.push($scope.newWallOptions);
+            }
+
+            saveData.apps = $scope.userData;
+            AccountsService.updateData(saveData);
+        }
+        initWallOptions();
         $window.open('/wall/display?data=' + dataParams, '_blank');
     };
 
@@ -77,6 +92,89 @@ function WallCtrl($scope, $rootScope, $window, AccountsService) {
         $scope.newWallOptions.sinceDate = null;
         $scope.newWallOptions.untilDate = null;
     }
+
+    $scope.deleteWall = function(index) {
+        console.log(index);
+        $scope.userData.wall.walls.splice(index, 1);
+        var saveData = {};
+        saveData.screen_name = $scope.screen_name;
+        saveData.apps = $scope.userData;
+        AccountsService.updateData(saveData);
+    }
+
+    $scope.editWall = function(index) {
+        console.log(index);
+        $scope.newWallOptions = $scope.userData.wall.walls[index];
+        isEditing = index;
+        $('#wall-modal').modal('toggle');
+    }
+
+    var init = function() {
+
+        if ($rootScope.root.twitterSession) {
+            AccountsService.getData($rootScope.root.twitterSession.screen_name).then(function(result) {
+                    console.log(result);
+                    //console.log(result.accounts[0].apps.wall.walls);
+                    $scope.screen_name = result.accounts[0].screen_name;
+                    if (!result.accounts[0].apps) {
+                        result.accounts[0].apps = {
+                            wall: {
+                                walls: []
+                            }
+                        };
+                    }
+                    if (!result.accounts[0].apps.wall) {
+                        result.accounts[0].apps.wall = {
+                            walls: []
+                        };
+                    }
+                    if (!result.accounts[0].apps.wall.walls) {
+                        result.accounts[0].apps.wall.walls = [];
+                    }
+                    $scope.userData = result.accounts[0].apps;
+                    //$scope.userWalls = result.accounts[0].apps.wall.walls;
+                },
+                function(error) {
+
+                });
+        }
+
+
+    }
+
+    HelloService.on('auth.login', function(auth) {
+        console.log("here");
+        console.log(auth.authResponse.screen_name);
+        AccountsService.getData(auth.authResponse.screen_name).then(function(result) {
+                console.log(result);
+                //console.log(result.accounts[0].apps.wall.walls);
+                $scope.screen_name = result.accounts[0].screen_name;
+                if (!result.accounts[0].apps) {
+                    result.accounts[0].apps = {
+                        wall: {
+                            walls: []
+                        }
+                    };
+                }
+                if (!result.accounts[0].apps.wall) {
+                    result.accounts[0].apps.wall = {
+                        walls: []
+                    };
+                }
+                if (!result.accounts[0].apps.wall.walls) {
+                    result.accounts[0].apps.wall.walls = [];
+                }
+                $scope.userData = result.accounts[0].apps;
+                //$scope.userWalls = result.accounts[0].apps.wall.walls;
+            },
+            function(error) {
+
+            });
+
+    });
+
+    init();
+
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', 'HelloService', WallCtrl]);
