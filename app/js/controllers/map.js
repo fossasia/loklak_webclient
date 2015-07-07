@@ -33,8 +33,8 @@ var marker=[];
             "First Basemap": grayscale
 
         }
-        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([39.74739, -105], 2);
-        
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([33.74739, -105], 2);
+
          plotFollowersonMap();
          plotFollowingOnMap();
         
@@ -124,7 +124,8 @@ var marker=[];
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    Geocode();
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -210,7 +211,8 @@ var marker=[];
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    Geocode_Plot();
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
