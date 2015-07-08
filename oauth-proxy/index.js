@@ -65,17 +65,27 @@ function customHandler(req, res, next) {
         userObject['oauth_token'] = oauth_token;
         userObject['oauth_token_secret'] = oauth_token_secret;
         userObject['source_type'] = "TWITTER";
-        var requestJSON = JSON.stringify(userObject);
-        console.log(requestJSON);
         //got it. Now send to backend
-        request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
-            console.log(requestJSON);
-            if (!error && response.statusCode == 200) {
-                console.log("user saved");
-            } else {
-                console.log("The user was not saved in loklak_server. Handle this error");
-            }
-        });
+        //but wait!! We need to get the current data from the backend first and then update it with the new data
+        request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function(error, response, body) {
+        	if (!error && response.statusCode == 200) {
+        		var responseData = JSON.parse(response.body);
+        		if(responseData.accounts.length==0){
+        			console.log("new user!");
+        		}
+        		else{
+        			userObject.apps = responseData.accounts[0].apps;
+        		}
+        		var requestJSON = JSON.stringify(userObject);
+        		request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
+        		    if (!error && response.statusCode == 200) {
+        		        console.log("user saved");
+        		    } else {
+        		        console.log("The user was not saved in loklak_server. Handle this error");
+        		    }
+        		});
+        	}
+        });   
     }
 
     // Call next to complete the operation
