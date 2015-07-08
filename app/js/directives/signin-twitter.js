@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', function($timeout, $rootScope, HelloService, AppSettings) {
+directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', '$http', function($timeout, $rootScope, HelloService, AppSettings, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -49,10 +49,27 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						console.log(twitterFriendFeed);
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
 				});
+
+				$http.jsonp('http://loklak.org/api/search.json?q=?callback=JSON_CALLBACK', {
+					params : {
+						since: '2015-07-04',
+						until: '2015-07-06',
+						source: 'cache',
+						count: 0,
+						fields: 'hashtags',
+						limit: 6
+					}
+				})
+				.success( function (response) {
+						$rootScope.root.trends = response;
+						console.log(response);
+					});
+					console.log($rootScope.root.trends);
 			});
 
 			hello.on('auth.logout', function(auth) {
