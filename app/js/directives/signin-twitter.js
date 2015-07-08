@@ -55,16 +55,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					console.log('Unable to load tweets from your followers');
 				});
 
-				$http.jsonp('http://loklak.org/api/search.json?q=?callback=JSON_CALLBACK', {
-					params : {
-						since: '2015-07-04',
-						until: '2015-07-06',
-						source: 'cache',
-						count: 0,
-						fields: 'hashtags',
-						limit: 6
-					}
-				})
+				$http.jsonp('http://loklak.org/api/search.json?q=since:2015-07-04%20until:2015-07-06&source=cache&count=0&fields=hashtags&limit=6')
 				.success( function (response) {
 						$rootScope.root.trends = response;
 						console.log(response);

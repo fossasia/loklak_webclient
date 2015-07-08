@@ -83,7 +83,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 'Content-Type': 'application/json; charset=utf-8'
             }
         }).success(function(response) {
-            var selectedFileInBlob;
+            var selectedFileInBlob = response;
+            console.log(response);
             console.log("Successfully retrieved for "+requestUrl);
         });
 
