@@ -82,7 +82,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 var notYetInAccounts = true;
                 vm.accounts.forEach(function(account) {
                     if (account.screen_name === ele.screen_name) {
-                        return notYetInAccounts = false;
+                        notYetInAccounts = false;
+                        return notYetInAccounts;
                     }
                 });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
@@ -172,10 +173,12 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.statuses = [];
         vm.accounts = [];
         vm.showMap = true;
+        var initialBound = "/location=-282.65625,-77.54209596075546,307.96875,86.40197606876063";
 
         updatePath(vm.term + '+' + '/map');
+
         var params = {
-            q: vm.term,
+            q: vm.term + "+" + initialBound,
             count: 300
         };
         SearchService.initData(params).then(function(data) {
@@ -237,7 +240,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         angular.forEach(intervals, function(interval) {
             $interval.cancel(interval);
         });
-        console.log(period);
         intervals.push($interval(bgUpdateTemp, parseInt(period)));
     };
 
@@ -298,18 +300,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             return true;    
         }
     }
-
-    // Insert into status based on time created
-    function insertToStatusesByTimeOrder(ele, arr) {
-        var eleTime = new Date(ele.created_at);
-        for (var i = 0; i < arr.length; i++) {
-            if (eleTime > (new Date(arr[i].created_at))) {
-                arr.splice(i, 0, arr);
-                i = arr.length;
-            };
-        }
-    }
-
 
     // Init map point from data
     function initMapPoints(data) {
@@ -383,7 +373,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             var locationTerm = getLocationTermFromBound(bound);
             console.log(vm.term + "+" + locationTerm);
             SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
-                console.log(data);
                 addPointsToMap(window.map, initMapPoints(data.statuses));    
             }, function(data) {});
         });
@@ -392,7 +381,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             var locationTerm = getLocationTermFromBound(bound);
             console.log(vm.term + "+" + locationTerm);
             SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
-                console.log(data);
                 addPointsToMap(window.map, initMapPoints(data.statuses));    
             }, function(data) {});
         });
