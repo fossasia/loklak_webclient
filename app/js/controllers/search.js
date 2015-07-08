@@ -332,7 +332,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         return tweets;
     }
 
-
     // Get location in search term, from lat, long bound
     function getLocationTermFromBound(bound) {
         var longWest = parseFloat(bound._southWest.lng);
@@ -342,6 +341,22 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth;
         return locationTerm;
     }
+
+     // Get more data on new bounds
+    function getMoreLocationOnAction() {
+        var bound = map.getBounds();
+        var locationTerm = getLocationTermFromBound(bound);
+        var params = {
+            q: vm.term + "+" + locationTerm,
+            count: 300
+        }
+        SearchService.initData(params).then(function(data) {
+            addPointsToMap(window.map, initMapPoints(data.statuses));    
+        }, function(data) {});
+    }
+
+    // Action related timestamp, used to prevent event bubbling
+    var prevZoomAction, prevPanAction, newZoomAction, newPanAction;
 
     // Add points to map
     function addPointsToMap(map, tweets) {
@@ -369,20 +384,33 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }).addTo(map);    
      
         map.on("zoomend", function(event) {
-            var bound = map.getBounds();
-            var locationTerm = getLocationTermFromBound(bound);
-            console.log(vm.term + "+" + locationTerm);
-            SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
-                addPointsToMap(window.map, initMapPoints(data.statuses));    
-            }, function(data) {});
+            if (!prevZoomAction) {
+                prevZoomAction = new Date();
+                getMoreLocationOnAction();
+            } else {
+                newZoomAction = new Date();
+                var interval = (newZoomAction - prevZoomAction);
+                console.log(interval);
+                if (interval > 1000) {
+                    getMoreLocationOnAction();
+                    prevZoomAction = newZoomAction;        
+                }
+            }
+            
         });
         map.on("dragend", function(event) {
-            var bound = map.getBounds();
-            var locationTerm = getLocationTermFromBound(bound);
-            console.log(vm.term + "+" + locationTerm);
-            SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
-                addPointsToMap(window.map, initMapPoints(data.statuses));    
-            }, function(data) {});
+            if (!prevPanAction) {
+                prevPanAction = new Date();
+                getMoreLocationOnAction();
+            } else {
+                newPanAction = new Date();
+                var interval = (newPanAction - prevPanAction);
+                console.log(interval);
+                if (interval > 1000) {
+                    getMoreLocationOnAction();
+                    prevPanAction = newPanAction;        
+                }
+            }
         });
         
     }
