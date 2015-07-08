@@ -33,10 +33,17 @@ var marker=[];
             "First Basemap": grayscale
 
         }
-        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([33.74739, -105], 2);
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([33.52, 76.34], 2);
+        $rootScope.$watch(function() {
+            return $rootScope.root.twitterSession;
+            }, function(session) {
+                if (session) {
+                    plotFollowersonMap();
+                    plotFollowingOnMap();
+                }
+            });
 
-         plotFollowersonMap();
-         plotFollowingOnMap();
+         
         
          L.control.layers(basemapObj,overlays).addTo(map);
 
@@ -235,8 +242,7 @@ var marker=[];
                         var lng = result.features[i].geometry.coordinates[0];
                         marker[i] = new L.Marker([lat, lng], {
                             id: i,
-                            icon: tweetIcon,
-                            bounceOnAdd: true
+                            icon: tweetIcon
                         });
                         if(followerbool)
                         {
