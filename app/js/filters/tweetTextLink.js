@@ -11,8 +11,6 @@ filtersModule.filter('tweetTextLink', function() {
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return input.replace(urlRegex, function(url) {
             var changedUrl = url.replace(/.*?:\/\//g, "");
-            console.log(changedUrl);
-            console.log(url);
             if( changedUrl.length > 22) {
                 return '<a class=\'external_link\' href=\'' + url + '\' target=\'_blank\'>' + changedUrl.substr(0,22) + '...' + '</a>';
             }
