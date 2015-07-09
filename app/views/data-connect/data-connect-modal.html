@@ -50,10 +50,11 @@
 										<label>Custom field</label>
 										<label>Tweet field</label>
 									</div>
-									<div class="map-rule form-group" ng-repeat="i in getMapRulesNum() track by $index">
+									<div class="map-rule form-group" ng-class="$last ? 'last' : ''" ng-repeat="i in getMapRulesNum() track by $index">
 										<input type="text" class="form-control input-sm custom-field"  ng-model="addForm.inputs.mapRules[$index][0]"/>
 										<input type="text" class="form-control input-sm tweet-field" ng-model="addForm.inputs.mapRules[$index][1]"/>
 									</div>
+									<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
 									<div class="add-map-rule" ng-click="addMapRule()">
 										<i class="fa fa-plus"></i> Add rule
 									</div>

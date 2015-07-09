@@ -63,6 +63,13 @@
 #data-connect-modal .map-rule label {
 	width: 46%;
 }
+#data-connect-modal .map-rule.last {
+	display: inline-block;
+}
+#data-connect-modal #remove-map-rule {
+	cursor: pointer;
+	vertical-align: middle;
+}
 #data-connect-modal .custom-field, #data-connect-modal .tweet-field {
 	width: 46%;
 	display: inline-block;
