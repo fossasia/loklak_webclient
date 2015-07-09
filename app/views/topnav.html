@@ -11,16 +11,14 @@
             </div>
             <!-- Right -->
             <div class="hidden-xs universal-topnav-item topnav-user-actions">
-                <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">  
-                <form class="global-search-container" action="/search">
-                    <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
-                </form>
+                <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                <div global-search-form ></div>  
                 <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                 <ul class="global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
                         <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
                             <span class="fa fa-twitter"></span>
-                            <span class="text">Tweet</span>
+                            <span class="text hidden-xs hidden-sm hidden-md">Tweet</span>
                         </button>
                     </li>
                 </ul>
@@ -31,9 +29,7 @@
                 <div class="left-logo-and-brand">
                     <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
                 </div>
-                <form class="global-search-container" action="/search">
-                    <input type="text" id="global-search-input" name="q" placeholder="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" ng-model="root.globalSearchTerm">
-                </form>
+                <div global-search-form ></div>  
                 <div class="hided">
                     <a id="pull" href="#" ng-click="root.ToggleMobileNav()">
                         <button id="main-nav-button" class="lines-button x arrow arrow-left" type="button" role="button" aria-label="Toggle Navigation">
@@ -43,7 +39,7 @@
                 </div>
             </div>
             <!-- Hidden items -->
-            <div class="hidden-items hidden-sm hidden-sm hidden-lg hidden-init">
+            <div class="hidden-items hidden-sm hidden-md hidden-lg hidden-init">
                 <div class="list-of-views">
                     <ul>
                         <li ng-repeat="navItem in root.topNavItems">

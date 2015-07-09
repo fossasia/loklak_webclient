@@ -17,9 +17,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.showDetail = false;
     vm.showResult = false;
     vm.term = '';
-    vm.currentFilter = '';
+    $rootScope.root.globalFilter = '';
     var intervals = [];
-        
 
     // Infinite-scroll trigger 
     var getMore = function() {
@@ -66,7 +65,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
-        vm.currentFilter = 'live';
+        $rootScope.root.globalFilter = 'live';
         var term = vm.term;
         vm.update(term);
     };
@@ -75,7 +74,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
         vm.newStasuses = [];
-        vm.currentFilter = 'accounts';
+        $rootScope.root.globalFilter = 'accounts';
         vm.accounts = [];
         var term = vm.term;
         SearchService.getData(term).then(function(data) {
@@ -98,9 +97,10 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Photos search
     vm.filterPhotos = function() {
         vm.newStasuses = [];
+        vm.statuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
-        vm.currentFilter = 'photos';
+        $rootScope.root.globalFilter = 'photos';
         var term = vm.term + '+' + '/image';
         vm.update(term);
     };
@@ -111,7 +111,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.peopleSearch = false;
         vm.showMap = false;
         vm.statuses = [];   
-        vm.currentFilter = 'videos';
+        $rootScope.root.globalFilter = 'videos';
         vm.showResult = true;
 
 
@@ -145,7 +145,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
-        vm.currentFilter = 'news';
+        $rootScope.root.globalFilter = 'news';
         vm.statuses = [];
         var term = vm.term;
 
@@ -168,7 +168,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Map search, show results on a map
     vm.filterMap = function() {
         vm.newStasuses = [];
-        vm.currentFilter = "map";
+        $rootScope.root.globalFilter = "map";
         vm.statuses = [];
         vm.accounts = [];
         vm.showMap = true;
@@ -218,7 +218,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     ///////////////////
     var bgUpdateTemp = function() {
         var lastestDateObj = new Date(vm.statuses[0].created_at);
-        var term = (vm.currentFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery(vm.currentFilter);
+        var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
         SearchService.getData(term).then(function(data) {
             var keepComparing = true; var i = 0;
             while (keepComparing) {
@@ -257,7 +257,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
       $location.search({
         q: query
       });
-      $rootScope.root.globalSearchTerm = $location.search().q;
+      $rootScope.root.globalSearchTerm = vm.term;
     }
 
     // Evaluate current search query to extract term & filter
@@ -271,7 +271,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             '/map' : 'map'
         };
         vm.term = queryParts[0];
-        vm.currentFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
+        $rootScope.root.globalFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
 
     }
 
@@ -401,25 +401,47 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     // Init statuses if path is a search url
     angular.element(document).ready(function() {
-        if ($stateParams.q !== undefined) {
-            evalSearchQuery();
-            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            vm[filterFn]();   
-            vm.showResult = true;
-      }
+       if ($stateParams.q !== undefined) {
+           evalSearchQuery();
+           var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
+           vm[filterFn]();   
+           vm.showResult = true;
+       }
     });
+
+
+    ////////////
+    // MANAGING STATE CHANGES RESULTING IN SEARCH
+    ///////////
 
     // On search term change, based a a clicked on a hashtag
-    // Compare with old term, then search with no filter
-    $scope.$watch(function() {
-        return $location.search();
-    }, function(value) {
-        if (value.q.split("+")[0] !== vm.term) {
-            evalSearchQuery();
-            var filterFn = 'filter' + $filter('capitalize')(vm.currentFilter);
-            vm[filterFn]();   
-            vm.showResult = true;
-        }
-    });
+        $scope.$watch(function() {
+            return $location.search();
+        }, function(value, Oldvalue) {
+            // When changing search term through clicking on a statues
+            if (value.q.split("+")[0] !== vm.term) {
+                evalSearchQuery();
+                var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
+                vm[filterFn]();   
+                vm.showResult = true;
+            }
+            // Rare case: when click on map tweet, but search term stay the same
+            // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
+            if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] && value.q.split("+")[1] === undefined)) {
+                evalSearchQuery();
 
+                SearchService.getData(vm.term).then(function(data) {
+                       vm.pool = data.statuses;
+                       vm.statuses = [];
+                       $scope.loadMore(20);
+                       vm.showResult = true;
+                       startNewInterval(data.search_metadata.period);
+                }, function() {}); 
+
+                $rootScope.root.globalSearchTerm = vm.term;
+                vm.showMap = false;
+                vm.peopleSearch = false;
+                vm.showResult = true;
+            }
+        });
 }]);

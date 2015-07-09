@@ -2418,7 +2418,6 @@ form#tweet > div.modal-footer {
 /*Styles for wall thumbnail*/
 	.wall-thumbnail-container {
 		width: 100%;
-		overflow-x: scroll;
 		white-space: nowrap;
 		margin-top: 30px;
 	}
@@ -2427,9 +2426,10 @@ form#tweet > div.modal-footer {
 			border: 1px solid $search-twitter-blue;
 		}
 		display: inline-block;
-		margin-right: 40px;
+		margin-right: 20px;
 		margin-bottom: 30px;
 		width: 250px;
+		height: 250px;
 		position: relative;
 		background-color:white;
 		border: 1px solid $search-grey-border;

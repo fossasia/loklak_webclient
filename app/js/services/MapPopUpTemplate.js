@@ -19,7 +19,7 @@ function MapPopUpTemplateService($filter) {
   		+					 'onError="this.onerror=null;this.src=\'/images/anon_200x200.png\';"'
   		+					 'src="' + status.user.profile_image_url_https + '" alt="user-images">'
   		+			   '<div class="user-data-wrapper">'
-  		+			    	'<a class="name" href="' + 'https://twitter.com/' + status.user.screen_name + '">' + status.user.name + '</a>'			
+  		+			    	'<a class="name" href="' + './search?q=from:' + status.user.screen_name + '">' + status.user.name + '</a>'			
   		+			   	'<span class="screen-name">' + '@' + status.user.screen_name + '</span>'	
   		+			    '</div>'
   		+			'</div>'
