@@ -29,7 +29,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
            q: loadPoolTerm,
            timezoneOffset: (new Date().getTimezoneOffset())
         };
-        SearchService.getData(params).then(function(data) {
+        SearchService.initData(params).then(function(data) {
                vm.pool = vm.pool.concat(data.statuses);
         }, function() {});
     };
