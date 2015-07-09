@@ -36,18 +36,25 @@
 			display: inline-block;
 			a {
 				display: inline-block;
-				padding: 15px 15px 10px 15px;
+				padding: 10px 15px 10px 15px;
+				@media (min-width: 768px) and (max-width: 991px) {
+				   	padding: 10px 6px 10px 8px !important;
+				}
 				line-height: 20px;
 				transition: all 0s ease-in-out;
-				color: black;	
+				color: rgb(102, 117, 127);	
 				&:hover, &.active-view-nav {
 					color: #55acee;
 					transition: all 0s ease-in-out;
 					border-bottom: 5px solid #55acee;
 					background: none;
 				}
-				span {
-					margin-right: 10px;
+				span.fa {
+					margin-right: 5px;
+					font-size: 24px;
+					position: relative;
+					top: 3px;
+					color: rgb(102, 117, 127);
 				}
 			}
 		}
@@ -224,6 +231,15 @@
 				margin-top: 5px;
 				background-color:#55acee;
 				color:white;
+				span.fa {
+					font-size: 26px;
+				}
+				span.text {
+					font-size: 14px;
+					position: relative;
+					bottom: 4px;
+					margin-left: 3px;
+				}
 			}
 		}
 	
