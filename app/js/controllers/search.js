@@ -39,7 +39,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
         vm.statuses = vm.statuses.concat(vm.pool.slice(0,step));
         vm.pool = vm.pool.splice(step);
-        console.log(vm.statuses.length);
     };
 
 
