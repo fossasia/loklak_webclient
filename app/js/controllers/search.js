@@ -428,18 +428,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
         addPointsToMap(window.map, tweets);
     }
-        
-
-    // Init statuses if path is a search url
-    angular.element(document).ready(function() {
-       if ($stateParams.q !== undefined) {
-           evalSearchQuery();
-           var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
-           vm[filterFn]();   
-           vm.showResult = true;
-       }
-    });
-
 
     ////////////
     // MANAGING STATE CHANGES RESULTING IN SEARCH

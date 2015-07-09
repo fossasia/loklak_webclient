@@ -17,7 +17,7 @@ function SearchService($q, $http, AppSettings) {
     } else {
       newSearch = new Date();
       var interval = newSearch - lastSearch;
-      if (interval > 300) {
+      if (interval > 1000) {
         lastSearch = newSearch;
         return true;
       } else {
