@@ -2514,6 +2514,14 @@ a.external_link:hover {
 	text-decoration: underline;
 }
 
+div.tweet-content > p.tweet-content-text {
+	word-wrap: break-word;
+}
+
+div.linear-content.row > p.linear-content-text {
+	word-wrap: break-word;
+}
+
 output {
 	text-align: left;
 	margin-bottom: 10px;
