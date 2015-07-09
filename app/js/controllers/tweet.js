@@ -9,6 +9,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.tweetLength = 140;
     $rootScope.root.userLocation = {};
     $rootScope.root.geoTile;
+    $rootScope.root.hashtagTrends;
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
     {    
@@ -97,6 +98,22 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
     $rootScope.root.retweet = function(id) {
         console.log(id);
+    }
+
+    $rootScope.root.getHashtagTrends = function() {
+        var trendsRequestUrl = 'http://localhost:9000/api/search.json?q=since%3A2015-07-04%20until%3A2015-07-06&source=cache&count=0&fields=hashtags&limit=6';
+        $http({
+            url: trendsRequestUrl,
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+        .success(function(response) {
+            console.log(response);
+            $rootScope.root.hashtagTrends = response;
+        });
+        console.log($rootScope.root.hashtagTrends);
     }
 
 }]);
