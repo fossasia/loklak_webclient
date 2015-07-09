@@ -73,12 +73,12 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
     }
 
-    $scope.onTagRemoving = function(tag){
-        if($scope.newWallOptions.allHashtags.length==1)
-            return false;
-        else
-            return true;
-    }
+    // $scope.onTagRemoving = function(tag){
+    //     if($scope.newWallOptions.allHashtags.length==1)
+    //         return false;
+    //     else
+    //         return true;
+    // }
 
     $scope.proceed = function() {
         $('.nav-tabs > .active').next('li').find('a').trigger('click');
@@ -88,7 +88,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         //construct term
         delete $scope.newWallOptions.link;
         if($scope.newWallOptions.mainHashtag)
-            $scope.newWallOptions.allHashtags.unshift($scope.newWallOptions.mainHashtag);
+            $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtag.substring(1)});
         var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         //console.log($rootScope.root.twitterSession);

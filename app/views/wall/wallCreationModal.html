@@ -119,7 +119,7 @@
                                                                     <div class="input-group">
                                                                         <span ng-if="newWallOptions.mainHashtagText.length>0" class="mainhashtag-addon input-group-addon">{{newWallOptions.mainHashtag}}</span>
                                                                         <span class="input-group-addon">#</span>
-                                                                        <tags-input on-tag-removing="onTagRemoving($tag)" ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
+                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
                                                                     </div>
                                                                 </div>
                                                             </div>
