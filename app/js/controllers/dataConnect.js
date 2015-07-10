@@ -27,13 +27,15 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	/**
 	 * Add data source form inputs values, success & error message
 	 */
-	$scope.addForm = {inputs : {}, success: '', error : ''};
+	$scope.addForm = {};
 	/**
 	 * Add datasource form show state
 	 */
 	$scope.addFormOpen = false;
 
 	$scope.sourceTypesList = SourceTypeService.sourceTypeList;
+
+	$scope.mapRulesNum = 0;
 
 	function getDataSources() {
 		const query = '-/source_type=TWITTER';
@@ -45,10 +47,22 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 				}
 			});
 		}, function() {});
-	}
+	};
 
 	$scope.confirmAddDataSource = function() {
-		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type).then(function(data) {
+
+		function constructMapRules() {
+			var mapRulesStr = '';
+			const mapRules = $scope.addForm.inputs.mapRules;
+			var prefix = '';
+			for (var i = 0; i < $scope.mapRulesNum; i++) {
+				mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
+				prefix = ',';
+			}
+			return mapRulesStr;
+		}
+		
+		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type, constructMapRules()).then(function(data) {
 			$scope.addForm.error = '';
 			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 		}, function(err, status) {
@@ -57,10 +71,20 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 		});
 	}
 
-	$scope.toggleAddForm = function(){
-		$scope.addForm.error = null;
-		$scope.addForm.success = null;
+	$scope.toggleAddForm = function() {
 		$scope.addFormOpen = !$scope.addFormOpen;
+	};
+
+	$scope.addMapRule = function() {
+		$scope.mapRulesNum++;
+	};
+
+	$scope.removeMapRule = function() {
+		$scope.mapRulesNum--;
+	};
+
+	$scope.getMapRulesNum = function() {
+		return new Array($scope.mapRulesNum);
 	}
 
 	getDataSources();
