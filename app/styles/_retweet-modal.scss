@@ -33,17 +33,55 @@
 				font-size: 16px;
 				line-height: 22px;
 			}
+			.close-rt-modal {
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				padding: 10px;
+				display: inline-block;
+				color: rgb(136, 153, 166);
+				font-size: 16px;
+				&:hover {
+					cursor: pointer;
+				}
+			}
 		}
 		.retweet-comment-container {
 			background-color: #E5F2F7;
 			padding: 10px 15px;
 			.retweet-comment {
+				position: relative;
 				background-color: white;
 				color: #8899a6;
 				padding: 10px;
 				font-size: 13px;
 				border: 1px solid rgba(0,132,180,0.25);
 				border-radius: 3px;
+				textarea {
+					font-size: 13px;
+					line-height: 16px;
+					resize: none;
+					border: none;
+					width: 100%;
+					outline: none;
+					height: 16px;
+					overflow: hidden;
+					&:focus {
+						outline: none;
+					}
+				}
+				textarea.active {
+					height: 48px;
+					overflow: auto;
+				}
+				.remaining-chars {
+					position: absolute;
+					right: 10px;
+					bottom: 10px;
+				}
+				.remaining-chars.red {
+					color: red;
+				}
 			}
 		}
 
@@ -102,6 +140,9 @@
 				&:hover {
 					cursor: pointer;
 				}
+			}
+			.retweet-button.disabled {
+				opacity: 0.5;
 			}
 		}
 	}

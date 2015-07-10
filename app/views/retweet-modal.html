@@ -1,11 +1,14 @@
 <div class="retweet-box">
 	<div class="retweet-title">
 		<p>Retweet this to your followers?</p>
+		<span class="close-rt-modal" ng-click="closeRtModal()">x
+		</span>
 	</div>
 
 	<div class="retweet-comment-container">
 		<div class="retweet-comment">
-			Add a comment...
+			<textarea maxlength="117" cols="1" ng-click="showMoreCols();" placeholder="Add a comment..." ng-model="comment"></textarea>
+			<span class="remaining-chars">{{remainingChars}}</span>
 		</div>
 	</div>
 
