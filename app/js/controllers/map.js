@@ -10,7 +10,7 @@ var marker=[];
  * @ngInject
  */
 
-    controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService', function($rootScope,$http,hello) {
+    controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService','FollowersMapTemplateService', function($rootScope,$http,hello) {
 
 
         
@@ -132,7 +132,7 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
-                    Geocode();
+                    
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -219,7 +219,7 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
-                    Geocode_Plot();
+                    
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -244,6 +244,7 @@ var marker=[];
                             id: i,
                             icon: tweetIcon
                         });
+                        
                         if(followerbool)
                         {
                           marker[i].addTo(followerslayer);  
@@ -257,6 +258,12 @@ var marker=[];
                             autoPan: false
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
+                        marker.on('mouseover', function (e) {
+                        this.openPopup();
+                            });
+                        marker.on('mouseout', function (e) {
+                            this.closePopup();
+                        });
                     };
                     
                 }
