@@ -17,11 +17,10 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 				return $rootScope.root.currentTweet;
 			}, function(value) {
 				$scope.status = value;
-				$scope.remainingChars -= value.link.length;
+				$scope.remainingChars = 140 - value.link.length;
 			});
 
 			// Watching comment.length
-
 			$scope.$watch(function() {
 				return $scope.comment;
 			}, function() {
@@ -45,7 +44,8 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 			}
 
 			$scope.closeRtModal = function() {
-				angular.element(".retweet-modal").addClass("hide");				
+				angular.element(".retweet-modal").addClass("hide");		
+				$scope.comment = "";		
 			}
 
 			// Retweet action
