@@ -29,7 +29,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
            q: loadPoolTerm,
            timezoneOffset: (new Date().getTimezoneOffset())
         };
-        SearchService.getData(params).then(function(data) {
+        SearchService.initData(params).then(function(data) {
                vm.pool = vm.pool.concat(data.statuses);
         }, function() {});
     };
@@ -39,7 +39,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
         vm.statuses = vm.statuses.concat(vm.pool.slice(0,step));
         vm.pool = vm.pool.splice(step);
-        console.log(vm.statuses.length);
     };
 
 
@@ -82,7 +81,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 var notYetInAccounts = true;
                 vm.accounts.forEach(function(account) {
                     if (account.screen_name === ele.screen_name) {
-                        return notYetInAccounts = false;
+                        notYetInAccounts = false;
+                        return notYetInAccounts;
                     }
                 });
                 if (notYetInAccounts) { vm.accounts.push(ele);}
@@ -172,10 +172,12 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.statuses = [];
         vm.accounts = [];
         vm.showMap = true;
+        var initialBound = "/location=-282.65625,-77.54209596075546,307.96875,86.40197606876063";
 
         updatePath(vm.term + '+' + '/map');
+
         var params = {
-            q: vm.term,
+            q: vm.term + "+" + initialBound,
             count: 300
         };
         SearchService.initData(params).then(function(data) {
@@ -237,7 +239,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         angular.forEach(intervals, function(interval) {
             $interval.cancel(interval);
         });
-        console.log(period);
         intervals.push($interval(bgUpdateTemp, parseInt(period)));
     };
 
@@ -299,18 +300,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
     }
 
-    // Insert into status based on time created
-    function insertToStatusesByTimeOrder(ele, arr) {
-        var eleTime = new Date(ele.created_at);
-        for (var i = 0; i < arr.length; i++) {
-            if (eleTime > (new Date(arr[i].created_at))) {
-                arr.splice(i, 0, arr);
-                i = arr.length;
-            };
-        }
-    }
-
-
     // Init map point from data
     function initMapPoints(data) {
         var tweets = {
@@ -319,7 +308,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             ]
         };
         data.forEach(function(ele) {
-            if (ele.location_mark) {
+            if (ele.location_mark && ele.user) {
                 var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
                 var pointObject = {
                     "geometry": {
@@ -341,6 +330,32 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
         return tweets;
     }
+
+    // Get location in search term, from lat, long bound
+    function getLocationTermFromBound(bound) {
+        var longWest = parseFloat(bound._southWest.lng);
+        var latSouth = parseFloat(bound._southWest.lat);
+        var longEast = parseFloat(bound._northEast.lng);
+        var latNorth = parseFloat(bound._northEast.lat);
+        var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth;
+        return locationTerm;
+    }
+
+     // Get more data on new bounds
+    function getMoreLocationOnAction() {
+        var bound = map.getBounds();
+        var locationTerm = getLocationTermFromBound(bound);
+        var params = {
+            q: vm.term + "+" + locationTerm,
+            count: 300
+        }
+        SearchService.initData(params).then(function(data) {
+            addPointsToMap(window.map, initMapPoints(data.statuses));    
+        }, function(data) {});
+    }
+
+    // Action related timestamp, used to prevent event bubbling
+    var prevZoomAction, prevPanAction, newZoomAction, newPanAction;
 
     // Add points to map
     function addPointsToMap(map, tweets) {
@@ -368,17 +383,33 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }).addTo(map);    
      
         map.on("zoomend", function(event) {
-            var bound = map.getBounds();
-            var longWest = parseFloat(bound._southWest.lng);
-            var latSouth = parseFloat(bound._southWest.lat);
-            var longEast = parseFloat(bound._northEast.lng);
-            var latNorth = parseFloat(bound._northEast.lat);
-            var locationTerm = "/location=" + longWest + "," + latSouth + "," + longEast + "," + latNorth; 
-            console.log(vm.term + "+" + locationTerm);
-            SearchService.getData(vm.term + "+" + locationTerm).then(function(data) {
-                console.log(data);
-                addPointsToMap(window.map, initMapPoints(data.statuses));    
-            }, function(data) {});
+            if (!prevZoomAction) {
+                prevZoomAction = new Date();
+                getMoreLocationOnAction();
+            } else {
+                newZoomAction = new Date();
+                var interval = (newZoomAction - prevZoomAction);
+                console.log(interval);
+                if (interval > 1000) {
+                    getMoreLocationOnAction();
+                    prevZoomAction = newZoomAction;        
+                }
+            }
+            
+        });
+        map.on("dragend", function(event) {
+            if (!prevPanAction) {
+                prevPanAction = new Date();
+                getMoreLocationOnAction();
+            } else {
+                newPanAction = new Date();
+                var interval = (newPanAction - prevPanAction);
+                console.log(interval);
+                if (interval > 1000) {
+                    getMoreLocationOnAction();
+                    prevPanAction = newPanAction;        
+                }
+            }
         });
         
     }
@@ -397,18 +428,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
         addPointsToMap(window.map, tweets);
     }
-        
-
-    // Init statuses if path is a search url
-    angular.element(document).ready(function() {
-       if ($stateParams.q !== undefined) {
-           evalSearchQuery();
-           var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
-           vm[filterFn]();   
-           vm.showResult = true;
-       }
-    });
-
 
     ////////////
     // MANAGING STATE CHANGES RESULTING IN SEARCH
