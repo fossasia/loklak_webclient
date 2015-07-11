@@ -20,6 +20,7 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
             $scope.showDetail = false;
             $scope.showMoreAction = false;
             $scope.debuggable = true;
+             
             var hello = $scope.hello;
 
             /**
@@ -59,14 +60,21 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
                 $location.path(newPath).search(queryArgs);
             };
 
-            $scope.retweet = function(id) {
+            $scope.retweet = function() {
+                $rootScope.root.currentTweet = $scope.data;        
+                console.log($rootScope.root.currentTweet);
+                angular.element(".retweet-modal").removeClass("hide");
+            }
+
+            $scope.confirmRt = $rootScope.root.confirmRt;
+            /*$scope.retweet = function(id) {
                 console.log(id);
                 $rootScope.root.hello('twitter').api('me/share', 'POST', {
                     id : id
                 });
-            }
+            }*/
 
-             $scope.favorite = function(id) {
+            $scope.favorite = function(id) {
                 console.log(id);
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
