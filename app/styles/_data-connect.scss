@@ -27,7 +27,7 @@
 	position: absolute;
 	right: 14px;
 	z-index: 10;
-	width: 300px;
+	width: 420px;
 }
 
 #data-connect-modal .alert {
@@ -43,4 +43,35 @@
 	background-color: #dff0d8 !important;
 	border-color: #d6e9c6;
 	color: #3c763d !important;
+}
+
+#data-connect-modal .add-map-rule {
+	border : 1px dashed #ccc;
+	text-align: center;
+	background-color: #FFFFE8;
+	padding: 3px;
+	margin-bottom: 12px;
+}
+
+#data-connect-modal .add-map-rule:hover {
+	cursor: pointer;
+}
+
+#data-connect-modal .map-rule {
+	width: 89%;
+}
+#data-connect-modal .map-rule label {
+	width: 46%;
+}
+#data-connect-modal .map-rule.last {
+	display: inline-block;
+}
+#data-connect-modal #remove-map-rule {
+	cursor: pointer;
+	vertical-align: middle;
+}
+#data-connect-modal .custom-field, #data-connect-modal .tweet-field {
+	width: 46%;
+	display: inline-block;
+	margin-bottom: 8px;
 }

@@ -13,8 +13,12 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 	        'news' : '/news',
 	        'map' : '/map'
 	    };
-	    return filtersToQueries[filterName
-	    ];
+	    if (filterName === "live") {
+	    	return "";
+	    } else {
+	    	return filtersToQueries[filterName];	
+	    }
+	    
 	}
 
 	return {
@@ -26,8 +30,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			    } else if ($rootScope.root.globalSearchTerm && $location.path() === "/search") {
 			    	var q = $rootScope.root.globalSearchTerm
 			    	if ($rootScope.root.globalFilter) {
-			    		console.log($rootScope.root.globalFilter)
-			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);
+			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
 						$location.url("/search?q=" + encodeURIComponent(q));
 						if ($rootScope.root.globalFilter === "map") {
 							$window.location.reload();

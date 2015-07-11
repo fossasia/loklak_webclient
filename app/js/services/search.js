@@ -9,48 +9,70 @@ function SearchService($q, $http, AppSettings) {
 
   var service = {};
 
+  var lastSearch, newSearch;
+  var preventBubbleSearch = function() {
+    if (!lastSearch) {
+      lastSearch = new Date();
+      return true;
+    } else {
+      newSearch = new Date();
+      var interval = newSearch - lastSearch;
+      if (interval > 1000) {
+        lastSearch = newSearch;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   service.getData = function(term) {
-    var deferred = $q.defer();
+    if (preventBubbleSearch()) {
+      var deferred = $q.defer();
 
-    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q: term}
-    }).success(function(data) {
-        deferred.resolve(data);
-    }).error(function(err, status) {
-        deferred.reject(err, status);
-    });
+      $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+        params: {q: term}
+      }).success(function(data) {
+          deferred.resolve(data);
+      }).error(function(err, status) {
+          deferred.reject(err, status);
+      });
 
-    return deferred.promise;
+      return deferred.promise;
+    }
+    
   };
 
   service.getLocationSuggestions = function(term) {
-    var deferred = $q.defer();
-    $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
-      params: {
-        q: term,
-        source: "geo"
-      }
-    }).success(function(data) {
-        deferred.resolve(data);
-    }).error(function(err, status) {
-        deferred.reject(err, status);
-    });
+      var deferred = $q.defer();
+      $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
+        params: {
+          q: term,
+          source: "geo"
+        }
+      }).success(function(data) {
+          deferred.resolve(data);
+      }).error(function(err, status) {
+          deferred.reject(err, status);
+      });
 
-    return deferred.promise;
+      return deferred.promise;
   };
 
   service.initData = function(paramsObj) {
-    var deferred = $q.defer();
-    //paramsObj.q = decodeURIComponent(paramsObj.q);
-    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: paramsObj
-    }).success(function(data) {
-        deferred.resolve(data);
-    }).error(function(err, status) {
-        deferred.reject(err, status);
-    });
+    if (preventBubbleSearch()) {
+      var deferred = $q.defer();
+      //paramsObj.q = decodeURIComponent(paramsObj.q);
+      $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+        params: paramsObj
+      }).success(function(data) {
+          deferred.resolve(data);
+      }).error(function(err, status) {
+          deferred.reject(err, status);
+      });
 
-    return deferred.promise;
+      return deferred.promise;
+    }
   };
 
   service.retrieveImg = function(statusID) {
