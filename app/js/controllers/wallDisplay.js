@@ -41,8 +41,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     //calculate term
     function calculateTerm(argument) {
         term = "";
-        if(vm.wallOptions.mainHashtag)
-            term = vm.wallOptions.mainHashtag;
+        // if(vm.wallOptions.mainHashtag)
+        //     term = vm.wallOptions.mainHashtag;
         if (vm.wallOptions.layoutStyle == '4'){
             if(term=="")
                 term = "/location";
@@ -96,6 +96,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         if (vm.wallOptions.untilDate) {
             term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
+        }
+        //clean up
+        term = term.trim();
+        if(term.substring(0,2)=='OR'){
+            term = term.substring(2).trim();
         }
         console.log(term);
         searchParams.q = term;
@@ -281,116 +286,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     //On INIT
     vm.update2(0, count);
-    //code for modal
-    function hexToRgb(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-        //Selects foreground colour as black or white based on background
-    function colourCalculator(rgb) {
-        var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
-        if (o > 125) {
-            return '#000000';
-        } else {
-            return '#FFFFFF';
-        }
-    }
-
-    // $scope.$watch('newWallOptions.headerColour', function() {
-    //     if ($scope.newWallOptions.headerColour)
-    //         $scope.newWallOptions.headerForeColour = colourCalculator(hexToRgb($scope.newWallOptions.headerColour));
-    // });
-
-    // $scope.$watch('newWallOptions.mainHashtagText', function() {
-    //     if ($scope.newWallOptions.mainHashtagText)
-    //         if ($scope.newWallOptions.mainHashtagText.length !== 0) {
-    //             if ($scope.newWallOptions.mainHashtagText[0] != '#') {
-    //                 $scope.newWallOptions.mainHashtag = '#' + $scope.newWallOptions.mainHashtagText;
-    //             } else {
-    //                 $scope.newWallOptions.mainHashtag = $scope.newWallOptions.mainHashtagText;
-    //             }
-    //         }
-    // });
-
-    $scope.proceed = function() {
-        $('.nav-tabs > .active').next('li').find('a').trigger('click');
-    };
-
-    $scope.start = function() {
-        //construct term
-        var newTerm = $scope.newWallOptions.mainHashtag;
-        for (var i = 0; i < $scope.newWallOptions.allWords.length; i++) {
-            newTerm = newTerm + ' ' + $scope.newWallOptions.allWords[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.anyWords.length; i++) {
-            newTerm = newTerm + ' ' + $scope.newWallOptions.anyWords[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.noWords.length; i++) {
-            newTerm = newTerm + ' -' + $scope.newWallOptions.noWords[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
-            newTerm = newTerm + ' #' + $scope.newWallOptions.allHashtags[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.from.length; i++) {
-            newTerm = newTerm + ' from:' + $scope.newWallOptions.from[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.to.length; i++) {
-            newTerm = newTerm + ' @' + $scope.newWallOptions.to[i].text;
-        }
-        for (var i = 0; i < $scope.newWallOptions.mentioning.length; i++) {
-            newTerm = newTerm + ' @' + $scope.newWallOptions.mentioning[i].text;
-        }
-        if ($scope.newWallOptions.images) {
-            if ($scope.newWallOptions.images == "only") {
-                newTerm = newTerm + ' /image';
-            } else if ($scope.newWallOptions.images == "none") {
-                newTerm = newTerm + ' -/image';
-            }
-        }
-        if ($scope.newWallOptions.videos) {
-            if ($scope.newWallOptions.videos == "only") {
-                newTerm = newTerm + ' /video';
-            } else if ($scope.newWallOptions.videos == "none") {
-                newTerm = newTerm + ' -/video';
-            }
-        }
-        if ($scope.newWallOptions.audio) {
-            if ($scope.newWallOptions.audio == "only") {
-                newTerm = newTerm + ' /audio';
-            } else if ($scope.newWallOptions.audio == "none") {
-                newTerm = newTerm + ' -/audio';
-            }
-        }
-        if ($scope.newWallOptions.sinceDate) {
-            newTerm = newTerm + ' since:' + moment($scope.newWallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
-        }
-        if ($scope.newWallOptions.untilDate) {
-            newTerm = newTerm + ' until:' + moment($scope.newWallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
-        }
-        $scope.newWallOptions.term = newTerm;
-        $('#wall-modal').modal('toggle');
-        $("#wall-modal").on('hidden.bs.modal', function() {
-            if (flag == true) {
-                //count++;
-                init();
-                //vm.wallOptions = $scope.newWallOptions;
-                term = newTerm;
-                $location.path('/wall/display').search($scope.newWallOptions);
-                vm.update2(0, count);
-            }
-        });
-        flag = true;
-    };
-
-
-    $scope.resetDate = function() {
-        $scope.newWallOptions.sinceDate = null;
-        $scope.newWallOptions.untilDate = null;
-    };
 
     //Statistics Code
 
@@ -474,47 +369,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             sortable.sort(function(a, b) {return b[1] - a[1]});
             sortable = (sortable.slice(0, 3));
             vm.topMentionsData = sortable;                        
-
-            // for (var property in statistics.hashtags) {
-            //     if (statistics.hashtags.hasOwnProperty(property)) {
-            //         if (statistics.hashtags[property] > 1) {
-            //             labels.push('#' + property);
-            //             data.push(statistics.hashtags[property]);
-            //         }
-            //     }
-            // }
-            // //vm.topHashtagsData = [];
-            
-            
-
-            // vm.topHashtagsData = data;
-            // vm.topHashtagsLabels = labels;
-            // data = [];
-            // labels = [];
-            // for (var property in statistics.screen_name) {
-            //     if (statistics.screen_name.hasOwnProperty(property)) {
-            //         if (statistics.screen_name[property] > 1) {
-            //             labels.push('@' + property);
-            //             data.push(statistics.screen_name[property]);
-            //         }
-            //     }
-            // }
-            // //vm.topHashtagsData = [];
-            // //vm.topTwitterersData = data;
-            // vm.topTwitterersLabels = labels;
-            // data = [];
-            // labels = [];
-            // for (var property in statistics.mentions) {
-            //     if (statistics.mentions.hasOwnProperty(property)) {
-            //         if (statistics.mentions[property] > 1) {
-            //             labels.push('@' + property);
-            //             data.push(statistics.mentions[property]);
-            //         }
-            //     }
-            // }
-            // //vm.topHashtagsData = [];
-            // vm.topMentionsData = data;
-            // vm.topMentionsLabels = labels;
         } else {
             //vm.histogram2 = [];
         }
