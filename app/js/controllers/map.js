@@ -66,9 +66,7 @@ var marker=[];
             var followersMarker = {
                 "type": "FeatureCollection",
                 "features": []
-            };
-            console.log("twitter is "+$rootScope.root.twitterSession);
-            
+            };            
             //Calling the method to get Twitter followers
             hello('twitter').api('/me/followers', 'GET', {limit : 1000}).then(function(twitterFollowers) {
             $rootScope.$apply(function() 
@@ -161,7 +159,8 @@ var marker=[];
                 "following" : [],
                 "screenname" : [],
                 "tweetcount" : [],
-                "profile_banner" : []
+                "profile_banner" : [],
+                "latesttweet" : []
             };
 
 
@@ -187,6 +186,7 @@ var marker=[];
                         following.following.push(ele.friends_count);
                         following.tweetcount.push(ele.statuses_count);
                         following.profile_banner.push(ele.profile_background_image_url_https);
+                        following.latesttweet.push(ele.status.text);
                     }
                 });
                
@@ -240,6 +240,7 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    Geocode_Plot();
                     
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
@@ -258,6 +259,7 @@ var marker=[];
                         //console.log(result.features[i].propic-url);
                         var tweetIcon = L.icon({
                         iconUrl: result.features[i].properties.propic ,
+                        iconSize:     [30, 30]
                     });
                         var lat = result.features[i].geometry.coordinates[1];
                         var lng = result.features[i].geometry.coordinates[0];

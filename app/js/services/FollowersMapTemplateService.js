@@ -11,7 +11,7 @@ function FollowersMapTemplateService($filter) {
 
   service.genStaticTwitterFollower = function(followers , i) {
     var result = "";
-    console.log("Banner photo is"+followers.profile_banner[i]);
+    
     result ='<div class="home-user-info" style="width:300px;">'
             +   '<div class="blue-background-placeholder">'
             +        '<img src="'+followers.profile_banner[i]+'" >'    
@@ -43,8 +43,9 @@ function FollowersMapTemplateService($filter) {
 
   };
  service.genStaticTwitterFollowing = function(following , i) {
+    var textstatus = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(following.latesttweet[i])));
     var result = "";
-    console.log("Banner photo is"+following.profile_banner[i]);
+    
     result = '<div class="home-user-info" style="width:300px;">'
             +   '<div class="blue-background-placeholder">'
             +        '<img src="'+following.profile_banner[i]+'" >'    
@@ -55,9 +56,10 @@ function FollowersMapTemplateService($filter) {
             +            '<div class="name-and-screen-name">'
             +                '<span class="home-user-name">'+following.name[i]+'</span><br>'
             +               '<span class="home-user-screen-name">@'+following.screenname[i]+'</span>'
-            +            '</div>'
+            +            '</div>'      
             +       '</div>'
-            +       '<div class="bottom-content">'
+            +       '<div class="bottom-content" style="overflow-x:scroll;">'
+            +'<h4>'+textstatus+'</h4>'
             +            '<div class="user-no-tweets">'
             +               '<a href="">Tweets<br><span>'+following.tweetcount[i]+'</span></a>'
             +            '</div>'
