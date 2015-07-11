@@ -409,6 +409,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function calculateBins(labels, data){
         var binCount = 10;
+        if(labels.length<=binCount){
+            return({data:data,labels:labels});
+        }
         var intervalLength = Math.round(labels.length / binCount);
         var newData =[], newLabels = [];
         for (var i = 0; i < labels.length; i+=intervalLength) {
