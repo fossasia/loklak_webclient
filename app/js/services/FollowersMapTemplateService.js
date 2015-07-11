@@ -12,8 +12,7 @@ function FollowersMapTemplateService($filter) {
   service.genStaticTwitterFollower = function(followers , i) {
     var result = "";
     console.log("Banner photo is"+followers.profile_banner[i]);
-    result = '<div class="left-result-container col-lg-12 col-md-12 col-sm-12">'
-            +'<div class="home-user-info">'
+    result ='<div class="home-user-info" style="width:300px;">'
             +   '<div class="blue-background-placeholder">'
             +        '<img src="'+followers.profile_banner[i]+'" >'    
             +    '</div>'
@@ -46,8 +45,7 @@ function FollowersMapTemplateService($filter) {
  service.genStaticTwitterFollowing = function(following , i) {
     var result = "";
     console.log("Banner photo is"+following.profile_banner[i]);
-    result = '<div class="left-result-container" ng-show="root.twitterSession">'
-            +'<div class="home-user-info">'
+    result = '<div class="home-user-info" style="width:300px;">'
             +   '<div class="blue-background-placeholder">'
             +        '<img src="'+following.profile_banner[i]+'" >'    
             +    '</div>'

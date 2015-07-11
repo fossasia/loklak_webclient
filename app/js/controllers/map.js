@@ -83,7 +83,7 @@ var marker=[];
                         followers.screenname.push(ele.screen_name);
                         followers.followers.push(ele.followers_count);
                         followers.following.push(ele.friends_count);
-                        followers.tweetcount.push(ele.status_count);
+                        followers.tweetcount.push(ele.statuses_count);
                         followers.profile_banner.push(ele.profile_background_image_url_https);
 
                     }
@@ -185,7 +185,7 @@ var marker=[];
                         following.screenname.push(ele.screen_name);
                         following.followers.push(ele.followers_count);
                         following.following.push(ele.friends_count);
-                        following.tweetcount.push(ele.status_count);
+                        following.tweetcount.push(ele.statuses_count);
                         following.profile_banner.push(ele.profile_background_image_url_https);
                     }
                 });
