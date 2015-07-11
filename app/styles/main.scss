@@ -9,6 +9,22 @@
 @import 'topnav';
 @import 'home';
 @import 'data-connect';
+
+// Libs
+@import 'datetimepicker';
+@import 'leaflet';
+@import 'photoswipe';
+@import 'admin';
+@import 'leaflet';
+@import 'leaflet';
+@import 'leaflet';
+@import 'skins/skin-blue';
+@import 'default-skin/default-skin';
+@import 'fa';
+@import 'ionicons';
+@import 'colorpicker';
+
+photoswipe
 * {
     font-family: $font-family;
 }
