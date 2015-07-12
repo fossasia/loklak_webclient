@@ -9,6 +9,7 @@
 @import 'topnav';
 @import 'home';
 @import 'data-connect';
+@import 'retweet-modal';
 * {
     font-family: $font-family;
 }
@@ -2502,6 +2503,11 @@ form#tweet > div.modal-footer {
 		}
 		
 	}
+
+.mainhashtag-addon {
+	background-color: #337ab7 !important;
+	color: white !important;
+}
 a.external-hashtag:hover {
 	text-decoration: underline;	
 }

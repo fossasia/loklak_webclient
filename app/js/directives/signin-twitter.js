@@ -78,12 +78,11 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			window.onclick = function(e) {
 				var targetClasses = e.target.className;
 				var targetId = e.target.id;
-				if (!targetClasses || typeof(targetClasses === "object")) {
+				if (!targetClasses || typeof(targetClasses) === "object") {
 					if (!angular.element(".hidden-user-info").hasClass("hide")) {
 						angular.element(".hidden-user-info").toggleClass("hide");
 					}
 				} else {
-					console.log(targetClasses);
 					if (targetClasses.indexOf("hidden-user-info") === -1 && targetId.indexOf("home-view-user-avatar") === -1) {
 						if (!angular.element(".hidden-user-info").hasClass("hide")) {
 							angular.element(".hidden-user-info").toggleClass("hide");
