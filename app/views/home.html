@@ -42,14 +42,17 @@
             <div class="row cms-view">
                 <div class="main-result-container">
                     <div class="statuses-container box-body chat" id="chat-box" style="width: auto;">
-                        <div ng-repeat="status in root.twitterFriends.data | limitTo: 20">
-                            <div class="item">
+                        <div ng-repeat="status in root.twitterFriends.data | limitTo: 100">
+                            <div class="item" ng-click="toggleDetail($event)">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">
                                 <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
                                 <br>
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
+                                <div ng-repeat="media in status.status.entities.media">
+                                  <img src="{{media.media_url}}" alt="" width="100%"> 
+                                </div>
                             </div>
                         </div>
                     </div> 

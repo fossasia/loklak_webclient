@@ -9,6 +9,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.tweetLength = 140;
     $rootScope.root.userLocation = {};
     $rootScope.root.geoTile;
+    $rootScope.root.hashtagTrends;
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
     {    
@@ -59,6 +60,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         console.log($rootScope.root.tweetLength);
     }
 
+    // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
@@ -68,20 +70,50 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         }
     }
 
+    // Latitude and Longitude is retrieved and the request is made for the map tile
     function setPosition(position) {
         $rootScope.root.userLocation.latitude = position.coords.latitude;
         $rootScope.root.userLocation.longitude = position.coords.longitude;
         // Now make a query to loklak
         var requestUrl = 'http://localhost:9000/vis/map.png?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
-        $http.get(requestUrl)
-            .success(function(response) {
-                $rootScope.root.geoTile = response;
-                console.log("Successful Query to "+requestUrl);
-            });
+        
+        $http({
+            url: requestUrl,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).success(function(response) {
+            var selectedFileInBlob = response;
+            console.log(response);
+            console.log("Successfully retrieved for "+requestUrl);
+        });
+
+        // $http.get(requestUrl)
+        //     .success(function(response) {
+        //         $rootScope.root.geoTile = response;
+        //         console.log("Successful Query to "+requestUrl);
+        //     });
     }
 
     $rootScope.root.retweet = function(id) {
         console.log(id);
+    }
+
+    $rootScope.root.getHashtagTrends = function() {
+        var trendsRequestUrl = 'http://localhost:9000/api/search.json?q=since%3A2015-07-04%20until%3A2015-07-06&source=cache&count=0&fields=hashtags&limit=6';
+        $http({
+            url: trendsRequestUrl,
+            method: 'GET',
+            headers : {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+        .success(function(response) {
+            console.log(response);
+            $rootScope.root.hashtagTrends = response;
+        });
+        console.log($rootScope.root.hashtagTrends);
     }
 
 }]);

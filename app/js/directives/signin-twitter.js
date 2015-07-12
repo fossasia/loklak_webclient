@@ -5,7 +5,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', function($timeout, $rootScope, HelloService, AppSettings) {
+directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', '$http', function($timeout, $rootScope, HelloService, AppSettings, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -49,6 +49,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						console.log(twitterFriendFeed);
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
