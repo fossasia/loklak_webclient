@@ -57,20 +57,44 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
             }
     });
 
+    $scope.lostMainhashtagFocus = function(){
+        //check if mainHashtag already in allHashtags
+        // var inHashtags = false;
+        // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
+        //     //console.log($scope.newWallOptions.allHashtags[i]);
+        //     if($scope.newWallOptions.allHashtags[i].text == $scope.newWallOptions.mainHashtagText){
+        //         inHashtags = true;
+        //         break;
+        //     }
+        // }
+        // if(inHashtags==false){
+        //     $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtagText});
+        // }
+
+    }
+
+    // $scope.onTagRemoving = function(tag){
+    //     if($scope.newWallOptions.allHashtags.length==1)
+    //         return false;
+    //     else
+    //         return true;
+    // }
+
     $scope.proceed = function() {
-        console.log("clicked");
         $('.nav-tabs > .active').next('li').find('a').trigger('click');
     };
 
     $scope.start = function() {
         //construct term
         delete $scope.newWallOptions.link;
+        if($scope.newWallOptions.mainHashtag)
+            $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtag.substring(1)});
         var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
-        console.log($rootScope.root.twitterSession);
+        //console.log($rootScope.root.twitterSession);
         if ($rootScope.root.twitterSession) {
             //save wall
-            console.log("Saving wall");
+            //console.log("Saving wall");
             var saveData = {};
             saveData.screen_name = $scope.screen_name;
             $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
@@ -94,7 +118,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     }
 
     $scope.deleteWall = function(index) {
-        console.log(index);
+        //console.log(index);
         $scope.userData.wall.walls.splice(index, 1);
         var saveData = {};
         saveData.screen_name = $scope.screen_name;
@@ -103,7 +127,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     }
 
     $scope.editWall = function(index) {
-        console.log(index);
+        //console.log(index);
         $scope.newWallOptions = $scope.userData.wall.walls[index];
         isEditing = index;
         $('#wall-modal').modal('toggle');
@@ -114,7 +138,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         if ($rootScope.root.twitterSession) {
             AccountsService.getData($rootScope.root.twitterSession.screen_name).then(function(result) {
                     console.log(result);
-                    //console.log(result.accounts[0].apps.wall.walls);
+                    ////console.log(result.accounts[0].apps.wall.walls);
                     $scope.screen_name = result.accounts[0].screen_name;
                     if (!result.accounts[0].apps) {
                         result.accounts[0].apps = {
@@ -138,16 +162,14 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
                 });
         }
-
-
     }
 
     HelloService.on('auth.login', function(auth) {
-        console.log("here");
-        console.log(auth.authResponse.screen_name);
+        //console.log("here");
+        //console.log(auth.authResponse.screen_name);
         AccountsService.getData(auth.authResponse.screen_name).then(function(result) {
-                console.log(result);
-                //console.log(result.accounts[0].apps.wall.walls);
+                //console.log(result);
+                ////console.log(result.accounts[0].apps.wall.walls);
                 $scope.screen_name = result.accounts[0].screen_name;
                 if (!result.accounts[0].apps) {
                     result.accounts[0].apps = {

@@ -9,6 +9,7 @@
 @import 'topnav';
 @import 'home';
 @import 'data-connect';
+@import 'retweet-modal';
 
 // Libs
 @import 'datetimepicker';
@@ -16,15 +17,13 @@
 @import 'photoswipe';
 @import 'admin';
 @import 'leaflet';
-@import 'leaflet';
-@import 'leaflet';
 @import 'skins/skin-blue';
 @import 'default-skin/default-skin';
 @import 'fa';
 @import 'ionicons';
 @import 'colorpicker';
 
-photoswipe
+
 * {
     font-family: $font-family;
 }
@@ -2518,6 +2517,11 @@ form#tweet > div.modal-footer {
 		}
 		
 	}
+
+.mainhashtag-addon {
+	background-color: #337ab7 !important;
+	color: white !important;
+}
 a.external-hashtag:hover {
 	text-decoration: underline;	
 }
@@ -2528,4 +2532,22 @@ a.external-mention:hover {
 
 a.external_link:hover {
 	text-decoration: underline;
+}
+
+div.tweet-content > p.tweet-content-text {
+	word-wrap: break-word;
+}
+
+div.linear-content.row > p.linear-content-text {
+	word-wrap: break-word;
+}
+
+output {
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+output > span > img {
+	width:50px;
+	height:50px;
 }

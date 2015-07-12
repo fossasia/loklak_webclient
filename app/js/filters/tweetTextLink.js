@@ -8,17 +8,15 @@ var filtersModule = require('./_index.js');
 
 filtersModule.filter('tweetTextLink', function() {
     return function(input) {
-        function geturl(url) {
-        	url = url.replace(/.*?:\/\//g, "");
-            if (url.length > 22) {
-                return url.substr(0, 22) + "...";
-            } else {
-                return url;
-            }
-        }
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return input.replace(urlRegex, function(url) {
-            return '<a class="external_link" href="' + url + '" target="_blank">' + geturl(url) + '</a>';
+            var changedUrl = url.replace(/.*?:\/\//g, "");
+            if( changedUrl.length > 22) {
+                return '<a class=\'external_link\' href=\'' + url + '\' target=\'_blank\'>' + changedUrl.substr(0,22) + '...' + '</a>';
+            }
+            else {
+                return "<a class='external_link' href='" + url + "' target='_blank'>" + changedUrl + "</a>";
+            }
         })
     };
 });

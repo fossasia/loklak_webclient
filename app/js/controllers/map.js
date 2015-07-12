@@ -10,8 +10,7 @@ var marker=[];
  * @ngInject
  */
 
-    controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService', function($rootScope,$http,hello) {
-
+ controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService','FollowersMapTemplateService', function($rootScope,$http,hello,FollowersMapTemplateService) {
 
         
         var followerslayer = new L.LayerGroup();
@@ -55,18 +54,21 @@ var marker=[];
                 "location" : [],
                 "name" : [],
                 "id_str" : [],
-                "propic" : []
+                "propic" : [],
+                "followers" : [],
+                "following" : [],
+                "screenname" : [],
+                "tweetcount" : [],
+                "profile_banner" : []
             };
 
             //Marker array
             var followersMarker = {
                 "type": "FeatureCollection",
                 "features": []
-            };
-            console.log("twitter is "+$rootScope.root.twitterSession);
-            
+            };            
             //Calling the method to get Twitter followers
-            hello('twitter').api('/me/followers', 'GET').then(function(twitterFollowers) {
+            hello('twitter').api('/me/followers', 'GET', {limit : 1000}).then(function(twitterFollowers) {
             $rootScope.$apply(function() 
             {
                 twitterFollowers.data.forEach(function(ele){
@@ -76,7 +78,12 @@ var marker=[];
                         followers.name.push(ele.name);
                         followers.id_str.push(ele.id_str);
                         followers.propic.push(ele.profile_image_url_https);
-    
+                        followers.screenname.push(ele.screen_name);
+                        followers.followers.push(ele.followers_count);
+                        followers.following.push(ele.friends_count);
+                        followers.tweetcount.push(ele.statuses_count);
+                        followers.profile_banner.push(ele.profile_background_image_url_https);
+
                     }
                 });
                 
@@ -104,7 +111,7 @@ var marker=[];
                     var locationkey=followers.location[i];
                     if(data.locations[locationkey].mark)
                     {
-                    
+                    var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -115,7 +122,7 @@ var marker=[];
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent" : followers.name[i]+" is following you" ,
+                            "popupContent" : "<div class='foobar'><h4>Follower</h4><hr>" + textpopup + "</div>" ,
                             "propic" : followers.propic[i]
 
                         },
@@ -132,7 +139,7 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
-                    Geocode();
+                    
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -147,8 +154,15 @@ var marker=[];
                 "location" : [],
                 "name" : [],
                 "id_str" : [],
-                "propic" : []
+                "propic" : [],
+                "followers" : [],
+                "following" : [],
+                "screenname" : [],
+                "tweetcount" : [],
+                "profile_banner" : [],
+                "latesttweet" : []
             };
+
 
             //Marker array
             var followingMarker = {
@@ -166,7 +180,13 @@ var marker=[];
                         following.location.push(ele.location);
                         following.name.push(ele.name);
                         following.id_str.push(ele.id_str);
-                        following.propic.push(ele.profile_image_url_https)
+                        following.propic.push(ele.profile_image_url_https);
+                        following.screenname.push(ele.screen_name);
+                        following.followers.push(ele.followers_count);
+                        following.following.push(ele.friends_count);
+                        following.tweetcount.push(ele.statuses_count);
+                        following.profile_banner.push(ele.profile_background_image_url_https);
+                        following.latesttweet.push(ele.status.text);
                     }
                 });
                
@@ -192,6 +212,7 @@ var marker=[];
                     var locationkey=following.location[i];
                     if(data.locations[locationkey].mark)
                     {
+                    var textpopup=FollowersMapTemplateService.genStaticTwitterFollowing(following , i);
                     //var locationkey=following.location[i];
                     
                     var pointObject = {
@@ -204,7 +225,7 @@ var marker=[];
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent": "You follow " + following.name[i],
+                            "popupContent": "<div class='foobar'><h4>Following</h4><hr>" + textpopup + "</div>",
                             "propic" : following.propic[i]
                         },
                         "id": following.id_str[i]
@@ -220,6 +241,7 @@ var marker=[];
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
                     Geocode_Plot();
+                    
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
@@ -237,6 +259,7 @@ var marker=[];
                         //console.log(result.features[i].propic-url);
                         var tweetIcon = L.icon({
                         iconUrl: result.features[i].properties.propic ,
+                        iconSize:     [30, 30]
                     });
                         var lat = result.features[i].geometry.coordinates[1];
                         var lng = result.features[i].geometry.coordinates[0];
@@ -244,6 +267,7 @@ var marker=[];
                             id: i,
                             icon: tweetIcon
                         });
+                        
                         if(followerbool)
                         {
                           marker[i].addTo(followerslayer);  
@@ -257,6 +281,7 @@ var marker=[];
                             autoPan: false
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
+                        
                     };
                     
                 }

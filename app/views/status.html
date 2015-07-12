@@ -15,7 +15,7 @@
             <!-- End of metadata -->
 
             <!-- Text -->
-            <p class="tweet-content-text" ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted"></p>
+            <p class="tweet-content-text" ng-bind-html="data.text | tweetTextLink  | tweetMention | tweetHashtag | toTrusted"></p>
 
             <div class="debugged-link-container" debugged-link data="data" image-link="data.images" link-array="data.links" debuggable="debuggable"></div>
 
@@ -60,7 +60,7 @@
                 		<button class="reply" />
                 	</div>
                 	<div class="action-retweet">
-                		<button class="retweet" data-ng-click="retweet(data.id_str)"/><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
+                		<button class="retweet" data-ng-click="retweet()"/><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
                 	</div>
                 	<div class="action-favor">
                 		<button class="favor" data-ng-click="favorite(data.id_str)"/><span ng-if="data.favourites_count" class="fav-count">{{data.favourites_count}}</span>	
