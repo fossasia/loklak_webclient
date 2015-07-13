@@ -1,0 +1,215 @@
+/* Styles for single tweet views */
+	.single-tweet {
+		color: black;
+		display: inline-block;
+		width: 50%;
+		margin-left: 25%;
+		margin-top: 50px;
+		background-color: white;
+		padding: 10px;
+		border-radius: 9px;
+		img.avatar, .user-data-wrapper {
+			display: inline-block;
+			vertical-align: top;
+		}
+		.user-data-wrapper {
+			height: 73px;
+			box-sizing: border-box;
+			padding: 11px 0px 11px 4px;
+			line-height: 21px;
+			.name, .screen-name {
+				font-size: 1.5em;
+				display: block;
+			}	
+		}
+		img.avatar {
+			width: 73px;
+		}
+		.tweet-content {
+			display: inline-block;
+			.tweet-content-text {
+				font-size: 1.3em;
+				line-height: 1.4em;
+				margin-top: 10px;
+			}
+			.action-list {
+				.rt-count, .fav-count {
+					color: #8899A6;
+					font-size: 12px;
+					font-weight: bold;
+					display: inline-block;
+					height: 16px;
+					margin-left: 5px;
+					margin-top: 0;
+					vertical-align: middle
+				}
+				display: inline-block;
+				margin-top: 10px;
+				> div {
+					display: inline-block;
+					margin-right: 31px;
+				}
+				.action-reply {
+					button {
+						border:none;
+						width: 16px;
+						height: 16px;
+						background: url('../images/reply-sprite.png');
+					}
+					&:hover {
+						button {
+							background-position-x: 100%;
+						}
+					}
+				}
+				.action-favor {
+					button {
+						border:none;
+						width: 16px;
+						height: 16px;
+						background: url('../images/favorite-sprite.png');
+					}
+					&.already {
+						button {
+							background-position-x: 100%;
+						}
+					}
+					&:hover {
+						button {
+							background-position-x: 50%;
+						}
+					}
+				}
+				.action-retweet {
+					button {
+						border:none;
+						width: 19px;
+						height: 16px;
+						background: url('../images/retweet-sprite.png');
+					}
+					&.already {
+						button {
+							background-position-x: 100%;
+						}
+					}
+					&:hover {
+						button {
+							background-position-x: 50%;
+						}
+					}
+				}
+				.action-more {
+					padding-top: 5px;
+					padding-bottom: 5px;
+					font-size: 6px;
+					color: #ADAFB0;
+					position: relative;
+					top: 2px;
+					&:hover {
+						cursor: pointer;
+					}
+				}
+			}
+			.detail-metadata {
+				color: $search-grey;
+				margin-top: 11px;
+				text-align: left;
+			}
+			// Processing imgs layout
+				.images-wrapper {
+					margin-top: 8px;
+					border-radius: 8px;
+					img {
+						width: 100%
+					}
+					img.landscape {
+						width: auto;
+						height: 100%;
+					}
+				}
+				.images-wrapper.showdetail {
+					overflow: visible;
+					max-height: initial;
+					img {
+						width: 100%;
+						height: auto;
+					}
+					img.landscape {
+						width: auto;
+						height: 100%;
+					}
+				}
+				.images-wrapper.showcomposition {
+					max-height: initial;
+				}
+				.images-wrapper {
+					.single-masonry-item {
+						height: auto;
+						width: auto;
+						max-width: 100%;
+						max-height: 560px;
+						overflow: hidden;
+					}
+					.double-masonry-item {
+						width: 49%;
+						max-height: 250px;
+						float: left;
+						overflow: hidden;
+						&:first-child {
+							margin-right: 1%;
+							border-top-left-radius: 5px;
+							border-bottom-left-radius: 5px;
+						}
+						&:last-child {
+							border-top-right-radius: 5px;
+							border-bottom-right-radius: 5px;
+						}
+					}
+					.triple-masonry-item {
+						width: 49%;
+						float: left;
+						overflow: hidden;
+						&:first-child {
+							height: 250px;
+							border-top-left-radius: 5px;
+							border-bottom-left-radius: 5px;
+							margin-right: 1%;
+						} 
+						&:nth-child(2) {
+							margin-bottom: 5px;
+							height: 123px;
+							border-top-right-radius: 5px;
+						}
+						&:last-child {
+							height: 123px;
+							border-bottom-right-radius: 5px;
+						}
+					}
+					.quad-masonry-item {
+						width: 49%;
+						height: 123px;
+						position: relative;
+						float: left;
+						overflow: hidden;
+						&:first-child {
+							margin-bottom: 6px;
+							margin-right: 1%;
+							border-top-left-radius: 5px;
+						}
+						&:nth-child(2) {
+							margin-bottom: 6px;
+							border-top-right-radius: 5px;
+						}
+						&:nth-child(3) {
+							border-bottom-left-radius: 5px;
+							margin-right: 1%;
+						}
+						&:last-child {
+							border-bottom-right-radius: 5px;
+						}
+					}
+				}
+			// End processing imgs layout
+		}
+	}
+
