@@ -266,6 +266,7 @@
 					color: #ADAFB0;
 					position: relative;
 					top: 2px;
+					vertical-align: top;
 					.more-actions {
 						position: absolute;
 						min-width: 150px;
@@ -550,10 +551,12 @@
 							line-height: 24px;
 							cursor: pointer;
 							color: #8899a6;
+
 						}
-						a.link-to-tweet {
+						span.link-to-tweet {
 							&:hover {
 								text-decoration: underline;
+								color: #505050;
 							}
 						}
 					}
@@ -635,6 +638,7 @@
 							color: #ADAFB0;
 							position: relative;
 							top: 2px;
+							vertical-align: top;
 							.more-actions {
 								position: absolute;
 								min-width: 150px;
