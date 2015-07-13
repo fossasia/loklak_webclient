@@ -16,15 +16,22 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 			$scope.$watch(function() {
 				return $rootScope.root.currentTweet;
 			}, function(value) {
-				$scope.status = value;
-				$scope.remainingChars = 140 - value.link.length;
+				if (value) {
+					$scope.status = value;
+					$scope.remainingChars = 140 - value.link.length;	
+				}
 			});
 
 			// Watching comment.length
 			$scope.$watch(function() {
 				return $scope.comment;
 			}, function() {
-				$scope.remainingChars = 140 - $scope.status.link.length - $scope.comment.length;
+				if ($scope.status.link) {
+					$scope.remainingChars = 140 - $scope.status.link.length - $scope.comment.length;	
+				} else {
+					$scope.remainingChars = 140 - $scope.comment.length;
+				}
+				
 				if ($scope.remainingChars <= 0) {
 					angular.element(".remaining-chars").addClass("red");
 					angular.element(".retweet-button").addClass("disabled");
@@ -57,7 +64,7 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 						$rootScope.root.hello('twitter').api('me/share', 'POST', {
 				        	message : tweet
 					    }).then(function(json) {
-							console.log(json);
+
 						}, function(e) {
 							console.log(e);
 						});;
@@ -68,7 +75,7 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 						$rootScope.root.hello('twitter').api('me/share', 'POST', {
 					        id : id
 					    }).then(function(json) {
-		                      console.log(json);
+					    	
 		                  }, function(e) {
 		                      console.log(e);
 		                  });;

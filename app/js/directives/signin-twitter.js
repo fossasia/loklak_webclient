@@ -35,7 +35,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
-						console.log(twitterSession);
 					});
 				}, function() {
 					console.log("Authentication failed, try again later");
@@ -49,7 +48,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
-						console.log(twitterFriendFeed);
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
@@ -60,7 +58,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				$rootScope.$apply(function() {
 					$rootScope.root.twitterSession = false;	
 				});	
-				console.log("Signed out");
 			}, function() {
 					console.log("Signed out failed, try again later");
 			});   

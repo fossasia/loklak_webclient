@@ -62,7 +62,6 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
 
             $scope.retweet = function() {
                 $rootScope.root.currentTweet = $scope.data;        
-                console.log($rootScope.root.currentTweet);
                 angular.element(".retweet-modal").removeClass("hide");
             }
 
@@ -75,7 +74,6 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
             }*/
 
             $scope.favorite = function(id) {
-                console.log(id);
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });
