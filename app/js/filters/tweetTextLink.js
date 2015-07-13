@@ -8,6 +8,10 @@ var filtersModule = require('./_index.js');
 
 filtersModule.filter('tweetTextLink', function() {
     return function(input) {
+        if (!input) {
+          return "";
+        }
+        
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return input.replace(urlRegex, function(url) {
             var changedUrl = url.replace(/.*?:\/\//g, "");
