@@ -24,6 +24,11 @@
 @import 'colorpicker';
 
 
+/* Global styles */
+.view-container {
+	padding-top: 50px;
+}
+
 * {
     font-family: $font-family;
 }

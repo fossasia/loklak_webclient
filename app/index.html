@@ -19,7 +19,7 @@
     <div class="wrapper">
         <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
-        <div ui-view></div>
+        <div class="view-container" ui-view></div>
         <div ng-include src="'pswp.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled" src="'controlsidebar.html'"></div>
     </div>
