@@ -440,6 +440,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             return $location.search();
         }, function(value, Oldvalue) {
             // When changing search term through clicking on a statues
+            if (value.q && value.q.indexOf("id") > -1) {
+                return 1; // Leave this for single-tweet view
+            }
             if (value.q.split("+")[0] !== vm.term) {
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);

@@ -13,25 +13,11 @@ controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$locatio
 	var vm = this;
 	vm.showStatus = false;
 
-	// Init result based on requested ID
-	angular.element(document).ready(function() {
-		if ($stateParams.q !== undefined) {
-			SearchService.initData($stateParams)
-				.then(function(data) {
-					vm.status = data.statuses[0];
-					checkImgLoad();	
-				}, 
-				function() {
-					console.log('status initital retrieval failed');
-				});
-		}
-	});
-
 	$scope.$watch(function() {
 		return $location.search();
 	}, function(value) {
 		if (value.q && value.q.indexOf("id") > -1 ) {
-			SearchService.initData(value)
+			SearchService.getData(value.q)
 				.then(function(data) {
 					vm.status = data.statuses[0];
 					checkImgLoad();	
@@ -78,7 +64,7 @@ controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$locatio
 	function checkImgLoad() {
 		var imgs = angular.element('.images-wrapper img');
 		if (imgs.length !== 0) {
-			forEach(imgs, function(value, key) {
+			angular.forEach(imgs, function(value, key) {
 				angular.element(value).bind('load' ,function() {
 					vm.showStatus = true; 	
 				});
