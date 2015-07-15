@@ -17,22 +17,27 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.showDetail = false;
     vm.showResult = false;
     vm.term = '';
+    vm.pool = [];
+    vm.statuses = [];
     $rootScope.root.globalFilter = '';
     var intervals = [];
 
     // Infinite-scroll trigger 
     var getMore = function() {
-        var untilDate = new Date((new Date(vm.pool[vm.pool.length -1 ].created_at)).getTime() - 1);
-        var untilDateTerm = $filter("date")(untilDate, "yyyy-MM-dd_HH:mm");
-        var loadPoolTerm = $location.search().q + "+until:" + untilDateTerm;
-        var params = {
-           q: loadPoolTerm,
-           timezoneOffset: (new Date().getTimezoneOffset())
-        };
-        SearchService.initData(params).then(function(data) {
-               vm.pool = vm.pool.concat(data.statuses);
-        }, function() {});
+        if (vm.pool.length > 0) { // Prevent error log when page load
+            var untilDate = new Date((new Date(vm.pool[vm.pool.length -1 ].created_at)).getTime() - 1);
+            var untilDateTerm = $filter("date")(untilDate, "yyyy-MM-dd_HH:mm");
+            var loadPoolTerm = $location.search().q + "+until:" + untilDateTerm;
+            var params = {
+               q: loadPoolTerm,
+               timezoneOffset: (new Date().getTimezoneOffset())
+            };
+            SearchService.initData(params).then(function(data) {
+                   vm.pool = vm.pool.concat(data.statuses);
+            }, function() {});    
+        }
     };
+
     $scope.loadMore = function(step) {
         if (vm.pool.length < (2 * step + 1)) {
             getMore();
@@ -226,7 +231,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             while (keepComparing) {
                if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
                  vm.newStasuses = data.statuses.slice(0, i);
-                 console.log(vm.newStasuses);
                  vm.noOfNewStatuses = vm.newStasuses.length;
                  keepComparing = false;
                }
@@ -389,7 +393,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             } else {
                 newZoomAction = new Date();
                 var interval = (newZoomAction - prevZoomAction);
-                console.log(interval);
                 if (interval > 1000) {
                     getMoreLocationOnAction();
                     prevZoomAction = newZoomAction;        
@@ -404,7 +407,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             } else {
                 newPanAction = new Date();
                 var interval = (newPanAction - prevPanAction);
-                console.log(interval);
                 if (interval > 1000) {
                     getMoreLocationOnAction();
                     prevPanAction = newPanAction;        
@@ -438,6 +440,9 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             return $location.search();
         }, function(value, Oldvalue) {
             // When changing search term through clicking on a statues
+            if (value.q && value.q.indexOf("id") > -1) {
+                return 1; // Leave this for single-tweet view
+            }
             if (value.q.split("+")[0] !== vm.term) {
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);

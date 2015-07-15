@@ -9,6 +9,10 @@ var filtersModule = require('./_index.js');
 function tweetFromNowFilter() {
   
   return function(input) {
+    if (!input) {
+      return "";
+    }
+    
     var currentTime = new Date();
     var evalTime = new Date(input);
     var difference = (currentTime.getTime() - evalTime.getTime()) / 1000; // in seconds

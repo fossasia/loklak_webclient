@@ -8,23 +8,25 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 /**
  * @ngInject
  */
-function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
+
+controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$location', '$stateParams', 'SearchService', function($timeout, $scope, $location, $stateParams, SearchService) {
 	var vm = this;
 	vm.showStatus = false;
 
-	// Init result based on requested ID
-	angular.element(document).ready(function() {
-		if ($stateParams.q !== undefined) {
-			SearchService.initData($stateParams)
+	$scope.$watch(function() {
+		return $location.search();
+	}, function(value) {
+		if (value.q && value.q.indexOf("id") > -1 ) {
+			SearchService.getData(value.q)
 				.then(function(data) {
 					vm.status = data.statuses[0];
 					checkImgLoad();	
 				}, 
 				function() {
 					console.log('status initital retrieval failed');
-				});
+				});	
 		}
-	});
+	})
 
 	// Given a stattus_id, evaluate its data and open a pswp
 	// See more pswp documentations
@@ -62,7 +64,7 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 	function checkImgLoad() {
 		var imgs = angular.element('.images-wrapper img');
 		if (imgs.length !== 0) {
-			forEach(imgs, function(value, key) {
+			angular.forEach(imgs, function(value, key) {
 				angular.element(value).bind('load' ,function() {
 					vm.showStatus = true; 	
 				});
@@ -71,6 +73,4 @@ function SingleTweetCtrl($timeout, $scope, $stateParams, SearchService) {
 			vm.showStatus = true;
 		}
 	}
-}
-
-controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$stateParams', 'SearchService', SingleTweetCtrl]);
+}]);

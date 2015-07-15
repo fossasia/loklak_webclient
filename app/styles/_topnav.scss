@@ -2,6 +2,10 @@
 	.main-header {
 		max-height: 1000px !important;
 		background: white;
+		position: fixed !important;
+		width: 100%;
+		top: 0;
+		left: 0;
 		> .topnav {
 			background: white;
 			height: 50px;

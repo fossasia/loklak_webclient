@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('singleStatus', ['$location', function($location) {
+directivesModule.directive('singleStatus', ['$location', '$rootScope', function($location, $rootScope) {
     return {
         scope: {
             data: '=',
@@ -16,6 +16,20 @@ directivesModule.directive('singleStatus', ['$location', function($location) {
         templateUrl: 'single-status.html',
         controller: function($scope, $element, $attrs) {
             $scope.debuggable = true;
+
+            // retweet action
+            $scope.retweet = function() {
+                $rootScope.root.currentTweet = $scope.data;        
+                angular.element(".retweet-modal").removeClass("hide");
+            }
+
+            // favorite action
+            $scope.favorite = function(id) {
+                $rootScope.root.hello('twitter').api('me/like', 'POST', {
+                    id : id
+                });
+            }
+
         },
         link: function(scope, element, attrs) {
 

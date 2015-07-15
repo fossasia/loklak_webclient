@@ -60,7 +60,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			$timeout(function() {
 				var undebuggedLink = scope.linkArray[0];
 
-				if (undebuggedLink.substr(-4) === '.mp4') {
+				if (undebuggedLink && undebuggedLink.substr(-4) === '.mp4') {
 					// native twitter video
 					element.append(generateMp4Template(undebuggedLink));
 					scope.debuggable = true;
