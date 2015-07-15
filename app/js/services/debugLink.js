@@ -7,7 +7,8 @@ var servicesModule = require('./_index.js');
  */
 
 servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', function($q, $http, AppSettings) {
-  //Given domain 
+
+  var defService = "/iframely";
 
   var getPosition = function(str, m, i) {
          return str.split(m, i).join(m).length;
@@ -27,7 +28,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
 
   service.debugLink = function(undebuggedLink) {
     var deferred = $q.defer();
-    var debugApiUrl = debugServiceApi + '/oembed';
+    var debugApiUrl = debugServiceApi + defService;
     $http.get(debugApiUrl, {
       params: {
         url: undebuggedLink,
@@ -42,7 +43,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
   };
 
   service.debugLinkSync = function(undebuggedLink) {
-    var query = debugServiceApi + '/oembed?url=' + encodeURIComponent(undebuggedLink);
+    var query = debugServiceApi + defService + '?url=' + encodeURIComponent(undebuggedLink);
     var request = new XMLHttpRequest();
     request.open('GET', query, false);  // `false` makes the request synchronous
     request.send(null);
