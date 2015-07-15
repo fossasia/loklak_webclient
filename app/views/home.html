@@ -1,4 +1,4 @@
-<div ng-class="{'content-wrapper': true, 'home-view-wrapper': true, 'not-logged-in': !root.twitterSession}">
+<div ng-class="{'content-wrapper': true, 'home-view-wrapper': true, 'not-logged-in': !root.twitterSession, 'hide': true}">
     <!-- Main content -->
     <div class="container content-container">
       
@@ -72,7 +72,7 @@
         </div>
 
         <!-- Right content: Other statistics -->
-        <div class="right-result-container col-md-3 visible-lg">
+        <div class="right-result-container col-md-3 visible-lg" ng-show="root.twitterSession">
             <div class="home-user-trends">
                 <h3 class="trend-title">Trends</h3>
                 <ul id="home-trend-list">

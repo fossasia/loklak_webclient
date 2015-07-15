@@ -1,9 +1,11 @@
 /* For unauthorized session */
 
 .home-view-wrapper.not-logged-in {
-	background-image: url("../images/init-bg.jpg") !important;
-	background-size: cover;
+	min-height: calc(100vh - 50px) !important;
+	background: url("../images/init-bg.jpg") !important;
+	background-size: cover !important;
 	background-position: center;
+	background-repeat: no-repeat;
 	&:before {
 		content: " ";
 		position: absolute;
@@ -14,6 +16,11 @@
 		background-color: #333333;
 		opacity: 0.4;
 	}
+	transition: 0.25s all ease-in-out;
+}
+.home-view-wrapper {
+	min-height: calc(100vh - 50px);
+	transition: 0.25s all ease-in-out;
 }
 
 .not-logged-in-message {

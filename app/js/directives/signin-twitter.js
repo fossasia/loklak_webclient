@@ -35,10 +35,13 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
+						angular.element(".home-view-wrapper").removeClass("hide");
 					});
 				}, function() {
 					console.log("Authentication failed, try again later");
+					angular.element(".home-view-wrapper").removeClass("hide");
 				});
+				
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
 					twitterFriendFeed.data.sort(function(a,b) {
@@ -92,12 +95,12 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 		link: function(scope) {
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
-/*
+
 			angular.element(document).ready(function() {
 				if (!isOnline) {
-					$('#signupModal').modal('show');	
+					angular.element(".home-view-wrapper").removeClass("hide");
 				}
-			});*/
+			});
 
 			hello.on('auth.login', function(auth) {
 				angular.element('.modal-backdrop').remove();
