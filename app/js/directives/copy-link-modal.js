@@ -8,6 +8,8 @@ directivesModule.directive("copyLinkModal", ["$rootScope", "$location", "$timeou
 		scope: true,
 		templateUrl: "copy-link-modal.html",
 		controller: function($scope, $element, $attrs) {
+
+			$scope.promptLink = "";
 			$rootScope.root.openPromptToCopyLink = function(id) {
 				$scope.promptLink = window.location.origin +  "/search?q=id:" + id;
 				angular.element(".copy-link-modal").removeClass("hide");
@@ -16,6 +18,10 @@ directivesModule.directive("copyLinkModal", ["$rootScope", "$location", "$timeou
 					input.setSelectionRange(0, input.value.length);
 				}, 0);
 				input.focus();
+			}
+
+			$scope.closeCopyModal = function() {
+				angular.element(".copy-link-modal").addClass("hide");
 			}
 		}
 	};

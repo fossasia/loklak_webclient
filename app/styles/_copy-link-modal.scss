@@ -23,13 +23,30 @@
 			border-radius: 6px 6px 0 0;
 			padding: 8px 15px;	
 			color: #8899a6;
+			.modal-title {
+				position: relative;
+				font-size: 20px;
+				text-align: center;
+			}
+			.close-copy-modal {
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				padding: 10px;
+				display: inline-block;
+				color: rgb(136, 153, 166);
+				font-size: 16px;
+				&:hover {
+					cursor: pointer;
+				}
+			}
 		}
 		.modal-body {
 			padding: 15px;
 		}
 		p {
-			font-size: 12px;
-			margin-top: -10px;
+			font-size: 13px;
+			margin-top: 0;
 			margin-bottom: 9px;
 			color: #292f33;
 		}
@@ -46,6 +63,10 @@
 			resize: none;
 			-moz-box-sizing: border-box;
 			box-sizing: border-box;
+			background: #f5f8fa;
+			border-color: #ccd6dd;
+			border: 1px solid #e1e8ed;
+			  border-radius: 3px;
 			&::selection {
 				background-color: $search-twitter-blue;
 				color: white;
