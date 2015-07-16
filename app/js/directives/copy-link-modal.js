@@ -11,7 +11,7 @@ directivesModule.directive("copyLinkModal", ["$rootScope", "$location", "$timeou
 
 			$scope.promptLink = "";
 			$rootScope.root.openPromptToCopyLink = function(id) {
-				$scope.promptLink = window.location.origin +  "/search?q=id:" + id;
+				$scope.promptLink = window.location.origin +  "/tweet?q=id:" + id;
 				angular.element(".copy-link-modal").removeClass("hide");
 				var input = document.getElementById("link-to-copy-container");
 				$timeout(function() {
