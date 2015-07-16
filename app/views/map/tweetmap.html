@@ -15,18 +15,49 @@
 
    </div>
     <div id="docDrawer" class="drawer dw-xs-10 dw-sm-6 dw-md-5 fold in" aria-labelledby="docDrawer">
-        <div class="drawer-controls pull-right" style="z-index:-888; top:150px;">
+        <div class="drawer-controls pull-right" style="z-index:-888; top:120px;">
             <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default"><i class="fa fa-align-justify"></i></a>
         </div>
         <div class="drawer-contents">
-           <h3>Followers </h3><br>Followers Info shall come here<br><br><br><br><hr>
+            <div style="height:50%; overflow-y:scroll;">
+           <h3>Followers</h3><hr>
+
+           <div ng-repeat="i in followers.id_str track by $index">
+            {{index}}
+            {{followers.id_str[i]}}
+            <div class="home-user-info" style="width:100%;">
+                <div class="blue-background-placeholder">
+                    <img ng-src="{{followers.profile_banner[i]}}" >    
+                </div>
+                    <div class="home-user-info-content">
+                       <div class="top-content">
+                        <img ng-src="{{followers.propic[i]}}">
+                            <div class="name-and-screen-name">
+                                <span class="home-user-name">{{followers.name[index]}}</span><br>
+                           <span class="home-user-screen-name">@{{followers.screenname[i]}}</span>
+                        </div>
+                    </div>
+                     <div class="bottom-content">
+                        <div class="user-no-tweets">
+                            <a href="">Tweets<br><span>{{followers.tweetcount[i]}}</span></a>
+                       </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{followers.following[i]}}</span></a>
+                        </div>
+                        <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{followers.followers[i]}}</span></a>'
+                        </div
+                     </div>
+                </div>
+             </div>
+            
+        <hr>
+    </div>
+    </div>
+           Followers Info shall come here<br><br><br><br><hr>
            <h3>Following </h3><br>Following Info shall comehere 
         </div>
     </div>
-    
-        <div id="drawer-docs-footer">
-            <a href="#docDrawer" data-toggle="drawer" class="btn btn-lg btn-block btn-primary">Open the Drawer</a>
-        </div>
     </div>
   <script>
             $('#drawerExample').drawer({ toggle: false });

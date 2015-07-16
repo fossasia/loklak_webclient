@@ -10,16 +10,16 @@ var marker=[];
  * @ngInject
  */
 
- controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService','FollowersMapTemplateService', function($rootScope,$http,hello,FollowersMapTemplateService) {
+ controllersModule.controller('MapCtrl', ['$rootScope','$http','$scope','HelloService','FollowersMapTemplateService', function($rootScope,$http,$scope,HelloService,FollowersMapTemplateService) {
 
-        
+        var hello=HelloService;
         var followerslayer = new L.LayerGroup();
         var followinglayer = new L.LayerGroup();
         var overlays = {
             "Followers" : followerslayer ,
             "Following" : followinglayer
         };
-
+        $scope.followers={};
         
         var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -59,7 +59,8 @@ var marker=[];
                 "following" : [],
                 "screenname" : [],
                 "tweetcount" : [],
-                "profile_banner" : []
+                "profile_banner" : [],
+                "preview"   :[]
             };
 
             //Marker array
@@ -86,7 +87,7 @@ var marker=[];
 
                     }
                 });
-                
+                $scope.followers=followers;
                 Geocode();
             });
             }, function() {
@@ -112,6 +113,7 @@ var marker=[];
                     if(data.locations[locationkey].mark)
                     {
                     var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
+                    followers.preview[i]=textpopup;
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
