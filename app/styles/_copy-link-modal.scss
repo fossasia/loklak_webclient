@@ -1,0 +1,55 @@
+.copy-link-modal {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(11,11,11,0.8);
+	color: black;
+	z-index: 1031;
+	.modal-content {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: white;
+		border-radius: 6px;
+		width: 600px;
+		max-width: 90%;
+		.modal-header {
+			background: #fff;
+			border-bottom: 1px solid #e1e8ed;
+			border-radius: 6px 6px 0 0;
+			padding: 8px 15px;	
+			color: #8899a6;
+		}
+		.modal-body {
+			padding: 15px;
+		}
+		p {
+			font-size: 12px;
+			margin-top: -10px;
+			margin-bottom: 9px;
+			color: #292f33;
+		}
+		textarea {
+			width: 100%;
+			padding: 7px 9px;
+			font-size: 14px;
+			line-height: 21px;
+			overflow: hidden;
+			height: 35px;
+			display: block;
+			cursor: default;
+			white-space: nowrap;
+			resize: none;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			&::selection {
+				background-color: $search-twitter-blue;
+				color: white;
+			}
+		}
+	}
+}
