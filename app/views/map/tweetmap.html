@@ -1,9 +1,40 @@
+<style type="text/css">
+<style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 700px;
+            width: 100%;
+        }
+    </style>
+</style>
 
-<div class="content-wrapper">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-   <div id="map" style="width:100%; height:800px"></div>
-   <div id="TweetBox" style="position:absolute; top:10%;left:15%; max-width:50%; border:2px;"></div>
-</div>
+   <div id="map">
+
+   </div>
+    <div id="docDrawer" class="drawer dw-xs-10 dw-sm-6 dw-md-5 fold in" aria-labelledby="docDrawer">
+        <div class="drawer-controls pull-right" style="z-index:-888; top:150px;">
+            <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default"><i class="fa fa-align-justify"></i></a>
+        </div>
+        <div class="drawer-contents">
+           <h3>Followers </h3><br>Followers Info shall come here<br><br><br><br><hr>
+           <h3>Following </h3><br>Following Info shall comehere 
+        </div>
+    </div>
+    
+        <div id="drawer-docs-footer">
+            <a href="#docDrawer" data-toggle="drawer" class="btn btn-lg btn-block btn-primary">Open the Drawer</a>
+        </div>
+    </div>
+  <script>
+            $('#drawerExample').drawer({ toggle: false });
+            $('#other-toggle').click(function() {
+                $('#drawerExample').drawer('toggle');
+                return false;
+            });
+        </script>
 
 
 
