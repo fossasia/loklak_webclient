@@ -9,7 +9,7 @@
         <div class="tweet-content">
 
         	<!-- Metadata -->
-                <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+                <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
                 <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
                 <span class="created-at">- {{data.created_at | tweetFromNow }}</span>
             <!-- End of metadata -->

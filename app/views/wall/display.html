@@ -51,7 +51,7 @@
                                         <span ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="label leaderboard-label">{{obj[1]}}</span>
                                     </td>
                                     <td>
-                                        <a ng-href="https://twitter.com/{{obj[0]}}" target="_blank"><h4>@{{obj[0]}}</h4></a>
+                                        <a ng-href="{{'./search?q=from:' +  obj[0]}}" target="_blank"><h4>@{{obj[0]}}</h4></a>
                                     </td>
                                     <!-- <td>
                                                 <div class="leaderboard-item">{{obj[1]}}</div>

@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="metadata col-xs-12">
-            <a class="name" ng-href="{{'https://twitter.com/' + card.user.screen_name}}">{{card.user.name}}</a>
+            <a class="name" ng-href="{{'./search?q=from:' + card.user.screen_name}}">{{card.user.name}}</a>
             <span class="screen-name">{{ "@" + card.user.screen_name}}</span>
             <span><i class="fa fa-twitter"></i></span>
             <span class="created-at"> • {{card.created_at | tweetFromNow }}</span>
