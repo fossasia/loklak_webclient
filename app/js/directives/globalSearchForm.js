@@ -1,4 +1,5 @@
 'use strict';
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 

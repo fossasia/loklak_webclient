@@ -1,4 +1,6 @@
 'use strict';
+/* global alert, twttr, $ */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var twitterText = require('twitter-text');
@@ -58,7 +60,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var tweet = $rootScope.root.tweet;
         $rootScope.root.tweetLength = 140 - twttr.txt.getTweetLength(tweet);
         console.log($rootScope.root.tweetLength);
-    }
+    };
 
     // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
@@ -68,7 +70,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         else {
             alert("Geolocation isn't supported by this browser");
         }
-    }
+    };
 
     // Latitude and Longitude is retrieved and the request is made for the map tile
     function setPosition(position) {
@@ -98,7 +100,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
     $rootScope.root.retweet = function(id) {
         console.log(id);
-    }
+    };
 
     $rootScope.root.getHashtagTrends = function() {
         var trendsRequestUrl = 'http://localhost:9000/api/search.json?q=since%3A2015-07-04%20until%3A2015-07-06&source=cache&count=0&fields=hashtags&limit=6';
@@ -114,6 +116,6 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             $rootScope.root.hashtagTrends = response;
         });
         console.log($rootScope.root.hashtagTrends);
-    }
+    };
 
 }]);

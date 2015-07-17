@@ -1,5 +1,6 @@
 'use strict';
 /* global angular */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -54,7 +55,7 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
             // Show input prompt to copy link
             $scope.openLinkPrompt = function(id) {
                 $rootScope.root.openPromptToCopyLink(id);
-            }
+            };
 
             // Actions in the 'more actions' groups
             $scope.openSingleTweet = function(status_id) {

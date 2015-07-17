@@ -1,5 +1,6 @@
 'use strict';
 /* global angular, L */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 

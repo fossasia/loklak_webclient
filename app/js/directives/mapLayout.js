@@ -1,5 +1,6 @@
 'use strict';
 /* global L */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 var Leaflet = require('../components/leaflet');

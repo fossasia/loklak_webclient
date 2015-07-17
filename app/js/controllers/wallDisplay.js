@@ -1,5 +1,6 @@
 'use strict';
 /* global angular */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -24,17 +25,21 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.statuses = [];
         searchParams = {};
         vm.displaySearch = true;
+    };
 
-    }
     var maxStatusCount = 0;
-    if (vm.wallOptions.layoutStyle == '1')
+    if (vm.wallOptions.layoutStyle  === '1') {
         maxStatusCount = 10; //linear
-    else if (vm.wallOptions.layoutStyle == '2')
+    }
+    else if (vm.wallOptions.layoutStyle  === '2') {
         maxStatusCount = 9; //masonry
-    else if (vm.wallOptions.layoutStyle == '3')
+    }
+    else if (vm.wallOptions.layoutStyle  === '3') {
         maxStatusCount = 1; //single
-    else if (vm.wallOptions.layoutStyle == '4')
+    }
+    else if (vm.wallOptions.layoutStyle  === '4') {
         maxStatusCount = 10; //map
+    }
     console.log(vm.wallOptions.layoutStyle);
     count = 0;
     init();
@@ -43,51 +48,53 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         term = "";
         // if(vm.wallOptions.mainHashtag)
         //     term = vm.wallOptions.mainHashtag;
-        if (vm.wallOptions.layoutStyle == '4'){
-            if(term=="")
+        if (vm.wallOptions.layoutStyle  === '4'){
+            if(term ==="") {
                 term = "/location";
-            else
+            }
+            else {
                 term = term + " /location";
+            }
         }
         for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
             term = term + ' ' + vm.wallOptions.allWords[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.anyWords.length; i++) {
             term = term + ' OR ' + vm.wallOptions.anyWords[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.noWords.length; i++) {
             term = term + ' -' + vm.wallOptions.noWords[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.allHashtags.length; i++) {
             term = term + ' OR #' + vm.wallOptions.allHashtags[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.from.length; i++) {
             term = term + ' OR from:' + vm.wallOptions.from[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.to.length; i++) {
             term = term + ' OR @' + vm.wallOptions.to[i].text;
-        };
+        }
         for (var i = 0; i < vm.wallOptions.mentioning.length; i++) {
             term = term + ' OR @' + vm.wallOptions.mentioning[i].text;
-        };
+        }
         if (vm.wallOptions.images) {
-            if (vm.wallOptions.images == "only") {
+            if (vm.wallOptions.images  === "only") {
                 term = term + ' /image';
-            } else if (vm.wallOptions.images == "none") {
+            } else if (vm.wallOptions.images  === "none") {
                 term = term + ' -/image';
             }
         }
         if (vm.wallOptions.videos) {
-            if (vm.wallOptions.videos == "only") {
+            if (vm.wallOptions.videos  === "only") {
                 term = term + ' /video';
-            } else if (vm.wallOptions.videos == "none") {
+            } else if (vm.wallOptions.videos  === "none") {
                 term = term + ' -/video';
             }
         }
         if (vm.wallOptions.audio) {
-            if (vm.wallOptions.audio == "only") {
+            if (vm.wallOptions.audio  === "only") {
                 term = term + ' /audio';
-            } else if (vm.wallOptions.audio == "none") {
+            } else if (vm.wallOptions.audio  === "none") {
                 term = term + ' -/audio';
             }
         }
@@ -99,7 +106,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         //clean up
         term = term.trim();
-        if(term.substring(0,2)=='OR'){
+        if(term.substring(0,2) ==='OR'){
             term = term.substring(2).trim();
         }
         console.log(term);
@@ -126,7 +133,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
 
     $scope.getHeaderClass = function() {
-        return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
+        return vm.wallOptions.headerPosition  === 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
     };
 
     var getRefreshTime = function(period) {
@@ -183,10 +190,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function contains(Statuses, status_id) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i] === status_id) {
+            if (Statuses[i]  === status_id) {
                 return true;
             }
-        };
+        }
         return false;
     }
 
@@ -231,7 +238,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     // };
 
     vm.update2 = function(refreshTime, currCount) {
-        if (currCount == count) {
+        if (currCount  === count) {
             return $timeout(function() {
 
                 SearchService.initData(searchParams).then(function(data) {
@@ -313,11 +320,12 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             newLabels.push(labels[i]);
             var sum = 0;
             for(var j=i; j<(i+intervalLength); j++){
-                if(j<data.length)
+                if(j<data.length) {
                     sum = sum + data[j];
+                }
             }
             newData.push(sum);
-        };
+        }
         var retval = {
             data: newData,
             labels: newLabels
@@ -348,25 +356,30 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             labels = [];
 
             //Top twitterers
-            for (var s in statistics.screen_name)
+            for (var s in statistics.screen_name) {
                 sortable.push([s, statistics.screen_name[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+
+            sortable.sort(function(a, b) {return b[1] - a[1]; });
             sortable = (sortable.slice(0, 3));
             vm.topTwitterersData = sortable;
 
             //Top Hashtags
             sortable = [];
-            for (var s in statistics.hashtags)
+            for (var s in statistics.hashtags) {
                 sortable.push([s, statistics.hashtags[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+            sortable.sort(function(a, b) {return b[1] - a[1]; });
             sortable = (sortable.slice(0, 3));
             vm.topHashtagsData = sortable;  
 
             //Top Mentions
             sortable = [];
-            for (var s in statistics.mentions)
+            for (var s in statistics.mentions) {
                 sortable.push([s, statistics.mentions[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+
+            sortable.sort(function(a, b) { return b[1] - a[1]; });
             sortable = (sortable.slice(0, 3));
             vm.topMentionsData = sortable;                        
         } else {
@@ -375,7 +388,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     }
 
     $interval(function() {
-        if(vm.wallOptions.showStatistics==true){
+        if(vm.wallOptions.showStatistics ===true){
             if (vm.statuses.length > 0) {
                 var statParams = searchParams;
                 StatisticsService.getStatistics(statParams)

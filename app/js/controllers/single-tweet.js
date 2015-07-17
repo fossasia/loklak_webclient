@@ -1,5 +1,6 @@
 'use strict';
 /* global angular, forEach */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
