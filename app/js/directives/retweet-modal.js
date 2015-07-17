@@ -1,4 +1,5 @@
 'use strict';
+/* global angular */
 
 var directivesModule = require('./_index.js');
 
@@ -43,17 +44,17 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 						angular.element(".retweet-button").removeClass("disabled");
 					}
 				}
-			})
+			});
 			
 			// Click on textarea will expand it
 			$scope.showMoreCols = function() {
 				angular.element(".retweet-modal .retweet-comment textarea").addClass("active");				
-			}
+			};
 
 			$scope.closeRtModal = function() {
 				angular.element(".retweet-modal").addClass("hide");		
 				$scope.comment = "";		
-			}
+			};
 
 			// Retweet action
 			$scope.confirmRt = function() {
@@ -67,7 +68,7 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 
 						}, function(e) {
 							console.log(e);
-						});;
+						});
 						angular.element(".retweet-modal").addClass("hide");
 						$scope.comment = "";
 					} else { // Just RT
@@ -78,11 +79,11 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 					    	
 		                  }, function(e) {
 		                      console.log(e);
-		                  });;
+		                  });
 					    angular.element(".retweet-modal").addClass("hide");
 					}
 				}
-			}
+			};
 		}
 	};
 }]);

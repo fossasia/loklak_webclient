@@ -47,7 +47,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 				}
 			});
 		}, function() {});
-	};
+	}
 
 	$scope.confirmAddDataSource = function() {
 
@@ -69,7 +69,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			$scope.addForm.success = '';
 			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
 		});
-	}
+	};
 
 	$scope.toggleAddForm = function() {
 		$scope.addFormOpen = !$scope.addFormOpen;
@@ -85,7 +85,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 
 	$scope.getMapRulesNum = function() {
 		return new Array($scope.mapRulesNum);
-	}
+	};
 
 	getDataSources();
 }]);

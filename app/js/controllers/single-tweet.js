@@ -26,7 +26,7 @@ controllersModule.controller('SingleTweetCtrl', ['$timeout', '$scope', '$locatio
 					console.log('status initital retrieval failed');
 				});	
 		}
-	})
+	});
 
 	// Given a stattus_id, evaluate its data and open a pswp
 	// See more pswp documentations

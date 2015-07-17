@@ -1,4 +1,5 @@
 'use strict';
+/* global L */
 
 var directivesModule = require('./_index.js');
 var Leaflet = require('../components/leaflet');
@@ -21,9 +22,11 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
             var marker = [];
 
             function contains(marker, elem) {
-                for (var m in marker)
-                    if (m.id == elem.id_str)
+                for (var m in marker) {
+                    if (m.id === elem.id_str) {
                         return true;
+                    }
+                }
                 return false;
             }
             scope.$watch('data', function() {
@@ -72,7 +75,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                         }
                     }
                 });
-                if (cleanRun == 1) {
+                if (cleanRun === 1) {
                     clean_slate(marker);
                 }
                 //add_marker(tweets);
@@ -98,7 +101,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                             autoPan: false
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
-                    };
+                    }
                     cleanRun = 1;
                 }
 
@@ -132,10 +135,11 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
             $interval(function() {
                 if (marker.length > 0) {
                     marker[curr++].openPopup();
-                    if (curr == marker.length)
+                    if (curr === marker.length) {
                         curr = 0;
+                    }
                 }
-            }, 5000)
+            }, 5000);
         }
     };
 
