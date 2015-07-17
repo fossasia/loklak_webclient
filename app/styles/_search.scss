@@ -641,10 +641,11 @@
 							vertical-align: top;
 							.more-actions {
 								position: absolute;
-								min-width: 150px;
+								min-width: 230px;
 								top: 15px;
 								transform: translateX(-2%);
-								padding: 6px 0;
+								padding: 10px 0;
+								text-align: left;
 								background: #FFF none repeat scroll 0% 0% padding-box;
 								border: 0px solid rgba(0, 0, 0, 0.25);
 								border-radius: 4px;
@@ -656,9 +657,8 @@
 										a {
 											font-size: 15px;
 											display: block;
-											padding: 2px 5px;
+											padding: 7px 20px;
 											color: $search-grey;
-											text-align: center;
 											&:hover {
 												background-color: $search-twitter-blue;
 												color: white;
