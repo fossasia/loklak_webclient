@@ -224,19 +224,21 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // HELPERS FN
     ///////////////////
     var bgUpdateTemp = function() {
-        var lastestDateObj = new Date(vm.statuses[0].created_at);
-        var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
-        SearchService.getData(term).then(function(data) {
-            var keepComparing = true; var i = 0;
-            while (keepComparing) {
-               if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
-                 vm.newStasuses = data.statuses.slice(0, i);
-                 vm.noOfNewStatuses = vm.newStasuses.length;
-                 keepComparing = false;
-               }
-               i++;
-            }
-        }, function() {});
+        if (vm.statuses[0]) {
+            var lastestDateObj = new Date(vm.statuses[0].created_at);
+            var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
+            SearchService.getData(term).then(function(data) {
+                var keepComparing = true; var i = 0;
+                while (keepComparing) {
+                   if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
+                     vm.newStasuses = data.statuses.slice(0, i);
+                     vm.noOfNewStatuses = vm.newStasuses.length;
+                     keepComparing = false;
+                   }
+                   i++;
+                }
+            }, function() {});    
+        }
     };
 
     var startNewInterval = function(period) {
