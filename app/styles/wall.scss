@@ -92,6 +92,84 @@
     color: white !important;
 	}
 
+	.wall-float-text {
+		display: inline-block;
+		padding-left: 10px;
+		vertical-align: middle;
+	}
+
+	.wall-float-container {
+		// padding-bottom: 10px;
+	}
+
+	.wall-tag-input {
+		height: 80px;
+		outline: none !important;
+		border: 0px solid transparent !important;
+		padding-bottom: 5px;
+		.host {
+			.tags {
+				outline: none !important;
+				border: 0px solid transparent !important;
+				box-shadow: none !important;
+			}
+		}
+		
+	}
+
+	.wall-colored-header {
+		width: 100%;
+		border-radius: 5px 5px 0 0;
+		padding: 10px;
+		margin-bottom: 0;
+	}
+
+	.wall-float-icon {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	
+	.wall-contains-header {
+		@extend .wall-colored-header;
+		background-color: #ccf7c7;
+		color: #1d680d;
+		border-bottom: 1px solid #98bc68;
+	}
+
+	.wall-float-icon-contains {
+		@extend .wall-float-icon;
+		color: #3CE330;
+	}
+
+	.wall-tag-label-contain {
+		border: 1px solid #98bc68;
+		border-radius: 5px; 
+		margin-top: 24px;
+		display: block;
+	}
+
+	.wall-not-contains-header {
+		@extend .wall-colored-header;
+		background-color: #fbd9d9;
+		color: #c70a15;
+		border-bottom: 1px solid #b35e51;
+	}
+
+	.wall-float-icon-not-contains {
+		@extend .wall-float-icon;
+		color: red;
+	}
+
+	.wall-tag-label-not-contain {
+		border: 1px solid #b35e51;
+		border-radius: 5px;
+	}
+
+	.wall-vertical-line {
+
+	}
+
+
 /*Wall display */
 	.wall-header {
 	    min-height: 100px;
