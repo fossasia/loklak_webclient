@@ -51,6 +51,11 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
                 $scope.showMoreAction = !$scope.showMoreAction;
             };
 
+            // Show input prompt to copy link
+            $scope.openLinkPrompt = function(id) {
+                $rootScope.root.openPromptToCopyLink(id);
+            }
+
             // Actions in the 'more actions' groups
             $scope.openSingleTweet = function(status_id) {
                 var newPath = '/tweet';
@@ -59,6 +64,8 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
                 };
                 $location.path(newPath).search(queryArgs);
             };
+
+
 
             $scope.retweet = function() {
                 $rootScope.root.currentTweet = $scope.data;        
