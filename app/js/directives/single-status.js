@@ -1,4 +1,6 @@
 'use strict';
+/* global angular */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -21,14 +23,14 @@ directivesModule.directive('singleStatus', ['$location', '$rootScope', function(
             $scope.retweet = function() {
                 $rootScope.root.currentTweet = $scope.data;        
                 angular.element(".retweet-modal").removeClass("hide");
-            }
+            };
 
             // favorite action
             $scope.favorite = function(id) {
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });
-            }
+            };
 
         },
         link: function(scope, element, attrs) {

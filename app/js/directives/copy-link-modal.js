@@ -1,4 +1,6 @@
 'use strict';
+/* global angular */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -18,11 +20,11 @@ directivesModule.directive("copyLinkModal", ["$rootScope", "$location", "$timeou
 					input.setSelectionRange(0, input.value.length);
 				}, 0);
 				input.focus();
-			}
+			};
 
 			$scope.closeCopyModal = function() {
 				angular.element(".copy-link-modal").addClass("hide");
-			}
+			};
 		}
 	};
 }]);

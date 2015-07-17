@@ -1,4 +1,5 @@
 'use strict';
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -47,7 +48,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			i = i+1;
 		}
 		return result;
-	}
+	};
 
 	/**
 	 * From iframely result, if data.html is not available both in data root & data.link
@@ -62,7 +63,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		var i = 0;
 		var result = false;
 		while (keepSearching && i < data.links.length) {
-			var linkObj = data.links[i];;
+			var linkObj = data.links[i];
 			if (linkObj.rel.indexOf("twitter") > -1 && linkObj.rel.indexOf("thumbnail") > -1) {
 				data.meta.thumbnail_url = linkObj.href;
 				result = data.meta;
@@ -87,7 +88,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			i = i+1;
 		}
 		return result;
-	}
+	};
 
 	return {
 		restrict: 'A',

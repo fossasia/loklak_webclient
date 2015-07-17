@@ -10,14 +10,16 @@ function instaFilter() {
 
     return function(input) {
         if (input) {
-            if (input.indexOf('instagram.com/') > 0)
+            if (input.indexOf('instagram.com/') > 0) {
                 return (input + 'media');
-            else
+            }
+            else {
                 return input;
+            }
         }
-        else
-        	return input;
-
-    }
+        else {
+            return input;
+        }
+    };
 }
 filtersModule.filter('instaFilter', instaFilter);
