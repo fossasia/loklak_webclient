@@ -226,14 +226,13 @@
                                                     <div class="wall-float-text">
                                                         <h3>What do you want to show?<br><small>You can add keywords, #hashtags and @users</small></h3></div>
                                                 </div>
-                                                <h4>Show all tweets that contain:</h4>
                                                 <h4 ng-if="newWallOptions.mainHashtagText.length>0">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h4>
                                                 <div class="form-group wall-tag-label-contain">
-                                                    <label class="wall-contains-header">All of these</label>
+                                                    <label class="wall-contains-header">Show tweets that contain <strong>ALL</strong> of these</label>
                                                     <tags-input class="wall-tag-input" ng-model="newWallOptions.all" placeholder="Type and hit enter" name="ands"></tags-input>
                                                 </div>
                                                 <div class="form-group wall-tag-label-contain">
-                                                    <label class="wall-contains-header">Any of these</label>
+                                                    <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
                                                     <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
                                                 </div>
                                             </div>
@@ -246,9 +245,8 @@
                                                     <div class="wall-float-text">
                                                         <h3>What do you want to exclude?<br><small>You can add keywords, #hashtags and @users</small></h3></div>
                                                 </div>
-                                                <h4>Show all tweets that DO NOT contain:</h4>
                                                 <div class="form-group wall-tag-label-not-contain">
-                                                    <label class="wall-not-contains-header">None of these</label>
+                                                    <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
                                                     <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
                                                 </div>
                                             </div>
@@ -265,7 +263,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <div class="box-header">
-                                                            <label>Select a layout to customize (Only layout #1 available for now)</label>
+                                                            <label>Select a layout to customize</label>
                                                         </div>
                                                         <div class="box-body">
                                                             <div class="row">

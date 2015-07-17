@@ -87,8 +87,8 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     $scope.start = function() {
         //construct term
         delete $scope.newWallOptions.link;
-        if($scope.newWallOptions.mainHashtag)
-            $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtag.substring(1)});
+        // if($scope.newWallOptions.mainHashtag)
+        //     $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtag.substring(1)});
         var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         //console.log($rootScope.root.twitterSession);

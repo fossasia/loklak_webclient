@@ -41,35 +41,24 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     //calculate term
     function calculateTerm(argument) {
         term = "";
-        // if(vm.wallOptions.mainHashtag)
-        //     term = vm.wallOptions.mainHashtag;
+        if(vm.wallOptions.mainHashtag){
+            term = vm.wallOptions.mainHashtag;
+        }
+        for (var i = 0; i < vm.wallOptions.all.length; i++) {
+            term = term + ' ' + vm.wallOptions.all[i].text;
+        };
+        for (var i = 0; i < vm.wallOptions.none.length; i++) {
+            term = term + ' -' + vm.wallOptions.none[i].text;
+        };
+        for (var i = 0; i < vm.wallOptions.any.length; i++) {
+            term = term + ' OR ' + vm.wallOptions.any[i].text;
+        };
         if (vm.wallOptions.layoutStyle == '4'){
             if(term=="")
                 term = "/location";
             else
                 term = term + " /location";
         }
-        for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
-            term = term + ' ' + vm.wallOptions.allWords[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.anyWords.length; i++) {
-            term = term + ' OR ' + vm.wallOptions.anyWords[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.noWords.length; i++) {
-            term = term + ' -' + vm.wallOptions.noWords[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.allHashtags.length; i++) {
-            term = term + ' OR #' + vm.wallOptions.allHashtags[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.from.length; i++) {
-            term = term + ' OR from:' + vm.wallOptions.from[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.to.length; i++) {
-            term = term + ' OR @' + vm.wallOptions.to[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.mentioning.length; i++) {
-            term = term + ' OR @' + vm.wallOptions.mentioning[i].text;
-        };
         if (vm.wallOptions.images) {
             if (vm.wallOptions.images == "only") {
                 term = term + ' /image';

@@ -100,13 +100,14 @@
 
 	.wall-float-container {
 		// padding-bottom: 10px;
+		margin-top: -30px;
 	}
 
 	.wall-tag-input {
 		height: 80px;
 		outline: none !important;
 		border: 0px solid transparent !important;
-		padding-bottom: 5px;
+		padding: 5px;
 		.host {
 			.tags {
 				outline: none !important;
