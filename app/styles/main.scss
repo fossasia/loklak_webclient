@@ -10,6 +10,7 @@
 @import 'home';
 @import 'data-connect';
 @import 'retweet-modal';
+@import 'copy-link-modal';
 @import 'search';
 @import 'single-tweet';
 @import 'wall';
@@ -29,7 +30,7 @@
 
 /* Global styles */
 .view-container {
-	padding-top: 50px;
+	padding-top: 46px;
 	min-height: 100vh;
 }
 

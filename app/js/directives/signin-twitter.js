@@ -1,5 +1,6 @@
 'use strict';
 /* global angular, $ */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 

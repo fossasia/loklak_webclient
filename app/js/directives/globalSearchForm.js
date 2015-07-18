@@ -1,4 +1,5 @@
 'use strict';
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -28,7 +29,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			    if ($rootScope.root.globalSearchTerm && $location.path() !== "/search") {
 			        $location.url("/search?q=" + encodeURIComponent($rootScope.root.globalSearchTerm));
 			    } else if ($rootScope.root.globalSearchTerm && $location.path() === "/search") {
-			    	var q = $rootScope.root.globalSearchTerm
+			    	var q = $rootScope.root.globalSearchTerm;
 			    	if ($rootScope.root.globalFilter) {
 			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
 						$location.url("/search?q=" + encodeURIComponent(q));
@@ -39,7 +40,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			    		$location.url("/search?q=" + encodeURIComponent(q));
 			    	}
 			    }
-			}
+			};
 		}
 	};
 }]);

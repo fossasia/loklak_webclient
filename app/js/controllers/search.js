@@ -1,5 +1,6 @@
 'use strict';
-/* global angular */
+/* global angular, L, map */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -224,19 +225,21 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // HELPERS FN
     ///////////////////
     var bgUpdateTemp = function() {
-        var lastestDateObj = new Date(vm.statuses[0].created_at);
-        var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
-        SearchService.getData(term).then(function(data) {
-            var keepComparing = true; var i = 0;
-            while (keepComparing) {
-               if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
-                 vm.newStasuses = data.statuses.slice(0, i);
-                 vm.noOfNewStatuses = vm.newStasuses.length;
-                 keepComparing = false;
-               }
-               i++;
-            }
-        }, function() {});
+        if (vm.statuses[0]) {
+            var lastestDateObj = new Date(vm.statuses[0].created_at);
+            var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
+            SearchService.getData(term).then(function(data) {
+                var keepComparing = true; var i = 0;
+                while (keepComparing) {
+                   if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
+                     vm.newStasuses = data.statuses.slice(0, i);
+                     vm.noOfNewStatuses = vm.newStasuses.length;
+                     keepComparing = false;
+                   }
+                   i++;
+                }
+            }, function() {});    
+        }
     };
 
     var startNewInterval = function(period) {
@@ -352,7 +355,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         var params = {
             q: vm.term + "+" + locationTerm,
             count: 300
-        }
+        };
         SearchService.initData(params).then(function(data) {
             addPointsToMap(window.map, initMapPoints(data.statuses));    
         }, function(data) {});
@@ -364,9 +367,12 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // Add points to map
     function addPointsToMap(map, tweets) {
         function onEachFeature(feature, layer) {
+            var popupContent;
+            
             if (feature.properties && feature.properties.popupContent) {
-                var popupContent = feature.properties.popupContent;
+                popupContent = feature.properties.popupContent;
             }
+
             layer.bindPopup(popupContent);
         }
         L.geoJson([tweets], {

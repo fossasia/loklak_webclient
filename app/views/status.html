@@ -1,6 +1,6 @@
 <div ng-attr-id="{{data.id_str}}" ng-click="toggleDetail($event)" class="tweet tweet-simple">
 
-    <!-- Avatar with a fallback src -->
+    <!-- Avatar with a fallback -->
     <img fallback-status-id="data.user.screen_name" class="avatar" 
          fallback-src="/images/anon_200x200.png"
     	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
@@ -24,25 +24,25 @@
                 <!-- Images - 1 img -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail}" ng-if="data.images_count === 1">
                         <div class="single-masonry-item" ng-repeat="image in data.images track by $index">
-                            <img ng-src="{{image}}" alt="A masonry brick">
+                            <img ng-src="{{(image) ? image : '/images/anon_200x200.png'}}">
                         </div>
                 </div>
                 <!-- Images - 2 imgs -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 2">
                         <div class="double-masonry-item" ng-repeat="image in data.images track by $index">
-                            <img ng-src="{{image}}" alt="A masonry brick">
+                            <img ng-src="{{(image) ? image : '/images/anon_200x200.png'}}">
                         </div>
                 </div>
                 <!-- Images - 3 imgs -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 3">
                         <div ng-class="{'triple-masonry-item': true, 'first-item': ($index === 0)}" ng-repeat="image in data.images track by $index">
-                            <img ng-src="{{image}}" alt="A masonry brick">
+                            <img ng-src="{{(image) ? image : '/images/anon_200x200.png'}}">
                         </div>
                 </div>
                 <!-- Images - 4 imgs -->
                 <div data-ng-click="openSwipe(data.id_str);" ng-class="{'images-wrapper': true, 'clearfix': true, 'showdetail': showDetail, 'showcomposition' : true}" ng-if="data.images_count === 4">
                         <div class="quad-masonry-item" ng-repeat="image in data.images track by $index">
-                            <img ng-src="{{image}}" alt="A masonry brick">
+                            <img ng-src="{{(image) ? image : '/images/anon_200x200.png'}}">
                         </div>
                 </div>
             </div>
@@ -72,6 +72,7 @@
                         <div ng-show="showMoreAction" class="more-actions">
                             <ul>
                                 <li><a class="copy-link" data-ng-click="openSingleTweet(data.id_str)">Open this single tweet</a></li>
+                                <li><a class="copy-link" data-ng-click="openLinkPrompt(data.id_str)">Copy link to tweet</a></li>
                             </ul>
                         </div>
                 	</div>

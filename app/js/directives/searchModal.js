@@ -1,4 +1,6 @@
 'use strict';
+/* global angular */
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -44,14 +46,14 @@ directivesModule.directive('searchModal', ['$location', '$timeout', '$rootScope'
                 $rootScope.root.hello('twitter').api('me/share', 'POST', {
                     id : id
                 });
-            }
+            };
 
             $scope.favorite = function(id) {
                 console.log(id);
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });
-            }
+            };
         },
         link: function(scope, element, attrs) {
             // Modal can be closed by 'ESC' keydown

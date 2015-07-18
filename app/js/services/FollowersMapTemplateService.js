@@ -1,4 +1,5 @@
 'use strict';
+// jshint laxbreak:true
 
 var servicesModule = require('./_index.js');
 
@@ -36,7 +37,7 @@ function FollowersMapTemplateService($filter) {
             +            '</div>'
             +        '</div>'
             +    '</div>'
-            +'</div>'
+            +'</div>';
 
     return result;
 
@@ -73,7 +74,7 @@ function FollowersMapTemplateService($filter) {
             +            '</div>'
             +        '</div>'
             +    '</div>'
-            +'</div>'
+            +'</div>';
 
     return result;
 
