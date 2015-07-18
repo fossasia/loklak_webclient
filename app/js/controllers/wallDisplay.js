@@ -50,9 +50,12 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         for (var i = 0; i < vm.wallOptions.none.length; i++) {
             term = term + ' -' + vm.wallOptions.none[i].text;
         };
-        for (var i = 0; i < vm.wallOptions.any.length; i++) {
-            term = term + ' OR ' + vm.wallOptions.any[i].text;
-        };
+        if(vm.wallOptions.any.length>0){
+            term = term + ' ' + vm.wallOptions.any[0].text;
+            for (var i = 1; i < vm.wallOptions.any.length; i++) {
+                term = term + ' OR ' + vm.wallOptions.any[i].text;
+            };
+        }
         if (vm.wallOptions.layoutStyle == '4'){
             if(term=="")
                 term = "/location";
