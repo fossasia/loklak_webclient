@@ -15,7 +15,7 @@
         </div> -->
         <!-- Metadata -->
         <div class="metadata col-xs-12">
-            <a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+            <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
             <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
             <span><i class="fa fa-twitter"></i></span>
             <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>

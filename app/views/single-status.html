@@ -5,7 +5,7 @@
 			 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
 			<!-- Metadata data -->
 	    <div class="user-data-wrapper">
-	    	<a class="name" ng-href="{{'https://twitter.com/' + data.user.screen_name}}">{{data.user.name}}</a>
+	    	<a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
 	    	<span class="screen-name">{{ "@" + data.user.screen_name}}</span>	
 	    </div>
 	</div>

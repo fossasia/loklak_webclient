@@ -14,6 +14,7 @@
 @import 'search';
 @import 'single-tweet';
 @import 'wall';
+@import 'map';
 
 // Libs
 @import 'datetimepicker';
@@ -850,34 +851,6 @@
 				text-align: left;
 				
 			}
-		}
-	}
-
-/* Style for map pop up */
-	.leaflet-popup-content {
-		width: auto !important;
-		p {
-			margin: 0 !important;
-		}
-	}
-	.single-tweet.map-tweet {
-		margin: 0;
-		padding: 0;
-		min-width: 250px;
-		.top-metadata {
-			img.avatar {
-				height: 55px;
-				width: 55px;
-			}
-			.user-data-wrapper {
-				display: inline-block;
-				font-size: 11px;
-				margin-left: 20px;
-				padding: 0;
-			}
-		}
-		.detail-metadata {
-			margin-top: 10px;
 		}
 	}
 

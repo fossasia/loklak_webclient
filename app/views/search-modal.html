@@ -5,7 +5,7 @@
     			 onError="this.onerror=null;this.src='/images/anon_200x200.png';"
     			 ng-src="{{modalData.user.profile_image_url_https}}" alt="user-images">
     			<!-- Metadata modalData -->
-    		    <a class="name" ng-href="{{'https://twitter.com/' + modalData.user.screen_name}}">{{modalData.user.name}}</a>
+    		    <a class="name" ng-href="{{'./search?q=from:' + modalData.user.screen_name}}">{{modalData.user.name}}</a>
     		    <span class="screen-name">{{ "@" + modalData.user.screen_name}}</span>	
     	</div>
         
