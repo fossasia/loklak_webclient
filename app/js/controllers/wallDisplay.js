@@ -62,7 +62,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             };
         }
         if (vm.wallOptions.layoutStyle == '4'){
-            if(term=="")
+            if(term==""){
                 term = "/location";
             }
             else {

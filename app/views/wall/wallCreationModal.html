@@ -85,36 +85,85 @@
                                 </div>
                                 <div class="tab-pane" id="content">
                                     <div>
-                                        <div class="box-body row">
-                                            <div class="col-xs-5">
-                                                <div class="wall-float-container">
-                                                    <i class="fa fa-check-circle fa-3x wall-float-icon-contains"></i>
-                                                    <div class="wall-float-text">
-                                                        <h3>What do you want to show?<br><small>Add words, #hashtags, @mentions and from:user</small></h3></div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    <div class="wall-float-container">
+                                                        <i class="fa fa-check-circle fa-3x wall-float-icon-contains"></i>
+                                                        <div class="wall-float-text">
+                                                            <h3>What do you want to show?<br><small>Add words, #hashtags, @mentions and from:user</small></h3>
+                                                        </div>
+                                                    </div>
+                                                    <h4 ng-if="newWallOptions.mainHashtagText.length>0">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h4>
+                                                    <div class="form-group wall-tag-label-contain">
+                                                        <label class="wall-contains-header">Show tweets that contain <strong>ALL</strong> of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.all" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
+                                                    <div class="form-group wall-tag-label-contain">
+                                                        <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
                                                 </div>
-                                                <h4 ng-if="newWallOptions.mainHashtagText.length>0">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h4>
-                                                <div class="form-group wall-tag-label-contain">
-                                                    <label class="wall-contains-header">Show tweets that contain <strong>ALL</strong> of these</label>
-                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.all" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                <div class="col-xs-1 wall-vertical-line">
                                                 </div>
-                                                <div class="form-group wall-tag-label-contain">
-                                                    <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
-                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                <div class="col-xs-5">
+                                                    <div class="wall-float-container">
+                                                        <i class="fa fa-minus-circle fa-3x wall-float-icon-not-contains"></i>
+                                                        <div class="wall-float-text">
+                                                            <h3>What do you want to exclude?<br><small>Add words, #hashtags, @mentions and from:user</small></h3></div>
+                                                    </div>
+                                                    <div class="form-group wall-tag-label-not-contain">
+                                                        <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-6">Block tweets with profanity</label>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
+                                                            <toggle-switch>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-6">Block retweets</label>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
+                                                            <toggle-switch>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-6">Hide retweets</label>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
+                                                            <toggle-switch>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-6">Follower threshold</label>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.followerThreshold">
+                                                            <toggle-switch>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-6">Moderation</label>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">
+                                                            <toggle-switch>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-1 wall-vertical-line">
-                                            </div>
-                                            <div class="col-xs-5">
-                                                <div class="wall-float-container">
-                                                    <i class="fa fa-minus-circle fa-3x wall-float-icon-not-contains"></i>
-                                                    <div class="wall-float-text">
-                                                        <h3>What do you want to exclude?<br><small>Add words, #hashtags, @mentions and from:user</small></h3></div>
+                                            <hr>
+<!--                                             <div class="row">
+                                                <div class="form-group wall-media-toggle col-xs-6">
+                                                    <label>Images</label>
+                                                    <br>
+                                                    <choices data-type="array" ng-model="newWallOptions.images">
+                                                        <choice active value="both">Yes</choice>
+                                                        <choice value="none">No</choice>
+                                                        <choice value="only">Only</choice>
+                                                    </choices>
                                                 </div>
-                                                <div class="form-group wall-tag-label-not-contain">
-                                                    <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
-                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                <div class="form-group wall-media-toggle col-xs-6">
+                                                    <label>Videos</label>
+                                                    <br>
+                                                    <choices data-type="array" ng-model="newWallOptions.videos">
+                                                        <choice active value="both">Yes</choice>
+                                                        <choice value="none">No</choice>
+                                                        <choice value="only">Only</choice>
+                                                    </choices>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="box-footer">
                                             <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
