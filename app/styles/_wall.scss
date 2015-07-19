@@ -1,3 +1,7 @@
+.no-x-scroll {
+	overflow-x:hidden;
+	height: 100%;
+}
 /* Style for wall front-end */
 
 
@@ -32,6 +36,10 @@
     border-radius: 2px;
     border-color: #CABFBF !important;
     vertical-align: middle;
+}
+
+.wall-preview-container {
+	height: 500px;
 }
 
 .wall-preview {
@@ -74,10 +82,11 @@
 
 .tabs-left > li {
     padding: 0;
+    height: 33%;
 }
 
 .tabs-left > li > a {
-    height: 150px;
+    
     text-align: center;
     padding: 20% 0;
 }

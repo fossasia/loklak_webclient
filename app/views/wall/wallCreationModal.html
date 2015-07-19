@@ -176,63 +176,68 @@
                                 <div class="tab-pane" id="design">
                                     <div>
                                         <div class="box-body">
-                                            <div class="row">
+                                            <div class="row pre-scrollable no-x-scroll wall-preview-container">
                                                 <div class="col-md-4">
                                                     <div>
                                                         <div class="box-header">
                                                             <label>Select a layout to customize</label>
                                                         </div>
                                                         <div class="box-body">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/linear-layout-thumb.jpg" alt="">
-                                                                    </label>
+                                                            <div >
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/linear-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/masonry-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/cot-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/map-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/masonry-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/cot-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/map-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row design-box">
-                                                                <div>
-                                                                    <div class="box-body">
-                                                                        <div class="col-md-6 form-group">
+                                                                <div class="row design-box">
+                                                                    <div>
+                                                                        <!-- <div class="box-body"> -->
+                                                                        <div class="col-xs-6 form-group">
                                                                             <label>Set Header Colour</label>
                                                                             <div class="input-group">
                                                                                 <span ng-style="{'background-color':newWallOptions.headerColour}" class="input-group-addon"></span>
                                                                                 <input ng-model="newWallOptions.headerColour" colorpicker type="text" class="form-control">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-6 form-group">
+                                                                        <div class="col-xs-6 form-group">
                                                                             <label>Show Header on</label>
                                                                             <select ng-model="newWallOptions.headerPosition" class="form-control">
                                                                                 <option>Top</option>
                                                                                 <option>Bottom</option>
                                                                             </select>
                                                                         </div>
+                                                                        <div class="col-xs-6 form-group">
+                                                                            <label>Show statistics</label>
+                                                                            <br>
+                                                                            <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.showStatistics">
+                                                                            </toggle-switch>
+                                                                        </div>
+                                                                        <!--  </div> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="box-footer">
-                                                                <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start twitter wall!</a>
-                                                                <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
-                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -255,6 +260,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                            <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
                                         </div>
                                         <!-- /.box-body -->
                                     </div>
