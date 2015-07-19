@@ -72,8 +72,8 @@
                                                 <div class="form-group">
                                                     <label>Show statistics</label>
                                                     <br>
-                                                    <toggle-switch on-label="YES" off-label="NO" ng-model="newWallOptions.showStatistics">
-                                                        <toggle-switch>
+                                                    <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.showStatistics">
+                                                    </toggle-switch>
                                                 </div>
                                             </div>
                                             <!-- /.box-body -->
@@ -85,139 +85,88 @@
                                 </div>
                                 <div class="tab-pane" id="content">
                                     <div>
-                                        <div class="box-header">
-                                            <h3 class="box-title">What should show up on your tweet wall?</h3>
-                                        </div>
-                                        <div class="box-body" id="accordion">
-                                            <p class="text-muted">Don't worry, you can leave some fields blank if you want.</p>
-                                            <div class="panel box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Words</a></h4>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    <div class="wall-float-container">
+                                                        <i class="fa fa-check-circle fa-3x wall-float-icon-contains"></i>
+                                                        <div class="wall-float-text">
+                                                            <h3>What do you want to show?<br><small>Add words, #hashtags, @mentions and from:user</small></h3>
+                                                        </div>
+                                                    </div>
+                                                    <h4 ng-if="newWallOptions.mainHashtagText.length>0">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h4>
+                                                    <div class="form-group wall-tag-label-contain">
+                                                        <label class="wall-contains-header">Show tweets that contain <strong>ALL</strong> of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.all" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
+                                                    <div class="form-group wall-tag-label-contain">
+                                                        <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
                                                 </div>
-                                                <div id="collapseOne" class="panel-collapse collapse in">
-                                                    <div class="box-body">
-                                                        <div class="row">
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>All of these words</label>
-                                                                    <tags-input ng-disabled="(newWallOptions.anyWords.length>0) || (newWallOptions.allHashtags.length>0) || (newWallOptions.from.length>0) || (newWallOptions.to.length>0)|| (newWallOptions.mentioning.length>0)" ng-model="newWallOptions.allWords" placeholder="Type and hit enter" name="ands"></tags-input>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Any of these words</label>
-                                                                    <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.anyWords" placeholder="Type and hit enter" name="ors"></tags-input>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>None of these words</label>
-                                                                    <tags-input ng-disabled="(newWallOptions.anyWords.length>0) || (newWallOptions.allHashtags.length>0) || (newWallOptions.from.length>0) || (newWallOptions.to.length>0)|| (newWallOptions.mentioning.length>0)" ng-model="newWallOptions.noWords" placeholder="Type and hit enter" name="nots"></tags-input>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>These hashtags</label>
-                                                                    <!-- <p>Main hashtag</p> -->
-                                                                    <div class="input-group">
-                                                                        <span ng-if="newWallOptions.mainHashtagText.length>0" class="mainhashtag-addon input-group-addon">{{newWallOptions.mainHashtag}}</span>
-                                                                        <span class="input-group-addon">#</span>
-                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.allHashtags" placeholder="Type and hit enter" name="tag"></tags-input>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                <div class="col-xs-1 wall-vertical-line">
+                                                </div>
+                                                <div class="col-xs-5">
+                                                    <div class="wall-float-container">
+                                                        <i class="fa fa-minus-circle fa-3x wall-float-icon-not-contains"></i>
+                                                        <div class="wall-float-text">
+                                                            <h3>What do you want to exclude?<br><small>Add words, #hashtags, @mentions and from:user</small></h3></div>
+                                                    </div>
+                                                    <div class="form-group wall-tag-label-not-contain">
+                                                        <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
+                                                        <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    </div>
+                                                    <div class="pre-scrollable" style="max-height:250px; overflow-x: hidden;">
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Block tweets with profanity <small>Tweets containing profanity will go straight into the blocked queue and will not be displayed or placed in moderation.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
+                                                            </toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Block retweets <small>Retweets will not be shown or counted in the stats, they'll be immediately blocked.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
+                                                            </toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Hide retweets <small>Retweets will not be shown, but they WILL be counted in the stats and leaderboards.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
+                                                            </toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Follower threshold <small>Block any Tweets from people that have less than the number of followers you specify.</small></label>
+                                                            <input type="text" ng-model="newWallOptions.followerThreshold">
+                                                            <!-- <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.followerThreshold">
+                                                                </toggle-switch> -->
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Moderation <small>This gives you the ability to approve or deny every Tweet before it shows on your Tweet wall</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">
+                                                            </toggle-switch>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="panel box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" class="collapsed">People</a></h4>
+                                            <hr>
+                                            <!--                                             <div class="row">
+                                                <div class="form-group wall-media-toggle col-xs-6">
+                                                    <label>Images</label>
+                                                    <br>
+                                                    <choices data-type="array" ng-model="newWallOptions.images">
+                                                        <choice active value="both">Yes</choice>
+                                                        <choice value="none">No</choice>
+                                                        <choice value="only">Only</choice>
+                                                    </choices>
                                                 </div>
-                                                <div id="collapseTwo" class="panel-collapse collapse">
-                                                    <div class="box-body">
-                                                        <div class="row">
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>From these accounts</label>
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">@</span>
-                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.from" placeholder="Type and hit enter" name="from"></tags-input>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>To these accounts</label>
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">@</span>
-                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.to" placeholder="Type and hit enter" name="to"></tags-input>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>Mentioning these accounts</label>
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">@</span>
-                                                                        <tags-input ng-disabled="(newWallOptions.allWords.length>0) || (newWallOptions.noWords.length>0)" ng-model="newWallOptions.mentioning" placeholder="Type and hit enter" name="mwnt"></tags-input>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="form-group wall-media-toggle col-xs-6">
+                                                    <label>Videos</label>
+                                                    <br>
+                                                    <choices data-type="array" ng-model="newWallOptions.videos">
+                                                        <choice active value="both">Yes</choice>
+                                                        <choice value="none">No</choice>
+                                                        <choice value="only">Only</choice>
+                                                    </choices>
                                                 </div>
-                                            </div>
-                                            <div class="panel box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" class="collapsed">Media</a></h4>
-                                                </div>
-                                                <div id="collapseThree" class="panel-collapse collapse">
-                                                    <div class="box-body">
-                                                        <div class="row">
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>Images</label>
-                                                                    <br>
-                                                                    <choices data-type="array" ng-model="newWallOptions.images">
-                                                                        <choice active value="both">No preference</choice>
-                                                                        <choice value="only">Only images</choice>
-                                                                        <choice value="none">No images</choice>
-                                                                    </choices>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Videos</label>
-                                                                    <br>
-                                                                    <choices data-type="array" ng-model="newWallOptions.videos">
-                                                                        <choice active value="both">No preference</choice>
-                                                                        <choice value="only">Only Videos</choice>
-                                                                        <choice value="none">No Videos</choice>
-                                                                    </choices>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label>Audio</label>
-                                                                    <br>
-                                                                    <choices data-type="array" ng-model="newWallOptions.audio">
-                                                                        <choice active value="both">No preference</choice>
-                                                                        <choice value="only">Only Audio</choice>
-                                                                        <choice value="none">No Audio</choice>
-                                                                    </choices>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="panel box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" class="collapsed">Places</a></h4>
-                                                </div>
-                                                <div id="collapseFour" class="panel-collapse collapse">
-                                                    <div class="box-body">
-                                                        <h4>Coming soon.</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="box-footer">
                                             <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Design</a>
@@ -231,7 +180,7 @@
                                                 <div class="col-md-4">
                                                     <div>
                                                         <div class="box-header">
-                                                            <label>Select a layout to customize (Only layout #1 available for now)</label>
+                                                            <label>Select a layout to customize</label>
                                                         </div>
                                                         <div class="box-body">
                                                             <div class="row">
