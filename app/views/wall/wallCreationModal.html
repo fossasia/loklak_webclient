@@ -116,35 +116,37 @@
                                                         <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
                                                         <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-xs-6">Block tweets with profanity</label>
-                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
-                                                            <toggle-switch>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-xs-6">Block retweets</label>
-                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
-                                                            <toggle-switch>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-xs-6">Hide retweets</label>
-                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
-                                                            <toggle-switch>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-xs-6">Follower threshold</label>
-                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.followerThreshold">
-                                                            <toggle-switch>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-xs-6">Moderation</label>
-                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">
-                                                            <toggle-switch>
+                                                    <div class="pre-scrollable" style="max-height:250px; overflow-x: hidden;">
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Block tweets with profanity <small>Tweets containing profanity will go straight into the blocked queue and will not be displayed or placed in moderation.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
+                                                                <toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Block retweets <small>Retweets will not be shown or counted in the stats, they'll be immediately blocked.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
+                                                                <toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Hide retweets <small>Retweets will not be shown, but they WILL be counted in the stats and leaderboards.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
+                                                                <toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Follower threshold <small>Block any Tweets from people that have less than the number of followers you specify.</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.followerThreshold">
+                                                                <toggle-switch>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-6">Moderation <small>This gives you the ability to approve or deny every Tweet before it shows on your Tweet wall</small></label>
+                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">
+                                                                <toggle-switch>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
-<!--                                             <div class="row">
+                                            <!--                                             <div class="row">
                                                 <div class="form-group wall-media-toggle col-xs-6">
                                                     <label>Images</label>
                                                     <br>
