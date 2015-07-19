@@ -12,6 +12,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.userLocation = {};
     $rootScope.root.geoTile;
     $rootScope.root.hashtagTrends;
+    $rootScope.root.trends = "";
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
     {    
@@ -136,10 +137,11 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
         SearchService.initData(params).then(function(data) {
                    hashtagData = hashtagData.concat(data.aggregations.hashtags);
-                   console.log(hashtagData);
+                   $rootScope.root.trends = hashtagData[0];
             }, function() {
 
             });
     };
 
+    $rootScope.root.getHashtagTrends();
 }]);
