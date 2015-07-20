@@ -146,20 +146,11 @@ var marker=[];
 
         function plotFollowingOnMap()
         {
+
              
             //defining an object to store following info
-            var following = {
-                "location" : [],
-                "name" : [],
-                "id_str" : [],
-                "propic" : [],
-                "followers" : [],
-                "following" : [],
-                "screenname" : [],
-                "tweetcount" : [],
-                "profile_banner" : [],
-                "latesttweet" : []
-            };
+            var following = [];
+            var following_location=[];
 
 
             //Marker array
@@ -175,16 +166,20 @@ var marker=[];
                 twitterfollowing.data.forEach(function(ele){
                     if(ele.location)
                     {
-                        following.location.push(ele.location);
-                        following.name.push(ele.name);
-                        following.id_str.push(ele.id_str);
-                        following.propic.push(ele.profile_image_url_https);
-                        following.screenname.push(ele.screen_name);
-                        following.followers.push(ele.followers_count);
-                        following.following.push(ele.friends_count);
-                        following.tweetcount.push(ele.statuses_count);
-                        following.profile_banner.push(ele.profile_background_image_url_https);
-                        following.latesttweet.push(ele.status.text);
+                        following_location.push(ele.location);
+                        following.push({
+                            "location" : ele.location,
+                            "name" : ele.name,
+                            "id_str" : ele.id_str,
+                            "propic" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "followers" : ele.followers_count,
+                            "following" : ele.friends_count,
+                            "tweetcount" : ele.statuses_count,
+                            "profile_banner" : ele.profile_background_image_url_https,
+                            "latesttweet" : ele.status.text
+                        });
+                        
                     }
                 });
                
@@ -199,15 +194,15 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : following.location
+                    "places" : following_location.location
                 }
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 
-                for(var i=0;i<following.location.length;i++)
+                for(var i=0;i<following_location.location.length;i++)
                 {   
-                    var locationkey=following.location[i];
+                    var locationkey=following_location.location[i];
                     if(data.locations[locationkey].mark)
                     {
                     var textpopup=FollowersMapTemplateService.genStaticTwitterFollowing(following , i);
@@ -224,9 +219,9 @@ var marker=[];
                         "type": "Feature",
                         "properties": {
                             "popupContent": "<div class='foobar'><h4>Following</h4><hr>" + textpopup + "</div>",
-                            "propic" : following.propic[i]
+                            "propic" : following[i].propic
                         },
-                        "id": following.id_str[i]
+                        "id": following[i].id_str
                     };
                     followingMarker.features.push(pointObject);
                 }
