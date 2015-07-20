@@ -43,19 +43,19 @@ function FollowersMapTemplateService($filter) {
 
   };
  service.genStaticTwitterFollowing = function(following , i) {
-    var textstatus = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(following.latesttweet[i])));
+    var textstatus = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(following[i].latesttweet)));
     var result = "";
     
     result = '<div class="home-user-info" style="width:300px;">'
             +   '<div class="blue-background-placeholder">'
-            +        '<img src="'+following.profile_banner[i]+'" >'    
+            +        '<img src="'+following[i].profile_banner+'" >'    
             +    '</div>'
             +     '<div class="home-user-info-content">'
             +        '<div class="top-content">'
-            +            '<img src="'+following.propic[i]+'">'
+            +            '<img src="'+following[i].propic+'">'
             +            '<div class="name-and-screen-name">'
-            +                '<span class="home-user-name">'+following.name[i]+'</span><br>'
-            +               '<span class="home-user-screen-name">@'+following.screenname[i]+'</span>'
+            +                '<span class="home-user-name">'+following[i].name+'</span><br>'
+            +               '<span class="home-user-screen-name">@'+following[i].screenname+'</span>'
             +            '</div>'      
             +       '</div>'
             +       '<div style="word-wrap: break-word; padding : 0px 10px;">'
@@ -63,13 +63,13 @@ function FollowersMapTemplateService($filter) {
             +        '</div>'
             +       '<div class="bottom-content">'
             +            '<div class="user-no-tweets">'
-            +               '<a href="">Tweets<br><span>'+following.tweetcount[i]+'</span></a>'
+            +               '<a href="">Tweets<br><span>'+following[i].tweetcount+'</span></a>'
             +            '</div>'
             +            '<div class="user-no-followings">'
-            +                '<a href="">Followings<br><span>'+following.following[i]+'</span></a>'
+            +                '<a href="">Followings<br><span>'+following[i].following+'</span></a>'
             +            '</div>'
             +            '<div class="user-no-followers">'
-            +                '<a href="">Followers<br><span>'+following.followers[i]+'</span></a>'
+            +                '<a href="">Followers<br><span>'+following[i].followers+'</span></a>'
             +            '</div>'
             +        '</div>'
             +    '</div>'

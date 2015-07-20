@@ -94,20 +94,20 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : followers_location.location
+                    "places" : followers_location
                 }
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 //console.log( followers.propic[i]);
                 
-                for(var i=0;i<followers_location.location.length;i++)
+                for(var i=0;i<followers_location.length;i++)
                 {
                     
-                    var locationkey=followers_location.location[i];
+                    var locationkey=followers_location[i];
                     if(data.locations[locationkey].mark)
                     {
-                    //var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
+                    var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
                     console.log("I am viewing "+followers[i].name);
                     //followers.preview[i]=textpopup;
                     var pointObject = {
@@ -194,15 +194,15 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : following_location.location
+                    "places" : following_location
                 }
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 
-                for(var i=0;i<following_location.location.length;i++)
+                for(var i=0;i<following_location.length;i++)
                 {   
-                    var locationkey=following_location.location[i];
+                    var locationkey=following_location[i];
                     if(data.locations[locationkey].mark)
                     {
                     var textpopup=FollowersMapTemplateService.genStaticTwitterFollowing(following , i);

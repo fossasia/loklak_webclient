@@ -14,17 +14,40 @@
    <div id="map">
 
    </div>
-    <div id="docDrawer" class="drawer dw-xs-10 dw-sm-6 dw-md-5 fold in" aria-labelledby="docDrawer">
+    <div id="docDrawer" class="drawer dw-xs-6 dw-sm-6 dw-md-5 fold in" aria-labelledby="docDrawer">
         <div class="drawer-controls pull-right" style="z-index:-888; top:120px;">
             <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default"><i class="fa fa-align-justify"></i></a>
         </div>
         <div class="drawer-contents">
-             {{followers.id_str[3]}}
-           aa {{followers.preview[3]}}
             <div style="height:50%; overflow-y:scroll;">
            <h3>Followers</h3><hr>
 
-           <li ng-repeat="preview in followers.preview" ng-bind-html-unsafe="preview">
+           <li ng-repeat="follower in followers">
+            <div class="home-user-info" style="width:100%;">
+            <div class="blue-background-placeholder">
+            <img src="{{follower.profile_banner}}" >
+            </div>
+            <div class="home-user-info-content">
+            <div class="top-content">
+             <img src="{{follower.propic}}">
+            <div class="name-and-screen-name">
+            <span class="home-user-name">{{follower.name}}</span><br>
+            <span class="home-user-screen-name">@{{follower.screenname}}</span>
+                        </div>
+                   </div>
+                   <div class="bottom-content">
+                        <div class="user-no-tweets">
+                        <a href="">Tweets<br><span>{{follower.tweetcount}}</span></a>
+                        </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{follower.following}}</span></a>
+                       </div>
+                      <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{follower.followers}}</span></a>
+                       </div>
+                    </div>
+                </div>
+            </div>
             {{preview}}
              </li>
             
