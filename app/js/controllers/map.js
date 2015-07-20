@@ -20,6 +20,7 @@ var marker=[];
             "Following" : followinglayer
         };
         $scope.followers={};
+        $scope.following={};
         
         var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -182,7 +183,7 @@ var marker=[];
                         
                     }
                 });
-               
+                $scope.following=following;
                 Geocode_Plot();
             });
             }, function() {
@@ -271,7 +272,7 @@ var marker=[];
                         }
                         
                         var popup = L.popup({
-                            autoPan: false
+                            autoPan: true
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
                         
