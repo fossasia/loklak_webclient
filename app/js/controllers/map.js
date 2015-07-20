@@ -50,18 +50,9 @@ var marker=[];
         function plotFollowersonMap()
         {   
             //defining an object to store followers info
-            var followers = {
-                "location" : [],
-                "name" : [],
-                "id_str" : [],
-                "propic" : [],
-                "followers" : [],
-                "following" : [],
-                "screenname" : [],
-                "tweetcount" : [],
-                "profile_banner" : [],
-                "preview"   :[]
-            };
+            var followers = [];
+            var followers_location = [];
+             
 
             //Marker array
             var followersMarker = {
@@ -74,16 +65,20 @@ var marker=[];
             {
                 twitterFollowers.data.forEach(function(ele){
                     if(ele.location)
-                    {
-                        followers.location.push(ele.location);
-                        followers.name.push(ele.name);
-                        followers.id_str.push(ele.id_str);
-                        followers.propic.push(ele.profile_image_url_https);
-                        followers.screenname.push(ele.screen_name);
-                        followers.followers.push(ele.followers_count);
-                        followers.following.push(ele.friends_count);
-                        followers.tweetcount.push(ele.statuses_count);
-                        followers.profile_banner.push(ele.profile_background_image_url_https);
+                    {   
+                        followers_location.push(ele.location);
+                        followers.push({
+                            "location" : ele.location,
+                            "name" : ele.name,
+                            "id_str" : ele.id_str,
+                            "propic" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "followers" : ele.followers_count,
+                            "following" : ele.friends_count,
+                            "tweetcount" : ele.statuses_count,
+                            "profile_banner" : ele.profile_background_image_url_https
+                        });
+                        
 
                     }
                 });
@@ -99,21 +94,22 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : followers.location
+                    "places" : followers_location.location
                 }
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 //console.log( followers.propic[i]);
                 
-                for(var i=0;i<followers.location.length;i++)
+                for(var i=0;i<followers_location.location.length;i++)
                 {
                     
-                    var locationkey=followers.location[i];
+                    var locationkey=followers_location.location[i];
                     if(data.locations[locationkey].mark)
                     {
-                    var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
-                    followers.preview[i]=textpopup;
+                    //var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
+                    console.log("I am viewing "+followers[i].name);
+                    //followers.preview[i]=textpopup;
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -125,10 +121,10 @@ var marker=[];
                         "type": "Feature",
                         "properties": {
                             "popupContent" : "<div class='foobar'><h4>Follower</h4><hr>" + textpopup + "</div>" ,
-                            "propic" : followers.propic[i]
+                            "propic" : followers[i].propic
 
                         },
-                        "id": followers.id_str[i]
+                        "id": followers[i].id_str
 
                     };
                     followersMarker.features.push(pointObject);
@@ -140,7 +136,7 @@ var marker=[];
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again."+data+"fff"+status);
                     
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
