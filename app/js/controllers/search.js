@@ -183,11 +183,19 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         updatePath(vm.term + '+' + '/map');
 
         var params = {
-            q: vm.term + "+" + initialBound,
+            q: vm.term /*+ "+" + initialBound*/,
             count: 300
         };
         SearchService.initData(params).then(function(data) {
-            initMap(data.statuses);    
+            var withoutLocation = [];
+            data.statuses.forEach(function(ele, index) {
+                if (!ele.location_mark) {
+                    withoutLocation.push(data.statuses.splice(index, 1)[0]);
+                }
+            })
+            initMap(data.statuses);   
+            console.log(withoutLocation); 
+            addUserLocation(withoutLocation);
         }, function() {});
 
         angular.forEach(intervals, function(interval) {
@@ -359,6 +367,25 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         SearchService.initData(params).then(function(data) {
             addPointsToMap(window.map, initMapPoints(data.statuses));    
         }, function(data) {});
+    }
+
+    // Add more point after getting user info for statuses without location
+    function addUserLocation(noLocationStatuses) {
+        noLocationStatuses.forEach(function(ele, index) {
+            if (ele.user) {
+                SearchService.getUserInfo(ele.user.screen_name).then(function(userInfo) {
+                    console.log(userInfo);
+                    if (userInfo.user && userInfo.user.location_mark) {
+                        ele.location_mark = userInfo.user.location_mark;    
+                    }
+
+                    if (index === noLocationStatuses.length - 1) {
+                        // After getting the last one's userinfo, start adding points to map
+                        addPointsToMap(window.map, initMapPoints(noLocationStatuses));    
+                    }
+                }, function() {});
+            }
+        });
     }
 
     // Action related timestamp, used to prevent event bubbling

@@ -70,7 +70,7 @@ function SearchService($q, $http, AppSettings) {
     var deferred = $q.defer();
     //paramsObj.q = decodeURIComponent(paramsObj.q);
     $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
-      params: {q: username}
+      params: {screen_name: username}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
