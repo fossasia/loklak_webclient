@@ -66,6 +66,20 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
+  service.getUserInfo = function(username) {
+    var deferred = $q.defer();
+    //paramsObj.q = decodeURIComponent(paramsObj.q);
+    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+      params: {q: username}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  }
+
   return service;
 
 }
