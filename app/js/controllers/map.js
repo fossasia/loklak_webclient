@@ -21,6 +21,8 @@ var marker=[];
         };
         $scope.followers={};
         $scope.following={};
+        $scope.followers_count;
+        $scope.following_count;
         
         var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -101,7 +103,7 @@ var marker=[];
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 //console.log( followers.propic[i]);
-                
+                $scope.followers_count=followers_location.length;
                 for(var i=0;i<followers_location.length;i++)
                 {
                     
@@ -200,7 +202,7 @@ var marker=[];
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
-                
+                $scope.following_count=following_location.length;
                 for(var i=0;i<following_location.length;i++)
                 {   
                     var locationkey=following_location[i];
