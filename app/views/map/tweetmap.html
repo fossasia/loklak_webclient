@@ -5,20 +5,23 @@
             margin: 0;
         }
         html, body, #map {
-            height: 700px;
+             
+            height: 100vh;
             width: 100%;
         }
     </style>
 </style>
 
-   <div id="map" class="has-inner-drawer" style="padding-top:10%;">
- <div id="docDrawer" class="drawer dw-xs-3 dw-sm-3 dw-md-3 fold in drawer" style="height:100%; z-index:+88899;" aria-labelledby="docDrawer">
-        <div class="drawer-controls pull-right" style="z-index:+888; top:120px;">
+   <div id="map" >
+ 
+    </div>
+    <div id="docDrawer" class="drawer dw-xs-3 dw-sm-3 dw-md-3 fold in drawer-right"  style="margin-top:10%; z-index:+889;" aria-labelledby="docDrawer">
+        <div class="drawer-controls" style="z-index:+888; top:100px;">
             <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default"><i class="fa fa-align-justify"></i></a>
         </div>
         <div class="drawer-contents">
           <h3>Followers</h3><hr>
-            <div style="height:50%; overflow-y:scroll;">
+            <div style="height:200px; overflow-y:scroll;">
            
 
            <li ng-repeat="follower in followers">
@@ -47,13 +50,11 @@
                     </div>
                 </div>
             </div>
-            {{preview}}
-             </li>
             
-        <hr>
+             </li>
     </div>
-    <h3>Following</h3><hr>
-    <div style="height:50%; overflow-y:scroll;">
+    <h3>Following</h3>
+    <div style="height:200px; overflow-y:scroll;">
            
 
            <li ng-repeat="following in following">
@@ -82,19 +83,11 @@
                     </div>
                 </div>
             </div>
-            {{preview}}
              </li>
-            
-        <hr>
     </div>
     </div>
-           Followers Info shall come here<br><br><br><br><hr>
-           <h3>Following </h3><br>Following Info shall comehere 
         </div>
-   </div>
    
-    </div>
-    </div>
   <script>
             $('#drawerExample').drawer({ toggle: false });
             $('#other-toggle').click(function() {
