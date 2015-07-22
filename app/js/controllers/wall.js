@@ -1,5 +1,6 @@
 'use strict';
-/* global angular */
+/* global angular, $ */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -19,7 +20,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         $scope.newWallOptions.headerColour = '#3c8dbc';
         $scope.newWallOptions.headerPosition = 'Top';
         $scope.newWallOptions.layoutStyle = 1;
-    }
+    };
 
     initWallOptions();
 
@@ -42,19 +43,21 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     }
 
     $scope.$watch('newWallOptions.headerColour', function() {
-        if ($scope.newWallOptions.headerColour)
+        if ($scope.newWallOptions.headerColour) {
             $scope.newWallOptions.headerForeColour = colourCalculator(hexToRgb($scope.newWallOptions.headerColour));
+        }
     });
 
     $scope.$watch('newWallOptions.mainHashtagText', function() {
-        if ($scope.newWallOptions.mainHashtagText)
+        if ($scope.newWallOptions.mainHashtagText) {
             if ($scope.newWallOptions.mainHashtagText.length !== 0) {
-                if ($scope.newWallOptions.mainHashtagText[0] != '#') {
+                if ($scope.newWallOptions.mainHashtagText[0] !== '#') {
                     $scope.newWallOptions.mainHashtag = '#' + $scope.newWallOptions.mainHashtagText;
                 } else {
                     $scope.newWallOptions.mainHashtag = $scope.newWallOptions.mainHashtagText;
                 }
             }
+        }
     });
 
     $scope.lostMainhashtagFocus = function(){
@@ -71,7 +74,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         //     $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtagText});
         // }
 
-    }
+    };
 
     // $scope.onTagRemoving = function(tag){
     //     if($scope.newWallOptions.allHashtags.length==1)
@@ -87,8 +90,6 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     $scope.start = function() {
         //construct term
         delete $scope.newWallOptions.link;
-        if($scope.newWallOptions.mainHashtag)
-            $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtag.substring(1)});
         var dataParams = encodeURIComponent(angular.toJson($scope.newWallOptions));
         $('#wall-modal').modal('toggle');
         //console.log($rootScope.root.twitterSession);
@@ -98,7 +99,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
             var saveData = {};
             saveData.screen_name = $scope.screen_name;
             $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
-            if (isEditing != -1) {
+            if (isEditing !== -1) {
                 $scope.userData.wall.walls[isEditing] = $scope.newWallOptions;
                 isEditing = -1;
             } else {
@@ -115,7 +116,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     $scope.resetDate = function() {
         $scope.newWallOptions.sinceDate = null;
         $scope.newWallOptions.untilDate = null;
-    }
+    };
 
     $scope.deleteWall = function(index) {
         //console.log(index);
@@ -124,14 +125,14 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         saveData.screen_name = $scope.screen_name;
         saveData.apps = $scope.userData;
         AccountsService.updateData(saveData);
-    }
+    };
 
     $scope.editWall = function(index) {
         //console.log(index);
         $scope.newWallOptions = $scope.userData.wall.walls[index];
         isEditing = index;
         $('#wall-modal').modal('toggle');
-    }
+    };
 
     var init = function() {
 
@@ -162,7 +163,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
                 });
         }
-    }
+    };
 
     HelloService.on('auth.login', function(auth) {
         //console.log("here");

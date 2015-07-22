@@ -1,4 +1,6 @@
 'use strict';
+/* global angular, L */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 
@@ -117,7 +119,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 			});
 			vm.showAdvancedSearch = true;
 			vm.isResultShow = false;
-		}
+		};
 
 	// Init statuses if path is a search url
 	angular.element(document).ready(function() {
@@ -387,7 +389,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
      	            });
      	        }
      	    }).addTo(map);    
-     	};
+     	}
 
      	function destroyMap() {
      		if (map) {

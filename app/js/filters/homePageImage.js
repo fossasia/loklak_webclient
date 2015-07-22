@@ -15,8 +15,7 @@ function homePageImageFilter() {
         } catch (err) {
             return 'images/anon_200x200.png';
         }
-
-    }
+    };
 }
 
 filtersModule.filter('homePageImage', homePageImageFilter);

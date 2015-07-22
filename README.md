@@ -46,6 +46,8 @@ We recommend using `screen` of `pm2` to manage your node processes.
 
 When there is a need to change default port `oauthProxyUrl, oauthProxyRedirectUrl, oauthProxyPort` should have the same port. The port to the application can be change at `gulpDevExpressPort`
 
+**IMPORTANT** Since OauthProxy instance are also using fields from custom_configFile.json, **if twitter credentials are changed**, including consumerKey, consumerSecret & callbackUrl, **OauthProxy must be restarted**. This only applies for production since in development, the instance is restarted automatically with `gulp dev`
+
 ### Troubleshooting
 
 - On *nix based systems (latest Ubuntu, Fedora version) you might get an

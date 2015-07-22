@@ -1,4 +1,5 @@
 'use strict';
+/* jshint unused:false */
 
 var directivesModule = require('./_index.js');
 
@@ -12,16 +13,12 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 	 * only when a thumbnail is available
 	 */
 	var generateArticleParts = function(data) {
-		if (!data.thumbnail_url) {
-			return false;
-		} else {
-			var author = (data.author && data.provider_name) ? '<a href="' + data.url + '" class="article-author">' + data.provider_name + ' - ' + data.author + '</a href="' + data.url + '">' : '';
-			var title = (data.title) ? '<a href="' + data.url + '" class="article-title">' + data.title  + '</a href="' + data.url + '">' : '';
-			var thumbnail = '<a href="' + data.url + '" class="article-img-container"><img src="' + data.thumbnail_url + '"></a href="' + data.url + '">';
-			var container = '<div class="article-container" href="' + data.url + '">';
+			var site = (data.site) ? '<a href="' + data.canonical + '" class="article-site">' + data.site + '</a>' : '';
+			var title = (data.title) ? '<a href="' + data.canonical + '" class="article-title">' + data.title  + '</a href="' + data.canonical + '">' : '';
+			var thumbnail = '<a href="' + data.canonical + '" class="article-img-container"><img src="' + data.thumbnail_url + '"></a href="' + data.canonical + '">';
+			var container = '<div class="article-container" href="' + data.canonical + '">';
 
-			return container + author + thumbnail + title + '</div>';
-		}		
+			return container + site + thumbnail + title + '</div>';	
 	};
 
 	/**
@@ -29,6 +26,68 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 	 */
 	var generateMp4Template = function(src) {
 		return '<video width="100%"" style="min-height: 350px;" controls><source src="' + src + '" type="video/mp4">Your browser does not support HTML5 video.</video>';
+	};
+
+	/**
+	 * From iframely result, if data.html is not available
+	 * find html in links array
+	 * return html as result
+	*/
+	var findHtml = function(linkArray) {
+		var keepSearching = true;
+		var i = 0;
+		var result = false;
+		while (keepSearching && i < linkArray.length) {
+			var linkObj = linkArray[i];
+			for (var key in linkObj) {
+				if (key === "html") {
+					result = linkObj.html;
+					keepSearching = false;
+				}
+			}
+			i = i+1;
+		}
+		return result;
+	};
+
+	/**
+	 * From iframely result, if data.html is not available both in data root & data.link
+	 * find thumbnail
+	 * thumbnail with rel containing social media source has higher priority
+	 * for now the only high priority social source is twitter
+	*/
+	var findThumb = function(data) {
+
+		// Loop round 1 finding thumbnail that also has a social media rel
+		var keepSearching = true;
+		var i = 0;
+		var result = false;
+		while (keepSearching && i < data.links.length) {
+			var linkObj = data.links[i];
+			if (linkObj.rel.indexOf("twitter") > -1 && linkObj.rel.indexOf("thumbnail") > -1) {
+				data.meta.thumbnail_url = linkObj.href;
+				result = data.meta;
+				keepSearching = false;
+			}
+			i = i+1;
+		}
+		if (result) {
+			return result; 
+		}
+
+		// Just find a thumbnail
+		var keepSearching = true;
+		var i = 0;
+		var result = false;
+		while (keepSearching && i < data.links.length) {
+			if (linkObj.rel.indexOf("thumbnail") > -1) {
+				data.meta.thumbnail_url = linkObj.href;
+				result = data.meta;
+				keepSearching = false;
+			}
+			i = i+1;
+		}
+		return result;
 	};
 
 	return {
@@ -67,7 +126,27 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 					return;
 				} else if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
 					DebugLinkService.debugLink(undebuggedLink).then(function(data) {
-						if (data !== "Page not found") {
+						var tagToAppend = "";
+						if (data.html) { // When embed is available and html is the only choice
+							tagToAppend = data.html;
+							scope.debuggable = true;
+						} else { // When embed is available and there are multiple choice
+							var detailedData = findHtml(data.links);
+							if (detailedData) {
+								tagToAppend = detailedData;
+							} else {
+								var moreDetailedData = findThumb(data);
+								if (moreDetailedData) {
+									tagToAppend = generateArticleParts(moreDetailedData);
+								}
+							}
+						}
+
+						if (tagToAppend) {
+							element.append(tagToAppend);
+							scope.debuggable = true;
+						}
+						/*if (data !== "Page not found") {
 							scope.debuggable = true;
 							if (data.type === "link" || data.type === "photo") {
 								// no html given, have to generate before append
@@ -83,7 +162,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 									element.append(data.html);
 								}
 							}
-						}
+						}*/
 					}, function() {scope.debuggable = false;});
 				}
 			}, 1000);	

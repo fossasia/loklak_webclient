@@ -1,4 +1,5 @@
 'use strict';
+// jshint laxbreak:true
 
 var servicesModule = require('./_index.js');
 
@@ -14,11 +15,11 @@ function MapPopUpTemplateService($filter) {
   	var text = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(status.text)));
   	var created_at = $filter('date')(status.created_at, 'dd MMM yyyy');
     var placetext="";
-    if(status.location_source=="REPORT" && status.location_source)
+    if(status.location_source === "REPORT" && status.location_source)
     {
        placetext='<span class="fa fa-map-marker text">'+status.place_name+'</span>';
     }
-  	var result='<div class="single-tweet tweet map-tweet">'
+  	result='<div class="single-tweet tweet map-tweet">'
   		+			 '<div class="top-metadata">'
   		+				'<img class="avatar"' 
   		+					 'onError="this.onerror=null;this.src=\'/images/anon_200x200.png\';"'
@@ -34,7 +35,7 @@ function MapPopUpTemplateService($filter) {
       +             placetext
   		+				'</div>'        
   		+			'</div>'
-  		+		'</div>'
+  		+		'</div>';
 
 
   	return result;

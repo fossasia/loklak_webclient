@@ -1,5 +1,6 @@
 'use strict';
 /* global angular */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -24,52 +25,46 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.statuses = [];
         searchParams = {};
         vm.displaySearch = true;
+    };
 
-    }
     var maxStatusCount = 0;
-    if (vm.wallOptions.layoutStyle == '1')
+    if (vm.wallOptions.layoutStyle == '1') {
         maxStatusCount = 10; //linear
-    else if (vm.wallOptions.layoutStyle == '2')
+    } else if (vm.wallOptions.layoutStyle == '2') {
         maxStatusCount = 9; //masonry
-    else if (vm.wallOptions.layoutStyle == '3')
+    } else if (vm.wallOptions.layoutStyle == '3') {
         maxStatusCount = 1; //single
-    else if (vm.wallOptions.layoutStyle == '4')
+    } else if (vm.wallOptions.layoutStyle == '4') {
         maxStatusCount = 10; //map
-    console.log(vm.wallOptions.layoutStyle);
-    count = 0;
+    }
+    console.log(maxStatusCount);
+
     init();
     //calculate term
     function calculateTerm(argument) {
         term = "";
-        // if(vm.wallOptions.mainHashtag)
-        //     term = vm.wallOptions.mainHashtag;
-        if (vm.wallOptions.layoutStyle == '4'){
-            if(term=="")
-                term = "/location";
-            else
-                term = term + " /location";
+        if(vm.wallOptions.mainHashtag){
+            term = vm.wallOptions.mainHashtag;
         }
-        for (var i = 0; i < vm.wallOptions.allWords.length; i++) {
-            term = term + ' ' + vm.wallOptions.allWords[i].text;
+        for (var i = 0; i < vm.wallOptions.all.length; i++) {
+            term = term + ' ' + vm.wallOptions.all[i].text;
         };
-        for (var i = 0; i < vm.wallOptions.anyWords.length; i++) {
-            term = term + ' OR ' + vm.wallOptions.anyWords[i].text;
+        for (var i = 0; i < vm.wallOptions.none.length; i++) {
+            term = term + ' -' + vm.wallOptions.none[i].text;
         };
-        for (var i = 0; i < vm.wallOptions.noWords.length; i++) {
-            term = term + ' -' + vm.wallOptions.noWords[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.allHashtags.length; i++) {
-            term = term + ' OR #' + vm.wallOptions.allHashtags[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.from.length; i++) {
-            term = term + ' OR from:' + vm.wallOptions.from[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.to.length; i++) {
-            term = term + ' OR @' + vm.wallOptions.to[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.mentioning.length; i++) {
-            term = term + ' OR @' + vm.wallOptions.mentioning[i].text;
-        };
+        if(vm.wallOptions.any.length>0){
+            term = term + ' ' + vm.wallOptions.any[0].text;
+            for (var i = 1; i < vm.wallOptions.any.length; i++) {
+                term = term + ' OR ' + vm.wallOptions.any[i].text;
+            };
+        }
+        if (vm.wallOptions.layoutStyle == '4'){
+            if(term==""){
+                term = "/location";
+            } else {
+                term = term + " /location";
+            }
+        }
         if (vm.wallOptions.images) {
             if (vm.wallOptions.images == "only") {
                 term = term + ' /image';
@@ -99,7 +94,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         //clean up
         term = term.trim();
-        if(term.substring(0,2)=='OR'){
+        if (term.substring(0, 2) == 'OR') {
             term = term.substring(2).trim();
         }
         console.log(term);
@@ -183,10 +178,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function contains(Statuses, status_id) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i] === status_id) {
+            if (Statuses[i] == status_id) {
                 return true;
             }
-        };
+        }
         return false;
     }
 
@@ -230,43 +225,43 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     // };
 
-    vm.update2 = function(refreshTime, currCount) {
-        if (currCount == count) {
-            return $timeout(function() {
+    vm.update2 = function(refreshTime) {
+        return $timeout(function() {
 
-                SearchService.initData(searchParams).then(function(data) {
-                    if (data.statuses) {
-                        if (data.statuses.length <= 0) {
-                            vm.showEmpty = true;
+            SearchService.initData(searchParams).then(function(data) {
+                if (data.statuses) {
+                    if (data.statuses.length <= 0) {
+                        vm.showEmpty = true;
+                        vm.update2(refreshTime + 10000);
+                        console.log(refreshTime + 10000);
+                    } else {
+                        if (vm.statuses.length <= 0) {
+                            vm.statuses = data.statuses.splice(0, maxStatusCount);
+                            nextStatuses = vm.statuses;
                         } else {
-                            if (vm.statuses.length <= 0) {
-                                vm.statuses = data.statuses.splice(0, maxStatusCount);
-                                nextStatuses = vm.statuses;
-                            } else {
-                                for (var i = data.statuses.length - 1; i > -1; i--) {
-                                    if (data.statuses[i].created_at > vm.statuses[0].created_at) {
-                                        vm.statuses.unshift(data.statuses[i]);
-                                        vm.statuses.pop();
-                                    }
+                            for (var i = data.statuses.length - 1; i > -1; i--) {
+                                if (data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                    vm.statuses.unshift(data.statuses[i]);
+                                    vm.statuses.pop();
                                 }
                             }
-                            var newRefreshTime = getRefreshTime(data.search_metadata.period);
-                            vm.update2(newRefreshTime, currCount);
-                            vm.showEmpty = false;
-
                         }
-                    } else {}
+                        var newRefreshTime = getRefreshTime(data.search_metadata.period);
+                        vm.update2(newRefreshTime);
+                        vm.showEmpty = false;
 
-                }, function(error) {
+                    }
+                } else {
+                    vm.update2(refreshTime + 10000);
+                    console.log(refreshTime + 10000);
+                }
 
-                });
-            }, refreshTime);
-        } else {
+            }, function(error) {
+                vm.update2(refreshTime + 10000);
+                console.log(refreshTime + 10000);
 
-            vm.statuses = [];
-            return null;
-        }
-
+            });
+        }, refreshTime);
     };
 
     var tweetRefreshTime = 4000;
@@ -285,7 +280,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     });
 
     //On INIT
-    vm.update2(0, count);
+    vm.update2(0);
 
     //Statistics Code
 
@@ -302,28 +297,34 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return 0;
     }
 
-    function calculateBins(labels, data){
+    function calculateBins(labels, data) {
         var binCount = 10;
-        if(labels.length<=binCount){
-            return({data:data,labels:labels});
+        if (labels.length <= binCount) {
+            return ({
+                data: data,
+                labels: labels
+            });
         }
         var intervalLength = Math.round(labels.length / binCount);
-        var newData =[], newLabels = [];
-        for (var i = 0; i < labels.length; i+=intervalLength) {
+        var newData = [],
+            newLabels = [];
+        for (var i = 0; i < labels.length; i += intervalLength) {
             newLabels.push(labels[i]);
             var sum = 0;
-            for(var j=i; j<(i+intervalLength); j++){
-                if(j<data.length)
+            for (var j = i; j < (i + intervalLength); j++) {
+                if (j < data.length) {
                     sum = sum + data[j];
+                }
             }
             newData.push(sum);
-        };
+        }
         var retval = {
             data: newData,
             labels: newLabels
         };
         return retval;
     }
+
     function evalHistogram(statistics) {
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
             var data = [];
@@ -335,7 +336,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                     data.push(statistics.created_at[property]);
                 }
             }
-            var bins = calculateBins(labels,data);
+            var bins = calculateBins(labels, data);
             data = bins.data;
             labels = bins.labels;
             //labels = labels.slice(labels.length - 25, labels.length);
@@ -348,34 +349,45 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             labels = [];
 
             //Top twitterers
-            for (var s in statistics.screen_name)
+            for (var s in statistics.screen_name) {
                 sortable.push([s, statistics.screen_name[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+
+            sortable.sort(function(a, b) {
+                return b[1] - a[1];
+            });
             sortable = (sortable.slice(0, 3));
             vm.topTwitterersData = sortable;
 
             //Top Hashtags
             sortable = [];
-            for (var s in statistics.hashtags)
+            for (var s in statistics.hashtags) {
                 sortable.push([s, statistics.hashtags[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+            sortable.sort(function(a, b) {
+                return b[1] - a[1];
+            });
             sortable = (sortable.slice(0, 3));
-            vm.topHashtagsData = sortable;  
+            vm.topHashtagsData = sortable;
 
             //Top Mentions
             sortable = [];
-            for (var s in statistics.mentions)
+            for (var s in statistics.mentions) {
                 sortable.push([s, statistics.mentions[s]]);
-            sortable.sort(function(a, b) {return b[1] - a[1]});
+            }
+
+            sortable.sort(function(a, b) {
+                return b[1] - a[1];
+            });
             sortable = (sortable.slice(0, 3));
-            vm.topMentionsData = sortable;                        
+            vm.topMentionsData = sortable;
         } else {
             //vm.histogram2 = [];
         }
     }
 
     $interval(function() {
-        if(vm.wallOptions.showStatistics==true){
+        if (vm.wallOptions.showStatistics == true) {
             if (vm.statuses.length > 0) {
                 var statParams = searchParams;
                 StatisticsService.getStatistics(statParams)

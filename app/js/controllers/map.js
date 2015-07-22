@@ -1,5 +1,6 @@
 'use strict';
-/* global angular */
+/* global angular, L */
+/* jshint unused:false */
 
 var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
@@ -33,8 +34,8 @@ var marker=[];
         });
         var basemapObj = {
             "First Basemap": grayscale
+        };
 
-        }
         var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([35,34], 2);
         $rootScope.$watch(function() {
             return $rootScope.root.twitterSession;
@@ -98,8 +99,10 @@ var marker=[];
             {
                 
                 var locarray = {
+
                     "places" : followers_location
                 }
+
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
@@ -200,8 +203,10 @@ var marker=[];
             {
                 
                 var locarray = {
+
                     "places" : following_location
                 }
+
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
@@ -282,7 +287,7 @@ var marker=[];
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
                         
-                    };
+                    }
                     
                 }
 

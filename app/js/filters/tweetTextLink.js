@@ -21,6 +21,6 @@ filtersModule.filter('tweetTextLink', function() {
             else {
                 return "<a class='external_link' href='" + url + "' target='_blank'>" + changedUrl + "</a>";
             }
-        })
+        });
     };
 });

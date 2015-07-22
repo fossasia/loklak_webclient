@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper" onload="root.getHashtagTrends()">
     <!-- Main content -->
     <div class="container content-container">
       
@@ -34,6 +34,9 @@
                 <h3 class="trend-title">Trends</h3>
                 <ul id="home-trend-list">
                     <li><a href="./search?q=%23loklak">#loklak</a></li>
+                    <li ng-repeat="(key, value) in root.trends">
+                        <a href="./search?q=%23{{key}}">#{{key}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -66,6 +69,11 @@
                 <h3 class="trend-title">Trends</h3>
                 <ul id="home-trend-list">
                     <li><a href="./search?q=%23loklak">#loklak</a></li>
+                    <li ng-repeat="(key, value) in root.trends">
+                        <!-- -->
+                        <a href="./search?q=%23{{key}}">#{{key}}</a>
+                        <!-- -->
+                    </li>
                 </ul>
             </div>
         </div>

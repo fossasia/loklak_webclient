@@ -8,12 +8,12 @@
 		left: 0;
 		> .topnav {
 			background: white;
-			height: 50px;
+			height: 46px;
 		}
 	}
 	.universal-topnav-container {
 		width: 100%;
-		height: 50px;
+		height: 46px;
 		overflow: visible;
 		display: table;
 		.universal-topnav-item {
@@ -40,9 +40,9 @@
 			display: inline-block;
 			a {
 				display: inline-block;
-				padding: 10px 15px 10px 15px;
+				padding: 10px 15px 9px 15px;
 				@media (min-width: 768px) and (max-width: 991px) {
-				   	padding: 10px 6px 10px 8px !important;
+				   	padding: 10px 6px 9px 8px !important;
 				}
 				line-height: 20px;
 				transition: all 0s ease-in-out;
@@ -50,15 +50,22 @@
 				&:hover, &.active-view-nav {
 					color: #55acee;
 					transition: all 0s ease-in-out;
-					border-bottom: 5px solid #55acee;
+					border-bottom: 4px solid #55acee;
 					background: none;
+					span.fa {
+						color: #55acee;
+					}
 				}
 				span.fa {
 					margin-right: 5px;
-					font-size: 24px;
+					font-size: 20px;
 					position: relative;
 					top: 3px;
 					color: rgb(102, 117, 127);
+				}
+				span.nav-item-title {
+					font-size: 13px;
+					margin-left: 3px;
 				}
 			}
 		}
@@ -77,18 +84,23 @@
 		> img {
 			float: left; 
 			margin-left: 0;
+			height: 34px;
+			margin-top: 5.5px;
 		}
 	}
 		.global-search-container {
-			padding-top: 8px;
+			padding-top: 7px;
+			position: relative;
+			display: inline-block;
 			#global-search-input { 
 				color: #292f33;
 				background-color: #f5f8fa;
 				border: 1px solid #e1e8ed;
-				border-radius: 13px;
+				border-radius: 21px;
 				width: auto;
-				padding: 8px;
-				min-width: 150px;
+				padding: 8px 10px;
+				font-size: 12px;
+				width: 218px;
 				&:focus {
 					color: #292f33;
 					text-shadow: none;
@@ -98,9 +110,17 @@
 					outline: none;
 				}
 			}
+			.fa.fa-search {
+				position: absolute;
+				top: 16px;
+				right: 10px;
+				font-size: 13px;
+				color: #66757f;
+			}
+
 			@media (min-width: 768px) and (max-width: 991px) {
 				#global-search-input {
-					width: 100px;
+					width: 160px;
 				}
 			}
 		}
@@ -110,9 +130,10 @@
 			line-height: 20px;
 			color: white;
 			#home-view-user-avatar {
-				height: 40px;
-				margin-top: 5px;
+				margin-top: 7px;
 				border-radius: 5px;
+				height: 32px;
+				width: 32px;
 				&:hover {
 					cursor: pointer;
 				}
@@ -139,9 +160,9 @@
 					display: inline-block;
 					color: white;
 					button {
-						height: 40px;
-						margin-top: 5px;
-						margin-bottom: 7px;
+						height: 32px;
+						margin-top: 7px;
+						padding: 6px 12px !important;
 						background-color: #55acee;
 						color: white;
 						border: none;
@@ -231,17 +252,15 @@
 		.global-tweet-button-container {
 			padding: 0;
 			#global-new-tweet-button {
-				height: 40px;
-				margin-top: 5px;
+				height: 32px;
+				margin-top: 7px;
 				background-color:#55acee;
 				color:white;
 				span.fa {
-					font-size: 26px;
+					font-size: 14px;
 				}
 				span.text {
-					font-size: 14px;
-					position: relative;
-					bottom: 4px;
+					font-size: 13px;
 					margin-left: 3px;
 				}
 			}
