@@ -15,19 +15,19 @@
    <div id="map" >
  
     </div>
-    <div id="docDrawer" class="drawer dw-xs-3 dw-sm-3 dw-md-3 fold in drawer-right"  style="margin-top:10%; height:540px; z-index:+889;" aria-labelledby="docDrawer">
+    <div id="docDrawer" class="drawer dw-xs-3 dw-sm-3 dw-md-3 fold in drawer-right"  style="margin-top:10%; height:530px; z-index:+889;" aria-labelledby="docDrawer">
         <div class="drawer-controls" style="z-index:+888; top:100px;">
             <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default"><i class="fa fa-align-justify"></i></a>
         </div>
         <div class="drawer-contents">
           <ul class="nav nav-pills" role="tablist">
-          <li role="presentation" class="active"><a href="#">Followers <span class="badge">{{followers_count}}</span></a></li>
+          <li role="presentation" class="active"><a href="#">Followers <span class="badge">{{followers_status}}</span></a></li>
         </ul>
             <div style="height:220px; overflow-y:scroll;">
            
 
            <li ng-repeat="follower in followers">
-            <div class="home-user-info" style="width:100%;">
+            <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
             <div class="blue-background-placeholder">
             <img src="{{follower.profile_banner}}" >
             </div>
@@ -56,13 +56,13 @@
              </li>
     </div>
    <ul class="nav nav-pills" role="tablist">
-          <li role="presentation" class="active"><a href="#">Following <span class="badge">{{following_count}}</span></a></li>
+          <li role="presentation" class="active"><a href="#">Following <span class="badge">{{following_status}}</span></a></li>
         </ul>
     <div style="height:220px; overflow-y:scroll;">
            
 
            <li ng-repeat="following in following">
-            <div class="home-user-info" style="width:100%;">
+            <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
             <div class="blue-background-placeholder">
             <img src="{{following.profile_banner}}" >
             </div>
