@@ -183,7 +183,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         updatePath(vm.term + '+' + '/map');
 
         var params = {
-            q: vm.term /*+ "+" + initialBound*/,
+            q: vm.term + "+" + initialBound,
             count: 300
         };
         SearchService.initData(params).then(function(data) {
@@ -194,7 +194,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 }
             })
             initMap(data.statuses);   
-            console.log(withoutLocation); 
             addUserLocation(withoutLocation);
         }, function() {});
 
@@ -374,7 +373,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         noLocationStatuses.forEach(function(ele, index) {
             if (ele.user) {
                 SearchService.getUserInfo(ele.user.screen_name).then(function(userInfo) {
-                    console.log(userInfo);
                     if (userInfo.user && userInfo.user.location_mark) {
                         ele.location_mark = userInfo.user.location_mark;    
                     }
