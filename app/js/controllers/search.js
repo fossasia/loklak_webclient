@@ -12,76 +12,99 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', 'MapPopUpTemplateService', function($stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService, MapPopUpTemplateService) {
 
     // Define models here
+    var intervals = [];
     var vm = this;
-    window.vm = vm;
+
     vm.modal = { text: "Tweet content placeholder"};
     vm.showDetail = false;
     vm.showResult = false;
     vm.term = '';
     vm.pool = [];
     vm.statuses = [];
+    
     $rootScope.root.globalFilter = '';
-    var intervals = [];
+    
 
-    // Infinite-scroll trigger 
-    var getMore = function() {
-        if (vm.pool.length > 0) { // Prevent error log when page load
-            var untilDate = new Date((new Date(vm.pool[vm.pool.length -1 ].created_at)).getTime() - 1);
-            var untilDateTerm = $filter("date")(untilDate, "yyyy-MM-dd_HH:mm");
-            var loadPoolTerm = $location.search().q + "+until:" + untilDateTerm;
+    /*
+     * Infinity scroll directive's trigger
+     * trigger arg: @amount
+     * An @amount of statuses will be concatenated to the current result
+     * If the pool of statuses's level is low, get more statuses
+     * Is also used to init the shown result
+    */
+    $scope.loadMore = function(amount) {
+        if (vm.pool.length < (2 * amount + 1)) {
+            getMoreStatuses();
+        }
+        vm.statuses = vm.statuses.concat(vm.pool.slice(0,amount));
+        vm.pool = vm.pool.splice(amount);
+    };
+
+    var getMoreStatuses = function() {
+        if (vm.pool.length > 0) { 
+            // Get new time span bound from the lastest status
+            var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at)
+            var newUntilBound = new Date(currentUntilBound.getTime() - 1);
+            var untilSearchParam = $filter("date")(newUntilBound, "yyyy-MM-dd_HH:mm");
+            var newSearchParam = $location.search().q + "+until:" + untilSearchParam;
             var params = {
-               q: loadPoolTerm,
+               q: newSearchParam,
                timezoneOffset: (new Date().getTimezoneOffset())
             };
+
+            // Get new data and concat to the current result
             SearchService.initData(params).then(function(data) {
                    vm.pool = vm.pool.concat(data.statuses);
             }, function() {});    
         }
     };
 
-    $scope.loadMore = function(step) {
-        if (vm.pool.length < (2 * step + 1)) {
-            getMore();
-        }
-        vm.statuses = vm.statuses.concat(vm.pool.slice(0,step));
-        vm.pool = vm.pool.splice(step);
-    };
-
-
-
-    // Update status and path on successful search
+    
+    /*
+     * Wrapper for SearchService
+     * Included updating path operation before search
+     * Init result with 20 statuses
+     * Init a background interval to update the result
+     */
     vm.update = function(term) {
         updatePath(term);
         SearchService.getData(term).then(function(data) {
                vm.pool = data.statuses;
-
                vm.statuses = [];
                $scope.loadMore(20);
-
                vm.showResult = true;
                startNewInterval(data.search_metadata.period);
-        }, function() {});
-
-        
+        }, function() {}); 
     };
     
-    // No filter search
+    ////////
+    //// FILTERS FEATURE
+    //// filter fn is used as ng-click trigger
+    //// a typical filter trigger will include these operation:
+    //// - change current filter model;  - show/hide related result according to filter
+    //// - request for new result; - update path based on search term & filter
+    //// Filter explanation: live = no filter; accounts = show accounts only; 
+    //// photos = tweet with native twitter photo + tweet with recognized photo link
+    //// video = tweet with native twitter video + tweet with recognized video link
+    //// map = no filter, but results are shown on a map
+    ////////
+
     vm.filterLive = function() {
+        $rootScope.root.globalFilter = 'live';
         vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
-        $rootScope.root.globalFilter = 'live';
         var term = vm.term;
+
         vm.update(term);
     };
 
-    // Accounts search
-    // Do a normal query, go one by one, check if existed in accounts to add to vm.accounts
     vm.filterAccounts = function() {
-        vm.newStasuses = [];
         $rootScope.root.globalFilter = 'accounts';
+        vm.newStasuses = [];
         vm.accounts = [];
         var term = vm.term;
+
         SearchService.getData(term).then(function(data) {
             data.statuses.forEach(function(ele) {
                 var notYetInAccounts = true;
@@ -96,32 +119,29 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             vm.peopleSearch = true;
             vm.showMap = false;
         }, function() {});
-
         updatePath(vm.term + '+' + '/accounts');
     };
 
-    // Photos search
     vm.filterPhotos = function() {
+        $rootScope.root.globalFilter = 'photos';
         vm.newStasuses = [];
         vm.statuses = [];
         vm.peopleSearch = false;
-        vm.showMap = false;
-        $rootScope.root.globalFilter = 'photos';
+        vm.showMap = false; 
         var term = vm.term + '+' + '/image';
+
         vm.update(term);
     };
 
-    // Videos search
     vm.filterVideos = function() {
+        $rootScope.root.globalFilter = 'videos';
+        vm.statuses = [];   
         vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
-        vm.statuses = [];   
-        $rootScope.root.globalFilter = 'videos';
         vm.showResult = true;
-
-
-        // Get native videos
+        // Tweet with native video has a value in this.videos array
+        // Move that value to this.links to be evaluated by debugged-link directive
         SearchService.getData(vm.term + '+' + '/video').then(function(data) {
             var statuses = data.statuses;
             var statusesWithVideo = [];
@@ -131,47 +151,17 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                         status.links[0] = status.videos[0];
                     }
                     statusesWithVideo.push(status);
-                    
                 }
             });
-
             vm.pool = statusesWithVideo;
             vm.statuses = [];
             $scope.loadMore(15);
-
             startNewInterval(data.search_metadata.period);
         }, function() {});    
 
         updatePath(vm.term + '+' + '/video');
     };
 
-
-    // News search
-    vm.filterNews = function() {
-        vm.newStasuses = [];
-        vm.peopleSearch = false;
-        vm.showMap = false;
-        $rootScope.root.globalFilter = 'news';
-        vm.statuses = [];
-        var term = vm.term;
-
-        SearchService.getData(term).then(function(data) {
-            data.statuses.forEach(function(status) {
-                if (hasExternalLink(status)) {
-                    DebugLinkService.debugLink(status.links[0]).then(function(data) {
-                        if (data.type === 'link' && data.thumbnail_url) {
-                            vm.statuses.push(status);
-                        }
-                    }, function() {return;});
-                }
-            });
-            startNewInterval(data.search_metadata.period);
-        }, function() {});
-
-        updatePath(vm.term + '+' + '/news');
-    };
-
-    // Map search, show results on a map
     vm.filterMap = function() {
         vm.newStasuses = [];
         $rootScope.root.globalFilter = "map";
