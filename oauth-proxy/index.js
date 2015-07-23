@@ -1,6 +1,7 @@
-// Demonstation of integration
 var oauthshim = require('oauth-shim'),
     express = require('express'),
+    api = require('./api.js'),
+    bodyParser = require('body-parser'),
     request = require('request');
 var config = require('../custom_configFile.json');
 if (!config.twitterConsumerKey || !config.twitterConsumerSecret || !config.twitterCallbackUrl) {
@@ -9,9 +10,19 @@ if (!config.twitterConsumerKey || !config.twitterConsumerSecret || !config.twitt
     config.twitterCallbackUrl = "placeholder";
 }
 var app = express();
-
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 // Set application to list on PORT
 app.listen(config.oauthProxyPort);
+
+app.all('*', function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Origin", config.domain);
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
 
 console.log("OAuth Shim listening on " + config.oauthProxyPort);
 
@@ -27,7 +38,11 @@ app.get('/getData', function(req, res){
         console.log(response.body);
         res.jsonp(JSON.parse(response.body));
     });    
-})
+});
+
+/*RESTful routes for apps */
+app.use('/', api);
+
 
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};
