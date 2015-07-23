@@ -68,6 +68,7 @@
     "angular-google-picker": "^0.2.0",
     "angular-loading-bar": "^0.7.1",
     "angular-moment": "^0.10.0",
+    "angular-resource": "^1.4.3",
     "bootstrap": "^3.3.4",
     "browserify-shim": "^3.8.9",
     "chart.js": "^1.0.2",
