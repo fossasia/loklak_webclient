@@ -15,7 +15,11 @@
             <!-- End of metadata -->
 
             <!-- Text -->
-            <p class="tweet-content-text" ng-bind-html="data.text | tweetTextLink  | tweetMention | tweetHashtag | toTrusted"></p>
+            <div class="tweet-content-container">
+                <p class="tweet-content-text" ng-bind-html="data.text | parseNormalContent | tweetTextLink  | tweetMention | tweetHashtag | toTrusted"></p>
+                <p class="rich-tweet-content-text" ng-bind-html="data.text | parseRichContent | toTrusted"></p>
+            </div>
+            
 
             <div class="debugged-link-container" debugged-link data="data" image-link="data.images" link-array="data.links" debuggable="debuggable"></div>
 

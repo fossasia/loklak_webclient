@@ -69,16 +69,17 @@
     "angular-loading-bar": "^0.7.1",
     "angular-moment": "^0.10.0",
     "bootstrap": "^3.3.4",
+    "browserify-shim": "^3.8.9",
     "chart.js": "^1.0.2",
     "gulp-nodemon": "^2.0.3",
     "jquery": "^2.1.4",
+    "jquery-browserify": "^1.8.1",
+    "markdown": "^0.5.0",
     "masonry-layout": "^3.3.0",
     "moment": "^2.10.2",
     "ng-tags-input": "^2.3.0",
     "sync-request": "^2.0.1",
-    "twitter-text": "^1.12.0",
-    "browserify-shim": "^3.8.9",
-    "jquery-browserify": "^1.8.1"
+    "twitter-text": "^1.12.0"
   },
   "browserify-shim": {
     "jQuery": "global:$",
