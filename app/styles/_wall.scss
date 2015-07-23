@@ -1,7 +1,9 @@
 .no-x-scroll {
-	overflow-x:hidden;
-	height: 100%;
+    overflow-x: hidden;
+    height: 100%;
 }
+
+
 /* Style for wall front-end */
 
 
@@ -39,7 +41,7 @@
 }
 
 .wall-preview-container {
-	height: 500px;
+    height: 500px;
 }
 
 .wall-preview {
@@ -86,7 +88,6 @@
 }
 
 .tabs-left > li > a {
-    
     text-align: center;
     padding: 20% 0;
 }
@@ -114,6 +115,11 @@
     display: inline-block;
     padding-left: 10px;
     vertical-align: middle;
+}
+
+.wall-exclude-toggles {
+    opacity: 0.9;
+    color: grey;
 }
 
 .wall-float-container {
@@ -167,7 +173,8 @@
 .wall-tag-label-contain {
     border: 1px solid #98bc68;
     border-radius: 5px;
-    margin-top: 24px;
+    margin-top: 10px;
+    margin-bottom: 30px;
     display: block;
 }
 
@@ -187,6 +194,26 @@
     border: 1px solid #b35e51;
     border-radius: 5px;
     margin-top: 10px;
+}
+
+.wall-preview-logo {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.wall-file-upload {
+    width: 157px;
+    height: 57px;
+    margin-left: 15px;
+    background: url(https://lh6.googleusercontent.com/-dqTIJRTqEAQ/UJaofTQm3hI/AAAAAAAABHo/w7ruR1SOIsA/s157/upload.png);
+    overflow: hidden;
+    input {
+        display: block !important;
+        width: 157px !important;
+        height: 57px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
 }
 
 .wall-vertical-line {}
