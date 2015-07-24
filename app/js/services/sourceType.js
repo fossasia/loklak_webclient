@@ -11,8 +11,7 @@ function SourceTypeService() {
 
 	service.sourceTypeList = 
 	[
-		'IMPORT',
-		'USER',
+		'TWITTER',
 		'FOSSASIA_API'
 	];
 
