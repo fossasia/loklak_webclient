@@ -33,7 +33,7 @@ var marker=[];
             "First Basemap": grayscale
         };
 
-        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView([35,34], 2);
+        var map = L.map('map',{layers:[grayscale,followerslayer,followinglayer]}).setView(new L.LatLng(5.3,-4.9), 2);
         $rootScope.$watch(function() {
             return $rootScope.root.twitterSession;
             }, function(session) {

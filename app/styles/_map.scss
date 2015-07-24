@@ -1,3 +1,20 @@
+/* Map view */
+.content-wrapper.map-view {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	#map {
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.leaflet-top {
+	    top: 50px !important;
+	}
+}
+
+
 
 /* Style for map pop up */
 	.leaflet-popup-content {
@@ -8,7 +25,7 @@
 	}
 	.single-tweet.map-tweet {
 		margin: 0;
-		padding: 0;
+		padding: 0;	
 		min-width: 250px;
 		position: relative;
 		transform: none;
