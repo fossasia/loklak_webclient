@@ -297,7 +297,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
      */
     function getMoreLocationOnMapAction() {
-        var bound = map.getBounds();
+        var bound = window.map.getBounds();
         var locationTerm = MapCreationService.getLocationParamFromBound(bound);
         var params = { q: vm.term + "+" + locationTerm, count: 300};
         SearchService.initData(params).then(function(data) {
