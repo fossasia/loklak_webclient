@@ -45,7 +45,7 @@ var marker=[];
 
          
         
-         L.control.layers(basemapObj,overlays).addTo(map);
+         L.control.layers(basemapObj,overlays, {position: 'topleft'}).addTo(map);
 
 
         function plotFollowersonMap()
@@ -176,7 +176,7 @@ var marker=[];
             $rootScope.$apply(function() 
             {
                 twitterfollowing.data.forEach(function(ele){
-                    if(ele.location)
+                    if(ele.location && ele.status.text)
                     {
                         following.location.push(ele.location);
                         following.name.push(ele.name);
