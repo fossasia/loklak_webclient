@@ -14,6 +14,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     var vm = this;
     var term = '';
     var isEditing = -1;
+    $scope.wallsPresent = true;
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
@@ -25,14 +26,14 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     initWallOptions();
 
     function hexToRgb(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-        //Selects foreground colour as black or white based on background
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    //Selects foreground colour as black or white based on background
     function colourCalculator(rgb) {
         var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
         if (o > 125) {
@@ -60,7 +61,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         }
     });
 
-    $scope.lostMainhashtagFocus = function(){
+    $scope.lostMainhashtagFocus = function() {
         //check if mainHashtag already in allHashtags
         // var inHashtags = false;
         // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
@@ -96,39 +97,45 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         if ($rootScope.root.twitterSession) {
             //save wall
             //console.log("Saving wall");
-            var saveData = new AppsService({user:$scope.screen_name,app:'wall'});
+            var saveData = new AppsService({
+                user: $scope.screen_name,
+                app: 'wall'
+            });
             //saveData.screen_name = $scope.screen_name;
             //$scope.newWallOptions.link = '/wall/display?data=' + dataParams;
-            
+
 
             // saveData.apps = $scope.userData;
-            for(var k in $scope.newWallOptions){
+            for (var k in $scope.newWallOptions) {
                 saveData[k] = $scope.newWallOptions[k];
             }
             if (isEditing !== -1) {
-                for(var k in $scope.newWallOptions){
+                for (var k in $scope.newWallOptions) {
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
                 }
-                $scope.userWalls[isEditing].$update({user:$scope.screen_name,app:'wall'}, function(result){
+                $scope.userWalls[isEditing].$update({
+                    user: $scope.screen_name,
+                    app: 'wall'
+                }, function(result) {
 
                     initWallOptions();
                     $window.open('/wall/display?data=' + dataParams, '_blank');
                 });
                 isEditing = -1;
             } else {
-                var result = saveData.$save(function(result){
+                var result = saveData.$save(function(result) {
                     $scope.newWallOptions.id = result.id;
                     $scope.userWalls.push($scope.newWallOptions);
+                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
                     initWallOptions();
-                    $window.open('/wall/display?data=' + dataParams, '_blank');
                 });
 
             }
-            
+
 
         }
-        
-        
+
+
     };
 
     $scope.resetDate = function() {
@@ -138,8 +145,13 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
 
     $scope.deleteWall = function(index) {
         //console.log(index);
-        $scope.userWalls[index].$delete({user:$scope.screen_name,app:'wall'});
+        $scope.userWalls[index].$delete({
+            user: $scope.screen_name,
+            app: 'wall'
+        });
         $scope.userWalls.splice(index, 1);
+        if($scope.userWalls.length==0)
+            $scope.wallsPresent = false;
         // var saveData = {};
         // saveData.screen_name = $scope.screen_name;
         // saveData.apps = $scope.userData;
@@ -157,28 +169,36 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
 
         if ($rootScope.root.twitterSession) {
             $scope.screen_name = $rootScope.root.twitterSession.screen_name;
-            $scope.userWalls = AppsService.query({user:$rootScope.root.twitterSession.screen_name, app:'wall'},function(result){
-                console.log($scope.userWalls);
+            $scope.userWalls = AppsService.query({
+                user: $rootScope.root.twitterSession.screen_name,
+                app: 'wall'
+            }, function(result) {
+                if ($scope.userWalls.length == 0) {
+                    $scope.wallsPresent = false;
+                    console.log("No walls");
+                }
             });
         }
     };
 
     HelloService.on('auth.login', function(auth) {
         $scope.screen_name = auth.authResponse.screen_name;
-        $scope.userWalls = AppsService.query({user:auth.authResponse.screen_name, app:'wall'},function(result){
+        $scope.userWalls = AppsService.query({
+            user: auth.authResponse.screen_name,
+            app: 'wall'
+        }, function(result) {
             console.log($scope.userWalls);
-            if($scope.userWalls.length == 0){
+            if ($scope.userWalls.length == 0) {
+                $scope.wallsPresent = false;
                 console.log("No walls");
             }
         });
     });
 
-    HelloService.on('auth.logout', function(){
+    HelloService.on('auth.logout', function() {
         //clear wall list
         $scope.userWalls = [];
     });
-
-
 
     init();
 
