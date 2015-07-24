@@ -75,3 +75,23 @@
 	display: inline-block;
 	margin-bottom: 8px;
 }
+
+#data-connect-modal ul#datasource-table {
+	padding: 0 20px;
+}
+
+#data-connect-modal ul#datasource-table .row {
+	padding: 10px;
+	font-size: 15px;
+}
+
+#data-connect-modal ul#datasource-table .title-row {
+	font-weight: bold;
+}
+
+#data-connect-modal ul#datasource-table .odd {
+	background-color: antiquewhite;
+}
+#data-connect-modal ul#datasource-table a:hover {
+	text-decoration: underline;
+}

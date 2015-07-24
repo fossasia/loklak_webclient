@@ -39,13 +39,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	$scope.mapRulesNum = 0;
 
 	function getDataSources() {
-		const query = '-/source_type=TWITTER';
-		SearchService.getData(query).then(function(data) {
-			var statuses = data.statuses;
-			statuses.forEach(function(status) {
-				if (status.source_type !== 'TWITTER') {
-					$scope.dataSourceItems.push(status);
-				}
+		SearchService.getImportProfiles("FOSSASIA_API").then(function(data) {
+			var profiles = data.profiles;
+			profiles.forEach(function(profile) {
+				$scope.dataSourceItems.push(profile);
 			});
 		}, function() {});
 	}
