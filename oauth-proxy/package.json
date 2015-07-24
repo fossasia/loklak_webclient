@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/loklak/loklak_webclient",
   "dependencies": {
+    "body-parser": "^1.13.2",
     "express": "^4.12.4",
     "oauth-shim": "^0.2.3",
-    "request": "^2.57.0"
+    "request": "^2.57.0",
+    "shortid": "^2.2.2"
   }
 }

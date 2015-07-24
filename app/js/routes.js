@@ -45,7 +45,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   //   title: 'Wall'
   // })
   .state('WallDisplay', {
-    url: '/wall/display',
+    url: '/:user/wall/:id',
     templateUrl: 'wall/display.html',
     controller: 'WallDisplay as wall',
     title: 'Wall',

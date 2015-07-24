@@ -6,6 +6,7 @@ var angular = require('angular');
 require('angular-ui-router');
 require('angular-animate');
 require('angular-moment');
+require('angular-resource');
 require('angular-loading-bar');
 require('ng-tags-input');
 // /require('chart.js');
@@ -23,6 +24,7 @@ angular.element(document).ready(function() {
   var requires = [
     'ui.router',
     'ngAnimate',
+    'ngResource',
     'angularMoment',
     'angular-loading-bar',
     'locator',

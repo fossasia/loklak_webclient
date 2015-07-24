@@ -11,7 +11,8 @@ function wallThumbnailDirective() {
     scope: {
     	data: '=',
     	deleteWall: '&',
-    	editWall: '&'
+    	editWall: '&',
+        screenName: '='
     },
     replace: true,
     templateUrl: 'wall/templates/wallThumbnail.html',

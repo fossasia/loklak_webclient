@@ -39,7 +39,7 @@
             <div ng-show="wall.statuses.length>0" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
                 <h4>LEADERBOARD</h4>
                 <div class="row">
-                    <img class="histogram-loader" ng-hide="wall.topTwitterersData"  src="images/loading.gif">
+                    <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
                     <div class="col-xs-7">
                         <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
                         <h4 ng-show="wall.topTwitterersData">Top Twitterers</h4>
@@ -87,18 +87,22 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <img class="histogram-loader" ng-hide="wall.histogram2"  src="images/loading.gif">
+                            <img class="histogram-loader" ng-hide="wall.histogram2" src="images/loading.gif">
                             <canvas class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div ng-show="wall.statuses.length<=0 && !wall.showEmpty" class="col-md-12">
+            <div ng-show="wall.statuses.length<=0 && !wall.showEmpty && !wall.invalidId" class="col-md-12">
                 <div class="loading-redirect" style="text-align: center;"><span id="bull1">&bull;</span><span id="bull2">&bull;</span><span id="bull3">&bull;</span></div>
                 <h2 id="redirect-text">Loading your tweet wall...</h2>
             </div>
             <div ng-hide="!wall.showEmpty" class="col-md-12" style="text-align: center;">
                 <h3>No tweets to show yet. Try changing the search parameters or come back here after some time!</h3>
+            </div>
+            <div ng-hide="!wall.invalidId" class="col-md-12" style="text-align: center;">
+                <img src="images/loklak_icon_yellow_45x45_transparent.png">
+                <h3>This wall does not exist. Please check the URL.</h3>
             </div>
         </div>
     </div>

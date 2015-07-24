@@ -64,6 +64,19 @@
 			.tweet-content {
 				margin-left: 58px;
 				
+				.tweet-content-container {
+					p {
+						margin: 0 0 0 0;
+						display: inline;
+					}	
+					a {
+						&:hover {
+							cursor: pointer;
+							text-decoration: underline;
+						}
+					}
+					margin-bottom: 10px;
+				}
 				.tweet-content-text {
 					word-break: keep-all;
 					color: #292f33;
@@ -439,6 +452,19 @@
 						.screen-name, .created-at {
 							font-size: 13px;
 							color: #8899A6;
+						}
+						.tweet-content-container {
+							p {
+								margin: 0 0 0 0;
+								display: inline;
+							}	
+							a {
+								&:hover {
+									cursor: pointer;
+									text-decoration: underline;
+								}
+							}
+							margin-bottom: 10px;
 						}
 						.tweet-content-text {
 							word-break: keep-all;
