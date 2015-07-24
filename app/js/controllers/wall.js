@@ -117,9 +117,8 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                     user: $scope.screen_name,
                     app: 'wall'
                 }, function(result) {
-
+                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
                     initWallOptions();
-                    $window.open('/wall/display?data=' + dataParams, '_blank');
                 });
                 isEditing = -1;
             } else {
