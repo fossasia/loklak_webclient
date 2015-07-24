@@ -15,7 +15,7 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>Please sign up to start saving your twitter walls.</strong>
             </div>
-            <div ng-if="root.twitterSession && (userWalls<=0)" style="margin-top: 20px;" class="well alert alert-info">
+            <div ng-if="root.twitterSession && !wallsPresent" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>You haven't created any walls yet.</strong>
             </div>
