@@ -9,7 +9,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
+function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
 
     var vm = this;
     var term = '';
@@ -96,7 +96,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         if ($rootScope.root.twitterSession) {
             //save wall
             //console.log("Saving wall");
-            var saveData = new AccountsService({user:$scope.screen_name,app:'wall'});
+            var saveData = new AppsService({user:$scope.screen_name,app:'wall'});
             //saveData.screen_name = $scope.screen_name;
             //$scope.newWallOptions.link = '/wall/display?data=' + dataParams;
             
@@ -143,7 +143,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         // var saveData = {};
         // saveData.screen_name = $scope.screen_name;
         // saveData.apps = $scope.userData;
-        // AccountsService.updateData(saveData);
+        // AppsService.updateData(saveData);
     };
 
     $scope.editWall = function(index) {
@@ -157,7 +157,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
         if ($rootScope.root.twitterSession) {
             $scope.screen_name = $rootScope.root.twitterSession.screen_name;
-            $scope.userWalls = AccountsService.query({user:$rootScope.root.twitterSession.screen_name, app:'wall'},function(result){
+            $scope.userWalls = AppsService.query({user:$rootScope.root.twitterSession.screen_name, app:'wall'},function(result){
                 console.log($scope.userWalls);
             });
         }
@@ -165,7 +165,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
     HelloService.on('auth.login', function(auth) {
         $scope.screen_name = auth.authResponse.screen_name;
-        $scope.userWalls = AccountsService.query({user:auth.authResponse.screen_name, app:'wall'},function(result){
+        $scope.userWalls = AppsService.query({user:auth.authResponse.screen_name, app:'wall'},function(result){
             console.log($scope.userWalls);
             if($scope.userWalls.length == 0){
                 console.log("No walls");
@@ -184,4 +184,4 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', 'HelloService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', WallCtrl]);

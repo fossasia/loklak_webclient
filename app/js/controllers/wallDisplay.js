@@ -9,38 +9,14 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, AppSettings, SearchService, StatisticsService, Fullscreen) {
+function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http, $window, $resource, AppSettings, SearchService, StatisticsService, AppsService, Fullscreen) {
 
-    var vm, flag, allStatuses, nextStatuses, term, count, searchParams;
+    var vm, flag, allStatuses, nextStatuses, term, count, searchParams, maxStatusCount;
     vm = this;
-    //var ongoingRequest = false;
-    null;
-    vm.wallOptions = JSON.parse(decodeURI($location.search().data));
-    //$scope.newWallOptions = vm.wallOptions;
-    var init = function() {
-        flag = false;
-        vm.showEmpty = false;
-        allStatuses = [];
-        nextStatuses = [];
-        vm.statuses = [];
-        searchParams = {};
-        vm.displaySearch = true;
-    };
+    vm.invalidId = false;
 
-    var maxStatusCount = 0;
-    if (vm.wallOptions.layoutStyle == '1') {
-        maxStatusCount = 10; //linear
-    } else if (vm.wallOptions.layoutStyle == '2') {
-        maxStatusCount = 9; //masonry
-    } else if (vm.wallOptions.layoutStyle == '3') {
-        maxStatusCount = 1; //single
-    } else if (vm.wallOptions.layoutStyle == '4') {
-        maxStatusCount = 10; //map
-    }
-    console.log(maxStatusCount);
+    // vm.wallOptions = JSON.parse(decodeURI($location.search().data));
 
-    init();
-    //calculate term
     function calculateTerm(argument) {
         term = "";
         if(vm.wallOptions.mainHashtag){
@@ -102,23 +78,58 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         searchParams.count = maxStatusCount;
     }
 
-    calculateTerm();
+    function getWallData(){
+        vm.wallOptions = AppsService.get({user:$stateParams.user, app:'wall', id: $stateParams.id});
+        vm.wallOptions.$promise.then(function(data){
+            console.log("this is");
+            console.log(vm.wallOptions);
+            if(vm.wallOptions.id){
+                if (vm.wallOptions.layoutStyle == '1') {
+                    maxStatusCount = 10; //linear
+                } else if (vm.wallOptions.layoutStyle == '2') {
+                    maxStatusCount = 9; //masonry
+                } else if (vm.wallOptions.layoutStyle == '3') {
+                    maxStatusCount = 1; //single
+                } else if (vm.wallOptions.layoutStyle == '4') {
+                    maxStatusCount = 10; //map
+                }
+                calculateTerm();
+                //On INIT
+                vm.update2(0);
+            }
+            else {
+                vm.invalidId = true;
+            }
+            
+        });
+    }
+
+    getWallData();
+
+    var init = function() {
+        flag = false;
+        vm.showEmpty = false;
+        allStatuses = [];
+        nextStatuses = [];
+        vm.statuses = [];
+        searchParams = {};
+        vm.displaySearch = true;
+    };
+
+    
+    console.log(maxStatusCount);
+
+    init();
+    //calculate term
+
+
+    
 
 
     vm.histogramOptions = {
         //scaleBeginAtZero: true
         responsive: true
     };
-    vm.topHashTagsOptions = {
-
-    };
-    vm.topTwitterersOptions = {
-
-    };
-    vm.topMentionsOptions = {
-
-    };
-
 
     $scope.getHeaderClass = function() {
         return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
@@ -279,8 +290,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.fullscreenEnabled = isFullscreenEnabled;
     });
 
-    //On INIT
-    vm.update2(0);
+
 
     //Statistics Code
 
@@ -403,4 +413,4 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
 }
 
-controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', '$window', 'AppSettings', 'SearchService', 'StatisticsService', 'Fullscreen', WallDisplay]);
+controllersModule.controller('WallDisplay', ['$scope', '$stateParams', '$interval', '$timeout', '$location', '$http', '$window', '$resource', 'AppSettings', 'SearchService', 'StatisticsService', 'AppsService', 'Fullscreen', WallDisplay]);
