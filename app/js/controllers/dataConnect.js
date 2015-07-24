@@ -53,9 +53,12 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			var mapRulesStr = '';
 			const mapRules = $scope.addForm.inputs.mapRules;
 			var prefix = '';
+			if (!mapRules) return '';
 			for (var i = 0; i < $scope.mapRulesNum; i++) {
-				mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
-				prefix = ',';
+				if (mapRules[i] && mapRules[i][0] !== '' && mapRules[i][1] !=='') {
+					mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
+					prefix = ',';
+				}
 			}
 			return mapRulesStr;
 		}
