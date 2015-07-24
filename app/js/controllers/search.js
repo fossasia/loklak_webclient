@@ -41,7 +41,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.pool = vm.pool.splice(amount);
     };
 
-    var getMoreStatuses = function() {
+    function getMoreStatuses() {
         if (vm.pool.length > 0) { 
             // Get new time span bound from the lastest status
             var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at)
@@ -62,8 +62,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     
     /*
-     * Wrapper for SearchService
-     * Included updating path operation before search
+     * Wrapper for SearchService, including
+     * Updating path operation before search
      * Init result with 20 statuses
      * Init a background interval to update the result
      */
@@ -169,14 +169,10 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.statuses = [];
         vm.accounts = [];
         vm.showMap = true;
-        var initialBound = "/location=-282.65625,-77.54209596075546,307.96875,86.40197606876063";
-
         updatePath(vm.term + '+' + '/map');
 
-        var params = {
-            q: vm.term + "+" + initialBound,
-            count: 300
-        };
+        var initialBound = "/location=-282.65625,-77.54209596075546,307.96875,86.40197606876063";
+        var params = { q: vm.term + "+" + initialBound, count: 300 };
         SearchService.initData(params).then(function(data) {
             var withoutLocation = [];
             data.statuses.forEach(function(ele, index) {
@@ -184,7 +180,6 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                     withoutLocation.push(data.statuses.splice(index, 1)[0]);
                 }
             })
-
             MapCreationService.initMap(data.statuses, "search-map", addListenersOnMap);   
             MapCreationService.addLocationFromUser(withoutLocation);
         }, function() {});
@@ -261,7 +256,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     }
 
     /*
-     * Background process to get newest result, including in this order
+     * Background process to get newest result, including
      * A fn to get more result, compare created_at and update statuses's pool
      * A method defintion to clear and start a new interval
      * A ng-click trigger to load newest statuses
@@ -298,7 +293,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
     /*
      * Add listener on maps' action 
-     * When zoom/pan, new /location bound is calculated, and then used to add more map points
+     * When zoom/pan, new /location bound is calculated, and then is used to get & add more map points
      * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
      */
     function getMoreLocationOnMapAction() {
@@ -309,7 +304,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses), addListenersOnMap);    
         }, function(data) {});
     }
-    var addListenersOnMap = function() {
+
+    function addListenersOnMap() {
         window.map.on("zoomend", function(event) {
             if (!prevZoomAction) {
                 prevZoomAction = new Date();
@@ -343,21 +339,21 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     // MANAGING STATE CHANGES RESULTING IN SEARCH
     ///////////
 
-    // On search term change, based a a clicked on a hashtag
+        // On search params in path change
         $scope.$watch(function() {
             return $location.search();
         }, function(value, Oldvalue) {
-            // When changing search term through clicking on a statues
-            if (value.q && value.q.indexOf("id") > -1) {
-                return 1; // Leave this for single-tweet view
+
+            if (value.q && value.q.indexOf("id") > -1) { // When q has "id=.." Leave this for single-tweet view
+                return 1; 
             }
-            if (value.q.split("+")[0] !== vm.term) {
+            if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
                 vm[filterFn]();   
                 vm.showResult = true;
             }
-            // Rare case: when click on map tweet, but search term stay the same
+            // Edge case: when click on map tweet, but search term stay the same
             // e.g. search for @codinghorror+/map, and then clicking for @codinghorror on the map
             if (value.q.split("+")[0] === Oldvalue.q.split("+")[0] && (Oldvalue.q.split("+")[1] && value.q.split("+")[1] === undefined)) {
                 evalSearchQuery();

@@ -13,8 +13,9 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>';
     var mapId = 'examples.map-20v6611k';
+    var tileLayerSrc = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
-    var initMapPoints = function (statuses) {
+    function initMapPoints(statuses) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
             if (status.location_mark && status.user) {
@@ -31,7 +32,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         return tweets;
     }
 
-    var addPointsToMap = function(map, tweets, callbackOnMapPoints) {
+    function addPointsToMap(map, tweets, cbOnMapAction) {
         function onEachFeature(feature, layer) {
             var popupContent; 
             if (feature.properties && feature.properties.popupContent) {
@@ -54,23 +55,10 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
             }
         }).addTo(map);    
      
-        callbackOnMapPoints();
+        cbOnMapAction();
     }
 
-    service.initMap = function(data, mapId, callbackOnMapPoints) {
-        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
-        var tweets = initMapPoints(data);
-
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: attribution,
-            id: mapId
-        }).addTo(window.map);
-
-        addPointsToMap(window.map, tweets, callbackOnMapPoints);
-    }  
-
-    service.getLocationParamFromBound = function(bound) {
+    function getLocationParamFromBound(bound) {
         var longWest = parseFloat(bound._southWest.lng);
         var latSouth = parseFloat(bound._southWest.lat);
         var longEast = parseFloat(bound._northEast.lng);
@@ -79,7 +67,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         return locationParam;
     }
 
-    service.addLocationFromUser = function(noLocationStatuses) {
+    function addLocationFromUser(noLocationStatuses) {
         noLocationStatuses.forEach(function(ele, index) {
             if (ele.user) {
                 SearchService.getUserInfo(ele.user.screen_name).then(function(userInfo) {
@@ -95,8 +83,32 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         });
     }
 
+    /*
+     * Main fn to intialize map, require
+     * data: array of statuses
+     * mapId : id of html container for map, # is not needed
+     * cbOnMapAction: cb after map initialization, usually to add listeners to events
+     *
+     */
+    function initMap(data, mapId, cbOnMapAction) {
+        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
+        var tweets = initMapPoints(data);
+
+        L.tileLayer(tileLayerSrc, {
+            maxZoom: 18,
+            attribution: attribution,
+            id: mapId
+        }).addTo(window.map);
+
+        addPointsToMap(window.map, tweets, cbOnMapAction);
+    }  
+
+    service.initMap = initMap;
     service.addPointsToMap = addPointsToMap;
     service.initMapPoints = initMapPoints;
+    service.getLocationParamFromBound = getLocationParamFromBound;
+    service.addLocationFromUser = addLocationFromUser;
+    
     return service;
 
 }
