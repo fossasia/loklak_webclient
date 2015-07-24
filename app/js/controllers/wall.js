@@ -126,8 +126,8 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                 var result = saveData.$save(function(result) {
                     $scope.newWallOptions.id = result.id;
                     $scope.userWalls.push($scope.newWallOptions);
-                    initWallOptions();
                     $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
+                    initWallOptions();
                 });
 
             }
@@ -199,8 +199,6 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         //clear wall list
         $scope.userWalls = [];
     });
-
-
 
     init();
 
