@@ -138,6 +138,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.tweetMarkdown = function() {
 
         var message = $rootScope.root.tweet;
+        var encodedMessage = encodeURIComponent(message);
+        var requestUrl = "http://localhost:9000/vis/markdown.png?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3"
 
         $http({
             url: requestUrl,
