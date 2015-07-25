@@ -13,10 +13,15 @@ function updateData(user, data, callback) {
         screen_name: user,
         apps: data
     }
-    request.post(config.apiUrl + 'account.json').form({
-        action: 'update',
-        data: JSON.stringify(dataToSend)
-    }, callback);
+    request.post({
+            url: config.apiUrl + 'account.json',
+            form: {
+                action: 'update',
+                data: JSON.stringify(dataToSend)
+            }
+        },
+        callback
+    );
 }
 
 //LIST
@@ -57,9 +62,10 @@ router.post('/:user/:app', function(req, res) {
         }
         newWall.id = shortid.generate();
         appData[req.params.app].push(newWall);
+        console.log(newWall.id);
         updateData(req.params.user, appData, function(error, response, body) {
             console.log(response.body);
-            res.send({
+            return res.json({
                 id: newWall.id
             });
         });
@@ -117,7 +123,7 @@ router.put('/:user/:app/:id', function(req, res) {
                 }
                 updateData(req.params.user, appData, function(error, response, body) {
                     console.log(response.body);
-                    res.send({
+                    return res.json({
                         id: req.params.id
                     });
                 });
