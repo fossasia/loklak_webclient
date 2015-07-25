@@ -1,9 +1,106 @@
+<style type="text/css">
+<style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+             
+            height: 92vh;
+            width: 100%;
+        }
+    </style>
+</style>
 
-<div class="content-wrapper">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-   <div id="map" style="width:100%; height:800px"></div>
-   <div id="TweetBox" style="position:absolute; top:10%;left:15%; max-width:50%; border:2px;"></div>
-</div>
+   <div id="map" >
+ 
+    </div>
+    <div id="docDrawer" class="drawer hidden-xs hidden-sm dw-md-3 fold in drawer-right"  style="margin-top:10%; height:530px; z-index:+889;" aria-labelledby="docDrawer">
+        <div class="drawer-controls" style="z-index:+888;">
+            <a href="#docDrawer" data-toggle="drawer" href="#docDrawer" aria-foldedopen="false" aria-controls="docDrawer" class="btn btn-default hidden-xs hidden-sm"><i class="fa fa-align-justify"></i></a>
+        </div>
+        <div class="drawer-contents">
+          <ul class="nav nav-pills" role="tablist">
+          <li role="presentation" class="active"><a href="#">Followers <span class="badge">{{followers_status}}</span></a></li>
+        </ul>
+            <div style="height:220px; overflow-y:scroll;">
+           
+
+           <li ng-repeat="follower in followers">
+            <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
+            <div class="blue-background-placeholder">
+            <img src="{{follower.profile_banner}}" >
+            </div>
+            <div class="home-user-info-content">
+            <div class="top-content">
+             <img src="{{follower.propic}}">
+            <div class="name-and-screen-name">
+            <span class="home-user-name">{{follower.name}}</span><br>
+            <span class="home-user-screen-name">@{{follower.screenname}}</span>
+            <span class="fa fa-map-marker text"> {{follower.location}}</span>
+                        </div>
+                   </div>
+                   <div class="bottom-content">
+                        <div class="user-no-tweets">
+                        <a href="">Tweets<br><span>{{follower.tweetcount}}</span></a>
+                        </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{follower.following}}</span></a>
+                       </div>
+                      <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{follower.followers}}</span></a>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            
+             </li>
+    </div>
+   <ul class="nav nav-pills" role="tablist">
+          <li role="presentation" class="active"><a href="#">Following <span class="badge">{{following_status}}</span></a></li>
+        </ul>
+    <div style="height:220px; overflow-y:scroll;">
+           
+
+           <li ng-repeat="following in following">
+            <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
+            <div class="blue-background-placeholder">
+            <img src="{{following.profile_banner}}" >
+            </div>
+            <div class="home-user-info-content">
+            <div class="top-content">
+             <img src="{{following.propic}}">
+            <div class="name-and-screen-name">
+            <span class="home-user-name">{{following.name}}</span><br>
+            <span class="home-user-screen-name">@{{following.screenname}}</span>
+            <span class="fa fa-map-marker text"> {{follower.location}}</span>
+                        </div>
+                   </div>
+                   <div class="bottom-content">
+                        <div class="user-no-tweets">
+                        <a href="">Tweets<br><span>{{following.tweetcount}}</span></a>
+                        </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{following.following}}</span></a>
+                       </div>
+                      <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{following.followers}}</span></a>
+                       </div>
+                    </div>
+                </div>
+            </div>
+             </li>
+    </div>
+    </div>
+        </div>
+   
+  <script>
+            $('#drawerExample').drawer({ toggle: false });
+            $('#other-toggle').click(function() {
+                $('#drawerExample').drawer('toggle');
+                return false;
+            });
+        </script>
 
 
 
