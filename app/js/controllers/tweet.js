@@ -139,7 +139,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
         var message = $rootScope.root.tweet;
         var encodedMessage = encodeURIComponent(message);
-        var requestUrl = "http://localhost:9000/vis/markdown.png?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3"
+        var requestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3"
 
         $http({
             url: requestUrl,
@@ -150,19 +150,17 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         }).success(function (response) {
 
             var tweetLen = twttr.txt.getTweetLength(message);
-            var tweet = encodeURIComponent(message);
 
             var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
-            if(tweetLen <= 140 && tweetLen > 0) {
-                hello('twitter').api('me/share', 'POST', {
-                    message: '',
-                    file: selectedFileInBlob
-                }).then( function (json) {
-                    console.log(json);
-                }, function (e) {
-                    console.log(e);
-                });
-            }
+            
+            hello('twitter').api('me/share', 'POST', {
+                message: '',
+                file: selectedFileInBlob
+            }).then( function (json) {
+                console.log(json);
+            }, function (e) {
+                console.log(e);
+            });
         })
     }
 
