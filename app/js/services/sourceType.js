@@ -9,11 +9,21 @@ function SourceTypeService() {
 
 	var service = {};
 
-	service.sourceTypeList = 
-	[
-		'TWITTER',
-		'FOSSASIA_API'
-	];
+	const data =
+	{
+		'TWITTER': 'Twitter',
+		'FOSSASIA_API': 'Fossasia API'
+	};
+
+	service.sourceTypeList = [];
+	
+	for(var key in data) {
+		service.sourceTypeList.push(data[key]);
+	}
+
+	service.convert = function(key) {
+		return data[key];
+	}
 
 	return service;
 }
