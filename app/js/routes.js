@@ -76,6 +76,18 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'DataConnectCtrl as dataConnect',
     title: 'Connect Data'
   })
+  .state('AddConnection', {
+    url: '/addConnection',
+    templateUrl: 'data-connect/add-connection.html',
+    controller: 'AddConnectionCtrl as addDataConnect',
+    title: 'Add connection'
+  })
+  .state('AddConnectionWFormat', {
+    url: '/addConnection/:format',
+    templateUrl: 'data-connect/add-connection.html',
+    controller: 'AddConnectionCtrl as addConnection',
+    title: 'Add connection'
+  })
   .state('Redirecting', {
     url: '/redirect',
     templateUrl: 'redirect.html',

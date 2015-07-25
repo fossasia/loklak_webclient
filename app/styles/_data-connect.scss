@@ -30,22 +30,22 @@
 	width: 420px;
 }
 
-#data-connect-modal .alert {
+#add-datasource-form .alert {
 	padding: 5px;
 }
 // overwrite admin.css
-#data-connect-modal .alert-danger {
+#add-datasource-form .alert-danger {
 	background-color: #f2dede !important;
 	border-color: #ebccd1;
 	color: #a94442 !important;
 }
-#data-connect-modal .alert-success {
+#add-datasource-form .alert-success {
 	background-color: #dff0d8 !important;
 	border-color: #d6e9c6;
 	color: #3c763d !important;
 }
 
-#data-connect-modal .add-map-rule {
+#add-datasource-form .add-map-rule {
 	border : 1px dashed #ccc;
 	text-align: center;
 	background-color: #FFFFE8;
@@ -53,24 +53,24 @@
 	margin-bottom: 12px;
 }
 
-#data-connect-modal .add-map-rule:hover {
+#add-datasource-form .add-map-rule:hover {
 	cursor: pointer;
 }
 
-#data-connect-modal .map-rule {
+#add-datasource-form .map-rule {
 	width: 89%;
 }
-#data-connect-modal .map-rule label {
+#add-datasource-form .map-rule label {
 	width: 46%;
 }
-#data-connect-modal .map-rule.last {
+#add-datasource-form .map-rule.last {
 	display: inline-block;
 }
-#data-connect-modal #remove-map-rule {
+#add-datasource-form #remove-map-rule {
 	cursor: pointer;
 	vertical-align: middle;
 }
-#data-connect-modal .custom-field, #data-connect-modal .tweet-field {
+#add-datasource-form .custom-field, #add-datasource-form .tweet-field {
 	width: 46%;
 	display: inline-block;
 	margin-bottom: 8px;
@@ -94,4 +94,8 @@
 }
 #data-connect-modal ul#datasource-table a:hover {
 	text-decoration: underline;
+}
+
+#add-connection-form h2 code {
+	cursor: pointer;
 }
