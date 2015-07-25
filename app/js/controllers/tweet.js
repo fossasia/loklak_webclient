@@ -115,15 +115,16 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             var tweet = encodeURIComponent(message);
 
             var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
-
-            hello('twitter').api('me/share', 'POST', {
-                message : message,
-                file : selectedFileInBlob
-            }).then(function(json) {
-                console.log(json);
-            }, function(e) {
-                console.log(e);
-            });
+            if(tweetLen <= 140 && tweetLen > 0) {
+                hello('twitter').api('me/share', 'POST', {
+                    message : message,
+                    file : selectedFileInBlob
+                }).then(function(json) {
+                    console.log(json);
+                }, function(e) {
+                    console.log(e);
+                });
+            }
 
             console.log("Successfully retrieved for "+requestUrl);
         });
