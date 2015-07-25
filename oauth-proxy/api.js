@@ -8,6 +8,22 @@ function getData(user, callback) {
     request(config.apiUrl + 'account.json?screen_name=' + user, callback);
 }
 
+function updateData(user, data, callback) {
+    var dataToSend = {
+        screen_name: user,
+        apps: data
+    }
+    request.post({
+            url: config.apiUrl + 'account.json',
+            form: {
+                action: 'update',
+                data: JSON.stringify(dataToSend)
+            }
+        },
+        callback
+    );
+}
+
 //LIST
 router.get('/:user/:app', function(req, res) {
     getData(req.params.user, function(error, response, body) {
@@ -46,16 +62,10 @@ router.post('/:user/:app', function(req, res) {
         }
         newWall.id = shortid.generate();
         appData[req.params.app].push(newWall);
-        var dataToSend = {
-            screen_name: req.params.user,
-            apps: appData
-        }
-        request.post(config.apiUrl + 'account.json').form({
-            action: 'update',
-            data: JSON.stringify(dataToSend)
-        }, function(error, response, body) {
+        console.log(newWall.id);
+        updateData(req.params.user, appData, function(error, response, body) {
             console.log(response.body);
-            res.send({
+            return res.json({
                 id: newWall.id
             });
         });
@@ -78,7 +88,7 @@ router.delete('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                request(config.apiUrl + 'account.json?action=update&data=' + encodeURIComponent(JSON.stringify(dataToSend)), function(error, response, body) {
+                updateData(req.params.user, appData, function(error, response, body) {
                     console.log(response.body);
                     return res.json({
                         status: "OK"
@@ -111,13 +121,10 @@ router.put('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                request.post(config.apiUrl + 'account.json').form({
-                    action: 'update',
-                    data: JSON.stringify(dataToSend)
-                }, function(error, response, body) {
+                updateData(req.params.user, appData, function(error, response, body) {
                     console.log(response.body);
-                    res.send({
-                        id: newWall.id
+                    return res.json({
+                        id: req.params.id
                     });
                 });
             }
