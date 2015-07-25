@@ -9,11 +9,12 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
+function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
 
     var vm = this;
     var term = '';
     var isEditing = -1;
+    $scope.wallsPresent = true;
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
@@ -25,14 +26,14 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     initWallOptions();
 
     function hexToRgb(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-        //Selects foreground colour as black or white based on background
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    //Selects foreground colour as black or white based on background
     function colourCalculator(rgb) {
         var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
         if (o > 125) {
@@ -60,7 +61,7 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         }
     });
 
-    $scope.lostMainhashtagFocus = function(){
+    $scope.lostMainhashtagFocus = function() {
         //check if mainHashtag already in allHashtags
         // var inHashtags = false;
         // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
@@ -96,21 +97,44 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
         if ($rootScope.root.twitterSession) {
             //save wall
             //console.log("Saving wall");
-            var saveData = {};
-            saveData.screen_name = $scope.screen_name;
-            $scope.newWallOptions.link = '/wall/display?data=' + dataParams;
+            var saveData = new AppsService({
+                user: $scope.screen_name,
+                app: 'wall'
+            });
+            //saveData.screen_name = $scope.screen_name;
+            //$scope.newWallOptions.link = '/wall/display?data=' + dataParams;
+
+
+            // saveData.apps = $scope.userData;
+            for (var k in $scope.newWallOptions) {
+                saveData[k] = $scope.newWallOptions[k];
+            }
             if (isEditing !== -1) {
-                $scope.userData.wall.walls[isEditing] = $scope.newWallOptions;
+                for (var k in $scope.newWallOptions) {
+                    $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
+                }
+                $scope.userWalls[isEditing].$update({
+                    user: $scope.screen_name,
+                    app: 'wall'
+                }, function(result) {
+                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
+                    initWallOptions();
+                });
                 isEditing = -1;
             } else {
-                $scope.userData.wall.walls.push($scope.newWallOptions);
+                var result = saveData.$save(function(result) {
+                    $scope.newWallOptions.id = result.id;
+                    $scope.userWalls.push($scope.newWallOptions);
+                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
+                    initWallOptions();
+                });
+
             }
 
-            saveData.apps = $scope.userData;
-            AccountsService.updateData(saveData);
+
         }
-        initWallOptions();
-        $window.open('/wall/display?data=' + dataParams, '_blank');
+
+
     };
 
     $scope.resetDate = function() {
@@ -120,16 +144,22 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
 
     $scope.deleteWall = function(index) {
         //console.log(index);
-        $scope.userData.wall.walls.splice(index, 1);
-        var saveData = {};
-        saveData.screen_name = $scope.screen_name;
-        saveData.apps = $scope.userData;
-        AccountsService.updateData(saveData);
+        $scope.userWalls[index].$delete({
+            user: $scope.screen_name,
+            app: 'wall'
+        });
+        $scope.userWalls.splice(index, 1);
+        if($scope.userWalls.length==0)
+            $scope.wallsPresent = false;
+        // var saveData = {};
+        // saveData.screen_name = $scope.screen_name;
+        // saveData.apps = $scope.userData;
+        // AppsService.updateData(saveData);
     };
 
     $scope.editWall = function(index) {
         //console.log(index);
-        $scope.newWallOptions = $scope.userData.wall.walls[index];
+        $scope.newWallOptions = $scope.userWalls[index];
         isEditing = index;
         $('#wall-modal').modal('toggle');
     };
@@ -137,73 +167,40 @@ function WallCtrl($scope, $rootScope, $window, AccountsService, HelloService) {
     var init = function() {
 
         if ($rootScope.root.twitterSession) {
-            AccountsService.getData($rootScope.root.twitterSession.screen_name).then(function(result) {
-                    console.log(result);
-                    ////console.log(result.accounts[0].apps.wall.walls);
-                    $scope.screen_name = result.accounts[0].screen_name;
-                    if (!result.accounts[0].apps) {
-                        result.accounts[0].apps = {
-                            wall: {
-                                walls: []
-                            }
-                        };
-                    }
-                    if (!result.accounts[0].apps.wall) {
-                        result.accounts[0].apps.wall = {
-                            walls: []
-                        };
-                    }
-                    if (!result.accounts[0].apps.wall.walls) {
-                        result.accounts[0].apps.wall.walls = [];
-                    }
-                    $scope.userData = result.accounts[0].apps;
-                    //$scope.userWalls = result.accounts[0].apps.wall.walls;
-                },
-                function(error) {
-
-                });
+            $scope.screen_name = $rootScope.root.twitterSession.screen_name;
+            $scope.userWalls = AppsService.query({
+                user: $rootScope.root.twitterSession.screen_name,
+                app: 'wall'
+            }, function(result) {
+                if ($scope.userWalls.length == 0) {
+                    $scope.wallsPresent = false;
+                    console.log("No walls");
+                }
+            });
         }
     };
 
     HelloService.on('auth.login', function(auth) {
-        //console.log("here");
-        //console.log(auth.authResponse.screen_name);
-        AccountsService.getData(auth.authResponse.screen_name).then(function(result) {
-                //console.log(result);
-                ////console.log(result.accounts[0].apps.wall.walls);
-                $scope.screen_name = result.accounts[0].screen_name;
-                if (!result.accounts[0].apps) {
-                    result.accounts[0].apps = {
-                        wall: {
-                            walls: []
-                        }
-                    };
-                }
-                if (!result.accounts[0].apps.wall) {
-                    result.accounts[0].apps.wall = {
-                        walls: []
-                    };
-                }
-                if (!result.accounts[0].apps.wall.walls) {
-                    result.accounts[0].apps.wall.walls = [];
-                }
-                $scope.userData = result.accounts[0].apps;
-                //$scope.userWalls = result.accounts[0].apps.wall.walls;
-            },
-            function(error) {
-
-            });
+        $scope.screen_name = auth.authResponse.screen_name;
+        $scope.userWalls = AppsService.query({
+            user: auth.authResponse.screen_name,
+            app: 'wall'
+        }, function(result) {
+            console.log($scope.userWalls);
+            if ($scope.userWalls.length == 0) {
+                $scope.wallsPresent = false;
+                console.log("No walls");
+            }
+        });
     });
 
-    HelloService.on('auth.logout', function(){
+    HelloService.on('auth.logout', function() {
         //clear wall list
-        $scope.userData = {};
+        $scope.userWalls = [];
     });
-
-
 
     init();
 
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AccountsService', 'HelloService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', WallCtrl]);

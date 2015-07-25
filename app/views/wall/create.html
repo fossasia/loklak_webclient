@@ -8,19 +8,19 @@
         </section>
         <section class="content">
             <div class="row" style="clear: both;">
-                <h1 style="float:left;margin-top:0px;">My Twitter Walls{{userWalls.length}}</h1>
+                <h1 style="float:left;margin-top:0px;">My Twitter Walls</h1>
                 <button style="float:right;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#wall-modal">Create a new wall</button>
             </div>
             <div ng-hide="root.twitterSession" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>Please sign up to start saving your twitter walls.</strong>
             </div>
-            <div ng-if="root.twitterSession && (userData.wall.walls.length<=0)" style="margin-top: 20px;" class="well alert alert-info">
+            <div ng-if="root.twitterSession && !wallsPresent" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>You haven't created any walls yet.</strong>
             </div>
-            <div ng-if="userData.wall.walls.length>0" class="row wall-thumbnail-container">
-                <div ng-repeat="wallObj in userData.wall.walls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" wallthumbnail>
+            <div ng-if="userWalls.length>0" class="row wall-thumbnail-container">
+                <div ng-repeat="wallObj in userWalls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" screen-name="screen_name" wallthumbnail>
                 </div>
             </ul>
         </section>
