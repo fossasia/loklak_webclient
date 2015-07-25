@@ -6,6 +6,11 @@
 			margin: 0 !important;
 		}
 	}
+	.leaflet-control-layers-toggle {
+	background-image: url('../images/layers.png');
+	width: 36px;
+	height: 36px;
+	}
 	.single-tweet.map-tweet {
 		margin: 0;
 		padding: 0;
