@@ -108,7 +108,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
-        }).success(function(response) {
+        }).success(function (response) {
 
             var message = $rootScope.root.tweet;
             var tweetLen = twttr.txt.getTweetLength(message);
@@ -119,7 +119,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 hello('twitter').api('me/share', 'POST', {
                     message : message,
                     file : selectedFileInBlob
-                }).then(function(json) {
+                }).then( function (json) {
                     console.log(json);
                 }, function(e) {
                     console.log(e);
@@ -133,6 +133,35 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         //         $rootScope.root.geoTile = response;
         //         console.log("Successful Query to "+requestUrl);
         //     });
+    }
+
+    $rootScope.root.tweetMarkdown = function() {
+
+        var message = $rootScope.root.tweet;
+
+        $http({
+            url: requestUrl,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).success(function (response) {
+
+            var tweetLen = twttr.txt.getTweetLength(message);
+            var tweet = encodeURIComponent(message);
+
+            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
+            if(tweetLen <= 140 && tweetLen > 0) {
+                hello('twitter').api('me/share', 'POST', {
+                    message: '',
+                    file: selectedFileInBlob
+                }).then( function (json) {
+                    console.log(json);
+                }, function (e) {
+                    console.log(e);
+                });
+            }
+        })
     }
 
     $rootScope.root.retweet = function(id) {
