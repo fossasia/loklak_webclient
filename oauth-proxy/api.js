@@ -121,11 +121,9 @@ router.put('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                updateData(req.params.user, appData, function(error, response, body) {
-                    console.log(response.body);
-                    return res.json({
-                        id: req.params.id
-                    });
+                updateData(req.params.user, appData, function(error, response2, body) {
+                    console.log(response2.body);
+                    return res.json(JSON.parse(response2.body).accounts[0].apps[req.params.app][i]);
                 });
             }
         }

@@ -109,18 +109,19 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
             for (var k in $scope.newWallOptions) {
                 saveData[k] = $scope.newWallOptions[k];
             }
-            if (isEditing !== -1) {
+            if (isEditing != -1) {
                 for (var k in $scope.newWallOptions) {
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
                 }
                 $scope.userWalls[isEditing].$update({
                     user: $scope.screen_name,
                     app: 'wall'
-                }, function(result) {
-                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
+                }, function(res) {
+                    //console.log(result);
+                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.userWalls[isEditing].id, '_blank');
+                    isEditing = -1;
                     initWallOptions();
                 });
-                isEditing = -1;
             } else {
                 var result = saveData.$save(function(result) {
                     $scope.newWallOptions.id = result.id;
@@ -128,13 +129,8 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                     $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
                     initWallOptions();
                 });
-
             }
-
-
         }
-
-
     };
 
     $scope.resetDate = function() {
@@ -142,15 +138,22 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         $scope.newWallOptions.untilDate = null;
     };
 
+    $scope.resetLogo = function(){
+        $scope.newWallOptions.logo = null;
+        //$scope.$apply();
+    }
+
     $scope.deleteWall = function(index) {
         //console.log(index);
         $scope.userWalls[index].$delete({
             user: $scope.screen_name,
             app: 'wall'
+        }, function(data) {
+            $scope.userWalls.splice(index, 1);
+            if ($scope.userWalls.length == 0)
+                $scope.wallsPresent = false;
         });
-        $scope.userWalls.splice(index, 1);
-        if($scope.userWalls.length==0)
-            $scope.wallsPresent = false;
+
         // var saveData = {};
         // saveData.screen_name = $scope.screen_name;
         // saveData.apps = $scope.userData;

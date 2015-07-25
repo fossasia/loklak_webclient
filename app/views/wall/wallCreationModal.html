@@ -70,11 +70,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-8 wall-file-upload"><input type='file' ng-model='newWallOptions.logo' accept="image/*" base-sixty-four-input>
-                                                        </div>
-                                                        <div class="col-xs-4">
-                                                            <img class="wall-preview-logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" />
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-default btn-file btn-lg">
+                                                                <input type='file' ng-model='newWallOptions.logo' accept="image/*" base-sixty-four-input>Choose Image</button>
+                                                            <img class="wall-thumbnail-logo" ng-if="newWallOptions.logo" ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" />
+                                                            <button ng-if="newWallOptions.logo" ng-click="resetLogo()" class=" btn btn-danger">Clear</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -109,7 +110,7 @@
                                                     <div class="form-group row">
                                                         <h4 class="col-xs-9">Cycle/Repeat tweets
                                                             <br><small>Do you want to constantly cycle Tweets so it always appears active? Will show only latest tweets if set to No.</small></h4>
-                                                        <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
                                                         </toggle-switch>
                                                     </div>
                                                     <hr>
@@ -254,8 +255,11 @@
                                                 <div class="col-md-7 wall-preview animate-switch-container" ng-switch on="newWallOptions.headerPosition">
                                                     <div ng-switch-when="Top" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>
-                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4"><img class="wall-preview-logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" /><br>
-                                                        {{newWallOptions.eventName}}</div>
+                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">
+                                                            <div><img class="wall-preview-logo" ng-if="newWallOptions.logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}">
+                                                                <div class="wall-header-eventname">{{newWallOptions.eventName}}</div>
+                                                            </div>
+                                                        </div>
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                     </div>
                                                     <div class="row animate-switch-container" ng-switch on="newWallOptions.layoutStyle">
@@ -266,7 +270,11 @@
                                                     </div>
                                                     <div ng-switch-when="Bottom" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>
-                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4"><img class="wall-preview-logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" /><br>{{newWallOptions.eventName}}</div>
+                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">
+                                                            <div><img class="wall-preview-logo" ng-if="newWallOptions.logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}">
+                                                                <div class="wall-header-eventname">{{newWallOptions.eventName}}</div>
+                                                            </div>
+                                                        </div>
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                     </div>
                                                 </div>
