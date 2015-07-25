@@ -73,12 +73,34 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         }
     };
 
+    // Converts base 64 string to arrayBuffer
+    function _base64ToArrayBuffer(base64) {
+        var binary_string =  window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array( len );
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    // Converts an array buffer to base64 strings
+    function _arrayBufferToBase64(uarr) {
+        var strings = [], chunksize = 0xffff;
+        var len = uarr.length;
+
+        for (var i = 0; i * chunksize < len; i++) {
+            strings.push(String.fromCharCode.apply(null, uarr.subarray(i * chunksize, (i + 1) * chunksize)));
+        }
+        return strings.join("");
+    }
+
     // Latitude and Longitude is retrieved and the request is made for the map tile
     function setPosition(position) {
         $rootScope.root.userLocation.latitude = position.coords.latitude;
         $rootScope.root.userLocation.longitude = position.coords.longitude;
-        // Now make a query to loklak
-        var requestUrl = 'http://localhost:9000/vis/map.png?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
+        // Now make a query to loklak for the map tile from the GeoLocation
+        var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Loklak&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
         
         $http({
             url: requestUrl,
@@ -86,9 +108,25 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
-        }).success(function(response) {
-            var selectedFileInBlob = response;
-            console.log(response);
+        }).success(function (response) {
+
+            var message = $rootScope.root.tweet;
+            var tweetLen = twttr.txt.getTweetLength(message);
+            var tweet = encodeURIComponent(message);
+
+            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
+            if(tweetLen <= 140 && tweetLen > 0) {
+                hello('twitter').api('me/share', 'POST', {
+                    message : message,
+                    file : selectedFileInBlob
+                }).then( function (json) {
+                    console.log(json);
+                    $('#myModal').modal('hide');
+                }, function(e) {
+                    console.log(e);
+                });
+            }
+
             console.log("Successfully retrieved for "+requestUrl);
         });
         // $http.get(requestUrl)
@@ -96,6 +134,36 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         //         $rootScope.root.geoTile = response;
         //         console.log("Successful Query to "+requestUrl);
         //     });
+    }
+
+    $rootScope.root.tweetMarkdown = function() {
+
+        var message = $rootScope.root.tweet;
+        var encodedMessage = encodeURIComponent(message);
+        var requestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3"
+
+        $http({
+            url: requestUrl,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).success(function (response) {
+
+            var tweetLen = twttr.txt.getTweetLength(message);
+
+            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
+            
+            hello('twitter').api('me/share', 'POST', {
+                message: '',
+                file: selectedFileInBlob
+            }).then( function (json) {
+                console.log(json);
+                $('#myModal').modal('hide');
+            }, function (e) {
+                console.log(e);
+            });
+        })
     }
 
     $rootScope.root.retweet = function(id) {
