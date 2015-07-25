@@ -121,6 +121,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                     file : selectedFileInBlob
                 }).then( function (json) {
                     console.log(json);
+                    $('#myModal').modal('hide');
                 }, function(e) {
                     console.log(e);
                 });
@@ -158,6 +159,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 file: selectedFileInBlob
             }).then( function (json) {
                 console.log(json);
+                $('#myModal').modal('hide');
             }, function (e) {
                 console.log(e);
             });
