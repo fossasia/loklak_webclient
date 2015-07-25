@@ -9,21 +9,19 @@ function SourceTypeService() {
 
 	var service = {};
 
-	const data =
+	service.sourceTypeList =
 	{
-		'TWITTER': 'Twitter',
-		'FOSSASIA_API': 'Fossasia API'
+		'twitter':
+		{
+			'name': 'Twitter',		// display name
+			'endpoint': null
+		},
+		'fossasia_api':
+		{
+			'name': 'Fossasia API',
+			'endpoint': 'fossasia.json'
+		}
 	};
-
-	service.sourceTypeList = [];
-	
-	for(var key in data) {
-		service.sourceTypeList.push(data[key]);
-	}
-
-	service.convert = function(key) {
-		return data[key];
-	}
 
 	return service;
 }

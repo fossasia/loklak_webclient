@@ -41,7 +41,7 @@
 									<div class="form-group">
 										<label for="source-type">Source type*</label>
 										<select name="source-type" required type="text" 
-												ng-options="type for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
+												ng-options="type.name for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
 											<option value="">Select source type</option>
 										</select>
 									</div>

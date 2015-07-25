@@ -39,10 +39,11 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	$scope.mapRulesNum = 0;
 
 	function getDataSources() {
-		SearchService.getImportProfiles("FOSSASIA_API").then(function(data) {
+		SearchService.getImportProfiles("").then(function(data) {
 			var profiles = data.profiles;
 			profiles.forEach(function(profile) {
-				profile.source_type = SourceTypeService.convert(profile.source_type);
+				profile.source_type = profile.source_type.toLowerCase();
+				profile.source_type = $scope.sourceTypesList[profile.source_type].name;
 				$scope.dataSourceItems.push(profile);
 			});
 		}, function() {});
