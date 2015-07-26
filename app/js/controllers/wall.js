@@ -21,6 +21,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         $scope.newWallOptions.headerColour = '#3c8dbc';
         $scope.newWallOptions.headerPosition = 'Top';
         $scope.newWallOptions.layoutStyle = 1;
+        $scope.newWallOptions.showLoading = false;
     };
 
     initWallOptions();
@@ -101,35 +102,45 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                 user: $scope.screen_name,
                 app: 'wall'
             });
-            //saveData.screen_name = $scope.screen_name;
-            //$scope.newWallOptions.link = '/wall/display?data=' + dataParams;
-
-
-            // saveData.apps = $scope.userData;
             for (var k in $scope.newWallOptions) {
                 saveData[k] = $scope.newWallOptions[k];
             }
             if (isEditing != -1) {
+                $scope.userWalls[isEditing].showLoading = true;
                 for (var k in $scope.newWallOptions) {
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
                 }
+                //$scope.userWalls[isEditing].internal.showLoading = true;
                 $scope.userWalls[isEditing].$update({
                     user: $scope.screen_name,
                     app: 'wall'
                 }, function(res) {
                     //console.log(result);
+                    $scope.userWalls[isEditing].showLoading = false;
                     $window.open('/' + $scope.screen_name + '/wall/' + $scope.userWalls[isEditing].id, '_blank');
+                    // $scope.userWalls[isEditing].internal = {};
+                    // $scope.userWalls[isEditing].internal.showLoading = false;
                     isEditing = -1;
                     initWallOptions();
                 });
             } else {
+                $scope.userWalls.push(new AppsService({
+                    user: $scope.screen_name,
+                    app: 'wall'
+                }));
+                $scope.userWalls.showLoading = true;
                 var result = saveData.$save(function(result) {
                     $scope.newWallOptions.id = result.id;
-                    $scope.userWalls.push($scope.newWallOptions);
-                    $window.open('/' + $scope.screen_name + '/wall/' + $scope.newWallOptions.id, '_blank');
+                    console.log(saveData);
+                    for (var k in $scope.newWallOptions) {
+                        $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
+                    }
+                    $window.open('/' + $scope.screen_name + '/wall/' + result.id, '_blank');
                     initWallOptions();
                 });
             }
+        } else {
+            alert("Please sign in first");
         }
     };
 
@@ -138,20 +149,23 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         $scope.newWallOptions.untilDate = null;
     };
 
-    $scope.resetLogo = function(){
+    $scope.resetLogo = function() {
         $scope.newWallOptions.logo = null;
         //$scope.$apply();
     }
 
     $scope.deleteWall = function(index) {
         //console.log(index);
+        $scope.userWalls[index].showLoading = true;
         $scope.userWalls[index].$delete({
             user: $scope.screen_name,
             app: 'wall'
         }, function(data) {
+            $scope.userWalls[index].showLoading = false;
             $scope.userWalls.splice(index, 1);
             if ($scope.userWalls.length == 0)
                 $scope.wallsPresent = false;
+            //$scope.userWalls[index].showLoading = false;
         });
 
         // var saveData = {};

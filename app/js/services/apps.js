@@ -20,6 +20,7 @@ function AppsService($q, $http, $resource, AppSettings) {
             transformRequest: function(data) {
                 delete data.user;
                 delete data.app;
+                delete data.showLoading;
                 return JSON.stringify(data);
             },
             params: {
@@ -33,6 +34,7 @@ function AppsService($q, $http, $resource, AppSettings) {
             transformRequest: function(data) {
                 delete data.user;
                 delete data.app;
+                delete data.showLoading;
                 return JSON.stringify(data);
             },
             params: {

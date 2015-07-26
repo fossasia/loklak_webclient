@@ -1,4 +1,9 @@
 <div class="wall-thumbnail col-xs-3">
+    <div ng-show="data.showLoading" class="spinner wall-thumbnail-loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
     <img src="images/loklak_icon_yellow_45x45_transparent.png" class="sq-setter-w" />
     <div class="wall-thumbnail-content">
         <a target="_blank" ng-href="{{screenName}}/wall/{{data.id}}">
