@@ -15,6 +15,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     var term = '';
     var isEditing = -1;
     $scope.wallsPresent = true;
+    $scope.invalidFile = false;
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
@@ -50,6 +51,17 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         }
     });
 
+    $scope.$watch('newWallOptions.logo', function() {
+        if ($scope.newWallOptions.logo) {
+            if ($scope.newWallOptions.logo.filesize > 500000) {
+                $scope.invalidFile = true;
+                delete $scope.newWallOptions.logo;
+            } else {
+                $scope.invalidFile = false
+            }
+        }
+    });
+
     $scope.$watch('newWallOptions.mainHashtagText', function() {
         if ($scope.newWallOptions.mainHashtagText) {
             if ($scope.newWallOptions.mainHashtagText.length !== 0) {
@@ -61,29 +73,6 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
             }
         }
     });
-
-    $scope.lostMainhashtagFocus = function() {
-        //check if mainHashtag already in allHashtags
-        // var inHashtags = false;
-        // for (var i = 0; i < $scope.newWallOptions.allHashtags.length; i++) {
-        //     //console.log($scope.newWallOptions.allHashtags[i]);
-        //     if($scope.newWallOptions.allHashtags[i].text == $scope.newWallOptions.mainHashtagText){
-        //         inHashtags = true;
-        //         break;
-        //     }
-        // }
-        // if(inHashtags==false){
-        //     $scope.newWallOptions.allHashtags.unshift({text:$scope.newWallOptions.mainHashtagText});
-        // }
-
-    };
-
-    // $scope.onTagRemoving = function(tag){
-    //     if($scope.newWallOptions.allHashtags.length==1)
-    //         return false;
-    //     else
-    //         return true;
-    // }
 
     $scope.proceed = function() {
         $('.nav-tabs > .active').next('li').find('a').trigger('click');
@@ -128,7 +117,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                     user: $scope.screen_name,
                     app: 'wall'
                 }));
-                $scope.userWalls.showLoading = true;
+                $scope.userWalls[$scope.userWalls.length - 1].showLoading = true;
                 var result = saveData.$save(function(result) {
                     $scope.newWallOptions.id = result.id;
                     console.log(saveData);
@@ -136,6 +125,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                         $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
                     }
                     $window.open('/' + $scope.screen_name + '/wall/' + result.id, '_blank');
+                    // $scope.userWalls[$scope.userWalls.length - 1].showLoading = true;
                     initWallOptions();
                 });
             }
