@@ -87,6 +87,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $urlRouterProvider.otherwise('/');
 
   cfpLoadingBarProvider.includeBar = false;
+  cfpLoadingBarProvider.includeSpinner = false;
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];
