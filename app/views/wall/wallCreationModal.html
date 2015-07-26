@@ -72,7 +72,7 @@
                                                 <div class="form-group">
                                                     <div>
                                                         <div class="form-group">
-                                                        <label>Upload Logo</label><small>Transparent PNGs work best!</small>
+                                                        <label>Upload Logo</label>&nbsp&nbsp<small>Transparent PNGs work best!</small>
                                                         <br>
                                                             <button class="btn btn-default btn-file btn-lg">
                                                                 <input type='file' ng-model='newWallOptions.logo' accept="image/*" maxsize="500" base-sixty-four-input>Choose Image</button>
@@ -283,7 +283,7 @@
                                             </div>
                                         </div>
                                         <div class="box-footer">
-                                            <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                            <a ng-click="start()" ng-disabled="!(newWallOptions.eventName || newWallOptions.mainHashtagText)" type="submit" class="btn btn-primary">Start twitter wall!</a>
                                             <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
                                         </div>
                                         <!-- /.box-body -->

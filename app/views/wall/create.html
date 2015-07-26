@@ -9,7 +9,7 @@
         <section class="content">
             <div class="row" style="clear: both;">
                 <h1 style="float:left;margin-top:0px;">My Twitter Walls</h1>
-                <button style="float:right;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#wall-modal">Create a new wall</button>
+                <button style="float:right;" type="button" class="btn btn-info btn-lg" ng-click="openModal()">Create a new wall</button>
             </div>
             <div ng-hide="root.twitterSession" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

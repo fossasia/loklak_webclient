@@ -20,6 +20,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     var initWallOptions = function() {
         $scope.newWallOptions = {};
         $scope.newWallOptions.headerColour = '#3c8dbc';
+        $scope.newWallOptions.headerForeColour = '#FFFFFF';
         $scope.newWallOptions.headerPosition = 'Top';
         $scope.newWallOptions.layoutStyle = 1;
         $scope.newWallOptions.showLoading = false;
@@ -170,6 +171,11 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         isEditing = index;
         $('#wall-modal').modal('toggle');
     };
+
+    $scope.openModal = function() {
+        initWallOptions();
+        $('#wall-modal').modal('toggle');
+    }
 
     var init = function() {
 

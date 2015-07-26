@@ -198,13 +198,16 @@
 
 .wall-preview-logo {
     height: 50px;
-    max-width: 100px;
+    max-width: 200px;
     margin-top: -10px;
     margin-bottom: 10px;
 }
 
 .wall-thumbnail-logo {
     @extend .wall-preview-logo;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHUlEQVQIW2M8fer0TFMz03QYzcjAwMCALMhIUAUAAQYd92It1YAAAAAASUVORK5CYII=
 ) repeat;
 }
