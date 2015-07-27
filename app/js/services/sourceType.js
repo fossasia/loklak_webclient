@@ -11,11 +11,6 @@ function SourceTypeService() {
 
 	service.sourceTypeList =
 	{
-		'twitter':
-		{
-			'name': 'Twitter',		// display name
-			'endpoint': null
-		},
 		'fossasia_api':
 		{
 			'name': 'Fossasia API',
