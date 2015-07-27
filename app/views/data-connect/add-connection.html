@@ -3,7 +3,8 @@
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<h2>Add <code>{{dataFormatInfo.name}}</code> connection</h2>
+				<h2>Add <code data-toggle="modal" data-target="#add-connect-setting-modal">{{dataFormatInfo.name}}</code> connection 
+				<i class="fa fa-cog" title="Change data format" data-toggle="modal" data-target="#add-connect-setting-modal"></i></h2>
 			</div>
 		</div>
 		<div class="row">
@@ -52,9 +53,11 @@
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Confirm</button>
-					<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
+					<a ng-href="/dataConnect" type="button" class="btn btn-default">Cancel</a>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+<div add-connection-setting-modal></div>

@@ -4,25 +4,23 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('AddConnectionCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService',
-	function($scope, $stateParams, SearchService, PushService, SourceTypeService) {
+controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService',
+	function($scope, $location, $stateParams, SearchService, PushService, SourceTypeService) {
 
 		const defaultFormat = 'geojson';
 		const geojsonType = {
 			'name': 'GeoJson'
 		}
 		$scope.sourceTypesList = SourceTypeService.sourceTypeList;
+		$scope.dataFormatList = angular.copy(SourceTypeService.sourceTypeList);
+		$scope.dataFormatList.geojson = geojsonType;
 
-
-		$scope.dataFormat =	 $stateParams.format || defaultFormat;
+		$scope.dataFormat = $stateParams.format || defaultFormat;
 		$scope.dataFormat = $scope.dataFormat.toLowerCase();
 		$scope.isGeoJson = $scope.dataFormat === 'geojson';
 
-		if ($scope.isGeoJson) {
-			$scope.dataFormatInfo = geojsonType;
-		} else {
-			$scope.dataFormatInfo = $scope.sourceTypesList[$scope.dataFormat];
-		}
+
+		$scope.dataFormatInfo = $scope.dataFormatList[$scope.dataFormat];
 
 		/**
 		 * Add data source form inputs values, success & error message
@@ -30,6 +28,17 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$stateParams', 'Se
 		$scope.addForm = {};
 
 		$scope.mapRulesNum = 0;
+
+
+		/**
+		 * Setting form input values
+		 */
+		// initialize format setting to current data format
+		$scope.settingForm = { 'format' : $scope.dataFormatList[$scope.dataFormat] };
+		// put key into dataFormatList to make it easier to retrieve later
+		for (var key in $scope.dataFormatList) {
+			$scope.dataFormatList[key]['key'] = key;
+		}
 
 		function getDataSources() {
 			SearchService.getImportProfiles("").then(function(data) {
@@ -90,6 +99,11 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$stateParams', 'Se
 
 		$scope.getMapRulesNum = function() {
 			return new Array($scope.mapRulesNum);
+		};
+
+		$scope.changeFormat = function() {
+			$scope.closeSettingModal();
+			$location.path('/addConnection/' + $scope.settingForm.format.key);
 		};
 	}
 ]);
