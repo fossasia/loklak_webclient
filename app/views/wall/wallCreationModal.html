@@ -252,6 +252,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="box-footer">
+                                                            <a ng-click="start()" ng-disabled="!(newWallOptions.eventName || newWallOptions.mainHashtagText)" type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                                            <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 wall-preview animate-switch-container" ng-switch on="newWallOptions.headerPosition">
@@ -282,10 +286,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="box-footer">
-                                            <a ng-click="start()" ng-disabled="!(newWallOptions.eventName || newWallOptions.mainHashtagText)" type="submit" class="btn btn-primary">Start twitter wall!</a>
-                                            <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
-                                        </div>
+                                        
                                         <!-- /.box-body -->
                                     </div>
                                 </div>
