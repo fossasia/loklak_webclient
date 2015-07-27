@@ -30,14 +30,22 @@ router.get('/:user/:app', function(req, res) {
         var data = JSON.parse(response.body).accounts[0];
         if (data.apps[req.params.app]) {
             //Migration to new system
-            if (data.apps[req.params.app].walls) {
+            if(data.apps) {
+                if (data.apps[req.params.app].walls) {
+                    //clear everything.
+                    updateData(req.params.user, {}, function() {
+                        res.jsonp([]);
+                    });
+                } else {
+                    res.jsonp(data.apps[req.params.app]);
+                }
+            } else {
                 //clear everything.
                 updateData(req.params.user, {}, function() {
                     res.jsonp([]);
                 });
-            } else {
-                res.jsonp(data.apps[req.params.app]);
             }
+            
         } else
             res.jsonp([]);
     });
