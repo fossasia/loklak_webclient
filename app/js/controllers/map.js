@@ -11,16 +11,19 @@ var marker=[];
  * @ngInject
  */
 
- controllersModule.controller('MapCtrl', ['$rootScope','$http', 'HelloService','FollowersMapTemplateService', function($rootScope,$http,hello,FollowersMapTemplateService) {
+ controllersModule.controller('MapCtrl', ['$rootScope','$http','$scope','HelloService','FollowersMapTemplateService', function($rootScope,$http,$scope,HelloService,FollowersMapTemplateService) {
 
-        
+        var hello=HelloService;
         var followerslayer = new L.LayerGroup();
         var followinglayer = new L.LayerGroup();
         var overlays = {
             "Followers" : followerslayer ,
             "Following" : followinglayer
         };
-
+        $scope.followers={};
+        $scope.following={};
+        $scope.followers_status="Loading ...";
+        $scope.following_status="Loading ..." ;
         
         var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -51,17 +54,9 @@ var marker=[];
         function plotFollowersonMap()
         {   
             //defining an object to store followers info
-            var followers = {
-                "location" : [],
-                "name" : [],
-                "id_str" : [],
-                "propic" : [],
-                "followers" : [],
-                "following" : [],
-                "screenname" : [],
-                "tweetcount" : [],
-                "profile_banner" : []
-            };
+            var followers = [];
+            var followers_location = [];
+             
 
             //Marker array
             var followersMarker = {
@@ -74,24 +69,29 @@ var marker=[];
             {
                 twitterFollowers.data.forEach(function(ele){
                     if(ele.location)
-                    {
-                        followers.location.push(ele.location);
-                        followers.name.push(ele.name);
-                        followers.id_str.push(ele.id_str);
-                        followers.propic.push(ele.profile_image_url_https);
-                        followers.screenname.push(ele.screen_name);
-                        followers.followers.push(ele.followers_count);
-                        followers.following.push(ele.friends_count);
-                        followers.tweetcount.push(ele.statuses_count);
-                        followers.profile_banner.push(ele.profile_background_image_url_https);
+                    {   
+                        followers_location.push(ele.location);
+                        followers.push({
+                            "location" : ele.location,
+                            "name" : ele.name,
+                            "id_str" : ele.id_str,
+                            "propic" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "followers" : ele.followers_count,
+                            "following" : ele.friends_count,
+                            "tweetcount" : ele.statuses_count,
+                            "profile_banner" : ele.profile_background_image_url_https
+                        });
+                        
 
                     }
                 });
-                
+                $scope.followers=followers;
                 Geocode();
             });
             }, function() {
             console.log("Unable to get your followers");
+            $scope.followers_status="Load Failed.Twitter did not respond."
             });
 
             //getting the LatLong 
@@ -99,20 +99,24 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : followers.location
-                };
+
+                    "places" : followers_location
+                }
+
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
                 //console.log( followers.propic[i]);
-                
-                for(var i=0;i<followers.location.length;i++)
+                $scope.followers_status=followers_location.length;
+                for(var i=0;i<followers_location.length;i++)
                 {
                     
-                    var locationkey=followers.location[i];
+                    var locationkey=followers_location[i];
                     if(data.locations[locationkey].mark)
                     {
                     var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
+                    console.log("I am viewing "+followers[i].name);
+                    //followers.preview[i]=textpopup;
                     var pointObject = {
                         "geometry": {
                             "type": "Point",
@@ -124,10 +128,10 @@ var marker=[];
                         "type": "Feature",
                         "properties": {
                             "popupContent" : "<div class='foobar'><h4>Follower</h4><hr>" + textpopup + "</div>" ,
-                            "propic" : followers.propic[i]
+                            "propic" : followers[i].propic
 
                         },
-                        "id": followers.id_str[i]
+                        "id": followers[i].id_str
 
                     };
                     followersMarker.features.push(pointObject);
@@ -139,7 +143,8 @@ var marker=[];
                 
                 }).error(function(data, status, headers, config) {
                     
-                    console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again."+data+"fff"+status);
+                    $scope.followers_status="Load Failed.Twitter did not respond."
                     
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
@@ -149,20 +154,11 @@ var marker=[];
 
         function plotFollowingOnMap()
         {
+
              
             //defining an object to store following info
-            var following = {
-                "location" : [],
-                "name" : [],
-                "id_str" : [],
-                "propic" : [],
-                "followers" : [],
-                "following" : [],
-                "screenname" : [],
-                "tweetcount" : [],
-                "profile_banner" : [],
-                "latesttweet" : []
-            };
+            var following = [];
+            var following_location=[];
 
 
             //Marker array
@@ -178,23 +174,28 @@ var marker=[];
                 twitterfollowing.data.forEach(function(ele){
                     if(ele.location && ele.status.text)
                     {
-                        following.location.push(ele.location);
-                        following.name.push(ele.name);
-                        following.id_str.push(ele.id_str);
-                        following.propic.push(ele.profile_image_url_https);
-                        following.screenname.push(ele.screen_name);
-                        following.followers.push(ele.followers_count);
-                        following.following.push(ele.friends_count);
-                        following.tweetcount.push(ele.statuses_count);
-                        following.profile_banner.push(ele.profile_background_image_url_https);
-                        following.latesttweet.push(ele.status.text);
+                        following_location.push(ele.location);
+                        following.push({
+                            "location" : ele.location,
+                            "name" : ele.name,
+                            "id_str" : ele.id_str,
+                            "propic" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "followers" : ele.followers_count,
+                            "following" : ele.friends_count,
+                            "tweetcount" : ele.statuses_count,
+                            "profile_banner" : ele.profile_background_image_url_https,
+                            "latesttweet" : ele.status.text
+                        });
+                        
                     }
                 });
-               
+                $scope.following=following;
                 Geocode_Plot();
             });
             }, function() {
             console.log("Unable to get your following");
+            $scope.following_status="Load Failed.Twitter did not respond."
             });
 
             //getting the LatLong 
@@ -202,15 +203,17 @@ var marker=[];
             {
                 
                 var locarray = {
-                    "places" : following.location
-                };
+
+                    "places" : following_location
+                }
+
                 
             $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
-                
-                for(var i=0;i<following.location.length;i++)
+                $scope.following_status=following_location.length;
+                for(var i=0;i<following_location.length;i++)
                 {   
-                    var locationkey=following.location[i];
+                    var locationkey=following_location[i];
                     if(data.locations[locationkey].mark)
                     {
                     var textpopup=FollowersMapTemplateService.genStaticTwitterFollowing(following , i);
@@ -227,9 +230,9 @@ var marker=[];
                         "type": "Feature",
                         "properties": {
                             "popupContent": "<div class='foobar'><h4>Following</h4><hr>" + textpopup + "</div>",
-                            "propic" : following.propic[i]
+                            "propic" : following[i].propic
                         },
-                        "id": following.id_str[i]
+                        "id": following[i].id_str
                     };
                     followingMarker.features.push(pointObject);
                 }
@@ -241,6 +244,7 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again.");
+                    $scope.following_status="Load Failed.Twitter did not respond."
                     Geocode_Plot();
                     
                         // called asynchronously if an error occurs
@@ -279,7 +283,7 @@ var marker=[];
                         }
                         
                         var popup = L.popup({
-                            autoPan: false
+                            autoPan: true
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
                         

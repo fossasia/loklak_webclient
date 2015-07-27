@@ -53,10 +53,10 @@ function SearchService($q, $http, AppSettings) {
       return deferred.promise;
   };
 
-  service.retrieveImg = function(statusID) {
+  service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
-    $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-      params: {q : 'id:' + statusID}
+    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+      params: {screen_name: user_screen_name}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -65,20 +65,6 @@ function SearchService($q, $http, AppSettings) {
 
     return deferred.promise;
   };
-
-  service.getUserInfo = function(username) {
-    var deferred = $q.defer();
-    //paramsObj.q = decodeURIComponent(paramsObj.q);
-    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
-      params: {screen_name: username}
-    }).success(function(data) {
-        deferred.resolve(data);
-    }).error(function(err, status) {
-        deferred.reject(err, status);
-    });
-
-    return deferred.promise;
-  }
 
   return service;
 
