@@ -6,8 +6,10 @@ var angular = require('angular');
 require('angular-ui-router');
 require('angular-animate');
 require('angular-moment');
+require('angular-resource');
 require('angular-loading-bar');
 require('ng-tags-input');
+require('angular-base64-upload')
 // /require('chart.js');
 require('./templates');
 require('./controllers/_index');
@@ -23,6 +25,7 @@ angular.element(document).ready(function() {
   var requires = [
     'ui.router',
     'ngAnimate',
+    'ngResource',
     'angularMoment',
     'angular-loading-bar',
     'locator',
@@ -40,7 +43,8 @@ angular.element(document).ready(function() {
     'ui.choices',
     'FBAngular',
     'akoenig.deckgrid',
-    'chart.js'
+    'chart.js',
+    'naif.base64'
   ];
 
   // mount on window for testing

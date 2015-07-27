@@ -45,7 +45,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   //   title: 'Wall'
   // })
   .state('WallDisplay', {
-    url: '/wall/display',
+    url: '/:user/wall/:id',
     templateUrl: 'wall/display.html',
     controller: 'WallDisplay as wall',
     title: 'Wall',
@@ -87,6 +87,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $urlRouterProvider.otherwise('/');
 
   cfpLoadingBarProvider.includeBar = false;
+  cfpLoadingBarProvider.includeSpinner = false;
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];
