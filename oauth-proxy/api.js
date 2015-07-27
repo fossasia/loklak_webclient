@@ -28,9 +28,9 @@ function updateData(user, data, callback) {
 router.get('/:user/:app', function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
-        if (data.apps[req.params.app]) {
-            //Migration to new system
-            if(data.apps) {
+        if (data.apps) {
+            if (data.apps[req.params.app]) {
+                //Migration to new system
                 if (data.apps[req.params.app].walls) {
                     //clear everything.
                     updateData(req.params.user, {}, function() {
@@ -40,14 +40,14 @@ router.get('/:user/:app', function(req, res) {
                     res.jsonp(data.apps[req.params.app]);
                 }
             } else {
-                //clear everything.
-                updateData(req.params.user, {}, function() {
-                    res.jsonp([]);
-                });
+                res.jsonp([]);
             }
-            
-        } else
-            res.jsonp([]);
+        } else {
+            //clear everything.
+            updateData(req.params.user, {}, function() {
+                res.jsonp([]);
+            });
+        }
     });
 });
 
