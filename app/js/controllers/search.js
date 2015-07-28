@@ -180,7 +180,8 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                     withoutLocation.push(data.statuses.splice(index, 1)[0]);
                 }
             })
-            MapCreationService.initMap(data.statuses, "search-map", addListenersOnMap);   
+
+            MapCreationService.initMap(data.statuses, "search-map", "genStaticTwitterStatus", addListenersOnMap);   
             MapCreationService.addLocationFromUser(withoutLocation);
         }, function() {});
 
@@ -301,7 +302,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         var locationTerm = MapCreationService.getLocationParamFromBound(bound);
         var params = { q: vm.term + "+" + locationTerm, count: 300};
         SearchService.initData(params).then(function(data) {
-            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses), addListenersOnMap);    
+            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), addListenersOnMap);    
         }, function(data) {});
     }
 

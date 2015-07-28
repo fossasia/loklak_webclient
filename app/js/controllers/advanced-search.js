@@ -311,7 +311,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 
  		SearchService.initData(params).then(function(data) {
  			vm.resultMessage = false;
- 		    MapCreationService.initMap(data.statuses, "advanced-search-map", addListenersOnMap);    
+ 		    MapCreationService.initMap(data.statuses, "advanced-search-map", "genStaticTwitterStatus", addListenersOnMap);    
  		}, function() {});
  	};
 
@@ -325,7 +325,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
         var locationTerm = MapCreationService.getLocationParamFromBound(bound);
         var params = { q: vm.term + "+" + locationTerm, count: 300};
         SearchService.initData(params).then(function(data) {
-            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses), addListenersOnMap);    
+            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), addListenersOnMap);    
         }, function(data) {});
     }
 

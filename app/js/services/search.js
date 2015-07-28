@@ -66,6 +66,25 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
+  service.retrieveTopology = function(user_screen_name, limit) {
+    console.log(user_screen_name);
+    console.log(limit);
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+      params: {
+        screen_name: user_screen_name,
+        following: limit,
+        followers: limit
+      }
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  };
+
   return service;
 
 }

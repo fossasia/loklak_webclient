@@ -15,11 +15,11 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
     var mapId = 'examples.map-20v6611k';
     var tileLayerSrc = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
-    function initMapPoints(statuses) {
+    function initMapPoints(statuses, templateEngine) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
             if (status.location_mark && status.user) {
-                var text = MapPopUpTemplateService.genStaticTwitterStatus(status);
+                var text = MapPopUpTemplateService[templateEngine](status);
                 var pointObject = {
                     "geometry": {"type": "Point", "coordinates": [status.location_mark[0], status.location_mark[1]]},
                     "type": "Feature",
@@ -90,9 +90,9 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
      * cbOnMapAction: cb after map initialization, usually to add listeners to events
      *
      */
-    function initMap(data, mapId, cbOnMapAction) {
+    function initMap(data, mapId, templateEngine, cbOnMapAction) {
         window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
-        var tweets = initMapPoints(data);
+        var tweets = initMapPoints(data, templateEngine);
 
         L.tileLayer(tileLayerSrc, {
             maxZoom: 18,
