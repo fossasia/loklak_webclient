@@ -40,7 +40,14 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					});
 
 					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 500).then(function(result) {
+						result.topology.followers.forEach(function(status) {
+							status.isAFollower = true;
+						})
+						result.topology.following.forEach(function(status) {
+							status.isAFollower = false;
+						})
 						$rootScope.userTopology  = result.topology;
+
 					}, function() {});
 
 				}, function() {
@@ -53,7 +60,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
 						}
 					});
-					console.log(twitterFriendFeed);
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
 					});

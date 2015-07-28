@@ -38,9 +38,40 @@ function MapPopUpTemplateService($filter) {
   	return result;
   };
 
-  service.genUserInfoPopUp = function(userInfo) {
-    return "Foo";
-  }
+  service.genUserInfoPopUp = function(status) {
+    var result = "Failed loading data from twitter";
+    var title = (status.isAFollower) ? 'Follower' : 'Following';
+    result = '<h4>' + title + '</h4>'
+            +'<div class="home-user-info" style="width:300px;">'
+            +   '<div class="blue-background-placeholder">'
+            +        '<img src="'+status.profile_background_image_url_https+'" >'    
+            +    '</div>'
+            +     '<div class="home-user-info-content">'
+            +        '<div class="top-content">'
+            +            '<img src="'+status.profile_image_url_https+'">'
+            +            '<div class="name-and-screen-name">'
+            +                '<span class="home-user-name">'+status.name+'</span><br>'
+            +               '<span class="home-user-screen-name">@'+status.screen_name+'</span>'
+            +            '</div>'
+            +       '</div>'
+            +       '<div class="bottom-content">'
+            +            '<div class="user-no-tweets">'
+            +               '<a href="">Tweets<br><span>'+status.statuses_count+'</span></a>'
+            +            '</div>'
+            +            '<div class="user-no-followings">'
+            +                '<a href="">Followings<br><span>'+status.friends_count+'</span></a>'
+            +            '</div>'
+            +            '<div class="user-no-followers">'
+            +                '<a href="">Followers<br><span>'+status.followers_count+'</span></a>'
+            +            '</div>'
+            +        '</div>'
+            +    '</div>'
+            +'</div>';
+
+    return result;
+
+
+  };
 
   return service;
 

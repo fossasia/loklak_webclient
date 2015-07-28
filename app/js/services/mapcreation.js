@@ -60,8 +60,6 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
             }).addTo(map);
 
         } else if (markerType === "userAvatar") {
-
-            console.log(tweets);
             window.mapViewMarker = [];
 
             tweets.features.forEach(function(tweet) {
@@ -70,10 +68,6 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
                     icon: L.icon({iconUrl: tweet.propic, iconSize: [30, 30], className: "topologyItem"})
                 }).addTo(window.map).bindPopup(tweet.properties.popupContent);
             })
-            
-           /* tweets.forEach(function(tweet) {
-                L.
-            });*/
            
         }
             
@@ -109,6 +103,8 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
      * Main fn to intialize map, require
      * data: array of statuses
      * mapId : id of html container for map, # is not needed
+     * markerType : define the type of marker, a circle? a picture? ..v..
+     * templateEngine: define how pop up template is generated
      * cbOnMapAction: cb after map initialization, usually to add listeners to events
      *
      */
