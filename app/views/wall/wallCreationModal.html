@@ -127,32 +127,33 @@
                                                         <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
                                                         <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
                                                     </div>
-                                                    <h4>Coming Soon</h4>
-                                                    <div class="pre-scrollable wall-exclude-toggles" style="max-height:250px; overflow-x: hidden;">
+                                                    
+                                                    <div class="pre-scrollable" style="max-height:250px; overflow-x: hidden;">
                                                         <div class="form-group row">
                                                             <p class="col-xs-9">Block tweets with profanity
                                                                 <br><small>Tweets containing profanity will go straight into the blocked queue and will not be displayed or placed in moderation.</small></p>
-                                                            <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
+                                                            <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
                                                             </toggle-switch>
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <h4>Coming Soon</h4>
+                                                        <div class="form-group row wall-exclude-toggles">
                                                             <p class="col-xs-9">Block retweets
                                                                 <br><small>Retweets will not be shown or counted in the stats, they'll be immediately blocked.</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
                                                             </toggle-switch>
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row wall-exclude-toggles">
                                                             <p class="col-xs-9">Hide retweets
                                                                 <br><small>Retweets will not be shown, but they WILL be counted in the stats and leaderboards.</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
                                                             </toggle-switch>
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row wall-exclude-toggles">
                                                             <p class="col-xs-9">Follower threshold
                                                                 <br><small>Block any Tweets from people that have less than the number of followers you specify.</small></p>
                                                             <input disabled="true" class="col-xs-2" type="text" ng-model="newWallOptions.followerThreshold">
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row wall-exclude-toggles">
                                                             <p class="col-xs-9">Moderation
                                                                 <br><small>This gives you the ability to approve or deny every Tweet before it shows on your Tweet wall</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">

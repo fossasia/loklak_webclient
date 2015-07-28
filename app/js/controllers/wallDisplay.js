@@ -62,6 +62,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 term = term + ' -/audio';
             }
         }
+        if (vm.wallOptions.profanity) {
+            if (vm.wallOptions.profanity == true) {
+                term = term + ' -/profanity';
+            }
+        }
         if (vm.wallOptions.sinceDate) {
             term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
         }
