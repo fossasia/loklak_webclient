@@ -10,6 +10,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
 
     var vm = this;
 
+    vm.failNoticeShown = false;
     /*
     Requirement
       - A news feed on the right with latest content  
@@ -67,13 +68,19 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
 
 
     vm.openPopup = function(userId) {
-        console.log(userId);
         if (window.mapViewMarker[userId]) {
+            $(".location-fail-notice").fadeOut();
+            vm.failNoticeShown = false;
+
+            window.map.panTo(window.mapViewMarker[userId]._latlng);
             window.mapViewMarker[userId].openPopup();    
-            // Then center to the current popup
+            
         } else {
-            alert("The user you're searching doesn't have geolocation enabled");
-            // Create some clever notice/effect here!
+            if (vm.failNoticeShown) {
+                $(".location-fail-notice").fadeOut(200).fadeIn(200);
+            } 
+            $(".location-fail-notice").fadeIn();
+            vm.failNoticeShown = true;
         } 
     }
 

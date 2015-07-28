@@ -50,6 +50,9 @@
 	.feed-content {
 		overflow: hidden;
 		.item {
+			&:hover {
+				cursor: pointer;
+			}
 			padding: 5px 5px;
 			border-bottom: 4px solid #F5F8FA;
 			.home-user-screen-name {
@@ -116,6 +119,37 @@
 			letter-spacing: 0.5px;
 		}
 	}
+}
+
+.topologyItem {
+	border-radius: 20px;
+	height: 40px !important;
+	width: 40px !important;
+}
+
+
+.location-fail-notice {
+	display: none;
+	position: absolute;
+    right: 300px;
+    top: 7%;
+    width: 300px;
+    background-color: white;
+    background-color: rgba(255,255,255,0.80);
+    line-height: 20px;
+    font-size: 16px;
+    .warning-sign {
+    	background-color: black;
+    	padding: 5px 0;
+    	text-align: center;
+    	i {
+    		color: #FBA81A;
+    	}
+    }
+    .notice-text {
+    	padding: 10px 15px 15px 15px;
+    	margin-bottom: 0;
+    }
 }
 
 

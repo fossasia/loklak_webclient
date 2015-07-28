@@ -119,7 +119,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         var templateEngine = params.templateEngine;
         var cbOnMapAction = params.cbOnMapAction;
 
-        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
+        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 3);
         var tweets = initMapPoints(data, templateEngine);
         L.tileLayer(tileLayerSrc, {
             maxZoom: 18,
