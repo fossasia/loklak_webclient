@@ -9,17 +9,48 @@
             height: 92vh;
             width: 100%;
         }
+        .top-left
+        {   position: absolute;;
+            right : 10px;
+            top:110px;
+            z-index : 9999;
+            width : 36px;
+            height : 36px;
+            border-radius: 5px;
+            background: #fff;
+            color: gray;
+            padding-left: 5px;
+        }
     </style>
    
 </style>
 
    <div id="map" >
+  
    </div>
-   
-   
+  <button type="button" class="btn btn-default top-left pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal23">
+  <span class="fa fa-bar-chart" aria-hidden="true"></span>
+</button>
 
 
 
+<!-- Modal -->
+<div id="myModal23" class="modal fade"  role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
 
-
+  </div>
+</div>
