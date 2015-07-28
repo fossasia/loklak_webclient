@@ -24,7 +24,8 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
                     "geometry": {"type": "Point", "coordinates": [status.location_mark[0], status.location_mark[1]]},
                     "type": "Feature",
                     "properties": {"popupContent": "<div class='foobar'>" + text + "</div>"},
-                    "id": status.id_str
+                    "id": status.id_str,
+                    "propic" : status.user.profile_image_url_https
                 };
                 tweets.features.push(pointObject);
             }
@@ -60,6 +61,20 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
         } else if (markerType === "userAvatar") {
 
+            console.log(tweets);
+            window.mapViewMarker = [];
+
+            tweets.features.forEach(function(tweet) {
+                window.mapViewMarker[tweet.id] = new L.Marker([tweet.geometry.coordinates[1], tweet.geometry.coordinates[0]], {
+                    id: tweet.id,
+                    icon: L.icon({iconUrl: tweet.propic, iconSize: [30, 30], className: "topologyItem"})
+                }).addTo(window.map).bindPopup(tweet.properties.popupContent);
+            })
+            
+           /* tweets.forEach(function(tweet) {
+                L.
+            });*/
+           
         }
             
         cbOnMapAction();

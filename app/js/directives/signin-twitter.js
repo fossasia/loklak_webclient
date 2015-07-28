@@ -53,6 +53,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
 						}
 					});
+					console.log(twitterFriendFeed);
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
 					});

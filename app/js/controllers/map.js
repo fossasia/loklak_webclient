@@ -8,6 +8,8 @@ var controllersModule = require('./_index');
 
 controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , function($rootScope, MapCreationService) {
 
+    var vm = this;
+
     /*
     Requirement
       - A news feed on the right with latest content  
@@ -32,14 +34,25 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
       + Again, attach trigger
     */
 
-    
+    function addUserProp(topology) {
+        topology.forEach(function(ele) {
+            ele.user = {
+                "screen_name" : ele.screen_name,
+                "user_id" : ele.id_str,
+                "name" : ele.name,
+                "profile_image_url_https" : ele.profile_image_url_https,
+            };
+        })
+    }    
+
+
 
     $rootScope.$watch(function() {
         return $rootScope.userTopology;
     }, function(val) {
         if (val) {
             var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
-            console.log(topologyPool);
+            addUserProp(topologyPool);
             MapCreationService.initMap({
                 data: topologyPool,
                 mapId: "map",
@@ -52,6 +65,17 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
         }
     })
 
+
+    vm.openPopup = function(userId) {
+        console.log(userId);
+        if (window.mapViewMarker[userId]) {
+            window.mapViewMarker[userId].openPopup();    
+            // Then center to the current popup
+        } else {
+            alert("The user you're searching doesn't have geolocation enabled");
+            // Create some clever notice/effect here!
+        } 
+    }
 
 
 }]);
