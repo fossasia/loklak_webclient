@@ -39,8 +39,15 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
     }, function(val) {
         if (val) {
             var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
-            MapCreationService.initMap(topologyPool, "map", "genUserInfoPopUp", function() {
+            console.log(topologyPool);
+            MapCreationService.initMap({
+                data: topologyPool,
+                mapId: "map",
+                templateEngine: "genUserInfoPopUp",
+                markerType: "userAvatar",
+                cbOnMapAction: function() {
                 // Do nothing when map in created
+                }
             });                
         }
     })

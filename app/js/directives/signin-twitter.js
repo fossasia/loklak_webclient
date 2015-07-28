@@ -41,7 +41,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 
 					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 500).then(function(result) {
 						$rootScope.userTopology  = result.topology;
-						console.log($rootScope.userTopology);
 					}, function() {});
 
 				}, function() {
@@ -55,7 +54,6 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						}
 					});
 					$rootScope.$apply(function() {
-						console.log(twitterFriendFeed);
 						$rootScope.root.twitterFriends = twitterFriendFeed;
 					});
 				}, function(){
