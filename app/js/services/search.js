@@ -67,8 +67,6 @@ function SearchService($q, $http, AppSettings) {
   };
 
   service.retrieveTopology = function(user_screen_name, limit) {
-    console.log(user_screen_name);
-    console.log(limit);
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
       params: {

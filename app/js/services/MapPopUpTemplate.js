@@ -38,6 +38,10 @@ function MapPopUpTemplateService($filter) {
   	return result;
   };
 
+  service.genUserInfoPopUp = function(userInfo) {
+    return "Foo";
+  }
+
   return service;
 
 }

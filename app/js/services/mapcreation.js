@@ -18,7 +18,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
     function initMapPoints(statuses, templateEngine) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
-            if (status.location_mark && status.user) {
+            if (status.location_mark) {
                 var text = MapPopUpTemplateService[templateEngine](status);
                 var pointObject = {
                     "geometry": {"type": "Point", "coordinates": [status.location_mark[0], status.location_mark[1]]},

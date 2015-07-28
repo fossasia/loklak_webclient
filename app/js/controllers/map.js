@@ -6,7 +6,7 @@ var controllersModule = require('./_index');
  * @ngInject
  */
 
-controllersModule.controller('MapCtrl',['MapCreationService', function(MapCreationService) {
+controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , function($rootScope, MapCreationService) {
 
     /*
     Requirement
@@ -32,11 +32,18 @@ controllersModule.controller('MapCtrl',['MapCreationService', function(MapCreati
       + Again, attach trigger
     */
 
-    var topologyPool = [];
+    
 
-    MapCreationService.initMap(topologyPool, "map", function() {
-        // Do nothing when map in created
-    });
+    $rootScope.$watch(function() {
+        return $rootScope.userTopology;
+    }, function(val) {
+        if (val) {
+            var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
+            MapCreationService.initMap(topologyPool, "map", "genUserInfoPopUp", function() {
+                // Do nothing when map in created
+            });                
+        }
+    })
 
 
 
