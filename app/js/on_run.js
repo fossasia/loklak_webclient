@@ -33,6 +33,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'title': 'Connect',
           'link' : '/dataConnect',
           'icon' : 'fa fa-cloud'
+        },
+        {
+          'title': 'Analyze',
+          'link' : '/analyze',
+          'icon' : 'fa fa-bar-chart'
         }
   	  ];
 

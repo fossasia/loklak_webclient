@@ -1,0 +1,152 @@
+'use strict';
+/* global angular, L */
+/* jshint unused:false */
+
+var controllersModule = require('./_index');
+var Leaflet = require('../components/leaflet');
+var GeoJSON = require('../components/geojson');
+
+var result;
+var marker=[];
+/**
+ * @ngInject
+ */
+
+ controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
+
+      stats();
+      function stats()
+      {
+        console.log("stats being called");
+        $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 2000  } })
+            .success(function(data, status, headers, config) {
+                var topology = data.topology;
+                var country_stat_result = {};
+                var country_Array=[];
+                var followers_follower=[];
+                var city_stat_result = {};
+                var city_Array=[];
+                var top5=[];
+                
+                //Getting citywise Stats
+                data.topology.followers.forEach(function(ele){
+                    if(ele.location)
+                    {
+                        city_Array.push(ele.location);
+                        followers_follower.push ({
+                            "followers" : ele.followers_count ,
+                            "id_str" : ele.id_str,
+                            "profileimg" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "statuses_count" : ele.statuses_count,
+                            "following" : ele.friends_count,
+                            "profile_banner" : ele.profile_background_image_url_https
+
+                        });
+
+                    }
+
+                });
+
+                //Counting per city
+                for(var i = 0; i < city_Array.length; ++i) 
+                {
+                    if(!city_stat_result[city_Array[i]])
+                    city_stat_result[city_Array[i]] = 0;
+                    ++city_stat_result[city_Array[i]];
+                }
+                var citynames = Object.keys( city_stat_result );
+
+                //Populating Data Set
+                var cityData=[];
+                citynames.forEach(function(ele){
+                    cityData.push(
+                    {
+                         value: city_stat_result[ele],
+                         color:"#F7464A",
+                         highlight: "#FF5A5E",
+                         label: ele
+                    })
+                });
+                //console.log("city datauniques are");
+                //console.log(citynames);
+
+                //Getting country wise stats
+                 data.topology.followers.forEach(function(ele){
+                    if(ele.location_country)
+                    {
+                        country_Array.push(ele.location_country);
+                    }
+
+                });
+
+                 //Counting country wise stats
+                for(var i = 0; i < country_Array.length; ++i) {
+
+                    if(!country_stat_result[country_Array[i]])
+                    country_stat_result[country_Array[i]] = 0;
+                    ++country_stat_result[country_Array[i]];
+                }
+
+                var countrynames = Object.keys( country_stat_result );
+                
+                //Populating Data Set
+                var countryData=[];
+                countrynames.forEach(function(ele){
+                    countryData.push(
+                    {
+                         value: country_stat_result[ele],
+                         color:"#F7464A",
+                         highlight: "#FF5A5E",
+                         label: ele
+                    })
+                });
+                
+                
+               // console.log( city_stat_result);
+                $scope.city_stat_result=city_stat_result;
+                $scope.country_stat_result=country_stat_result;
+                getTopfive(followers_follower);
+               
+
+                }).error(function(data, status, headers, config) {
+                    
+                    
+                    $scope.followers_status="Load Failed.Twitter did not respond.";
+                    /*followers_location.push(ele.location);
+                        followers.push({
+                            "location" : ele.location,
+                            "name" : ele.name,
+                            "id_str" : ele.id_str,
+                            "propic" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "followers" : ele.followers_count,
+                            "following" : ele.friends_count,
+                            "tweetcount" : ele.statuses_count,
+                            "profile_banner" : ele.profile_background_image_url_https
+                        });
+*/
+console.log("error"+status);
+                    
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+            });
+        function getTopfive(followers_follower){
+            function compare(a,b) {
+                if (a.followers > b.followers)
+                    return -1;
+                if (a.followers < b.followers)
+                    return 1;
+                return 0;
+            }
+            followers_follower.sort(compare);
+            console.log(followers_follower);
+        }
+      
+
+
+      }
+
+
+}]);
+

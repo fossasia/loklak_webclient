@@ -76,6 +76,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'DataConnectCtrl as dataConnect',
     title: 'Connect Data'
   })
+  .state('Analyze', {
+    url: '/analyze',
+    templateUrl: 'analyze/analyze.html',
+    controller: 'AnalyzeCtrl as Analyze',
+    title: 'Analyze Data'
+  })
   .state('Redirecting', {
     url: '/redirect',
     templateUrl: 'redirect.html',
