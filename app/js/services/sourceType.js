@@ -13,6 +13,7 @@ function SourceTypeService() {
 	{
 		'fossasia_api':
 		{
+			'key': 'FOSSASIA_API',
 			'name': 'Fossasia API',
 			'endpoint': 'fossasia.json'
 		}

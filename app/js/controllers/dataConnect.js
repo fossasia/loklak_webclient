@@ -38,16 +38,26 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 
 	$scope.mapRulesNum = 0;
 
-	function getDataSources() {
+	function updateDataSources(callback) {
 		SearchService.getImportProfiles("").then(function(data) {
-			var profiles = data.profiles;
-			profiles.forEach(function(profile) {
+
+			var count_item = 0;
+			for (var k in data.profiles) {
+				var profile = data.profiles[k];
 				profile.source_type = profile.source_type.toLowerCase();
+				
+				// Unknown source type
+				if (!$scope.sourceTypesList[profile.source_type]) {
+					console.error("Unknown source type : '" + profile.source_type + "'");
+					continue;
+				}
 				profile.source_type = $scope.sourceTypesList[profile.source_type].name;
-				$scope.dataSourceItems.push(profile);
-			});
+				$scope.dataSourceItems[count_item] = profile;
+				count_item++;
+			}
+			if (callback) callback();
 		}, function() {});
-	}
+	};
 
 	$scope.confirmAddDataSource = function() {
 
@@ -65,9 +75,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			return mapRulesStr;
 		}
 		
-		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type, constructMapRules()).then(function(data) {
+		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type.key, constructMapRules()).then(function(data) {
 			$scope.addForm.error = '';
 			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
+			updateDataSources();
 		}, function(err, status) {
 			$scope.addForm.success = '';
 			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -90,5 +101,11 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 		return new Array($scope.mapRulesNum);
 	};
 
-	getDataSources();
+	$scope.onUpdateDataSources = function() {
+		var refreshButton = angular.element("#refreshButton i"); 
+		refreshButton.addClass("fa-spin");
+		updateDataSources(function() {
+			refreshButton.removeClass("fa-spin");
+		});
+	}
 }]);

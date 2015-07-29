@@ -35,10 +35,6 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stat
 		 */
 		// initialize format setting to current data format
 		$scope.settingForm = { 'format' : $scope.dataFormatList[$scope.dataFormat] };
-		// put key into dataFormatList to make it easier to retrieve later
-		for (var key in $scope.dataFormatList) {
-			$scope.dataFormatList[key]['key'] = key;
-		}
 
 		function getDataSources() {
 			SearchService.getImportProfiles("").then(function(data) {
@@ -67,7 +63,7 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stat
 			}
 
 			if ($scope.isGeoJson) {
-				PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type, constructMapRules()).then(function(data) {
+				PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type.key, constructMapRules()).then(function(data) {
 					$scope.addForm.error = '';
 					$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 				}, function(err, status) {

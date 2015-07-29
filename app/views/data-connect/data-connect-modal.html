@@ -22,8 +22,11 @@
 
 					<div class="col-xs-10 tab-content">
 						<div class="tab-pane active" id="data-source-tab">
-							<button class="pull-right btn btn-default" ng-hide="addFormOpen" ng-click="toggleAddForm()">Add New Source <i class="fa fa-plus"></i>
-							</button>
+							<div class="buttonPanel pull-right">
+								<button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()">Refresh <i class="fa fa-refresh"></i></button>
+								<button class="btn btn-default" ng-hide="addFormOpen" ng-click="toggleAddForm()">Add New Source <i class="fa fa-plus"></i>
+								</button>
+							</div>
 							<div id="add-datasource-form" ng-hide="!addFormOpen">
 								<div ng-show="addForm.error" class="alert alert-danger">
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
