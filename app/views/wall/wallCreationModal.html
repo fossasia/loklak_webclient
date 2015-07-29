@@ -34,7 +34,7 @@
                                                     <div class="form-inline">
                                                         <div class="input-group dropdown">
                                                             <span class="input-group-addon">
-                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                                  <span class="fa fa-calendar"></span>
                                                             </span>
                                                             <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
                                                                 <div class="input-append">
@@ -48,7 +48,7 @@
                                                         &nbsp-&nbsp
                                                         <div class="input-group dropdown">
                                                             <span class="input-group-addon">
-                                              <span class="glyphicon glyphicon-calendar"></span>
+                                              <span class="fa fa-calendar"></span>
                                                             </span>
                                                             <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
                                                                 <div class="input-append">
@@ -70,10 +70,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Show statistics</label>
-                                                    <br>
-                                                    <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.showStatistics">
-                                                    </toggle-switch>
+                                                    <div>
+                                                        <div class="form-group">
+                                                        <label>Upload Logo</label>&nbsp&nbsp<small>Transparent PNGs work best!</small>
+                                                        <br>
+                                                            <button class="btn btn-default btn-file btn-lg">
+                                                                <input type='file' ng-model='newWallOptions.logo' accept="image/*" maxsize="500" base-sixty-four-input>Choose Image</button>
+                                                            <img class="wall-thumbnail-logo" ng-if="newWallOptions.logo" ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" /><span ng-show="invalidFile">File must not exceed 500 KB.</span>
+                                                            <button ng-if="newWallOptions.logo" ng-click="resetLogo()" class=" btn btn-danger">Clear</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <!-- /.box-body -->
@@ -87,14 +93,13 @@
                                     <div>
                                         <div class="box-body">
                                             <div class="row">
-                                                <div class="col-xs-5">
+                                                <div class="col-xs-6">
                                                     <div class="wall-float-container">
                                                         <i class="fa fa-check-circle fa-3x wall-float-icon-contains"></i>
                                                         <div class="wall-float-text">
                                                             <h3>What do you want to show?<br><small>Add words, #hashtags, @mentions and from:user</small></h3>
                                                         </div>
                                                     </div>
-                                                    <h4 ng-if="newWallOptions.mainHashtagText.length>0">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h4>
                                                     <div class="form-group wall-tag-label-contain">
                                                         <label class="wall-contains-header">Show tweets that contain <strong>ALL</strong> of these</label>
                                                         <tags-input class="wall-tag-input" ng-model="newWallOptions.all" placeholder="Type and hit enter" name="ands"></tags-input>
@@ -103,10 +108,16 @@
                                                         <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
                                                         <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
                                                     </div>
+                                                    <h3 style="margin-bottom: 10px;" ng-if="newWallOptions.mainHashtagText">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h3>
+                                                    <div class="form-group row">
+                                                        <h4 class="col-xs-9">Cycle/Repeat tweets
+                                                            <br><small>Do you want to constantly cycle Tweets so it always appears active? Will show only latest tweets if set to No.</small></h4>
+                                                        <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
+                                                        </toggle-switch>
+                                                    </div>
+                                                    <hr>
                                                 </div>
-                                                <div class="col-xs-1 wall-vertical-line">
-                                                </div>
-                                                <div class="col-xs-5">
+                                                <div class="col-xs-6">
                                                     <div class="wall-float-container">
                                                         <i class="fa fa-minus-circle fa-3x wall-float-icon-not-contains"></i>
                                                         <div class="wall-float-text">
@@ -116,37 +127,40 @@
                                                         <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
                                                         <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
                                                     </div>
-                                                    <div class="pre-scrollable" style="max-height:250px; overflow-x: hidden;">
+                                                    <h4>Coming Soon</h4>
+                                                    <div class="pre-scrollable wall-exclude-toggles" style="max-height:250px; overflow-x: hidden;">
                                                         <div class="form-group row">
-                                                            <label class="col-xs-6">Block tweets with profanity <small>Tweets containing profanity will go straight into the blocked queue and will not be displayed or placed in moderation.</small></label>
+                                                            <p class="col-xs-9">Block tweets with profanity
+                                                                <br><small>Tweets containing profanity will go straight into the blocked queue and will not be displayed or placed in moderation.</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.profanity">
                                                             </toggle-switch>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-xs-6">Block retweets <small>Retweets will not be shown or counted in the stats, they'll be immediately blocked.</small></label>
+                                                            <p class="col-xs-9">Block retweets
+                                                                <br><small>Retweets will not be shown or counted in the stats, they'll be immediately blocked.</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.blockRetweets">
                                                             </toggle-switch>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-xs-6">Hide retweets <small>Retweets will not be shown, but they WILL be counted in the stats and leaderboards.</small></label>
+                                                            <p class="col-xs-9">Hide retweets
+                                                                <br><small>Retweets will not be shown, but they WILL be counted in the stats and leaderboards.</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.hideRetweets">
                                                             </toggle-switch>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-xs-6">Follower threshold <small>Block any Tweets from people that have less than the number of followers you specify.</small></label>
-                                                            <input type="text" ng-model="newWallOptions.followerThreshold">
-                                                            <!-- <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.followerThreshold">
-                                                                </toggle-switch> -->
+                                                            <p class="col-xs-9">Follower threshold
+                                                                <br><small>Block any Tweets from people that have less than the number of followers you specify.</small></p>
+                                                            <input disabled="true" class="col-xs-2" type="text" ng-model="newWallOptions.followerThreshold">
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label class="col-xs-6">Moderation <small>This gives you the ability to approve or deny every Tweet before it shows on your Tweet wall</small></label>
+                                                            <p class="col-xs-9">Moderation
+                                                                <br><small>This gives you the ability to approve or deny every Tweet before it shows on your Tweet wall</small></p>
                                                             <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.moderation">
                                                             </toggle-switch>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr>
                                             <!--                                             <div class="row">
                                                 <div class="form-group wall-media-toggle col-xs-6">
                                                     <label>Images</label>
@@ -176,70 +190,82 @@
                                 <div class="tab-pane" id="design">
                                     <div>
                                         <div class="box-body">
-                                            <div class="row">
+                                            <div class="row wall-preview-container">
                                                 <div class="col-md-4">
                                                     <div>
                                                         <div class="box-header">
                                                             <label>Select a layout to customize</label>
                                                         </div>
                                                         <div class="box-body">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/linear-layout-thumb.jpg" alt="">
-                                                                    </label>
+                                                            <div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="1" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/linear-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/masonry-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/cot-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="layoutRadio">
+                                                                            <input ng-model="newWallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
+                                                                            <img src="images/map-layout-thumb.jpg" alt="">
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="2" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/masonry-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="3" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/cot-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label class="layoutRadio">
-                                                                        <input ng-model="newWallOptions.layoutStyle" value="4" name="layoutStyle" type="radio"></input>
-                                                                        <img src="images/map-layout-thumb.jpg" alt="">
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row design-box">
-                                                                <div>
-                                                                    <div class="box-body">
-                                                                        <div class="col-md-6 form-group">
+                                                                <div class="row design-box">
+                                                                    <div>
+                                                                        <!-- <div class="box-body"> -->
+                                                                        <div class="col-xs-6 form-group">
                                                                             <label>Set Header Colour</label>
                                                                             <div class="input-group">
                                                                                 <span ng-style="{'background-color':newWallOptions.headerColour}" class="input-group-addon"></span>
                                                                                 <input ng-model="newWallOptions.headerColour" colorpicker type="text" class="form-control">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-6 form-group">
+                                                                        <div class="col-xs-6 form-group">
                                                                             <label>Show Header on</label>
                                                                             <select ng-model="newWallOptions.headerPosition" class="form-control">
                                                                                 <option>Top</option>
                                                                                 <option>Bottom</option>
                                                                             </select>
                                                                         </div>
+                                                                        <div class="col-xs-6 form-group">
+                                                                            <label>Leaderboard</label>
+                                                                            <br>
+                                                                            <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.showStatistics">
+                                                                            </toggle-switch>
+                                                                        </div>
+                                                                        <!--  </div> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="box-footer">
-                                                                <a ng-click="start()" ng-disabled="step1.$invalid" type="submit" class="btn btn-primary">Start twitter wall!</a>
-                                                                <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
-                                                            </div>
+                                                        </div>
+                                                        <div class="box-footer">
+                                                            <a ng-click="start()" ng-disabled="!(newWallOptions.eventName || newWallOptions.mainHashtagText)" type="submit" class="btn btn-primary">Start twitter wall!</a>
+                                                            <p ng-if="step1.$invalid" style="margin-top: 10px; color: red;">Enter an event Name and your event's main #hashtag</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 wall-preview animate-switch-container" ng-switch on="newWallOptions.headerPosition">
                                                     <div ng-switch-when="Top" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>
-                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">{{newWallOptions.eventName}}</div>
+                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">
+                                                            <div><img class="wall-preview-logo" ng-if="newWallOptions.logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}">
+                                                                <div class="wall-header-eventname">{{newWallOptions.eventName}}</div>
+                                                            </div>
+                                                        </div>
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                     </div>
                                                     <div class="row animate-switch-container" ng-switch on="newWallOptions.layoutStyle">
@@ -250,12 +276,17 @@
                                                     </div>
                                                     <div ng-switch-when="Bottom" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>
-                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">{{newWallOptions.eventName}}</div>
+                                                        <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-event-name col-md-4">
+                                                            <div><img class="wall-preview-logo" ng-if="newWallOptions.logo" data-ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}">
+                                                                <div class="wall-header-eventname">{{newWallOptions.eventName}}</div>
+                                                            </div>
+                                                        </div>
                                                         <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <!-- /.box-body -->
                                     </div>
                                 </div>
