@@ -76,17 +76,31 @@
 	margin-bottom: 8px;
 }
 
-#data-connect-modal ul#datasource-table {
+#datasource-table {
 	padding: 0 20px;
 }
 
-#data-connect-modal ul#datasource-table .row {
+#datasource-table .row {
 	padding: 10px;
 	font-size: 15px;
+	cursor: pointer;
 }
 
-#data-connect-modal ul#datasource-table .title-row {
+#datasource-table li .detail {
+	display: none;
+	border-left: 1px ridge antiquewhite;
+	border-bottom: 1px ridge antiquewhite;
+	margin-bottom: 4px;
+}
+
+#datasource-table li.showing-detail .detail {
+	display: block;
+}
+
+
+#datasource-table .title-row {
 	font-weight: bold;
+	cursor: initial;
 }
 
 #data-connect-modal ul#datasource-table .odd {
@@ -105,4 +119,11 @@
 	vertical-align: middle;
 	color: gray;
 	cursor: pointer;
+}
+
+#datasource-table input:disabled {
+	width: inherit;
+	background-color: inherit;
+	border: none;
+	cursor: text;
 }

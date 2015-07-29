@@ -4,8 +4,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService',
-	function($scope, SearchService, PushService, SourceTypeService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService',
+	function($scope, SearchService, PushService, SourceTypeService, ImportProfileService) {
 
 	$scope.navItems = [
 		{
@@ -24,6 +24,19 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			'target' : 'iot-tab'
 		}
 	];
+
+	$scope.dataSourceEditableItems = 
+	[
+		{
+			'label': 'Update frequency',
+			'field': 'harvesting_freq',
+			'filter' : 'dataSourceLifetime'
+		},
+		{
+			'label': 'Lifetime',
+			'field': 'lifetime'
+		}
+	]
 	$scope.dataSourceItems = [];
 	/**
 	 * Add data source form inputs values, success & error message
@@ -52,6 +65,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 					continue;
 				}
 				profile.source_type = $scope.sourceTypesList[profile.source_type].name;
+				profile.editing = false;
 				$scope.dataSourceItems[count_item] = profile;
 				count_item++;
 			}
@@ -106,6 +120,37 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 		refreshButton.addClass("fa-spin");
 		updateDataSources(function() {
 			refreshButton.removeClass("fa-spin");
+		});
+	};
+
+	$scope.showRowDetail = function(e) {
+		angular.element(e.currentTarget).toggleClass("showing-detail");
+	};
+
+	$scope.toggleEditDataSource = function(event, item) {
+		if (item.editing) {
+			item.editing = false;
+			angular.element(event.target).text("Edit").removeClass("btn-default").addClass("btn-info");
+		} else {
+			item.editing = true;
+			angular.element(event.target).text("Cancel").removeClass("btn-info").addClass("btn-default");
+		}
+	}
+
+	$scope.saveDataSource = function(item) {
+		console.log("Saving" + item);
+		ImportProfileService.update(item).then(function(data) {
+			console.log(data);
+		}, function(error) {
+			console.error(error);
+		})
+	}
+	$scope.deleteDataSource = function(item) {
+		ImportProfileService.delete(item).then(function(data) {
+			console.log(data);
+			updateDataSources();
+		}, function(error) {
+			console.error(error);
 		});
 	}
 }]);
