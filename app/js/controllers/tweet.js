@@ -8,11 +8,14 @@ var twitterText = require('twitter-text');
 controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileService', '$http', 'SearchService' , function($rootScope, hello, FileService, $http, SearchService) {
 
     $rootScope.root.tweet= "";
+    $rootScope.root.tweetType = 1;
     $rootScope.root.tweetLength = 140;
     $rootScope.root.userLocation = {};
     $rootScope.root.geoTile;
     $rootScope.root.hashtagTrends;
     $rootScope.root.trends = "";
+    $rootScope.root.location={};
+
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
     {    
@@ -57,6 +60,25 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         }
     };
 
+    $rootScope.root.postTweet = function (blob) {
+        var message = $rootScope.root.tweet;
+        var tweetLen = twttr.txt.getTweetLength(message);
+        var tweet = encodeURIComponent(message);
+        
+        if(tweetLen <= 140 && tweetLen > 0) {
+            hello('twitter').api('me/share', 'POST', {
+                message : message,
+                file : blob
+            }).then(function(json) {
+                console.log(json);
+            }, function(e) {
+                console.log(e);
+            });
+
+            $('#myModal').modal('hide');
+        }
+    }
+
     $rootScope.root.tweetLengthCalculate = function() {
         var tweet = $rootScope.root.tweet;
         $rootScope.root.tweetLength = 140 - twttr.txt.getTweetLength(tweet);
@@ -78,8 +100,12 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         $rootScope.root.userLocation.latitude = position.coords.latitude;
         $rootScope.root.userLocation.longitude = position.coords.longitude;
         // Now make a query to loklak
-        var requestUrl = 'http://localhost:9000/vis/map.png?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
-        
+        var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
+        $rootScope.root.location.tile="http://loklak.org/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
+
+        $("#locationtile").attr("src", $rootScope.root.location.tile);
+        $("#locationtile").removeClass('hidden');
+
         $http({
             url: requestUrl,
             method: "GET",
@@ -87,15 +113,15 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 'Content-Type': 'application/json; charset=utf-8'
             }
         }).success(function(response) {
-            var selectedFileInBlob = response;
-            console.log(response);
+            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
             console.log("Successfully retrieved for "+requestUrl);
+            $rootScope.root.postTweet(selectedFileInBlob);
         });
-        // $http.get(requestUrl)
-        //     .success(function(response) {
-        //         $rootScope.root.geoTile = response;
-        //         console.log("Successful Query to "+requestUrl);
-        //     });
+
+    }
+
+    $rootScope.root.tweetWithMapTile = function() {
+
     }
 
     $rootScope.root.retweet = function(id) {
