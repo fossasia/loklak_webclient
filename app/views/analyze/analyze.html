@@ -66,12 +66,7 @@
                 
             </div>
             <div class="modal-body">
-                <div class-"container" style="z-index:999999;">
-        <canvas id="pie" class="chart chart-pie" data="countryvalues"
-  labels="countrylabels"></canvas> 
-
-  adaddddmkkk
-</div>
+      
                 <div class="row">
                     <div>
                         <div class="col-xs-2 tabs-list">
@@ -84,76 +79,20 @@
                         <div class="col-xs-10">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="info">
-                                    <div>
-                                        <div class="box-header">
-                                            <h3 class="box-title">Just a few questions to get things started</h3>
+                                    <div class="col-xs-4">
+                                        <div class="row">
+                                          <center><h3>Country wise Followers</h3></center>
+                                            <canvas id="pie" class="chart chart-pie" data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels"></canvas>
                                         </div>
-                                        <form name="step1" role="form" class="wall-creation-form">
-                                            <div class="box-body">
+                                    </div>
+                                    <div class="col-xs-5">
 
-
-                                                <div class="form-group">
-                                                    <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
-                                                    <input required ng-model="newWallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Show tweets within this period:</label>
-                                                    <div class="form-inline">
-                                                        <div class="input-group dropdown">
-                                                            <span class="input-group-addon">
-                                                  <span class="fa fa-calendar"></span>
-                                                            </span>
-                                                            <a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
-                                                                <div class="input-append">
-                                                                    <input type="text" class="form-control date-input" ng-model="newWallOptions.sinceDate">
-                                                                </div>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-                                                                <datetimepicker ng-model="newWallOptions.sinceDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
-                                                            </ul>
-                                                        </div>
-                                                        &nbsp-&nbsp
-                                                        <div class="input-group dropdown">
-                                                            <span class="input-group-addon">
-                                              <span class="fa fa-calendar"></span>
-                                                            </span>
-                                                            <a class="dropdown-toggle my-toggle-select" id="datetimepicker2" role="button" data-toggle="dropdown" data-target="#" href="">
-                                                                <div class="input-append">
-                                                                    <input type="text" class="form-control date-input" ng-model="newWallOptions.untilDate">
-                                                                </div>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker2">
-                                                                <datetimepicker ng-model="newWallOptions.untilDate" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'hour' }"></datetimepicker>
-                                                            </ul>
-                                                        </div>
-                                                        <button ng-click="resetDate()" class="btn btn-danger">Clear</button>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="hashtagInput">What's your main hashtag for the event? This will show prominently on your tweet wall.</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">#</span>
-                                                        <input ng-blur="lostMainhashtagFocus()" ng-model="newWallOptions.mainHashtagText" type="text" class="form-control" id="hashtagInput" placeholder="loklak">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div>
-                                                        <div class="form-group">
-                                                        <label>Upload Logo</label>&nbsp&nbsp<small>Transparent PNGs work best!</small>
-                                                        <br>
-                                                            <button class="btn btn-default btn-file btn-lg">
-                                                                <input type='file' ng-model='newWallOptions.logo' accept="image/*" maxsize="500" base-sixty-four-input>Choose Image</button>
-                                                            <img class="wall-thumbnail-logo" ng-if="newWallOptions.logo" ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" /><span ng-show="invalidFile">File must not exceed 500 KB.</span>
-                                                            <button ng-if="newWallOptions.logo" ng-click="resetLogo()" class=" btn btn-danger">Clear</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.box-body -->
-                                            <div class="box-footer">
-                                                <a ng-click="proceed()" type="submit" class="btn btn-primary">Next Step: Content</a>
-                                            </div>
-                                        </form>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <div class="row">
+                                            <center><h3>Follwer's distribution</h3></center>
+                                            <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="content">
