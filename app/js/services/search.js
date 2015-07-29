@@ -39,6 +39,23 @@ function SearchService($q, $http, AppSettings) {
       return deferred.promise;
   };
 
+  service.getSearchSuggestions = function(term) {
+      var deferred = $q.defer();
+      $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
+        params: {
+          q: term,
+          orderby: "query_count",
+          order: "desc"
+        }
+      }).success(function(data) {
+          deferred.resolve(data);
+      }).error(function(err, status) {
+          deferred.reject(err, status);
+      });
+
+      return deferred.promise;
+  };
+
   service.initData = function(paramsObj) {
       var deferred = $q.defer();
       //paramsObj.q = decodeURIComponent(paramsObj.q);

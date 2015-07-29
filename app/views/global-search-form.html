@@ -1,4 +1,9 @@
 <form class="global-search-container" ng-submit="root.submitSearchForm()">
     <input type="text" id="global-search-input"  name="q" placeholder="Search" ng-model="root.globalSearchTerm">
     <i class="fa fa-search"></i>
+    <ul class="suggestions" ng-show="root.haveSearchSuggestion">
+    	<li ng-repeat="suggestion in root.searchSuggestions | limitTo:5" ng-click="root.setGlobalSearchTerm(suggestion.query)">
+    		{{suggestion.query}}
+    	</li>
+    </ul>
 </form>
