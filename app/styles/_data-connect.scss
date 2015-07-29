@@ -80,7 +80,7 @@
 	padding: 0 20px;
 }
 
-#datasource-table .row {
+#datasource-table > li > .row {
 	padding: 10px;
 	font-size: 15px;
 	cursor: pointer;
@@ -93,8 +93,13 @@
 	margin-bottom: 4px;
 }
 
+#datasource-table li .detail .row {
+	padding: 5px 0 5px 12px;
+}
+
 #datasource-table li.showing-detail .detail {
 	display: block;
+	padding: 10px;
 }
 
 

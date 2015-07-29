@@ -88,17 +88,22 @@
 									<div class="col-md-1">{{item.imported.length}}</div>
 								</div>
 								<div class="detail" ng-click="$event.stopPropagation();">
-									<div ng-repeat="toEditItem in dataSourceEditableItems">
-										<div class="row">
-											<div class="col-md-2">
-												<label for="{{toEditItem.field}}">{{toEditItem.label}}</label>
-											</div>
-											<div class="col-md-10">
-												<input type="text" ng-disabled="!item.editing" ng-model="item[toEditItem.field]"/>
-											</div>
+									<div class="row">
+										<div class="col-md-2">
+											<label for="harvesting_freq">Update frequency</label>
+										</div>
+										<div class="col-md-10">
+											<input name="harvesting_freq" datasource-harvesting-freq type="text" ng-disabled="!item.editing" ng-model="item.harvesting_freq"/>
 										</div>
 									</div>
-
+									<div class="row">
+										<div class="col-md-2">
+											<label for="lifetime">Lifetime</label>
+										</div>
+										<div class="col-md-10">
+											<input name="lifetime" datasource-lifetime type="text" ng-disabled="!item.editing" ng-model="item.lifetime"/>
+										</div>
+									</div>
 									<div class="row detailButtonPanel">
 										<div class="col-md-12">
 											<button id="saveButton" class="btn btn-info" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
