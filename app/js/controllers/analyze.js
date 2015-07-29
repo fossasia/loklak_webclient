@@ -5,7 +5,6 @@
 var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
-
 var result;
 var marker=[];
 /**
@@ -14,11 +13,11 @@ var marker=[];
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
 
-      stats();
-      function stats()
-      {
-        console.log("stats being called");
-        $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 2000  } })
+      
+     
+    //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+    //$scope.data = [300, 500, 100];
+    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 2000  } })
             .success(function(data, status, headers, config) {
                 var topology = data.topology;
                 var country_stat_result = {};
@@ -27,7 +26,8 @@ var marker=[];
                 var city_stat_result = {};
                 var city_Array=[];
                 var top5=[];
-                
+                $scope.countryvalues=[];
+                $scope.countrylabels=[];
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -91,17 +91,13 @@ var marker=[];
                 var countrynames = Object.keys( country_stat_result );
                 
                 //Populating Data Set
-                var countryData=[];
+               
                 countrynames.forEach(function(ele){
-                    countryData.push(
-                    {
-                         value: country_stat_result[ele],
-                         color:"#F7464A",
-                         highlight: "#FF5A5E",
-                         label: ele
-                    })
+                    $scope.countryvalues.push(country_stat_result[ele]);
+                    $scope.countrylabels.push(ele);
+                    
                 });
-                
+                console.log($scope.countrylabels);
                 
                // console.log( city_stat_result);
                 $scope.city_stat_result=city_stat_result;
@@ -145,7 +141,7 @@ console.log("error"+status);
       
 
 
-      }
+      
 
 
 }]);

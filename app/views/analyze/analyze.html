@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
+<link rel="stylesheet" type="text/css" href="css/angular-chart.css">
+
  <style type="text/css">
 .background{
     width : 100%;
@@ -35,7 +37,15 @@
     color : #fff;
     font-family: "Lucida Console", Monaco, monospace;
 }
+
 </style>
+<script type="text/javascript">
+    $(window).load(function(){
+        $('#analyze-modal').modal('show');
+    });
+</script>
+<div class="modal fade" id="analyze-modal">
+
 <div class="background">
 <div class="title">
     <h3 class="heading">Loklak allows you to analyse your Twitter data geographically and across different parameters</h3>
@@ -45,15 +55,23 @@
     <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
     </button>
 </div>
-
 </div>
-<div class="modal fade" id="analyze-modal" role="dialog">
+</div>
+
+    
     <div class="modal-dialog modal-lg wall-modal-dialog">
         <div class="modal-content wall-modal-content">
             <div class="modal-header">
                 <h2 class="modal-title"><span class="fa fa-bar-chart" aria-hidden="true">Statistics</span></h2>
+                
             </div>
             <div class="modal-body">
+                <div class-"container" style="z-index:999999;">
+        <canvas id="pie" class="chart chart-pie" data="countryvalues"
+  labels="countrylabels"></canvas> 
+
+  adaddddmkkk
+</div>
                 <div class="row">
                     <div>
                         <div class="col-xs-2 tabs-list">
@@ -72,6 +90,8 @@
                                         </div>
                                         <form name="step1" role="form" class="wall-creation-form">
                                             <div class="box-body">
+
+
                                                 <div class="form-group">
                                                     <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
                                                     <input required ng-model="newWallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
@@ -345,3 +365,4 @@
         </div>
     </div>
 </div>
+
