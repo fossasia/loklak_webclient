@@ -81,7 +81,7 @@
 							<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
 								<div class="row" ng-class-odd="'odd'">
 									<div class="col-md-4"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
-									<div class="col-md-2">{{item.source_type}}</div>
+									<div class="col-md-2">{{item.display_source_type}}</div>
 									<div class="col-md-1">{{item.screen_name || item.client_host}}</div>
 									<div class="col-md-2" am-time-ago="item.created_at"></div>
 									<div class="col-md-2" am-time-ago="item.last_modified"></div>
@@ -94,7 +94,7 @@
 												<label for="{{toEditItem.field}}">{{toEditItem.label}}</label>
 											</div>
 											<div class="col-md-10">
-												<input type="text" ng-disabled="!item.editing" value="{{item[toEditItem.field]}}"/>
+												<input type="text" ng-disabled="!item.editing" ng-model="item[toEditItem.field]"/>
 											</div>
 										</div>
 									</div>

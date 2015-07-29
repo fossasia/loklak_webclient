@@ -7,6 +7,9 @@ var controllersModule = require('./_index');
 controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService',
 	function($scope, SearchService, PushService, SourceTypeService, ImportProfileService) {
 
+	// duration (in ms) of waiting for elastic up-to-date state before retrieval new datasource list
+	const DELAY_BEFORE_RELOAD = 2000;
+
 	$scope.navItems = [
 		{
 			'title' : 'Data Source',
@@ -53,18 +56,18 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 
 	function updateDataSources(callback) {
 		SearchService.getImportProfiles("").then(function(data) {
-
 			var count_item = 0;
+			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
 				var profile = data.profiles[k];
 				profile.source_type = profile.source_type.toLowerCase();
-				
 				// Unknown source type
 				if (!$scope.sourceTypesList[profile.source_type]) {
 					console.error("Unknown source type : '" + profile.source_type + "'");
-					continue;
+					profile.display_source_type = profile.source_type;
+				} else {
+					profile.display_source_type = $scope.sourceTypesList[profile.source_type].name;
 				}
-				profile.source_type = $scope.sourceTypesList[profile.source_type].name;
 				profile.editing = false;
 				$scope.dataSourceItems[count_item] = profile;
 				count_item++;
@@ -88,11 +91,11 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			}
 			return mapRulesStr;
 		}
-		
 		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type.key, constructMapRules()).then(function(data) {
 			$scope.addForm.error = '';
 			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
-			updateDataSources();
+			
+			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);;
 		}, function(err, status) {
 			$scope.addForm.success = '';
 			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -141,6 +144,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 		console.log("Saving" + item);
 		ImportProfileService.update(item).then(function(data) {
 			console.log(data);
+			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
 		})
@@ -148,7 +152,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	$scope.deleteDataSource = function(item) {
 		ImportProfileService.delete(item).then(function(data) {
 			console.log(data);
-			updateDataSources();
+			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
 		});
