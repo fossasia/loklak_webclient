@@ -16,6 +16,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	vm.filterMessage = false;
 	vm.peopleSearch = false;
 	vm.mapSearch = false;
+	vm.removeProfane = false;
 	vm.currentResult = [];
 	vm.resultMessage = "";
 	vm.finalParams = {};
@@ -67,6 +68,14 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		$scope.aSearch = {};
 		vm.chosenLocation.name = "None chosen";
 	};
+
+
+	/*
+	 * Profanity UI component
+	 */
+	vm.toggleProfanity = function() {
+		vm.removeProfane = !vm.removeProfane;
+	}
 
 	/** 
 	 * Process advanced search options
@@ -157,6 +166,9 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		}
 		if (rawParams && rawParams.untilDate) {
 			unionTermArray.push("until:" + $filter('date')(rawParams.untilDate, 'yyyy-MM-dd'));
+		}
+		if (vm.removeProfane) {
+			unionTermArray.push("-/profanity");
 		}
 		if ($scope.chosenLocation && $scope.chosenLocation.name !== "None chosen") {
 			unionTermArray.push(getLocationSearchParams($scope.chosenLocation));
