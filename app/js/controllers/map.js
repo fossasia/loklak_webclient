@@ -314,7 +314,12 @@ var marker=[];
                         city_Array.push(ele.location);
                         followers_follower.push ({
                             "followers" : ele.followers_count ,
-                            "id_str" : ele.id_str
+                            "id_str" : ele.id_str,
+                            "profileimg" : ele.profile_image_url_https,
+                            "screenname" : ele.screen_name,
+                            "statuses_count" : ele.statuses_count,
+                            "following" : ele.friends_count,
+                            "profile_banner" : ele.profile_background_image_url_https
 
                         });
 
