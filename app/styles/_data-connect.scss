@@ -80,17 +80,24 @@
 	padding: 0 20px;
 }
 
+#datasource-table .col {
+	word-wrap: break-word;
+	padding: 0;
+}
 #datasource-table > li > .row {
 	padding: 10px;
 	font-size: 15px;
 	cursor: pointer;
+	border: 1px solid antiquewhite;
 }
 
 #datasource-table li .detail {
 	display: none;
-	border-left: 1px ridge antiquewhite;
-	border-bottom: 1px ridge antiquewhite;
+	border: 1px ridge antiquewhite;
+	border-top: none;
 	margin-bottom: 4px;
+	margin-right: -15px;
+	padding: 10px;
 }
 
 #datasource-table li .detail .row {
@@ -99,7 +106,6 @@
 
 #datasource-table li.showing-detail .detail {
 	display: block;
-	padding: 10px;
 }
 
 
@@ -131,4 +137,11 @@
 	background-color: inherit;
 	border: none;
 	cursor: text;
+}
+
+@media (max-width: 990px) {
+	// force newline
+	#datasource-table .col {
+		width: 100%;
+	}
 }

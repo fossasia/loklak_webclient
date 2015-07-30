@@ -71,21 +71,21 @@
 							<ul id="datasource-table">
 							<li>
 								<div class="row title-row">
-									<div class="col-md-4">Source URL</div>
-									<div class="col-md-2">Source type</div>
-									<div class="col-md-1">Importer</div>
-									<div class="col-md-2">Created time</div>
-									<div class="col-md-2">Lastest update</div>
-									<div class="col-md-1">Messages</div>
+									<div class="col col-md-4">Source URL</div>
+									<div class="col col-md-2">Source type</div>
+									<div class="col col-md-1">Importer</div>
+									<div class="col col-md-2">Created time</div>
+									<div class="col col-md-2">Last modification</div>
+									<div class="col col-md-1">Messages</div>
 								</div>
 							<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
 								<div class="row" ng-class-odd="'odd'">
-									<div class="col-md-4"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
-									<div class="col-md-2">{{item.display_source_type}}</div>
-									<div class="col-md-1">{{item.screen_name || item.client_host}}</div>
-									<div class="col-md-2" am-time-ago="item.created_at"></div>
-									<div class="col-md-2" am-time-ago="item.last_modified"></div>
-									<div class="col-md-1">{{item.imported.length}}</div>
+									<div class="col col-sm-4 col-md-4"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
+									<div class="col col-md-2">{{item.display_source_type}}</div>
+									<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
+									<div class="col col-md-2" am-time-ago="item.created_at"></div>
+									<div class="col col-md-2" am-time-ago="item.last_modified"></div>
+									<div class="col col-md-1">{{item.imported.length}}</div>
 								</div>
 								<div class="detail" ng-click="$event.stopPropagation();">
 									<div class="row">
