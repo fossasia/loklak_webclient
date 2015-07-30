@@ -133,10 +133,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	$scope.toggleEditDataSource = function(event, item) {
 		if (item.editing) {
 			item.editing = false;
-			angular.element(event.target).text("Edit").removeClass("btn-default").addClass("btn-info");
+			angular.element(event.target).text("Edit").removeClass("btn-default").addClass("btn-primary");
 		} else {
 			item.editing = true;
-			angular.element(event.target).text("Cancel").removeClass("btn-info").addClass("btn-default");
+			angular.element(event.target).text("Cancel").removeClass("btn-primary").addClass("btn-default");
 		}
 	}
 

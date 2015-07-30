@@ -62,7 +62,7 @@
 										<i class="fa fa-plus"></i> Add rule
 									</div>
 									<button type="submit" class="btn btn-primary">Confirm</button>
-									<button ng-click="toggleAddForm()" type="button" class="btn btn-info">Cancel</button>
+									<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
 									<a type="button" class="btn btn-danger" ng-href="/addConnection" target="_blank">Add source in other format</a>
 								</form>
 							</div>
@@ -106,8 +106,8 @@
 									</div>
 									<div class="row detailButtonPanel">
 										<div class="col-md-12">
-											<button id="saveButton" class="btn btn-info" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
-											<button id="editButton" class="btn btn-info" ng-click="toggleEditDataSource($event, item); ">Edit</button>
+											<button id="saveButton" class="btn btn-primary" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
+											<button id="editButton" class="btn btn-primary" ng-click="toggleEditDataSource($event, item); ">Edit</button>
 											<button id="deleteButton" class="btn btn-danger" ng-click="deleteDataSource(item);">Delete</button>
 										</div>
 									</div>

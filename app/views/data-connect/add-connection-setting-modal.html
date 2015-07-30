@@ -3,16 +3,16 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="text-center">Add connection Setting</h4>
+				<h4 class="text-center">Change source format</h4>
 			</div>
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12">
 					<form name="add-connect-setting-form">
 						<div class="form-group">
-							<label for="data-format">Data format</label>
+							<label for="data-format">Source format</label>
 							<select name="data-format" required type="text"
-									ng-options="value.name for value in dataFormatList"class="form-control" ng-model="settingForm.format" ng-change="changeFormat()">
+									ng-options="value.name for value in selectableDataFormatList" class="form-control" ng-model="settingForm.format" ng-change="changeFormat()">
 							</select>
 						</div>
 					</form>

@@ -9,7 +9,9 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stat
 
 		const defaultFormat = 'geojson';
 		const geojsonType = {
-			'name': 'GeoJson'
+			'key': 'geojson',
+			'name': 'GeoJson',
+			'endpoint': 'geojson.json'
 		}
 		$scope.sourceTypesList = SourceTypeService.sourceTypeList;
 		$scope.dataFormatList = angular.copy(SourceTypeService.sourceTypeList);
@@ -22,6 +24,15 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stat
 
 		$scope.dataFormatInfo = $scope.dataFormatList[$scope.dataFormat];
 
+		// selectable format must contain endpoint field
+		$scope.selectableDataFormatList = {};
+		for (var key in $scope.dataFormatList) {
+			var f = $scope.dataFormatList[key];
+			if (f.endpoint) {
+				$scope.selectableDataFormatList[key] = f;
+			} 
+		}
+		console.log($scope.selectableDataFormatList);
 		/**
 		 * Add data source form inputs values, success & error message
 		 */
