@@ -62,32 +62,7 @@ var marker=[];
             var followersMarker = {
                 "type": "FeatureCollection",
                 "features": []
-            };
-            console.log($rootScope);      
-            $http.jsonp('http://loklak.org/api/account.json', {params : { screen_name : $rootScope.root.twitterSession.screen_name, followers : 1000  } })
-            .success(function(data, status, headers, config) {
-
-                }).error(function(data, status, headers, config) {
-                    
-                    
-                    $scope.followers_status="Load Failed.Twitter did not respond.";
-                    followers_location.push(ele.location);
-                        followers.push({
-                            "location" : ele.location,
-                            "name" : ele.name,
-                            "id_str" : ele.id_str,
-                            "propic" : ele.profile_image_url_https,
-                            "screenname" : ele.screen_name,
-                            "followers" : ele.followers_count,
-                            "following" : ele.friends_count,
-                            "tweetcount" : ele.statuses_count,
-                            "profile_banner" : ele.profile_background_image_url_https
-                        });
-                    
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
-            });
-                //console.log( followers.propic[i]);      
+            };            
             //Calling the method to get Twitter followers
             hello('twitter').api('/me/followers', 'GET', {limit : 1000}).then(function(twitterFollowers) {
             $rootScope.$apply(function() 
@@ -168,7 +143,7 @@ var marker=[];
                 
                 }).error(function(data, status, headers, config) {
                     
-                    
+                    console.log("There is error.Loklak Server did not respond with geodata.We will try again."+data+"fff"+status);
                     $scope.followers_status="Load Failed.Twitter did not respond."
                     
                         // called asynchronously if an error occurs
@@ -317,4 +292,3 @@ var marker=[];
                 }
 
 }]);
-
