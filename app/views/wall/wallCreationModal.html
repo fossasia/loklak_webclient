@@ -72,10 +72,10 @@
                                                 <div class="form-group">
                                                     <div>
                                                         <div class="form-group">
-                                                        <label>Upload Logo</label>&nbsp&nbsp<small>Transparent PNGs work best!</small>
-                                                        <br>
-                                                            <button class="btn btn-default btn-file btn-lg">
-                                                                <input type='file' ng-model='newWallOptions.logo' accept="image/*" maxsize="500" base-sixty-four-input>Choose Image</button>
+                                                            <label>Upload Logo</label>&nbsp&nbsp<small>Transparent PNGs work best!</small>
+                                                            <br>
+                                                            <div class="btn btn-default btn-file btn-lg">
+                                                                <input type='file' ng-model='newWallOptions.logo' accept="image/*" maxsize="500" base-sixty-four-input>Choose Image</div>
                                                             <img class="wall-thumbnail-logo" ng-if="newWallOptions.logo" ng-src="data:{{newWallOptions.logo.filetype}};base64,{{newWallOptions.logo.base64}}" /><span ng-show="invalidFile">File must not exceed 500 KB.</span>
                                                             <button ng-if="newWallOptions.logo" ng-click="resetLogo()" class=" btn btn-danger">Clear</button>
                                                         </div>
@@ -286,7 +286,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                         <!-- /.box-body -->
                                     </div>
                                 </div>

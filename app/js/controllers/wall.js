@@ -125,6 +125,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
                     for (var k in $scope.newWallOptions) {
                         $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
                     }
+                    $scope.wallsPresent = true;
                     $window.open('/' + $scope.screen_name + '/wall/' + result.id, '_blank');
                     // $scope.userWalls[$scope.userWalls.length - 1].showLoading = true;
                     initWallOptions();
