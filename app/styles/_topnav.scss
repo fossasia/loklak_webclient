@@ -135,6 +135,11 @@
 						border-bottom-right-radius: 5px;
 					}
 				}
+				li.active {
+					background-color: white;
+					color: rgba(85,172,238,1);
+					cursor: pointer;
+				}
 			}
 			.fa.fa-search {
 				position: absolute;
