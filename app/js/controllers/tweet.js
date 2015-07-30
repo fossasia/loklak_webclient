@@ -96,7 +96,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     };
 
     // Latitude and Longitude is retrieved and the request is made for the map tile
-    function setPosition(position) {
+    function setPosition (position) {
         $rootScope.root.userLocation.latitude = position.coords.latitude;
         $rootScope.root.userLocation.longitude = position.coords.longitude;
         // Now make a query to loklak
@@ -120,8 +120,22 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
     }
 
-    $rootScope.root.tweetWithMapTile = function() {
+    $rootScope.root.tweetWithMarkdownImage = function() {
+        var message = $rootScope.root.tweet;
+        var encodedMessage = encodeURIComponent(message);
+        var markdownRequestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3";
 
+        $http({
+            url: markdownRequestUrl,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).success(function(response) {
+            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
+            console.log("Successfully retrieved for " + markdownRequestUrl);
+            $rootScope.root.postTweet(selectedFileInBlob);
+        });
     }
 
     $rootScope.root.retweet = function(id) {
