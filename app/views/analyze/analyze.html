@@ -37,6 +37,27 @@
     color : #fff;
     font-family: "Lucida Console", Monaco, monospace;
 }
+.tableheading
+{
+    background-color: #2C3D50;
+    border-bottom: 2px solid #ECECEC;
+    color: #FFF;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+   
+    font-size: 18px;
+    width: 100%;
+    font-weight: 600;
+
+}
+#message
+{
+    margin-top:20%;
+    font-family: "Lucida Console", Monaco, monospace; ;
+    font-size: 24px ;
+    color: #555555;
+    text-align: center;
+}
 
 </style>
 <script type="text/javascript">
@@ -95,6 +116,15 @@
                                             <center><h3>Follwer's distribution</h3></center>
                                             <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels"></canvas>
                                         </div>
+                                        <div class="row">
+                                            <table class="table table-striped">
+                                                <th class="tableheading">Analysis</th><th class="tableheading"></th>
+                                                <tr><td><b>Country</td><td>Followers</b></td>
+                                                <tr ng-repeat="country in countrydata | limitTo:5">
+                                                    <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
+                                                </li>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="col-xs-4">
                                         <center><h3>Most Influential Followers</h3></center><hr>
@@ -126,10 +156,10 @@
                                     </div> <!--end-->
                                 </div>
                                 <div class="tab-pane" id="content">
-                                    
+                                    <div id="message"> <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"> We are working on getting your analysis about Following.Watch out!</div>
                                 </div>
                                 <div class="tab-pane" id="design">
-                                    
+                                    <div id="message"> <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"> We will soon be supporting IoT.</div>
                                         <!-- /.box-body -->
                                     
                                 </div>

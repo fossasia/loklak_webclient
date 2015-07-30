@@ -37,6 +37,8 @@ var marker=[];
                 $scope.countrylabels=[];
                 $scope.cityvalues=[];
                 $scope.citylabels=[];
+                $scope.citydata=[];
+                $scope.countrydata=[];
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -73,6 +75,12 @@ var marker=[];
                 citynames.forEach(function(ele){
                     var percentage=((city_stat_result[ele]/followerwithcity)*100);
                     percentage=Number(percentage).toFixed(2);
+                    $scope.citydata.push({
+                        "city" : ele ,
+                        "followers" : percentage
+
+                    });
+                    
                     if(percentage>0.5)
                     {    
                      $scope.cityvalues.push(percentage);
@@ -80,11 +88,9 @@ var marker=[];
                     }
                     
                 });
-                console.log("cityvalues");
-                console.log($scope.cityvalues);
-                //console.log("city datauniques are");
-                //console.log(citynames);
-
+                getTopfive($scope.citydata);
+                
+                
                 //Getting country wise stats
 
                  data.topology.followers.forEach(function(ele){
@@ -123,6 +129,11 @@ var marker=[];
                 countrynames.forEach(function(ele){
                     var percentage=((country_stat_result[ele]/followerwithloc)*100);
                     percentage=Number(percentage).toFixed(2);
+                    $scope.countrydata.push({
+                        "country" : ele ,
+                        "followers" : percentage
+
+                    });
                     if(percentage>1.5)
                     {    
                         $scope.countryvalues.push(percentage);
@@ -130,7 +141,9 @@ var marker=[];
                     }
                     
                 });
-                console.log($scope.countrylabels);
+                console.log("countrydtaa");
+                $scope.countrydata.sort(function(a, b){return b.followers-a.followers});
+                console.log($scope.countrydata);
                 
                // console.log( city_stat_result);
                 $scope.city_stat_result=city_stat_result;
@@ -145,19 +158,8 @@ var marker=[];
                     
                     
                     $scope.followers_status="Load Failed.Twitter did not respond.";
-                    /*followers_location.push(ele.location);
-                        followers.push({
-                            "location" : ele.location,
-                            "name" : ele.name,
-                            "id_str" : ele.id_str,
-                            "propic" : ele.profile_image_url_https,
-                            "screenname" : ele.screen_name,
-                            "followers" : ele.followers_count,
-                            "following" : ele.friends_count,
-                            "tweetcount" : ele.statuses_count,
-                            "profile_banner" : ele.profile_background_image_url_https
-                        });
-*/
+                    
+
 console.log("error"+status);
                     
                         // called asynchronously if an error occurs
