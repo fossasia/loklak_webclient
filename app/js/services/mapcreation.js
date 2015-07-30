@@ -18,6 +18,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
     function initMapPoints(statuses, templateEngine) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
+            var isAFollower = (status.isAFollower) ? true : false;
             if (status.location_mark && status.user) {
                 var text = MapPopUpTemplateService[templateEngine](status);
                 var pointObject = {
@@ -25,7 +26,8 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
                     "type": "Feature",
                     "properties": {"popupContent": "<div class='foobar'>" + text + "</div>"},
                     "id": status.id_str,
-                    "propic" : status.user.profile_image_url_https
+                    "propic" : status.user.profile_image_url_https,
+                    "isAFollower": isAFollower
                 };
                 tweets.features.push(pointObject);
             }
@@ -61,13 +63,29 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
         } else if (markerType === "userAvatar") {
             window.mapViewMarker = [];
+            var followers = L.layerGroup();
+            var followings = L.layerGroup();
 
             tweets.features.forEach(function(tweet) {
                 window.mapViewMarker[tweet.id] = new L.Marker([tweet.geometry.coordinates[1], tweet.geometry.coordinates[0]], {
                     id: tweet.id,
                     icon: L.icon({iconUrl: tweet.propic, iconSize: [30, 30], className: "topologyItem"})
-                }).addTo(window.map).bindPopup(tweet.properties.popupContent);
+                }).bindPopup(tweet.properties.popupContent);
+
+                if (tweet.isAFollower) {
+                    followers.addLayer(window.mapViewMarker[tweet.id]);
+                } else {
+                    followings.addLayer(window.mapViewMarker[tweet.id]);
+                }
             })
+
+            followers.addTo(window.map);
+            followings.addTo(window.map);
+
+            L.control.layers({}, {
+                "Followers": followers,
+                "Followings": followings
+            }, {position: 'topleft'}).addTo(window.map);
            
         }
             
