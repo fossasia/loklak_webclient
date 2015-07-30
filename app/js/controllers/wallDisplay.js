@@ -243,7 +243,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.update2 = function(refreshTime) {
         return $timeout(function() {
-
             SearchService.initData(searchParams).then(function(data) {
                 if (data.statuses) {
                     if (data.statuses.length <= 0) {
@@ -265,13 +264,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                         var newRefreshTime = getRefreshTime(data.search_metadata.period);
                         vm.update2(newRefreshTime);
                         vm.showEmpty = false;
-
                     }
                 } else {
                     vm.update2(refreshTime + 10000);
                     console.log(refreshTime + 10000);
                 }
-
             }, function(error) {
                 vm.update2(refreshTime + 10000);
                 console.log(refreshTime + 10000);

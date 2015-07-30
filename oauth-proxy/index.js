@@ -41,9 +41,6 @@ app.get('/getData', function(req, res){
     });    
 });
 
-/*RESTful routes for apps */
-app.use('/', api);
-
 
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};
@@ -62,6 +59,8 @@ app.all('/oauthproxy',
     oauthshim.redirect,
     oauthshim.unhandled);
 
+/*RESTful routes for apps */
+app.use('/', api);
 
 function customHandler(req, res, next) {
 
