@@ -17,14 +17,14 @@ var marker=[];
      
     //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     //$scope.data = [300, 500, 100];
-    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 2000  } })
+    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 20000  } })
             .success(function(data, status, headers, config) {
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
 
                 var country_stat_result = {};
                 var country_Array=[];
-                var followers_follower=[];
+                $scope.followers_follower=[];
                 var city_stat_result = {};
                 var city_Array=[];
                 var top5=[];
@@ -32,6 +32,7 @@ var marker=[];
                 var category2=0;
                 var category3=0;
                 var followerwithloc=0;
+                var followerwithcity=0;
                 $scope.countryvalues=[];
                 $scope.countrylabels=[];
                 $scope.cityvalues=[];
@@ -39,17 +40,19 @@ var marker=[];
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
-                    {   
+                    {   followerwithcity++;
                         city_Array.push(ele.location);
-                        followers_follower.push ({
+                        $scope.followers_follower.push ({
                             "followers" : ele.followers_count ,
                             "id_str" : ele.id_str,
+                            "name"   : ele.name,
+                            "location" : ele.location,
                             "profileimg" : ele.profile_image_url_https,
                             "screenname" : ele.screen_name,
                             "statuses_count" : ele.statuses_count,
                             "following" : ele.friends_count,
                             "profile_banner" : ele.profile_background_image_url_https
-
+                            
                         });
 
                     }
@@ -68,14 +71,22 @@ var marker=[];
                 //Populating Data Set
                 var cityData=[];
                 citynames.forEach(function(ele){
-                    $scope.cityvalues.push(city_stat_result[ele]);
-                    $scope.citylabels.push(ele);
+                    var percentage=((city_stat_result[ele]/followerwithcity)*100);
+                    percentage=Number(percentage).toFixed(2);
+                    if(percentage>0.5)
+                    {    
+                     $scope.cityvalues.push(percentage);
+                     $scope.citylabels.push(ele);
+                    }
                     
                 });
+                console.log("cityvalues");
+                console.log($scope.cityvalues);
                 //console.log("city datauniques are");
                 //console.log(citynames);
 
                 //Getting country wise stats
+
                  data.topology.followers.forEach(function(ele){
                     if(ele.followers_count<200)
                     {
@@ -110,8 +121,13 @@ var marker=[];
                 //Populating Data Set
                
                 countrynames.forEach(function(ele){
-                    $scope.countryvalues.push(((country_stat_result[ele]/followerwithloc)*100));
-                    $scope.countrylabels.push(ele);
+                    var percentage=((country_stat_result[ele]/followerwithloc)*100);
+                    percentage=Number(percentage).toFixed(2);
+                    if(percentage>1.5)
+                    {    
+                        $scope.countryvalues.push(percentage);
+                        $scope.countrylabels.push(ele);
+                    }
                     
                 });
                 console.log($scope.countrylabels);
@@ -122,7 +138,7 @@ var marker=[];
 
                 $scope.categorylabels=["O-500" , "500-1000" , "Greater than 1000"];
                 $scope.categoryvalues=[category1,category2,category3];
-                getTopfive(followers_follower);
+                getTopfive($scope.followers_follower);
                
 
                 }).error(function(data, status, headers, config) {
