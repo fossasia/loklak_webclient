@@ -11,7 +11,7 @@ var marker=[];
  * @ngInject
  */
 
- controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
+ controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
 
       
      $scope.username="loklak_app";
@@ -22,7 +22,7 @@ var marker=[];
      
     //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     //$scope.data = [300, 500, 100];
-    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+    $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
