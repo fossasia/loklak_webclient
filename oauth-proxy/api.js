@@ -73,6 +73,9 @@ router.post('/:user/:app', function(req, res) {
     var newWall = req.body;
     getData(req.params.user, function(error, response, body) {
         var appData = JSON.parse(response.body).accounts[0].apps;
+        if(!appData){
+            appData = {};
+        }
         if (!appData[req.params.app]) {
             appData[req.params.app] = [];
         }

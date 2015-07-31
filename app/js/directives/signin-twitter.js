@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'AppSettings', '$http', function($timeout, $rootScope, HelloService, AppSettings, $http) {
+directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', '$http', function($timeout, $rootScope, HelloService, SearchService, AppSettings, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -32,11 +32,24 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			// Create global session variable
 			hello.on('auth.login', function(auth) {
 				hello(auth.network).api('/me').then(function(twitterSession) {
+					
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
 					});
+
+					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 500).then(function(result) {
+						result.topology.followers.forEach(function(status) {
+							status.isAFollower = true;
+						})
+						result.topology.following.forEach(function(status) {
+							status.isAFollower = false;
+						})
+						$rootScope.userTopology  = result.topology;
+
+					}, function() {});
+
 				}, function() {
 					console.log("Authentication failed, try again later");
 				});
@@ -53,6 +66,8 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				}, function(){
 					console.log('Unable to load tweets from your followers');
 				});
+
+				//
 			});
 
 			hello.on('auth.logout', function(auth) {
