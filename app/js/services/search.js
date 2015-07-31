@@ -83,7 +83,7 @@ function SearchService($q, $http, AppSettings) {
   service.getImportProfiles = function(sourceType) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'import.json?callback=JSON_CALLBACK', {
-      params: {source_type : sourceType}
+      params: {source_type : sourceType.toUpperCase()}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {

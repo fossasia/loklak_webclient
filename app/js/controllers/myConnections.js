@@ -4,8 +4,18 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService',
-	function($scope, SearchService, PushService, SourceTypeService, ImportProfileService) {
+controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService',
+	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService) {
+
+	if ($stateParams.source_type != null) {
+		$stateParams.source_type = $stateParams.source_type.toLowerCase();
+
+		// invalid 'source_type' parameter : returning to default MyConnection page
+		if (!SourceTypeService.sourceTypeList[$stateParams.source_type]) {
+			$location.url('/myConnections');
+			return;
+		}
+	}
 
 	// duration (in ms) of waiting for elastic up-to-date state before retrieval new datasource list
 	const DELAY_BEFORE_RELOAD = 2000;
@@ -32,8 +42,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	[
 		{
 			'label': 'Update frequency',
-			'field': 'harvesting_freq',
-			'filter' : 'dataSourceLifetime'
+			'field': 'harvesting_freq'
 		},
 		{
 			'label': 'Lifetime',
@@ -55,7 +64,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 	$scope.mapRulesNum = 0;
 
 	function updateDataSources(callback) {
-		SearchService.getImportProfiles("").then(function(data) {
+		SearchService.getImportProfiles($stateParams.source_type || "").then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -157,4 +166,6 @@ controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'Pus
 			console.error(error);
 		});
 	}
+
+	updateDataSources();
 }]);
