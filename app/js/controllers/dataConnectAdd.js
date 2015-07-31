@@ -17,10 +17,18 @@ controllersModule.controller('AddConnectionCtrl', ['$scope', '$location', '$stat
 		$scope.dataFormatList = angular.copy(SourceTypeService.sourceTypeList);
 		$scope.dataFormatList.geojson = geojsonType;
 
-		$scope.dataFormat = $stateParams.format || defaultFormat;
-		$scope.dataFormat = $scope.dataFormat.toLowerCase();
-		$scope.isGeoJson = $scope.dataFormat === 'geojson';
+		if ($stateParams.format != null) {
+			$stateParams.format = $stateParams.format.toLowerCase();
 
+			// invalid 'format' parameter : returning to default add page
+			if (!$scope.dataFormatList[$stateParams.format]) {
+				$location.url('/addConnection');
+				return;
+			}
+		}
+
+		$scope.dataFormat = $stateParams.format || defaultFormat;
+		$scope.isGeoJson = $scope.dataFormat === 'geojson';
 
 		$scope.dataFormatInfo = $scope.dataFormatList[$scope.dataFormat];
 
