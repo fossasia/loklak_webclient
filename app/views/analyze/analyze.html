@@ -70,12 +70,13 @@
 <div class="background">
 <div class="title">
     <h3 class="heading">Loklak allows you to analyse your Twitter data geographically and across different parameters</h3>
-    <form>
-    <input type="text" class="inputname" ng-model="username"  placeholder="@screenname" required></input> 
+    
+    <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
     <br>
-    <button type="button" class="btn btn-default big" aria-label="Left Align" data-toggle="modal" ng-click="root.stat()" data-target="#analyze-modal">
+    <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstat()"  >
     <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
     </button>
+
 </div>
 </div>
 </div>
@@ -84,8 +85,8 @@
     <div class="modal-dialog modal-lg wall-modal-dialog">
         <div class="modal-content wall-modal-content">
             <div class="modal-header">
-                <h2 class="modal-title"><span class="fa fa-bar-chart" aria-hidden="true">Statistics</span></h2>
-                
+                <h2 class="modal-title"><span class="fa fa-bar-chart" aria-hidden="true">Statistics</span><center><i>@{{username}}</i></center>
+                </h2>
             </div>
             <div class="modal-body">
       

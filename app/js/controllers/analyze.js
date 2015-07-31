@@ -14,7 +14,11 @@ var marker=[];
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
 
       
-     $scope.username=$rootScope.root.twitterSession.screen_name;
+     $scope.username="mariobehling";
+     $scope.getstat=function()
+     {
+        $('#analyze-modal').modal('hide'); 
+     
      
     //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     //$scope.data = [300, 500, 100];
@@ -177,7 +181,7 @@ console.log("error"+status);
             console.log(followers_follower);
         }
       
-
+}
       
 
 
