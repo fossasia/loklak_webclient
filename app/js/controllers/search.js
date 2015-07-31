@@ -164,6 +164,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterMap = function() {
+        if (window.map) { delete(window.map); }
         vm.newStasuses = [];
         $rootScope.root.globalFilter = "map";
         vm.statuses = [];

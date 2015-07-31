@@ -54,6 +54,8 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
         return $rootScope.userTopology;
     }, function(val) {
         if (val) {
+            if (window.map) { delete(window.map); }
+            
             var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
             addUserProp(topologyPool);
 

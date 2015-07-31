@@ -65,9 +65,6 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			    	if ($rootScope.root.globalFilter) {
 			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
 						$location.url("/search?q=" + encodeURIComponent(q));
-						if ($rootScope.root.globalFilter === "map") {
-							$window.location.reload();
-						}
 			    	} else {
 			    		$location.url("/search?q=" + encodeURIComponent(q));
 			    	}

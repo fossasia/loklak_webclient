@@ -133,6 +133,11 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         var templateEngine = params.templateEngine;
         var cbOnMapAction = params.cbOnMapAction;
 
+        // Reassure that old map is remove
+        delete(window.map); 
+        angular.element("#" + mapId).remove();
+        angular.element(".map-container-parent").prepend('<div id="' + mapId + '"></div>');
+
         window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 3);
         var tweets = initMapPoints(data, templateEngine);
         L.tileLayer(tileLayerSrc, {
@@ -143,6 +148,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
         addPointsToMap(window.map, tweets, markerType, cbOnMapAction);
     }  
+
 
     service.initMap = initMap;
     service.addPointsToMap = addPointsToMap;
