@@ -14,7 +14,7 @@ var marker=[];
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
 
       
-     $scope.username="mariobehling";
+     $scope.username="loklak_app";
      $scope.getstat=function()
      {
         $('#analyze-modal').modal('hide'); 
