@@ -17,6 +17,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.hashtagTrends;
     $rootScope.root.trends = "";
     $rootScope.root.location={};
+    $rootScope.root.latitude;
+    $rootScope.root.longitude;
 
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
@@ -24,6 +26,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var message = $rootScope.root.tweet;
         var tweetLen = twttr.txt.getTweetLength(message);
         var tweet = encodeURIComponent(message);
+        var latitude = $rootScope.root.latitude;
+        var longitude = $rootScope.root.longitude;
         $rootScope.root.geoTile = $("#fileInput").val();
         console.log($("#fileInput").val());
         console.log($rootScope.root.geoTile);
