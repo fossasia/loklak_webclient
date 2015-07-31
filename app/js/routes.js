@@ -93,8 +93,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'AddConnectionCtrl as addDataConnect',
     title: 'Add connection'
   })
-  .state('AddConnectionWFormat', {
-    url: '/addConnection/:format',
+  .state('AddConnectionWSourceType', {
+    url: '/addConnection/:source_type',
     templateUrl: 'data-connect/add-connection.html',
     controller: 'AddConnectionCtrl as addConnection',
     title: 'Add connection'
