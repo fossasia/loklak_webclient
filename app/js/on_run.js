@@ -35,8 +35,8 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'icon' : 'fa fa-cloud'
         },
         {
-          'title': 'Analyze',
-          'link' : '/analyze',
+          'title': 'Report',
+          'link' : '/report',
           'icon' : 'fa fa-bar-chart'
         }
   	  ];

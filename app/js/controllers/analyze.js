@@ -14,14 +14,14 @@ var marker=[];
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope', function($rootScope,$http,$scope) {
 
       
+     $scope.username=$rootScope.root.twitterSession.screen_name;
      
     //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     //$scope.data = [300, 500, 100];
-    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name : "mariobehling", followers : 20000  } })
+    $http.jsonp("http://localhost:9000/api/account.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
-
                 var country_stat_result = {};
                 var country_Array=[];
                 $scope.followers_follower=[];
@@ -177,7 +177,6 @@ console.log("error"+status);
             console.log(followers_follower);
         }
       
-
 
       
 

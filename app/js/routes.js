@@ -77,7 +77,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Connect Data'
   })
   .state('Analyze', {
-    url: '/analyze',
+    url: '/report',
     templateUrl: 'analyze/analyze.html',
     controller: 'AnalyzeCtrl as Analyze',
     title: 'Analyze Data'
