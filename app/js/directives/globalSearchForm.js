@@ -36,6 +36,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			}, function() {
 				if (document.activeElement.id  === "global-search-input" && $rootScope.root.globalSearchTerm.length >=3) {
 					SearchService.getSearchSuggestions($rootScope.root.globalSearchTerm).then(function(data) {
+						$rootScope.root.selectedTermIndex = -1;
 						$rootScope.root.searchSuggestions = data.queries;
 						$rootScope.root.haveSearchSuggestion = true;
 					}, function() { $rootScope.root.haveSearchSuggestion = false; });
@@ -69,6 +70,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			    		$location.url("/search?q=" + encodeURIComponent(q));
 			    	}
 			    }
+			    $rootScope.root.selectedTermIndex = -1;
 			};
 
 			/*
@@ -81,8 +83,9 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			}
 			$rootScope.root.watchArrowFromSearchBox = function($event) {
 				var code = $event.keyCode;
+				var limit = ($rootScope.root.searchSuggestions.length >= 5) ? 4 : ($rootScope.root.searchSuggestions.length - 1);
 				if (code === 40) {
-					if ($rootScope.root.selectedTermIndex === 4) {
+					if ($rootScope.root.selectedTermIndex === limit) {
 						$rootScope.root.selectedTermIndex = -1;
 					} else { $rootScope.root.selectedTermIndex += 1; }
 
@@ -90,7 +93,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 				}
 				if (code === 38) {
 					if ($rootScope.root.selectedTermIndex === -1) {
-						$rootScope.root.selectedTermIndex = 4;
+						$rootScope.root.selectedTermIndex = limit;
 					} else { $rootScope.root.selectedTermIndex -= 1; }
 
 					highlightSelected($rootScope.root.selectedTermIndex);
@@ -102,7 +105,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 					}
 
 					$rootScope.root.setGlobalSearchTerm($rootScope.root.globalSearchTerm );
-				}				
+				}			
 			}
 
 			/*
@@ -111,6 +114,13 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			function highlightSelected(index) {
 				$(".global-search-container .suggestions li").removeClass("active");
 				$($(".global-search-container .suggestions li")[index]).addClass("active");
+			}
+
+			/*
+			 * Hide suggestion when search input lose focus
+			 */
+			$rootScope.root.hideSuggestions = function() {
+				$rootScope.root.haveSearchSuggestion = false;
 			}
 		}
 	};
