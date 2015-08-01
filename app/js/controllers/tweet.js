@@ -12,6 +12,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.tweetLength = 140;
     $rootScope.root.userLocation = {};
     $rootScope.root.locationName = "";
+    $rootScope.root.VariableLocations = [];
     $rootScope.root.geoTile;
     $rootScope.root.hashtagTrends;
     $rootScope.root.trends = "";
@@ -86,6 +87,14 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         console.log($rootScope.root.tweetLength);
     };
 
+    $rootScope.root.clearLocation = function() {
+        $rootScope.root.locationName = "";
+    }
+
+    $rootScope.root.setNewLocation = function(newLocation) {
+        $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
+    }
+
     // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
         if(navigator.geolocation) {
@@ -124,6 +133,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             console.log(response);
             var keyObject = Object.keys(response.locations);
             var result = response.locations[keyObject].place[0];
+            $rootScope.root.VariableLocations = response.locations[keyObject].place;
             $rootScope.root.locationName = result;
         });
     }
