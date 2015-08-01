@@ -12,7 +12,7 @@ var marker=[];
  */
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
-
+    $('#analyze-modal').modal('show');
       
      $scope.username="loklak_app";
      $scope.getstat=function()
