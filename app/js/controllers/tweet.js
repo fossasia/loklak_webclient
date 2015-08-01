@@ -11,6 +11,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.tweetType = 1;
     $rootScope.root.tweetLength = 140;
     $rootScope.root.userLocation = {};
+    $rootScope.root.locationName = "";
     $rootScope.root.geoTile;
     $rootScope.root.hashtagTrends;
     $rootScope.root.trends = "";
@@ -101,7 +102,40 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         $rootScope.root.userLocation.longitude = position.coords.longitude;
         // Now make a query to loklak
         var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
-        $rootScope.root.location.tile="http://loklak.org/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
+        $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
+
+        $("#locationtile").attr("src", $rootScope.root.location.tile);
+        $("#locationtile").removeClass('hidden');
+
+        var locationRequestParam = []
+        var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude
+        locationRequestParam.push(encodeURI(positionParam))
+        // Location request parameter attached.
+        var locationNameRequest = 'http://localhost:9000/api/geocode.json?callback=JSON_CALLBACK';
+
+        $http.jsonp(locationNameRequest, {
+            params: {
+                data: {
+                    places: [positionParam]
+                }
+            }
+        })
+        .success(function(response) {
+            console.log(response);
+            var keyObject = Object.keys(response.locations);
+            var result = response.locations[keyObject].place[0];
+            $rootScope.root.locationName = result;
+        });
+    }
+
+    $rootScope.root.tweetWithMapTile = function() {
+        var message = $rootScope.root.tweet;
+        var encodedMessage = encodeURIComponent(message);
+
+        $rootScope.root.getLocation();
+        
+        var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
+        $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
 
         $("#locationtile").attr("src", $rootScope.root.location.tile);
         $("#locationtile").removeClass('hidden');
@@ -113,11 +147,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 'Content-Type': 'application/json; charset=utf-8'
             }
         }).success(function(response) {
-            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
-            console.log("Successfully retrieved for "+requestUrl);
-            $rootScope.root.postTweet(selectedFileInBlob);
+            console.log("Blob obtained successfully.");
         });
-
     }
 
     $rootScope.root.tweetWithMarkdownImage = function() {
