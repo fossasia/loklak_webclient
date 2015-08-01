@@ -28,26 +28,3 @@ directivesModule.directive('datasourceLifetime', function() {
     }
   }
 });
-
-directivesModule.directive('datasourceHarvestingFreq', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
-        //convert data from view format to model format
-        if (data === 'never') {
-          return MAGIC_NUMBER;
-        }
-        return data; //converted
-      });
-
-      ngModelController.$formatters.push(function(data) {
-        //convert data from model format to view format
-        if (data === MAGIC_NUMBER) {
-          return 'never';
-        }
-        return data; //converted
-      });
-    }
-  }
-});

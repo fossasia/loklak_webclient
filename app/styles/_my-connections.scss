@@ -126,6 +126,14 @@
 	background-color: inherit;
 	border: none;
 	cursor: text;
+	padding-left: 4px;
+}
+
+#datasource-table select:disabled {
+	background-color: white;
+	-webkit-appearance: inherit;
+	border: none;
+	cursor: text;
 }
 
 @media (max-width: 990px) {

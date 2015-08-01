@@ -4,8 +4,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService',
-	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService) {
+controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService',
+	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -60,7 +60,7 @@ controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'Se
 	$scope.addFormOpen = false;
 
 	$scope.sourceTypesList = SourceTypeService.sourceTypeList;
-
+	$scope.harvestingFreqList = HarvestingFrequencyService.values;
 	$scope.mapRulesNum = 0;
 
 	function updateDataSources(callback) {

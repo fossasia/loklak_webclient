@@ -73,8 +73,8 @@
 						<div class="col col-md-2">Source type</div>
 						<div class="col col-md-1">Importer</div>
 						<div class="col col-md-2">Created time</div>
-						<div class="col col-md-2">Last modification</div>
-						<div class="col col-md-1">Messages</div>
+						<div class="col col-md-2">Last edit</div>
+						<div class="col col-md-1">Imported</div>
 					</div>
 				</li>
 				<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
@@ -92,7 +92,7 @@
 								<label for="harvesting_freq">Update frequency</label>
 							</div>
 							<div class="col-md-10">
-								<input name="harvesting_freq" datasource-harvesting-freq type="text" ng-disabled="!item.editing" ng-model="item.harvesting_freq"/>
+								<select name="harvesting_freq" type="text" ng-disabled="!item.editing" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="item.harvesting_freq"/>
 							</div>
 						</div>
 						<div class="row">
