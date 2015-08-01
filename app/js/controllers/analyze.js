@@ -13,17 +13,29 @@ var marker=[];
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
     $('#analyze-modal').modal('show');
+    $('#loader').hide();
+    $('#notfoundmessage').hide();
+     
+
       
      $scope.username="loklak_app";
      $scope.getstat=function()
      {
-        $('#analyze-modal').modal('hide'); 
-     
-     
+        
+     $('#notfoundmessage').hide();
+     $('#loader').show(); 
     //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     //$scope.data = [300, 500, 100];
     $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
+
+                if(!data.user)
+                {
+                    $('#loader').hide();
+                    $('#notfoundmessage').show();
+                    return 0;
+
+                }
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
                 var country_stat_result = {};
@@ -156,7 +168,7 @@ var marker=[];
                 $scope.categorylabels=["O-500" , "500-1000" , "Greater than 1000"];
                 $scope.categoryvalues=[category1,category2,category3];
                 getTopfive($scope.followers_follower);
-               
+                $('#analyze-modal').modal('hide'); 
 
                 }).error(function(data, status, headers, config) {
                     
@@ -180,7 +192,8 @@ console.log("error"+status);
             followers_follower.sort(compare);
             console.log(followers_follower);
         }
-      
+ 
+     
 }
       
 

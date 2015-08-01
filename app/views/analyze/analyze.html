@@ -53,18 +53,21 @@
 #message
 {
     margin-top:20%;
-    font-family: "Lucida Console", Monaco, monospace; ;
+    font-family: "Lucida Console", Monaco, monospace; 
     font-size: 24px ;
     color: #555555;
     text-align: center;
 }
+#notfoundmessage
+{
+    color: red;
+    font-size : 15px;
+    font-family: "Lucida Console", Monaco, monospace; 
+}
+
 
 </style>
-<script type="text/javascript">
-    $(window).load(function(){
-        $('#analyze-modal').modal('show');
-    });
-</script>
+
 <div class="modal fade" id="analyze-modal">
 
 <div class="background">
@@ -76,6 +79,9 @@
     <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstat()"  >
     <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
     </button>
+    <br>
+    <img id="loader" src="../images/blackloader.gif"></img>
+    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>
 
 </div>
 </div>
