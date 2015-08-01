@@ -352,7 +352,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             return $location.search();
         }, function(value, Oldvalue) {
 
-            if (value.q && value.q.indexOf("id") > -1) { // When q has "id=.." Leave this for single-tweet view
+            if (value.q && value.q.indexOf("id:") > -1) { // When q has "id=.." Leave this for single-tweet view
                 return 1; 
             }
             if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation

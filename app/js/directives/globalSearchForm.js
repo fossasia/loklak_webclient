@@ -27,6 +27,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 		controller: function($scope, $element, $attrs) {
 			$rootScope.root.haveSearchSuggestion = false;
 			$rootScope.root.selectedTermIndex = -1;
+			$rootScope.root.searchSuggestions = [];
 
 			/*
 	  		 * Watch input from user at global search container
@@ -83,7 +84,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			}
 			$rootScope.root.watchArrowFromSearchBox = function($event) {
 				var code = $event.keyCode;
-				var limit = ($rootScope.root.searchSuggestions.length >= 5) ? 4 : ($rootScope.root.searchSuggestions.length - 1);
+				var limit = ($rootScope.root.searchSuggestions.length && $rootScope.root.searchSuggestions.length >= 5) ? 4 : ($rootScope.root.searchSuggestions.length - 1);
 				if (code === 40) {
 					if ($rootScope.root.selectedTermIndex === limit) {
 						$rootScope.root.selectedTermIndex = -1;
