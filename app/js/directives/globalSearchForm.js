@@ -52,7 +52,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 				$rootScope.root.submitSearchForm();
 				$rootScope.root.searchSuggestions = [];
 				$rootScope.root.haveSearchSuggestion = false;
-				document.activeElement.blur(); // Stop focusing search box
+				document.activeElement.blur(); // Stop focusing search box	
 			}
 
 			/*
@@ -115,13 +115,6 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			function highlightSelected(index) {
 				$(".global-search-container .suggestions li").removeClass("active");
 				$($(".global-search-container .suggestions li")[index]).addClass("active");
-			}
-
-			/*
-			 * Hide suggestion when search input lose focus
-			 */
-			$rootScope.root.hideSuggestions = function() {
-				$rootScope.root.haveSearchSuggestion = false;
 			}
 		}
 	};
