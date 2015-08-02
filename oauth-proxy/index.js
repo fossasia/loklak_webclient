@@ -41,7 +41,6 @@ app.get('/getData', function(req, res){
     });    
 });
 
-
 // Create a key value list of {client_id => client_secret, ...}
 var creds = {};
 
