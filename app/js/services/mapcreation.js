@@ -6,7 +6,7 @@ var servicesModule = require('./_index.js');
  * @ngInject
  */
 
-function MapCreationService(MapPopUpTemplateService, SearchService) {
+function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) {
 
     var service = {};
     var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -18,6 +18,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
     function initMapPoints(statuses, templateEngine) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
+            var isAFollower = (status.isAFollower) ? true : false;
             if (status.location_mark && status.user) {
                 var text = MapPopUpTemplateService[templateEngine](status);
                 var pointObject = {
@@ -25,7 +26,8 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
                     "type": "Feature",
                     "properties": {"popupContent": "<div class='foobar'>" + text + "</div>"},
                     "id": status.id_str,
-                    "propic" : status.user.profile_image_url_https
+                    "propic" : status.user.profile_image_url_https,
+                    "isAFollower": isAFollower
                 };
                 tweets.features.push(pointObject);
             }
@@ -61,13 +63,32 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
         } else if (markerType === "userAvatar") {
             window.mapViewMarker = [];
+            var followers = L.layerGroup();
+            var followings = L.layerGroup();
 
             tweets.features.forEach(function(tweet) {
                 window.mapViewMarker[tweet.id] = new L.Marker([tweet.geometry.coordinates[1], tweet.geometry.coordinates[0]], {
                     id: tweet.id,
                     icon: L.icon({iconUrl: tweet.propic, iconSize: [30, 30], className: "topologyItem"})
-                }).addTo(window.map).bindPopup(tweet.properties.popupContent);
+                }).bindPopup(tweet.properties.popupContent);
+
+                if (tweet.isAFollower) {
+                    followers.addLayer(window.mapViewMarker[tweet.id]);
+                } else {
+                    followings.addLayer(window.mapViewMarker[tweet.id]);
+                }
             })
+
+            followers.addTo(window.map);
+            followings.addTo(window.map);
+
+            var numFollowings = $rootScope.userTopology.noOfFollowings ? "Followings " + $rootScope.userTopology.noOfFollowings : "Followings";
+            var numFollowers = $rootScope.userTopology.noOfFollowers ? "Followers " + $rootScope.userTopology.noOfFollowers : "Followers";
+            var controlOptions = {};
+            controlOptions[numFollowers] = followers;
+            controlOptions[numFollowings] = followings;
+
+            L.control.layers({}, controlOptions, {position: 'topleft'}).addTo(window.map);
            
         }
             
@@ -115,7 +136,12 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         var templateEngine = params.templateEngine;
         var cbOnMapAction = params.cbOnMapAction;
 
-        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 3);
+        // Reassure that old map is remove
+        delete(window.map); 
+        angular.element("#" + mapId).remove();
+        angular.element(".map-container-parent").prepend('<div id="' + mapId + '"></div>');
+
+        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
         var tweets = initMapPoints(data, templateEngine);
         L.tileLayer(tileLayerSrc, {
             maxZoom: 18,
@@ -125,6 +151,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
         addPointsToMap(window.map, tweets, markerType, cbOnMapAction);
     }  
+
 
     service.initMap = initMap;
     service.addPointsToMap = addPointsToMap;
@@ -136,4 +163,4 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
 }
 
-servicesModule.service('MapCreationService', ["MapPopUpTemplateService", "SearchService", MapCreationService]);
+servicesModule.service('MapCreationService', ["$rootScope", "MapPopUpTemplateService", "SearchService", MapCreationService]);
