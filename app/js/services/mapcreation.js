@@ -6,7 +6,7 @@ var servicesModule = require('./_index.js');
  * @ngInject
  */
 
-function MapCreationService(MapPopUpTemplateService, SearchService) {
+function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) {
 
     var service = {};
     var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -82,10 +82,13 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
             followers.addTo(window.map);
             followings.addTo(window.map);
 
-            L.control.layers({}, {
-                "Followers": followers,
-                "Followings": followings
-            }, {position: 'topleft'}).addTo(window.map);
+            var numFollowings = $rootScope.userTopology.noOfFollowings ? "Followings " + $rootScope.userTopology.noOfFollowings : "Followings";
+            var numFollowers = $rootScope.userTopology.noOfFollowers ? "Followers " + $rootScope.userTopology.noOfFollowers : "Followers";
+            var controlOptions = {};
+            controlOptions[numFollowers] = followers;
+            controlOptions[numFollowings] = followings;
+
+            L.control.layers({}, controlOptions, {position: 'topleft'}).addTo(window.map);
            
         }
             
@@ -138,7 +141,7 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
         angular.element("#" + mapId).remove();
         angular.element(".map-container-parent").prepend('<div id="' + mapId + '"></div>');
 
-        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 3);
+        window.map = L.map(mapId).setView(new L.LatLng(5.3,-4.9), 2);
         var tweets = initMapPoints(data, templateEngine);
         L.tileLayer(tileLayerSrc, {
             maxZoom: 18,
@@ -160,4 +163,4 @@ function MapCreationService(MapPopUpTemplateService, SearchService) {
 
 }
 
-servicesModule.service('MapCreationService', ["MapPopUpTemplateService", "SearchService", MapCreationService]);
+servicesModule.service('MapCreationService', ["$rootScope", "MapPopUpTemplateService", "SearchService", MapCreationService]);
