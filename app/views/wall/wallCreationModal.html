@@ -272,10 +272,10 @@
                                                     <div ng-hide="!newWallOptions.showLoklakLogo" ng-style="{'color': newWallOptions.headerForeColour} " class="preview-banner col-md-4">Loklak</div>
                                                 </div>
                                                 <div class="row animate-switch-container" ng-switch on="newWallOptions.layoutStyle">
-                                                    <img ng-switch-when="1" class="img-responsive animate-switch" src="/images/linear-layout.jpg" alt="">
-                                                    <img ng-switch-when="2" class="img-responsive animate-switch" src="/images/masonry-layout.jpg" alt="">
-                                                    <img ng-switch-when="3" class="img-responsive animate-switch" src="/images/coa-layout.jpg" alt="">
-                                                    <img ng-switch-when="4" class="img-responsive animate-switch" src="/images/map-layout.jpg" alt="">
+                                                    <img ng-switch-when="1" class="img-responsive animate-switch" ng-src="{{newWallOptions.showStatistics?'/images/leaderboardlinear-layout.jpg':'/images/linear-layout.jpg'}}" alt="">
+                                                    <img ng-switch-when="2" class="img-responsive animate-switch" ng-src="{{newWallOptions.showStatistics?'/images/leaderboardmasonry-layout.jpg':'/images/masonry-layout.jpg'}}" alt="">
+                                                    <img ng-switch-when="3" class="img-responsive animate-switch" ng-src="{{newWallOptions.showStatistics?'/images/leaderboardcoa-layout.jpg':'/images/coa-layout.jpg'}}" alt="">
+                                                    <img ng-switch-when="4" class="img-responsive animate-switch" ng-src="{{newWallOptions.showStatistics?'/images/leaderboardmap-layout.jpg':'/images/map-layout.jpg'}}" alt="">
                                                 </div>
                                                 <div ng-switch-when="Bottom" ng-style="{'background-color': newWallOptions.headerColour} " class="row wall-preview-header">
                                                     <div ng-style="{'color': newWallOptions.headerForeColour} " class="preview-hashtag col-md-4">{{newWallOptions.mainHashtag}}</div>
