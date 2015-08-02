@@ -23,10 +23,11 @@
 
 .activity-feed {
 	position: absolute;
-	right: 10px;
-	top: 7%;
+	right: 0;
+	top: 46px;
+	bottom: 16px;
 	width: 270px;
-	height: 89%;
+	height: auto;
 	overflow-y: auto;
 	overflow-x: hidden;
 	background-color: white;
