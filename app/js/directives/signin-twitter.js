@@ -47,6 +47,9 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 							status.isAFollower = false;
 						})
 						$rootScope.userTopology  = result.topology;
+						$rootScope.userTopology.noOfFollowings = result.user.friends_count
+						$rootScope.userTopology.noOfFollowers = result.user.followers_count
+						
 
 					}, function() {});
 

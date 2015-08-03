@@ -1,4 +1,4 @@
-<div class="content-wrapper map-view">
+<div class="content-wrapper map-view map-container-parent">
    <div id="map"></div>
 
    <div class="activity-feed">
@@ -6,7 +6,7 @@
       <p>Activity feeds</p>
     </div>  
     <div class="feed-content">
-      <div ng-repeat="status in root.twitterFriends.data | limitTo: 20" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
+      <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
           <div class="item">
               <img class="friend-profile-img" src="{{status.profile_image_url}}">
               <p class="message home-tweet-text">

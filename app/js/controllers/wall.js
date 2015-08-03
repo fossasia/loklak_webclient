@@ -16,6 +16,8 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     var isEditing = -1;
     $scope.wallsPresent = true;
     $scope.invalidFile = false;
+    $scope.showNext = true;
+    $scope.selectedTab = 0;
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
@@ -24,7 +26,18 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         $scope.newWallOptions.headerPosition = 'Top';
         $scope.newWallOptions.layoutStyle = 1;
         $scope.newWallOptions.showLoading = false;
+        $scope.newWallOptions.showLoklakLogo = true;
+        $scope.newWallOptions.showEventName = true;
     };
+
+    $scope.tabSelected = function(index) {
+        $scope.selectedTab = index;
+        if (index == 2) {
+            $scope.showNext = false;
+        } else {
+            $scope.showNext = true;
+        }
+    }
 
     initWallOptions();
 
@@ -75,8 +88,28 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
         }
     });
 
+    $scope.$watch('newWallOptions.images', function() {
+        if ($scope.newWallOptions.images) {
+            if ($scope.newWallOptions.images == 'only') {
+                $scope.newWallOptions.videos = ['none'];
+            }
+        }
+    });
+
+    $scope.$watch('newWallOptions.videos', function() {
+        if ($scope.newWallOptions.videos) {
+            if ($scope.newWallOptions.videos == 'only') {
+                $scope.newWallOptions.images = ['none'];
+            }
+        }
+    });
+
     $scope.proceed = function() {
+        $scope.selectedTab++;
         $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        if ($scope.selectedTab == 2) {
+            $scope.showNext = false;
+        }
     };
 
     $scope.start = function() {

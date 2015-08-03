@@ -110,6 +110,37 @@
 					outline: none;
 				}
 			}
+			ul.suggestions {
+				position: absolute;
+				left: -1px;
+				top: 46px;;
+				width: 100%;
+				z-index: 101;
+				margin: 0;
+				padding: 0;
+				li {
+					background-color: rgba(85,172,238,0.9);
+					color: white;
+					display: block;
+					padding: 8px;
+					border: none;
+					text-align: left;
+					&:hover {
+						background-color: white;
+						color: rgba(85,172,238,1);
+						cursor: pointer;
+					}
+					&:last-child {
+						border-bottom-left-radius: 5px;
+						border-bottom-right-radius: 5px;
+					}
+				}
+				li.active {
+					background-color: white;
+					color: rgba(85,172,238,1);
+					cursor: pointer;
+				}
+			}
 			.fa.fa-search {
 				position: absolute;
 				top: 16px;
