@@ -18,9 +18,9 @@
     <div ng-style="{'background-color': wall.wallOptions.headerColour}" ng-class="getHeaderClass()">
         <div ng-style="{'color': wall.wallOptions.headerForeColour} " class="hashtag col-md-4">{{wall.wallOptions.mainHashtag}}</div>
         <div ng-style="{'color': wall .wallOptions.headerForeColour} " class="event-name col-md-4">
-            <div><img ng-if="wall.wallOptions.logo" class="wall-preview-logo" data-ng-src="data:{{wall.wallOptions.logo.filetype}};base64,{{wall.wallOptions.logo.base64}}"><div class="wall-header-eventname">{{wall.wallOptions.eventName}}</div></div>
+            <div><img ng-if="wall.wallOptions.logo" class="wall-preview-logo" data-ng-src="data:{{wall.wallOptions.logo.filetype}};base64,{{wall.wallOptions.logo.base64}}"><div ng-hide="!wall.wallOptions.showEventName" class="wall-header-eventname">{{wall.wallOptions.eventName}}</div></div>
         </div>
-        <div class="banner col-md-3"><a ng-style="{'color': wall.wallOptions.headerForeColour} " href="/">Powered by Loklak</a></div>
+        <div class="banner col-md-3"><a ng-hide="!wall.wallOptions.showLoklakLogo" ng-style="{'color': wall.wallOptions.headerForeColour} " href="/">Powered by Loklak</a></div>
         <div class="banner col-md-1">
             <!-- <i ng-style="{'color': wall.wallOptions.headerForeColour} " data-toggle="modal" data-target="#wall-modal" class="fa fa-fw fa-gear"></i> -->
             <i ng-style="{'color': wall.wallOptions.headerForeColour} " ng-hide="wall.fullscreenEnabled" ng-click="fullscreen()" class="fa fa-fw fa-arrows-alt"></i>
