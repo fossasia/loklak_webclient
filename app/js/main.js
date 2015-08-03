@@ -42,6 +42,7 @@ angular.element(document).ready(function() {
     'infinite-scroll',
     'ui.choices',
     'FBAngular',
+    'googlechart',
     'akoenig.deckgrid',
     'chart.js',
     'naif.base64'
