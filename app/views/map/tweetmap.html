@@ -1,8 +1,9 @@
 <div class="content-wrapper map-view map-container-parent">
+   <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
    <div id="map"></div>
-
-   <div class="activity-feed">
+   <div class="activity-feed show-feed">
     <div class="feed-header">
+      <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
       <p>Activity feeds</p>
     </div>  
     <div class="feed-content">

@@ -93,4 +93,11 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         });
     })
 
+
+    /*
+     * Toggle map feed to slide left/hide or slide right/show
+    */
+    vm.toggleMapFeed = function() {
+        angular.element('.activity-feed').toggleClass("show-feed");
+    }
 }]);

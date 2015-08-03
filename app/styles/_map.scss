@@ -21,6 +21,18 @@
 }
 
 
+.toggle-map-feed {
+	display: inline-block;
+	position: absolute;
+	top: 50px;
+	right: 5px;
+	color: white;
+    font-size: 23px !important;
+	&:hover {
+		cursor: pointer;
+	}
+}
+
 .activity-feed {
 	position: absolute;
 	right: 0;
@@ -32,11 +44,25 @@
 	overflow-x: hidden;
 	background-color: white;
 	padding: 35px 7px 10px 7px;
+	transform: translateX(100%);
+	transition: all 0.5s ease-in-out;
 	.feed-header {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
+		.toggle-map-feed-clone {
+			display: inline-block;
+			position: absolute;
+			top: 5px;
+			left: 6px;
+			color: white;
+			z-index: 1031;
+			font-size: 23px;
+			&:hover {
+				cursor: pointer;
+			}
+		}
 		p {
 			background: $search-twitter-blue;
 			color: white;
@@ -47,6 +73,7 @@
 			font-weight: 600;
 			letter-spacing: 0.5px;
 		}
+		
 	}
 	.feed-content {
 		overflow: hidden;
@@ -120,6 +147,10 @@
 			letter-spacing: 0.5px;
 		}
 	}
+}
+.activity-feed.show-feed {
+	transform: translateX(0%);
+	transition: all 0.5s ease-in-out;
 }
 
 .topologyItem {
