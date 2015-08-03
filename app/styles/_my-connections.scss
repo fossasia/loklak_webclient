@@ -18,17 +18,13 @@
 	margin-right: 5px;
 }
 
-#add-datasource-form .alert {
-	padding: 5px;
-}
-
 /* overwrite admin.css */
-#my-connection-panel.alert-danger {
+#my-connection-panel .alert-danger, #add-datasource-form .alert-danger {
 	background-color: #f2dede !important;
 	border-color: #ebccd1;
 	color: #a94442 !important;
 }
-#my-connection-panel .alert-success {
+#my-connection-panel .alert-success, #add-datasource-form .alert-success {
 	background-color: #dff0d8 !important;
 	border-color: #d6e9c6;
 	color: #3c763d !important;
