@@ -72,7 +72,7 @@ function SearchService($q, $http, AppSettings) {
 
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
-    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+    $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
       params: {screen_name: user_screen_name}
     }).success(function(data) {
         deferred.resolve(data);
