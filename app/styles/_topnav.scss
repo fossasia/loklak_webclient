@@ -440,6 +440,22 @@
 	    }
 	}
 
+	div#myModal > div.modal-dialog > div.modal-content {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+		width: 140%;
+		left: -20%;
+	}
+
+	div#myModal > div.modal-dialog > div.modal-content > form > div.modal-footer {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
 @media screen and (min-width: 0px) and (max-width: 767px) {
 	.main-header {
 		> .topnav {

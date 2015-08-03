@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="http://lab.lepture.com/editor/editor.css" />
+<script type="text/javascript" src="http://lab.lepture.com/editor/editor.js"></script>
+<script type="text/javascript" src="http://lab.lepture.com/editor/marked.js"></script>
+
 <header ng-if="!root.sidebarEnabled" class="main-header">
     <div class="container topnav">
         <div class="universal-topnav-container">
@@ -76,10 +80,12 @@
         <form role="form" id="tweet"  ng-submit="root.postTweet()"  enctype="multipart/form-data">
         <div class="modal-body">
             <div class="modal-tweet-form-container">
+              {{root.latitude}} {{root.longitude}}
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
                 <!-- <input type="text" name="latitude" id="latitude" ng-model="root.latitude" id="mapLat">
                 <input type="text" name="longitude" id="longitude" ng-model="root.longitude" id="mapLng"> -->
                 <div id="map" style="width: 100%; height: 450px;"></div>
+                <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -90,7 +96,7 @@
             <span  class="btn btn-default btn-file fa pull-left">
                 <input type="file" id="fileInput" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
             </span>
-            <input type="button" class="fa btn btn-info btn-flat pull-left" ng-if="!root.locationName" ng-click="root.getLocation()" value="&#xf041; Get Location">&nbsp;
+            <input type="button" class="fa fa btn btn-default pull-left" ng-if="!root.locationName" ng-click="root.getLocation()" value="&#xf041; Get Location">
             <span class="pull-left">
             <div class="dropdown" ng-if="root.locationName">
               <button class="fa btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -111,9 +117,15 @@
               </select> -->
             </div>
             </span>
-            <input type="button" class="fa btn btn-info btn-flat pull-left" onclick="setMapTile()" id="attachMap" value="&#xf041; Attach Map">&nbsp;
-            <input type="button" class="fa btn btn-info btn-flat pull-left" onclick="cancelMapTile()" id="CancelMap" value="&#xf041; Cancel Map">&nbsp;
-            <input type="submit" class="fa fa-twitter btn btn-info btn-flat" value="&#xf099; Tweet">&nbsp;
+            <!-- Map Tile -->
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="setMapTile()" id="attachMap" value="&#xf041; Attach Map">
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="cancelMapTile()" id="CancelMap" value="&#xf041; Cancel Map">
+            <!-- End Map Tile -->
+            <!-- Markdown Attachment -->
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="showLargeAttachment()" id="attachLargeText" value="&#xf041; Attach Text">
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="cancelLargeAttachment()" id="cancelLargeTextAttachment" value="&#xf041; Cancel Text">
+            <!-- End Markdown -->
+            <input type="submit" class="fa fa-twitter btn btn-default " value="&#xf099; Tweet">
         </div>
         </form>
     </div>
@@ -206,6 +218,8 @@ $("#subDropDownMenu").click(function(e){
 
   $("#map").hide();
   $("#CancelMap").hide();
+  $("#largeTextAttachment").hide();
+  $("#cancelLargeTextAttachment").hide();
 
   var popup = L.popup();
   var new_event_marker;
@@ -256,6 +270,24 @@ $("#subDropDownMenu").click(function(e){
     console.log(lat+','+lng);
     $("#mapLat").val(lat);
     $("#mapLng").val(lng);
+  }
+
+  function showLargeAttachment() {
+    var editor = new Editor({
+    element: document.getElementById('largeTextAttachment')
+  });
+  editor.render();
+    $("#cancelLargeTextAttachment").show();
+    $("#attachLargeText").hide();
+  }
+
+  function cancelLargeAttachment() {
+    $("#attachLargeText").show();
+    $(".CodeMirror.cm-s-paper").hide();
+    $(".editor-toolbar").hide();
+    $(".editor-statusbar").hide();
+    $("#largeTextAttachment").hide();
+    $("#cancelLargeTextAttachment").hide();
   }
 
   map.on('click', onMapClick);
