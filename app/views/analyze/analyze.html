@@ -65,7 +65,19 @@
     font-size : 15px;
     font-family: "Lucida Console", Monaco, monospace; 
 }
+.fillit
+{
+    width: 70%;
+    height:100%;
+    margin : 0 auto;
 
+}
+#percentage-modal .modal-dialog
+{
+    padding: 10px;
+    min-width: 1080px;
+    margin: 0 auto;
+}
 
 </style>
 
@@ -87,8 +99,29 @@
 </div>
 </div>
 </div>
+<div class="modal fade" id="percentage-modal">
 
-    <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h3 class="modal-title"><i>@{{username}}<i></h3><center>
+      </div>
+      <div class="modal-body">
+       <div google-chart chart="chart"> </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
     <div class="modal-dialog modal-lg wall-modal-dialog">
         <div class="modal-content wall-modal-content">
             <div class="modal-header">
@@ -133,6 +166,10 @@
                                                     <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
                                                 </li>
                                             </table>
+                                            <button type="button" class="btn btn-default big" aria-label="Left Align"  data-toggle="modal" data-target="#percentage-modal"  >
+                                                <span class="fa fa-bar-chart" aria-hidden="true">MapAnalyze!</span>
+                                            </button>
+
                                         </div>
                                     </div>
                                     <div class="col-xs-4">

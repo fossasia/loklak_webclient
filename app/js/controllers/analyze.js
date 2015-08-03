@@ -5,10 +5,6 @@
 var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
-<<<<<<< HEAD
-
-=======
->>>>>>> 80d5a5da86dc79c55c9bbfd1a37ed620956c5901
 var result;
 var marker=[];
 /**
@@ -19,127 +15,30 @@ var marker=[];
     $('#analyze-modal').modal('show');
     $('#loader').hide();
     $('#notfoundmessage').hide();
-<<<<<<< HEAD
-     $scope.chartObject = {
-  "type": "AreaChart",
-  "displayed": true,
-  "data": {
-    "cols": [
-      {
-        "id": "month",
-        "label": "Month",
-        "type": "string",
-        "p": {}
-      },
-      {
-        "id": "laptop-id",
-        "label": "Laptop",
-        "type": "number",
-        "p": {}
-      },
-      {
-        "id": "desktop-id",
-        "label": "Desktop",
-        "type": "number",
-        "p": {}
-      },
-      {
-        "id": "server-id",
-        "label": "Server",
-        "type": "number",
-        "p": {}
-      },
-      {
-        "id": "cost-id",
-        "label": "Shipping",
-        "type": "number"
-      }
-    ],
-    "rows": [
-      {
-        "c": [
-          {
-            "v": "January"
-          },
-          {
-            "v": 19,
-            "f": "42 items"
-          },
-          {
-            "v": 12,
-            "f": "Ony 12 items"
-          },
-          {
-            "v": 7,
-            "f": "7 servers"
-          },
-          {
-            "v": 4
-          }
-        ]
-      },
-      {
-        "c": [
-          {
-            "v": "February"
-          },
-          {
-            "v": 13
-          },
-          {
-            "v": 1,
-            "f": "1 unit (Out of stock this month)"
-          },
-          {
-            "v": 12
-          },
-          {
-            "v": 2
-          }
-        ]
-      },
-      {
-        "c": [
-          {
-            "v": "March"
-          },
-          {
-            "v": 24
-          },
-          {
-            "v": 5
-          },
-          {
-            "v": 11
-          },
-          {
-            "v": 6
-          }
-        ]
-      }
-    ]
-  },
-  "options": {
-    "title": "Sales per month",
-    "isStacked": "true",
-    "fill": 20,
-    "displayExactValues": true,
-    "vAxis": {
-      "title": "Sales unit",
-      "gridlines": {
-        "count": 10
-      }
-    },
-    "hAxis": {
-      "title": "Date"
-    }
-  },
-  "formatters": {}
-}
-=======
-     
->>>>>>> 80d5a5da86dc79c55c9bbfd1a37ed620956c5901
 
+      var chart1 = {};
+  chart1.type = "GeoChart";
+  chart1.data = [
+        ['Locale', 'Count', 'Percent'],
+        ['Tunisia' , 0 , 0]
+
+      ];
+
+  chart1.options = {
+      width: 1024,
+      chartArea: {left:10,top:10,bottom:0,width:"100%"},
+      colorAxis: {colors: ['#aec7e8', '#1f77b4']},
+      displayMode: 'regions'
+  };
+
+  chart1.formatters = {
+     number : [{
+       columnNum: 1,
+       pattern: "# #,##0.00 %"
+     }]
+   };
+
+  $scope.chart = chart1;
       
      $scope.username="loklak_app";
      $scope.getstat=function()
@@ -268,6 +167,8 @@ var marker=[];
                 countrynames.forEach(function(ele){
                     var percentage=((country_stat_result[ele]/followerwithloc)*100);
                     percentage=Number(percentage).toFixed(2);
+                    chart1.data.push(
+                        [ele,country_stat_result[ele],percentage]);
                     $scope.countrydata.push({
                         "country" : ele ,
                         "followers" : percentage
