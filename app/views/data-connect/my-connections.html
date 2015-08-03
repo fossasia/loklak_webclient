@@ -61,10 +61,18 @@
 						</div>
 						<button type="submit" class="btn btn-primary">Confirm</button>
 						<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
-						<a type="button" class="btn btn-danger" ng-href="/addConnection" target="_blank">Add source in other format</a>
+						<a type="button" class="btn btn-danger" ng-href="/addConnection" target="_blank">Add source in other formats</a>
 					</form>
 				</div>
 				<h2>Active Data Sources</h2>
+				<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{{dataSourceMessages.success}}
+				</div>
+				<div class="alert alert-error alert-dismissible" role="alert" ng-show="dataSourceMessages.error">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{{dataSourceMessages.error}}
+				</div>
 				<hr/>
 				<ul id="datasource-table">
 				<li>

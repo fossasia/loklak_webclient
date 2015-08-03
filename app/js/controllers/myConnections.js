@@ -51,6 +51,10 @@ controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'Se
 	]
 	$scope.dataSourceItems = [];
 	/**
+	 * Messages that are displayed in the main datasource page
+	 */
+	$scope.dataSourceMessages = {};
+	/**
 	 * Add data source form inputs values, success & error message
 	 */
 	$scope.addForm = {};
@@ -112,6 +116,9 @@ controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'Se
 	};
 
 	$scope.toggleAddForm = function() {
+		// clear old messages
+		$scope.addForm.success = '';
+		$scope.addForm.error = '';
 		$scope.addFormOpen = !$scope.addFormOpen;
 	};
 
@@ -128,6 +135,7 @@ controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'Se
 	};
 
 	$scope.onUpdateDataSources = function() {
+		dataSourceMessages = {};
 		var refreshButton = angular.element("#refreshButton i"); 
 		refreshButton.addClass("fa-spin");
 		updateDataSources(function() {
@@ -152,18 +160,20 @@ controllersModule.controller('MyConnectionsCtrl', ['$scope', '$stateParams', 'Se
 	$scope.saveDataSource = function(item) {
 		console.log("Saving" + item);
 		ImportProfileService.update(item).then(function(data) {
-			console.log(data);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
+			$scope.dataSourceMessages.error = 'Unable to save edited changes. If the problem persists, please contact loklak administrator for help.';
 		})
 	}
 	$scope.deleteDataSource = function(item) {
 		ImportProfileService.delete(item).then(function(data) {
 			console.log(data);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
+			$scope.dataSourceMessages.success = 'Data source deleted.';
 		}, function(error) {
 			console.error(error);
+			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
 		});
 	}
 
