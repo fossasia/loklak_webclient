@@ -67,6 +67,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 term = term + ' -/profanity';
             }
         }
+        if(!vm.wallOptions.blockRetweets) {
+                term = term + ' include:retweets';
+        }
         if (vm.wallOptions.sinceDate) {
             term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
         }
