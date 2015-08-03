@@ -5,7 +5,10 @@
 var controllersModule = require('./_index');
 var Leaflet = require('../components/leaflet');
 var GeoJSON = require('../components/geojson');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 80d5a5da86dc79c55c9bbfd1a37ed620956c5901
 var result;
 var marker=[];
 /**
@@ -16,6 +19,7 @@ var marker=[];
     $('#analyze-modal').modal('show');
     $('#loader').hide();
     $('#notfoundmessage').hide();
+<<<<<<< HEAD
      $scope.chartObject = {
   "type": "AreaChart",
   "displayed": true,
@@ -132,6 +136,9 @@ var marker=[];
   },
   "formatters": {}
 }
+=======
+     
+>>>>>>> 80d5a5da86dc79c55c9bbfd1a37ed620956c5901
 
       
      $scope.username="loklak_app";
