@@ -73,6 +73,17 @@
 	word-wrap: break-word;
 	padding: 0;
 }
+
+#datasource-table .col-source-url {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	padding-right: 20px;
+}
+
+#datasource-table .col-source-url:hover {
+	white-space: normal;
+}
 #datasource-table > li > .row {
 	padding: 10px;
 	font-size: 15px;

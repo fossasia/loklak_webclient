@@ -79,7 +79,7 @@
 				</li>
 				<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
 					<div class="row" ng-class-odd="'odd'">
-						<div class="col col-sm-4 col-md-4"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
+						<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
 						<div class="col col-md-2"><a ng-href="/myConnections/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
 						<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
 						<div class="col col-md-2" am-time-ago="item.created_at"></div>
