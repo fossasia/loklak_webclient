@@ -26,7 +26,7 @@
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label for="eventNameInput">What's the name of the event that you're creating a tweet wall for?</label>
-                                                <input required ng-model="newWallOptions.eventName" type="text" class="form-control" id="eventNameInput" placeholder="Event Name">
+                                                <input required ng-model="newWallOptions.eventName" type="text" class="form-control" name="eventNameInput" placeholder="Event Name">
                                             </div>
                                             <div class="form-group">
                                                 <label>Show tweets within this period:</label>
@@ -297,12 +297,10 @@
             </div>
             <div class="modal-footer">
                 <div style="float:left;" class="col-xs-offset-2">
-                    <a ng-show="showNext" ng-click="proceed()" type="submit" class="btn btn-default">Next Step</a>
-                    <!-- <a ng-click="proceed()" type="submit" class="btn btn-default">Save and Close</a>
-                    <a ng-click="proceed()" type="submit" class="btn btn-default">Close without saving</a> -->
-                </div>
-                <div style="float:right;">
-                    <a ng-disabled="!newWallOptions.mainHashtagText" type="submit" class="btn btn-primary" ng-click="!newWallOptions.mainHashtagText || start()">Start twitter wall</a>
+                    <a ng-show="showNext" ng-click="proceed()" type="submit" class="btn btn-primary">Next Step</a>
+                    <!-- <a ng-click="proceed()" type="submit" class="btn btn-primary">Save and Close</a> -->
+                    <a ng-hide="showNext" ng-disabled="!(newWallOptions.eventName && newWallOptions.mainHashtagText)" type="submit" class="btn btn-primary" ng-click="!(newWallOptions.eventName && newWallOptions.mainHashtagText) || start()">Start twitter wall</a>
+                    <span ng-show="(!showNext) && ((step1.eventNameInput.$invalid) || (step1.hashtagInput.$invalid))" style="color:red;">Enter an event name and your event's main hashtag</span>
                 </div>
             </div>
         </div>
