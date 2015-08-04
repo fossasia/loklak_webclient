@@ -83,7 +83,7 @@
 }
 
 .tabs-left > li {
-    padding: 0;
+    padding-bottom: 10%;
     height: 33%;
 }
 
@@ -92,18 +92,28 @@
     padding: 20% 0;
 }
 
+.wall-modal {
+    overflow-y: hidden !important;
+}
+
 .wall-modal-dialog,
 #data-connect-modal-dialog {
     width: 100%;
-    height: 95%;
+    height: 98%;
     margin-top: 10px;
-    padding: 0px 10px 0 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .wall-modal-content {
-    min-height: 100%;
+    height: 98%;
     border-radius: 25;
     width: 100%;
+}
+
+.wall-modal-body {
+    max-height: calc(100% - 140px);
+    overflow-y: scroll;
 }
 
 .mainhashtag-addon {
@@ -118,7 +128,7 @@
 }
 
 .wall-exclude-toggles {
-    opacity: 0.9;
+    opacity: 0.8;
     color: grey;
 }
 
@@ -142,7 +152,6 @@
 }
 
 .wall-media-toggle {
-    padding-left: 30px;
     padding-top: 10px;
 }
 

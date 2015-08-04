@@ -94,4 +94,3 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     })
 
 }]);
-
