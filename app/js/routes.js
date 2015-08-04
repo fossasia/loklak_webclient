@@ -45,7 +45,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   //   title: 'Wall'
   // })
   .state('WallDisplay', {
-    url: '/wall/display',
+    url: '/:user/wall/:id',
     templateUrl: 'wall/display.html',
     controller: 'WallDisplay as wall',
     title: 'Wall',
@@ -71,20 +71,15 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Map'
   })
   .state('DataConnect', {
-    url: '/dataConnect',
-    templateUrl: 'data-connect/data-connect.html',
-    title: 'Connect Data'
-  })
-  .state('MyConnections', {
     url: '/myConnections',
-    templateUrl: 'data-connect/my-connections.html',
-    controller: 'MyConnectionsCtrl as dataConnect',
+    templateUrl: 'data-connect/data-connect.html',
+    controller: 'DataConnectCtrl as dataConnect',
     title: 'My Connections'
   })
-  .state('MyConnectionsWSourceType', {
+  .state('DataConnectWSourceType', {
     url: '/myConnections/:source_type',
-    templateUrl: 'data-connect/my-connections.html',
-    controller: 'MyConnectionsCtrl as dataConnect',
+    templateUrl: 'data-connect/data-connect.html',
+    controller: 'DataConnectCtrl as dataConnect',
     title: 'My Connections'
   })
   .state('AddConnection', {
@@ -99,6 +94,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'AddConnectionCtrl as addConnection',
     title: 'Add connection'
   })
+ .state('Analyze', {
+    url: '/report',
+    templateUrl: 'analyze/analyze.html',
+    controller: 'AnalyzeCtrl as Analyze',
+    title: 'Analyze Data'
+  })
   .state('Redirecting', {
     url: '/redirect',
     templateUrl: 'redirect.html',
@@ -110,6 +111,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $urlRouterProvider.otherwise('/');
 
   cfpLoadingBarProvider.includeBar = false;
+  cfpLoadingBarProvider.includeSpinner = false;
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];

@@ -1,3 +1,9 @@
+.no-x-scroll {
+    overflow-x: hidden;
+    height: 100%;
+}
+
+
 /* Style for wall front-end */
 
 
@@ -32,6 +38,10 @@
     border-radius: 2px;
     border-color: #CABFBF !important;
     vertical-align: middle;
+}
+
+.wall-preview-container {
+    height: 500px;
 }
 
 .wall-preview {
@@ -73,27 +83,37 @@
 }
 
 .tabs-left > li {
-    padding: 0;
+    padding-bottom: 10%;
+    height: 33%;
 }
 
 .tabs-left > li > a {
-    height: 150px;
     text-align: center;
     padding: 20% 0;
+}
+
+.wall-modal {
+    overflow-y: hidden !important;
 }
 
 .wall-modal-dialog,
 #data-connect-modal-dialog {
     width: 100%;
-    height: 95%;
+    height: 98%;
     margin-top: 10px;
-    padding: 0px 10px 0 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .wall-modal-content {
-    min-height: 100%;
+    height: 98%;
     border-radius: 25;
     width: 100%;
+}
+
+.wall-modal-body {
+    max-height: calc(100% - 140px);
+    overflow-y: scroll;
 }
 
 .mainhashtag-addon {
@@ -105,6 +125,11 @@
     display: inline-block;
     padding-left: 10px;
     vertical-align: middle;
+}
+
+.wall-exclude-toggles {
+    opacity: 0.8;
+    color: grey;
 }
 
 .wall-float-container {
@@ -127,7 +152,6 @@
 }
 
 .wall-media-toggle {
-    padding-left: 30px;
     padding-top: 10px;
 }
 
@@ -158,7 +182,8 @@
 .wall-tag-label-contain {
     border: 1px solid #98bc68;
     border-radius: 5px;
-    margin-top: 24px;
+    margin-top: 10px;
+    margin-bottom: 30px;
     display: block;
 }
 
@@ -180,13 +205,96 @@
     margin-top: 10px;
 }
 
+.wall-preview-logo {
+    height: 50px;
+    max-width: 200px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.wall-thumbnail-logo {
+    @extend .wall-preview-logo;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHUlEQVQIW2M8fer0TFMz03QYzcjAwMCALMhIUAUAAQYd92It1YAAAAAASUVORK5CYII=
+) repeat;
+}
+
+.wall-thumbnail-loading {
+    height: 250px;
+    position: absolute;
+    left: 0;
+    opacity: 0.8;
+    margin-right: 20px;
+    display: block;
+    width: 250px;
+    background-color: grey;
+    z-index: 1;
+}
+
+.spinner {
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+  margin-top: 50%;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+.wall-file-upload {
+    width: 157px;
+    height: 57px;
+    margin-left: 15px;
+    background: url(https://lh6.googleusercontent.com/-dqTIJRTqEAQ/UJaofTQm3hI/AAAAAAAABHo/w7ruR1SOIsA/s157/upload.png);
+    overflow: hidden;
+    input {
+        display: block !important;
+        width: 157px !important;
+        height: 57px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
 .wall-vertical-line {}
 
 
 /*Wall display */
 
 .wall-header {
-    min-height: 100px;
+    min-height: 120px;
     background-color: #3c8dbc;
     display: flex;
     flex-direction: row;
@@ -205,6 +313,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.wall-header-eventname {
+    padding: 0;
 }
 
 .wall-body {
