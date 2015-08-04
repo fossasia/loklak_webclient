@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
+directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -58,11 +58,13 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 					    var token = oauth_info.access_token.split(":")[0];
 					    var secret = oauth_info.access_token.split(":")[1].split("@")[0];
 					    AuthorizedSearch.getLoggedInAccountInfo(screen_name, token, secret).then(function(data) {
-					        $rootScope.$apply(function() {
 					        	$rootScope.root.authorizedUserInfo = data;
-					        })
 					    }, function() {}); 
 					}
+
+					angular.element(".topnav .global-search-container").removeClass("ng-hide");
+
+
 				}, function() {
 					console.log("Authentication failed, try again later");
 				});
@@ -87,6 +89,11 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 				$rootScope.$apply(function() {
 					$rootScope.root.twitterSession = false;	
 				});	
+				if ($location.path() !== "/") {
+					angular.element(".topnav .global-search-container").removeClass("ng-hide");
+				} else {
+					angular.element(".topnav .global-search-container").addClass("ng-hide");
+				}
 			}, function() {
 					console.log("Signed out failed, try again later");
 			});   
@@ -125,7 +132,20 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 			angular.element(document).ready(function() {
 				if (!isOnline) {
 					$('#signupModal').modal('show');	
+					angular.element(".topnav .global-search-container").addClass("ng-hide");
 				}
+
+				if ($location.path() !== "/") {
+					angular.element(".topnav .global-search-container").removeClass("ng-hide");
+				}
+
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
+				    if (toState.name !== "Home") {
+				    	angular.element(".topnav .global-search-container").removeClass("ng-hide");
+				    } else {
+				    	angular.element(".topnav .global-search-container").addClass("ng-hide");
+				    }
+				});
 			});
 
 			hello.on('auth.login', function(auth) {

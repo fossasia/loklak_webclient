@@ -1,6 +1,6 @@
-<div class="content-wrapper" onload="root.getHashtagTrends()">
+<div class="content-wrapper home-view-content-wrapper" onload="root.getHashtagTrends()">
     <!-- Main content -->
-    <div class="container content-container">
+    <div ng-show="root.twitterSession" class="container content-container">
       
         <!-- Left content: Who to follow, trends -->
         <div class="left-result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
@@ -78,6 +78,31 @@
             </div>
         </div>
 
+    </div>
 
+    <!-- Search box for anonymous user-no-followers -->
+    <div ng-show="!root.twitterSession" class="blue-bar"></div>
+    <div ng-show="!root.twitterSession" class="container anonymous-content-container">
+
+        <h1 class="wassup-title">What's going on</h1>
+        <div class="search-form-wrapper">
+            <div global-search-form></div>
+            <span>Search</span>
+        </div>
+        <p class="search-hints">
+            Use <span class="operator-hint">operators</span> for <a href="./advancedsearch">advanced search</a>
+        </p>
+
+        <div class="trend-container">
+            <h4>Trends</h4>
+            <ul id="horizontal-trend-list">
+                <li><a href="./search?q=%23loklak">#loklak</a></li>
+                <li ng-repeat="(key, value) in root.trends">
+                    <!-- -->
+                    <a href="./search?q=%23{{key}}">#{{key}}</a>
+                    <!-- -->
+                </li>
+            </ul>    
+        </div>
     </div>
 </div>
