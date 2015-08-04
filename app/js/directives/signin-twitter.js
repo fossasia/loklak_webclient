@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', '$http', function($timeout, $rootScope, HelloService, SearchService, AppSettings, $http) {
+directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -17,6 +17,7 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 
 			/* Hello related init*/
 			var hello = $scope.hello;
+			window.hello = hello;
 
 			// Init service, will also evaluate available cookies
 			hello.init({
@@ -49,10 +50,19 @@ directivesModule.directive('signinTwitter', ['$timeout', '$rootScope', 'HelloSer
 						$rootScope.userTopology  = result.topology;
 						$rootScope.userTopology.noOfFollowings = result.user.friends_count
 						$rootScope.userTopology.noOfFollowers = result.user.followers_count
-						
-
 					}, function() {});
 
+					var oauth_info = hello("twitter").getAuthResponse();
+					if (oauth_info) {
+					    var screen_name = oauth_info.screen_name;
+					    var token = oauth_info.access_token.split(":")[0];
+					    var secret = oauth_info.access_token.split(":")[1].split("@")[0];
+					    AuthorizedSearch.getLoggedInAccountInfo(screen_name, token, secret).then(function(data) {
+					        $rootScope.$apply(function() {
+					        	$rootScope.root.authorizedUserInfo = data;
+					        })
+					    }, function() {}); 
+					}
 				}, function() {
 					console.log("Authentication failed, try again later");
 				});
