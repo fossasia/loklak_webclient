@@ -1,12 +1,153 @@
-#data-connect-panel {
-	width: 100%;
-	margin-top: 44px ! important;
+#my-connection-panel #add-datasource-form {
+	background-color: #f4f4f4;
+	color: #444;
+	border: 1px solid #ddd;
+	padding: 12px;
+	position: absolute;
+	right: 14px;
+	z-index: 10;
+	width: 420px;
 }
 
-@media (min-width: 1200px) {
-	#data-connect-panel {
-		width: 1170px;
-		margin: auto;
-		padding-left: 15px;
+#my-connection-panel .buttonPanel {
+	margin-top: 20px;
+	margin-right: 5px;
+}
+
+#my-connection-panel > h2 {
+	display: inline-block;
+	vertical-align: sub;
+}
+
+/* overwrite admin.css */
+#my-connection-panel .alert-danger, #add-datasource-form .alert-danger {
+	background-color: #f2dede !important;
+	border-color: #ebccd1;
+	color: #a94442 !important;
+}
+#my-connection-panel .alert-success, #add-datasource-form .alert-success {
+	background-color: #dff0d8 !important;
+	border-color: #d6e9c6;
+	color: #3c763d !important;
+}
+
+#add-datasource-form .add-map-rule {
+	border : 1px dashed #ccc;
+	text-align: center;
+	background-color: #FFFFE8;
+	padding: 3px;
+	margin-bottom: 12px;
+}
+
+#add-datasource-form .add-map-rule:hover {
+	cursor: pointer;
+}
+
+#add-datasource-form .map-rule {
+	width: 89%;
+}
+#add-datasource-form .map-rule label {
+	width: 46%;
+}
+#add-datasource-form .map-rule.last {
+	display: inline-block;
+}
+#add-datasource-form #remove-map-rule {
+	cursor: pointer;
+	vertical-align: middle;
+}
+#add-datasource-form .custom-field, #add-datasource-form .tweet-field {
+	width: 46%;
+	display: inline-block;
+	margin-bottom: 8px;
+}
+
+#datasource-table {
+	padding: 0 20px;
+}
+
+#datasource-table .col {
+	word-wrap: break-word;
+	padding: 0;
+}
+
+#datasource-table .col-source-url {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	padding-right: 20px;
+}
+
+#datasource-table .col-source-url:hover {
+	white-space: normal;
+}
+#datasource-table > li {
+	margin-bottom: 8px;
+	border-bottom: 1px solid #E1E8ED;
+}
+#datasource-table > li > .row {
+	padding: 20px 10px;
+	font-size: 15px;
+	cursor: pointer;
+	border-top-left-radius: 6px;
+}
+
+#datasource-table li .detail {
+	display: none;
+	margin-right: -15px;
+	padding: 10px;
+}
+
+#datasource-table li .detail .row {
+	padding: 5px 0 5px 12px;
+}
+
+#datasource-table li.showing-detail .detail {
+	display: block;
+}
+
+
+#datasource-table .title-row {
+	font-weight: bold;
+	cursor: initial;
+}
+
+#datasource-table .content-row {
+	background-color: white;
+}
+#datasource-table a:hover {
+	text-decoration: underline;
+}
+
+#add-connection-form h2 code {
+	cursor: pointer;
+}
+
+#add-connection-form h2 i {
+	font-size: 16px;
+	vertical-align: middle;
+	color: gray;
+	cursor: pointer;
+}
+
+#datasource-table input:disabled {
+	width: inherit;
+	background-color: inherit;
+	border: none;
+	cursor: text;
+	padding-left: 4px;
+}
+
+#datasource-table select:disabled {
+	background-color: inherit;
+	-webkit-appearance: inherit;
+	border: none;
+	cursor: text;
+}
+
+@media (max-width: 990px) {
+	/* force newline */
+	#datasource-table .col {
+		width: 100%;
 	}
 }

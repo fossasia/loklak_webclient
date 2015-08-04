@@ -9,7 +9,6 @@
 @import 'topnav';
 @import 'home';
 @import 'data-connect';
-@import 'my-connections';
 @import 'retweet-modal';
 @import 'copy-link-modal';
 @import 'search';
@@ -41,6 +40,26 @@
 }
 .wrapper {
 	background-color: white !important;
+}
+
+.btn-loklak-blue {
+	color: #fff;
+	background-color: $btn-loklak-blue;
+	border-color: #00acd6;
+}
+
+.btn-loklak-blue:focus {
+	color: #fff;
+	background-color: $btn-loklak-blue-hover;
+	border-color: #269abc;
+	outline: none;
+}
+
+.btn-loklak-blue:hover {
+	color: #fff;
+	background-color: $btn-loklak-blue-hover;
+	border-color: #269abc;
+	text-decoration: none;
 }
 
 

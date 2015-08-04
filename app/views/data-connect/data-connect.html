@@ -2,135 +2,69 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <div class="content-wrapper">
-<div class="container-fluid content-container">
+<div class="container-fluid content-container container">
 
 <div id="my-connection-panel">
-	<div class="row">
-		<div class="col-xs-2 tabs-list">
-			<ul class="nav nav-tabs tabs-left">
-				<li ng-repeat="navItem in navItems" 
-					ng-class="$first ? 'active' : ''">
-					<a href="#{{navItem.target}}" data-toggle="tab">
-						<i class="{{navItem.icon}} fa-2x"></i><br>
-						<h4>{{navItem.title}}</h4>
-					</a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="col-xs-10 tab-content">
-			<div class="tab-pane active" id="data-source-tab">
-				<div class="buttonPanel pull-right">
-					<button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()">Refresh <i class="fa fa-refresh"></i></button>
-					<button class="btn btn-default" ng-hide="addFormOpen" ng-click="toggleAddForm()">Add New Source <i class="fa fa-plus"></i>
-					</button>
-				</div>
-				<div id="add-datasource-form" ng-hide="!addFormOpen">
-					<div ng-show="addForm.error" class="alert alert-danger">
-						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-						  <span class="sr-only">Error : </span>{{addForm.error}}
-					</div>
-					<div ng-show="addForm.success" class="alert alert-success">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-						  <span class="sr-only">Success : </span>{{addForm.success}}
-					</div>
-					<form name="add-datasource-form" ng-submit="confirmAddDataSource()">
-						<div class="form-group">
-							<label for="source-url">Source url*</label>
-							<input name="source-url" required type="text" class="form-control" ng-model="addForm.inputs.url"/>
-						</div>
-						<div class="form-group">
-							<label for="source-type">Source type*</label>
-							<select name="source-type" required type="text" 
-									ng-options="type.name for type in sourceTypesList"class="form-control" ng-model="addForm.inputs.type">
-								<option value="">Select source type</option>
-							</select>
-						</div>
-						<label for="map-rule">Mapping rules</label>
-						<div class="map-rule" ng-show="mapRulesNum >= 1">
-							<label>Custom field</label>
-							<label>Tweet field</label>
-						</div>
-						<div class="map-rule form-group" ng-class="$last ? 'last' : ''" ng-repeat="i in getMapRulesNum() track by $index">
-							<input type="text" class="form-control input-sm custom-field"  ng-model="addForm.inputs.mapRules[$index][0]"/>
-							<input type="text" class="form-control input-sm tweet-field" ng-model="addForm.inputs.mapRules[$index][1]"/>
-						</div>
-						<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
-						<div class="add-map-rule" ng-click="addMapRule()">
-							<i class="fa fa-plus"></i> Add rule
-						</div>
-						<button type="submit" class="btn btn-primary">Confirm</button>
-						<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
-						<a type="button" class="btn btn-danger" ng-href="/addConnection" target="_blank">Add source in other formats</a>
-					</form>
-				</div>
-				<h2>Active Data Sources</h2>
-				<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					{{dataSourceMessages.success}}
-				</div>
-				<div class="alert alert-error alert-dismissible" role="alert" ng-show="dataSourceMessages.error">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					{{dataSourceMessages.error}}
-				</div>
-				<hr/>
-				<ul id="datasource-table">
-				<li>
-					<div class="row title-row">
-						<div class="col col-md-4">Source URL</div>
-						<div class="col col-md-2">Source type</div>
-						<div class="col col-md-1">Importer</div>
-						<div class="col col-md-2">Created time</div>
-						<div class="col col-md-2">Last edit</div>
-						<div class="col col-md-1">Imported</div>
-					</div>
-				</li>
-				<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
-					<div class="row" ng-class-odd="'odd'">
-						<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
-						<div class="col col-md-2"><a ng-href="/myConnections/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
-						<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
-						<div class="col col-md-2" am-time-ago="item.created_at"></div>
-						<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-						<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">{{item.imported.length}}</a></div>
-					</div>
-					<div class="detail" ng-click="$event.stopPropagation();">
-						<div class="row">
-							<div class="col-md-2">
-								<label for="harvesting_freq">Update frequency</label>
-							</div>
-							<div class="col-md-10">
-								<select name="harvesting_freq" type="text" ng-disabled="!item.editing" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="item.harvesting_freq"/>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-2">
-								<label for="lifetime">Lifetime</label>
-							</div>
-							<div class="col-md-10">
-								<input name="lifetime" datasource-lifetime type="text" ng-disabled="!item.editing" ng-model="item.lifetime"/>
-							</div>
-						</div>
-						<div class="row detailButtonPanel">
-							<div class="col-md-12">
-								<button id="saveButton" class="btn btn-primary" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
-								<button id="editButton" class="btn btn-primary" ng-click="toggleEditDataSource($event, item); ">Edit</button>
-								<button id="deleteButton" class="btn btn-danger" ng-click="deleteDataSource(item);">Delete</button>
-							</div>
-						</div>
-					</div>
-				</li>
-				</ul>
-			</div>
-			<div class="tab-pane" id="contact-tab">
-				Coming soon.
-			</div>
-			<div class="tab-pane" id="iot-tab">
-				Coming soon.
-			</div>
-		</div>
+	<div class="buttonPanel pull-right">
+		<a class="btn btn-loklak-blue" ng-href="/addConnection">Add Connection</a>
 	</div>
+	<h2>Active Data Sources</h2> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
+	<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{dataSourceMessages.success}}
+	</div>
+	<div class="alert alert-error alert-dismissible" role="alert" ng-show="dataSourceMessages.error">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{dataSourceMessages.error}}
+	</div>
+	<hr/>
+	<ul id="datasource-table">
+	<li>
+		<div class="row title-row">
+			<div class="col col-md-4">Source URL</div>
+			<div class="col col-md-2">Source type</div>
+			<div class="col col-md-1">Importer</div>
+			<div class="col col-md-2">Created time</div>
+			<div class="col col-md-2">Last edit</div>
+			<div class="col col-md-1">Imported</div>
+		</div>
+	</li>
+	<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
+		<div class="row content-row">
+			<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
+			<div class="col col-md-2"><a ng-href="/dataConnect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
+			<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
+			<div class="col col-md-2" am-time-ago="item.created_at"></div>
+			<div class="col col-md-2" am-time-ago="item.last_modified"></div>
+			<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">{{item.imported.length}}</a></div>
+		</div>
+		<div class="detail" ng-click="$event.stopPropagation();">
+			<div class="row">
+				<div class="col-md-2">
+					<label for="harvesting_freq">Update frequency</label>
+				</div>
+				<div class="col-md-10">
+					<select name="harvesting_freq" type="text" ng-disabled="!item.editing" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="item.harvesting_freq"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<label for="lifetime">Lifetime</label>
+				</div>
+				<div class="col-md-10">
+					<input name="lifetime" datasource-lifetime type="text" ng-disabled="!item.editing" ng-model="item.lifetime"/>
+				</div>
+			</div>
+			<div class="row detailButtonPanel">
+				<div class="col-md-12">
+					<button id="saveButton" class="btn btn-loklak-blue" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
+					<button id="editButton" class="btn btn-loklak-blue" ng-click="toggleEditDataSource($event, item); ">Edit</button>
+					<button id="deleteButton" class="btn btn-danger" ng-click="deleteDataSource(item);">Delete</button>
+				</div>
+			</div>
+		</div>
+	</li>
+	</ul>
 </div>
-
 </div>
 </div>
