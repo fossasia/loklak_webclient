@@ -48,6 +48,12 @@
 	border-color: #00acd6;
 }
 
+.btn-loklak-blue[disabled]:hover,
+.btn-loklak-blue[disabled]:focus {
+	background-color: $btn-loklak-blue;
+	border-color: #00acd6;
+}
+
 .btn-loklak-blue:focus {
 	color: #fff;
 	background-color: $btn-loklak-blue-hover;

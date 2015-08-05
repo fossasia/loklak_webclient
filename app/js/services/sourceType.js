@@ -5,6 +5,7 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
+// this should really come from loklak server to stay DRY
 function SourceTypeService() {
 
 	var service = {};
@@ -15,31 +16,36 @@ function SourceTypeService() {
 		{
 			'key': 'FOSSASIA_API',
 			'name': 'Fossasia API',
-			'endpoint': 'fossasia.json'
+			'endpoint': 'fossasia.json',
+			'logo': '/images/external/fossasia.jpg'
 		},
 		'openwifimap':
 		{
 			'key': 'OPENWIFIMAP',
 			'name': 'Openwifimap wifi router',
-			'endpoint': 'openwifimap.json'
+			'endpoint': 'openwifimap.json',
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'nodelist':
 		{
 			'key': 'NODELIST',
 			'name': 'Nodelist wifi router',
-			'endpoint': 'nodelist.json'
+			'endpoint': 'nodelist.json',
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'netmon':
 		{
 			'key': 'NETMON',
 			'name': 'Netmon wifi router',
-			'endpoint': 'netmon.xml'
+			'endpoint': 'netmon.xml',
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'freifunk_node':
 		{
 			'key': 'FREIFUNK_NODE',
 			'name': 'Freifunk node wifi router',
-			'endpoint': 'freifunk_node.json'
+			'endpoint': 'freifunk_node.json',
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'ninux':
 		{

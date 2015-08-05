@@ -1,0 +1,110 @@
+<div id="add-connection-modal" class="modal" role="dialog">
+	<div id="add-connection-modal-dialog" class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h2 class="modal-title">Import Data Source</h2>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-2 tabs-list">
+						<ul class="nav nav-tabs tabs-left">
+							<li ng-repeat="(key, tabItem) in tabItems" ng-click="tabSelected(key)"
+								ng-class="$first ? 'active' : ''">
+								<a href="#{{tabItem.target}}" data-toggle="tab">
+									<i class="{{tabItem.icon}} fa-2x"></i><br>
+									<h4>{{tabItem.title}}</h4>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-xs-10 tab-content">
+						<div class="tab-pane active" id="source-type-tab">
+							<h3>Choose data source format</h3>
+							<div class="row">
+								<div class="col-sm-10">
+									<div id="{{key}}" class="col-md-4 col-sm-4 source-type-item" ng-repeat="(key, sourceType) in sourceTypeListWEndpoint" ng-click="setSourceType($event);">
+										<img src="{{sourceType.logo}}" name="{{key}}" />
+										<h2><span for="{{sourceType.key}}">{{sourceType.name}}</span></h2>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								{{sourceTypeList[inputs.sourceType].name}}
+							</div>
+						</div>
+						<div class="tab-pane" id="source-info-tab">
+							<div class="box-header">
+								<h3 class="box-title">Source Information</h3>
+							</div>
+							<div class="box-body">
+								<form name="source-info-form" role="form" id="source-info-form">
+									<div class="form-group">
+										<label for="sourceUrl">Source URL*</label>
+										<input required="true" ng-model="inputs.url" type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="">
+									</div>
+									<div class="form-group">
+										<label for="harvestingFreq">Update frequency</label>
+										<p>Update my data source every <select name="harvestingFreq" type="text" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="inputs.harvesting_freq"/></p>
+									</div>
+									<div class="form-group">
+										<label for="lifetime">Lifetime</label>
+										<p style="color:gray">Expiration date of the source. Enter 'forever' for ever-lasting data</p>
+										<div class="form-inline">
+											<div class="input-group dropdown">
+												<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+												<a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+													<div class="input-append">
+													<input type="text" class="form-control date-input" name="lifetime" ng-model="inputs.lifetime">
+													</div>
+												</a>
+												<ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+												<datetimepicker ng-model="sourceInfoForm.lifetime" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="tab-pane" id="mapping-rule-tab">
+							<div class="box-header">
+								<h3 class="box-title">Final step : map your data field to loklak</h3>
+							</div>
+							<div class="box-body">
+								<div class=" row map-rule" ng-show="mapRulesNum >= 1">
+									<label class="col-md-5">Custom field</label>
+									<label class="col-md-5">Tweet field</label>
+								</div>
+								<div class="row map-rule form-group" ng-class="$last ? 'last' : ''" ng-repeat="i in getMapRulesNum() track by $index">
+									<div class="col-md-5">
+										<input type="text" class="form-control input-sm custom-field"  ng-model="inputs.mapRules[$index][0]"/>
+									</div>
+									<div class="col-md-5">
+										<input type="text" class="form-control input-sm loklak-field" ng-model="inputs.mapRules[$index][1]"/>
+									</div>
+								</div>
+								<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
+								<div class="add-map-rule" ng-click="addMapRule()">
+									<i class="fa fa-plus"></i> Add rule
+								</div>
+								<button type="submit" class="btn btn-loklak-blue">Confirm</button>
+								<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+                <div style="float:left;" class="col-xs-offset-2">
+                    <a ng-show="showNext" ng-click="proceed()" type="submit" class="btn btn-loklak-blue">Next Step</a>
+                    <a ng-hide="showNext" ng-disabled="!validateSubmit()"ng-click="!validateSubmit() || submit()" type="submit" class="btn btn-loklak-blue" ng-click="">Submit</a>
+                    <span ng-show="" style="color:red;" class="ng-hide">Enter an event name and your event's main hashtag</span>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
