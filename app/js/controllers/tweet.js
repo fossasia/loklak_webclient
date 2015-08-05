@@ -4,6 +4,7 @@
 
 var controllersModule = require('./_index');
 var twitterText = require('twitter-text');
+// var Editor = require('../components/Editor');
 
 controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileService', '$http', 'SearchService' , function($rootScope, hello, FileService, $http, SearchService) {
 
@@ -21,25 +22,110 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.longitude;
 
     console.log($rootScope.root.tweetLength);
-    $rootScope.root.postTweet = function() 
-    {    
+    $rootScope.root.postTweet = function() {
+
         var message = $rootScope.root.tweet;
         var tweetLen = twttr.txt.getTweetLength(message);
         var tweet = encodeURIComponent(message);
-        var latitude = $rootScope.root.latitude;
-        var longitude = $rootScope.root.longitude;
+        var latitude = $("#mapLat").val();
+        var longitude = $("#mapLng").val();
+        var optionChosen = $("#optionChoice").val();
+
         $rootScope.root.geoTile = $("#fileInput").val();
         console.log($("#fileInput").val());
         console.log($rootScope.root.geoTile);
+
+        console.log("From Post Tweet");
+        console.log(latitude);
+        console.log(longitude);
+        console.log(optionChosen);
+
         if(!$rootScope.root.geoTile) {
-            if(tweetLen <= 140 && tweetLen > 0) {
-                hello('twitter').api('me/share', 'POST', {
-                    message : tweet
+            if (optionChosen === 'mapAttachment') {
+                console.log("Map being attached !");
+                var requestUrl = 'http://localhost:9000/vis/map.png.base64?text='+tweet+'&mlat='+latitude+'&mlon='+longitude+'&zoom=13&width=512&height=256';
+
+                $http({
+                    url: requestUrl,
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }).success(function(response) {
+
+                    var mapBlob = FileService.Base64StrToBlobStr(response);
+
+                    if(tweetLen <= 140 && tweetLen > 0) {
+                        hello('twitter').api('me/share', 'POST', {
+                            message : message,
+                            file : mapBlob
+                        }).then(function(json) {
+                            console.log(json);
+                        }, function(e) {
+                            console.log(e);
+                        });
+
+                        $('#myModal').modal('hide');
+
+                    }
+
+                    console.log("Blob obtained successfully.");
                 });
-                $('#myModal').modal('hide');
+            }
+            else if (optionChosen === 'markdownAttachment') {
+                console.log("Markdown Attachment going on here.");
+
+                var tempArr = [];
+                for (var i=0; i<= $('.CodeMirror-code').text().length; i+=80) {
+                    tempArr.push($('.CodeMirror-code').text().substring(i,i+80));   
+                }
+
+                var attachmentText = tempArr.join('\n');
+                var encodedMessage = encodeURIComponent(attachmentText);
+                var markdownRequestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3";
+
+                $http({
+                    url: markdownRequestUrl,
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }).success(function(response) {
+                    var markdownBlob = FileService.Base64StrToBlobStr(response);
+                    console.log("Successfully retrieved for " + markdownRequestUrl);
+                    
+                    if(tweetLen <= 140 && tweetLen > 0) {
+                        hello('twitter').api('me/share', 'POST', {
+                            message : message,
+                            file : markdownBlob
+                        }).then(function(json) {
+                            console.log(json);
+                        }, function(e) {
+                            console.log(e);
+                        });
+
+                        $('#myModal').modal('hide');
+
+                    }
+
+                });
+
+            }
+            else {
+
+                console.log("Regular Tweet !");
+
+                if(tweetLen <= 140 && tweetLen > 0) {
+                    hello('twitter').api('me/share', 'POST', {
+                        message : tweet
+                    });
+                    $('#myModal').modal('hide');
+                }
+
             }
         }
         else if($rootScope.root.geoTile) {
+            console.log("Image being attached !");
             var selectedFileObj = document.getElementById('fileInput').files[0];
             var selectedFileInBlob;
             var reader  = new FileReader();
@@ -65,25 +151,6 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
         }
     };
-
-    $rootScope.root.postTweet = function (blob) {
-        var message = $rootScope.root.tweet;
-        var tweetLen = twttr.txt.getTweetLength(message);
-        var tweet = encodeURIComponent(message);
-        
-        if(tweetLen <= 140 && tweetLen > 0) {
-            hello('twitter').api('me/share', 'POST', {
-                message : message,
-                file : blob
-            }).then(function(json) {
-                console.log(json);
-            }, function(e) {
-                console.log(e);
-            });
-
-            $('#myModal').modal('hide');
-        }
-    }
 
     $rootScope.root.tweetLengthCalculate = function() {
         var tweet = $rootScope.root.tweet;
@@ -139,47 +206,6 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             var result = response.locations[keyObject].place[0];
             $rootScope.root.VariableLocations = response.locations[keyObject].place;
             $rootScope.root.locationName = result;
-        });
-    }
-
-    $rootScope.root.tweetWithMapTile = function() {
-        var message = $rootScope.root.tweet;
-        var encodedMessage = encodeURIComponent(message);
-
-        $rootScope.root.getLocation();
-        
-        var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
-        $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
-
-        $("#locationtile").attr("src", $rootScope.root.location.tile);
-        $("#locationtile").removeClass('hidden');
-
-        $http({
-            url: requestUrl,
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        }).success(function(response) {
-            console.log("Blob obtained successfully.");
-        });
-    }
-
-    $rootScope.root.tweetWithMarkdownImage = function() {
-        var message = $rootScope.root.tweet;
-        var encodedMessage = encodeURIComponent(message);
-        var markdownRequestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3";
-
-        $http({
-            url: markdownRequestUrl,
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        }).success(function(response) {
-            var selectedFileInBlob = FileService.Base64StrToBlobStr(response);
-            console.log("Successfully retrieved for " + markdownRequestUrl);
-            $rootScope.root.postTweet(selectedFileInBlob);
         });
     }
 

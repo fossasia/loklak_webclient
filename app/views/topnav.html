@@ -82,6 +82,7 @@
             <div class="modal-tweet-form-container">
               
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
+                <input type="hidden" name="optionChoice" ng-model="root.option" id="optionChoice">
                 <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
                 <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
                 <div id="map" style="width: 100%; height: 450px;"></div>
@@ -257,12 +258,14 @@ $("#subDropDownMenu").click(function(e){
     $("#map").show();
     $("#CancelMap").show();
     $("#attachMap").hide();
+    $("#optionChoice").val('mapAttachment');
   }
 
   function cancelMapTile() {
     $("#CancelMap").hide();
     $("#map").hide();
     $("#attachMap").show();
+    $("#optionChoice").val('');
   }
 
   function sendPositionDetails (lat, lng) {
@@ -275,11 +278,13 @@ $("#subDropDownMenu").click(function(e){
 
   function showLargeAttachment() {
     var editor = new Editor({
-    element: document.getElementById('largeTextAttachment')
-  });
-  editor.render();
+      element: document.getElementById('largeTextAttachment')
+    });
+    editor.render();
+
     $("#cancelLargeTextAttachment").show();
     $("#attachLargeText").hide();
+    $("#optionChoice").val('markdownAttachment');
   }
 
   function cancelLargeAttachment() {
@@ -289,6 +294,7 @@ $("#subDropDownMenu").click(function(e){
     $(".editor-statusbar").hide();
     $("#largeTextAttachment").hide();
     $("#cancelLargeTextAttachment").hide();
+    $("#optionChoice").val('');
   }
 
   map.on('click', onMapClick);
