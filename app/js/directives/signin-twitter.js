@@ -124,6 +124,16 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				}
 				
 			};
+
+			/** Model for home view **/
+			$rootScope.root.home = {};
+			$rootScope.root.home.evalToCloseOverlay = function($event) {
+				if ($event.target.className === "operator-overlay-container") {
+					$rootScope.root.home.operatorOverlayShow = false;
+				}
+			}
+
+
 		},
 		link: function(scope) {
 			var hello = scope.hello;
