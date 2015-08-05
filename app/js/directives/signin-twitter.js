@@ -133,6 +133,19 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				}
 			}
 
+			$rootScope.root.home.operators = {
+				'loklak messages': 'containing both "loklak" and "messages". This is the default operators',
+				'loklak /image': 'containing "loklak" and must have at least an image. Other possible filter is /video, /accounts, /map',
+				'loklak since:2015-08-02 until:2015-08-14' : 'containing "loklak" and shared between the according point of time',
+				'beer -root': 'containing "beer" but not "root"',
+				'beer -/profanity': 'containing "beer" but not tweet with profane content',
+				'"happy hour"': 'containing the exact phrase "happy hour".',
+				'love OR hate': 'containing either "love" or "hate" (or both).',
+				'#haiku': 'containing the hastag "haiku"',
+				'from:alexiskold' : 'shared by user with screen name "alexiskold"',
+				'near:London': 'shared near London'
+			}
+
 
 		},
 		link: function(scope) {

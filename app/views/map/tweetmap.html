@@ -1,28 +1,76 @@
 <div class="content-wrapper map-view map-container-parent">
-   <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
-   <div id="map"></div>
-   <div class="activity-feed show-feed">
-    <div class="feed-header">
-      <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
-      <p>Activity feeds</p>
-    </div>  
-    <div class="feed-content">
-      <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
-          <div class="item">
-              <img class="friend-profile-img" src="{{status.profile_image_url}}">
-              <p class="message home-tweet-text">
-              <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
-              <br>
-              <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
-              </p>
-          </div>
+  <div class="logged-content" ng-show="root.twitterSession">
+     <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
+     <div id="map"></div>
+     <div class="activity-feed show-feed">
+      <div class="feed-header">
+        <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
+        <p>Activity feeds</p>
+      </div>  
+      <div class="feed-content">
+        <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
+            <div class="item">
+                <img class="friend-profile-img" src="{{status.profile_image_url}}">
+                <p class="message home-tweet-text">
+                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                <br>
+                <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
+                </p>
+            </div>
+        </div>
       </div>
     </div>
-  </div>
 
-    <div class="location-fail-notice">
-      <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
-      <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
-    </div>
+      <div class="location-fail-notice">
+        <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
+        <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
+      </div>
+  </div>  
+  <!-- Search box for anonymous user-no-followers -->
+      <div ng-show="!root.twitterSession" class="blue-bar"></div>
+      <div ng-show="!root.twitterSession" class="container anonymous-content-container">
 
+          <h1 class="wassup-title">What's going on</h1>
+          <div class="search-form-wrapper">
+              <div global-search-form></div>
+              <span ng-click="root.submitSearchForm();">Search</span>
+          </div>
+          <p class="search-hints">
+              Use <span class="operator-hint" ng-click="root.home.operatorOverlayShow = true">operators</span> for <a href="./advancedsearch">advanced search</a>
+          </p>
+
+          <div class="trend-container">
+              <h4>Trends</h4>
+              <ul id="horizontal-trend-list">
+                  <li><a href="./search?q=%23loklak">#loklak</a></li>
+                  <li ng-repeat="(key, value) in root.trends">
+                      <!-- -->
+                      <a href="./search?q=%23{{key}}">#{{key}}</a>
+                      <!-- -->
+                  </li>
+              </ul>    
+          </div>
+      </div>
+
+      <div ng-show="root.home.operatorOverlayShow" class="operator-overlay-container" ng-click="root.home.evalToCloseOverlay($event);">
+          <div class="operator-overlay">
+              <p class="header">
+                  Search operators
+                  <span class="close-overlay" ng-click="root.home.operatorOverlayShow = false">x</span>
+              </p>
+              <div class="table-container">
+                  <table>
+                      <tr>
+                          <th>Operator</th>
+                          <th>Find tweets...</th>
+                      </tr>
+                      <tr ng-repeat='(prop, val) in root.home.operators track by prop'>
+                          <td>{{prop}}</td>
+                          <td>{{val}}</td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+  <!-- End search box for anonymous users -->   
 </div>
