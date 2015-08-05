@@ -9,7 +9,7 @@ var bouncemarker = require('../components/bouncemarker');
 /**
  * @ngInject
  */
-function mapLayoutDirective(MapPopUpTemplateService, $interval) {
+function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationService) {
 
     return {
         scope: {
@@ -22,6 +22,15 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
             var curr = 0;
             var marker = [];
 
+            var map = L.map(attrs.id).setView([2.252776, 48.845261], 2);
+            L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                id: 'examples.map-20v6611k'
+            }).addTo(map);
+
             function contains(marker, elem) {
                 for (var m in marker) {
                     if (m.id === elem.id_str) {
@@ -31,13 +40,14 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                 return false;
             }
             scope.$watch('data', function() {
-
-
                 var cleanRun = 0;
                 var tweets = {
                     "type": "FeatureCollection",
                     "features": []
                 };
+                setTimeout(function() {map.invalidateSize();}, 1000);
+                
+
                 scope.data.forEach(function(ele) {
                     if (!contains(marker, ele)) {
                         if (ele.location_mark) {
@@ -81,7 +91,6 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                 }
                 //add_marker(tweets);
                 //popUpMarker(marker);
-
                 function add_marker(result) {
                     var tweetIcon = L.icon({
                         iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
@@ -107,31 +116,25 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                 }
 
                 function clean_slate(marker) {
-                        var i;
-                        for (i = 0; i < marker.length; i++) {
-                            //id=this.options.id; 
-                            map.removeLayer(marker[i]);
-                        }
-                        marker = [];
+                    var i;
+                    for (i = 0; i < marker.length; i++) {
+                        //id=this.options.id; 
+                        map.removeLayer(marker[i]);
                     }
-                    // function popUpMarker(marker)
-                    // {   var i;
-                    //     for (i = 0; i < marker.length; i++) {
-                    //         //id=this.options.id; 
-                    //         marker[i].openPopup();
-                    //     }
-                    // }
-
-
+                    marker = [];
+                }
+                // function popUpMarker(marker)
+                // {   var i;
+                //     for (i = 0; i < marker.length; i++) {
+                //         //id=this.options.id; 
+                //         marker[i].openPopup();
+                //     }
+                // }
             }, true);
-            var map = L.map(attrs.id).setView([2.252776, 48.845261], 2);
-            L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'examples.map-20v6611k'
-            }).addTo(map);
+
+
+
+            
 
             $interval(function() {
                 if (marker.length > 0) {
@@ -146,4 +149,4 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
 
 }
 
-directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', mapLayoutDirective]);
+directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', 'MapCreationService', mapLayoutDirective]);
