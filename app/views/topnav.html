@@ -80,10 +80,10 @@
         <form role="form" id="tweet"  ng-submit="root.postTweet()"  enctype="multipart/form-data">
         <div class="modal-body">
             <div class="modal-tweet-form-container">
-              {{root.latitude}} {{root.longitude}}
+              
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
-                <!-- <input type="text" name="latitude" id="latitude" ng-model="root.latitude" id="mapLat">
-                <input type="text" name="longitude" id="longitude" ng-model="root.longitude" id="mapLng"> -->
+                <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
+                <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
                 <div id="map" style="width: 100%; height: 450px;"></div>
                 <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
@@ -209,8 +209,8 @@ $("#subDropDownMenu").click(function(e){
   } 
 
   function showPosition(position) {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
+    root.latitude = position.coords.latitude;
+    root.longitude = position.coords.longitude;
     tempArray.push(latitude);
     tempArray.push(longitude);
     sendPositionDetails(latitude, longitude);
@@ -266,6 +266,7 @@ $("#subDropDownMenu").click(function(e){
   }
 
   function sendPositionDetails (lat, lng) {
+
     console.log("Called");
     console.log(lat+','+lng);
     $("#mapLat").val(lat);

@@ -17,8 +17,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.hashtagTrends;
     $rootScope.root.trends = "";
     $rootScope.root.location={};
-    $rootScope.root.latitude;
-    $rootScope.root.longitude;
+    $rootScope.latitude;
+    $rootScope.longitude;
 
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() 
