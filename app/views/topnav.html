@@ -209,8 +209,8 @@ $("#subDropDownMenu").click(function(e){
   } 
 
   function showPosition(position) {
-    root.latitude = position.coords.latitude;
-    root.longitude = position.coords.longitude;
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
     tempArray.push(latitude);
     tempArray.push(longitude);
     sendPositionDetails(latitude, longitude);
