@@ -43,7 +43,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         if(!$rootScope.root.geoTile) {
             if (optionChosen === 'mapAttachment') {
                 console.log("Map being attached !");
-                var requestUrl = 'http://localhost:9000/vis/map.png.base64?text='+tweet+'&mlat='+latitude+'&mlon='+longitude+'&zoom=13&width=512&height=256';
+                var requestUrl = 'http://loklak.org/vis/map.png.base64?text='+tweet+'&mlat='+latitude+'&mlon='+longitude+'&zoom=13&width=512&height=256';
 
                 $http({
                     url: requestUrl,
@@ -82,7 +82,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
                 var attachmentText = tempArr.join('\n');
                 var encodedMessage = encodeURIComponent(attachmentText);
-                var markdownRequestUrl = "http://localhost:9000/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3";
+                var markdownRequestUrl = "http://loklak.org/vis/markdown.png.base64?text="+encodedMessage+"&color_text=000000&color_background=ffffff&padding=3";
 
                 $http({
                     url: markdownRequestUrl,
