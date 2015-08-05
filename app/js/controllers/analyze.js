@@ -41,6 +41,12 @@ var marker=[];
   $scope.chart = chart1;
       
      $scope.username="loklak_app";
+     $scope.increaseLimit = function () {
+        console.log("I am being calle2d");
+        if ($scope.limit < $scope.items.length) {
+        $scope.limit += 15;
+        }
+    };
      $scope.getstat=function()
      {
         

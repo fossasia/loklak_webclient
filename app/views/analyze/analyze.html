@@ -174,7 +174,8 @@
                                     </div>
                                     <div class="col-xs-4">
                                         <center><h3>Most Influential Followers</h3></center><hr>
-                                        <div ng-repeat="follower in followers_follower | limitTo : 5">
+                                        <div scrolltoadd="increaseLimit();" ng-init="limit=5;">
+                                        <div ng-repeat="follower in followers_follower | limitTo : limit">
                                         <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
                                         <div class="home-user-info-content">
                                             <div class="top-content">
@@ -199,6 +200,7 @@
                                         </div>
                                         </div>
                                         </div>
+                                    </div>
                                     </div> <!--end-->
                                 </div>
                                 <div class="tab-pane" id="content">
