@@ -40,7 +40,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
 					});
 
-					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 500).then(function(result) {
+					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 10000).then(function(result) {
 						result.topology.followers.forEach(function(status) {
 							status.isAFollower = true;
 						})

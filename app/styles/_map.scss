@@ -18,6 +18,16 @@
 	.leaflet-control-layers-toggle {
 	    background-image: url(../images/layers.png) !important;
 	}
+	.leaflet-control-layers-overlays {
+		position: relative;
+		max-width: 250px;
+		.map-control-hint {
+			font-style: italic;
+		}
+		.map-control-hint-text {
+			display: none;
+		}
+	}
 }
 
 
