@@ -151,8 +151,19 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		link: function(scope) {
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
+			var idleTime = 0;
+			var timerIncrement = function() {
+			    idleTime = idleTime + 1;
+			    if (idleTime > 7 && !$rootScope.root.twitterSession) { 
+		    		$('#signupModal').modal('show');		
+			    }
+			}
 
 			angular.element(document).ready(function() {
+				var idleInterval = setInterval(timerIncrement, 1000);
+			    $(this).mousemove(function (e) { idleTime = 0; });
+			    $(this).keypress(function (e) { idleTime = 0; });
+
 				if (!isOnline) {
 					$('#signupModal').modal('show');	
 					angular.element(".topnav .global-search-container").addClass("ng-hide");
