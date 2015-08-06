@@ -13,6 +13,10 @@
     text-align: center;
     padding-top: 15%
 }
+.whitebg
+{
+    background: #fff;
+}
 .heading
 {
     color: #fff;
@@ -148,7 +152,7 @@
                
 
                 <!-- Main results -->
-                <div  class="main-result-container" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
+                <div  class="main-result-container whitebg" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
                     <div class="row">
                         <div class="col-md-4">
                             <center><h3>Country wise Followers</h3></center>
@@ -156,7 +160,7 @@
                             </canvas>
                         </div>
                         <div class="col-md-8">
-                            <table class="table table-striped">
+                            <table class="table ">
                                 <th class="tableheading">Analysis</th><th class="tableheading"></th>
                                     <tr><td><b>Country</td><td>Followers</b></td>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
@@ -171,7 +175,7 @@
                             </canvas>
                         </div>
                         <div class="col-md-8">
-                            <table class="table table-striped">
+                            <table class="table">
                                 <th class="tableheading">Analysis</th><th class="tableheading"></th>
                                     <tr><td><b>City</td><td>Followers</b></td>
                                     <tr ng-repeat="city in citydata | limitTo:5">
@@ -196,12 +200,12 @@
 
             <!-- Right content: Other statistics -->
             <div class="dashboard dashboard-right col-md-3">
-                <div class="row">
-                    <center><h3>Follwer's distribution</h3></center>
+                <div class="row whitebg" style="margin-left:5px">
+                    <center><h3>Follower's distribution</h3></center>
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
-                <div class="row">
+                <div class="row whitebg" style="margin-left:5px; margin-top:10px;">
                     <center><h3>Most Influential Followers</h3></center><hr>
                                         <div scrolltoadd="increaseLimit();" ng-init="limit=5;">
                                         <div ng-repeat="follower in followers_follower | limitTo : limit">
