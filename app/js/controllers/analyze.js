@@ -12,50 +12,48 @@ var marker=[];
  */
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
+    
+    //View handling
     $('#analyze-modal').modal('show');
     $('#loader').hide();
     $('#notfoundmessage').hide();
 
-      var chart1 = {};
-  chart1.type = "GeoChart";
-  chart1.data = [
+    var chart1 = {};
+    chart1.type = "GeoChart";
+    chart1.data = [
         ['Locale', 'Count', 'Percent'],
         ['Tunisia' , 0 , 0]
 
-      ];
+    ];
 
-  chart1.options = {
+    chart1.options = {
       width: 1024,
       chartArea: {left:10,top:10,bottom:0,width:"100%"},
       colorAxis: {colors: ['#aec7e8', '#1f77b4']},
       displayMode: 'regions'
-  };
+    };
 
-  chart1.formatters = {
+    chart1.formatters = {
      number : [{
        columnNum: 1,
        pattern: "# #,##0.00 %"
      }]
-   };
-
-  $scope.chart = chart1;
-      
-     $scope.username="loklak_app";
-     $scope.increaseLimit = function () {
-        console.log("I am being calle2d");
-        if ($scope.limit < $scope.items.length) {
-        $scope.limit += 15;
-        }
     };
-     $scope.getstat=function()
+
+    $scope.chart = chart1;
+      
+    $scope.username=$rootScope.root.twitterSession.screen_name;
+    console.log("no worries");
+    console.log( $rootScope.root.twitterSession);
+    $scope.getstatfollower();
+     $scope.getstatfollower=function()
      {
-        
+        console.log("sucks");
      $('#notfoundmessage').hide();
      $('#loader').show(); 
-    //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-    //$scope.data = [300, 500, 100];
-    $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
+                console.log("sucs");
 
                 if(!data.user)
                 {
@@ -204,9 +202,7 @@ var marker=[];
                     
                     
                     $scope.followers_status="Load Failed.Twitter did not respond.";
-                    
-
-console.log("error"+status);
+                    console.log("error"+status);
                     
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
