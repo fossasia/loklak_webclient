@@ -42,10 +42,10 @@ var marker=[];
 
     $scope.chart = chart1;
       
-    $scope.username=$rootScope.root.twitterSession.screen_name;
+    $scope.username="mariobehling";
     console.log("no worries");
     console.log( $rootScope.root.twitterSession);
-    $scope.getstatfollower();
+    
      $scope.getstatfollower=function()
      {
         console.log("sucks");
@@ -62,8 +62,17 @@ var marker=[];
                     return 0;
 
                 }
+                //data about the user analysing
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
+                $scope.followerstotal=data.user.followers_count;
+                $scope.followingstotal=data.user.friends_count;
+                $scope.name=data.user.name;
+                $scope.profilepicurl=data.user.profile_image_url_https;
+                $scope.profilebanner=data.user.profile_background_image_url_https;
+                $scope.tweetcount=data.user.statuses_count;
+
+                //data about followers
                 var country_stat_result = {};
                 var country_Array=[];
                 $scope.followers_follower=[];
@@ -222,7 +231,7 @@ var marker=[];
      
 }
       
-
+$scope.getstatfollower();
 
 }]);
 
