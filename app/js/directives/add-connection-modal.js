@@ -4,8 +4,8 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService', 'HarvestingFrequencyService', 'PushService', 'SourceTypeService',
-	function($stateParams, SearchService, HarvestingFrequencyService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
+	function($stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -13,7 +13,8 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 			$scope.harvestingFreqList = HarvestingFrequencyService.values;
 			$scope.sourceTypeList = SourceTypeService.sourceTypeList;
 			$scope.sourceTypeListWEndpoint = {};
-			$scope.inputs = {};
+			$scope.loklakFields = LoklakFieldService.fieldList;
+			$scope.inputs = {mapRules : {}};
 
 			for (var key in $scope.sourceTypeList) {
 				if ($scope.sourceTypeList[key].endpoint) {
@@ -40,6 +41,13 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 			$scope.selectedTab = 0;
 			$scope.showNext = true;
 
+			for (var key in $scope.loklakFields) {
+				if (!$scope.inputs.mapRules[key]) {
+					$scope.inputs.mapRules[key] = [];
+				}
+				$scope.inputs.mapRules[key][1] = $scope.loklakFields[key]; // fill second column with loklak fields
+			}
+
 			$scope.closeSettingModal = function() {
 				angular.element("#add-connect-setting-modal").css('display', 'none');
 				angular.element(".modal-backdrop").remove();
@@ -64,19 +72,6 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 				} else {
 					$scope.showNext = true;
 				}
-			};
-
-			$scope.mapRulesNum = 0;
-			$scope.addMapRule = function() {
-				$scope.mapRulesNum++;
-			};
-
-			$scope.removeMapRule = function() {
-				$scope.mapRulesNum--;
-			};
-
-			$scope.getMapRulesNum = function() {
-				return new Array($scope.mapRulesNum);
 			};
 
 			$scope.submit = function() {

@@ -75,21 +75,27 @@
 								<h3 class="box-title">Final step : map your data field to loklak</h3>
 							</div>
 							<div class="box-body">
-								<div class=" row map-rule" ng-show="mapRulesNum >= 1">
-									<label class="col-md-5">Custom field</label>
-									<label class="col-md-5">Tweet field</label>
+								<div class="row field-label" ng-show="mapRulesNum >= 1">
+									<div class="col-md-2">Loklak field</div>
+									<div class="col-md-4 col-md-offset-1">Custom field</div>
 								</div>
-								<div class="row map-rule form-group" ng-class="$last ? 'last' : ''" ng-repeat="i in getMapRulesNum() track by $index">
-									<div class="col-md-5">
-										<input type="text" class="form-control input-sm custom-field"  ng-model="inputs.mapRules[$index][0]"/>
+								<div class="row form-group" ng-class="$last ? 'last' : ''" ng-repeat="(key, value) in loklakFields">
+									<div class="col-md-2">
+										<span name="loklakField" class="loklak-field">{{value}}</span>
 									</div>
-									<div class="col-md-5">
-										<input type="text" class="form-control input-sm loklak-field" ng-model="inputs.mapRules[$index][1]"/>
+									<div class="col-md-1" style="text-align: center">
+										<i class="fa fa-arrow-left"></i>
+									</div>
+									<div class="col-md-4">
+										<input type="text" class="form-control input-sm custom-field" ng-model="inputs.mapRules[key][0]"/>
+									</div>
+									<div class="col-md-1" ng-show="$last">
+										<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
 									</div>
 								</div>
-								<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
-								<div class="add-map-rule" ng-click="addMapRule()">
-									<i class="fa fa-plus"></i> Add rule
+								<div class="row">
+									<div class="add-map-rule col-md-10" ng-click="addMapRule()"><i class="fa fa-plus"></i> Add rule
+									</div>
 								</div>
 								<button type="submit" class="btn btn-loklak-blue">Confirm</button>
 								<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>

@@ -176,21 +176,28 @@
 	border : 1px dashed #ccc;
 	text-align: center;
 	background-color: #FFFFE8;
-	padding: 3px;
-	margin-bottom: 12px;
+	margin : 15px 0 30px 15px;
+	font-size: 16px;
+	padding: 4px;
+}
+
+#mapping-rule-tab .field-label {
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 #mapping-rule-tab .add-map-rule:hover {
 	cursor: pointer;
 }
-
-#mapping-rule-tab .map-rule label {
-	width: 46%;
-}
 #mapping-rule-tab #remove-map-rule {
 	cursor: pointer;
-	vertical-align: middle;
+	font-size: 21px;
+	vertical-align: -webkit-baseline-middle;
 }
 #mapping-rule-tab .loklak-field, #mapping-rule-tab .custom-field {
 	display: inline-block;
+}
+
+#mapping-rule-tab .loklak-field {
+	font-weight: bold;
 }
