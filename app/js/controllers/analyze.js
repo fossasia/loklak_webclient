@@ -43,17 +43,16 @@ var marker=[];
     $scope.chart = chart1;
       
     $scope.username="mariobehling";
-    console.log("no worries");
-    console.log( $rootScope.root.twitterSession);
+    
     
      $scope.getstatfollower=function()
      {
-        console.log("sucks");
+      
      $('#notfoundmessage').hide();
      $('#loader').show(); 
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
-                console.log("sucs");
+                
 
                 if(!data.user)
                 {
@@ -79,9 +78,7 @@ var marker=[];
                 var city_stat_result = {};
                 var city_Array=[];
                 var top5=[];
-                var category1=0;
-                var category2=0;
-                var category3=0;
+                var followers_category=[0,0,0,0,0];
                 var followerwithloc=0;
                 var followerwithcity=0;
                 $scope.countryvalues=[];
@@ -147,15 +144,23 @@ var marker=[];
                  data.topology.followers.forEach(function(ele){
                     if(ele.followers_count<200)
                     {
-                        category1++;
+                        followers_category[0]++;
                     }
-                    if(ele.followers_count>200 && ele.followers_count<500)
+                    if(ele.followers_count>200 && ele.followers_count<=500)
                     {
-                        category2++;
+                        followers_category[1]++;
                     }
-                    else
+                    if((ele.followers_count>500 && ele.followers_count<=1000))
                     {
-                        category3++;
+                        followers_category[2]++;
+                    }
+                    if((ele.followers_count>1000 && ele.followers_count<=10000))
+                    {
+                        followers_category[3]++;
+                    }
+                    if((ele.followers_count>=10000))
+                    {
+                        followers_category[4]++;
                     }
 
                     if(ele.location_country)
@@ -194,16 +199,17 @@ var marker=[];
                     }
                     
                 });
-                console.log("countrydtaa");
+             
                 $scope.countrydata.sort(function(a, b){return b.followers-a.followers});
-                console.log($scope.countrydata);
                 
-               // console.log( city_stat_result);
+                
+               
                 $scope.city_stat_result=city_stat_result;
                 $scope.country_stat_result=country_stat_result;
 
-                $scope.categorylabels=["O-500" , "500-1000" , "Greater than 1000"];
-                $scope.categoryvalues=[category1,category2,category3];
+                $scope.categorylabels=["<200" , "200-500" ,"500-1000","1000-10000", "Greater than 10000"];
+                $scope.categoryvalues=followers_category;
+        
                 getTopfive($scope.followers_follower);
                 $('#analyze-modal').modal('hide'); 
 
@@ -211,7 +217,8 @@ var marker=[];
                     
                     
                     $scope.followers_status="Load Failed.Twitter did not respond.";
-                    console.log("error"+status);
+                
+
                     
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
@@ -225,7 +232,7 @@ var marker=[];
                 return 0;
             }
             followers_follower.sort(compare);
-            console.log(followers_follower);
+            
         }
  
      
