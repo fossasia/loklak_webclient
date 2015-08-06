@@ -94,7 +94,7 @@
             <span ng-show="root.tweetLength < 0" style="color:red;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
-            <span  class="btn btn-default btn-file fa pull-left">
+            <span  class="btn btn-default btn-file fa pull-left" id="filePicker">
                 <input type="file" id="fileInput" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
             </span>
             <input type="button" class="fa fa btn btn-default pull-left" ng-if="!root.locationName" ng-click="root.getLocation()" value="&#xf041; Get Location">
@@ -174,7 +174,7 @@ $("#subDropDownMenu").click(function(e){
     });
   }
 
-    function handleFileSelect(evt) {
+  function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
 
     // Loop through the FileList and render image files as thumbnails.
@@ -184,22 +184,23 @@ $("#subDropDownMenu").click(function(e){
       if (!f.type.match('image.*')) {
         continue;
       }
+      if(i==0) {
+        var reader = new FileReader();
 
-      var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            // Render thumbnail.
+            var span = document.createElement('span');
+            span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                              '" title="', escape(theFile.name), '"/>'].join('');
+            document.getElementById('list').insertBefore(span, null);
+          };
+        })(f);
 
-      // Closure to capture the file information.
-      reader.onload = (function(theFile) {
-        return function(e) {
-          // Render thumbnail.
-          var span = document.createElement('span');
-          span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                            '" title="', escape(theFile.name), '"/>'].join('');
-          document.getElementById('list').insertBefore(span, null);
-        };
-      })(f);
-
-      // Read in the image file as a data URL.
-      reader.readAsDataURL(f);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+      }
     }
   }
 
@@ -258,6 +259,7 @@ $("#subDropDownMenu").click(function(e){
     $("#map").show();
     $("#CancelMap").show();
     $("#attachMap").hide();
+    $('#filePicker').hide();
     $("#optionChoice").val('mapAttachment');
   }
 
@@ -265,6 +267,7 @@ $("#subDropDownMenu").click(function(e){
     $("#CancelMap").hide();
     $("#map").hide();
     $("#attachMap").show();
+    $('#filePicker').show();
     $("#optionChoice").val('');
   }
 
@@ -284,11 +287,13 @@ $("#subDropDownMenu").click(function(e){
 
     $("#cancelLargeTextAttachment").show();
     $("#attachLargeText").hide();
+    $('#filePicker').hide();
     $("#optionChoice").val('markdownAttachment');
   }
 
   function cancelLargeAttachment() {
     $("#attachLargeText").show();
+    $('#filePicker').show();
     $(".CodeMirror.cm-s-paper").hide();
     $(".editor-toolbar").hide();
     $(".editor-statusbar").hide();
