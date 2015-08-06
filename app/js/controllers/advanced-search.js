@@ -310,6 +310,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
  	};
 
  	vm.filterMap = function() {
+ 		if (window.map) { delete(window.map); }
  		vm.mapSearch = true;
  		vm.peopleSearch = false;
  		vm.currentFilter = "map";

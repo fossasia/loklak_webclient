@@ -6,11 +6,11 @@ var controllersModule = require('./_index');
  * @ngInject
  */
 
-controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , function($rootScope, MapCreationService) {
+controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationService' , function($rootScope, $scope, MapCreationService) {
 
     var vm = this;
+    vm.feedLimit = 20;
     vm.failNoticeShown = false;
-
 
     /*
      * Since the map creation process is abstracted to be reused across all view
@@ -54,6 +54,8 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
         return $rootScope.userTopology;
     }, function(val) {
         if (val) {
+            if (window.map) { delete(window.map); }
+            
             var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
             addUserProp(topologyPool);
 
@@ -67,5 +69,28 @@ controllersModule.controller('MapCtrl', [ '$rootScope', 'MapCreationService' , f
         }
     })
 
-}]);
+    /*
+     * Manual code for scroll down to load more feature
+     * The basis for this implementation is based on how
+     * ele's clientHeight, scrollHeight & scrollTop is calculated
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight
+     */
+    function hasReachBottom() {
+        var element = document.getElementsByClassName("activity-feed")[0];
+        var maxScroll = element.scrollHeight - element.clientHeight - 200;
+        var currentScrollTop = $(".activity-feed").scrollTop();
+        return currentScrollTop >= maxScroll ? true : false;
+    }
 
+    angular.element(document).ready(function() {
+        $(".activity-feed").scroll(function() {
+            if (hasReachBottom()) {
+                $scope.$apply(function() {
+                    vm.feedLimit += 20;    
+                });
+                console.log("Foo");
+            }
+        });
+    })
+
+}]);
