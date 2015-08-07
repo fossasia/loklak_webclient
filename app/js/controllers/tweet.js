@@ -58,6 +58,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                     if(tweetLen <= 140 && tweetLen > 0) {
                         hello('twitter').api('me/share', 'POST', {
                             message : message,
+                            lat: latitude,
+                            long: longitude,
                             file : mapBlob
                         }).then(function(json) {
                             console.log(json);
@@ -98,6 +100,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                     if(tweetLen <= 140 && tweetLen > 0) {
                         hello('twitter').api('me/share', 'POST', {
                             message : message,
+                            lat: latitude,
+                            long: longitude,
                             file : markdownBlob
                         }).then(function(json) {
                             console.log(json);
@@ -120,7 +124,9 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 if(tweetLen <= 140 && tweetLen > 0) {
 
                     hello('twitter').api('me/share', 'POST', {
-                        message : tweet
+                        message : tweet,
+                        lat: latitude,
+                        long: longitude,
                     }).then(function(json) {
                         console.log(json);
                     }, function (e) {
@@ -144,6 +150,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
               if(tweetLen <= 140 && tweetLen > 0) {
                   hello('twitter').api('me/share', 'POST', {
                       message : message,
+                      lat: latitude,
+                      long: longitude,
                       file : selectedFileInBlob
                   }).then(function(json) {
                       console.log(json);
