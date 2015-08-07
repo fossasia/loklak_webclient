@@ -49,12 +49,12 @@ var marker=[];
     
      $scope.getstatfollower=function()
      {
+        console.log("yepbuddy");
         
-        $scope.username=$rootScope.root.twitterSession.screen_name;
         
     
-     $('#notfoundmessage').hide();
-     $('#loader').show(); 
+        $('#notfoundmessage').hide();
+        $('#loader').show(); 
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
@@ -220,7 +220,7 @@ var marker=[];
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
-                $('#analyze-modal').modal('hide'); 
+                $('#loader').hide(); 
 
                 }).error(function(data, status, headers, config) {
                     
@@ -259,6 +259,7 @@ $rootScope.$watch(function() {
             }, function(session) {
                 if (session) {
                     $scope.getstatfollower();
+                    $scope.username=$rootScope.root.twitterSession.screen_name;
                 }
                 else
                 {

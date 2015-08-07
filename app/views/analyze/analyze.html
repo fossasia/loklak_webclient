@@ -43,12 +43,15 @@ td
 }
 .inputname
 {
-    width : 50%;
-    height : 40px;
-    color:  gray; 
-    font-family: "Lucida Console", Monaco, monospace;
-    border-radius: 4px;
-    font-size: 25px;
+    color: #292f33;
+    margin-top:8px;
+    background-color: #fff;
+    border: 2px solid #e1e8ed;
+    border-radius: 21px;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    
 }
 .big {
     margin-top: 15px;
@@ -138,6 +141,15 @@ td
                     </div>
                 </div>
             </div>
+            <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
+    <br><center>
+    <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
+    <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
+    </button><img id="loader" src="../images/whiteloader.gif"></img>
+    </center><br>
+    
+    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>
+
             </div>   
 
             <!-- Center result + option filters -->
