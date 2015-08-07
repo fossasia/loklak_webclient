@@ -70,6 +70,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+					window.foo = twitterFriendFeed;
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	

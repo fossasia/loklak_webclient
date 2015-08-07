@@ -53,9 +53,12 @@
                                 <br>
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
-                                <div ng-repeat="media in status.status.entities.media">
+
+                                <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div>
+
+                                <!-- <div ng-repeat="media in status.status.entities.media">
                                   <img src="{{media.media_url}}" alt="" width="100%"> 
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div> 
