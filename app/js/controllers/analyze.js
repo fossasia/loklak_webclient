@@ -12,6 +12,8 @@ var marker=[];
  */
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
+
+
     
     //View handling
     $('#analyze-modal').modal('show');
@@ -41,13 +43,16 @@ var marker=[];
     };
 
     $scope.chart = chart1;
-      
-    $scope.username="mariobehling";
-    
+    $scope.username;
+    $scope.influentialfollowers=[];
+    var counter=0;
     
      $scope.getstatfollower=function()
      {
-      
+        
+        $scope.username=$rootScope.root.twitterSession.screen_name;
+        
+    
      $('#notfoundmessage').hide();
      $('#loader').show(); 
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
@@ -211,6 +216,10 @@ var marker=[];
                 $scope.categoryvalues=followers_category;
         
                 getTopfive($scope.followers_follower);
+                for(counter=0;counter<5;counter++)
+                {
+                    $scope.influentialfollowers.push($scope.followers_follower[counter]);
+                }
                 $('#analyze-modal').modal('hide'); 
 
                 }).error(function(data, status, headers, config) {
@@ -237,8 +246,28 @@ var marker=[];
  
      
 }
+$scope.increaseLimit = function(){
+    var i;
+    for(i=counter;i<counter+5;i++)
+        {
+            $scope.influentialfollowers.push($scope.followers_follower[counter]);
+            counter++;
+        }
+}
+$rootScope.$watch(function() {
+            return $rootScope.root.twitterSession;
+            }, function(session) {
+                if (session) {
+                    $scope.getstatfollower();
+                }
+                else
+                {
+                    $('#signupModal').modal('show');
+                }
+            });
+
       
-$scope.getstatfollower();
+
 
 }]);
 

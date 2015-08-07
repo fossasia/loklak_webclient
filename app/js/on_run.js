@@ -25,6 +25,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'icon' : 'fa fa-map-marker text'
         },
         {
+          'title': 'Report',
+          'link' : '/report',
+          'icon' : 'fa fa-bar-chart'
+        },
+        {
           'title': 'Wall',
           'link' : '/wall',
           'icon' : 'fa fa-list'
@@ -33,12 +38,8 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'title': 'Connect',
           'link' : '/dataConnect',
           'icon' : 'fa fa-cloud'
-        },
-        {
-          'title': 'Report',
-          'link' : '/report',
-          'icon' : 'fa fa-bar-chart'
         }
+        
   	  ];
 
     root.fullscreenDisabled = true;
