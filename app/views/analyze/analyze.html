@@ -21,6 +21,11 @@
     font-weight: 300;
     font-family: 'Source Sans Pro', sans-serif;
 }
+.scrollr
+{
+    overflow-y: scroll; 
+    height : 250px ;
+}
 .no-top-margin
 {
     margin-top:0px; 
@@ -158,7 +163,7 @@ td
                 <div class="filters-container">
                     <ul class="search-modes">
                         <!-- General filters -->
-                        <li  ng-class="(root.globalFilter === 'followers') ? 'active' : ''" ng-click="getstatfollower()">
+                        <li class="active" ng-class="(root.globalFilter === 'followers') ? 'active' : ''" ng-click="getstatfollower()">
                             <a href="#">Followers</a>
                         </li>
                         <li  ng-class="(root.globalFilter === 'following') ? 'active' : ''" ng-click="getstatfollowing()">
@@ -174,7 +179,7 @@ td
                
 
                 <!-- Main analysis -->
-                <div  class="main-result-container whitebg" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
+                <div  class="main-result-container whitebg" >
                     <div class="row">
                         <div class="col-md-6">
                             <center><h3 class="analysis-titles">Country wise Followers</h3></center>
@@ -225,10 +230,10 @@ td
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
-                <div class="row whitebg" style="margin-left:5px; margin-top:10px;">
+                <div class="row whitebg " style="margin-left:5px; margin-top:10px;">
                     <center><h3 class="analysis-titles">Most Influential Followers</h3></center><hr>
-                                        
-                                        <div ng-repeat="follower in influentialfollowers">
+                                        <div class="scrollr">
+                                        <div ng-repeat="follower in followers_follower | limitTo:100">
                                         <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
                                         <div class="home-user-info-content">
                                             <div class="top-content">
@@ -255,7 +260,7 @@ td
                                         </div>
                                     
                 </div>
-
+            </div>
             </div>
 
         </div>
