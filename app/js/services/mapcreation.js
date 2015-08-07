@@ -19,6 +19,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
             var isAFollower = (status.isAFollower) ? true : false;
+            var geo_enabled = (status.location_mark) ? true: false;
             if (status.location_mark && status.user) {
                 var text = MapPopUpTemplateService[templateEngine](status);
                 var pointObject = {
@@ -27,7 +28,8 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
                     "properties": {"popupContent": "<div class='foobar'>" + text + "</div>"},
                     "id": status.id_str,
                     "propic" : status.user.profile_image_url_https,
-                    "isAFollower": isAFollower
+                    "isAFollower": isAFollower,
+                    "geo_enabled": geo_enabled
                 };
                 tweets.features.push(pointObject);
             }
@@ -65,6 +67,8 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
             window.mapViewMarker = [];
             var followers = L.layerGroup();
             var followings = L.layerGroup();
+            var numFollowingsOnMap = 0;
+            var numFollowersOnMap = 0;
 
             tweets.features.forEach(function(tweet) {
                 window.mapViewMarker[tweet.id] = new L.Marker([tweet.geometry.coordinates[1], tweet.geometry.coordinates[0]], {
@@ -77,6 +81,14 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
                 } else {
                     followings.addLayer(window.mapViewMarker[tweet.id]);
                 }
+
+                if (tweet.geo_enabled) {
+                    if (tweet.isAFollower) {
+                        numFollowersOnMap += 1;
+                    } else {
+                        numFollowingsOnMap += 1;
+                    }
+                }
             })
 
             followers.addTo(window.map);
@@ -85,8 +97,8 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
             var numFollowings = $rootScope.userTopology.noOfFollowings ? "Followings " + $rootScope.userTopology.noOfFollowings : "Followings";
             var numFollowers = $rootScope.userTopology.noOfFollowers ? "Followers " + $rootScope.userTopology.noOfFollowers : "Followers";
             var controlOptions = {};
-            controlOptions[numFollowers] = followers;
-            controlOptions[numFollowings] = followings;
+            controlOptions[numFollowers + "/" + numFollowersOnMap + '<span class="map-control-hint"> (i) </span>'] = followers;
+            controlOptions[numFollowings + "/" + numFollowingsOnMap + '<span class="map-control-hint"> (i) </span>'] = followings;
 
             L.control.layers({}, controlOptions, {position: 'topleft'}).addTo(window.map);
            

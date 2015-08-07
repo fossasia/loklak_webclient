@@ -22,6 +22,17 @@
 			margin: 0;
 			vertical-align: top;
 		}
+		> a  {
+			position: absolute;
+			top:0;
+			float: left;
+			margin-top: 5.5px;
+			display: inline-block;
+			vertical-align: top;
+			img {
+				height: 34px;		
+			}
+		}
 	}
 
 	.list-of-views {
@@ -58,6 +69,9 @@
 				}
 				span.fa {
 					margin-right: 5px;
+					@media (min-width: 768px) and (max-width: 991px) {
+					   	margin-right:1px;
+					}
 					font-size: 20px;
 					position: relative;
 					top: 3px;
@@ -299,6 +313,22 @@
 /* Mobile nav */
 	.hidden-mobile-nav {
 		text-align: center;
+		min-height: 37px;
+		#sign-in-button {
+			position: absolute;
+			top: 0;
+			right: 11px;
+			button {
+				height: 32px;
+				margin-top: 7px;
+				padding: 6px 12px !important;
+				background-color: #55acee;
+				color: white;
+				border: none;
+				font-size: 13px;
+			}
+		} 
+		
 	}
 		.mobile-nav-toggle-button-container {
 			position: absolute;

@@ -48,10 +48,10 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			 * Stimulate a search click event on search suggestions
 			 */
 			$rootScope.root.setGlobalSearchTerm = function(term) {
+				$rootScope.root.haveSearchSuggestion = false;
+				$rootScope.root.searchSuggestions = [];
 				$rootScope.root.globalSearchTerm = term;
 				$rootScope.root.submitSearchForm();
-				$rootScope.root.searchSuggestions = [];
-				$rootScope.root.haveSearchSuggestion = false;
 				document.activeElement.blur(); // Stop focusing search box	
 			}
 

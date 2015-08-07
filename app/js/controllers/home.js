@@ -15,4 +15,5 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', function
 			console.log("Unable to get your recent tweets");
 		});
 	});
+
 }]);
