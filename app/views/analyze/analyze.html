@@ -13,6 +13,15 @@
     text-align: center;
     padding-top: 15%
 }
+.no-top-margin
+{
+    margin-top:0px; 
+}
+td
+{
+    width: 50%
+
+}
 .whitebg
 {
     background: #fff;
@@ -49,7 +58,7 @@
     color: #FFF;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-   
+    width: 50%
     font-size: 18px;
     font-weight: 600;
 
@@ -103,7 +112,7 @@
         <div class="container content-container">
             <!-- Left content: Who to follow, trends -->
             <div class="col-md-3">
-                <div class="home-user-info">
+                <div class="home-user-info no-top-margin">
                 <div class="blue-background-placeholder">
                     <img ng-src="{{profilebanner}}" alt="user-banner-photo">    
                 </div>
@@ -161,8 +170,7 @@
                         </div>
                         <div class="col-md-8">
                             <table class="table ">
-                                <th class="tableheading">Analysis</th><th class="tableheading"></th>
-                                    <tr><td><b>Country</td><td>Followers</b></td>
+                                <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
                                         <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
                             </table> 
@@ -176,8 +184,7 @@
                         </div>
                         <div class="col-md-8">
                             <table class="table">
-                                <th class="tableheading">Analysis</th><th class="tableheading"></th>
-                                    <tr><td><b>City</td><td>Followers</b></td>
+                                <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
                                         <td><b>{{city.city}}</td><td><i>{{city.followers}}%</i></b></td>
                             </table> 
