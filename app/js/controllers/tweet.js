@@ -64,7 +64,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                         }, function(e) {
                             console.log(e);
                         });
-
+                        $rootScope.root.tweet= "";
+                        $("#optionChoice").attr('value',"");
                         $('#myModal').modal('hide');
 
                     }
@@ -103,7 +104,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                         }, function(e) {
                             console.log(e);
                         });
-
+                        $rootScope.root.tweet= "";
+                        $("#optionChoice").attr('value',"");
                         $('#myModal').modal('hide');
 
                     }
@@ -116,9 +118,16 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 console.log("Regular Tweet !");
 
                 if(tweetLen <= 140 && tweetLen > 0) {
+
                     hello('twitter').api('me/share', 'POST', {
                         message : tweet
+                    }).then(function(json) {
+                        console.log(json);
+                    }, function (e) {
+                        console.log(e);
                     });
+                    $rootScope.root.tweet= "";
+                    $("#optionChoice").attr('value',"");
                     $('#myModal').modal('hide');
                 }
 
@@ -141,7 +150,9 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                   }, function(e) {
                       console.log(e);
                   });
-                  
+                  $rootScope.root.tweet= "";
+                  $("#optionChoice").attr('value',"");
+                  $("#fileInput").val("");
                   $('#myModal').modal('hide');
               }
             };
