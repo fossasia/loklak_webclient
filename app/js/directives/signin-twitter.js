@@ -146,6 +146,47 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				'near:London': 'shared near London'
 			}
 
+			/** Get hashtag trends **/
+			$rootScope.root.getHashtagTrends = function() {
+
+			    function getMonth(monthStr){
+			        return new Date(monthStr+'-1-01').getMonth()+1
+			    }
+
+			    var hashtagData = [];
+			    var queryString = '';
+			    var currentDate = new Date();
+			    var untilDate = currentDate.toString();
+			    var untilElements = untilDate.split(' ');
+			    var untilMonthValue = ('0'+getMonth(untilElements[1])).slice(-2);
+			    var untilDateString = 'until:'+untilElements[3]+'-'+untilMonthValue+'-'+('0'+untilElements[2]).slice(-2);
+			    var sinceDate = new Date();
+			    sinceDate.setDate(sinceDate.getDate()-20);
+			    var sinceDay = ('0' + sinceDate.getDate()).slice(-2);
+			    var sinceMonth = ('0' + (sinceDate.getMonth()+1)).slice(-2);
+			    var sinceYear = sinceDate.getFullYear();
+
+			    var sinceDateString = 'since:'+sinceYear+'-'+sinceMonth+'-'+sinceDay+' ';
+
+			    queryString = sinceDateString+untilDateString;
+
+			    var params = {
+			        q: queryString,
+			        source: 'cache',
+			        count: 0,
+			        fields: 'hashtags',
+			        limit: 6
+			    };
+
+			    SearchService.initData(params).then(function(data) {
+			               hashtagData = hashtagData.concat(data.aggregations.hashtags);
+			               $rootScope.root.trends = hashtagData[0];
+			        }, function() {
+
+			        });
+			};
+			
+			$rootScope.root.getHashtagTrends();
 
 		},
 		link: function(scope) {
