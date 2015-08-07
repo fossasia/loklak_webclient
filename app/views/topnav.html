@@ -180,6 +180,7 @@ $("#subDropDownMenu").click(function(e){
   }
 
   var imageHandlerCount = 1;
+  var map;
 
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -263,7 +264,13 @@ $("#subDropDownMenu").click(function(e){
   }
 
   console.log(latitude + ',' + longitude);
-  var map = L.map('map').setView([17.22121, -79.122121], 12);
+
+  function setMap(latitude, longitude) {
+    map = L.map('map').setView([latitude, longitude], 12);
+  }
+  
+  map = L.map('map').setView([0, 0], 3);
+
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
