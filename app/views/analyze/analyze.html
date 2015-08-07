@@ -13,6 +13,15 @@
     text-align: center;
     padding-top: 15%
 }
+.analysis-titles
+{
+    margin: 0;
+    margin-top:8px; 
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300;
+    font-family: 'Source Sans Pro', sans-serif;
+}
 .no-top-margin
 {
     margin-top:0px; 
@@ -163,12 +172,12 @@ td
                 <!-- Main results -->
                 <div  class="main-result-container whitebg" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
                     <div class="row">
-                        <div class="col-md-4">
-                            <center><h3>Country wise Followers</h3></center>
+                        <div class="col-md-6">
+                            <center><h3 class="analysis-titles">Country wise Followers</h3></center>
                             <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <table class="table ">
                                 <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
@@ -177,12 +186,12 @@ td
                         </div><!--end span8-->
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <center><h3>City wise Followers</h3></center>
+                        <div class="col-md-6">
+                            <center><h3 class="analysis-titles">City wise Followers</h3></center>
                             <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <table class="table">
                                 <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
@@ -208,12 +217,12 @@ td
             <!-- Right content: Other statistics -->
             <div class="dashboard dashboard-right col-md-3">
                 <div class="row whitebg" style="margin-left:5px">
-                    <center><h3>Follower's distribution</h3></center>
+                    <center><h3 class="analysis-titles">Follower's distribution</h3></center>
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
                 <div class="row whitebg" style="margin-left:5px; margin-top:10px;">
-                    <center><h3>Most Influential Followers</h3></center><hr>
+                    <center><h3 class="analysis-titles">Most Influential Followers</h3></center><hr>
                                         <div scrolltoadd="increaseLimit();" ng-init="limit=5;">
                                         <div ng-repeat="follower in followers_follower | limitTo : limit">
                                         <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
