@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="http://lab.lepture.com/editor/editor.css" />
+<script type="text/javascript" src="http://lab.lepture.com/editor/editor.js"></script>
+<script type="text/javascript" src="http://lab.lepture.com/editor/marked.js"></script>
+
 <header ng-if="!root.sidebarEnabled" class="main-header">
     <div class="container topnav">
         <div class="universal-topnav-container">
@@ -71,12 +75,18 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" style="text-align:center">Post a tweet</h4>
+            <h4 class="modal-title" style="text-align:center">Compose New Tweet</h4>
         </div>
         <form role="form" id="tweet"  ng-submit="root.postTweet()"  enctype="multipart/form-data">
         <div class="modal-body">
             <div class="modal-tweet-form-container">
+              
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
+                <input type="hidden" name="optionChoice" ng-model="root.option" id="optionChoice">
+                <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
+                <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
+                <div id="map" style="width: 100%; height: 450px;"></div>
+                <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -84,11 +94,39 @@
             <span ng-show="root.tweetLength < 0" style="color:red;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength < 7 && root.tweetLength >= 0" style="color:crimson;">{{root.tweetLength}}</span>
             <span ng-show="root.tweetLength >= 7 && root.tweetLength <= 140" style="color:green;">{{root.tweetLength}}</span>
-            <span  class="btn btn-default btn-file fa pull-left">
+            <span  class="btn btn-default btn-file fa pull-left" id="filePicker">
                 <input type="file" id="fileInput" name="imageUpload" ng-model="root.imageUpload">&nbsp;&#xf030; Add Photo
             </span>
-            <input type="button" class="fa btn btn-info btn-flat pull-left"  ng-click="root.getLocation()" value="&#xf041; Add Location">&nbsp;
-            <input type="submit" class="btn btn-info btn-flat" value="Tweet">&nbsp;
+            <input type="button" class="fa fa btn btn-default pull-left" ng-if="!root.locationName" ng-click="root.getLocation()" value="&#xf041; Get Location">
+            <span class="pull-left">
+            <div class="dropdown" ng-if="root.locationName">
+              <button class="fa btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              &#xf041; {{root.locationName}}
+              <span class="caret"></span>
+              </button>
+              <ul class="fa dropdown-menu" aria-labelledby="dropdownMenu1" id="subDropDownMenu">
+                <li ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa">&#xf041; {{loc}}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a ng-click="root.clearLocation()">Disable Location</a></li>
+              </ul>
+
+             <!--  <select class="fa dropdown-menu selectpicker" aria-labelledby="dropdownMenu1">
+                <option value="&#xf041; {{root.locationName}}">&#xf041; {{root.locationName}}</option>
+                <option ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa">&#xf041; {{loc}}</a></li>
+                <option role="separator" class="divider"></li>
+                <option><a ng-click="root.clearLocation()">Disable Location</a></li>
+              </select> -->
+            </div>
+            </span>
+            <!-- Map Tile -->
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="setMapTile()" id="attachMap" value="&#xf041; Attach Map">
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="cancelMapTile()" id="CancelMap" value="&#xf041; Cancel Map">
+            <!-- End Map Tile -->
+            <!-- Markdown Attachment -->
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="showLargeAttachment()" id="attachLargeText" value="&#xf041; Attach Text">
+            <input type="button" class="fa fa btn btn-default pull-left" onclick="cancelLargeAttachment()" id="cancelLargeTextAttachment" value="&#xf041; Cancel Text">
+            <!-- End Markdown -->
+            <input type="submit" class="fa fa-twitter btn btn-default " value="&#xf099; Tweet">
         </div>
         </form>
     </div>
@@ -117,7 +155,34 @@
   </div>
 </div>
 <script>
-    function handleFileSelect(evt) {
+
+var latitude;
+var longitude;
+
+$(document).click(function(){
+ $("#subDropDownMenu").hide('slow'); 
+ reActivate();
+});
+
+$("#subDropDownMenu").click(function(e){
+  e.stopPropagation(); 
+});
+
+  function reActivate() {
+    $("#dropdownMenu1").click(function(e){
+      $("#subDropDownMenu").show('slow');
+    });
+  }
+
+  function removeImage() {
+    $('.thumb').hide();
+    $('.close').hide();
+  }
+
+  var imageHandlerCount = 1;
+  var map;
+
+  function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
 
     // Loop through the FileList and render image files as thumbnails.
@@ -135,9 +200,18 @@
         return function(e) {
           // Render thumbnail.
           var span = document.createElement('span');
-          span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                            '" title="', escape(theFile.name), '"/>'].join('');
-          document.getElementById('list').insertBefore(span, null);
+          if (imageHandlerCount!=1) {
+            $('.thumb').hide();
+            $('.close').hide();
+            imageHandlerCount=1;
+          }
+          var thumbID = 'thumb'+imageHandlerCount;
+          if(imageHandlerCount==1) {
+            imageHandlerCount++;
+            span.innerHTML = ['<img id="',thumbID, '" class="thumb" src="', e.target.result,
+                              '" title="', escape(theFile.name), '"/><a id="close" class="close" href="#" onclick="removeImage();">X</a>'].join('');
+            document.getElementById('list').insertBefore(span, null);
+          }
         };
       })(f);
 
@@ -146,5 +220,112 @@
     }
   }
 
+  var tempArray = [];
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } 
+
+  function showPosition(position) {
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    tempArray.push(latitude);
+    tempArray.push(longitude);
+    sendPositionDetails(latitude, longitude);
+  }
+
+  $("#map").hide();
+  $("#CancelMap").hide();
+  $("#largeTextAttachment").hide();
+  $("#cancelLargeTextAttachment").hide();
+
+  var popup = L.popup();
+  var new_event_marker;
+  L.Icon.Default.imagePath = '/images/';
+
+  function onMapClick(e) {
+    console.log(e);
+    if(typeof(new_event_marker)==='undefined')
+    {
+      new_event_marker = new L.marker(e.latlng,{bounceOnAdd: true}).addTo(map); 
+      map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+      latitude = e.latlng.lat;
+      longitude = e.latlng.lng;
+      sendPositionDetails(latitude, longitude);
+    }
+    else 
+    {
+      new_event_marker.setLatLng(e.latlng);  
+      map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+      latitude = e.latlng.lat;
+      longitude = e.latlng.lng;
+      sendPositionDetails(latitude, longitude);
+    }
+  }
+
+  console.log(latitude + ',' + longitude);
+
+  function setMap(latitude, longitude) {
+    map = L.map('map').setView([latitude, longitude], 12);
+  }
+  
+  map = L.map('map').setView([0, 0], 3);
+
+
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  function setMapTile() {
+    $("#map").show();
+    $("#CancelMap").show();
+    $("#attachMap").hide();
+    $('#filePicker').hide();
+    $("#optionChoice").val('mapAttachment');
+  }
+
+  function cancelMapTile() {
+    $("#CancelMap").hide();
+    $("#map").hide();
+    $("#attachMap").show();
+    $('#filePicker').show();
+    $("#optionChoice").val('');
+  }
+
+  function sendPositionDetails (lat, lng) {
+
+    console.log("Called");
+    console.log(lat+','+lng);
+    $("#mapLat").val(lat);
+    $("#mapLng").val(lng);
+  }
+
+  function showLargeAttachment() {
+    var editor = new Editor({
+      element: document.getElementById('largeTextAttachment')
+    });
+    editor.render();
+
+    $("#cancelLargeTextAttachment").show();
+    $("#attachLargeText").hide();
+    $('#filePicker').hide();
+    $("#optionChoice").val('markdownAttachment');
+  }
+
+  function cancelLargeAttachment() {
+    $("#attachLargeText").show();
+    $('#filePicker').show();
+    $(".CodeMirror.cm-s-paper").hide();
+    $(".editor-toolbar").hide();
+    $(".editor-statusbar").hide();
+    $("#largeTextAttachment").hide();
+    $("#cancelLargeTextAttachment").hide();
+    $("#optionChoice").val('');
+  }
+
+  map.on('click', onMapClick);
+
 document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+
 </script>

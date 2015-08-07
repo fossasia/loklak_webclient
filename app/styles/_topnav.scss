@@ -469,6 +469,30 @@
 	    }
 	}
 
+	div#myModal > div.modal-dialog > div.modal-content {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+		width: 110%;
+	}
+
+	div#myModal > div.modal-dialog > div.modal-content > form > div.modal-footer {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
+	#close{
+	    display:inline-block;
+	    margin-left:-2%;
+	    text-align: center;
+	    width:30px;
+	    height:29px;
+	    position: absolute;
+	}
+
 @media screen and (min-width: 0px) and (max-width: 767px) {
 	.main-header {
 		> .topnav {
