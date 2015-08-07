@@ -24,6 +24,13 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 					$scope.sourceTypeListWEndpoint[key] = $scope.sourceTypeList[key];
 				}
 			}
+			// Add geojson as a datasource format
+			$scope.sourceTypeListWEndpoint['geojson'] =
+			{
+				'key': 'FOSSASIA_API',
+				'name': 'GeoJson'
+			};
+
 			$scope.tabItems = [
 				{
 					'title' : 'Source Type',

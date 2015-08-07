@@ -130,16 +130,24 @@
 
 }
 .source-type-item {
-	box-sizing: border-box;
+	box-sizing: content-box;
 	margin-bottom: 20px;
-	border: 1px solid #e1e8ed;
+	border: 2px solid #e1e8ed;
 	margin-top: 20px;
 	background: white;
 	border-radius: 10px;
 	padding: 15px 10px;
+	height: 100px;
+}
+.source-type-item.nologo h4 {
+	position: inherit;
+	margin: auto;
+	text-align: center;
+	color: #55acee;
+	font-size: 40px;
 }
 .source-type-item:hover, .source-type-item.selected {
-	border : 1px solid #3c8dbc;
+	border : 2px solid #55acee;
 	cursor: pointer;
 }
 .source-type-item:hover {
@@ -156,7 +164,7 @@
 	padding: 10px; 
 } 
 .source-type-item img {
-	opacity: 0.3;
+	opacity: 0.8;
 	position: relative;
 }
 
