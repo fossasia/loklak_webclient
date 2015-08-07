@@ -34,17 +34,17 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 			$scope.tabItems = [
 				{
 					'title' : 'Source Type',
-					'icon' : 'fa fa-database',
+					'icon' : 'fa fa-file-code-o',
 					'target' : 'source-type-tab'
 				},
 				{
 					'title' : 'Source URL & Info',
-					'icon' : 'fa fa-users',
+					'icon' : 'fa fa-cloud-upload',
 					'target' : 'source-info-tab'
 				},
 				{
 					'title' : 'Mapping Rules',
-					'icon' : 'fa fa-share-alt',
+					'icon' : 'fa fa-exchange',
 					'target' : 'mapping-rule-tab'
 				}
 			];
