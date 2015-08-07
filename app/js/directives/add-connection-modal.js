@@ -14,7 +14,10 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 			$scope.sourceTypeList = SourceTypeService.sourceTypeList;
 			$scope.sourceTypeListWEndpoint = {};
 			$scope.loklakFields = LoklakFieldService.fieldList;
-			$scope.inputs = {mapRules : {}};
+			// Form inputs
+			$scope.inputs = { mapRules : {}};
+			// Submit validation messages
+			$scope.messages = {};
 
 			for (var key in $scope.sourceTypeList) {
 				if ($scope.sourceTypeList[key].endpoint) {
@@ -75,38 +78,54 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 			};
 
 			$scope.submit = function() {
+
+				if (!$scope.inputs.url) {
+					$scope.messages.error = 'Please provide a valid source url';
+					return;
+				}
+				if (!$scope.inputs.sourceType) {
+					$scope.messages.error = 'Please select a data source format';
+					return;
+				}
 				function constructMapRules() {
 					var mapRulesStr = '';
-					const mapRules = $scope.addForm.inputs.mapRules;
+					const mapRules = $scope.inputs.mapRules;
 					var prefix = '';
-					for (var i = 0; i < $scope.mapRulesNum; i++) {
-						mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
-						prefix = ',';
+					for (var key in $scope.inputs.mapRules) {
+						var data = $scope.inputs.mapRules[key];
+						if (data[0] && data[0].length > 0) {
+							mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
+							prefix = ',';
+						}
 					}
 					return mapRulesStr;
 				}
 
 				if ($scope.inputs.sourceType === 'geojson') {
-					PushService.pushGeoJsonData($scope.inputs.url, $scope.addForm.sourceType, constructMapRules()).then(function(data) {
-			 			$scope.addForm.error = '';
-			 			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
+					PushService.pushGeoJsonData($scope.inputs.url, $scope.inputs.sourceType, constructMapRules()).then(function(data) {
+			 			$scope.messages.error = '';
+			 			$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 			 		}, function(err, status) {
-			 			$scope.addForm.success = '';
-			 			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
+			 			$scope.messages.success = '';
+			 			$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
 					});
 				} else {
-					PushService.pushCustomData($scope.inputs.sourceType, $scope.sourceTypeList[$scope.endpoint].endpoint).then(function(data) {
-						$scope.addForm.error = '';
-						$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
+					PushService.pushCustomData($scope.inputs.url, $scope.sourceTypeList[$scope.inputs.sourceType].endpoint).then(function(data) {
+						$scope.messages.error = '';
+						$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 					}, function(err, status) {
-						$scope.addForm.success = '';
-						$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
+						$scope.messages.success = '';
+						$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
 					});
 				}
 			};
 
-			$scope.validateSubmit = function() {
-				return $scope.inputs.url && $scope.inputs.sourceType;
+			$scope.hideErrorPanel = function() {
+				$scope.messages.error = '';
+			};
+
+			$scope.hideSuccessPanel = function() {
+				$scope.messages.success = '';
 			};
 		}
 	};

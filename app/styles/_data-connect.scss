@@ -20,12 +20,12 @@
 }
 
 /* overwrite admin.css */
-#my-connection-panel .alert-danger, #add-datasource-form .alert-danger {
+#my-connection-panel .alert-error, #add-connection-modal .alert-error {
 	background-color: #f2dede !important;
 	border-color: #ebccd1;
 	color: #a94442 !important;
 }
-#my-connection-panel .alert-success, #add-datasource-form .alert-success {
+#my-connection-panel .alert-success, #add-connection-modal .alert-success {
 	background-color: #dff0d8 !important;
 	border-color: #d6e9c6;
 	color: #3c763d !important;
@@ -132,14 +132,23 @@
 .source-type-item {
 	box-sizing: border-box;
 	margin-bottom: 20px;
+	border: 1px solid #e1e8ed;
+	margin-top: 20px;
+	background: white;
+	border-radius: 10px;
+	padding: 15px 10px;
 }
-.source-type-item:hover {
-	border : 1px solid black;
+.source-type-item:hover, .source-type-item.selected {
+	border : 1px solid #3c8dbc;
 	cursor: pointer;
 }
-.source-type-item h2 {
+.source-type-item:hover {
+	background: #f7f7f7;
+}
+.source-type-item h4 {
 	position: absolute;
-	top: 20px;
+	top: 16px;
+	right: 29px;
 }
 .source-type-item h2 span {
 	color: black;
@@ -171,28 +180,8 @@
 	width: 50%;
 }
 
-
-#mapping-rule-tab .add-map-rule {
-	border : 1px dashed #ccc;
-	text-align: center;
-	background-color: #FFFFE8;
-	margin : 15px 0 30px 15px;
-	font-size: 16px;
-	padding: 4px;
-}
-
 #mapping-rule-tab .field-label {
-	font-weight: bold;
 	margin-bottom: 10px;
-}
-
-#mapping-rule-tab .add-map-rule:hover {
-	cursor: pointer;
-}
-#mapping-rule-tab #remove-map-rule {
-	cursor: pointer;
-	font-size: 21px;
-	vertical-align: -webkit-baseline-middle;
 }
 #mapping-rule-tab .loklak-field, #mapping-rule-tab .custom-field {
 	display: inline-block;
@@ -200,4 +189,8 @@
 
 #mapping-rule-tab .loklak-field {
 	font-weight: bold;
+}
+
+#mapping-rule-tab hr {
+	margin-top: 0;
 }

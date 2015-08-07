@@ -27,7 +27,7 @@ function HarvestingFrequencyService(moment) {
 			'value' : 1440
 		},
 		{
-			'value' : 2147483647
+			'value' : MAGIC_NUMBER
 		}
 	];
 

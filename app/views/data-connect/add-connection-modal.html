@@ -6,6 +6,14 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h2 class="modal-title">Import Data Source</h2>
+				<div class="alert alert-success alert-dismissible" role="alert" ng-show="messages.success">
+					<button type="button" ng-click="hideSuccessPanel()" class="close"><span aria-hidden="true">&times;</span></button>
+					{{messages.success}}
+				</div>
+				<div class="alert alert-error alert-dismissible" role="alert" ng-show="messages.error">
+					<button type="button" class="close" ng-click="hideErrorPanel()"><span aria-hidden="true">&times;</span></button>
+					{{messages.error}}
+				</div>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -26,14 +34,13 @@
 							<h3>Choose data source format</h3>
 							<div class="row">
 								<div class="col-sm-10">
-									<div id="{{key}}" class="col-md-4 col-sm-4 source-type-item" ng-repeat="(key, sourceType) in sourceTypeListWEndpoint" ng-click="setSourceType($event);">
-										<img src="{{sourceType.logo}}" name="{{key}}" />
-										<h2><span for="{{sourceType.key}}">{{sourceType.name}}</span></h2>
+									<div class="col-md-4 col-sm-4" ng-repeat="(key, sourceType) in sourceTypeListWEndpoint">
+										<div id="{{key}}" class="source-type-item" ng-click="setSourceType($event);" ng-class="key == inputs.sourceType ? 'selected' : ''">
+											<img src="{{sourceType.logo}}" name="{{key}}"/>
+											<h4><span for="{{sourceType.key}}">{{sourceType.name}}</span></h4>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								{{sourceTypeList[inputs.sourceType].name}}
 							</div>
 						</div>
 						<div class="tab-pane" id="source-info-tab">
@@ -43,16 +50,21 @@
 							<div class="box-body">
 								<form name="source-info-form" role="form" id="source-info-form">
 									<div class="form-group">
-										<label for="sourceUrl">Source URL*</label>
+										<label for="sourceUrl" style="margin-bottom: 12px">Source URL*</label>
 										<input required="true" ng-model="inputs.url" type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="">
 									</div>
 									<div class="form-group">
-										<label for="harvestingFreq">Update frequency</label>
-										<p>Update my data source every <select name="harvestingFreq" type="text" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="inputs.harvesting_freq"/></p>
+										<label for="harvestingFreq">Update frequency</label><br/>
+										<h4 style="display: inline-block"><small>Check for updates every </small></h4>
+										<ol name="harvestingFreq" class="nya-bs-select" ng-model="inputs.harvesting_freq">
+											<li nya-bs-option="freq in harvestingFreqList">
+												<a>{{freq.label}}</a>
+											</li>
+										</ol>
 									</div>
 									<div class="form-group">
 										<label for="lifetime">Lifetime</label>
-										<p style="color:gray">Expiration date of the source. Enter 'forever' for ever-lasting data</p>
+										<h4><small>Expiration date of the source. Enter 'forever' for ever-lasting data</small></h4>
 										<div class="form-inline">
 											<div class="input-group dropdown">
 												<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
@@ -75,10 +87,11 @@
 								<h3 class="box-title">Final step : map your data field to loklak</h3>
 							</div>
 							<div class="box-body">
-								<div class="row field-label" ng-show="mapRulesNum >= 1">
-									<div class="col-md-2">Loklak field</div>
-									<div class="col-md-4 col-md-offset-1">Custom field</div>
+								<div class="row field-label">
+									<div class="col-md-2"><h3>Loklak field</h3></div>
+									<div class="col-md-4 col-md-offset-1"><h3>Custom field</h3></div>
 								</div>
+								<hr/>
 								<div class="row form-group" ng-class="$last ? 'last' : ''" ng-repeat="(key, value) in loklakFields">
 									<div class="col-md-2">
 										<span name="loklakField" class="loklak-field">{{value}}</span>
@@ -93,12 +106,6 @@
 										<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
 									</div>
 								</div>
-								<div class="row">
-									<div class="add-map-rule col-md-10" ng-click="addMapRule()"><i class="fa fa-plus"></i> Add rule
-									</div>
-								</div>
-								<button type="submit" class="btn btn-loklak-blue">Confirm</button>
-								<button ng-click="toggleAddForm()" type="button" class="btn btn-default">Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -106,8 +113,8 @@
 			</div>
 			<div class="modal-footer">
                 <div style="float:left;" class="col-xs-offset-2">
-                    <a ng-show="showNext" ng-click="proceed()" type="submit" class="btn btn-loklak-blue">Next Step</a>
-                    <a ng-hide="showNext" ng-disabled="!validateSubmit()"ng-click="!validateSubmit() || submit()" type="submit" class="btn btn-loklak-blue" ng-click="">Submit</a>
+                    <a ng-show="showNext" ng-click="proceed()" type="button" class="btn btn-loklak-blue">Next Step</a>
+                    <a ng-hide="showNext" ng-click="submit()" type="submit" class="btn btn-loklak-blue" ng-click="">Submit</a>
                     <span ng-show="" style="color:red;" class="ng-hide">Enter an event name and your event's main hashtag</span>
                 </div>
             </div>
