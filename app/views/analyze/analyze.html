@@ -25,6 +25,7 @@
 {
     overflow-y: scroll; 
     height : 250px ;
+
 }
 .no-top-margin
 {
@@ -234,7 +235,7 @@ td
                     <center><h3 class="analysis-titles">Most Influential Followers</h3></center><hr>
                                         <div class="scrollr">
                                         <div ng-repeat="follower in followers_follower | limitTo:100">
-                                        <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
+                                        <div class="home-user-info" style="width:100%;padding:10px; margin-bottom:5px;">
                                         <div class="home-user-info-content">
                                             <div class="top-content">
                                                 <img src="{{follower.profileimg}}">
