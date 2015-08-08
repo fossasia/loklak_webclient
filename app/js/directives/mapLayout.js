@@ -87,8 +87,8 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                 if(tweetsArray.length > tweetsArrayLength){
                     for (var i = tweetsArray.length - 1; i >= tweetsArrayLength; i--) {
                         map.removeLayer(tweetsArray[i].marker);
-                        alert("removed");
                     };
+                    tweetsArray.splice(tweetsArrayLength-1, tweetsArray.length - tweetsArrayLength);
                 }
                 if(tweetsArray[0]){
                     var tempTweetId = tweetsArray[0].id_str;
