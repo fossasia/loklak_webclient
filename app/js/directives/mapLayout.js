@@ -20,7 +20,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
         //template : '<p>{{data[0].text}}</p>',
         link: function(scope, element, attrs) {
             var curr = 0;
-            //var marker = [];
+            var tweetsArrayLength = 20;
             var tweetsArray = [];
 
             var map = L.map(attrs.id).setView([2.252776, 48.845261], 2);
@@ -51,7 +51,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             scope.$watchCollection('data', function() {
                 var cleanRun = 0;
                 //element.height($(window).height() - 120);
-                //element.width($(window).width());
+                element.width($(window).width());
                 setTimeout(function() {
                     map.invalidateSize();
                 }, 1000);
@@ -61,21 +61,6 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         if (ele.location_mark) {
                             //console.log(ele.location_mark);
                             var text = MapPopUpTemplateService.genStaticTwitterStatus(ele);
-                            // var pointObject = {
-                            //     "geometry": {
-                            //         "type": "Point",
-                            //         "coordinates": [
-                            //             ele.location_mark[0],
-                            //             ele.location_mark[1]
-                            //         ]
-                            //     },
-                            //     "type": "Feature",
-                            //     "properties": {
-                            //         "popupContent": "<div class='foobar'>" + text + "</div>"
-                            //     },
-                            //     "id": ele.id_str
-                            // };
-                            //tweets.features.push(pointObject);
                             var tweetIcon = L.icon({
                                 //iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png'
                                 iconUrl: ele.user.profile_image_url_https,
@@ -95,16 +80,16 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                             }).setContent("<div class='foobar'>" + text + "</div>");
                             tempMarker.bindPopup(popup);
                             ele.marker = tempMarker;
-
-                            //.bindPopup("<div class='foobar'>" + text + "</div>"); //.openPopup();
-                            // var popup = L.popup({
-                            //     autoPan: true
-                            // }).setContent(pointObject.properties.popupContent);
-                            // tempMarker.bindPopup(popup);
                             tweetsArray.push(ele);
                         }
                     }
                 });
+                if(tweetsArray.length > tweetsArrayLength){
+                    for (var i = tweetsArray.length - 1; i >= tweetsArrayLength; i--) {
+                        map.removeLayer(tweetsArray[i].marker);
+                        alert("removed");
+                    };
+                }
                 if(tweetsArray[0]){
                     var tempTweetId = tweetsArray[0].id_str;
                     tweetsArray.sort(function(a, b) {
@@ -119,58 +104,12 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         curr = 0;
                     }
                 }
-                
-                // if (cleanRun === 1) {
-                //     clean_slate(marker);
-                // }
-                //add_marker(tweets);
-                //popUpMarker(marker);
-                // function add_marker(result) {
-                //     var tweetIcon = L.icon({
-                //         iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
-                //     });
-                //     var i;
-                //     for (i = 0; i < result.features.length; i++) {
-                //         console.log("here id ");
-                //         var lat = result.features[i].geometry.coordinates[1];
-                //         var lng = result.features[i].geometry.coordinates[0];
-                //         marker[i] = new L.Marker([lat, lng], {
-                //             id: i,
-                //             icon: tweetIcon,
-                //             bounceOnAdd: true
-                //         });
-                //         marker[i].addTo(map);
-                //         var popup = L.popup({
-                //             autoPan: false
-                //         }).setContent(result.features[i].properties.popupContent);
-                //         marker[i].bindPopup(popup);
-                //     }
-                //     cleanRun = 1;
-                // }
-
-                // function clean_slate(marker) {
-                //     var i;
-                //     for (i = 0; i < marker.length; i++) {
-                //         //id=this.options.id; 
-                //         map.removeLayer(marker[i]);
-                //     }
-                //     marker = [];
-                // }
-                // function popUpMarker(marker)
-                // {   var i;
-                //     for (i = 0; i < marker.length; i++) {
-                //         //id=this.id; 
-                //         marker[i].openPopup();
-                //     }
-                // }
             });
 
 
             $interval(function() {
                 if (tweetsArray.length > 0) {
                     tweetsArray[curr++].marker.openPopup();
-                    //tweetsArray[curr].setZIndexOffset(0);
-                    //console.log(tweetsArray[curr]);
                     if (curr === tweetsArray.length) {
                         curr = 0;
                     }
