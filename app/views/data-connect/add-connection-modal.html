@@ -56,7 +56,7 @@
 											{{messages.validateError}}
 										</div>
 										<br/>
-										<input required="true" ng-model="inputs.url" ng-model-options='{ debounce: 500 }' type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="" ng-change="validateSourceUrl();">
+										<input required="true" ng-model="inputs.url" ng-model-options='{ debounce: 1000 }' type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="" ng-change="validateSourceUrl();">
 										<i class="validate-icon fa" ng-class="
 										validateStatus == 'error' ? 'fa-exclamation-circle' :
 										(validateStatus == 'waiting' ? 'fa-spinner fa-pulse' :
@@ -93,9 +93,12 @@
 						</div>
 						<div class="tab-pane" id="mapping-rule-tab">
 							<div class="box-header">
-								<h3 class="box-title">Final step : map your data field to loklak</h3>
+								<h3 class="box-title">Final step : map your data to loklak</h3> <i ng-show="currentData" class="fa" ng-class="showCurrentData ? 'fa-caret-down' : 'fa-caret-right'" ng-click="showCurrentData = !showCurrentData"></i>
 							</div>
 							<div class="box-body">
+								<div class="row" ng-show="showCurrentData">
+								<pre>{{currentData | json }}</pre>
+								</div>
 								<div class="row field-label">
 									<div class="col-md-2"><h3>Loklak field</h3></div>
 									<div class="col-md-4 col-md-offset-1"><h3>Custom field</h3></div>
@@ -111,6 +114,10 @@
 									<div class="col-md-4">
 										<input type="text" class="form-control input-sm custom-field" ng-model="inputs.mapRules[key][0]"/>
 									</div>
+									<div class="col-md-4 field-preview">
+										<pre>{{accessDataField(key) | json }}</pre>
+									</div>
+
 									<div class="col-md-1" ng-show="$last">
 										<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
 									</div>
@@ -122,7 +129,7 @@
 			</div>
 			<div class="modal-footer">
                 <div style="float:left;" class="col-xs-offset-2">
-                    <a ng-show="showNext" ng-click="proceed()" type="button" class="btn btn-loklak-blue">Next Step</a>
+                    <a id="next-step" ng-show="showNext" ng-click="proceed()" type="button" class="btn btn-loklak-blue">Next Step</a>
                     <a ng-hide="showNext" ng-click="submit()" type="submit" class="btn btn-loklak-blue" ng-click="">Submit</a>
                     <span ng-show="" style="color:red;" class="ng-hide">Enter an event name and your event's main hashtag</span>
                 </div>

@@ -4,8 +4,8 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
-	function($http, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
+	function($http, $timeout, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -65,6 +65,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 
 			$scope.setSourceType = function(e) {
 				$scope.inputs.sourceType = e.currentTarget.id;
+				$timeout(function() {
+					angular.element('#next-step').trigger('click');
+				}, 100);
 			};
 
 			$scope.proceed = function() {
@@ -107,7 +110,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					}
 					return mapRulesStr;
 				}
-
+				console.log($scope.inputs.sourceType);
 				if ($scope.inputs.sourceType === 'geojson') {
 					PushService.pushGeoJsonData($scope.inputs.url, $scope.inputs.sourceType, constructMapRules()).then(function(data) {
 			 			$scope.messages.error = '';
@@ -156,6 +159,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						$scope.messages.validateError = 'Data format is not valid for source type ' + $scope.sourceTypeList[$scope.inputs.sourceType].name;
 					} else {
 						$scope.validateStatus = 'success';
+						$scope.messages.validateError = '';
+						$scope.currentData = JSON.parse(data.content);
 					}
 				}, function(err, status) {
 					$scope.validateStatus = 'error';
@@ -164,6 +169,20 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						$scope.messages.validateError += ': ' + err;
 				});
 			};
+
+			function accessDataField(data, field) {
+				var dotPos = field.indexOf(".");
+				if (dotPos === -1) {
+					return data[field];
+				}
+				var firstPart = field.substr(0, dotPos);
+				var secondPart = field.substr(dotPos+1);
+				return accessDataField(data[firstPart], secondPart);
+			}
+
+			$scope.accessDataField = function(row) {
+				if ($scope.inputs.mapRules[row][0]) return accessDataField($scope.currentData, $scope.inputs.mapRules[row][0]);
+			}
 		}
 	};
 }]);
