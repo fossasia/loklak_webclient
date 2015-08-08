@@ -23,7 +23,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             var tweetsArrayLength = 20;
             var tweetsArray = [];
 
-            var map = L.map(attrs.id).setView([2.252776, 48.845261], 2);
+            var map = L.map(attrs.id).setView([2.252776, 48.845261], 3);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
