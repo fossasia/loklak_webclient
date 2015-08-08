@@ -51,7 +51,16 @@
 								<form name="source-info-form" role="form" id="source-info-form">
 									<div class="form-group">
 										<label for="sourceUrl" style="margin-bottom: 12px">Source URL*</label>
-										<input required="true" ng-model="inputs.url" type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="">
+										<div class="alert alert-error alert-dismissible" role="alert" ng-show="messages.validateError">
+											<button type="button" class="close" ng-click="hideValidateErrorPanel()"><span aria-hidden="true">&times;</span></button>
+											{{messages.validateError}}
+										</div>
+										<br/>
+										<input required="true" ng-model="inputs.url" ng-model-options='{ debounce: 500 }' type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="" ng-change="validateSourceUrl();">
+										<i class="validate-icon fa" ng-class="
+										validateStatus == 'error' ? 'fa-exclamation-circle' :
+										(validateStatus == 'waiting' ? 'fa-spinner fa-pulse' :
+										(validateStatus == 'success' ? 'fa-check' : ''))"></i> 
 									</div>
 									<div class="form-group">
 										<label for="harvestingFreq">Update frequency</label><br/>

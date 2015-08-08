@@ -21,7 +21,7 @@ function PushService($q, $http, AppSettings) {
 			}).error(function(err, status) {
 				deferred.reject(err, status);
 			});
-			return deferred.promise;
+		return deferred.promise;
 	};
 
 	service.pushGeoJsonData = function(url, source_type, map_type) {
@@ -33,8 +33,21 @@ function PushService($q, $http, AppSettings) {
 			}).error(function(err, status) {
 				deferred.reject(err, status);
 			});
-			return deferred.promise;
+		return deferred.promise;
 	};
+
+	service.validate = function(url, source_type) {
+		var deferred = $q.defer();
+		$http.jsonp(AppSettings.apiUrl+'validate.json?callback=JSON_CALLBACK', {
+			params: {url: url, source_type : source_type}
+			}).success(function(data) {
+				deferred.resolve(data);
+			}).error(function(err, status) {
+				console.log(status);
+				deferred.reject(err, status);
+			});
+		return deferred.promise;
+	}
 
 	return service;
 }

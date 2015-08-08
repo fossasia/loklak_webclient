@@ -129,6 +129,23 @@
 	padding: 0px 10px 0 10px;
 
 }
+#source-info-form input[name='sourceUrl']{
+	display: inline-block;
+}
+#source-info-form i.validate-icon {
+	font-size: 20px;
+	margin-left: 20px;
+}
+#source-info-form .fa-spinner {
+	color: rgb(126, 23, 23);
+}
+#source-info-form .fa-exclamation-circle {
+	color: rgb(223, 103, 103);
+}
+#source-info-form .fa-check {
+	color: green;
+}
+
 .source-type-item {
 	box-sizing: content-box;
 	margin-bottom: 20px;

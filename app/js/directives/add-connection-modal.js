@@ -4,8 +4,8 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
-	function($stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
+	function($http, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -133,6 +133,36 @@ directivesModule.directive("addConnectionModal", ['$stateParams', 'SearchService
 
 			$scope.hideSuccessPanel = function() {
 				$scope.messages.success = '';
+			};
+
+			$scope.hideValidateErrorPanel = function() {
+				$scope.messages.validateError = '';
+			}
+
+			$scope.validateSourceUrl = function() {
+				if (!$scope.inputs.url) {
+					$scope.validateStatus = '';
+					$scope.messages.validateError = '';
+					return;
+				}
+
+				if (!$scope.inputs.sourceType) {
+					$scope.messages.validateError = 'Please select a source type';
+				}
+				$scope.validateStatus = 'waiting';
+				PushService.validate($scope.inputs.url, $scope.inputs.sourceType).then(function(data) {
+					if (data.status == 'offline' || data.status == 'invalid') {
+						$scope.validateStatus = 'error';
+						$scope.messages.validateError = 'Data format is not valid for source type ' + $scope.sourceTypeList[$scope.inputs.sourceType].name;
+					} else {
+						$scope.validateStatus = 'success';
+					}
+				}, function(err, status) {
+					$scope.validateStatus = 'error';
+					$scope.messages.validateError = 'Unknown server error'; 
+					if (err) 
+						$scope.messages.validateError += ': ' + err;
+				});
 			};
 		}
 	};
