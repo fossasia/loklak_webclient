@@ -9,7 +9,7 @@ var bouncemarker = require('../components/bouncemarker');
 /**
  * @ngInject
  */
-function mapLayoutDirective(MapPopUpTemplateService, $interval) {
+function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationService) {
 
     return {
         scope: {
@@ -38,7 +38,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
                 px.y -= e.popup._container.clientHeight/2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
                 map.panTo(map.unproject(px),{animate: true}); // pan to new center
             });
-            
+
             function contains(marker, elem) {
                 for (var m in marker) {
                     if (m.id === elem.id_str) {
@@ -157,4 +157,4 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval) {
 
 }
 
-directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', mapLayoutDirective]);
+directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', 'MapCreationService', mapLayoutDirective]);
