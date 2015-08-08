@@ -44,8 +44,8 @@
         <div class="center-result-container col-md-6" ng-show="root.twitterSession">
             <div class="row cms-view">
                 <div class="main-result-container">
-                    <div class="statuses-container box-body chat" id="chat-box" style="width: auto;">
-                        <div ng-repeat="status in root.twitterFriends.data | limitTo: 100">
+                    <div class="statuses-container box-body chat" id="chat-box" style="width: auto;" infinite-scroll="root.loadMoreHomeFeed(15)">
+                        <div ng-repeat="status in root.twitterFriends.data | limitTo: root.homeFeedLimit">
                             <div class="item" ng-click="toggleDetail($event)">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">

@@ -78,6 +78,10 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						$rootScope.root.homeFeedLimit = 15;
+						$rootScope.root.loadMoreHomeFeed = function(operand) {
+							$rootScope.root.homeFeedLimit += operand;
+						};
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
