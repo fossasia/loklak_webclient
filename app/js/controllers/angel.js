@@ -35,7 +35,7 @@ var code = function () {
   } 
     return query_string;
 }();
-$http.post('https://angel.co/api/oauth/token', { params:
+$http.post('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
     {client_id:'f148a48d308ee0ee11eb938a2f2f88bff24abb235412f596',
     client_secret:'45b13fc4264976a051f40e4bbc62b91e0d0b50999ff9b089',
     code : code,
