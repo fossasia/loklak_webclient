@@ -14,6 +14,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
+			$rootScope.root.aSearchWasDone = false;
 
 			/* Hello related init*/
 			var hello = $scope.hello;
@@ -159,7 +160,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			var idleTime = 0;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && !$rootScope.root.twitterSession) { 
+			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
 			    }
 			}
@@ -171,15 +172,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 
 				if (!isOnline) {
 					$('#signupModal').modal('show');	
-					angular.element(".topnav .global-search-container").addClass("ng-hide");
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
+						angular.element(".topnav .global-search-container").addClass("ng-hide");
+					}
 				}
 
-				if ($location.path() !== "/") {
-					angular.element(".topnav .global-search-container").removeClass("ng-hide");
-				}
 
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-				    if (toState.name !== "Home") {
+				    if (toState.name === "Search") {
 				    	angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				    } else {
 				    	angular.element(".topnav .global-search-container").addClass("ng-hide");
