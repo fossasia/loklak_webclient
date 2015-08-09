@@ -28,8 +28,14 @@ directivesModule.directive('singleStatus', ['$location', '$rootScope', function(
             // favorite action
             $scope.favorite = function(id) {
                 console.log('Single Status');
+                var actionString = '#fav-'+id;
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
+                }).then( function(json) {
+                    console.log(json);
+                    $(actionString).css("background-position" , "100% 100%");
+                }, function (e) {
+                    console.log(e);
                 });
             };
 
