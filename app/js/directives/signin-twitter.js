@@ -34,7 +34,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			// Create global session variable
 			hello.on('auth.login', function(auth) {
 				hello(auth.network).api('/me').then(function(twitterSession) {
-					
+					$rootScope.root.twitterSession = true;
+
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
@@ -95,6 +96,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				$rootScope.$apply(function() {
 					$rootScope.root.twitterSession = false;	
 				});	
+				angular.element("#map").remove();
 				if ($location.path() !== "/") {
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				} else {

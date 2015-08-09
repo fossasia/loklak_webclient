@@ -380,7 +380,7 @@
 
 		.content-container {
 
-			width: 95%;
+			width: 85%;
 			margin-top: 10px;
 			border-radius: 6px;
 			padding: 0;
@@ -819,6 +819,34 @@
 		word-wrap: break-word;
 	}
 
+/* Search view user trends */
+.search-view-user-trends {
+	padding-left: 0;
+	width: 100%;
+	.home-user-trends {
+		margin-top: 0;
+		background: none;
+		border: none;
+		border-radius: 0;
+		padding: 0px 15px 15px 0px;
+		.trend-title {
+			font-size: 25px;
+			font-weight: 500;
+		}
+		#home-trend-list {
+			li {
+				a {
+					font-size: 15px;
+					display: inline-block;
+					margin-bottom: 4px;
+				}
+			}
+		}
+	}
+}
+
+
+
 /* Style for advanced search */
 	.advanced-search-view-container {
 		min-height: 100vh;
@@ -1040,3 +1068,4 @@
 	#advanced-search-map {
 		width:100%; height:100vh;
 	}
+

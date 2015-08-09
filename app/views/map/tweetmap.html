@@ -1,7 +1,7 @@
 <div class="content-wrapper map-view map-container-parent">
   <div class="logged-content" ng-show="root.twitterSession">
      <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
-     <div id="map"></div>
+     <div id="map" ng-show="root.twitterSession"></div>
      <div class="activity-feed show-feed">
       <div class="feed-header">
         <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
