@@ -55,16 +55,23 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     }, function(val) {
         if (val) {
             if (window.map) { delete(window.map); }
-            
+    
             var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
             addUserProp(topologyPool);
-
             MapCreationService.initMap({
                 data: topologyPool,
                 mapId: "map",
                 templateEngine: "genUserInfoPopUp",
                 markerType: "userAvatar",
-                cbOnMapAction: function() { /*Do nothing when map in created */ }
+                cbOnMapAction: function() { 
+                    var hintText = '<p class="map-control-hint-text">The first number shows the actual followers. The second number shows the number of followers with a location info. These are displayed on the map.</p>';
+                    $(".leaflet-control-layers-overlays").append(hintText);
+                    $(".map-control-hint").hover(function() {
+                        $(".map-control-hint-text").show();
+                    }, function() {
+                        $(".map-control-hint-text").hide();
+                    });
+                }
             });                
         }
     })
@@ -93,4 +100,11 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         });
     })
 
+
+    /*
+     * Toggle map feed to slide left/hide or slide right/show
+    */
+    vm.toggleMapFeed = function() {
+        angular.element('.activity-feed').toggleClass("show-feed");
+    }
 }]);

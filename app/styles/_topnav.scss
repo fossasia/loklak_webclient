@@ -22,6 +22,17 @@
 			margin: 0;
 			vertical-align: top;
 		}
+		> a  {
+			position: absolute;
+			top:0;
+			float: left;
+			margin-top: 5.5px;
+			display: inline-block;
+			vertical-align: top;
+			img {
+				height: 34px;		
+			}
+		}
 	}
 
 	.list-of-views {
@@ -58,6 +69,9 @@
 				}
 				span.fa {
 					margin-right: 5px;
+					@media (min-width: 768px) and (max-width: 991px) {
+					   	margin-right:1px;
+					}
 					font-size: 20px;
 					position: relative;
 					top: 3px;
@@ -194,7 +208,6 @@
 						height: 32px;
 						margin-top: 7px;
 						padding: 6px 12px !important;
-						background-color: #55acee;
 						color: white;
 						border: none;
 						font-size: 13px; 
@@ -285,7 +298,6 @@
 			#global-new-tweet-button {
 				height: 32px;
 				margin-top: 7px;
-				background-color:#55acee;
 				color:white;
 				span.fa {
 					font-size: 14px;
@@ -301,6 +313,22 @@
 /* Mobile nav */
 	.hidden-mobile-nav {
 		text-align: center;
+		min-height: 37px;
+		#sign-in-button {
+			position: absolute;
+			top: 0;
+			right: 11px;
+			button {
+				height: 32px;
+				margin-top: 7px;
+				padding: 6px 12px !important;
+				background-color: #55acee;
+				color: white;
+				border: none;
+				font-size: 13px;
+			}
+		} 
+		
 	}
 		.mobile-nav-toggle-button-container {
 			position: absolute;
@@ -469,6 +497,30 @@
 	      -webkit-transform: rotate3d(0,0,1,-45deg); 
 	      -ms-transform: rotate3d(0,0,1,-45deg); 
 	    }
+	}
+
+	div#myModal > div.modal-dialog > div.modal-content {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+		width: 110%;
+	}
+
+	div#myModal > div.modal-dialog > div.modal-content > form > div.modal-footer {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
+	#close{
+	    display:inline-block;
+	    margin-left:-2%;
+	    text-align: center;
+	    width:30px;
+	    height:29px;
+	    position: absolute;
 	}
 
 @media screen and (min-width: 0px) and (max-width: 767px) {
