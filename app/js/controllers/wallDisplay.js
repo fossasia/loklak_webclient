@@ -107,6 +107,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 calculateTerm();
                 //On INIT
                 vm.update2(0);
+                vm.loadLeaderboard();
             }
             else {
                 vm.invalidId = true;
@@ -404,9 +405,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
     }
 
-    $interval(function() {
+    vm.loadLeaderboard = function () {
         if (vm.wallOptions.showStatistics == true) {
-            if (vm.statuses.length > 0) {
+            //if (vm.statuses.length > 0) {
                 var statParams = searchParams;
                 StatisticsService.getStatistics(statParams)
                     .then(function(statistics) {
@@ -414,8 +415,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                         },
                         function() {}
                     );
-            }
+            //}
         }
+    };
+    $interval(function() {
+        vm.loadLeaderboard();
     }, 20000);
 
 
