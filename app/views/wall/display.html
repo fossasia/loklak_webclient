@@ -32,7 +32,7 @@
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
-                    <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;"></div>
+                    <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;" ng-style="wall.wallOptions.showStatistics?{}:{'margin-right':'-48px'}"></div>
                 </div>
             </div>
             <div ng-show="wall.statuses.length>0" ng-if="wall.wallOptions.showStatistics" class="col-md-4">

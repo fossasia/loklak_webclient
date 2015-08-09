@@ -50,8 +50,6 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             }
             scope.$watchCollection('data', function() {
                 var cleanRun = 0;
-                //element.height($(window).height() - 120);
-                element.width($(window).width());
                 setTimeout(function() {
                     map.invalidateSize();
                 }, 1000);
