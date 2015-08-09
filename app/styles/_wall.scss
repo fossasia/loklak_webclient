@@ -302,8 +302,28 @@
     }
 }
 
-.wall-vertical-line {}
+.wall-location-input {
+    margin-top: 10px;
+    width: 160px;
+}
 
+.wall-location-list {
+    background-color: $btn-loklak-blue;
+    color: white;
+    border-radius: 5px;
+    text-align: left;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 160px;
+    > li {
+        padding: 8px;
+        &:hover {
+            background-color: $btn-loklak-blue-hover;
+            cursor: pointer;
+        }
+    }
+}
 
 /*Wall display */
 

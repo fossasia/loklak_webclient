@@ -70,6 +70,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if(!vm.wallOptions.blockRetweets) {
                 term = term + ' include:retweets';
         }
+        if(vm.wallOptions.chosenLocation) {
+            term = term + ' near:' + vm.wallOptions.chosenLocation;
+        }
         if (vm.wallOptions.sinceDate) {
             term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
         }
