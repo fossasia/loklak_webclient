@@ -27,6 +27,7 @@ directivesModule.directive('singleStatus', ['$location', '$rootScope', function(
 
             // favorite action
             $scope.favorite = function(id) {
+                console.log('Single Status');
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
                 });

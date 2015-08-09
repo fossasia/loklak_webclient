@@ -64,10 +64,10 @@
                 		<button class="reply" />
                 	</div>
                 	<div class="action-retweet">
-                		<button class="retweet" data-ng-click="retweet()"/><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
+                		<button class="retweet" data-ng-click="retweet()" id="rt-{{data.id_str}}"/><span ng-if="data.retweet_count" class="rt-count">{{data.retweet_count}}</span>	
                 	</div>
                 	<div class="action-favor">
-                		<button class="favor" data-ng-click="favorite(data.id_str)"/><span ng-if="data.favourites_count" class="fav-count">{{data.favourites_count}}</span>	
+                		<button class="favor" data-ng-click="favorite(data.id_str)" id="fav-{{data.id_str}}"/><span ng-if="data.favourites_count" class="fav-count">{{data.favourites_count}}</span>	
                 	</div>
                 	<div ng-click="toggleShowMoreAction()" class="action-more">
                 		<i class="fa fa-circle"></i>
