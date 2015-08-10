@@ -13,17 +13,15 @@ var plotted=0;
  * @ngInject
  */
 
- controllersModule.controller('AngelCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
+ controllersModule.controller('AngelCtrl', ['$rootScope','$location','$http','$scope','AppSettings','MapPopUpTemplateService', function($rootScope,$location,$http,$scope,AppSettings,MapPopUpTemplateService) {
   
 
 
   var totalpage=0;
   var currentpage=0;
   $scope.startups=[];
-
-      var startupslayer = new L.LayerGroup();
- 
-        var overlays = {
+  var startupslayer = new L.LayerGroup();
+  var overlays = {
             "Startups" : startupslayer 
         };
   var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -37,8 +35,8 @@ var plotted=0;
             "First Basemap": grayscale
         };
 
-        var map = L.map('map',{layers:[grayscale,startupslayer]}).setView([20,0], 2);
-    var code = function () {
+      var map = L.map('map',{layers:[grayscale,startupslayer]}).setView([20,0], 2);
+      var code = function () {
       var query_string = {};
       var query = window.location.search.substring(1);
       var vars = query.split("&");
@@ -59,17 +57,15 @@ var plotted=0;
     return query_string;
     }();
 
-$http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
+    $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
     {
-      client_id:'f148a48d308ee0ee11eb938a2f2f88bff24abb235412f596',
-      client_secret:'45b13fc4264976a051f40e4bbc62b91e0d0b50999ff9b089',
       code : code,
       grant_type:'authorization_code'
-    }}).
-  then(function(response) {
-  
+    }}).then(function(response) {
+      //$location.path('/startups');
   }, function(response) {
-    
+
+      //$location.path('/startups');
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
@@ -114,7 +110,8 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
           "startup_url"  : ele.company_url,
           "logo_url"     : ele.logo_url,
           "product_desc" :ele.high_concept,
-          "location"     : ele.locations[0].display_name
+          "location"     : ele.locations[0].display_name,
+          "quality"      : ele.quality
           
           });
         if(ele.locations[0].display_name)
@@ -168,7 +165,7 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
                     if(data.locations[locationkey].mark)
                     {
                       
-                    //var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
+                    var textpopup=MapPopUpTemplateService.startupInfoPopUp($scope.startups[i]);
                     //console.log("I am viewing "+followers[i].name);
                     //followers.preview[i]=textpopup;
                     var pointObject = {
@@ -181,7 +178,7 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent" : "<div class='foobar'><table><tr><td><img src="+$scope.startups[i].logo_url+" width=30px height=30px/></td><td><h4>"+$scope.startups[i].startup_name+"</h4></td></tr><tr><td><h5>"+$scope.startups[i].product_desc+"</td></tr><tr><td>Based out of--<b>"+$scope.startups[i].location+"</b></td><td> | Website :<a href="+$scope.startups[i].startup_url+">"+$scope.startups[i].startup_url+"</td></tr></table></div>" ,
+                            "popupContent" : "<div class='foobar'>"+textpopup+"</div>" ,
                             "propic" : $scope.startups[i].logo_url
 
                         },
