@@ -15,6 +15,7 @@
 .analysis-titles
 {
     margin: 0;
+    margin-left:5px; 
     margin-top:8px; 
     color: #66757f;
     font-size: 18px;
@@ -24,7 +25,7 @@
 .scrollr
 {
     overflow-y: scroll; 
-    height : 250px ;
+    height : 278px ;
 
 }
 .no-top-margin
@@ -231,11 +232,11 @@ td
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
-                <div class="row whitebg " style="margin-left:5px; margin-top:10px;">
-                    <h3 class="analysis-titles">Most Influential Followers</h3><hr>
+                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;">
+                    <h3 class="analysis-titles">Most Influential Followers</h3>
                                         <div class="scrollr">
                                         <div ng-repeat="follower in followers_follower | limitTo:100">
-                                        <div class="home-user-info" style="width:100%;padding:10px; margin-bottom:5px;">
+                                        <div class="home-user-info" style="width:100%;padding:20px; margin-bottom:5px;">
                                         <div class="home-user-info-content">
                                             <div class="top-content">
                                                 <img src="{{follower.profileimg}}">
