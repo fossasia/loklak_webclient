@@ -77,7 +77,8 @@ directivesModule.directive("retweetModal", ["$rootScope", function($rootScope) {
 						$rootScope.root.hello('twitter').api('me/share', 'POST', {
 					        id : id
 					    }).then(function(json) {
-					    	
+					    	var rtActionTrigger = '#rt-'+id;
+					    	$(rtActionTrigger).css('background-position','100% 100%');
 		                  }, function(e) {
 		                      console.log(e);
 		                  });
