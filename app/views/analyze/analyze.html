@@ -71,7 +71,7 @@ td
 }
 .tableheading
 {
-    background-color: #55ACEE;
+    background-color: #66757f;
     border-bottom: 2px solid #ECECEC;
     color: #FFF;
     border-top-left-radius: 5px;
@@ -114,7 +114,7 @@ td
     <div class="search-container container-fluid">
 
         <div ng-show="!search.showMap" class="title-as-current-search-term">
-            <span>@{{username}}</span>
+            <span>report:@{{username}}</span>
         </div>
         
         
@@ -182,12 +182,12 @@ td
                 <!-- Main analysis -->
                 <div  class="main-result-container whitebg" >
                     <div class="row">
-                        <div class="col-md-6">
-                            <center><h3 class="analysis-titles">Country wise Followers</h3></center>
+                        <div class="col-md-7">
+                            <h3 class="analysis-titles">Country wise Followers</h3>
                             <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <table class="table ">
                                 <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
@@ -196,12 +196,12 @@ td
                         </div><!--end span8-->
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <center><h3 class="analysis-titles">City wise Followers</h3></center>
+                        <div class="col-md-7">
+                            <h3 class="analysis-titles">City wise Followers</h3>
                             <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <table class="table">
                                 <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
@@ -227,12 +227,12 @@ td
             <!-- Right content: Other statistics -->
             <div class="dashboard dashboard-right col-md-3">
                 <div class="row whitebg" style="margin-left:5px">
-                    <center><h3 class="analysis-titles">Follower's distribution</h3></center>
+                    <h3 class="analysis-titles">Follower's distribution</h3>
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
                 <div class="row whitebg " style="margin-left:5px; margin-top:10px;">
-                    <center><h3 class="analysis-titles">Most Influential Followers</h3></center><hr>
+                    <h3 class="analysis-titles">Most Influential Followers</h3><hr>
                                         <div class="scrollr">
                                         <div ng-repeat="follower in followers_follower | limitTo:100">
                                         <div class="home-user-info" style="width:100%;padding:10px; margin-bottom:5px;">
