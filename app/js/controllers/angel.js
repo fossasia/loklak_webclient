@@ -8,6 +8,7 @@ var GeoJSON = require('../components/geojson');
 var result;
 var startupslocation=[];
 var marker=[];
+var plotted=0;
 /**
  * @ngInject
  */
@@ -66,7 +67,7 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
       grant_type:'authorization_code'
     }}).
   then(function(response) {
-    console.log(response);
+  
   }, function(response) {
     
     // called asynchronously if an error occurs
@@ -83,7 +84,7 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
       $scope.curr_page=response.data.page;
       $scope.lastpage=response.data.last_page;
       getStartups($scope.lastpage);
-      console.log($rootScope.root.startups);
+      //console.log($rootScope.root.startups);
     
   }, function(response) {
     
@@ -96,47 +97,62 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
   function getStartups(lastpage)
   {
     var i=1;
-    for(i=1;i<=lastpage;i++)
+    for(i=1;i<=5;i++)
     {
       var url="https://api.angel.co/1/startups?filter=raising&access_token=8cd27d851f1e4b69e27a29cc9606822c118586d4c8b168b5&callback=JSON_CALLBACK&page="+i;
       $http.jsonp(url).
     then(function(response) {
+      
       response.data.startups.forEach(function(ele){
+        
+        if(ele.locations[0])
+        {
+          
         $scope.startups.push(
         {
           "startup_name" : ele.name,
           "startup_url"  : ele.company_url,
           "logo_url"     : ele.logo_url,
-          "product_desc" :ele.product_desc,
+          "product_desc" :ele.high_concept,
           "location"     : ele.locations[0].display_name
           
           });
+        if(ele.locations[0].display_name)
+        {
+         // console.log(ele.locations[0].display_name)
+        }
+        else
+        {
+          console.log("This startup has no locations");
+        }
+        
         startupslocation.push(ele.locations[0].display_name);
-
-        Geocode();
-
-
+      }
+      
       })
+      Geocode();
         }, function(response) {
     
-    document.getElementById("data").innerHTML=response.data;
-    console.log(response);
+   
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
 
     }
+   
+    
     function Geocode()
-            {
+            { console.log("called");
                 
                 var locarray = {
 
                     "places" : startupslocation
                 }
-
+               
                 
-            $http.jsonp('http://loklak.org/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
+            $http.jsonp('http://localhost:9000/api/geocode.json?callback=JSON_CALLBACK&minified=true', {params : { data : locarray } })
             .success(function(data, status, headers, config) {
+              
               var startupsMarker = {
                 "type": "FeatureCollection",
                 "features": []
@@ -146,9 +162,12 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
                 for(var i=0;i<startupslocation.length;i++)
                 {
                     
+                   
                     var locationkey=startupslocation[i];
+                    
                     if(data.locations[locationkey].mark)
                     {
+                      
                     //var textpopup=FollowersMapTemplateService.genStaticTwitterFollower(followers , i);
                     //console.log("I am viewing "+followers[i].name);
                     //followers.preview[i]=textpopup;
@@ -162,8 +181,8 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
                         },
                         "type": "Feature",
                         "properties": {
-                            "popupContent" : "<div class='foobar'><h4>Follower</h4><hr>shsh</div>" ,
-                            "propic" : "abc"
+                            "popupContent" : "<div class='foobar'><table><tr><td><img src="+$scope.startups[i].logo_url+" width=30px height=30px/></td><td><h4>"+$scope.startups[i].startup_name+"</h4></td></tr><tr><td><h5>"+$scope.startups[i].product_desc+"</td></tr><tr><td>Based out of--<b>"+$scope.startups[i].location+"</b></td><td> | Website :<a href="+$scope.startups[i].startup_url+">"+$scope.startups[i].startup_url+"</td></tr></table></div>" ,
+                            "propic" : $scope.startups[i].logo_url
 
                         },
                         "id": "123"
@@ -173,11 +192,12 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
 
                     }
                 }
-                   add_marker(startupsMarker , 1);
+                   add_marker(startupsMarker);
                     
                 
                 }).error(function(data, status, headers, config) {
                     
+
                     console.log("There is error.Loklak Server did not respond with geodata.We will try again."+data+"fff"+status);
                     $scope.followers_status="Load Failed.Twitter did not respond."
                     
@@ -214,6 +234,8 @@ $http.jsonp('https://angel.co/api/oauth/token?callback=JSON_CALLBACK', { params:
                             autoPan: true
                         }).setContent(result.features[i].properties.popupContent);
                         marker[i].bindPopup(popup);
+                        plotted++;
+                        
                         
                     }
                     
