@@ -16,7 +16,7 @@
             </div>
             <!-- Right -->
             <div class="hidden-xs universal-topnav-item topnav-user-actions">
-                <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 <div global-search-form ></div>  
                 <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                 <ul class="global-tweet-button-container" ng-if="root.twitterSession">
@@ -32,7 +32,7 @@
             <!-- Mobile nav -->
             <div class="visible-xs hidden-mobile-nav">
                 <div class="left-logo-and-brand">
-                    <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                    <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 </div>
                 <div global-search-form ></div>  
                 <div ng-show="root.twitterSession" class="hided">
