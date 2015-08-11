@@ -120,14 +120,19 @@
 		width: 100%;
 	}
 }
-
-
+#add-connection-modal {
+	overflow-y: hidden;
+}
 #add-connection-modal-dialog {
 	width: 100%;
-	height: 95%;
+	height: 98%;
 	margin-top: 10px;
 	padding: 0px 10px 0 10px;
-
+}
+#add-connection-modal-content {
+	width: 100%;
+	height: 98%;
+	overflow: scroll;
 }
 #source-info-form input[name='sourceUrl']{
 	display: inline-block;
@@ -197,9 +202,10 @@
 	z-index: -1;
 }
 
-.toggle-show-data {
-	font-size: 24px;
+#toggle-show-data {
 	vertical-align: sub;
+	font-size: 23px;
+	color: rgb(76, 128, 158);
 	margin-left: 6px;
 }
 #source-info-form {
