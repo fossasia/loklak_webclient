@@ -11,11 +11,11 @@ function PushService($q, $http, AppSettings) {
 
 	service.pushData = undefined;
 
-	service.pushCustomData = function(url, endpoint) {
+	service.pushCustomData = function(url, endpoint, harvesting_freq, lifetime) {
 		var deferred = $q.defer();
 
 		$http.jsonp(AppSettings.apiUrl+'push/' + endpoint + '?callback=JSON_CALLBACK', {
-			params: {url: url}
+			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime}
 			}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
@@ -24,11 +24,13 @@ function PushService($q, $http, AppSettings) {
 		return deferred.promise;
 	};
 
-	service.pushGeoJsonData = function(url, source_type, map_type) {
+	service.pushGeoJsonData = function(url, source_type, map_type, harvesting_freq, lifetime) {
 		var deferred = $q.defer();
 		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', {
-			params: {url: url, source_type : source_type || 'IMPORT', map_type : map_type}
-			}).success(function(data) {
+			params: {
+				url: url, source_type : source_type || 'IMPORT', 
+				map_type : map_type, harvesting_freq : harvesting_freq, lifetime : lifetime
+			}}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
 				deferred.reject(err, status);

@@ -16,6 +16,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			$scope.loklakFields = LoklakFieldService.fieldList;
 			// Form inputs
 			$scope.inputs = { mapRules : {}};
+			// Default harvesting frequency value = 6 hours
+			$scope.inputs.harvesting_freq = {'value': 360, 'label':'6 hours'};
 			// Submit validation messages
 			$scope.messages = {};
 
@@ -111,8 +113,11 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 					return mapRulesStr;
 				}
 				console.log($scope.inputs.sourceType);
+				var lifetime = new Date($scope.inputs.lifetime).getTime();
 				if ($scope.inputs.sourceType === 'geojson') {
-					PushService.pushGeoJsonData($scope.inputs.url, $scope.inputs.sourceType, constructMapRules()).then(function(data) {
+					PushService.pushGeoJsonData(
+						$scope.inputs.url, $scope.inputs.sourceType, constructMapRules(), $scope.inputs.harvesting_freq.value, lifetime
+					).then(function(data) {
 			 			$scope.messages.error = '';
 			 			$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 			 		}, function(err, status) {
@@ -120,7 +125,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			 			$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
 					});
 				} else {
-					PushService.pushCustomData($scope.inputs.url, $scope.sourceTypeList[$scope.inputs.sourceType].endpoint).then(function(data) {
+					PushService.pushCustomData($scope.inputs.url, $scope.sourceTypeList[$scope.inputs.sourceType].endpoint, $scope.inputs.harvesting_freq.value, lifetime).then(function(data) {
 						$scope.messages.error = '';
 						$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
 					}, function(err, status) {

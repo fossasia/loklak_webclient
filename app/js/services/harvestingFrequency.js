@@ -24,6 +24,9 @@ function HarvestingFrequencyService(moment) {
 			'value' : 180
 		},
 		{
+			'value' : 360
+		},
+		{
 			'value' : 1440
 		},
 		{
