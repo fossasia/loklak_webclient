@@ -14,6 +14,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
+			$rootScope.root.aSearchWasDone = false;
 
 			/* Hello related init*/
 			var hello = $scope.hello;
@@ -33,7 +34,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			// Create global session variable
 			hello.on('auth.login', function(auth) {
 				hello(auth.network).api('/me').then(function(twitterSession) {
-					
+					$rootScope.root.twitterSession = true;
+
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterSession = twitterSession;	
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
@@ -70,6 +72,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+					window.foo = twitterFriendFeed;
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
@@ -77,6 +80,10 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					});
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						$rootScope.root.homeFeedLimit = 15;
+						$rootScope.root.loadMoreHomeFeed = function(operand) {
+							$rootScope.root.homeFeedLimit += operand;
+						};
 					});
 				}, function(){
 					console.log('Unable to load tweets from your followers');
@@ -89,6 +96,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				$rootScope.$apply(function() {
 					$rootScope.root.twitterSession = false;	
 				});	
+				angular.element("#map").remove();
 				if ($location.path() !== "/") {
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				} else {
@@ -195,7 +203,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			var idleTime = 0;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && !$rootScope.root.twitterSession) { 
+			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
 			    }
 			}
@@ -207,15 +215,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 
 				if (!isOnline) {
 					$('#signupModal').modal('show');	
-					angular.element(".topnav .global-search-container").addClass("ng-hide");
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
+						angular.element(".topnav .global-search-container").addClass("ng-hide");
+					}
 				}
 
-				if ($location.path() !== "/") {
-					angular.element(".topnav .global-search-container").removeClass("ng-hide");
-				}
 
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-				    if (toState.name !== "Home") {
+				    if (toState.name === "Search") {
 				    	angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				    } else {
 				    	angular.element(".topnav .global-search-container").addClass("ng-hide");

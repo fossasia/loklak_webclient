@@ -19,6 +19,7 @@
             <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
             <span><i class="fa fa-twitter"></i></span>
             <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
+            <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span>
         </div>
     </div>
 </div>

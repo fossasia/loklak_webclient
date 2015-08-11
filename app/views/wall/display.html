@@ -1,6 +1,3 @@
-<link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
-<link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
@@ -35,10 +32,10 @@
                 </div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
-                    <div data="wall.statuses" id="map" maplayout style="height:800px"></div>
+                    <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;" ng-style="wall.wallOptions.showStatistics?{}:{'margin-right':'-48px'}"></div>
                 </div>
             </div>
-            <div ng-show="wall.statuses.length>0" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
+            <div ng-style="wall.statuses.length>0?{'opacity':'1'}:{'opacity':'0'}" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
                 <h4>LEADERBOARD</h4>
                 <div class="row">
                     <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
