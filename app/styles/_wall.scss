@@ -325,6 +325,7 @@
     }
 }
 
+
 /*Wall display */
 
 .wall-header {
@@ -557,56 +558,61 @@
     width: 33.3%;
 }
 
-.card {
-    min-height: 200px;
-    margin: 20px;
-    background: white;
-    overflow: hidden;
-    padding: 12px;
-    border: 1px solid $search-grey-border;
-    &:first-child {
-        border-top-left-radius: 6px;
-        border-right-left-radius: 6px;
-    }
-    .avatar {
-        height: 60px;
-        max-width: 60px;
-        float: left;
-        border-radius: 6px;
-    }
-    .card-content {
-        padding-left: 2px;
-        position: relative;
-        margin-left: 70px;
-        min-height: 180px;
-        .name {
-            &:hover {
-                color: $search-twitter-blue;
+.card-container {
+    display: block;
+    margin: 10px;
+    min-width:200px;
+    .card {
+        /*min-height: 200px;*/
+        margin: 0px;
+        background: white;
+        overflow: hidden;
+        padding: 12px;
+        border: 1px solid $search-grey-border;
+        border-radius: 5px;
+        .avatar {
+            height: 60px;
+            max-width: 60px;
+            float: left;
+            border-radius: 6px;
+        }
+        .card-content {
+            padding-left: 2px;
+            position: relative;
+            margin-left: 65px;
+            /*min-height: 180px;*/
+            .name {
+                &:hover {
+                    color: $search-twitter-blue;
+                }
+            }
+            img {
+                max-height: 180px;
+                max-width: 100%;
+            }
+            .card-content-text {
+                /*word-break: keep-all;*/
+                word-wrap: break-word;
+                color: #292f33;
+                font-size: 16px;
+                line-height: 140%;
+                /*min-height: 140px;*/
+                .card-hashtag {
+                    color: #55ACEE;
+                }
+                .card-hashtag-current {
+                    font-weight: bold;
+                }
             }
         }
-        img {
-            max-height: 180px;
-            max-width: 100%;
-        }
-        .card-content-text {
-            word-break: keep-all;
-            color: #292f33;
+        .metadata {
+            margin-top: 15px;
             font-size: 16px;
+            color: #8899A6;
             line-height: 120%;
-            min-height: 140px;
-            .card-hashtag {
-                color: #55ACEE;
-            }
-            .card-hashtag-current {
-                font-weight: bold;
-            }
+            font-weight: normal;
+            font-style: italic;
         }
-    }
-    .metadata {
-        font-size: 16px;
-        color: #8899A6;
-        font-weight: normal;
-        font-style: italic;
     }
 }
 
