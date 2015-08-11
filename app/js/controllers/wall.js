@@ -9,7 +9,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
+function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, SearchService) {
 
     var vm = this;
     var term = '';
@@ -18,6 +18,34 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
     $scope.invalidFile = false;
     $scope.showNext = true;
     $scope.selectedTab = 0;
+
+    /*
+     * Location UI component
+     * If user input > 3 chars, suggest location
+     * clicking on suggested location assign value to the according model
+     */
+
+    $scope.$watch('newWallOptions.chosenLocation', function() {
+        if (document.activeElement.className.indexOf("wall-location-input") > -1) {
+            if ($scope.newWallOptions.chosenLocation && $scope.newWallOptions.chosenLocation.length >= 3) {
+                SearchService.getLocationSuggestions($scope.newWallOptions.chosenLocation).then(function(data) {
+                    vm.hasSuggestions = true;
+                    vm.locationSuggestions = data.queries;
+                    angular.element($('.wall-location-list')).width(($('wall-location-input').width()));
+                }, function(e) {
+                    vm.hasSuggestions = false;
+                    console.log(e);
+                });
+            } else {
+                vm.hasSuggestions = false;
+            }
+        }
+    });
+
+    vm.setLocation = function(locationTerm) {
+        $scope.newWallOptions.chosenLocation = locationTerm;
+        vm.hasSuggestions = false;
+    };
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
@@ -250,4 +278,4 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService) {
 
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', 'SearchService', WallCtrl]);
