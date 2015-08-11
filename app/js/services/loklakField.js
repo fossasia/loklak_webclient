@@ -13,19 +13,18 @@ function LoklakFieldService() {
 	[
 		{
 			value: 'screen_name',
-			label: 'Username'
+			label: 'Username',
+			help: 'The field name that matches message\'s owner username.'
 		},
 		{
-			value: 'latitude',
-			label: 'Latitude'
-		},
-		{
-			value: 'longitude',
-			label: 'Longitude'
+			value: 'location_point',
+			label: 'Coordinates',
+			help: 'The field name that matches to message\'s coordinates, in the following format [lon,lat]. Message\' coordinates are used to locate the message on loklak map'
 		},
 		{
 			value: 'text',
-			label: 'Message content'
+			label: 'Message content',
+			help: 'Tthe field name that matches to message\'s text. This is the actual content of the message'
 		}
 	];
 
