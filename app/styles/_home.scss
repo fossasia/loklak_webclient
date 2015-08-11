@@ -1,6 +1,4 @@
 .content-wrapper.home-view-content-wrapper {
-	background-color: white !important;
-	background: white !important;
 }
 
 /* Left user info  */
@@ -117,11 +115,14 @@
 }
 .main-result-container {
 	.statuses-container {
-		
+		> div {
+			background-color: white;
+		}
 		padding: 0;
 		.item {
 			padding: 15px 10px;
-			border-bottom: 4px solid #F5F8FA;
+			border-bottom: 1px solid #E1E8ED;
+			margin-bottom: 0;
 			.home-user-screen-name {
 				display: inline-block;
 				font-weight: 500;
