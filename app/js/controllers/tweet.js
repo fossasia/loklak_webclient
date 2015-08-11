@@ -81,7 +81,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 var tempArr = [];
 
                 for (var line = 0; line < lines.length; line++) {
-                    tempArr.push(lines[line].innerHTML);
+                    tempArr.push(lines[line].textContent);
                 }
 
                 var attachmentText = tempArr.join('\n');
