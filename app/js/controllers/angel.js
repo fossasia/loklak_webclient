@@ -93,8 +93,11 @@ var plotted=0;
   function getStartups(lastpage)
   {
     var i=1;
-    for(i=1;i<=5;i++)
+    for(i=1;i<=15;i++)
     {
+      $scope.startups.length=0; 
+      startupslocation.length=0;
+      
       var url="https://api.angel.co/1/startups?filter=raising&access_token=8cd27d851f1e4b69e27a29cc9606822c118586d4c8b168b5&callback=JSON_CALLBACK&page="+i;
       $http.jsonp(url).
     then(function(response) {
@@ -128,12 +131,14 @@ var plotted=0;
       
       })
       Geocode();
+
         }, function(response) {
     
    
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
+
 
     }
    
@@ -201,6 +206,7 @@ var plotted=0;
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
             });
+               
         }
 
   }
