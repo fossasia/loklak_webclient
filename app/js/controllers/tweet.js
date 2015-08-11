@@ -77,10 +77,11 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             }
             else if (optionChosen === 'markdownAttachment') {
                 console.log("Markdown Attachment going on here.");
-
+                var lines =  $('.CodeMirror-code > pre')
                 var tempArr = [];
-                for (var i=0; i<= $('.CodeMirror-code').text().length; i+=80) {
-                    tempArr.push($('.CodeMirror-code').text().substring(i,i+80));   
+
+                for (var line = 0; line < lines.length; line++) {
+                    tempArr.push(lines[line].innerHTML);
                 }
 
                 var attachmentText = tempArr.join('\n');
