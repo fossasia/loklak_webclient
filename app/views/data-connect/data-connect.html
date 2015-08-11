@@ -3,11 +3,15 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <div class="content-wrapper">
 
-	<div class="container-fluid content-container">
+	<div ng-show="root.twitterSession" class="container-fluid content-container">
 		<div id="data-connect-panel">
 			<button type="button" class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#data-connect-modal">My Connections</button>
 		</div>
 	</div>
+
+	<!-- Search box for anonymous user-no-followers -->
+	<div ng-include src="'anonymous-session-content.html'"></div>
+	<!-- End search box for anonymous users -->
 </div>
 
-<div ng-include="'data-connect/data-connect-modal.html'"></div>
+<div ng-show="root.twitterSession" ng-include="'data-connect/data-connect-modal.html'"></div>
