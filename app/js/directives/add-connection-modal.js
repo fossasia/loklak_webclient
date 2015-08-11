@@ -159,7 +159,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 				}
 				$scope.validateStatus = 'waiting';
 				PushService.validate($scope.inputs.url, $scope.inputs.sourceType).then(function(data) {
-					if (data.status == 'offline' || data.status == 'invalid') {
+					if (data.status == 'offline') {
+						$scope.validateStatus = 'error';
+						$scope.messages.validateError = 'The provided url is unreachable.';
+					} else if (data.status == 'invalid') {
 						$scope.validateStatus = 'error';
 						$scope.messages.validateError = 'Data format is not valid for source type ' + $scope.sourceTypeList[$scope.inputs.sourceType].name;
 					} else {

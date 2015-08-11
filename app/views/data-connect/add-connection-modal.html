@@ -58,7 +58,7 @@
 											{{messages.validateError}}
 										</div>
 										<br/>
-										<input required="true" ng-model="inputs.url" ng-model-options='{ debounce: 1000 }' type="text" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="" ng-change="validateSourceUrl();">
+										<input required="true" ng-model="inputs.url" ng-model-options='{ debounce: 1000 }' type="url" class="form-control" name="sourceUrl" placeholder="Public URL of the data source" style="" ng-change="validateSourceUrl();">
 										<i class="validate-icon fa" ng-class="
 										validateStatus == 'error' ? 'fa-exclamation-circle' :
 										(validateStatus == 'waiting' ? 'fa-spinner fa-pulse' :
