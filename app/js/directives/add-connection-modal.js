@@ -57,7 +57,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 				if (!$scope.inputs.mapRules[key]) {
 					$scope.inputs.mapRules[key] = [];
 				}
-				$scope.inputs.mapRules[key][1] = $scope.loklakFields[key]; // fill second column with loklak fields
+				$scope.inputs.mapRules[key][1] = $scope.loklakFields[key].value; // fill second column with loklak fields
 			}
 
 			$scope.closeSettingModal = function() {
@@ -69,6 +69,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 				$scope.inputs.sourceType = e.currentTarget.id;
 				$timeout(function() {
 					angular.element('#next-step').trigger('click');
+					// refresh validation state
+					$scope.validateSourceUrl();
 				}, 100);
 			};
 
@@ -90,7 +92,6 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			};
 
 			$scope.submit = function() {
-
 				if (!$scope.inputs.url) {
 					$scope.messages.error = 'Please provide a valid source url';
 					return;
@@ -112,8 +113,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 					}
 					return mapRulesStr;
 				}
-				console.log($scope.inputs.sourceType);
-				var lifetime = new Date($scope.inputs.lifetime).getTime();
+				var lifetime = null;
+				if ($scope.inputs.lifetime)
+					lifetime = new Date($scope.inputs.lifetime).getTime();
 				if ($scope.inputs.sourceType === 'geojson') {
 					PushService.pushGeoJsonData(
 						$scope.inputs.url, $scope.inputs.sourceType, constructMapRules(), $scope.inputs.harvesting_freq.value, lifetime
@@ -148,6 +150,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			}
 
 			$scope.validateSourceUrl = function() {
+				$scope.currentData = null;
+				$scope.showCurrentData = false;
 				if (!$scope.inputs.url) {
 					$scope.validateStatus = '';
 					$scope.messages.validateError = '';
