@@ -14,9 +14,13 @@
 	margin-right: 5px;
 }
 
-#my-connection-panel > h2 {
+#my-connection-panel > h1 {
 	display: inline-block;
 	vertical-align: sub;
+}
+
+#my-connection-panel #refreshButton {
+	margin-left: 8px;
 }
 
 /* overwrite admin.css */
