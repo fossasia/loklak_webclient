@@ -55,7 +55,7 @@ var marker=[];
     
         $('#notfoundmessage').hide();
         $('#loader').show(); 
-        $http.jsonp("http://loklak.org/api/user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
 
