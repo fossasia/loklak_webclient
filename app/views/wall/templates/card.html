@@ -1,4 +1,4 @@
-<div class="card-container" ng-class="data.images.length>0?'col-xs-6':'col-xs-3'">
+<div class="card-container" ng-class="getClass()">
     <div ng-attr-id="{{data.id_str}}" class="card card-simple">
         <div class="card-content row">
             <!-- Main content -->
@@ -13,7 +13,7 @@
                     <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
                     <span><i class="fa fa-twitter"></i></span>
                     <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
-                    <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span>
+                    <!-- <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span> -->
                 </div>
             </div>
             
