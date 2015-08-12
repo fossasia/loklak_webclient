@@ -9,10 +9,12 @@
                 <div class="card-content-text"  ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag |  toTrusted"></div>
                 <div class="metadata">
                     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
-                    <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
-                    <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-                    <span><i class="fa fa-twitter"></i></span> • 
-                    <span am-time-ago="data.created_at"></span>
+                    <div class="user-data">
+                        <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a> <span><i class="fa fa-twitter"></i></span> • 
+                        <span am-time-ago="data.created_at"></span>
+                        <br><span class="screen-name">{{ "@" + data.user.screen_name}}</span>
+                        
+                    </div>
                 </div>
             </div>
             

@@ -600,10 +600,13 @@
             }
             .metadata {
                 position: absolute;
+                width: 100%;
                 .avatar {
+                    float: left;
                     height: 30px;
                     max-width: 30px;
                     border-radius: 2px;
+                    margin-right: 5px;
                 }
                 bottom: 0;
                 font-size: 2.1vh;

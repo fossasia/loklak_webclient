@@ -23,11 +23,17 @@ directivesModule.directive('card', ['$timeout', function($timeout) {
             }
         },
         link: function(scope, element, attrs) {
-            $timeout(function() {
-                var i = element.find('.tweet-image');
-                if (typeof(i) != 'undefined' && i != null)
+        	console.log(attrs.leaderboardenabled);
+        	if(attrs.leaderboardenabled=="true"){
+        		element.find('.card-content-text').css("font-size","2.3vh");
+        		element.find('.card-content-text').css("line-height","1.3em");
+        		element.find('.metadata').css("font-size","1.8vh");
+        	}
+            $timeout(function() { //timeout is important
+                var i = element.find('.tweet-image'); //find our image
+                if (typeof(i) != 'undefined' && i != null) //check if it exists
                 {
-                  i.bind("load", function(e) {
+                  i.bind("load", function(e) {  //listen to the load method
                   	if((i.parent().width()-this.clientWidth)!=0)
                   		$(i.parent().parent().children()[1]).css("margin-left",((-1*(i.parent().width()-this.clientWidth))+5).toString() + 'px');
                   });
