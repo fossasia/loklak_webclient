@@ -44,6 +44,15 @@ function OnRun($rootScope, AppSettings, HelloService) {
     root.fullscreenDisabled = true;
     root.sidebarEnabled = false;
 
+
+    $rootScope.$on('cfpLoadingBar:started', function() {
+      angular.element('#loklak-nav-logo').hide();
+    });
+
+    $rootScope.$on('cfpLoadingBar:completed', function() {
+      angular.element('#loklak-nav-logo').show();
+    });
+
     // change page title based on state
     $rootScope.$on('$stateChangeSuccess', function(event, toState) {
       var pageTitle = 'Loklak ';
