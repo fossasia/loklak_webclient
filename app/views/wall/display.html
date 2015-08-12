@@ -36,7 +36,7 @@
                     <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;" ng-style="wall.wallOptions.showStatistics?{}:{'margin-right':'-48px'}"></div>
                 </div>
             </div>
-            <div ng-style="wall.statuses.length>0?{'opacity':'1'}:{'opacity':'0'}" ng-if="wall.wallOptions.showStatistics" class="col-md-4">
+            <div ng-if="wall.wallOptions.showStatistics && wall.statuses.length>0" class="col-md-4">
                 <h4>LEADERBOARD</h4>
                 <div class="row">
                     <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
@@ -88,7 +88,7 @@
                     <div class="box-body">
                         <div class="row">
                             <img class="histogram-loader" ng-hide="wall.histogram2" src="images/loading.gif">
-                            <canvas class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
+                            <canvas id="wallHistogram" class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
                         </div>
                     </div>
                 </div>
