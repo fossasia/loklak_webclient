@@ -11,9 +11,8 @@
                     <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
                     <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
                     <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-                    <span><i class="fa fa-twitter"></i></span>
-                    <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
-                    <!-- <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span> -->
+                    <span><i class="fa fa-twitter"></i></span> • 
+                    <span am-time-ago="data.created_at"></span>
                 </div>
             </div>
             
