@@ -559,44 +559,38 @@
 }
 
 .card-container {
-    display: block;
-    margin: 10px;
-    min-width:200px;
+    margin-bottom: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    /*height:200px;*/
+    height: calc(33vh - 50px);
     .card {
-        /*min-height: 200px;*/
+        height: 100%;
         margin: 0px;
         background: white;
-        overflow: hidden;
-        padding: 12px;
+        padding: 5px;
         border: 1px solid $search-grey-border;
         border-radius: 5px;
-        .avatar {
-            height: 60px;
-            max-width: 60px;
-            float: left;
-            border-radius: 6px;
-        }
         .card-content {
-            padding-left: 2px;
+            height: 100%;
+            padding: 5px;
             position: relative;
-            margin-left: 65px;
-            /*min-height: 180px;*/
+            margin: 0px;
             .name {
                 &:hover {
                     color: $search-twitter-blue;
                 }
             }
-            img {
-                max-height: 180px;
+            .tweet-image {
                 max-width: 100%;
+                max-height: calc(33vh - 70px);
+                padding-right: 10px;
             }
             .card-content-text {
-                /*word-break: keep-all;*/
                 word-wrap: break-word;
                 color: #292f33;
-                font-size: 16px;
-                line-height: 140%;
-                /*min-height: 140px;*/
+                font-size: 2.8vh;
+                line-height: 1.5em;
                 .card-hashtag {
                     color: #55ACEE;
                 }
@@ -604,14 +598,20 @@
                     font-weight: bold;
                 }
             }
-        }
-        .metadata {
-            margin-top: 15px;
-            font-size: 16px;
-            color: #8899A6;
-            line-height: 120%;
-            font-weight: normal;
-            font-style: italic;
+            .metadata {
+                position: absolute;
+                .avatar {
+                    height: 30px;
+                    max-width: 30px;
+                    border-radius: 2px;
+                }
+                bottom: 0;
+                font-size: 2.4vh;
+                color: #8899A6;
+                line-height: 1.2em;
+                font-weight: normal;
+                font-style: italic;
+            }
         }
     }
 }

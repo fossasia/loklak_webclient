@@ -1,24 +1,28 @@
-<div class="card-container">
+<div class="card-container" ng-class="data.images.length>0?'col-xs-6':'col-xs-3'">
     <div ng-attr-id="{{data.id_str}}" class="card card-simple">
-        <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
         <div class="card-content row">
             <!-- Main content -->
-            <p class="card-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag |  toTrusted"></p>
+            <div ng-if="data.images.length>0" class="col-xs-4" style="padding:0px;">
+                <img class="tweet-image" alt="" ng-if="data.images.length>0" ng-src="{{data.images[0] | instaFilter}}">
+            </div>
+            <div ng-class="data.images.length>0?'col-xs-8':'col-xs-12'" style="padding:0px;height:100%;">
+                <div class="card-content-text"  ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag |  toTrusted"></div>
+                <div class="metadata">
+                    <img class="avatar spinner" onError="this.onerror=null;this.src='/images/anon_200x200.png';" ng-src="{{data.user.profile_image_url_https | biggerProfileImage}}" alt="user-images">
+                    <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
+                    <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
+                    <span><i class="fa fa-twitter"></i></span>
+                    <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
+                    <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span>
+                </div>
+            </div>
+            
             <!-- Images -->
-            <div style="height: 100%;" class="col-xs-3">
-                <img alt="" ng-if="data.images.length>0" ng-src="{{data.images[0] | instaFilter}}">
-            </div>
             <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
-            <!-- Metadata -->
-        <!-- </div>
+            <!-- Metadata <--></-->
+            <!-- </div>
         <div class="row"> -->
-            <div class="metadata col-xs-12">
-                <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
-                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-                <span><i class="fa fa-twitter"></i></span>
-                <span class="created-at"> • {{data.created_at | tweetFromNow }}</span>
-                <span ng-show="data.place_name" class="created-at"> • <i class="fa fa-map-marker"></i> {{data.place_name}}</span>
-            </div>
+            
         </div>
     </div>
 </div>
