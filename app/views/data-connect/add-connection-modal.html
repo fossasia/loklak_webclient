@@ -29,7 +29,7 @@
 						</ul>
 					</div>
 
-					<div class="col-xs-10 tab-content">
+					<div class="col-xs-10 tab-content col-xs-offset-2">
 						<div class="tab-pane active" id="source-type-tab">
 							<div class="box-header">
 								<h3 class="box-title">Choose Data Source format</h3>
@@ -64,29 +64,33 @@
 										(validateStatus == 'waiting' ? 'fa-spinner fa-pulse' :
 										(validateStatus == 'success' ? 'fa-check' : ''))"></i> 
 									</div>
-									<div class="form-group">
-										<label for="harvestingFreq">Update frequency</label><br/>
-										<h4 style="display: inline-block"><small>Check for updates every </small></h4>
-										<ol name="harvestingFreq" class="nya-bs-select" ng-model="inputs.harvesting_freq">
-											<li nya-bs-option="freq in harvestingFreqList">
-												<a>{{freq.label}}</a>
-											</li>
-										</ol>
+									<div class="form-group"><label>Advanced options <i id="toggle-show-data" class="fa" ng-class="showAdvancedOptions ? 'fa-caret-down' : 'fa-caret-right'" ng-click="showAdvancedOptions = !showAdvancedOptions"></i></i>
 									</div>
-									<div class="form-group">
-										<label for="lifetime">Lifetime</label>
-										<h4><small>Expiration date of the source. Enter 'forever' for ever-lasting data</small></h4>
-										<div class="form-inline">
-											<div class="input-group dropdown">
-												<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-												<a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
-													<div class="input-append">
-													<input type="text" class="form-control date-input" name="lifetime" ng-model="inputs.lifetime">
-													</div>
-												</a>
-												<ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-												<datetimepicker ng-model="inputs.lifetime" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
-												</ul>
+									<div ng-show="showAdvancedOptions">
+										<div class="form-group">
+											<label for="harvestingFreq">Update frequency</label><br/>
+											<h4 style="display: inline-block"><small>Check for updates every </small></h4>
+											<ol name="harvestingFreq" class="nya-bs-select" ng-model="inputs.harvesting_freq">
+												<li nya-bs-option="freq in harvestingFreqList">
+													<a>{{freq.label}}</a>
+												</li>
+											</ol>
+										</div>
+										<div class="form-group">
+											<label for="lifetime">Lifetime</label>
+											<h4><small>Expiration date of the source. Leave blank for ever-lasting data</small></h4>
+											<div class="form-inline">
+												<div class="input-group dropdown">
+													<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+													<a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+														<div class="input-append">
+														<input type="text" class="form-control date-input" name="lifetime" ng-model="inputs.lifetime">
+														</div>
+													</a>
+													<ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+													<datetimepicker ng-model="inputs.lifetime" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -95,39 +99,46 @@
 						</div>
 						<div class="tab-pane" id="mapping-rule-tab">
 							<div class="box-header">
-								<h3 class="box-title">Final step : map your data to loklak</h3> <i id="toggle-show-data" ng-show="currentData" class="fa" ng-class="showCurrentData ? 'fa-caret-down' : 'fa-caret-right'" ng-click="showCurrentData = !showCurrentData"></i>
+								<h3 class="box-title">Final step: Map your data to loklak</h3> <i id="toggle-show-data" ng-show="currentData" class="fa" ng-class="showCurrentData ? 'fa-caret-down' : 'fa-caret-right'" ng-click="showCurrentData = !showCurrentData"></i>
 							</div>
 							<div class="box-body">
 								<div class="row" ng-show="showCurrentData">
 								<pre>{{currentData | json }}</pre>
 								</div>
-								<div class="row field-label">
-									<div class="col-md-2"><h3>Loklak field</h3></div>
-									<div class="col-md-4 col-md-offset-1"><h3>Custom field</h3></div>
-								</div>
-								<hr/>
-								<div class="form-group" ng-repeat="(key, value) in loklakFields">
-									<div class="row" ng-class="$last ? 'last' : ''" >
-										<div class="col-md-2">
-											<span name="loklakField" class="loklak-field">{{value.label}}</span>
-										</div>
-										<div class="col-md-1" style="text-align: center">
-											<i class="fa fa-arrow-left"></i>
-										</div>
-										<div class="col-md-4">
-											<input type="text" class="form-control input-sm custom-field" ng-model="inputs.mapRules[key][0]"/>
-										</div>
-										<div class="col-md-4 field-preview">
-											<pre>{{accessDataField(key) | json }}</pre>
-										</div>
-
-										<div class="col-md-1" ng-show="$last">
-											<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
-										</div>
+								<div class="row" ng-show="currentLoklakFields == null && inputs.sourceType">
+									<div class="col-md-8">
+										<h4><small>This step is not required for data of type <code>{{sourceTypeList[inputs.sourceType]['name']}}.</code></small></h4>
 									</div>
-									<div class="row">
-										<div class="col-md-7">
-											<h4><small>{{value.help}}</small></h4>
+								</div>
+								<div ng-hide="currentLoklakFields == null">
+									<div class="row field-label">
+										<div class="col-md-2"><h3>Loklak field</h3></div>
+										<div class="col-md-4 col-md-offset-1"><h3>Custom field</h3></div>
+									</div>
+									<hr/>
+									<div class="form-group" ng-repeat="(key, value) in currentLoklakFields">
+										<div class="row" ng-class="$last ? 'last' : ''" >
+											<div class="col-md-2">
+												<span name="loklakField" class="loklak-field">{{value.label}}</span>
+											</div>
+											<div class="col-md-1" style="text-align: center">
+												<i class="fa fa-arrow-left"></i>
+											</div>
+											<div class="col-md-4">
+												<input type="text" class="form-control input-sm custom-field" ng-model="inputs.mapRules[key][0]"/>
+											</div>
+											<div class="col-md-4 field-preview">
+												<pre>{{accessDataField(key) | json }}</pre>
+											</div>
+
+											<div class="col-md-1" ng-show="$last">
+												<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-7">
+												<h4><small>{{value.help}}</small></h4>
+											</div>
 										</div>
 									</div>
 								</div>

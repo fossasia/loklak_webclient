@@ -24,28 +24,28 @@ function SourceTypeService() {
 			'key': 'OPENWIFIMAP',
 			'name': 'Openwifimap',
 			'endpoint': 'openwifimap.json',
-			'logo': '/images/external/freifunk-router.png'
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'nodelist':
 		{
 			'key': 'NODELIST',
 			'name': 'Nodelist',
 			'endpoint': 'nodelist.json',
-			'logo': '/images/external/freifunk-router.png'
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'netmon':
 		{
 			'key': 'NETMON',
 			'name': 'Netmon',
 			'endpoint': 'netmon.xml',
-			'logo': '/images/external/freifunk-router.png'
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'freifunk_node':
 		{
 			'key': 'FREIFUNK_NODE',
 			'name': 'Freifunk Node',
 			'endpoint': 'freifunk_node.json',
-			'logo': '/images/external/freifunk-router.png'
+			'logo': '/images/external/freifunk.net.png'
 		},
 		'ninux':
 		{

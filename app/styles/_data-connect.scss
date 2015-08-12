@@ -151,6 +151,9 @@
 	max-height: calc(100% - 140px);
 	overflow-y: auto;
 }
+#add-connection-modal .modal-body .tabs-list {
+	position: fixed;
+}
 #source-info-form input[name='sourceUrl']{
 	display: inline-block;
 }
@@ -175,7 +178,7 @@
 	margin-top: 20px;
 	background: white;
 	border-radius: 10px;
-	padding: 15px 10px;
+	padding: 28px 10px 15px 10px;
 	height: 100px;
 }
 .source-type-item.nologo h4 {
@@ -207,6 +210,9 @@
 .source-type-item img {
 	opacity: 0.8;
 	position: relative;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .source-type-item:after {
