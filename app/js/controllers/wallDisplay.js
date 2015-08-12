@@ -87,6 +87,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
+        searchParams.fromWall = true;
     }
 
     function getWallData(){
@@ -128,15 +129,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.displaySearch = true;
     };
 
-    
-    console.log(maxStatusCount);
-
     init();
-    //calculate term
-
-
-    
-
 
     vm.histogramOptions = {
         //scaleBeginAtZero: true
