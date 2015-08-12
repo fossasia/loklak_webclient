@@ -36,7 +36,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
         },
         {
           'title': 'Connect',
-          'link' : '/dataConnect',
+          'link' : '/connect',
           'icon' : 'fa fa-cloud'
         }
         
