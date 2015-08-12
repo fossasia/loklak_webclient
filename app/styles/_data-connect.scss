@@ -92,6 +92,16 @@
 	text-decoration: underline;
 }
 
+#confirm-delete-modal-dialog {
+	width: 350px;
+}
+
+#confirm-delete-modal-dialog .modal-header {
+	border-bottom: none;
+}
+
+
+
 #add-connection-form h2 code {
 	cursor: pointer;
 }

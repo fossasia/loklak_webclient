@@ -94,9 +94,14 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 			console.error(error);
 			$scope.dataSourceMessages.error = 'Unable to save edited changes. If the problem persists, please contact loklak administrator for help.';
 		})
+	};
+
+	$scope.openConfirmDeleteModal = function(item) {
+		$scope.toDeleteItem = item;
+		angular.element('#open-confirm-modal').trigger('click');
 	}
-	$scope.deleteDataSource = function(item) {
-		ImportProfileService.delete(item).then(function(data) {
+	$scope.deleteDataSource = function() {
+		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
 			console.log(data);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 			$scope.dataSourceMessages.success = 'Data source deleted.';

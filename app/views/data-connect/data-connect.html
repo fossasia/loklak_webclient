@@ -59,7 +59,7 @@
 				<div class="col-md-12">
 					<button id="saveButton" class="btn btn-loklak-blue" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
 					<button id="editButton" class="btn btn-loklak-blue" ng-click="toggleEditDataSource($event, item); ">Edit</button>
-					<button id="deleteButton" class="btn btn-danger" ng-click="deleteDataSource(item);">Delete</button>
+					<button class="btn btn-danger" data-toggle="modal" ng-click="openConfirmDeleteModal(item)" data-target="#add-connection-modal">Delete</button>
 				</div>
 			</div>
 		</div>
@@ -68,5 +68,21 @@
 </div>
 </div>
 </div>
-
 <div add-connection-modal></div>
+<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
+<div id="confirm-delete-modal" class="modal" role="dialog">
+	<div id="confirm-delete-modal-dialog" class="modal-dialog">
+		<div class="modal-content" id="add-connection-modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<h4 style="text-align : center">Are you sure you want to delete this ?</h4>
+			</div>
+			<div class="modal-footer">
+			<button id="confirmDeleteButton" class="btn btn-danger" ng-click="deleteDataSource();" data-dismiss="modal">Delete</button>
+				<button id="cancelDeleteButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
