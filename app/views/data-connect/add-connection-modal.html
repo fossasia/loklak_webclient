@@ -64,29 +64,33 @@
 										(validateStatus == 'waiting' ? 'fa-spinner fa-pulse' :
 										(validateStatus == 'success' ? 'fa-check' : ''))"></i> 
 									</div>
-									<div class="form-group">
-										<label for="harvestingFreq">Update frequency</label><br/>
-										<h4 style="display: inline-block"><small>Check for updates every </small></h4>
-										<ol name="harvestingFreq" class="nya-bs-select" ng-model="inputs.harvesting_freq">
-											<li nya-bs-option="freq in harvestingFreqList">
-												<a>{{freq.label}}</a>
-											</li>
-										</ol>
+									<div class="form-group"><label>Advanced options <i id="toggle-show-data" class="fa" ng-class="showAdvancedOptions ? 'fa-caret-down' : 'fa-caret-right'" ng-click="showAdvancedOptions = !showAdvancedOptions"></i></i>
 									</div>
-									<div class="form-group">
-										<label for="lifetime">Lifetime</label>
-										<h4><small>Expiration date of the source. Enter 'forever' for ever-lasting data</small></h4>
-										<div class="form-inline">
-											<div class="input-group dropdown">
-												<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-												<a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
-													<div class="input-append">
-													<input type="text" class="form-control date-input" name="lifetime" ng-model="inputs.lifetime">
-													</div>
-												</a>
-												<ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
-												<datetimepicker ng-model="inputs.lifetime" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
-												</ul>
+									<div ng-show="showAdvancedOptions">
+										<div class="form-group">
+											<label for="harvestingFreq">Update frequency</label><br/>
+											<h4 style="display: inline-block"><small>Check for updates every </small></h4>
+											<ol name="harvestingFreq" class="nya-bs-select" ng-model="inputs.harvesting_freq">
+												<li nya-bs-option="freq in harvestingFreqList">
+													<a>{{freq.label}}</a>
+												</li>
+											</ol>
+										</div>
+										<div class="form-group">
+											<label for="lifetime">Lifetime</label>
+											<h4><small>Expiration date of the source. Leave blank for ever-lasting data</small></h4>
+											<div class="form-inline">
+												<div class="input-group dropdown">
+													<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+													<a class="dropdown-toggle my-toggle-select" id="datetimepicker1" role="button" data-toggle="dropdown" data-target="#" href="">
+														<div class="input-append">
+														<input type="text" class="form-control date-input" name="lifetime" ng-model="inputs.lifetime">
+														</div>
+													</a>
+													<ul class="dropdown-menu" role="menu" aria-labelledby="datetimepicker1">
+													<datetimepicker ng-model="inputs.lifetime" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
