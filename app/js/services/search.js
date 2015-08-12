@@ -5,11 +5,12 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function SearchService($q, $http, AppSettings) {
+function SearchService($q, $http, $rootScope, AppSettings) {
 
   var service = {};
 
   service.getData = function(term) {
+      $rootScope.root.aSearchWasDone = true;
       var deferred = $q.defer();
 
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
@@ -57,6 +58,7 @@ function SearchService($q, $http, AppSettings) {
   };
 
   service.initData = function(paramsObj) {
+      $rootScope.root.aSearchWasDone = true;
       var deferred = $q.defer();
       //paramsObj.q = decodeURIComponent(paramsObj.q);
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
@@ -116,4 +118,4 @@ function SearchService($q, $http, AppSettings) {
 
 }
 
-servicesModule.service('SearchService',['$q', '$http', 'AppSettings', SearchService]);
+servicesModule.service('SearchService',['$q', '$http', '$rootScope', 'AppSettings', SearchService]);

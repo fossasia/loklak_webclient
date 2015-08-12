@@ -82,8 +82,16 @@ directivesModule.directive('status', ['$location', '$timeout', '$rootScope', 'He
             }*/
 
             $scope.favorite = function(id) {
+                console.log("Status");
+                var actionString = '#fav-'+id;
+
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id
+                }).then( function(json) {
+                    console.log(json);
+                    $(actionString).css("background-position" , "100% 100%");
+                }, function (e) {
+                    console.log(e);
                 });
             };
         },

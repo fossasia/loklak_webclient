@@ -2,87 +2,90 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <div class="content-wrapper">
-<div class="container-fluid content-container container">
+	<div ng-show="root.twitterSession" class="container-fluid content-container container">
 
-<div id="my-connection-panel">
-	<div class="buttonPanel pull-right">
-		<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal">Add Source</button>
-	</div>
-	<h1>Active Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
-	<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		{{dataSourceMessages.success}}
-	</div>
-	<div class="alert alert-error alert-dismissible" role="alert" ng-show="dataSourceMessages.error">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		{{dataSourceMessages.error}}
-	</div>
-	<hr/>
-	<ul id="datasource-table">
-	<li>
-		<div class="row title-row">
-			<div class="col col-md-4">Source URL</div>
-			<div class="col col-md-2">Source type</div>
-			<div class="col col-md-1">Importer</div>
-			<div class="col col-md-2">Created time</div>
-			<div class="col col-md-2">Last edit</div>
-			<div class="col col-md-1">Imported</div>
+	<div id="my-connection-panel">
+		<div class="buttonPanel pull-right">
+			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal">Add Source</button>
 		</div>
-	</li>
-	<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
-		<div class="row content-row">
-			<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
-			<div class="col col-md-2"><a ng-href="/dataConnect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
-			<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
-			<div class="col col-md-2" am-time-ago="item.created_at"></div>
-			<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-			<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">{{item.imported.length}}</a></div>
+		<h1>Active Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
+		<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{dataSourceMessages.success}}
 		</div>
-		<div class="detail" ng-click="$event.stopPropagation();">
-			<div class="row">
-				<div class="col-md-2">
-					<label for="harvesting_freq">Update frequency</label>
-				</div>
-				<div class="col-md-10">
-					<select name="harvesting_freq" type="text" ng-disabled="!item.editing" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="item.harvesting_freq"/>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-2">
-					<label for="lifetime">Lifetime</label>
-				</div>
-				<div class="col-md-10">
-					<input name="lifetime" datasource-lifetime type="text" ng-disabled="!item.editing" ng-model="item.lifetime"/>
-				</div>
-			</div>
-			<div class="row detailButtonPanel">
-				<div class="col-md-12">
-					<button id="saveButton" class="btn btn-loklak-blue" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
-					<button id="editButton" class="btn btn-loklak-blue" ng-click="toggleEditDataSource($event, item); ">Edit</button>
-					<button class="btn btn-danger" data-toggle="modal" ng-click="openConfirmDeleteModal(item)" data-target="#add-connection-modal">Delete</button>
-				</div>
-			</div>
+		<div class="alert alert-error alert-dismissible" role="alert" ng-show="dataSourceMessages.error">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{dataSourceMessages.error}}
 		</div>
-	</li>
-	</ul>
-</div>
-</div>
-</div>
-<div add-connection-modal></div>
-<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
-<div id="confirm-delete-modal" class="modal" role="dialog">
-	<div id="confirm-delete-modal-dialog" class="modal-dialog">
-		<div class="modal-content" id="add-connection-modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<hr/>
+		<ul id="datasource-table">
+		<li>
+			<div class="row title-row">
+				<div class="col col-md-4">Source URL</div>
+				<div class="col col-md-2">Source type</div>
+				<div class="col col-md-1">Importer</div>
+				<div class="col col-md-2">Created time</div>
+				<div class="col col-md-2">Last edit</div>
+				<div class="col col-md-1">Imported</div>
 			</div>
-			<div class="modal-body">
-				<h4 style="text-align : center">Are you sure you want to delete this ?</h4>
+		</li>
+		<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
+			<div class="row content-row">
+				<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
+				<div class="col col-md-2"><a ng-href="/dataConnect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
+				<div class="col col-md-1">{{item.screen_name || item.client_host}}</div>
+				<div class="col col-md-2" am-time-ago="item.created_at"></div>
+				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
+				<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">{{item.imported.length}}</a></div>
 			</div>
-			<div class="modal-footer">
-			<button id="confirmDeleteButton" class="btn btn-danger" ng-click="deleteDataSource();" data-dismiss="modal">Delete</button>
-				<button id="cancelDeleteButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<div class="detail" ng-click="$event.stopPropagation();">
+				<div class="row">
+					<div class="col-md-2">
+						<label for="harvesting_freq">Update frequency</label>
+					</div>
+					<div class="col-md-10">
+						<select name="harvesting_freq" type="text" ng-disabled="!item.editing" ng-options="freq.value as freq.label for freq in harvestingFreqList" ng-model="item.harvesting_freq"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<label for="lifetime">Lifetime</label>
+					</div>
+					<div class="col-md-10">
+						<input name="lifetime" datasource-lifetime type="text" ng-disabled="!item.editing" ng-model="item.lifetime"/>
+					</div>
+				</div>
+				<div class="row detailButtonPanel">
+					<div class="col-md-12">
+						<button id="saveButton" class="btn btn-loklak-blue" ng-click="saveDataSource(item); " ng-show="item.editing">Save</button>
+						<button id="editButton" class="btn btn-loklak-blue" ng-click="toggleEditDataSource($event, item); ">Edit</button>
+						<button class="btn btn-danger" data-toggle="modal" ng-click="openConfirmDeleteModal(item)" data-target="#add-connection-modal">Delete</button>
+					</div>
+				</div>
+			</div>
+		</li>
+		</ul>
+	</div>
+	<div add-connection-modal></div>
+	<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
+	<div id="confirm-delete-modal" class="modal" role="dialog">
+		<div id="confirm-delete-modal-dialog" class="modal-dialog">
+			<div class="modal-content" id="add-connection-modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<h4 style="text-align : center">Are you sure you want to delete this ?</h4>
+				</div>
+				<div class="modal-footer">
+				<button id="confirmDeleteButton" class="btn btn-danger" ng-click="deleteDataSource();" data-dismiss="modal">Delete</button>
+					<button id="cancelDeleteButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+	<!-- Search box for anonymous user-no-followers -->
+	<div ng-include src="'anonymous-session-content.html'"></div>
+	<!-- End search box for anonymous users -->
 </div>

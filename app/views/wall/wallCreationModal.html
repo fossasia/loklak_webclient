@@ -131,6 +131,17 @@
                                                         </choices>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <h3>Location</h3>
+                                                    <div class="row">
+                                                        <h4 class="col-xs-8">Places<br><small>Show tweets near this place</small></h4>
+                                                        <input class="wall-location-input"  type="text" ng-model="newWallOptions.chosenLocation">
+                                                        <ul class="col-xs-offset-8 wall-location-list"  ng-show="wall.hasSuggestions">
+                                                            <li ng-repeat="location in wall.locationSuggestions | limitTo:5" ng-click="wall.setLocation(location.query)">{{location.query}}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <span class="location-hint">Click to change/choose location</span> -->
+                                                </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="wall-float-container">

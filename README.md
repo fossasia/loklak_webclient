@@ -10,12 +10,13 @@ Install and run it first.
 
 ### Build
 
-1. Install git, nodejs, nasm, libpng-dev, dh-autoreconf
-2. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
-3. Create your custom settings file by doing
+1. Install: git npm nodejs nasm libpng-dev dh-autoreconf
+2. run `npm install -g gulp`
+3. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
+4. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
-4. Run `npm install` from the root directory **AND** from `oauth-proxy` subdirectory, **AND** from `iframely`
+5. Run `npm install` from the root directory **AND** from `oauth-proxy` subdirectory, **AND** from `iframely`
 
 ### Add twitter credentials
 Create an twitter application at `https://apps.twitter.com`, remember to set the correct website url & callback url (for localhost, `http://127.0.0.1/` works better), then modify `custom_configFile.json`:

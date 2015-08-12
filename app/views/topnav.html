@@ -165,6 +165,10 @@
 var latitude;
 var longitude;
 
+function getLocation() {
+  alert("From Function!");
+}
+
 $(document).click(function(){
  $("#subDropDownMenu").hide('slow'); 
  reActivate();
@@ -173,6 +177,12 @@ $(document).click(function(){
 $("#subDropDownMenu").click(function(e){
   e.stopPropagation(); 
 });
+
+$('#myModal').on('shown.bs.modal', function (e) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } 
+})
 
   function reActivate() {
     $("#dropdownMenu1").click(function(e){
@@ -227,10 +237,6 @@ $("#subDropDownMenu").click(function(e){
   }
 
   var tempArray = [];
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } 
 
   function showPosition(position) {
     latitude = position.coords.latitude;

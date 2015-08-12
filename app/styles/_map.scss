@@ -207,6 +207,12 @@
 	width: 36px;
 	height: 36px;
 	}
+
+	.leaflet-popup {
+		margin-left:5px;
+		margin-bottom: 12px;
+	}
+
 	.single-tweet.map-tweet {
 		margin: 0;
 		padding: 0;	
@@ -232,3 +238,7 @@
 		}
 	}
 
+
+.map-view .anonymous-session-content .blue-bar {
+	margin-top: 46px;
+}
