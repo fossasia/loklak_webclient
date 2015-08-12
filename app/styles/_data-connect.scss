@@ -136,7 +136,10 @@
 #add-connection-modal-content {
 	width: 100%;
 	height: 98%;
-	overflow: scroll;
+}
+#add-connection-modal .modal-body {
+	max-height: calc(100% - 140px);
+	overflow-y: auto;
 }
 #source-info-form input[name='sourceUrl']{
 	display: inline-block;
@@ -171,6 +174,7 @@
 	text-align: center;
 	color: #55acee;
 	font-size: 40px;
+	transform: inherit;
 }
 .source-type-item:hover, .source-type-item.selected {
 	border : 2px solid #55acee;
@@ -182,7 +186,8 @@
 .source-type-item h4 {
 	position: absolute;
 	top: 16px;
-	right: 29px;
+	transform: translateX(-50%);
+	left: 50%;
 }
 .source-type-item h2 span {
 	color: black;

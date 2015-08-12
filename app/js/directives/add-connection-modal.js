@@ -30,7 +30,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			$scope.sourceTypeListWEndpoint['geojson'] =
 			{
 				'key': 'FOSSASIA_API',
-				'name': 'GeoJson'
+				'name': 'GeoJson',
+				'logo': '/images/external/geojson.png'
 			};
 
 			$scope.tabItems = [
