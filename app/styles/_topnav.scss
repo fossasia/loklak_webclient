@@ -531,6 +531,12 @@
 	    position: absolute;
 	}
 
+	input.fa.fa-twitter.btn.btn-default {
+		background-color: #55ACEE;
+		border-color: #55ACEE;
+		color: white;
+	}
+
 @media screen and (min-width: 0px) and (max-width: 767px) {
 	.main-header {
 		> .topnav {

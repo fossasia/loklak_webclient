@@ -278,16 +278,19 @@ $('#myModal').on('shown.bs.modal', function (e) {
   console.log(latitude + ',' + longitude);
 
   function setMap(latitude, longitude) {
-    map = L.map('map').setView([latitude, longitude], 12);
+    map.panTo(new L.LatLng(latitude, longitude));
   }
-  
-  map = L.map('map').setView([0, 0], 3);
 
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
 
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-  }).addTo(map);
+  map = L.map('map').setView([51.505, -0.159], 15).addLayer(osm);
+
+  map.on('tileerror', function(error, tile) {
+    console.log(error);
+    console.log(tile);
+  });
 
   function setMapTile() {
     $("#map").show();
@@ -311,6 +314,7 @@ $('#myModal').on('shown.bs.modal', function (e) {
     console.log(lat+','+lng);
     $("#mapLat").val(lat);
     $("#mapLng").val(lng);
+    setMap(lat, lng);
   }
 
   function showLargeAttachment() {
