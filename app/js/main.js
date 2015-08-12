@@ -42,9 +42,11 @@ angular.element(document).ready(function() {
     'infinite-scroll',
     'ui.choices',
     'FBAngular',
+    'googlechart',
     'akoenig.deckgrid',
     'chart.js',
-    'naif.base64'
+    'naif.base64',
+    'nya.bootstrap.select'
   ];
 
   // mount on window for testing

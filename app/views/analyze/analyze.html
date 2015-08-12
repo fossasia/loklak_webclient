@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
+<script src="http://bouil.github.io/angular-google-chart/ng-google-chart.js"></script>
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
@@ -7,10 +8,40 @@
  <style type="text/css">
 .background{
     width : 100%;
-    height: 100vh;
-    background-image: url('../images/bg.png'); 
+    height: 100vh; 
     text-align: center;
     padding-top: 15%
+}
+.analysis-titles
+{
+    margin: 0;
+    margin-left:5px; 
+    margin-top:8px; 
+    color: #66757f;
+    font-size: 18px;
+    font-weight: 300;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.scrollr
+{
+    overflow-y: scroll; 
+    height : 350px ;
+
+}
+.no-top-margin
+{
+    margin-top:0px; 
+    padding: 0px;
+}
+td
+{
+    width: 50%
+
+}
+.whitebg
+{
+    border-radius:5px; 
+    background: #fff;
 }
 .heading
 {
@@ -20,12 +51,15 @@
 }
 .inputname
 {
-    width : 50%;
-    height : 40px;
-    color:  gray; 
-    font-family: "Lucida Console", Monaco, monospace;
-    border-radius: 4px;
-    font-size: 25px;
+    color: #292f33;
+    margin-top:8px;
+    background-color: #fff;
+    border: 2px solid #e1e8ed;
+    border-radius: 21px;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    
 }
 .big {
     margin-top: 15px;
@@ -39,14 +73,13 @@
 }
 .tableheading
 {
-    background-color: #2C3D50;
+    background-color: #66757f;
     border-bottom: 2px solid #ECECEC;
     color: #FFF;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-   
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 50%
     font-size: 18px;
-    width: 100%;
     font-weight: 600;
 
 }
@@ -64,80 +97,151 @@
     font-size : 15px;
     font-family: "Lucida Console", Monaco, monospace; 
 }
+.fillit
+{
+    width: 70%;
+    height:100%;
+    margin : 0 auto;
 
-
+}
+#percentage-modal .modal-dialog
+{
+    padding: 10px;
+    min-width: 1080px;
+    margin: 0 auto;
+}
+.padded
+{
+    padding-left: 0px;
+}
+.bottom-margin-small{
+    margin-bottom: 10px;
+}
 </style>
+<div class="content-wrapper" >
+    <div class="search-container container-fluid">
 
-<div class="modal fade" id="analyze-modal">
-
-<div class="background">
-<div class="title">
-    <h3 class="heading">Loklak allows you to analyse your Twitter data geographically and across different parameters</h3>
-    
-    <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
-    <br>
-    <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstat()"  >
-    <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
-    </button>
-    <br>
-    <img id="loader" src="../images/blackloader.gif"></img>
-    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>
-
-</div>
-</div>
-</div>
-
-    
-    <div class="modal-dialog modal-lg wall-modal-dialog">
-        <div class="modal-content wall-modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"><span class="fa fa-bar-chart" aria-hidden="true">Statistics</span><center><i>@{{username}}</i></center>
-                </h2>
-            </div>
-            <div class="modal-body">
-      
-                <div class="row">
-                    <div>
-                        <div class="col-xs-2 tabs-list">
-                            <ul class="nav nav-tabs tabs-left">
-                                <li class="active"><a href="#info" data-toggle="tab"><i class="fa fa-users fa-2x"></i><br><h4>Followers</h4></a></li>
-                                <li><a href="#content" data-toggle="tab"><i class="fa fa-user-plus fa-2x"></i><br><h4>Following</h4></a></li>
-                                <li><a href="#design" data-toggle="tab"><i class="fa fa-cloud fa-2x"></i><br><h4>IoT</h4></a></li>
-                            </ul>
+        <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
+            <span>report:@{{username}}</span>
+        </div>
+        
+    </div>    
+        <!-- Main content -->
+        <div class="container content-container">
+            <!-- Left content: Who to follow, trends -->
+            <div class="col-md-3 padded ">
+                <div class="home-user-info no-top-margin">
+                <div class="blue-background-placeholder">
+                    <img ng-src="{{profilebanner}}" alt="user-banner-photo">    
+                </div>
+                <div class="home-user-info-content" style="width:268px;">
+                    <div class="top-content">
+                        <img ng-src="{{profilepicurl | homePageImage }}">
+                        <div class="name-and-screen-name">
+                            <span class="home-user-name">{{name}}</span><br>
+                            <span class="home-user-screen-name">@{{username}}</span>
                         </div>
-                        <div class="col-xs-10">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="info">
-                                    <div class="col-xs-4">
-                                        <div class="row">
-                                          <center><h3>Country wise Followers</h3></center>
-                                            <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels"></canvas>
-                                        </div>
-                                        <div class="row">
-                                          <center><h3>City wise Followers</h3></center>
-                                            <canvas id="pie" class="chart chart-pie"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels"></canvas>
-                                        </div>
+                    </div>
+                    <div class="bottom-content">
+                        <div class="user-no-tweets">
+                            <a href="">Tweets<br><span>{{tweetcount}}</span></a>
+                        </div>
+                        <div class="user-no-followings">
+                            <a href="">Followings<br><span>{{followingstotal}}</span></a>
+                        </div>
+                        <div class="user-no-followers">
+                            <a href="">Followers<br><span>{{followerstotal}}</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
+    <br><center>
+    <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
+    <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
+    </button><img id="loader" src="../images/whiteloader.gif"></img>
+    </center><br>
+    
+    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+        </div>
+            <!-- Center result + option filters -->
+            <div  class="result-container col-md-6">
+                <!-- Filters -->
+                <div class="filters-container">
+                    <ul class="search-modes">
+                        <!-- General filters -->
+                        <li class="active" ng-class="(root.globalFilter === 'followers') ? 'active' : ''" ng-click="getstatfollower()">
+                            <a href="#">Followers</a>
+                        </li>
+                        <li  ng-class="(root.globalFilter === 'following') ? 'active' : ''" ng-click="getstatfollowing()">
+                            <a href="#">Following</a>
+                        </li>
+                        <li  ng-class="(root.globalFilter === 'iot') ? 'active' : ''" ng-click="getstatiot()">
+                            <a href="#">IoT</a>
+                        </li>
+                    </ul>
+                </div>
 
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <div class="row">
-                                            <center><h3>Follwer's distribution</h3></center>
-                                            <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels"></canvas>
-                                        </div>
-                                        <div class="row">
-                                            <table class="table table-striped">
-                                                <th class="tableheading">Analysis</th><th class="tableheading"></th>
-                                                <tr><td><b>Country</td><td>Followers</b></td>
-                                                <tr ng-repeat="country in countrydata | limitTo:5">
-                                                    <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
-                                                </li>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <center><h3>Most Influential Followers</h3></center><hr>
-                                        <div ng-repeat="follower in followers_follower | limitTo : 5">
-                                        <div class="home-user-info" style="width:100%;margin-top:0px; margin-bottom:5px;">
+                
+               
+
+                <!-- Main analysis -->
+                <div  class="main-result-container whitebg" >
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h3 class="analysis-titles">Country wise Followers</h3>
+                            <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
+                            </canvas>
+                        </div>
+                        <div class="col-md-5">
+                            <table class="table ">
+                                <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
+                                    <tr ng-repeat="country in countrydata | limitTo:5">
+                                        <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
+                            </table> 
+                        </div><!--end span8-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h3 class="analysis-titles">City wise Followers</h3>
+                            <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
+                            </canvas>
+                        </div>
+                        <div class="col-md-5">
+                            <table class="table">
+                                <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
+                                    <tr ng-repeat="city in citydata | limitTo:5">
+                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}%</i></b></td>
+                            </table> 
+                        </div><!--end span8-->
+                    </div>
+
+                </div>                   
+
+                <!-- People results -->
+                <div ng-if="search.peopleSearch" class="main-result-container">
+                    <div ng-repeat="account in search.accounts" account data="account"></div>
+                </div>
+
+               
+            </div>
+             <!-- Map result -->
+            <div ng-show="search.showMap" class="search-map-wrapper map-container-parent">
+                <div id="search-map"></div>
+            </div>
+
+            <!-- Right content: Other statistics -->
+            <div class="dashboard dashboard-right col-md-3 padded">
+                <div class="row whitebg" style="margin-left:5px">
+                    <h3 class="analysis-titles">Follower's distribution</h3>
+                    <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
+                    </canvas>
+                </div>
+                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;">
+                    <h3 class="analysis-titles">Most Influential Followers</h3>
+                                        <div class="scrollr">
+                                        <div ng-repeat="follower in followers_follower | limitTo:100">
+                                        <div class="home-user-info" style="width:100%;padding-top:20px; margin-bottom:5px;">
                                         <div class="home-user-info-content">
                                             <div class="top-content">
                                                 <img src="{{follower.profileimg}}">
@@ -161,22 +265,11 @@
                                         </div>
                                         </div>
                                         </div>
-                                    </div> <!--end-->
-                                </div>
-                                <div class="tab-pane" id="content">
-                                    <div id="message"> <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"> We are working on getting your analysis about Following.Watch out!</div>
-                                </div>
-                                <div class="tab-pane" id="design">
-                                    <div id="message"> <img src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"> We will soon be supporting IoT.</div>
-                                        <!-- /.box-body -->
                                     
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+            </div>
+
         </div>
     </div>
 </div>
-

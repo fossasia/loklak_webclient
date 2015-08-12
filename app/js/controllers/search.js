@@ -103,20 +103,20 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.filterAccounts = function() {
         $rootScope.root.globalFilter = 'accounts';
         vm.newStasuses = [];
+        vm.accountsPretty = [];
         vm.accounts = [];
         var term = vm.term;
 
         SearchService.getData(term).then(function(data) {
-            data.statuses.forEach(function(ele) {
-                var notYetInAccounts = true;
-                vm.accounts.forEach(function(account) {
-                    if (account.screen_name === ele.screen_name) {
-                        notYetInAccounts = false;
-                        return notYetInAccounts;
-                    }
-                });
-                if (notYetInAccounts) { vm.accounts.push(ele);}
+            // Get screen_name, then remove duplicates
+            data.statuses.forEach(function(ele) { vm.accounts.push(ele.screen_name) });
+            vm.accounts = vm.accounts.filter(function(item, pos) { return vm.accounts.indexOf(item) == pos; })
+            vm.accounts.forEach(function(ele) {
+                SearchService.retrieveImg(ele).then(function(data) {
+                    vm.accountsPretty.push(data.user);
+                }, function() {})
             });
+
             vm.peopleSearch = true;
             vm.showMap = false;
         }, function() {});

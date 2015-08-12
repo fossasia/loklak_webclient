@@ -49,6 +49,7 @@ directivesModule.directive('searchModal', ['$location', '$timeout', '$rootScope'
             };
 
             $scope.favorite = function(id) {
+                console.log("Search Modal");
                 console.log(id);
                 $rootScope.root.hello('twitter').api('me/like', 'POST', {
                     id : id

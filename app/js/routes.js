@@ -71,12 +71,18 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Map'
   })
   .state('DataConnect', {
-    url: '/dataConnect',
+    url: '/connect',
     templateUrl: 'data-connect/data-connect.html',
     controller: 'DataConnectCtrl as dataConnect',
-    title: 'Connect Data'
+    title: 'My Connections'
   })
-  .state('Analyze', {
+  .state('DataConnectWSourceType', {
+    url: '/connect/:source_type',
+    templateUrl: 'data-connect/data-connect.html',
+    controller: 'DataConnectCtrl as dataConnect',
+    title: 'My Connections'
+  })
+ .state('Analyze', {
     url: '/report',
     templateUrl: 'analyze/analyze.html',
     controller: 'AnalyzeCtrl as Analyze',
@@ -93,7 +99,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $urlRouterProvider.otherwise('/');
 
   cfpLoadingBarProvider.includeBar = false;
-  cfpLoadingBarProvider.includeSpinner = false;
+  cfpLoadingBarProvider.includeSpinner = true;
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];

@@ -1,61 +1,18 @@
 'use strict';
-/* global angular, L */
-/* jshint unused:false */
+// jshint laxbreak:true
 
-var controllersModule = require('./_index');
-var Leaflet = require('../components/leaflet');
-var GeoJSON = require('../components/geojson');
-var result;
-var marker=[];
+var servicesModule = require('./_index.js');
+
 /**
  * @ngInject
  */
+function getpcdistribution($filter) {
 
- controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
+  var service = {};
 
-
-    
-    //View handling
-    $('#analyze-modal').modal('show');
-    $('#loader').hide();
-    $('#notfoundmessage').hide();
-
-    var chart1 = {};
-    chart1.type = "GeoChart";
-    chart1.data = [
-        ['Locale', 'Count', 'Percent'],
-        ['Tunisia' , 0 , 0]
-
-    ];
-
-    chart1.options = {
-      width: 1024,
-      chartArea: {left:10,top:10,bottom:0,width:"100%"},
-      colorAxis: {colors: ['#aec7e8', '#1f77b4']},
-      displayMode: 'regions'
-    };
-
-    chart1.formatters = {
-     number : [{
-       columnNum: 1,
-       pattern: "# #,##0.00 %"
-     }]
-    };
-
-    $scope.chart = chart1;
-    $scope.username;
-    $scope.influentialfollowers=[];
-    var counter=0;
-    
-     $scope.getstatfollower=function()
-     {
-        console.log("yepbuddy");
-        
-        
-    
-        $('#notfoundmessage').hide();
-        $('#loader').show(); 
-        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+  service.pcdistribution = function(screen_name) 
+  	{
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :screen_name, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
 
@@ -114,59 +71,11 @@ var marker=[];
 
                 });
 
-                //Counting per city
-                for(var i = 0; i < city_Array.length; ++i) 
-                {
-                    if(!city_stat_result[city_Array[i]])
-                    city_stat_result[city_Array[i]] = 0;
-                    ++city_stat_result[city_Array[i]];
-                }
-                var citynames = Object.keys( city_stat_result );
-
-                //Populating Data Set
-                var cityData=[];
-                citynames.forEach(function(ele){
-                    var percentage=((city_stat_result[ele]/followerwithcity)*100);
-                    percentage=Number(percentage).toFixed(2);
-                    $scope.citydata.push({
-                        "city" : ele ,
-                        "followers" : percentage
-
-                    });
-                    
-                    if(percentage>0.5)
-                    {    
-                     $scope.cityvalues.push(percentage);
-                     $scope.citylabels.push(ele);
-                    }
-                    
-                });
-                getTopfive($scope.citydata);
                 
                 
                 //Getting country wise stats
 
                  data.topology.followers.forEach(function(ele){
-                    if(ele.followers_count<200)
-                    {
-                        followers_category[0]++;
-                    }
-                    if(ele.followers_count>200 && ele.followers_count<=500)
-                    {
-                        followers_category[1]++;
-                    }
-                    if((ele.followers_count>500 && ele.followers_count<=1000))
-                    {
-                        followers_category[2]++;
-                    }
-                    if((ele.followers_count>1000 && ele.followers_count<=10000))
-                    {
-                        followers_category[3]++;
-                    }
-                    if((ele.followers_count>=10000))
-                    {
-                        followers_category[4]++;
-                    }
 
                     if(ele.location_country)
                     {   followerwithloc++;
@@ -182,7 +91,6 @@ var marker=[];
                     country_stat_result[country_Array[i]] = 0;
                     ++country_stat_result[country_Array[i]];
                 }
-                console.log(country_stat_result);
 
                 var countrynames = Object.keys( country_stat_result );
                 
@@ -217,8 +125,7 @@ var marker=[];
                 $scope.categoryvalues=followers_category;
         
                 getTopfive($scope.followers_follower);
-                var influencers = $scope.followers_follower.length > 150 ? 150 : $scope.followers_follower.length;
-                for(counter=0;counter<influencers;counter++)
+                for(counter=0;counter<5;counter++)
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
@@ -248,29 +155,8 @@ var marker=[];
  
      
 }
-$scope.increaseLimit = function(){
-    var i;
-    for(i=counter;i<counter+5;i++)
-        {
-            $scope.influentialfollowers.push($scope.followers_follower[counter]);
-            counter++;
-        }
-}
-$rootScope.$watch(function() {
-            return $rootScope.root.twitterSession;
-            }, function(session) {
-                if (session) {
-                    $scope.getstatfollower();
-                    $scope.username=$rootScope.root.twitterSession.screen_name;
-                }
-                else
-                {
-                    $('#signupModal').modal('show');
-                }
-            });
-
-      
 
 
-}]);
 
+  
+servicesModule.service('getpcdistribution','$http','$scope','AppSettings' ['$filter', getpcdistribution,$http,$scope,AppSettings]);

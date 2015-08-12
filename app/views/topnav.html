@@ -16,7 +16,7 @@
             </div>
             <!-- Right -->
             <div class="hidden-xs universal-topnav-item topnav-user-actions">
-                <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 <div global-search-form ></div>  
                 <div twitter-session="root.twitterSession" class="signin-twitter" signin-twitter hello="root.hello" ></div>
                 <ul class="global-tweet-button-container" ng-if="root.twitterSession">
@@ -32,7 +32,7 @@
             <!-- Mobile nav -->
             <div class="visible-xs hidden-mobile-nav">
                 <div class="left-logo-and-brand">
-                    <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo">
+                    <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 </div>
                 <div global-search-form ></div>  
                 <div ng-show="root.twitterSession" class="hided">
@@ -165,6 +165,10 @@
 var latitude;
 var longitude;
 
+function getLocation() {
+  alert("From Function!");
+}
+
 $(document).click(function(){
  $("#subDropDownMenu").hide('slow'); 
  reActivate();
@@ -173,6 +177,12 @@ $(document).click(function(){
 $("#subDropDownMenu").click(function(e){
   e.stopPropagation(); 
 });
+
+$('#myModal').on('shown.bs.modal', function (e) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } 
+})
 
   function reActivate() {
     $("#dropdownMenu1").click(function(e){
@@ -228,10 +238,6 @@ $("#subDropDownMenu").click(function(e){
 
   var tempArray = [];
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } 
-
   function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
@@ -272,16 +278,19 @@ $("#subDropDownMenu").click(function(e){
   console.log(latitude + ',' + longitude);
 
   function setMap(latitude, longitude) {
-    map = L.map('map').setView([latitude, longitude], 12);
+    map.panTo(new L.LatLng(latitude, longitude));
   }
-  
-  map = L.map('map').setView([0, 0], 3);
 
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
 
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-  }).addTo(map);
+  map = L.map('map').setView([51.505, -0.159], 15).addLayer(osm);
+
+  map.on('tileerror', function(error, tile) {
+    console.log(error);
+    console.log(tile);
+  });
 
   function setMapTile() {
     $("#map").show();
@@ -305,6 +314,7 @@ $("#subDropDownMenu").click(function(e){
     console.log(lat+','+lng);
     $("#mapLat").val(lat);
     $("#mapLng").val(lng);
+    setMap(lat, lng);
   }
 
   function showLargeAttachment() {

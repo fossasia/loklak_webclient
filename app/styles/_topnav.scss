@@ -9,6 +9,8 @@
 		> .topnav {
 			background: white;
 			height: 46px;
+			width: 85%;
+			padding: 0;
 		}
 	}
 	.universal-topnav-container {
@@ -49,11 +51,17 @@
 			padding: 0;
 			margin: 0;
 			display: inline-block;
+			&:first-child a {
+				padding-left: 0 !important;
+			}
+			&:last-child a {
+				padding-right: 0 !important;
+			}
 			a {
 				display: inline-block;
 				padding: 10px 15px 9px 15px;
 				@media (min-width: 768px) and (max-width: 991px) {
-				   	padding: 10px 6px 9px 8px !important;
+				   	padding: 10px 6px 9px 2px !important;
 				}
 				line-height: 20px;
 				transition: all 0s ease-in-out;
@@ -521,6 +529,12 @@
 	    width:30px;
 	    height:29px;
 	    position: absolute;
+	}
+
+	input.fa.fa-twitter.btn.btn-default {
+		background-color: #55ACEE;
+		border-color: #55ACEE;
+		color: white;
 	}
 
 @media screen and (min-width: 0px) and (max-width: 767px) {
