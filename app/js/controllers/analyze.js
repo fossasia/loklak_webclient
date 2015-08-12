@@ -217,7 +217,8 @@ var marker=[];
                 $scope.categoryvalues=followers_category;
         
                 getTopfive($scope.followers_follower);
-                for(counter=0;counter<5;counter++)
+                var influencers = $scope.followers_follower.length > 150 ? 150 : $scope.followers_follower.length;
+                for(counter=0;counter<influencers;counter++)
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
