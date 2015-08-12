@@ -10,19 +10,46 @@ function PushService($q, $http, AppSettings) {
 	var service = {};
 
 	service.pushData = undefined;
-	
-	service.pushGeoJsonData = function(url, source_type, map_type) {
+
+	service.pushCustomData = function(url, endpoint, harvesting_freq, lifetime) {
 		var deferred = $q.defer();
 
-		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', {
-			params: {url: url, source_type : source_type || 'IMPORT', map_type : map_type}
+		$http.jsonp(AppSettings.apiUrl+'push/' + endpoint + '?callback=JSON_CALLBACK', {
+			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime}
 			}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
 				deferred.reject(err, status);
 			});
-			return deferred.promise;
+		return deferred.promise;
 	};
+
+	service.pushGeoJsonData = function(url, source_type, map_type, harvesting_freq, lifetime) {
+		var deferred = $q.defer();
+		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', {
+			params: {
+				url: url, source_type : source_type || 'IMPORT', 
+				map_type : map_type, harvesting_freq : harvesting_freq, lifetime : lifetime
+			}}).success(function(data) {
+				deferred.resolve(data);
+			}).error(function(err, status) {
+				deferred.reject(err, status);
+			});
+		return deferred.promise;
+	};
+
+	service.validate = function(url, source_type) {
+		var deferred = $q.defer();
+		$http.jsonp(AppSettings.apiUrl+'validate.json?callback=JSON_CALLBACK', {
+			params: {url: url, source_type : source_type}
+			}).success(function(data) {
+				deferred.resolve(data);
+			}).error(function(err, status) {
+				console.log(status);
+				deferred.reject(err, status);
+			});
+		return deferred.promise;
+	}
 
 	return service;
 }

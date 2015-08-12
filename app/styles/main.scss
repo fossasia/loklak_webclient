@@ -27,6 +27,7 @@
 @import 'fa';
 @import 'ionicons';
 @import 'colorpicker';
+@import 'nya-bs-select';
 
 
 /* Global styles */
@@ -44,6 +45,12 @@
 
 .btn-loklak-blue {
 	color: #fff;
+	background-color: $btn-loklak-blue;
+	border-color: #00acd6;
+}
+
+.btn-loklak-blue[disabled]:hover,
+.btn-loklak-blue[disabled]:focus {
 	background-color: $btn-loklak-blue;
 	border-color: #00acd6;
 }
@@ -730,4 +737,9 @@ output {
 output > span > img {
 	width:50px;
 	height:50px;
+}
+
+// Override admin.scss
+.modal-footer {
+	border: none;
 }

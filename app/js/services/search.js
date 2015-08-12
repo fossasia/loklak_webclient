@@ -102,6 +102,18 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     return deferred.promise;
   };
 
+  service.getImportProfiles = function(sourceType) {
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'import.json?callback=JSON_CALLBACK', {
+      params: {source_type : sourceType.toUpperCase()}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  }
   return service;
 
 }

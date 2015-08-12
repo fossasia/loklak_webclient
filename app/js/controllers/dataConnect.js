@@ -4,89 +4,112 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', 'SearchService', 'PushService', 'SourceTypeService',
-	function($scope, SearchService, PushService, SourceTypeService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService',
+	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService) {
 
-	$scope.navItems = [
-		{
-			'title' : 'Data Source',
-			'icon' : 'fa fa-database',
-			'target' : 'data-source-tab'
-		},
-		{
-			'title' : 'Email, Contact and Calendar',
-			'icon' : 'fa fa-users',
-			'target' : 'contact-tab'
-		},
-		{
-			'title' : 'Internet of Things',
-			'icon' : 'fa fa-share-alt',
-			'target' : 'iot-tab'
+	if ($stateParams.source_type != null) {
+		$stateParams.source_type = $stateParams.source_type.toLowerCase();
+
+		// invalid 'source_type' parameter : returning to default MyConnection page
+		if (!SourceTypeService.sourceTypeList[$stateParams.source_type]) {
+			$location.url('/dataConnect');
+			return;
 		}
-	];
-	$scope.dataSourceItems = [];
-	/**
-	 * Add data source form inputs values, success & error message
-	 */
-	$scope.addForm = {};
-	/**
-	 * Add datasource form show state
-	 */
-	$scope.addFormOpen = false;
-
-	$scope.sourceTypesList = SourceTypeService.sourceTypeList;
-
-	$scope.mapRulesNum = 0;
-
-	function getDataSources() {
-		const query = '-/source_type=TWITTER';
-		SearchService.getData(query).then(function(data) {
-			var statuses = data.statuses;
-			statuses.forEach(function(status) {
-				if (status.source_type !== 'TWITTER') {
-					$scope.dataSourceItems.push(status);
-				}
-			});
-		}, function() {});
 	}
 
-	$scope.confirmAddDataSource = function() {
+	// duration (in ms) of waiting for elastic up-to-date state before retrieval new datasource list
+	const DELAY_BEFORE_RELOAD = 2000;
 
-		function constructMapRules() {
-			var mapRulesStr = '';
-			const mapRules = $scope.addForm.inputs.mapRules;
-			var prefix = '';
-			for (var i = 0; i < $scope.mapRulesNum; i++) {
-				mapRulesStr += prefix + mapRules[i][0] + ':' + mapRules[i][1];
-				prefix = ',';
-			}
-			return mapRulesStr;
+	$scope.dataSourceEditableItems = 
+	[
+		{
+			'label': 'Update frequency',
+			'field': 'harvesting_freq'
+		},
+		{
+			'label': 'Lifetime',
+			'field': 'lifetime'
 		}
-		
-		PushService.pushGeoJsonData($scope.addForm.inputs.url, $scope.addForm.inputs.type, constructMapRules()).then(function(data) {
-			$scope.addForm.error = '';
-			$scope.addForm.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
-		}, function(err, status) {
-			$scope.addForm.success = '';
-			$scope.addForm.error = 'Add new source failed. Please verify link avaibility & data format.';
+	]
+	$scope.dataSourceItems = [];
+	/**
+	 * Messages that are displayed in the main datasource page
+	 */
+	$scope.dataSourceMessages = {};
+
+	$scope.sourceTypesList = SourceTypeService.sourceTypeList;
+	$scope.harvestingFreqList = HarvestingFrequencyService.values;
+	$scope.mapRulesNum = 0;
+
+	function updateDataSources(callback) {
+		SearchService.getImportProfiles($stateParams.source_type || "").then(function(data) {
+			var count_item = 0;
+			$scope.dataSourceItems = [];
+			for (var k in data.profiles) {
+				var profile = data.profiles[k];
+				profile.source_type = profile.source_type.toLowerCase();
+				// Unknown source type
+				if (!$scope.sourceTypesList[profile.source_type]) {
+					console.error("Unknown source type : '" + profile.source_type + "'");
+					profile.display_source_type = profile.source_type;
+				} else {
+					profile.display_source_type = $scope.sourceTypesList[profile.source_type].name;
+				}
+				profile.editing = false;
+				$scope.dataSourceItems[count_item] = profile;
+				count_item++;
+			}
+			if (callback) callback();
+		}, function() {});
+	};
+
+	$scope.onUpdateDataSources = function() {
+		$scope.dataSourceMessages = {};
+		var refreshButton = angular.element("#refreshButton i"); 
+		refreshButton.addClass("fa-spin");
+		updateDataSources(function() {
+			refreshButton.removeClass("fa-spin");
 		});
 	};
 
-	$scope.toggleAddForm = function() {
-		$scope.addFormOpen = !$scope.addFormOpen;
+	$scope.showRowDetail = function(e) {
+		angular.element(e.currentTarget).toggleClass("showing-detail");
 	};
 
-	$scope.addMapRule = function() {
-		$scope.mapRulesNum++;
+	$scope.toggleEditDataSource = function(event, item) {
+		if (item.editing) {
+			item.editing = false;
+			angular.element(event.target).text("Edit").removeClass("btn-default").addClass("btn-loklak-blue");
+		} else {
+			item.editing = true;
+			angular.element(event.target).text("Cancel").removeClass("btn-loklak-blue").addClass("btn-default");
+		}
+	}
+
+	$scope.saveDataSource = function(item) {
+		console.log("Saving" + item);
+		ImportProfileService.update(item).then(function(data) {
+			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
+		}, function(error) {
+			console.error(error);
+			$scope.dataSourceMessages.error = 'Unable to save edited changes. If the problem persists, please contact loklak administrator for help.';
+		})
 	};
 
-	$scope.removeMapRule = function() {
-		$scope.mapRulesNum--;
-	};
+	$scope.openConfirmDeleteModal = function(item) {
+		$scope.toDeleteItem = item;
+		angular.element('#open-confirm-modal').trigger('click');
+	}
+	$scope.deleteDataSource = function() {
+		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
+			console.log(data);
+			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
+			$scope.dataSourceMessages.success = 'Data source deleted.';
+		}, function(error) {
+			console.error(error);
+			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
+		});
+	}
 
-	$scope.getMapRulesNum = function() {
-		return new Array($scope.mapRulesNum);
-	};
-
-	getDataSources();
+	updateDataSources();
 }]);
