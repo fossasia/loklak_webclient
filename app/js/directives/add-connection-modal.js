@@ -68,11 +68,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 
 			$scope.setSourceType = function(e) {
 				$scope.inputs.sourceType = e.currentTarget.id;
-				$timeout(function() {
-					angular.element('#next-step').trigger('click');
-					// refresh validation state
-					$scope.validateSourceUrl();
-				}, 100);
+				$scope.proceed();
+				// refresh validation state
+				$scope.validateSourceUrl();
 			};
 
 			$scope.proceed = function() {
@@ -80,7 +78,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 				if ($scope.selectedTab == 2) {
 					$scope.showNext = false;
 				}
-				angular.element('.nav-tabs > .active').next('li').find('a').trigger('click');
+				setTimeout(function() {
+					angular.element('.nav-tabs > .active').next('li').find('a').trigger('click');
+				}, 0);
 			};
 
 			$scope.tabSelected = function(selected) {
