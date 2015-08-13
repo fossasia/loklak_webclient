@@ -22,7 +22,11 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             var curr = 0;
             var tweetsArrayLength = 20;
             var tweetsArray = [];
-
+            var cycle = attrs.cycletweets;
+            var intervalId;
+            if (typeof(cycle) == 'undefined' || cycle == null) {
+                cycle = false;
+            }
             var map = L.map(attrs.id).setView([2.252776, 48.845261], 3);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 maxZoom: 18,
@@ -33,16 +37,18 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             }).addTo(map);
 
             map.on('popupopen', function(e) {
-                var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
-                px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-                map.panTo(map.unproject(px), {
-                    animate: true
-                }); // pan to new center
+                if (cycle == 'true') {
+                    var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
+                    px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+                    map.panTo(map.unproject(px), {
+                        animate: true
+                    }); // pan to new center
+                }
             });
 
             function contains(elem) {
                 for (var i = 0; i < tweetsArray.length; i++) {
-                    if(tweetsArray[i].id_str == elem.id_str) {
+                    if (tweetsArray[i].id_str == elem.id_str) {
                         return true;
                     }
                 };
@@ -82,13 +88,13 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         }
                     }
                 });
-                if(tweetsArray.length > tweetsArrayLength){
+                if (tweetsArray.length > tweetsArrayLength) {
                     for (var i = tweetsArray.length - 1; i >= tweetsArrayLength; i--) {
                         map.removeLayer(tweetsArray[i].marker);
                     };
-                    tweetsArray.splice(tweetsArrayLength-1, tweetsArray.length - tweetsArrayLength);
+                    tweetsArray.splice(tweetsArrayLength - 1, tweetsArray.length - tweetsArrayLength);
                 }
-                if(tweetsArray[0]){
+                if (tweetsArray[0]) {
                     var tempTweetId = tweetsArray[0].id_str;
                     tweetsArray.sort(function(a, b) {
                         if (a.created_at < b.created_at) {
@@ -98,18 +104,27 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         }
                         return 0;
                     });
-                    if(tweetsArray[0].id_str != tempTweetId){
+                    if (tweetsArray[0].id_str != tempTweetId) {
                         curr = 0;
                     }
                 }
+                setTimeout(function() {
+                    tweetsArray[0].marker.openPopup();
+                }, 1000);
+            });
+
+            scope.$on('$destroy', function() {
+                $interval.cancel(intervalId);
             });
 
 
-            $interval(function() {
-                if (tweetsArray.length > 0) {
-                    tweetsArray[curr++].marker.openPopup();
-                    if (curr === tweetsArray.length) {
-                        curr = 0;
+            intervalId = $interval(function() {
+                if (cycle == 'true') {
+                    if (tweetsArray.length > 0) {
+                        tweetsArray[curr++].marker.openPopup();
+                        if (curr === tweetsArray.length) {
+                            curr = 0;
+                        }
                     }
                 }
             }, 5000);
