@@ -117,7 +117,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
                             });
                             tempMarker.addTo(map);
                             var popup = L.popup({
-                                autoPan: true
+                                autoPan: false
                             }).setContent("<div class='foobar'>" + text + "</div>");
                             tempMarker.bindPopup(popup);
                             ele.marker = tempMarker;
@@ -146,7 +146,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
                     }
                 }
                 setTimeout(function() {
-                    //tweetsArray[0].marker.openPopup();
+                    tweetsArray[0].marker.openPopup();
                 }, 1000);
             });
 
