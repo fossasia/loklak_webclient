@@ -87,6 +87,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
+        searchParams.fromWall = true;
     }
 
     function getWallData(){
@@ -98,7 +99,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 if (vm.wallOptions.layoutStyle == '1') {
                     maxStatusCount = 10; //linear
                 } else if (vm.wallOptions.layoutStyle == '2') {
-                    maxStatusCount = 9; //masonry
+                    maxStatusCount = 20; //masonry
                 } else if (vm.wallOptions.layoutStyle == '3') {
                     maxStatusCount = 1; //single
                 } else if (vm.wallOptions.layoutStyle == '4') {
@@ -128,15 +129,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.displaySearch = true;
     };
 
-    
-    console.log(maxStatusCount);
-
     init();
-    //calculate term
-
-
-    
-
 
     vm.histogramOptions = {
         //scaleBeginAtZero: true

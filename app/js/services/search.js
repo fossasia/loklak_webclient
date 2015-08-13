@@ -62,7 +62,8 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       var deferred = $q.defer();
       //paramsObj.q = decodeURIComponent(paramsObj.q);
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-        params: paramsObj
+        params: paramsObj,
+        ignoreLoadingBar: paramsObj.fromWall
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
