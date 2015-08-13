@@ -1,5 +1,7 @@
 /* Map view */
 	.content-wrapper.map-view {
+		transition: all 0.5s ease-in-out !important;
+		opacity: 1;
 		position: absolute;
 		width: 100vw;
 		height: 100vh;
@@ -29,6 +31,10 @@
 			}
 		}
 	}
+	.content-wrapper.map-view.ng-hide {
+		opacity: 0;
+		transition: all 0.5s ease-in-out !important;
+	}
 
 
 	.toggle-map-feed {
@@ -48,13 +54,19 @@
 		position: absolute;
 		top: 51px;
 		right: 276px;
-		color: white;
+		color: rgba(255,255,255,1);
 		z-index: 1031;
 		font-size: 23px !important;
 		&:hover {
 			cursor: pointer;
 		}
+		transition: all 0.2s ease-in-out 0.4s;
 	}
+	.switch-to-timeline.switch-inactive {
+		transition: all 0.2s ease-in-out;
+		color: rgba(255,255,255,0);
+	}
+
 
 
 	.activity-feed {

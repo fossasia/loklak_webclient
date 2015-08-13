@@ -1,5 +1,13 @@
 .content-wrapper.home-view-content-wrapper {
+	opacity: 1;
+	transition: all 0.5s ease-in-out;
 }
+.content-wrapper.home-view-content-wrapper.ng-hide {
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
+}
+
+
 
 /* Left user info  */
 	.left-result-container {

@@ -109,6 +109,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         */
         vm.toggleMapFeed = function() {
             angular.element('.activity-feed').toggleClass("show-feed");
+            angular.element(".switch-to-timeline").toggleClass("switch-inactive");
         }
 
     /* SWITCHING BETWEEN TIMELINE AND MAP */
