@@ -36,7 +36,7 @@
 			border-bottom: 1px solid $search-grey-border;
 			&:first-child {
 				border-top-left-radius: 6px;
-				border-right-left-radius: 6px;
+				border-top-right-radius: 6px;
 			}
 			&:hover {
 				background: $search-grey-bg;
@@ -428,7 +428,7 @@
 					border-bottom: 1px solid $search-grey-border;
 					&:first-child {
 						border-top-left-radius: 6px;
-						border-right-left-radius: 6px;
+						border-top-right-radius: 6px;
 					}
 					&:hover {
 						background: $search-grey-bg;
@@ -820,15 +820,19 @@
 	}
 
 /* Search view user trends */
+	.dashboard-left {
+		padding-left: 0;
+	}
 	.search-view-user-trends {
 		padding-left: 0;
 		width: 100%;
+		border-radius: 6px;
 		.home-user-trends {
 			margin-top: 0;
-			background: none;
+			background: white;
 			border: none;
-			border-radius: 0;
-			padding: 0px 15px 15px 0px;
+			border-radius: 6px;
+			padding: 15px;
 			.trend-title {
 				font-size: 25px;
 				font-weight: 500;
@@ -853,6 +857,9 @@
 		margin-bottom: 20px;
 		padding-bottom: 20px;
 		height: 300px;
+		@media (min-width: 0px) and (max-width: 767px) {
+			height: 250px;
+		}
 		overflow: hidden;
 		.blue-background-placeholder {
 			height: 100px;
