@@ -85,6 +85,21 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     return deferred.promise;
   };
 
+  service.retrieveMultipleImg = function(user_screen_name_array) {
+    var combined_user_screen_names = user_screen_name_array.join(",");
+    console.log(combined_user_screen_names);
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
+      params: {screen_name: combined_user_screen_names}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  };
+
   service.retrieveTopology = function(user_screen_name, limit) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {

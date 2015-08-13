@@ -111,14 +111,11 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             // Get screen_name, then remove duplicates
             data.statuses.forEach(function(ele) { vm.accounts.push(ele.screen_name) });
             vm.accounts = vm.accounts.filter(function(item, pos) { return vm.accounts.indexOf(item) == pos; })
-            vm.accounts.forEach(function(ele) {
-                SearchService.retrieveImg(ele).then(function(data) {
-                    vm.accountsPretty.push(data.user);
-                }, function() {})
-            });
-
-            vm.peopleSearch = true;
-            vm.showMap = false;
+            SearchService.retrieveMultipleImg(vm.accounts).then(function(data) {
+                vm.accountsPretty = data.users
+                vm.peopleSearch = true;
+                vm.showMap = false;
+            }, function() {})
         }, function() {});
         updatePath(vm.term + '+' + '/accounts');
     };
