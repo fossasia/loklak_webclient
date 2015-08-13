@@ -42,7 +42,6 @@ function HarvestingFrequencyService(moment) {
 			value.label = moment.duration(value.value, "minutes").humanize();
 		}
 	}
-	console.log(service.values);
 
 	return service;
 }

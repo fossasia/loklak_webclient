@@ -4,8 +4,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService',
-	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
+	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -42,7 +42,8 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 	$scope.mapRulesNum = 0;
 
 	function updateDataSources(callback) {
-		SearchService.getImportProfiles($stateParams.source_type || "").then(function(data) {
+		if (!$rootScope.root.twitterSession) return;
+		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.name).then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -110,6 +111,11 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
 		});
 	}
-
-	updateDataSources();
+	$scope.twitterSession = $rootScope.root.twitterSession;
+	// wait until logged in to uploadDataSource
+	// this is necessary since sometimes this function is called before user finished logging in
+	$rootScope.$watchCollection('root.twitterSession', function() {
+		if($rootScope.root.twitterSession)
+			updateDataSources();
+	});
 }]);
