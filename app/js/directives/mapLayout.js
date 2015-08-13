@@ -9,7 +9,7 @@ var bouncemarker = require('../components/bouncemarker');
 /**
  * @ngInject
  */
-function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationService) {
+function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCreationService) {
 
     return {
         scope: {
@@ -27,7 +27,38 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             if (typeof(cycle) == 'undefined' || cycle == null) {
                 cycle = false;
             }
-            var map = L.map(attrs.id).setView([2.252776, 48.845261], 3);
+            var centerLat = 2.252776;
+            var centerLng = 48.845261;
+            var zoom = 3;
+            var queryParams = $location.search();
+            function isValidLat(x){
+                //to be added
+                return true;
+            }
+            function isValidLng(x){
+                //to be added
+                return true;
+            }
+            function isValidZoom(x){
+                //to be added
+                return true;
+            }
+            if(queryParams.lat){
+                if(isValidLat(queryParams.lat)){
+                    centerLat = queryParams.lat;
+                }
+            }
+            if(queryParams.lng){
+                if(isValidLng(queryParams.lng)){
+                    centerLng = queryParams.lng;
+                }
+            }
+            if(queryParams.zoom){
+                if(isValidZoom(queryParams.zoom)){
+                    zoom = queryParams.zoom;
+                }
+            }
+            var map = L.map(attrs.id).setView([centerLat, centerLng], zoom);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -44,6 +75,12 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         animate: true
                     }); // pan to new center
                 }
+            });
+
+            map.on('moveend', function(e) {
+                var center = map.getCenter();
+                var path = $location.path();
+                $location.path(path).search({'lat':center.lat,'lng':center.lng,'zoom':map.getZoom()});
             });
 
             function contains(elem) {
@@ -109,7 +146,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                     }
                 }
                 setTimeout(function() {
-                    tweetsArray[0].marker.openPopup();
+                    //tweetsArray[0].marker.openPopup();
                 }, 1000);
             });
 
@@ -133,4 +170,4 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
 
 }
 
-directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', 'MapCreationService', mapLayoutDirective]);
+directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', '$location', 'MapCreationService', mapLayoutDirective]);
