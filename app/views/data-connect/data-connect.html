@@ -27,6 +27,7 @@
 				<div class="col col-md-2">Last edit</div>
 				<div class="col col-md-1">Item</div>
 				<div class="col col-md-1">Map</div>
+				<div class="col col-md-1">Share</div>
 			</div>
 		</li>
 		<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
@@ -35,8 +36,9 @@
 				<div class="col col-md-2"><a ng-href="/connect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
 				<div class="col col-md-2" am-time-ago="item.created_at"></div>
 				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-				<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">File</a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal">File</a></div>
 				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal">View</a></div>
+				<div class="col col-md-1">{{item.screen_name}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
 				<div class="row">
@@ -65,10 +67,25 @@
 			</div>
 		</li>
 		</ul>
-	</div>
+	</div><div id="single-data-map"></div>
 	<div add-connection-modal></div>
 	<div map-view-modal></div>
 	<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
+	<div id="message-view-modal" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div single-status open-swipe="selectedTweet.openSwipe" data="selectedTweet.status" show-status="true"></div>
+				</div>
+				<div class="modal-footer">
+					<a id="close-map-view-button" data-dismiss="modal" type="button" class="btn btn-loklak-blue">Close</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="confirm-delete-modal" class="modal" role="dialog">
 		<div id="confirm-delete-modal-dialog" class="modal-dialog">
 			<div class="modal-content" id="add-connection-modal-content">
@@ -79,7 +96,7 @@
 					<h4 style="text-align : center">Are you sure you want to delete this ?</h4>
 				</div>
 				<div class="modal-footer">
-				<button id="confirmDeleteButton" class="btn btn-danger" ng-click="deleteDataSource();" data-dismiss="modal">Delete</button>
+					<button id="confirmDeleteButton" class="btn btn-danger" ng-click="deleteDataSource();" data-dismiss="modal">Delete</button>
 					<button id="cancelDeleteButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

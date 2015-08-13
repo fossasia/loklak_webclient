@@ -134,6 +134,14 @@
 		width: 100%;
 	}
 }
+
+#message-view-modal .single-tweet {
+	position: relative;
+	transform: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
 #add-connection-modal {
 	overflow-y: hidden;
 }

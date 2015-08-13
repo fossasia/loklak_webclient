@@ -74,6 +74,8 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	};
 
 	$scope.showRowDetail = function(e) {
+		// do not trigger when event source is a link
+		if (e.target.localName === 'a') return;
 		angular.element(e.currentTarget).toggleClass("showing-detail");
 	};
 
@@ -111,7 +113,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
 		});
 	}
-	$scope.twitterSession = $rootScope.root.twitterSession;
+
 	// wait until logged in to uploadDataSource
 	// this is necessary since sometimes this function is called before user finished logging in
 	$rootScope.$watchCollection('root.twitterSession', function() {
