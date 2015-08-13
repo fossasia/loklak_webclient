@@ -239,6 +239,16 @@
 	}
 
 
-.map-view .anonymous-session-content .blue-bar {
-	margin-top: 46px;
+	.map-view .anonymous-session-content .blue-bar {
+		margin-top: 46px;
+	}
+
+/* Style for embed content in map feed */
+.activity-feed .home-debugged-link-container {
+	padding: 10px 0px 10px 0px;
+	.article-site, .article-title {
+		font-size: 12px;
+		text-align: right;
+		line-height: 16px;
+	}
 }
