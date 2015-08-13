@@ -1,11 +1,19 @@
-<div class="content-wrapper home-view-content-wrapper" onload="root.getHashtagTrends()">
+
+<!-- Template for home view -->
+<div ng-show="!map.isShowingMapNotHome" class="content-wrapper home-view-content-wrapper" onload="root.getHashtagTrends()">
     <!-- Main content -->
     <div ng-show="root.twitterSession" class="container content-container">
       
         <!-- Left content: Who to follow, trends -->
         <div class="left-result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
+            
             <div class="home-user-info">
                 <div class="blue-background-placeholder">
+                    <div class="switch-to-map" ng-click="map.toggleMapAndTimeline();">
+                        <span>Open Map</span>
+                        <span class="fa fa-chevron-circle-right">
+                        </span>    
+                    </div>
                     <img ng-src="{{root.twitterSession.profile_banner_url }}" alt="user-banner-photo" ng-show="root.twitterSession.profile_banner_url">    
                 </div>
                 <div class="home-user-info-content">
@@ -54,8 +62,8 @@
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
 
-                                <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div>
-
+                                <!-- <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div>
+ -->
                                 <!-- <div ng-repeat="media in status.status.entities.media">
                                   <img src="{{media.media_url}}" alt="" width="100%"> 
                                 </div> -->
@@ -82,6 +90,45 @@
         </div>
 
     </div>
+
+    <!-- Search box for anonymous user-no-followers -->
+    <div ng-include src="'anonymous-session-content.html'"></div>
+    <!-- End search box for anonymous users -->
+
+</div>
+
+<!-- Template for map view -->
+<div ng-show="map.isShowingMapNotHome" class="content-wrapper map-view">
+
+    <div class="logged-content map-container-parent" ng-show="root.twitterSession">
+       <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
+       <span class="switch-to-timeline fa fa-chevron-circle-left" ng-click="map.toggleMapAndTimeline();"></span>
+       <div id="map" ng-show="root.twitterSession"></div>
+       <div class="activity-feed show-feed">
+        <div class="feed-header">
+          <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
+          <p>Activity feeds</p>
+        </div>  
+        <div class="feed-content">
+          <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
+              <div class="item">
+                  <img class="friend-profile-img" src="{{status.profile_image_url}}">
+                  <p class="message home-tweet-text">
+                  <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                  <br>
+                  <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
+                  </p>
+               <!--    <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div> -->
+              </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="location-fail-notice">
+          <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
+          <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
+        </div>
+    </div>  
 
     <!-- Search box for anonymous user-no-followers -->
     <div ng-include src="'anonymous-session-content.html'"></div>

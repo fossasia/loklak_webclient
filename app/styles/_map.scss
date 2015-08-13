@@ -1,198 +1,212 @@
 /* Map view */
-.content-wrapper.map-view {
-	position: absolute;
-	width: 100vw;
-	height: 100vh;
-	top: 0;
-	#map {
+	.content-wrapper.map-view {
+		position: absolute;
 		width: 100vw;
 		height: 100vh;
-	}
-
-	.leaflet-top {
-	    top: 50px !important;
-	}
-	.leaflet-top .leaflet-control {
-	    margin-top: 22px;
-	}
-	.leaflet-control-layers-toggle {
-	    background-image: url(../images/layers.png) !important;
-	}
-	.leaflet-control-layers-overlays {
-		position: relative;
-		max-width: 250px;
-		.map-control-hint {
-			font-style: italic;
-		}
-		.map-control-hint-text {
-			display: none;
-		}
-	}
-}
-
-
-.toggle-map-feed {
-	display: inline-block;
-	position: absolute;
-	top: 50px;
-	right: 5px;
-	color: white;
-    font-size: 23px !important;
-	&:hover {
-		cursor: pointer;
-	}
-}
-
-.activity-feed {
-	position: absolute;
-	right: 0;
-	top: 46px;
-	bottom: 16px;
-	width: 270px;
-	height: auto;
-	overflow-y: auto;
-	overflow-x: hidden;
-	background-color: white;
-	padding: 35px 7px 10px 7px;
-	transform: translateX(100%);
-	transition: all 0.5s ease-in-out;
-	.feed-header {
-		position: absolute;
 		top: 0;
-		left: 0;
-		width: 100%;
-		.toggle-map-feed-clone {
-			display: inline-block;
-			position: absolute;
-			top: 5px;
-			left: 6px;
-			color: white;
-			z-index: 1031;
-			font-size: 23px;
-			&:hover {
-				cursor: pointer;
-			}
+		#map {
+			width: 100vw;
+			height: 100vh;
 		}
-		p {
-			background: $search-twitter-blue;
-			color: white;
-			margin: 0;
-			padding: 10px 0px;
-			text-align: center;
-			font-size: 15px;
-			font-weight: 600;
-			letter-spacing: 0.5px;
+
+		.leaflet-top {
+		    top: 50px !important;
 		}
-		
-	}
-	.feed-content {
-		overflow: hidden;
-		.item {
-			&:hover {
-				cursor: pointer;
+		.leaflet-top .leaflet-control {
+		    margin-top: 22px;
+		}
+		.leaflet-control-layers-toggle {
+		    background-image: url(../images/layers.png) !important;
+		}
+		.leaflet-control-layers-overlays {
+			position: relative;
+			max-width: 250px;
+			.map-control-hint {
+				font-style: italic;
 			}
-			padding: 5px 5px;
-			border-bottom: 4px solid #F5F8FA;
-			.home-user-screen-name {
-				display: inline-block;
-				font-weight: 500;
-				color: grey;
-				font-size: 12px;
-			}
-			.friend-profile-img {
-				height: 40px;
-				float: left;
-				border: none;
-				padding: 0 !important;
-				position: relative;
-				top: 4px;
-			}
-			.home-tweet-text {
-				margin-left: 47px;
-				margin-bottom: 0;
-				padding-bottom: 0;
-				font-size: 13px;
-				line-height: 18px;
+			.map-control-hint-text {
+				display: none;
 			}
 		}
 	}
-	.feed-list {
+
+
+	.toggle-map-feed {
+		display: inline-block;
 		position: absolute;
-		bottom: 0; 
-		left: 0;
-		width: 100%;
-		padding: 10px;
-		background-color: #ecf0f5;
-		ul {
-			margin: 0;
-			padding: 0;
-			li {
-				margin: 0;
-				padding: 8px;
-				color: #333333;
-				border: 1px solid $search-twitter-blue;
+		top: 50px;
+		right: 5px;
+		color: white;
+	    font-size: 23px !important;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	
+	.switch-to-timeline {
+		display: inline-block;
+		position: absolute;
+		top: 51px;
+		right: 276px;
+		color: white;
+		z-index: 1031;
+		font-size: 23px !important;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+
+	.activity-feed {
+		position: absolute;
+		right: 0;
+		top: 46px;
+		bottom: 16px;
+		width: 270px;
+		height: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
+		background-color: white;
+		padding: 35px 7px 10px 7px;
+		transform: translateX(100%);
+		transition: all 0.5s ease-in-out;
+		.feed-header {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			.toggle-map-feed-clone {
+				display: inline-block;
+				position: absolute;
+				top: 5px;
+				left: 6px;
 				color: white;
-				margin-bottom: 7px;
-				text-align: center;
-				font-size: 15px;
-				letter-spacing: 0.5px;
-				&:last-child {
-					margin-bottom: 0;
+				z-index: 1031;
+				font-size: 23px;
+				&:hover {
+					cursor: pointer;
 				}
 			}
-			li.active-feed {
-				background-color: $search-twitter-blue;
+			p {
+				background: $search-twitter-blue;
 				color: white;
+				margin: 0;
+				padding: 10px 0px;
+				text-align: center;
+				font-size: 15px;
+				font-weight: 600;
+				letter-spacing: 0.5px;
+			}
+			
+		}
+		.feed-content {
+			overflow: hidden;
+			.item {
+				&:hover {
+					cursor: pointer;
+				}
+				padding: 5px 5px;
+				border-bottom: 4px solid #F5F8FA;
+				.home-user-screen-name {
+					display: inline-block;
+					font-weight: 500;
+					color: grey;
+					font-size: 12px;
+				}
+				.friend-profile-img {
+					height: 40px;
+					float: left;
+					border: none;
+					padding: 0 !important;
+					position: relative;
+					top: 4px;
+				}
+				.home-tweet-text {
+					margin-left: 47px;
+					margin-bottom: 0;
+					padding-bottom: 0;
+					font-size: 13px;
+					line-height: 18px;
+				}
+			}
+		}
+		.feed-list {
+			position: absolute;
+			bottom: 0; 
+			left: 0;
+			width: 100%;
+			padding: 10px;
+			background-color: #ecf0f5;
+			ul {
+				margin: 0;
+				padding: 0;
+				li {
+					margin: 0;
+					padding: 8px;
+					color: #333333;
+					border: 1px solid $search-twitter-blue;
+					color: white;
+					margin-bottom: 7px;
+					text-align: center;
+					font-size: 15px;
+					letter-spacing: 0.5px;
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+				li.active-feed {
+					background-color: $search-twitter-blue;
+					color: white;
+					letter-spacing: 0.5px;
+				}
+			}
+			p {
+				border-top: px solid black;
+				color: #333333;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				font-size: 15px;
+				font-weight: 600;
 				letter-spacing: 0.5px;
 			}
 		}
-		p {
-			border-top: px solid black;
-			color: #333333;
-			margin: 0;
-			padding: 0;
-			text-align: left;
-			font-size: 15px;
-			font-weight: 600;
-			letter-spacing: 0.5px;
-		}
 	}
-}
-.activity-feed.show-feed {
-	transform: translateX(0%);
-	transition: all 0.5s ease-in-out;
-}
+	.activity-feed.show-feed {
+		transform: translateX(0%);
+		transition: all 0.5s ease-in-out;
+	}
 
-.topologyItem {
-	border-radius: 20px;
-	height: 40px !important;
-	width: 40px !important;
-}
+	.topologyItem {
+		border-radius: 20px;
+		height: 40px !important;
+		width: 40px !important;
+	}
 
 
-.location-fail-notice {
-	display: none;
-	position: absolute;
-    right: 300px;
-    top: 7%;
-    width: 300px;
-    background-color: white;
-    background-color: rgba(255,255,255,0.80);
-    line-height: 20px;
-    font-size: 16px;
-    .warning-sign {
-    	background-color: black;
-    	padding: 5px 0;
-    	text-align: center;
-    	i {
-    		color: #FBA81A;
-    	}
-    }
-    .notice-text {
-    	padding: 10px 15px 15px 15px;
-    	margin-bottom: 0;
-    }
-}
+	.location-fail-notice {
+		display: none;
+		position: absolute;
+	    right: 300px;
+	    top: 7%;
+	    width: 300px;
+	    background-color: white;
+	    background-color: rgba(255,255,255,0.80);
+	    line-height: 20px;
+	    font-size: 16px;
+	    .warning-sign {
+	    	background-color: black;
+	    	padding: 5px 0;
+	    	text-align: center;
+	    	i {
+	    		color: #FBA81A;
+	    	}
+	    }
+	    .notice-text {
+	    	padding: 10px 15px 15px 15px;
+	    	margin-bottom: 0;
+	    }
+	}
 
 
 /* Style for map pop up */
@@ -244,11 +258,11 @@
 	}
 
 /* Style for embed content in map feed */
-.activity-feed .home-debugged-link-container {
-	padding: 10px 0px 10px 0px;
-	.article-site, .article-title {
-		font-size: 12px;
-		text-align: right;
-		line-height: 16px;
+	.activity-feed .home-debugged-link-container {
+		padding: 10px 0px 10px 0px;
+		.article-site, .article-title {
+			font-size: 12px;
+			text-align: right;
+			line-height: 16px;
+		}
 	}
-}
