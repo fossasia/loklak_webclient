@@ -21,20 +21,22 @@
 		<ul id="datasource-table">
 		<li>
 			<div class="row title-row">
-				<div class="col col-md-4">Source URL</div>
+				<div class="col col-md-3">Source URL</div>
 				<div class="col col-md-2">Source type</div>
-				<div class="col col-md-2">Created time</div>
+				<div class="col col-md-2">Created at</div>
 				<div class="col col-md-2">Last edit</div>
-				<div class="col col-md-1">Imported</div>
+				<div class="col col-md-1">Item</div>
+				<div class="col col-md-1">Map</div>
 			</div>
 		</li>
 		<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
 			<div class="row content-row">
-				<div class="col col-sm-4 col-md-4 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
+				<div class="col col-sm-3 col-md-3 col-source-url"><a ng-href="{{item.source_url}}" target="_blank">{{item.source_url}}</a></div>
 				<div class="col col-md-2"><a ng-href="/connect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
 				<div class="col col-md-2" am-time-ago="item.created_at"></div>
 				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-				<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">{{item.imported.length}}</a></div>
+				<div class="col col-md-1"><a ng-href="/search?q=id:{{item.imported[0]}}" target="_blank">File</a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal">View</a></div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
 				<div class="row">
@@ -65,6 +67,7 @@
 		</ul>
 	</div>
 	<div add-connection-modal></div>
+	<div map-view-modal></div>
 	<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
 	<div id="confirm-delete-modal" class="modal" role="dialog">
 		<div id="confirm-delete-modal-dialog" class="modal-dialog">
