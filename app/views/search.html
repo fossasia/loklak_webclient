@@ -41,7 +41,7 @@
         <!-- Main content -->
         <div class="container content-container">
             <!-- Left content: Who to follow, trends -->
-            <div ng-show="!search.showMap" class="dashboard dashboard-left col-md-3">
+            <div ng-show="!search.showMap" class="dashboard dashboard-left hidden-md col-lg-3">
                 <!-- Right content: Other statistics -->
                 <div class="right-result-container search-view-user-trends col-md-8 visible-lg">
                     <div class="home-user-trends">
@@ -59,7 +59,7 @@
             </div>
 
             <!-- Center result + option filters -->
-            <div ng-show="search.showResult" class="result-container col-md-6">
+            <div ng-show="search.showResult" ng-class="(search.peopleSearch) ? 'result-container col-lg-9' : 'result-container col-md-6'">
                
 
                 <!-- New status from background updating process -->
@@ -73,7 +73,7 @@
 
                 <!-- People results -->
                 <div ng-if="search.peopleSearch" class="main-result-container">
-                    <div ng-repeat="account in search.accounts" account data="account"></div>
+                    <div class="col-md-4 col-sm-6 account-item" ng-repeat="account in search.accountsPretty" account data="account"></div>
                 </div>
 
                

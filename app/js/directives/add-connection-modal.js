@@ -21,6 +21,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			// Submit validation messages
 			$scope.messages = {};
 
+			const sourceTypeFields = LoklakFieldService.sourceTypeFields;
+			// List of fields that user can map data to. Depending on selected source type
+			$scope.currentLoklakFields = null;
+
 			for (var key in $scope.sourceTypeList) {
 				if ($scope.sourceTypeList[key].endpoint) {
 					$scope.sourceTypeListWEndpoint[key] = $scope.sourceTypeList[key];
@@ -68,11 +72,21 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 
 			$scope.setSourceType = function(e) {
 				$scope.inputs.sourceType = e.currentTarget.id;
-				$timeout(function() {
-					angular.element('#next-step').trigger('click');
-					// refresh validation state
-					$scope.validateSourceUrl();
-				}, 100);
+				$scope.proceed();
+				// refresh validation state
+				$scope.validateSourceUrl();
+
+				// pick only map rules that apply for this source type
+				$scope.currentLoklakFields = {};
+				if (sourceTypeFields[$scope.inputs.sourceType]
+					&& sourceTypeFields[$scope.inputs.sourceType].length != 0) {
+					for (var key in sourceTypeFields[$scope.inputs.sourceType]) {
+						var data = sourceTypeFields[$scope.inputs.sourceType][key];
+						$scope.currentLoklakFields[data] = $scope.loklakFields[data];
+					}
+				} else {
+					$scope.currentLoklakFields = null;
+				}
 			};
 
 			$scope.proceed = function() {
@@ -80,7 +94,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 				if ($scope.selectedTab == 2) {
 					$scope.showNext = false;
 				}
-				angular.element('.nav-tabs > .active').next('li').find('a').trigger('click');
+				setTimeout(function() {
+					angular.element('.nav-tabs > .active').next('li').find('a').trigger('click');
+				}, 0);
 			};
 
 			$scope.tabSelected = function(selected) {

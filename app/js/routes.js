@@ -71,13 +71,13 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     title: 'Map'
   })
   .state('DataConnect', {
-    url: '/dataConnect',
+    url: '/connect',
     templateUrl: 'data-connect/data-connect.html',
     controller: 'DataConnectCtrl as dataConnect',
     title: 'My Connections'
   })
   .state('DataConnectWSourceType', {
-    url: '/dataConnect/:source_type',
+    url: '/connect/:source_type',
     templateUrl: 'data-connect/data-connect.html',
     controller: 'DataConnectCtrl as dataConnect',
     title: 'My Connections'

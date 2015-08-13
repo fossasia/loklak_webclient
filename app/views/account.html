@@ -1,16 +1,27 @@
-<div ng-attr-id="{{data.id_str}}" class="tweet tweet-simple">
 
-    <!-- Avatar with a fallback src -->
-    <img fallback-status-id="data.user.screen_name" class="avatar" 
-         fallback-src="/images/anon_200x200.png"
-    	 ng-src="{{data.user.profile_image_url_https}}" alt="user-images">
-
-    <!-- Main content -->
-        <div class="tweet-content">
-        	<!-- Metadata -->
-                <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
-                <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
-            <!-- End of metadata -->
+<div ng-attr-id="{{data.id_str}}" class="home-user-info">
+    <div class="blue-background-placeholder">
+        <img ng-src="{{data.profile_banner_url }}" alt="user-banner-photo" ng-show="data.profile_banner_url">    
+    </div>
+    <div class="home-user-info-content">
+        <div class="top-content">
+            <img ng-src="{{data.profile_image_url_https}}">
+            <div class="name-and-screen-name">
+                <span class="home-user-name">{{data.name | shortenTo:19  }}</span><br>
+                <span class="home-user-screen-name">@{{data.screen_name}}</span>
+            </div>
         </div>
-    <!-- End of main content -->
+        <div class="bottom-content">
+            <p>{{data.description | shortenTo:91 }}</p>
+            <!-- <div class="user-no-tweets">
+                <a href="">Tweets<br><span>{{data.statuses_count}}</span></a>
+            </div>
+            <div class="user-no-followings">
+                <a href="">Followings<br><span>{{data.friends_count}}</span></a>
+            </div>
+            <div class="user-no-followers">
+                <a href="">Followers<br><span>{{data.followers_count}}</span></a>
+            </div> -->
+        </div>
+    </div>
 </div>

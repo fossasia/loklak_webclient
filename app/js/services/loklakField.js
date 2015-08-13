@@ -10,23 +10,31 @@ function LoklakFieldService() {
 	var service = {};
 
 	service.fieldList =
-	[
-		{
-			value: 'screen_name',
-			label: 'Username',
-			help: 'The field name that matches message\'s owner username.'
-		},
+	{
+		'location_point':
 		{
 			value: 'location_point',
 			label: 'Coordinates',
-			help: 'The field name that matches to message\'s coordinates, in the following format [lon,lat]. Message\' coordinates are used to locate the message on loklak map'
+			help: 'Please enter a field name. The field value will be used to locate the message on Loklak map.'
 		},
+		'text':
 		{
 			value: 'text',
 			label: 'Message content',
-			help: 'Tthe field name that matches to message\'s text. This is the actual content of the message'
+			help: 'Please enter a field name. The field value will show up as message\'s content.'
 		}
-	];
+	};
+
+	// required fields for each source type
+	service.sourceTypeFields =
+	{
+		'geojson': ['text'],
+		'fossasia_api': [],
+		'nodelist': [],
+		'netmon': [],
+		'freifunk_node': [],
+		'ninux': []
+	}
 
 	return service;
 }
