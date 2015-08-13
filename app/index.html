@@ -16,7 +16,7 @@
     
 </head>
 
-<body class="skin-blue layout-top-nav has-drawer" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
+<body ng-show="root.isHelloDoneCheckingCookies" class="skin-blue layout-top-nav has-drawer" ng-style="{'overflow-y': root.fullscreenDisabled ? 'auto' : 'hidden'}">
     <div class="wrapper">
         <div ng-include ng-if="root.fullscreenDisabled" src="'topnav.html'"></div>
         <div ng-include ng-if="root.fullscreenDisabled && root.sidebarEnabled" src="'sidebar.html'"></div>
