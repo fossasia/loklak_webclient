@@ -21,11 +21,18 @@ function($http, MapCreationService, SearchService) {
 			});
 		},
 		link: function(scope, element, attrs) {
+			var map = window.map;
 			scope.updateMap = function() {
+				map.invalidateSize();
+				if (scope.markerLayer)
+					map.removeLayer(scope.markerLayer);
+				var center = scope.selectedMapMessages[0].location_mark;
+				map.panTo(new L.LatLng(center[1], center[0]));
 				var mapPoints = MapCreationService.initMapPoints(scope.selectedMapMessages, 'genStaticTwitterStatus');
-				MapCreationService.addPointsToMap(window.map, mapPoints, 'simpleCircle', function() {
+				scope.markerLayer = MapCreationService.addPointsToMap(map, mapPoints, 'simpleCircle', function() {
 					console.log("Added succesfully");
 				});
+				scope.markerLayer.openPopup();
 			};
 		}
 	};
