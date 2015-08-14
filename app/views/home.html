@@ -1,6 +1,6 @@
-<div class="content-wrapper" onload="root.getHashtagTrends()">
+<div class="content-wrapper home-view-content-wrapper" onload="root.getHashtagTrends()">
     <!-- Main content -->
-    <div class="container content-container">
+    <div ng-show="root.twitterSession" class="container content-container">
       
         <!-- Left content: Who to follow, trends -->
         <div class="left-result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
@@ -44,8 +44,8 @@
         <div class="center-result-container col-md-6" ng-show="root.twitterSession">
             <div class="row cms-view">
                 <div class="main-result-container">
-                    <div class="statuses-container box-body chat" id="chat-box" style="width: auto;">
-                        <div ng-repeat="status in root.twitterFriends.data | limitTo: 100">
+                    <div class="statuses-container box-body chat" id="chat-box" style="width: auto;" infinite-scroll="root.loadMoreHomeFeed(15)">
+                        <div ng-repeat="status in root.twitterFriends.data | limitTo: root.homeFeedLimit">
                             <div class="item" ng-click="toggleDetail($event)">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">
@@ -53,9 +53,12 @@
                                 <br>
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
-                                <div ng-repeat="media in status.status.entities.media">
+
+                                <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div>
+
+                                <!-- <div ng-repeat="media in status.status.entities.media">
                                   <img src="{{media.media_url}}" alt="" width="100%"> 
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div> 
@@ -78,6 +81,10 @@
             </div>
         </div>
 
-
     </div>
+
+    <!-- Search box for anonymous user-no-followers -->
+    <div ng-include src="'anonymous-session-content.html'"></div>
+    <!-- End search box for anonymous users -->
+
 </div>

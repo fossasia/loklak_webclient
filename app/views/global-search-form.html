@@ -1,5 +1,5 @@
 <form class="global-search-container" ng-submit="root.submitSearchForm()">
-    <input type="text" id="global-search-input"  name="q" placeholder="Search" ng-model="root.globalSearchTerm" ng-keydown="root.watchArrowFromSearchBox($event)">
+    <input type="text" id="global-search-input"  name="q" autocomplete="off" placeholder="Search" ng-model="root.globalSearchTerm" ng-keydown="root.watchArrowFromSearchBox($event)">
     <i class="fa fa-search"></i>
     <ul class="suggestions" ng-show="root.haveSearchSuggestion">
     	<li ng-repeat="suggestion in root.searchSuggestions | limitTo:5" ng-click="root.setGlobalSearchTerm(suggestion.query)" ng-mouseover="root.highlightSelection()">

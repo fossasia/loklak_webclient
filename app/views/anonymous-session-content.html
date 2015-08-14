@@ -1,0 +1,47 @@
+<div class="anonymous-session-content">
+        <div ng-show="!root.twitterSession" class="blue-bar"></div>
+        <div ng-show="!root.twitterSession" class="container anonymous-content-container">
+
+            <h1 class="wassup-title">What's going on</h1>
+            <div class="search-form-wrapper">
+                <div global-search-form></div>
+                <span ng-click="root.submitSearchForm();">Search</span>
+            </div>
+            <p class="search-hints">
+                Use <span class="operator-hint" ng-click="root.home.operatorOverlayShow = true">operators</span> for <a href="./advancedsearch">advanced search</a>
+            </p>
+
+            <div class="trend-container">
+                <h4>Trends</h4>
+                <ul id="horizontal-trend-list">
+                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+                    <li ng-repeat="(key, value) in root.trends">
+                        <!-- -->
+                        <a href="./search?q=%23{{key}}">#{{key}}</a>
+                        <!-- -->
+                    </li>
+                </ul>    
+            </div>
+        </div>
+
+        <div ng-show="root.home.operatorOverlayShow" class="operator-overlay-container" ng-click="root.home.evalToCloseOverlay($event);">
+            <div class="operator-overlay">
+                <p class="header">
+                    Search operators
+                    <span class="close-overlay" ng-click="root.home.operatorOverlayShow = false">x</span>
+                </p>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Find tweets...</th>
+                        </tr>
+                        <tr ng-repeat='(prop, val) in root.home.operators track by prop'>
+                            <td>{{prop}}</td>
+                            <td>{{val}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

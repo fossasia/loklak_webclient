@@ -26,6 +26,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 		templateUrl: "global-search-form.html",
 		controller: function($scope, $element, $attrs) {
 			$rootScope.root.haveSearchSuggestion = false;
+			$rootScope.root.lastSearchTimeStamp = new Date();
 			$rootScope.root.selectedTermIndex = -1;
 			$rootScope.root.searchSuggestions = [];
 
@@ -37,9 +38,12 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			}, function() {
 				if (document.activeElement.id  === "global-search-input" && $rootScope.root.globalSearchTerm.length >=3) {
 					SearchService.getSearchSuggestions($rootScope.root.globalSearchTerm).then(function(data) {
-						$rootScope.root.selectedTermIndex = -1;
-						$rootScope.root.searchSuggestions = data.queries;
-						$rootScope.root.haveSearchSuggestion = true;
+						var currentTimeStamp = new Date();
+						if ((currentTimeStamp - $rootScope.root.lastSearchTimeStamp) > 1000) {
+							$rootScope.root.selectedTermIndex = -1;
+							$rootScope.root.searchSuggestions = data.queries;
+							$rootScope.root.haveSearchSuggestion = true;	
+						}
 					}, function() { $rootScope.root.haveSearchSuggestion = false; });
 				} else { $rootScope.root.haveSearchSuggestion = false; }
 			});
@@ -48,10 +52,11 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			 * Stimulate a search click event on search suggestions
 			 */
 			$rootScope.root.setGlobalSearchTerm = function(term) {
+				$rootScope.root.haveSearchSuggestion = false;
+				$rootScope.root.lastSearchTimeStamp = new Date();
+				$rootScope.root.searchSuggestions = [];
 				$rootScope.root.globalSearchTerm = term;
 				$rootScope.root.submitSearchForm();
-				$rootScope.root.searchSuggestions = [];
-				$rootScope.root.haveSearchSuggestion = false;
 				document.activeElement.blur(); // Stop focusing search box	
 			}
 

@@ -5,11 +5,12 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function SearchService($q, $http, AppSettings) {
+function SearchService($q, $http, $rootScope, AppSettings) {
 
   var service = {};
 
   service.getData = function(term) {
+      $rootScope.root.aSearchWasDone = true;
       var deferred = $q.defer();
 
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
@@ -57,10 +58,12 @@ function SearchService($q, $http, AppSettings) {
   };
 
   service.initData = function(paramsObj) {
+      $rootScope.root.aSearchWasDone = true;
       var deferred = $q.defer();
       //paramsObj.q = decodeURIComponent(paramsObj.q);
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-        params: paramsObj
+        params: paramsObj,
+        ignoreLoadingBar: paramsObj.fromWall
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
@@ -72,8 +75,23 @@ function SearchService($q, $http, AppSettings) {
 
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
-    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+    $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
       params: {screen_name: user_screen_name}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  };
+
+  service.retrieveMultipleImg = function(user_screen_name_array) {
+    var combined_user_screen_names = user_screen_name_array.join(",");
+    console.log(combined_user_screen_names);
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
+      params: {screen_name: combined_user_screen_names}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -100,8 +118,20 @@ function SearchService($q, $http, AppSettings) {
     return deferred.promise;
   };
 
+  service.getImportProfiles = function(sourceType) {
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'import.json?callback=JSON_CALLBACK', {
+      params: {source_type : sourceType.toUpperCase()}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  }
   return service;
 
 }
 
-servicesModule.service('SearchService',['$q', '$http', 'AppSettings', SearchService]);
+servicesModule.service('SearchService',['$q', '$http', '$rootScope', 'AppSettings', SearchService]);

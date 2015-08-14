@@ -1,27 +1,33 @@
 <div class="content-wrapper map-view map-container-parent">
-   <div id="map"></div>
-
-   <div class="activity-feed">
-    <div class="feed-header">
-      <p>Activity feeds</p>
-    </div>  
-    <div class="feed-content">
-      <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
-          <div class="item">
-              <img class="friend-profile-img" src="{{status.profile_image_url}}">
-              <p class="message home-tweet-text">
-              <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
-              <br>
-              <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
-              </p>
-          </div>
+  <div class="logged-content" ng-show="root.twitterSession">
+     <span class="toggle-map-feed fa fa-chevron-circle-left" ng-click="map.toggleMapFeed();"></span>
+     <div id="map" ng-show="root.twitterSession"></div>
+     <div class="activity-feed show-feed">
+      <div class="feed-header">
+        <span class="toggle-map-feed-clone fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
+        <p>Activity feeds</p>
+      </div>  
+      <div class="feed-content">
+        <div ng-repeat="status in root.twitterFriends.data | limitTo: map.feedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
+            <div class="item">
+                <img class="friend-profile-img" src="{{status.profile_image_url}}">
+                <p class="message home-tweet-text">
+                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                <br>
+                <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
+                </p>
+            </div>
+        </div>
       </div>
     </div>
-  </div>
 
-    <div class="location-fail-notice">
-      <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
-      <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
-    </div>
-
+      <div class="location-fail-notice">
+        <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
+        <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
+      </div>
+  </div>  
+  
+  <!-- Search box for anonymous user-no-followers -->
+  <div ng-include src="'anonymous-session-content.html'"></div>
+  <!-- End search box for anonymous users -->
 </div>

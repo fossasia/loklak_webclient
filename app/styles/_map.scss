@@ -18,8 +18,30 @@
 	.leaflet-control-layers-toggle {
 	    background-image: url(../images/layers.png) !important;
 	}
+	.leaflet-control-layers-overlays {
+		position: relative;
+		max-width: 250px;
+		.map-control-hint {
+			font-style: italic;
+		}
+		.map-control-hint-text {
+			display: none;
+		}
+	}
 }
 
+
+.toggle-map-feed {
+	display: inline-block;
+	position: absolute;
+	top: 50px;
+	right: 5px;
+	color: white;
+    font-size: 23px !important;
+	&:hover {
+		cursor: pointer;
+	}
+}
 
 .activity-feed {
 	position: absolute;
@@ -32,11 +54,25 @@
 	overflow-x: hidden;
 	background-color: white;
 	padding: 35px 7px 10px 7px;
+	transform: translateX(100%);
+	transition: all 0.5s ease-in-out;
 	.feed-header {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
+		.toggle-map-feed-clone {
+			display: inline-block;
+			position: absolute;
+			top: 5px;
+			left: 6px;
+			color: white;
+			z-index: 1031;
+			font-size: 23px;
+			&:hover {
+				cursor: pointer;
+			}
+		}
 		p {
 			background: $search-twitter-blue;
 			color: white;
@@ -47,6 +83,7 @@
 			font-weight: 600;
 			letter-spacing: 0.5px;
 		}
+		
 	}
 	.feed-content {
 		overflow: hidden;
@@ -121,6 +158,10 @@
 		}
 	}
 }
+.activity-feed.show-feed {
+	transform: translateX(0%);
+	transition: all 0.5s ease-in-out;
+}
 
 .topologyItem {
 	border-radius: 20px;
@@ -166,6 +207,12 @@
 	width: 36px;
 	height: 36px;
 	}
+
+	.leaflet-popup {
+		margin-left:5px;
+		margin-bottom: 12px;
+	}
+
 	.single-tweet.map-tweet {
 		margin: 0;
 		padding: 0;	
@@ -191,3 +238,7 @@
 		}
 	}
 
+
+.map-view .anonymous-session-content .blue-bar {
+	margin-top: 46px;
+}

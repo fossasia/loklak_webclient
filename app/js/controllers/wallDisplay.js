@@ -70,6 +70,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if(!vm.wallOptions.blockRetweets) {
                 term = term + ' include:retweets';
         }
+        if(vm.wallOptions.chosenLocation) {
+            term = term + ' near:' + vm.wallOptions.chosenLocation;
+        }
         if (vm.wallOptions.sinceDate) {
             term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
         }
@@ -84,6 +87,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
+        searchParams.fromWall = true;
     }
 
     function getWallData(){
@@ -95,7 +99,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 if (vm.wallOptions.layoutStyle == '1') {
                     maxStatusCount = 10; //linear
                 } else if (vm.wallOptions.layoutStyle == '2') {
-                    maxStatusCount = 9; //masonry
+                    maxStatusCount = 20; //masonry
                 } else if (vm.wallOptions.layoutStyle == '3') {
                     maxStatusCount = 1; //single
                 } else if (vm.wallOptions.layoutStyle == '4') {
@@ -104,6 +108,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 calculateTerm();
                 //On INIT
                 vm.update2(0);
+                vm.loadLeaderboard();
             }
             else {
                 vm.invalidId = true;
@@ -124,15 +129,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.displaySearch = true;
     };
 
-    
-    console.log(maxStatusCount);
-
     init();
-    //calculate term
-
-
-    
-
 
     vm.histogramOptions = {
         //scaleBeginAtZero: true
@@ -401,9 +398,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
     }
 
-    $interval(function() {
+    vm.loadLeaderboard = function () {
         if (vm.wallOptions.showStatistics == true) {
-            if (vm.statuses.length > 0) {
+            //if (vm.statuses.length > 0) {
                 var statParams = searchParams;
                 StatisticsService.getStatistics(statParams)
                     .then(function(statistics) {
@@ -411,8 +408,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                         },
                         function() {}
                     );
-            }
+            //}
         }
+    };
+    $interval(function() {
+        vm.loadLeaderboard();
     }, 20000);
 
 

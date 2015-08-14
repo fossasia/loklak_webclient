@@ -13,36 +13,54 @@
             <div class="clearfix"></div>
          </div> -->
 
+         <!-- Filters -->
+         <div class="container content-container search-filters-container">
+             <div ng-show="search.showResult" class="filters-container">
+                 <ul class="search-modes">
+                     <!-- General filters -->
+                     <li  ng-class="(root.globalFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
+                         <a href="#">live</a>
+                     </li>
+                     <li  ng-class="(root.globalFilter === 'accounts') ? 'active' : ''" ng-click="search.filterAccounts()">
+                         <a href="#">accounts</a>
+                     </li>
+                     <li  ng-class="(root.globalFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
+                         <a href="#">photos</a>
+                     </li>
+                     <li ng-class="(root.globalFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
+                         <a href="#">videos</a>
+                     </li>
+                     <li ng-class="(root.globalFilter === 'map') ? 'active' : ''" ng-click="search.filterMap()">
+                         <a href="#">map</a>
+                     </li>
+                     <li><a href="./advancedsearch">More options</a></li>
+                 </ul>
+             </div>
+         </div>
         
         <!-- Main content -->
         <div class="container content-container">
             <!-- Left content: Who to follow, trends -->
-            <div class="col-md-3"></div>   
+            <div ng-show="!search.showMap" class="dashboard dashboard-left hidden-md col-lg-3">
+                <!-- Right content: Other statistics -->
+                <div class="right-result-container search-view-user-trends col-md-8 visible-lg">
+                    <div class="home-user-trends">
+                        <h3 class="trend-title">Trends</h3>
+                        <ul id="home-trend-list">
+                            <li><a href="./search?q=%23loklak">#loklak</a></li>
+                            <li ng-repeat="(key, value) in root.trends">
+                                <!-- -->
+                                <a href="./search?q=%23{{key}}">#{{key}}</a>
+                                <!-- -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <!-- Center result + option filters -->
-            <div ng-show="search.showResult" class="result-container col-md-6">
-                <!-- Filters -->
-                <div class="filters-container">
-                    <ul class="search-modes">
-                        <!-- General filters -->
-                        <li  ng-class="(root.globalFilter === 'live') ? 'active' : ''" ng-click="search.filterLive()">
-                            <a href="#">live</a>
-                        </li>
-                        <li  ng-class="(root.globalFilter === 'accounts') ? 'active' : ''" ng-click="search.filterAccounts()">
-                            <a href="#">accounts</a>
-                        </li>
-                        <li  ng-class="(root.globalFilter === 'photos') ? 'active' : ''" ng-click="search.filterPhotos()">
-                            <a href="#">photos</a>
-                        </li>
-                        <li ng-class="(root.globalFilter === 'videos') ? 'active' : ''" ng-click="search.filterVideos()">
-                            <a href="#">videos</a>
-                        </li>
-                        <li ng-class="(root.globalFilter === 'map') ? 'active' : ''" ng-click="search.filterMap()">
-                            <a href="#">map</a>
-                        </li>
-                        <li><a href="./advancedsearch">More options</a></li>
-                    </ul>
-                </div>
+            <div ng-show="search.showResult" ng-class="(search.peopleSearch) ? 'result-container col-lg-9' : 'result-container col-md-6'">
+               
 
                 <!-- New status from background updating process -->
                 <button ng-show="search.newStasuses.length > 0" class="more-result" ng-click="search.showNewStatuses();">Load {{search.noOfNewStatuses}} new results!</button>
@@ -55,7 +73,7 @@
 
                 <!-- People results -->
                 <div ng-if="search.peopleSearch" class="main-result-container">
-                    <div ng-repeat="account in search.accounts" account data="account"></div>
+                    <div class="col-md-4 col-sm-6 account-item" ng-repeat="account in search.accountsPretty" account data="account"></div>
                 </div>
 
                
@@ -66,8 +84,7 @@
             </div>
 
             <!-- Right content: Other statistics -->
-            <div class="dashboard dashboard-right col-md-3">
-
+            <div ng-show="!search.showMap" class="dashboard dashboard-right col-md-3">
             </div>
 
         </div>

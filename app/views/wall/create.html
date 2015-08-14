@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css"> -->
 <div class="content-wrapper">
-    <div class="container content-container">
+    <div ng-show="root.twitterSession" class="container content-container">
         <section class="content-header">
         </section>
         <section class="content">
@@ -25,5 +25,9 @@
             </ul>
         </section>
     </div>
+
+    <!-- Search box for anonymous user-no-followers -->
+    <div ng-include src="'anonymous-session-content.html'"></div>
+    <!-- End search box for anonymous users -->
 </div>
 <div ng-include="'wall/wallCreationModal.html'"></div>

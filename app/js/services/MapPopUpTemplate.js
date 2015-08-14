@@ -13,9 +13,9 @@ function MapPopUpTemplateService($filter) {
   service.genStaticTwitterStatus = function(status) {
   	var result = "";
   	var text = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(status.text)));
-  	var created_at = $filter('date')(status.created_at, 'dd MMM yyyy');
+  	var created_at = $filter('date')(status.created_at, 'dd MMM yyyy hh:mm:ss');
     var placetext="";
-    if (status.location_source === "REPORT" && status.location_source) { placetext='<span class="fa fa-map-marker text">'+status.place_name+'</span>'; }
+    if ((status.location_source === "REPORT" || status.location_source === "PLACE") && status.location_source) { placetext='<i class="fa fa-map-marker text"></i>&nbsp'+status.place_name; }
 
   	result='<div class="single-tweet tweet map-tweet">'
   		+			 '<div class="top-metadata">'

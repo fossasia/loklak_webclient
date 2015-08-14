@@ -36,7 +36,7 @@
 			border-bottom: 1px solid $search-grey-border;
 			&:first-child {
 				border-top-left-radius: 6px;
-				border-right-left-radius: 6px;
+				border-top-right-radius: 6px;
 			}
 			&:hover {
 				background: $search-grey-bg;
@@ -380,7 +380,7 @@
 
 		.content-container {
 
-			width: 95%;
+			width: 85%;
 			margin-top: 10px;
 			border-radius: 6px;
 			padding: 0;
@@ -428,7 +428,7 @@
 					border-bottom: 1px solid $search-grey-border;
 					&:first-child {
 						border-top-left-radius: 6px;
-						border-right-left-radius: 6px;
+						border-top-right-radius: 6px;
 					}
 					&:hover {
 						background: $search-grey-bg;
@@ -819,6 +819,64 @@
 		word-wrap: break-word;
 	}
 
+/* Search view user trends */
+	.dashboard-left {
+		padding-left: 0;
+	}
+	.search-view-user-trends {
+		padding-left: 0;
+		width: 100%;
+		border-radius: 6px;
+		.home-user-trends {
+			margin-top: 0;
+			background: white;
+			border: none;
+			border-radius: 6px;
+			padding: 15px;
+			.trend-title {
+				font-size: 25px;
+				font-weight: 500;
+			}
+			#home-trend-list {
+				li {
+					a {
+						font-size: 15px;
+						display: inline-block;
+						margin-bottom: 4px;
+					}
+				}
+			}
+		}
+	}
+
+
+/* Style for account search, reused from home view */
+.account-item {
+	.home-user-info {
+		margin-top: 0;
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		height: 300px;
+		@media (min-width: 0px) and (max-width: 767px) {
+			height: 250px;
+		}
+		overflow: hidden;
+		.blue-background-placeholder {
+			height: 100px;
+		}
+		.bottom-content {
+			p {
+				padding: 20px;
+				color: #66757f;
+				font-size: 14px;
+				line-height: 1.375em;
+				height: 135px;
+			}
+		}
+	}
+}
+
+
 /* Style for advanced search */
 	.advanced-search-view-container {
 		min-height: 100vh;
@@ -918,7 +976,7 @@
 				.location-hint {
 					display: inline-block;
 					margin-left: 10px;
-					font-size: 13px;
+					font-size: 14px;
 					font-style: italic;
 				}
 				ul {
@@ -1040,3 +1098,4 @@
 	#advanced-search-map {
 		width:100%; height:100vh;
 	}
+
