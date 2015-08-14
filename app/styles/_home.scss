@@ -156,157 +156,203 @@
 }
 
 /* Anonymous content */
-.anonymous-session-content {
-	.blue-bar {
-		width: 100%;
-		height: 50px;
-		background-color: $search-twitter-blue;
-	}
-	.anonymous-content-container
-	 {
-	 	text-align: center;
-		.wassup-title {
-			margin: 65px 0 0 0;
-			text-align: center;
-			font-size: 43px;
-		}
-		> div {
-			text-align: center;
-		}
-		.search-form-wrapper {
-			position: relative;
-			width: 99%;
-			display: inline-block;
-			max-width: 650px;
-			> span {
-				position: absolute;
-				top: 17px;
-				right: 0;
-				display: inline-block;
-				font-size: 16px;
-			    font-weight: 600;
-			    color: white;
-			    background-color: $search-twitter-blue;
-			    padding: 10px;
-			    border-radius: 3px;
-			}
-			padding-right: 85px;
-		}
-		.global-search-container {
+	.anonymous-session-content {
+		min-height: 100vh;
+	    margin-top: -46px;
+	    padding-top: 46px;
+		.blue-bar {
 			width: 100%;
-			margin-top: 10px;
-			#global-search-input {
-				width: 100%;
-				padding: 7px 9px;
-				font-size: 13px;
-				border-radius: 0px;
-				line-height: 20px;
-				background: white;
-				&:focus {
-					box-shadow: $search-twitter-blue 0px 0px 0px 1px inset;
-				}
-			}
-			i {
-				display: none;
-			}	
-		}
-		.search-hints {
-			margin: 15px 0 0 0;
+			padding: 14.5px;
+			font-weight: 300;
+			font-size: 26px;
+			color: white;
+			background-color: $search-twitter-blue;
 			text-align: center;
-			.operator-hint, a {
-				color: $search-twitter-blue;
-				display: inline-block;
-				&:hover {
-					cursor: pointer;
-				}
-			}
+			min-height: 55px;
+			box-sizing: border-box;
 		}
-		.trend-container {
-			margin: 60px 0 0 0;
-			h4 {
-				color: $search-grey;
-				padding: 0;
-				font-size: 18px;
-				margin: 0;
-			}
-			#horizontal-trend-list {
-				display: block;
-				margin: 10px 0 0 0;
-				padding: 0;
+		.anonymous-content-container
+		 {
+		 	text-align: center;
+			.wassup-title {
+				margin: 65px 0 0 0;
 				text-align: center;
-				li {
+				font-size: 43px;
+			}
+			> div {
+				text-align: center;
+			}
+			.search-form-wrapper {
+				position: relative;
+				width: 99%;
+				display: inline-block;
+				max-width: 650px;
+				> span {
+					position: absolute;
+					top: 17.5px;
+					right: 0;
 					display: inline-block;
-					&:not(:first-child) {
-						margin: 7px 0  0 22px;
+					font-size: 16px;
+				    font-weight: 600;
+				    color: white;
+				    background-color: $search-twitter-blue;
+				    background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.15));
+				    border: 1px solid #3b88c3; 
+				    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+				    padding: 9px 15px;
+				    border-radius: 4px;
+				}
+				padding-right: 106px;
+			}
+			.global-search-container {
+				width: 100%;
+				margin-top: 10px;
+				#global-search-input {
+					width: 100%;
+					padding: 7px 9px;
+					font-size: 13px;
+					border-radius: 0px;
+					line-height: 20px;
+					background: white;
+					&:focus {
+						box-shadow: $search-twitter-blue 0px 0px 0px 1px inset;
 					}
 				}
+				i {
+					display: none;
+				}	
 			}
-		}
-			
-	}
-
-	.operator-overlay-container {
-		position: fixed;
-		background-color: rgba(1,1,1, 0.75);
-		width: 100%;
-		height: 100%;
-		top: 0;
-		.operator-overlay {
-			border-radius: 8px;
-			position: absolute;
-			top: 45%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background-color: white;
-			width: 80%;
-			max-width: 700px;
-			.header {
-				font-size: 18px;
-				width: 100%;
-				color: $search-grey;
-				margin: 0;
-				padding: 13px 0;
-				position: relative;
+			.search-hints {
+				margin: 15px 0 0 0;
 				text-align: center;
-				.close-overlay {
-					position: absolute;
-					right: 17px;
-					top: 9px;
-					font-size: 24px;
-					color: $search-grey;
+				.operator-hint, a {
+					color: $search-twitter-blue;
+					display: inline-block;
 					&:hover {
 						cursor: pointer;
 					}
 				}
-				border-bottom: 1.5px solid $search-grey-border;
 			}
-			.table-container {
-				width: 100%;
-				padding: 15px;
-				table, th, td {
-					border: 1px solid $search-grey-border;
+			.trend-container {
+				margin: 60px 0 0 0;
+				h4 {
+					color: $search-grey;
+					padding: 0;
+					font-size: 18px;
+					margin: 0;
 				}
-				table {
-					width: 100%;
-					th {
-						padding: 10px;
-						font-size: 17px;
-						color: black;
-						background-color: #F5F8FA;
+				#horizontal-trend-list {
+					display: block;
+					margin: 10px 0 0 0;
+					padding: 0;
+					text-align: center;
+					li {
+						display: inline-block;
+						&:not(:first-child) {
+							margin: 7px 0  0 22px;
+						}
 					}
-					td {
-						padding: 10px;
-						font-size: 15px;
-						color: $search-grey;
-						line-height: 18px;
-						vertical-align: top;
-					}
-				}	
+				}
 			}
-			
+				
+		}
+
+		.operator-overlay-container {
+			position: fixed;
+			background-color: rgba(1,1,1, 0.75);
+			width: 100%;
+			height: 100%;
+			top: 0;
+			z-index: 1031;
+			.operator-overlay {
+				border-radius: 8px;
+				position: absolute;
+				top: 45%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: white;
+				width: 80%;
+				max-width: 700px;
+				.header {
+					font-size: 18px;
+					width: 100%;
+					color: $search-grey;
+					margin: 0;
+					padding: 13px 0;
+					position: relative;
+					text-align: center;
+					.close-overlay {
+						position: absolute;
+						right: 17px;
+						top: 9px;
+						font-size: 24px;
+						color: $search-grey;
+						&:hover {
+							cursor: pointer;
+						}
+					}
+					border-bottom: 1.5px solid $search-grey-border;
+				}
+				.table-container {
+					width: 100%;
+					padding: 15px;
+					table, th, td {
+						border: 1px solid $search-grey-border;
+					}
+					table {
+						width: 100%;
+						th {
+							padding: 10px;
+							font-size: 17px;
+							color: black;
+							background-color: #F5F8FA;
+						}
+						td {
+							padding: 10px;
+							font-size: 15px;
+							color: $search-grey;
+							line-height: 18px;
+							vertical-align: top;
+						}
+					}	
+				}
+				
+			}
+		}
+		.credits-container {
+			color: #8899a6;
+		    background: white;
+		    padding: 15px 20px;
+		    border: 1px solid #e1e8ed;
+		    margin-bottom: 20px;
+		    font-size: 15px;
+		    position: absolute;
+		    bottom: 0;
+		    width: 100%;
+		    left: 50%;
+		    max-width: 1200px;
+		    transform: translateX(-50%);
+		    border-radius: 4px;
+			> div {
+				display: inline-block;
+				> span {
+					color: $search-twitter-blue;
+					display: inline-block;
+					position: relative;
+					top: -2px;
+					margin-left: 10px;
+					margin-right: 6px;
+					opacity: 0.7;
+				}
+			}
+			.left-credits {
+				float: left;
+			}
+			.right-credits {
+				float: right;
+			}
 		}
 	}
-}
 
 // Embed content
 .home-debugged-link-container {

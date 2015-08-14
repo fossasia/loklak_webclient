@@ -16,6 +16,7 @@
                 <br>
                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                 </p>
+                <div class="home-debugged-link-container" home-debugged-link entities="status.status.entities"></div>
             </div>
         </div>
       </div>
