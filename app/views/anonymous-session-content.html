@@ -1,5 +1,7 @@
 <div class="anonymous-session-content">
-        <div ng-show="!root.twitterSession" class="blue-bar"></div>
+        <div ng-show="!root.twitterSession" class="blue-bar">
+            {{root.globalSearchTerm}}
+        </div>
         <div ng-show="!root.twitterSession" class="container anonymous-content-container">
 
             <h1 class="wassup-title">What's going on</h1>
@@ -22,6 +24,21 @@
                     </li>
                 </ul>    
             </div>
+
+            <div class="credits-container">
+                <div class="left-credits">
+                    <a>© 2015 loklak</a><span>-</span>
+                    <a href="./about">About</a>
+                </div>
+                
+                <div class="right-credits">
+                    <a href="http://blog.loklak.net/" target="_blank" >Blog</a><span>-</span>
+                    <a href="https://github.com/loklak" target="_blank" >Github</a><span>-</span>
+                    <a href="http://facebook.com/loklakmessages" target="_blank" >Facebook</a>
+                </div>
+
+            </div>
+
         </div>
 
         <div ng-show="root.home.operatorOverlayShow" class="operator-overlay-container" ng-click="root.home.evalToCloseOverlay($event);">

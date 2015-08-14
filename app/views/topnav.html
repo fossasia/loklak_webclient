@@ -91,7 +91,7 @@
                 <input type="hidden" name="optionChoice" ng-model="root.option" id="optionChoice">
                 <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
                 <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
-                <div id="map" style="width: 100%; height: 450px;"></div>
+                <div id="map" style="width: 100%; height: 300px;"></div>
                 <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
         </div>
@@ -281,8 +281,10 @@ $('#myModal').on('shown.bs.modal', function (e) {
     map.panTo(new L.LatLng(latitude, longitude));
   }
 
-  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    osmAttrib = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
 
   map = L.map('map').setView([51.505, -0.159], 15).addLayer(osm);
@@ -298,6 +300,10 @@ $('#myModal').on('shown.bs.modal', function (e) {
     $("#attachMap").hide();
     $('#filePicker').hide();
     $("#optionChoice").val('mapAttachment');
+    setTimeout(function() {
+      console.log("Triggered");
+      map.invalidateSize();
+    }, 1000);
   }
 
   function cancelMapTile() {

@@ -16,6 +16,18 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		controller: function($scope) {
 			$rootScope.root.aSearchWasDone = false;
 
+			/* Check if a session is available before hello.js even initialize
+	         * in order to determine if the application is going to login automatically or not
+			 */
+			var twitterStorageObject = JSON.parse(localStorage.getItem("hello"));
+			if (!twitterStorageObject || !twitterStorageObject.twitter) {
+				$rootScope.root.twitterSession = false;
+			} else {
+				$rootScope.root.twitterSession = true;
+			}
+			
+			$rootScope.root.isHelloDoneCheckingCookies = true;				
+
 			/* Hello related init*/
 			var hello = $scope.hello;
 			window.hello = hello;
