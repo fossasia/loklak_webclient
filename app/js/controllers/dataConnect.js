@@ -62,7 +62,6 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 				query += 'id:' + messageIds[key] + ' ';
 			}
 			SearchService.getData(query).then(function(data) {
-				console.log(data.statuses);
 				$scope.selectedMapMessages = data.statuses;
 				$scope.updateMap();
 			}, function() {});
@@ -71,7 +70,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 
 	function updateDataSources(callback) {
 		if (!$rootScope.root.twitterSession) return;
-		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.name).then(function(data) {
+		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -129,10 +128,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	$scope.openConfirmDeleteModal = function(item) {
 		$scope.toDeleteItem = item;
 		angular.element('#open-confirm-modal').trigger('click');
+
 	}
 	$scope.deleteDataSource = function() {
 		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
-			console.log(data);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 			$scope.dataSourceMessages.success = 'Data source deleted.';
 		}, function(error) {

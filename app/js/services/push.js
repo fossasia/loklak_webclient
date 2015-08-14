@@ -18,7 +18,7 @@ function PushService($q, $http, AppSettings, $rootScope) {
 		}
 		var deferred = $q.defer();
 		$http.jsonp(AppSettings.apiUrl+'push/' + endpoint + '?callback=JSON_CALLBACK', {
-			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime, screen_name: $rootScope.root.twitterSession.name}
+			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime, screen_name: $rootScope.root.twitterSession.screen_name}
 			}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
@@ -37,7 +37,7 @@ function PushService($q, $http, AppSettings, $rootScope) {
 			params: {
 				url: url, source_type : source_type || 'IMPORT', 
 				map_type : map_type, harvesting_freq : harvesting_freq, lifetime : lifetime,
-				screen_name: $rootScope.root.twitterSession.name
+				screen_name: $rootScope.root.twitterSession.screen_name
 			}}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
