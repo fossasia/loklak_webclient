@@ -186,6 +186,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 					} else if (data.status == 'invalid') {
 						$scope.validateStatus = 'error';
 						$scope.messages.validateError = 'Data format is not valid for source type ' + $scope.sourceTypeList[$scope.inputs.sourceType].name;
+					} else if (data.status = 'unsupported') {
+						$scope.validateStatus = '';
+						$scope.messages.validateError = '';
+						$scope.currentData = JSON.parse(data.content);
 					} else {
 						$scope.validateStatus = 'success';
 						$scope.messages.validateError = '';
