@@ -3,8 +3,6 @@
 /* jshint unused:false */
 
 var controllersModule = require('./_index');
-var Leaflet = require('../components/leaflet');
-var GeoJSON = require('../components/geojson');
 var result;
 var startupslocation=[];
 var marker=[];
@@ -24,18 +22,22 @@ var plotted=0;
   var overlays = {
             "Startups" : startupslayer 
         };
-  var grayscale=L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+  var grayscale=L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>' +
                 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
             id: 'examples.map-20v6611k'
         });
         var basemapObj = {
             "First Basemap": grayscale
         };
-
-      var map = L.map('map',{layers:[grayscale,startupslayer]}).setView([20,0], 2);
+        console.log(window.map);
+      if (window.map) { console.log("ff"); delete(window.map);  }
+      if (window.map) { console.log("ff"); delete(window.map);  }
+      var map2 =L.map('map2',{layers:[grayscale,startupslayer]}).setView([20,0], 2);
+      
       var code = function () {
       var query_string = {};
       var query = window.location.search.substring(1);
@@ -247,4 +249,3 @@ var plotted=0;
 
 
 }]);
-
