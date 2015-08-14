@@ -36,8 +36,8 @@
 				<div class="col col-md-2"><a ng-href="/connect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
 				<div class="col col-md-2" am-time-ago="item.created_at"></div>
 				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal">File</a></div>
-				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal">View</a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal" ng-click="setMessageView(item.imported)">File <span class="badge">{{item.imported.length}}</span></a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal" ng-click="setMapView(item.imported)">View</a></div>
 				<div class="col col-md-1">{{item.screen_name}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
@@ -71,14 +71,16 @@
 	<div add-connection-modal></div>
 	<div map-view-modal></div>
 	<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
-	<div id="message-view-modal" class="modal" role="dialog">
+	<div id="message-view-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<div single-status open-swipe="selectedTweet.openSwipe" data="selectedTweet.status" show-status="true"></div>
+					<div ng-repeat="value in selectedMessages">
+						<div single-status open-swipe="false" data="value" show-status="true"></div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<a id="close-map-view-button" data-dismiss="modal" type="button" class="btn btn-loklak-blue">Close</a>

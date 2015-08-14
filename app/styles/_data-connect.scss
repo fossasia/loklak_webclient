@@ -43,7 +43,10 @@
 	word-wrap: break-word;
 	padding: 0;
 }
-
+#datasource-table .badge {
+	vertical-align: text-bottom;
+	font-size: 10px;
+}
 #datasource-table .col-source-url {
 	text-overflow: ellipsis;
 	white-space: nowrap;

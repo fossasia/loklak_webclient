@@ -41,6 +41,34 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	$scope.harvestingFreqList = HarvestingFrequencyService.values;
 	$scope.mapRulesNum = 0;
 
+	$scope.setMessageView= function(messageIds) {
+		if (messageIds !== $scope.fileIds) {
+			$scope.fileIds = messageIds;
+			var query = '';
+			for (var key in messageIds) {
+				query += 'id:' + messageIds[key] + ' ';
+			}
+			SearchService.getData(query).then(function(data) {
+				$scope.selectedMessages = data.statuses;
+			}, function() {});
+		}
+	};
+
+	$scope.setMapView = function(messageIds) {
+		if (messageIds !== $scope.mapIds) {
+			$scope.mapIds = messageIds;
+			var query = '';
+			for (var key in messageIds) {
+				query += 'id:' + messageIds[key] + ' ';
+			}
+			SearchService.getData(query).then(function(data) {
+				console.log(data.statuses);
+				$scope.selectedMapMessages = data.statuses;
+				$scope.updateMap();
+			}, function() {});
+		}
+	};
+
 	function updateDataSources(callback) {
 		if (!$rootScope.root.twitterSession) return;
 		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.name).then(function(data) {
@@ -74,8 +102,8 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	};
 
 	$scope.showRowDetail = function(e) {
-		// do not trigger when event source is a link
-		if (e.target.localName === 'a') return;
+		// do not trigger when event source is a link or the span badge
+		if (e.target.localName === 'a' || e.target.localName === 'span') return;
 		angular.element(e.currentTarget).toggleClass("showing-detail");
 	};
 
@@ -90,7 +118,6 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	}
 
 	$scope.saveDataSource = function(item) {
-		console.log("Saving" + item);
 		ImportProfileService.update(item).then(function(data) {
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
