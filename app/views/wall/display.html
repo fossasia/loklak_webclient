@@ -32,7 +32,7 @@
                 <div ng-switch-when="2" class="animate-repeat" ng-repeat="status in wall.statuses" card open="wall.open" data="status" leaderboardEnabled="{{wall.wallOptions.showStatistics}}"></div>
                 <div ng-switch-when="3" class="animate-repeat" ng-repeat="status in wall.statuses" coa open="wall.open" data="status"></div>
                 <div ng-switch-when="4">
-                    <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;" ng-style="wall.wallOptions.showStatistics?{}:{'margin-right':'-48px'}"></div>
+                    <div data="wall.statuses" id="map" maplayout style="margin-left:-48px; margin-top:-10px;" ng-style="wall.wallOptions.showStatistics?{}:{'margin-right':'-48px'}" cycleTweets="{{wall.wallOptions.cycle}}"></div>
                 </div>
             </div>
             <div ng-if="wall.wallOptions.showStatistics && wall.statuses.length>0" class="col-md-4">

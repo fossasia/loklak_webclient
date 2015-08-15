@@ -107,9 +107,22 @@
                                                 <div class="form-group row">
                                                     <h4 class="col-xs-9">Cycle/Repeat tweets
                                                             <br><small>Do you want to constantly cycle Tweets so it always appears active? Will show only latest tweets if set to No.</small></h4>
-                                                    <toggle-switch disabled="true" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
+                                                    <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
                                                     </toggle-switch>
                                                 </div>
+                                                <!-- <hr>
+                                                <div ng-if="newWallOptions.cycle==true" class="form-group row">
+                                                    <h4 class="col-xs-9">Cycle Delay Time
+                                                            <br><small>When there are no new posts, show a tweet for how many seconds?</small></h4>
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cycleDelayTime">
+                                                    <hr>
+                                                </div>
+                                                <div ng-if="newWallOptions.cycle==true" class="form-group row">
+                                                    <h4 class="col-xs-9">Cycle Post Limit
+                                                            <br><small>How many of the most recent posts should we cycle?</small></h4>
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cyclePostLimit">
+                                                    <hr>
+                                                </div> -->
                                                 <hr>
                                                 <div class="form-group">
                                                     <h3>Which media do you want to show on the wall?</h3>
@@ -135,8 +148,8 @@
                                                     <h3>Location</h3>
                                                     <div class="row">
                                                         <h4 class="col-xs-8">Places<br><small>Show tweets near this place</small></h4>
-                                                        <input class="wall-location-input"  type="text" ng-model="newWallOptions.chosenLocation">
-                                                        <ul class="col-xs-offset-8 wall-location-list"  ng-show="wall.hasSuggestions">
+                                                        <input class="wall-location-input" type="text" ng-model="newWallOptions.chosenLocation">
+                                                        <ul class="col-xs-offset-8 wall-location-list" ng-show="wall.hasSuggestions">
                                                             <li ng-repeat="location in wall.locationSuggestions | limitTo:5" ng-click="wall.setLocation(location.query)">{{location.query}}</li>
                                                         </ul>
                                                     </div>
