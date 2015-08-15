@@ -24,11 +24,9 @@ function getAuthorizedData(servlet, paramsObj, callback) {
     
 }
 
-function updateData(user, data, callback) {
-    var dataToSend = {
-        screen_name: user,
-        apps: data
-    }
+function updateData(authData, data, callback) {
+    var dataToSend = authData;
+    dataToSend.apps = data;
     console.log(JSON.stringify(dataToSend));
     request.post({
             url: config.apiUrl + 'account.json',
@@ -92,12 +90,16 @@ router.get('/authorized?', isAuthorized, function(req, res) {
 router.get('/:user/:app', function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
+        var authData = {};
+        authData.oauth_token = data.oauth_token;
+        authData.oauth_token_secret = data.oauth_token_secret;
+        authData.screen_name = data.screen_name;
         if (data.apps) {
             if (data.apps[req.params.app]) {
                 //Migration to new system
                 if (data.apps[req.params.app].walls) {
                     //clear everything.
-                    updateData(req.params.user, {}, function() {
+                    updateData(authData, {}, function() {
                         res.jsonp([]);
                     });
                 } else {
@@ -108,7 +110,7 @@ router.get('/:user/:app', function(req, res) {
             }
         } else {
             //clear everything.
-            updateData(req.params.user, {}, function() {
+            updateData(authData, {}, function() {
                 res.jsonp([]);
             });
         }
@@ -139,9 +141,9 @@ router.post('/:user/:app', function(req, res) {
     	var responseData = JSON.parse(response.body);
         var appData = responseData.accounts[0].apps;
         var authData = {};
-        authData.oauth_token = responseData.oauth_token;
-        authData.oauth_token_secret = responseData.oauth_token_secret;
-        authData.screen_name = responseData.screen_name;
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
         if(!appData){
             appData = {};
         }
@@ -151,7 +153,7 @@ router.post('/:user/:app', function(req, res) {
         newWall.id = shortid.generate();
         appData[req.params.app].push(newWall);
         //console.log(newWall.id);
-        updateData(req.params.user, appData, function(error, response, body) {
+        updateData(authData, appData, function(error, response, body) {
             return res.json({
                 id: newWall.id
             });
@@ -162,7 +164,13 @@ router.post('/:user/:app', function(req, res) {
 //DELETE
 router.delete('/:user/:app/:id', function(req, res) {
     getData(req.params.user, function(error, response, body) {
-        var appData = JSON.parse(response.body).accounts[0].apps;
+        var responseData = JSON.parse(response.body);
+        var appData = responseData.accounts[0].apps;
+        var authData = {};
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
+        console.log(authData);
         if (!appData[req.params.app]) {
             appData[req.params.app] = [];
         }
@@ -175,8 +183,8 @@ router.delete('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                updateData(req.params.user, appData, function(error, response, body) {
-                    //console.log(response.body);
+                updateData(authData, appData, function(error, response, body) {
+                    console.log(response.body);
                     return res.json({
                         status: "OK"
                     });
@@ -195,7 +203,12 @@ router.delete('/:user/:app/:id', function(req, res) {
 //UPDATE
 router.put('/:user/:app/:id', function(req, res) {
     getData(req.params.user, function(error, response, body) {
-        var appData = JSON.parse(response.body).accounts[0].apps;
+    	var responseData = JSON.parse(response.body);
+        var appData = responseData.accounts[0].apps;
+        var authData = {};
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
         if (!appData[req.params.app]) {
             appData[req.params.app] = [];
         }
@@ -208,7 +221,7 @@ router.put('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                updateData(req.params.user, appData, function(error, response2, body) {
+                updateData(authData, appData, function(error, response2, body) {
                     //console.log(response2.body);
                     return res.json(JSON.parse(response2.body).accounts[0].apps[req.params.app][i]);
                 });
