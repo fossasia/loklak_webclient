@@ -214,7 +214,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			}
 
 			$scope.accessDataField = function(row) {
-				if ($scope.inputs.mapRules[row][0] && $scope/currentData) return accessDataField($scope.currentData, $scope.inputs.mapRules[row][0]);
+				if ($scope.inputs.mapRules[row][0] && $scope.currentData) return accessDataField($scope.currentData, $scope.inputs.mapRules[row][0]);
 			}
 		}
 	};
