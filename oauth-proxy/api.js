@@ -29,7 +29,6 @@ function updateData(user, data, callback) {
         screen_name: user,
         apps: data
     }
-    console.log(JSON.stringify(dataToSend));
     request.post({
             url: config.apiUrl + 'account.json',
             form: {
@@ -50,7 +49,7 @@ function updateData(user, data, callback) {
  */
 var isAuthorized = function(req, res, next) {
     if (!(req.query.screen_name) || (!(req.query.oauth_token) || !(req.query.oauth_token_secret))) {
-        res.end("Access unauthorized");
+        next(false, null);
         return;
     }
 
@@ -63,10 +62,9 @@ var isAuthorized = function(req, res, next) {
     request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {  
         var data = JSON.parse(response.body).accounts[0];
         if (data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
-        	req.accountData = data;
-            next();
+            next(true, response);    
         } else {
-            res.end("Access unauthorized");
+            next(false, error);
         }    
     });
 }
@@ -74,17 +72,16 @@ var isAuthorized = function(req, res, next) {
 /* 
  * Authorized API, an example for the use case of the middleware above
  */
-router.get('/authorized?', isAuthorized, function(req, res) {
-	res.jsonp(req.accountData);
-    // var cb = function(responseState, response) {
-    //     if (responseState) {
-    //         res.jsonp(response);  
-    //     } else {
-    //         res.send("Access unauthorized");
-    //     }
-    // }
+router.get('/authorized?', function(req, res) {
+    var cb = function(responseState, response) {
+        if (responseState) {
+            res.jsonp(response);  
+        } else {
+            res.send("Access unauthorized");
+        }
+    }
     
-    // isAuthorized(req, res, cb);
+    isAuthorized(req, res, cb);
 })
 
 /* Wall API */
@@ -136,12 +133,7 @@ router.get('/:user/:app/:id', function(req, res) {
 router.post('/:user/:app', function(req, res) {
     var newWall = req.body;
     getData(req.params.user, function(error, response, body) {
-    	var responseData = JSON.parse(response.body);
-        var appData = responseData.accounts[0].apps;
-        var authData = {};
-        authData.oauth_token = responseData.oauth_token;
-        authData.oauth_token_secret = responseData.oauth_token_secret;
-        authData.screen_name = responseData.screen_name;
+        var appData = JSON.parse(response.body).accounts[0].apps;
         if(!appData){
             appData = {};
         }
@@ -150,8 +142,9 @@ router.post('/:user/:app', function(req, res) {
         }
         newWall.id = shortid.generate();
         appData[req.params.app].push(newWall);
-        //console.log(newWall.id);
+        console.log(newWall.id);
         updateData(req.params.user, appData, function(error, response, body) {
+            console.log(response.body);
             return res.json({
                 id: newWall.id
             });
@@ -176,7 +169,7 @@ router.delete('/:user/:app/:id', function(req, res) {
                     apps: appData
                 }
                 updateData(req.params.user, appData, function(error, response, body) {
-                    //console.log(response.body);
+                    console.log(response.body);
                     return res.json({
                         status: "OK"
                     });
@@ -209,7 +202,7 @@ router.put('/:user/:app/:id', function(req, res) {
                     apps: appData
                 }
                 updateData(req.params.user, appData, function(error, response2, body) {
-                    //console.log(response2.body);
+                    console.log(response2.body);
                     return res.json(JSON.parse(response2.body).accounts[0].apps[req.params.app][i]);
                 });
             }

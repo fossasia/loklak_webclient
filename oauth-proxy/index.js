@@ -14,9 +14,7 @@ app.use(bodyParser.urlencoded({
     extended: true,
     limit: '50mb'
 }));
-app.use(bodyParser.json({
-    limit: '50mb'
-}));
+app.use(bodyParser.json({limit: '50mb'}));
 // Set application to list on PORT
 app.listen(config.oauthProxyPort);
 
@@ -32,17 +30,15 @@ console.log("OAuth Shim listening on " + config.oauthProxyPort);
 app.get('/updateData', function(req, res) {
     request(config.apiUrl + 'account.json?action=update&data=' + encodeURIComponent(req.query.data), function(error, response, body) {
         console.log(response.body);
-        res.status(response.statusCode).jsonp({
-            ok: "ok"
-        });
+        res.status(response.statusCode).jsonp({ok:"ok"});
     });
 });
 
-app.get('/getData', function(req, res) {
+app.get('/getData', function(req, res){
     request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function(error, response, body) {
         console.log(response.body);
         res.jsonp(JSON.parse(response.body));
-    });
+    });    
 });
 
 // Create a key value list of {client_id => client_secret, ...}
@@ -86,33 +82,24 @@ function customHandler(req, res, next) {
         //got it. Now send to backend
         //but wait!! We need to get the current data from the backend first and then update it with the new data
         request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var responseData = JSON.parse(response.body);
-                if (responseData.accounts.length == 0) {
-                    console.log("new user!");
-                } else {
-                    userObject['apps'] = responseData.accounts[0].apps;
-                    // userObject.oauth_token = responseData.accounts[0].oauth_token;
-                    // userObject.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
-                }
-                var requestJSON = JSON.stringify(userObject);
-                request.post({
-                        url: config.apiUrl + 'account.json',
-                        form: {
-                            action: 'update',
-                            data: requestJSON
-                        }
-                    },
-                    function(error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            console.log("user saved");
-                        } else {
-                            console.log("The user was not saved in loklak_server. Handle this error");
-                        }
-                    }
-                );
-            }
-        });
+        	if (!error && response.statusCode == 200) {
+        		var responseData = JSON.parse(response.body);
+        		if(responseData.accounts.length==0){
+        			console.log("new user!");
+        		}
+        		else{
+        			userObject.apps = responseData.accounts[0].apps;
+        		}
+        		var requestJSON = JSON.stringify(userObject);
+        		request(config.apiUrl + 'account.json?action=update&data=' + requestJSON, function(error, response, body) {
+        		    if (!error && response.statusCode == 200) {
+        		        console.log("user saved");
+        		    } else {
+        		        console.log("The user was not saved in loklak_server. Handle this error");
+        		    }
+        		});
+        	}
+        });   
     }
 
     // Call next to complete the operation
