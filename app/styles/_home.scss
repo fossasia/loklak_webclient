@@ -29,6 +29,7 @@
 			overflow: hidden;
 			img {
 				width: 100%;
+				height: 100%;
 			}
 		}
 		.top-content {
@@ -54,10 +55,19 @@
 				.home-user-screen-name {
 					margin-top: -5px;	
 					font-style: italic;
+					display: inline-block;
+					font-size: 13px;
+				}
+				.twitter-api-user-location {
+					display: inline-block;
+				    margin-left: 4px;
+				    font-size: 12px;
+				    color: $search-grey;
 				}
 				.home-user-name {
-					font-size: 14px;
+					font-size: 20px;
 					font-weight: 700;
+					margin-bottom: 3px;
 				}
 			}
 		}
@@ -69,7 +79,7 @@
 				width: 32%;
 				text-align: left;
 				overflow: hidden;
-				padding: 10px 5px;
+				padding: 0 5px 0px 5px;
 				box-sizing: border-box;
 				&:first-child {
 					padding-left: 10px;
@@ -90,6 +100,12 @@
 					}
 				}
 			}
+		}
+		.user-info-text {
+			padding: 2px 10px 12px 10px;
+		    font-size: 14px;
+		    color: $search-grey;
+		    line-height: 17px;
 		}
 	}
 

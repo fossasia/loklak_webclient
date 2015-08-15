@@ -76,6 +76,11 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                         }, function() {
                             $(".map-control-hint-text").hide();
                         });
+                        $(".following-button").hover(function() {
+                            $(this).text("Unfollow");
+                        }, function() {
+                            $(this).text("Following");
+                        })
                     }
                 });                
             }

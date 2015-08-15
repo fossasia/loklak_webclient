@@ -11,6 +11,10 @@
 			height: 100vh;
 		}
 
+		.leaflet-popup-close-button {
+			display: none;
+		}
+
 		.leaflet-top {
 		    top: 50px !important;
 		}
@@ -28,6 +32,55 @@
 			}
 			.map-control-hint-text {
 				display: none;
+			}
+		}
+
+		.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+			padding: 0;
+			.leaflet-popup-content {
+				margin: 0;
+			}
+		}
+
+		.foobar {
+			.home-user-info {
+				border: none;
+			}
+			.name-and-screen-name {
+				display: block;
+			}
+			h4 {
+				position: absolute;
+				right: 0;
+				min-width: 87.1px;
+				box-sizing: border-box;
+				text-align: center;
+				float: right;
+				color: white;
+				background-color: #55acee;
+				background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05));
+				box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+			    border: 1px solid #3b88c3;
+			    padding: 8px 12px 9px 12px;
+			    display: inline-block;
+			    font-size: 14px;
+			    font-weight: bold;
+			    line-height: normal;
+			    border-radius: 4px;
+			    margin-top: 32px;
+		        margin-right: 12px;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+
+			.following-button:hover, .follower-and-following-button:hover {
+				opacity: 0;
+			}
+
+			h4.unfollow-button {
+				background-color: #be1931;
+				border: 1px solid #a0041e;
 			}
 		}
 	}
