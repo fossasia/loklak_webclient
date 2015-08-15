@@ -140,6 +140,51 @@
 		}
 	}
 
+	.followers-list-container {
+		padding: 10px;
+		background-color: white;
+		margin-top: 20px;
+	    border-radius: 10px;
+	    border: 1px solid #e1e8ed;
+		h2 {
+			font-size: 18px;
+			color: $search-grey;
+			margin-top: 2px;
+			margin-bottom: 10px;
+			text-transform: uppercase;
+			position: relative;
+			span {
+				float: right;
+				font-size: 15px;
+				color: $search-twitter-blue;
+				text-transform: initial; 
+				&:hover {
+					cursor: pointer;
+					text-decoration: underline;
+				}
+			}
+		}
+		> div {
+			> a {
+				width: 25%;
+				@media (min-width: 769px) and (max-width: 992px) {
+					width: 10%;
+				}
+				@media (min-width: 0) and (max-width: 768px) {
+					width: 45px;
+				}
+				display: inline-block;
+				padding: 3px;
+				img {
+					width: 100%;
+					border-radius: 3px;
+				}
+			}
+		}
+		
+		    
+	}
+
 /* Center result */
 .center-result-container {
 	@media (min-width: 992px) {

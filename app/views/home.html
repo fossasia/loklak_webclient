@@ -38,15 +38,27 @@
                 </div>
             </div>
 
-            <div class="home-user-trends">
-                <h3 class="trend-title">Trends</h3>
-                <ul id="home-trend-list">
-                    <li><a href="./search?q=%23loklak">#loklak</a></li>
-                    <li ng-repeat="(key, value) in root.trends">
-                        <a href="./search?q=%23{{key}}">#{{key}}</a>
-                    </li>
-                </ul>
-            </div>
+            <div ng-show="userTopology.followers.length !== 0" class="followers-list-container">
+                <h2>Followers<span ng-click="map.showAllFollowers();" ng-show="userTopology.followers.length > map.showFollowersLimit">Show all</span></h2>
+                <div class="followers-link-container clearfix">
+                    <a class="topology-item" ng-repeat="item in userTopology.followers | limitTo: map.showFollowersLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                        <img ng-src="{{item.profile_image_url_https}}">
+                    </a>
+                </div>
+            </div>  
+
+
+
+
+            <div ng-show="userTopology.following.length !== 0" class="followers-list-container">
+                <h2>Followings<span ng-click="map.showAllFollowings();" ng-show="userTopology.following.length > map.showFollowingsLimit">Show all</span></h2>
+                <div class="followers-link-container clearfix">
+                    <a class="topology-item" ng-repeat="item in userTopology.following | limitTo: map.showFollowingsLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                        <img ng-src="{{item.profile_image_url_https}}">
+                    </a>
+                </div>
+            </div>  
+
         </div>
         <!-- Center result + option filters -->
         <div class="center-result-container col-md-6" ng-show="root.twitterSession">

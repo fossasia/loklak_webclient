@@ -12,6 +12,8 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     vm.feedLimit = 20;
     vm.failNoticeShown = false;
     vm.isShowingMapNotHome = true;
+    vm.showFollowersLimit = 20;
+    vm.showFollowingsLimit = 20;
 
 
     /* MAP VIEW MODELS */
@@ -115,6 +117,14 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     /* SWITCHING BETWEEN TIMELINE AND MAP */
     vm.toggleMapAndTimeline = function() {
         vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+    }
+
+    /* TIMELINE VIEW MODELS */
+    vm.showAllFollowers = function() {
+        vm.showFollowersLimit = $rootScope.userTopology.followers.length;
+    }
+    vm.showAllFollowings = function() {
+        vm.showFollowingsLimit = $rootScope.userTopology.following.length;
     }
 
 }]);
