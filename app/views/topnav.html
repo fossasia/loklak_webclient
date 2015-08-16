@@ -89,8 +89,13 @@
               
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
                 <input type="hidden" name="optionChoice" ng-model="root.option" id="optionChoice">
+                <input type="hidden" name="mapZoomLevel" ng-model="root.mapZoomLevel" id="mapZoomLevel">
                 <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
                 <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
+                <input type="hidden" name="maplongWest" ng-model="root.maplongWest" id="maplongWest">
+                <input type="hidden" name="maplatSouth" ng-model="root.maplatSouth" id="maplatSouth">
+                <input type="hidden" name="maplongEast" ng-model="root.maplongEast" id="maplongEast">
+                <input type="hidden" name="maplatNorth" ng-model="root.maplatNorth" id="maplatNorth">
                 <div id="map" style="width: 100%; height: 300px;"></div>
                 <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
@@ -164,10 +169,6 @@
 
 var latitude;
 var longitude;
-
-function getLocation() {
-  alert("From Function!");
-}
 
 $(document).click(function(){
  $("#subDropDownMenu").hide('slow'); 
@@ -257,6 +258,18 @@ $('#myModal').on('shown.bs.modal', function (e) {
 
   function onMapClick(e) {
     console.log(e);
+    var mapZoomLevel = map.getZoom();
+    $("#mapZoomLevel").val(mapZoomLevel);
+    console.log(map.getBounds());
+    var bound = map.getBounds();
+    var longWest = parseFloat(bound._southWest.lng);
+    var latSouth = parseFloat(bound._southWest.lat);
+    var longEast = parseFloat(bound._northEast.lng);
+    var latNorth = parseFloat(bound._northEast.lat);
+    $("#maplongWest").val(longWest);
+    $("#maplatSouth").val(latSouth);
+    $("#maplongEast").val(longEast);
+    $("#maplatNorth").val(latNorth);
     if(typeof(new_event_marker)==='undefined')
     {
       new_event_marker = new L.marker(e.latlng,{bounceOnAdd: true}).addTo(map); 
