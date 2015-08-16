@@ -47,15 +47,28 @@ function updateData(authData, data, callback) {
  * An authorized req requires 3 fields for now_ screen_name, oauth, secret
  */
 var isAuthorized = function(req, res, next) {
-    if (!(req.query.screen_name) || (!(req.query.oauth_token) || !(req.query.oauth_token_secret))) {
+
+	function parseAccessToken(accessToken) {
+	    var splitted = accessToken.split(":");
+	    var oauth_token = splitted[0];
+	    var oauth_token_secret = splitted[1].split("@")[0];
+	    var userObject = {};
+	    userObject['oauth_token'] = oauth_token;
+	    userObject['oauth_token_secret'] = oauth_token_secret;
+	    return userObject;
+	}
+
+    if (!(req.get('x-screen-name')) || (!(req.get('x-access-token')))) {
         res.end("Access unauthorized");
         return;
     }
 
+    var userObject = parseAccessToken(req.get('x-access-token'));
+
     var params = {
-        "screen_name" : req.query.screen_name,
-        "token" : req.query.oauth_token,
-        "secret" : req.query.oauth_token_secret
+        "screen_name" : req.get('x-screen-name'),
+        "token" : userObject.oauth_token,
+        "secret" : userObject.oauth_token_secret
     };
 
     request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {  
@@ -87,7 +100,7 @@ router.get('/authorized?', isAuthorized, function(req, res) {
 
 /* Wall API */
 //LIST
-router.get('/:user/:app', function(req, res) {
+router.get('/:user/:app', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
         var authData = {};
@@ -117,7 +130,7 @@ router.get('/:user/:app', function(req, res) {
     });
 });
 
-//READ
+//READ (Publicly accessible, middleware not required)
 router.get('/:user/:app/:id', function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
@@ -135,7 +148,7 @@ router.get('/:user/:app/:id', function(req, res) {
 });
 
 //CREATE
-router.post('/:user/:app', function(req, res) {
+router.post('/:user/:app', isAuthorized, function(req, res) {
     var newWall = req.body;
     getData(req.params.user, function(error, response, body) {
     	var responseData = JSON.parse(response.body);
@@ -162,7 +175,7 @@ router.post('/:user/:app', function(req, res) {
 });
 
 //DELETE
-router.delete('/:user/:app/:id', function(req, res) {
+router.delete('/:user/:app/:id', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var responseData = JSON.parse(response.body);
         var appData = responseData.accounts[0].apps;
@@ -201,7 +214,7 @@ router.delete('/:user/:app/:id', function(req, res) {
 });
 
 //UPDATE
-router.put('/:user/:app/:id', function(req, res) {
+router.put('/:user/:app/:id', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
     	var responseData = JSON.parse(response.body);
         var appData = responseData.accounts[0].apps;

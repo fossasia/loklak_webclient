@@ -242,9 +242,10 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     var init = function() {
 
         if ($rootScope.root.twitterSession) {
-            $scope.screen_name = $rootScope.root.twitterSession.screen_name;
+            var auth = HelloService('twitter').getAuthResponse();
+            $scope.screen_name = auth.screen_name;
             $scope.userWalls = AppsService.query({
-                user: $rootScope.root.twitterSession.screen_name,
+                user: auth.screen_name,
                 app: 'wall'
             }, function(result) {
                 if ($scope.userWalls.length == 0) {
@@ -261,7 +262,6 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             user: auth.authResponse.screen_name,
             app: 'wall'
         }, function(result) {
-            console.log($scope.userWalls);
             if ($scope.userWalls.length == 0) {
                 $scope.wallsPresent = false;
                 console.log("No walls");

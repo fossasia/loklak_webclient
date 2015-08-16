@@ -100,6 +100,10 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
 
   cfpLoadingBarProvider.includeBar = false;
   cfpLoadingBarProvider.includeSpinner = true;
+
+  //token injector http interceptor
+  $httpProvider.interceptors.push('tokenInjector'); 
+
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];
