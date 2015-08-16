@@ -4743,6 +4743,20 @@ hello.utils.extend(hello.utils, {
 					var id = p.data.id;
 					p.data = null;
 					callback('favorites/create.json?id=' + id);
+				},
+
+				// See: https://dev.twitter.com/rest/reference/post/friendships/create
+				'me/follow': function(p, callback) {
+					var user_id = p.data.user_id;
+					p.data = null;
+					callback('friendships/create.json?follow=true&user_id=' + user_id);
+				},
+
+				// See: https://dev.twitter.com/rest/reference/post/friendships/destroy
+				'me/unfollow': function(p, callback) {
+					var user_id = p.data.user_id;
+					p.data = null;
+					callback('friendships/destroy.json?user_id=' + user_id);
 				}
 			},
 
