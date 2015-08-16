@@ -118,10 +118,14 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     return deferred.promise;
   };
 
-  service.getImportProfiles = function(sourceType) {
+  service.getImportProfiles = function(sourceType, screen_name) {
+    // screen_name is required
+    if (!screen_name) {
+      return;
+    }
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'import.json?callback=JSON_CALLBACK', {
-      params: {source_type : sourceType.toUpperCase()}
+      params: {source_type : sourceType.toUpperCase(), screen_name: screen_name}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {

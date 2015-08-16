@@ -43,7 +43,10 @@
 	word-wrap: break-word;
 	padding: 0;
 }
-
+#datasource-table .badge {
+	vertical-align: text-bottom;
+	font-size: 10px;
+}
 #datasource-table .col-source-url {
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -134,6 +137,14 @@
 		width: 100%;
 	}
 }
+
+#message-view-modal .single-tweet {
+	position: relative;
+	transform: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
 #add-connection-modal {
 	overflow-y: hidden;
 }
@@ -169,6 +180,10 @@
 }
 #source-info-form .fa-check {
 	color: green;
+}
+#single-data-map .single-tweet .user-data-wrapper .name, 
+#single-data-map .single-tweet .user-data-wrapper .screen-name {
+	font-size: 1em;
 }
 
 .source-type-item {

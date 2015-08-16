@@ -127,12 +127,8 @@
 											<div class="col-md-4">
 												<input type="text" class="form-control input-sm custom-field" ng-model="inputs.mapRules[key][0]"/>
 											</div>
-											<div class="col-md-4 field-preview">
+											<div class="col-md-4 field-preview" ng-show="accessDataField(key)">
 												<pre>{{accessDataField(key) | json }}</pre>
-											</div>
-
-											<div class="col-md-1" ng-show="$last">
-												<i id="remove-map-rule" class="fa fa-minus-square-o fa-lg" ng-show="mapRulesNum >= 1" ng-click="removeMapRule()"></i>
 											</div>
 										</div>
 										<div class="row">
