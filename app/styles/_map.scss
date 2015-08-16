@@ -74,8 +74,9 @@
 				}
 			}
 
-			.following-button:hover, .follower-and-following-button:hover {
-				opacity: 0;
+			h4.follow-button, h4.fresh-follow-button {
+				background-color: white;
+				color: $search-twitter-blue;
 			}
 
 			h4.unfollow-button {

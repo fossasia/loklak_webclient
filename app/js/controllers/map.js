@@ -6,7 +6,7 @@ var controllersModule = require('./_index');
  * @ngInject
  */
 
-controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationService' , function($rootScope, $scope, MapCreationService) {
+controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationService', 'HelloService' , function($rootScope, $scope, MapCreationService, hello) {
 
     var vm = this;
     vm.feedLimit = 20;
@@ -54,6 +54,58 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         }
 
 
+        /* 
+         * Callback after map is created 
+         * Most of these are DOM manipulation, which is relevant only when map is created
+         */
+        var cbOnMap = function() { 
+            var hintText = '<p class="map-control-hint-text">The first number shows the actual followers. The second number shows the number of followers with a location info. These are displayed on the map.</p>';
+            $(".leaflet-control-layers-overlays").append(hintText);
+            $(".map-control-hint").hover(function() {
+                $(".map-control-hint-text").show();
+            }, function() {
+                $(".map-control-hint-text").hide();
+            });
+
+            // Switching between Following/Followers/Follow buttons
+            // Regardless of the code here, you can easily understand what it means why testing on live.
+            $('#map').on('mouseover', '.following-button, .follower-and-following-button', function() {
+                $(this).text("Unfollow"); $(this).toggleClass('following-button'); $(this).toggleClass('unfollow-button');
+            });
+            $('#map').on('mouseout', '.unfollow-button', function() {
+                $(this).text("Following"); $(this).toggleClass('following-button'); $(this).toggleClass('unfollow-button');
+            });
+            $('#map').on('mouseover', '.follower-button', function() {
+                $(this).text("Follow"); $(this).toggleClass('follower-button'); $(this).toggleClass('follow-button');
+            });
+            $('#map').on('mouseout', '.follow-button', function() {
+                $(this).text("Follower"); $(this).toggleClass('follower-button'); $(this).toggleClass('follow-button');
+            });
+
+            $('#map').on('click', '.unfollow-button', function() {
+                $(this).text("Follow"); $(this).toggleClass('unfollow-button'); $(this).toggleClass('fresh-follow-button');
+                var id_str = $(this).attr("id").replace("user-", "");
+                hello('twitter').api('me/unfollow', 'POST', {
+                    user_id: id_str
+                }).then(function(json) {
+                    $(this).text("Follow"); $(this).toggleClass('follower-button'); $(this).toggleClass('follow-button');
+                }, function(e) {
+                    console.log(e);
+                });
+            })
+
+            $('#map').on('click', '.follow-button, .fresh-follow-button', function() {
+                var id_str = $(this).attr("id").replace("user-", "");
+                $(this).text("Following"); $(this).addClass('following-button'); $(this).removeClass('follow-button'); $(this).removeClass('fresh-follow-button');
+                hello('twitter').api('me/follow', 'POST', {
+                    user_id: id_str
+                }).then(function(json) {
+                }, function(e) {
+                    console.log(e);
+                });
+            })
+        };
+
         // START MAP WHEN DATA IS RETURNED
         $rootScope.$watch(function() {
             return $rootScope.userTopology;
@@ -68,20 +120,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     mapId: "map",
                     templateEngine: "genUserInfoPopUp",
                     markerType: "userAvatar",
-                    cbOnMapAction: function() { 
-                        var hintText = '<p class="map-control-hint-text">The first number shows the actual followers. The second number shows the number of followers with a location info. These are displayed on the map.</p>';
-                        $(".leaflet-control-layers-overlays").append(hintText);
-                        $(".map-control-hint").hover(function() {
-                            $(".map-control-hint-text").show();
-                        }, function() {
-                            $(".map-control-hint-text").hide();
-                        });
-                        $(".following-button").hover(function() {
-                            $(this).text("Unfollow");
-                        }, function() {
-                            $(this).text("Following");
-                        })
-                    }
+                    cbOnMapAction: cbOnMap
                 });                
             }
         })
@@ -105,7 +144,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     $scope.$apply(function() {
                         vm.feedLimit += 20;    
                     });
-                    console.log("Foo");
+                    console.log("");
                 }
             });
         })
@@ -119,17 +158,17 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
             angular.element(".switch-to-timeline").toggleClass("switch-inactive");
         }
 
-    /* SWITCHING BETWEEN TIMELINE AND MAP */
-    vm.toggleMapAndTimeline = function() {
-        vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
-    }
-
     /* TIMELINE VIEW MODELS */
     vm.showAllFollowers = function() {
         vm.showFollowersLimit = $rootScope.userTopology.followers.length;
     }
     vm.showAllFollowings = function() {
         vm.showFollowingsLimit = $rootScope.userTopology.following.length;
+    }
+
+    /* SWITCHING BETWEEN TIMELINE AND MAP */
+    vm.toggleMapAndTimeline = function() {
+        vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
     }
 
 }]);

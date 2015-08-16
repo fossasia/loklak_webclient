@@ -42,18 +42,18 @@ function MapPopUpTemplateService($filter) {
     var result = "Failed loading data from twitter";
 
     if (status.isAFollower && status.isAFollowing) {
-      var title = '<h4 class="unfollow-button">Unfollow</h4><h4 onclick="window.unFollowFromMap();" class="follower-and-following-button">Follower/Following</h4>'
+      var title = '<h4 id="user-' + status.id_str + '" class="follower-and-following-button">Follower/Following</h4>'
     } else if (status.isAFollowing) {
-      var title = '<h4 class="unfollow-button">Unfollow</h4><h4 onclick="window.unFollowFromMap();" class="following-button">Following</h4>'
+      var title = '<h4 id="user-' + status.id_str + '" class="following-button">Following</h4>'
     } else {
-      var title = '<h4 class="">Follower</h4>'
+      var title = '<h4 id="user-' + status.id_str + '" class="follower-button">Follower</h4>'
     }
 
     var location = (status.location) ? '<span class="twitter-api-user-location"> - ' + status.location + ', ' + status.location_country + '</span>' : '';
 
     var infoText = (status.description) ? '<div class="user-info-text">' + status.description + '</div>' : ''; 
     
-    result = '<div class="home-user-info" style="width:300px;">'
+    result = '<div class="home-user-info" style="width:300px;">' 
             +   '<div class="blue-background-placeholder">'
             +        '<img src="'+status.profile_background_image_url_https+'" >'    
             +    '</div>'
