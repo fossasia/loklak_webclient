@@ -9,7 +9,7 @@ var bouncemarker = require('../components/bouncemarker');
 /**
  * @ngInject
  */
-function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationService) {
+function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCreationService) {
 
     return {
         scope: {
@@ -22,8 +22,43 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             var curr = 0;
             var tweetsArrayLength = 20;
             var tweetsArray = [];
-
-            var map = L.map(attrs.id).setView([2.252776, 48.845261], 3);
+            var cycle = attrs.cycletweets;
+            var intervalId;
+            if (typeof(cycle) == 'undefined' || cycle == null) {
+                cycle = false;
+            }
+            var centerLat = 2.252776;
+            var centerLng = 48.845261;
+            var zoom = 3;
+            var queryParams = $location.search();
+            function isValidLat(x){
+                //to be added
+                return true;
+            }
+            function isValidLng(x){
+                //to be added
+                return true;
+            }
+            function isValidZoom(x){
+                //to be added
+                return true;
+            }
+            if(queryParams.lat){
+                if(isValidLat(queryParams.lat)){
+                    centerLat = queryParams.lat;
+                }
+            }
+            if(queryParams.lng){
+                if(isValidLng(queryParams.lng)){
+                    centerLng = queryParams.lng;
+                }
+            }
+            if(queryParams.zoom){
+                if(isValidZoom(queryParams.zoom)){
+                    zoom = queryParams.zoom;
+                }
+            }
+            var map = L.map(attrs.id).setView([centerLat, centerLng], zoom);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -33,16 +68,24 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
             }).addTo(map);
 
             map.on('popupopen', function(e) {
-                var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
-                px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-                map.panTo(map.unproject(px), {
-                    animate: true
-                }); // pan to new center
+                if (cycle == 'true') {
+                    var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
+                    px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+                    map.panTo(map.unproject(px), {
+                        animate: true
+                    }); // pan to new center
+                }
+            });
+
+            map.on('moveend', function(e) {
+                var center = map.getCenter();
+                var path = $location.path();
+                $location.path(path).search({'lat':center.lat,'lng':center.lng,'zoom':map.getZoom()});
             });
 
             function contains(elem) {
                 for (var i = 0; i < tweetsArray.length; i++) {
-                    if(tweetsArray[i].id_str == elem.id_str) {
+                    if (tweetsArray[i].id_str == elem.id_str) {
                         return true;
                     }
                 };
@@ -74,7 +117,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                             });
                             tempMarker.addTo(map);
                             var popup = L.popup({
-                                autoPan: true
+                                autoPan: false
                             }).setContent("<div class='foobar'>" + text + "</div>");
                             tempMarker.bindPopup(popup);
                             ele.marker = tempMarker;
@@ -82,13 +125,13 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         }
                     }
                 });
-                if(tweetsArray.length > tweetsArrayLength){
+                if (tweetsArray.length > tweetsArrayLength) {
                     for (var i = tweetsArray.length - 1; i >= tweetsArrayLength; i--) {
                         map.removeLayer(tweetsArray[i].marker);
                     };
-                    tweetsArray.splice(tweetsArrayLength-1, tweetsArray.length - tweetsArrayLength);
+                    tweetsArray.splice(tweetsArrayLength - 1, tweetsArray.length - tweetsArrayLength);
                 }
-                if(tweetsArray[0]){
+                if (tweetsArray[0]) {
                     var tempTweetId = tweetsArray[0].id_str;
                     tweetsArray.sort(function(a, b) {
                         if (a.created_at < b.created_at) {
@@ -98,18 +141,27 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
                         }
                         return 0;
                     });
-                    if(tweetsArray[0].id_str != tempTweetId){
+                    if (tweetsArray[0].id_str != tempTweetId) {
                         curr = 0;
                     }
                 }
+                setTimeout(function() {
+                    tweetsArray[0].marker.openPopup();
+                }, 1000);
+            });
+
+            scope.$on('$destroy', function() {
+                $interval.cancel(intervalId);
             });
 
 
-            $interval(function() {
-                if (tweetsArray.length > 0) {
-                    tweetsArray[curr++].marker.openPopup();
-                    if (curr === tweetsArray.length) {
-                        curr = 0;
+            intervalId = $interval(function() {
+                if (cycle == 'true') {
+                    if (tweetsArray.length > 0) {
+                        tweetsArray[curr++].marker.openPopup();
+                        if (curr === tweetsArray.length) {
+                            curr = 0;
+                        }
                     }
                 }
             }, 5000);
@@ -118,4 +170,4 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, MapCreationServi
 
 }
 
-directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', 'MapCreationService', mapLayoutDirective]);
+directivesModule.directive('maplayout', ['MapPopUpTemplateService', '$interval', '$location', 'MapCreationService', mapLayoutDirective]);

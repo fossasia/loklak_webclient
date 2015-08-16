@@ -1,115 +1,205 @@
 .content-wrapper.home-view-content-wrapper {
+	opacity: 1;
+	transition: all 0.5s ease-in-out;
+}
+.content-wrapper.home-view-content-wrapper.ng-hide {
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
 }
 
+
+
 /* Left user info  */
-.left-result-container {
-	@media (min-width: 992px) {
-			padding-left: 0;
-	}
-}
-.home-user-info {
-	border: 1px solid #e1e8ed;
-	margin-top: 20px; 
-	border-radius: 10px;
-	background: white;
-	.blue-background-placeholder {
-		border-top-left-radius: 10px;
-		border-top-right-radius: 10px;
-		height: 90px;
-		background-color: cornflowerblue;
-		overflow: hidden;
-		img {
-			width: 100%;
+	.left-result-container {
+		@media (min-width: 992px) {
+				padding-left: 0;
 		}
 	}
-	.top-content {
-		margin-top: -20px;
-		margin-left: 10px;
-		img {
-			height: 70px;
-			width: 72px;
-			display: inline-block;
-			vertical-align: top;
-			border: 4px solid white;
-			border-radius: 9px;
-		}
-		.name-and-screen-name {
-			display: inline-block;
-			vertical-align: bottom;
-			font-size:13px;
-			margin-left: 5px;
-			span {
-				display: block;
-			}
-			.home-user-screen-name {
-				margin-top: -5px;	
-				font-style: italic;
-			}
-			.home-user-name {
-				font-size: 14px;
-				font-weight: 700;
-			}
-		}
-	}
-	.bottom-content {
-		margin-top: 6px;
-		display: block;
-		> div {
-			display: inline-block;
-			width: 32%;
-			text-align: left;
+	.home-user-info {
+		border: 1px solid #e1e8ed;
+		margin-top: 20px; 
+		border-radius: 10px;
+		background: white;
+		.blue-background-placeholder {
+			position: relative;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			height: 90px;
+			background-color: $search-twitter-blue;
 			overflow: hidden;
-			padding: 10px 5px;
-			box-sizing: border-box;
-			&:first-child {
-				padding-left: 10px;
+			img {
+				width: 100%;
+				height: 100%;
 			}
-			&:last-child {
-				padding-right: 10px;
+		}
+		.top-content {
+			position: relative;
+			margin-top: -20px;
+			margin-left: 10px;
+			img {
+				height: 70px;
+				width: 72px;
+				display: inline-block;
+				vertical-align: top;
+				border: 4px solid white;
+				border-radius: 9px;
 			}
-			a {
-				text-align: left;
-				font-size: 12px;
-				color: #8c9ca9;
-				text-transform: uppercase;
-				line-height: 22px;
+			.name-and-screen-name {
+				display: inline-block;
+				vertical-align: bottom;
+				font-size:13px;
+				margin-left: 5px;
 				span {
-					color: #2b7bb9;
-					font-size: 18px;
-					font-weight: 500;
+					display: block;
+				}
+				.home-user-screen-name {
+					margin-top: -5px;	
+					font-style: italic;
+					display: inline-block;
+					font-size: 13px;
+				}
+				.twitter-api-user-location {
+					display: inline-block;
+				    margin-left: 4px;
+				    font-size: 12px;
+				    color: $search-grey;
+				}
+				.home-user-name {
+					font-size: 20px;
+					font-weight: 700;
+					margin-bottom: 3px;
+				}
+			}
+		}
+		.bottom-content {
+			margin-top: 6px;
+			display: block;
+			> div {
+				display: inline-block;
+				width: 32%;
+				text-align: left;
+				overflow: hidden;
+				padding: 0 5px 0px 5px;
+				box-sizing: border-box;
+				&:first-child {
+					padding-left: 10px;
+				}
+				&:last-child {
+					padding-right: 10px;
+				}
+				a {
+					text-align: left;
+					font-size: 12px;
+					color: #8c9ca9;
+					text-transform: uppercase;
+					line-height: 22px;
+					span {
+						color: #2b7bb9;
+						font-size: 18px;
+						font-weight: 500;
+					}
+				}
+			}
+		}
+		.user-info-text {
+			padding: 2px 10px 12px 10px;
+		    font-size: 14px;
+		    color: $search-grey;
+		    line-height: 17px;
+		}
+	}
+
+	.home-user-trends {
+		border: 1px solid #e1e8ed;
+		margin-top: 20px;
+		background: white;
+		border-radius: 10px; 
+		padding: 15px 14px;
+		.trend-title {
+			margin: 0;
+			color: #66757f;
+			font-size: 25px;
+			font-weight: 500;
+		}
+		#home-trend-list {
+			margin-top: 5px;
+			margin: 0;
+			padding: 10px 0 5px 0; 
+			li {
+				margin: 0;
+				padding: 0;
+				a {
+					font-size: 15px;
+					display: inline-block;
+					margin-bottom: 4px;
 				}
 			}
 		}
 	}
-}
 
-.home-user-trends {
-	border: 1px solid #e1e8ed;
-	margin-top: 20px;
-	background: white;
-	border-radius: 10px; 
-	padding: 15px 14px;
-	.trend-title {
-		margin: 0;
-		color: #66757f;
-		font-size: 25px;
-		font-weight: 500;
-	}
-	#home-trend-list {
-		margin-top: 5px;
-		margin: 0;
-		padding: 10px 0 5px 0; 
-		li {
-			margin: 0;
-			padding: 0;
-			a {
-				font-size: 15px;
-				display: inline-block;
-				margin-bottom: 4px;
+	.switch-to-map {
+		display: inline-block;
+		position: absolute;
+		top: 13px;
+		left: 12px;
+		padding: 4px 6px;
+		background-color: #55ACEE;
+		color: white;
+		span {
+			font-size: 14px;
+			&:nth-child(2) {
+				margin-left: 10px;
 			}
 		}
+		&:hover {
+			cursor: pointer;
+		}
 	}
-}
+
+	.followers-list-container {
+		padding: 10px;
+		background-color: white;
+		margin-top: 20px;
+	    border-radius: 10px;
+	    border: 1px solid #e1e8ed;
+		h2 {
+			font-size: 18px;
+			color: $search-grey;
+			margin-top: 2px;
+			margin-bottom: 10px;
+			text-transform: uppercase;
+			position: relative;
+			span {
+				float: right;
+				font-size: 15px;
+				color: $search-twitter-blue;
+				text-transform: initial; 
+				&:hover {
+					cursor: pointer;
+					text-decoration: underline;
+				}
+			}
+		}
+		> div {
+			> a {
+				width: 25%;
+				@media (min-width: 769px) and (max-width: 992px) {
+					width: 10%;
+				}
+				@media (min-width: 0) and (max-width: 768px) {
+					width: 45px;
+				}
+				display: inline-block;
+				padding: 3px;
+				img {
+					width: 100%;
+					border-radius: 3px;
+				}
+			}
+		}
+		
+		    
+	}
 
 /* Center result */
 .center-result-container {

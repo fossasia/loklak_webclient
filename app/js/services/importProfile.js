@@ -25,12 +25,7 @@ function ImportProfileService($q, $http, AppSettings) {
 
 	service.delete = function(item) {
 		var deferred = $q.defer();
-		var params = {action : 'delete', source_url : item.source_url};
-		if (item.screen_name && item.screen_name.length > 0) {
-			params['screen_name'] = item.screen_name;
-		} else {
-			params['client_host'] = item.client_host;
-		}
+		var params = {action : 'delete', source_url : item.source_url, screen_name : item.screen_name};
 		$http.jsonp(AppSettings.apiUrl
 			+'import.json?callback=JSON_CALLBACK', {
 			params: params

@@ -19,6 +19,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
             var isAFollower = (status.isAFollower) ? true : false;
+            var isAFollowing = (status.isAFollowing) ? true : false;
             var geo_enabled = (status.location_mark) ? true: false;
             if (status.location_mark && status.user) {
                 var text = MapPopUpTemplateService[templateEngine](status);
@@ -29,6 +30,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
                     "id": status.id_str,
                     "propic" : status.user.profile_image_url_https,
                     "isAFollower": isAFollower,
+                    "isAFollowing": isAFollowing,
                     "geo_enabled": geo_enabled
                 };
                 tweets.features.push(pointObject);
@@ -38,17 +40,17 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
     }
 
     function addPointsToMap(map, tweets, markerType, cbOnMapAction) {
-
+        var addLayer;
         if (markerType === "simpleCircle") {
             function onEachFeature(feature, layer) {
-                var popupContent; 
+                var popupContent;
                 if (feature.properties && feature.properties.popupContent) {
                     popupContent = feature.properties.popupContent;
                 }
                 layer.bindPopup(popupContent);
             }
 
-            L.geoJson([tweets], {
+            addLayer = L.geoJson([tweets], {
                 style: function (feature) { return feature.properties && feature.properties.style; },
                 onEachFeature: onEachFeature,
                 pointToLayer: function (feature, latlng) {
@@ -62,7 +64,6 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
                     });
                 }
             }).addTo(map);
-
         } else if (markerType === "userAvatar") {
             window.mapViewMarker = [];
             var followers = L.layerGroup();
@@ -105,6 +106,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
         }
             
         cbOnMapAction();
+        return addLayer;
     }
 
     function getLocationParamFromBound(bound) {

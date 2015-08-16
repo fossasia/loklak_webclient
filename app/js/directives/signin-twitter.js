@@ -57,11 +57,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 10000).then(function(result) {
 						result.topology.followers.forEach(function(status) {
 							status.isAFollower = true;
+							status.isAFollowing = status.following;
 						})
 						result.topology.following.forEach(function(status) {
 							status.isAFollower = false;
+							status.isAFollowing = true;
 						})
 						$rootScope.userTopology  = result.topology;
+						console.log($rootScope.userTopology);
 						$rootScope.userTopology.noOfFollowings = result.user.friends_count
 						$rootScope.userTopology.noOfFollowers = result.user.followers_count
 					}, function() {});
