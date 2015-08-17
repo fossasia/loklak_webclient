@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
+<link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css">
 <div class="content-wrapper">
 	<div ng-show="root.twitterSession" class="container-fluid content-container container">
 
@@ -41,6 +42,14 @@
 				<div class="col col-md-1">{{item.sharers | arraySize}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
+				<div class="row">
+					<div class="col-md-2">
+						<label for="privacy">Public data</label>
+					</div>
+					<div class="col-md-10">
+						<toggle-switch name="privacy" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="item.privacy_status" ng-disabled="!item.editing"></toggle-switch>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 						<label for="harvesting_freq">Update frequency</label>
