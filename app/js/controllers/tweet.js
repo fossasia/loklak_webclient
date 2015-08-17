@@ -29,7 +29,12 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var tweet = encodeURIComponent(message);
         var latitude = $("#mapLat").val();
         var longitude = $("#mapLng").val();
+        var maplongWest = $("#maplongWest").val();
+        var maplatSouth = $("#maplatSouth").val();
+        var maplongEast = $("#maplongEast").val();
+        var maplatNorth = $("#maplatNorth").val();
         var optionChosen = $("#optionChoice").val();
+        var mapZoomLevel = $("#mapZoomLevel").val()
 
         $rootScope.root.geoTile = $("#fileInput").val();
         console.log($("#fileInput").val());
@@ -43,7 +48,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         if(!$rootScope.root.geoTile) {
             if (optionChosen === 'mapAttachment') {
                 console.log("Map being attached !");
-                var requestUrl = 'http://loklak.org/vis/map.png.base64?text='+tweet+'&mlat='+latitude+'&mlon='+longitude+'&zoom=13&width=512&height=256';
+                var bboxURLPart = '&bbox='+maplongWest+','+maplatSouth+','+maplongEast+','+maplatNorth;
+                var requestUrl = 'http://loklak.org/vis/map.png.base64?text='+tweet+'&mlat='+latitude+'&mlon='+longitude+bboxURLPart+'&zoom='+mapZoomLevel+'&width=512&height=256';
 
                 $http({
                     url: requestUrl,
