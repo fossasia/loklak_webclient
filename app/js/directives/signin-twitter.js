@@ -14,8 +14,6 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
-			$rootScope.root.aSearchWasDone = false;
-
 			/* Check if a session is available before hello.js even initialize
 	         * in order to determine if the application is going to login automatically or not
 			 */
@@ -131,9 +129,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$scope.toggleOptions = function() {
 				angular.element(".hidden-user-info").toggleClass("hide");
 			};
+
+
+			/* Global listener, mainly used to disable features when clicked out of area*/
 			window.onclick = function(e) {
 				var targetClasses = e.target.className;
 				var targetId = e.target.id;
+
+				// If user-info (top-right nav) is shown, clicked out of its area will disable it
 				if (!targetClasses || typeof(targetClasses) === "object") {
 					if (!angular.element(".hidden-user-info").hasClass("hide")) {
 						angular.element(".hidden-user-info").toggleClass("hide");
@@ -144,6 +147,11 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 							angular.element(".hidden-user-info").toggleClass("hide");
 						}		
 					}	
+				}
+
+				// If suggestions are shown, clicked out of its area will disable it
+				if(!targetClasses || targetClasses.indexOf("suggestion-item") === -1) {
+					$rootScope.root.haveSearchSuggestion = false;
 				}
 				
 			};
@@ -216,6 +224,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
 			var idleTime = 0;
+
+			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
 			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
@@ -229,7 +239,6 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    $(this).keypress(function (e) { idleTime = 0; });
 
 				if (!isOnline) {
-					$('#signupModal').modal('show');	
 					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
 						angular.element(".topnav .global-search-container").addClass("ng-hide");
 					}
