@@ -48,15 +48,12 @@ var marker=[];
     var counter=0;
     
      $scope.getstatfollower=function()
-     {
-        console.log("yepbuddy");
-        
-        
+     {    
     
         $('#notfoundmessage').hide();
         $('#loader').show(); 
         console.log($scope.username);
-        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+        $http.jsonp("http://loklak.org/api/user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
                 console.log("recieved data");

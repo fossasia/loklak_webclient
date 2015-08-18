@@ -76,8 +76,8 @@ td
     background-color: #66757f;
     border-bottom: 2px solid #ECECEC;
     color: #FFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
     width: 50%
     font-size: 18px;
     font-weight: 600;
@@ -118,11 +118,12 @@ td
     margin-bottom: 10px;
 }
 </style>
-<div class="content-wrapper" >
+
+<div class="content-wrapper" ng-show="root.twitterSession" >
     <div class="search-container container-fluid">
 
         <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
-            <span>report:@{{username}}</span>
+            <span>report:{{username}}</span>
         </div>
         
     </div>    
@@ -187,6 +188,8 @@ td
 
                 <!-- Main analysis -->
                 <div  class="main-result-container whitebg" >
+                    <div id="loadmsg"><center><img id="loader" src="../images/whiteloader.gif"></img></center></div>
+                    <div id="analysis-report">
                     <div class="row">
                         <div class="col-md-7">
                             <h3 class="analysis-titles">Country wise Followers</h3>
@@ -272,4 +275,5 @@ td
 
         </div>
     </div>
+</div>
 </div>
