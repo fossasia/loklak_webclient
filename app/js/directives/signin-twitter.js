@@ -110,7 +110,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					$rootScope.root.twitterSession = false;	
 				});	
 				angular.element("#map").remove();
-				if ($location.path() !== "/") {
+				if ($location.path() === "/search") {
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				} else {
 					angular.element(".topnav .global-search-container").addClass("ng-hide");
