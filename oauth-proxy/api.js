@@ -73,7 +73,7 @@ var isAuthorized = function(req, res, next) {
 
     request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {  
         var data = JSON.parse(response.body).accounts[0];
-        if (data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
+        if (data && data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
         	req.accountData = data;
             next();
         } else {
