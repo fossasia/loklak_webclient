@@ -133,12 +133,36 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     });
 
     $scope.proceed = function() {
-        $scope.selectedTab++;
-        $('.nav-tabs > .active').next('li').find('a').trigger('click');
-        if ($scope.selectedTab == 2) {
-            $scope.showNext = false;
+        if (!$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
+            alert("Invalid cycle post limit! Please enter a value between 1 and 100. We have set it to the recommended value.")
+            $scope.newWallOptions.cyclePostLimit = 15;
+        } else {
+            if (!$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
+                alert("Invalid cycle delay time! Please enter a value between 1 and 20. We have set it to the recommended value.")
+                $scope.newWallOptions.cycleDelayTime = 5;
+            } else {
+                $scope.selectedTab++;
+                $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                if ($scope.selectedTab == 2) {
+                    $scope.showNext = false;
+                }
+            }
+
         }
+
     };
+
+    $scope.lostCycleDelayFocus = function() {
+        // if(!$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit<1) || ($scope.newWallOptions.cyclePostLimit>20)){
+        //     $scope.newWallOptions.cyclePostLimit = 15;
+        // }
+    }
+
+    $scope.lostCyclePostsFocus = function() {
+        // if(!$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime<1) || ($scope.newWallOptions.cycleDelayTime>100)){
+        //     $scope.newWallOptions.cycleDelayTime = 5;
+        // }
+    }
 
     $scope.start = function() {
         //construct term

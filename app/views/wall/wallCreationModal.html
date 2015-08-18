@@ -110,19 +110,19 @@
                                                     <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
                                                     </toggle-switch>
                                                 </div>
-                                                <!-- <hr>
+                                                <hr>
                                                 <div ng-if="newWallOptions.cycle==true" class="form-group row">
                                                     <h4 class="col-xs-9">Cycle Delay Time
                                                             <br><small>When there are no new posts, show a tweet for how many seconds?</small></h4>
-                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cycleDelayTime">
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" min="1" max="20" ng-blur="lostCycleDelayFocus()" ng-model="newWallOptions.cycleDelayTime">
                                                     <hr>
                                                 </div>
                                                 <div ng-if="newWallOptions.cycle==true" class="form-group row">
                                                     <h4 class="col-xs-9">Cycle Post Limit
                                                             <br><small>How many of the most recent posts should we cycle?</small></h4>
-                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cyclePostLimit">
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" min="1" max="100" ng-blur="lostCyclePostsFocus()" ng-model="newWallOptions.cyclePostLimit">
                                                     <hr>
-                                                </div> -->
+                                                </div>
                                                 <hr>
                                                 <div class="form-group">
                                                     <h3>Which media do you want to show on the wall?</h3>
