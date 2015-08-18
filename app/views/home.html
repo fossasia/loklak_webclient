@@ -29,7 +29,7 @@
                             <a href="">Tweets<br><span>{{root.twitterSession.statuses_count}}</span></a>
                         </div>
                         <div class="user-no-followings">
-                            <a href="">Followings<br><span>{{root.twitterSession.friends_count}}</span></a>
+                            <a href="">Following<br><span>{{root.twitterSession.friends_count}}</span></a>
                         </div>
                         <div class="user-no-followers">
                             <a href="">Followers<br><span>{{root.twitterSession.followers_count}}</span></a>
@@ -54,7 +54,7 @@
 
 
             <div ng-show="userTopology.following.length !== 0" class="followers-list-container">
-                <h2>Followings<span ng-click="map.showAllFollowings();" ng-show="userTopology.following.length > map.showFollowingsLimit">Show all</span></h2>
+                <h2>Following<span ng-click="map.showAllFollowings();" ng-show="userTopology.following.length > map.showFollowingsLimit">Show all</span></h2>
                 <div class="followers-link-container clearfix">
                     <a class="topology-item" ng-repeat="item in userTopology.following | limitTo: map.showFollowingsLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
                         <img ng-src="{{item.profile_image_url_https}}">
