@@ -33,9 +33,7 @@ var plotted=0;
         var basemapObj = {
             "First Basemap": grayscale
         };
-        console.log(window.map);
-      if (window.map) { console.log("ff"); delete(window.map);  }
-      if (window.map) { console.log("ff"); delete(window.map);  }
+      
       var map2 =L.map('map2',{layers:[grayscale,startupslayer]}).setView([20,0], 2);
       
       var code = function () {
@@ -245,6 +243,10 @@ var plotted=0;
                     }
                     
                 }
+  function add_startup()
+  {
+    
+  }
       
 
 
