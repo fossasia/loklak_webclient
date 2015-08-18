@@ -433,8 +433,6 @@
 				display: inline-block;
 				position: relative;
 				top: -2px;
-				margin-left: 10px;
-				margin-right: 6px;
 				opacity: 0;
 			}
 		}
@@ -444,6 +442,11 @@
 			a {
 				color: #8899a6;
 				font-size: 12px;
+				&:first-child {
+					display: inline-block;
+					border-right: 1px solid #8899a6;
+					padding-right: 9px;
+				}
 			}
 		}
 	}

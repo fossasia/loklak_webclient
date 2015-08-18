@@ -1,0 +1,58 @@
+.container.about-view-container {
+	margin-left: auto !important;
+	margin-right: auto;
+	.about-jumbotron {
+		text-align: center;
+		.page-header {
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 22px;
+			code {
+				font-size: 22px;
+			}
+		}
+		p {
+			font-size: 15px;
+		    line-height: 17px;
+		    width: 80%;
+		    text-align: center;
+		    margin-left: 10%;
+		    @media(max-width: 767px) {
+		    	width: 95%;
+		    	margin-left: 2.5%;
+		    }
+		}
+
+		.download-info {
+			font-size: 18px;
+		    font-weight: 500;
+		    font-style: italic;
+		    display: block;
+		    margin-top: 10px;
+		}
+	}
+
+	.subbars-container {
+		.about-subbar {
+			padding: 15px;
+			text-align: center;
+			.sub-header {
+				padding-bottom: 15px;
+				margin-bottom: 15px;
+				border-bottom: 1px solid $search-grey;
+			}
+			p{
+				text-align: left;
+				font-size: 15px;
+				line-height: 17px;
+			}
+			ul {
+				padding: 0 0 0 10px;
+				text-align: left;
+				li {
+					list-style: disc;
+				}
+			}
+		}
+	}
+}
