@@ -236,12 +236,17 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				}
 
 
-				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-				    if (toState.name === "Search") {
-				    	angular.element(".topnav .global-search-container").removeClass("ng-hide");
-				    } else {
-				    	angular.element(".topnav .global-search-container").addClass("ng-hide");
-				    }
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+					var isOnline = hello('twitter').getAuthResponse(); 
+					if (!isOnline) {
+						if (toState.name === "Search") {
+							angular.element(".topnav .global-search-container").removeClass("ng-hide");
+						} else {
+							angular.element(".topnav .global-search-container").addClass("ng-hide");
+						}		
+					} else {
+						angular.element(".topnav .global-search-container").removeClass("ng-hide");
+					}
 				});
 			});
 
