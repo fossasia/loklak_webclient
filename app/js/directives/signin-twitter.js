@@ -178,12 +178,10 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			}
 
 			/** Get hashtag trends **/
-			$rootScope.root.getHashtagTrends = function() {
-
+			$timeout(function() {
 			    function getMonth(monthStr){
 			        return new Date(monthStr+'-1-01').getMonth()+1
 			    }
-
 			    var hashtagData = [];
 			    var queryString = '';
 			    var currentDate = new Date();
@@ -196,11 +194,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    var sinceDay = ('0' + sinceDate.getDate()).slice(-2);
 			    var sinceMonth = ('0' + (sinceDate.getMonth()+1)).slice(-2);
 			    var sinceYear = sinceDate.getFullYear();
-
 			    var sinceDateString = 'since:'+sinceYear+'-'+sinceMonth+'-'+sinceDay+' ';
-
 			    queryString = sinceDateString+untilDateString;
-
 			    var params = {
 			        q: queryString,
 			        source: 'cache',
@@ -208,17 +203,13 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			        fields: 'hashtags',
 			        limit: 6
 			    };
-
 			    SearchService.initData(params).then(function(data) {
 			               hashtagData = hashtagData.concat(data.aggregations.hashtags);
 			               $rootScope.root.trends = hashtagData[0];
 			        }, function() {
 
 			        });
-			};
-			
-			$rootScope.root.getHashtagTrends();
-
+			}, 3000);
 		},
 		link: function(scope) {
 			var hello = scope.hello;
