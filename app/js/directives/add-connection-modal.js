@@ -18,7 +18,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			$scope.inputs = { mapRules : {}};
 			// Default values
 			$scope.inputs.harvesting_freq = {'value': 360, 'label':'6 hours'};
-			$scope.inputs.privacy_status = 'true';
+			$scope.inputs.public = true;
 			// Submit validation messages
 			$scope.messages = {};
 

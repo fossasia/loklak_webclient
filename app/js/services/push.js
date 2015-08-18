@@ -23,9 +23,10 @@ function PushService($q, $http, AppSettings, $rootScope) {
 			console.err("Unable to push message of unauthenticated user");
 			return;
 		}
+		params.screen_name = $rootScope.root.twitterSession.screen_name;
 		var deferred = $q.defer();
 		$http.jsonp(AppSettings.apiUrl+'push/' + endpoint + '?callback=JSON_CALLBACK', {
-			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime, screen_name: $rootScope.root.twitterSession.screen_name}
+			params: params
 			}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
@@ -48,6 +49,7 @@ function PushService($q, $http, AppSettings, $rootScope) {
 			console.err("Unable to push message of unauthenticated user");
 			return;
 		}
+		params.screen_name = $rootScope.root.twitterSession.screen_name;
 		var deferred = $q.defer();
 		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', { 
 			params: params }).success(function(data) {

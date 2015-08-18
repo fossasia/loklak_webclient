@@ -83,6 +83,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 				} else {
 					profile.display_source_type = $scope.sourceTypesList[profile.source_type].name;
 				}
+				profile.public = profile.privacy_status === 'PUBLIC';
 				profile.editing = false;
 				$scope.dataSourceItems[count_item] = profile;
 				count_item++;
@@ -117,7 +118,13 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	}
 
 	$scope.saveDataSource = function(item) {
+		if (item.public) {
+			item.privacy_status = 'PUBLIC';
+		} else {
+			item.privacy_status = 'PRIVATE';
+		}
 		ImportProfileService.update(item).then(function(data) {
+			console.log(item);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
