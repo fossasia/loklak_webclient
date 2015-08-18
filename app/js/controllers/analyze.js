@@ -55,9 +55,11 @@ var marker=[];
     
         $('#notfoundmessage').hide();
         $('#loader').show(); 
+        console.log($scope.username);
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
+                console.log("recieved data");
 
                 if(!data.user)
                 {
@@ -228,7 +230,7 @@ var marker=[];
                     
                     
                     $scope.followers_status="Load Failed.Twitter did not respond.";
-                
+                    console.log($scope.followers_status);
 
                     
                         // called asynchronously if an error occurs
