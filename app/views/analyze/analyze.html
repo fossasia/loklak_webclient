@@ -12,11 +12,18 @@
     text-align: center;
     padding-top: 15%
 }
+.margin-right-pos
+{
+    margin-right: 8px;
+}
+.margin-right-neg
+{
+    margin-right: -8px;
+}
 .analysis-titles
 {
     margin: 0;
     margin-left:5px; 
-    margin-top:8px; 
     color: #66757f;
     font-size: 18px;
     font-weight: 300;
@@ -39,7 +46,7 @@ td
 
 }
 .whitebg
-{
+{   padding-top: 8px;
     border-radius:5px; 
     background: #fff;
 }
@@ -73,14 +80,15 @@ td
 }
 .tableheading
 {
-    background-color: #66757f;
+    background-color: #f5f8fa;
     border-bottom: 2px solid #ECECEC;
-    color: #FFF;
+    color: #66757f;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-    width: 50%
-    font-size: 18px;
-    font-weight: 600;
+    width: 50%;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
 
 }
 #loadmsg
@@ -122,12 +130,16 @@ td
 .bottom-margin-small{
     margin-bottom: 10px;
 }
+.top-margin-mid
+{
+    margin-top: 40px;
+}
 </style>
 <div class="content-wrapper" ng-show="root.twitterSession">
     <div class="search-container container-fluid">
-
-        <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
-            <span>report:{{username}}</span>
+        
+        <div class="title-as-current-search-term bottom-margin-small">
+            <center><span>report:{{username}}</span></center>
         </div>
         
     </div>    
@@ -197,30 +209,30 @@ td
                 </div>
                 <div id="analysis-report" class="main-result-container whitebg" >
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6 margin-right-neg">
                             <h3 class="analysis-titles">Country wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
+                            <canvas id="doughnut" class="chart chart-doughnut top-margin-mid" data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 margin-right-pos" >
                             <table class="table ">
-                                <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
+                                <th class="tableheading">Country</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
-                                        <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
+                                        <td>{{country.country}}</td><td><i>{{country.followers}}</i></td><td><i>{{country.percentage}}%</i></td>
                             </table> 
                         </div><!--end span8-->
                     </div>
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6 margin-right-neg">
                             <h3 class="analysis-titles">City wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
+                            <canvas id="doughnut" class="chart chart-doughnut top-margin-mid"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 margin-right-pos">
                             <table class="table">
-                                <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
+                                <th class="tableheading">City</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
-                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}%</i></b></td>
+                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}</i></b></td><td><i>{{city.percentage}}%</i></b></td>
                             </table> 
                         </div><!--end span8-->
                     </div>
