@@ -11,10 +11,12 @@ function SearchService($q, $http, $rootScope, AppSettings) {
 
   service.getData = function(term) {
       $rootScope.root.aSearchWasDone = true;
+      $rootScope.httpCanceler = $q.defer();
       var deferred = $q.defer();
 
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-        params: {q: term}
+        params: {q: term},
+        timeout: $rootScope.httpCanceler.promise
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
@@ -41,6 +43,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
   };
 
   service.getSearchSuggestions = function(term) {
+      $rootScope.suggestionsHttpCanceler = $q.defer();
       var deferred = $q.defer();
       $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
         params: {
@@ -59,11 +62,13 @@ function SearchService($q, $http, $rootScope, AppSettings) {
 
   service.initData = function(paramsObj) {
       $rootScope.root.aSearchWasDone = true;
+      $rootScope.httpCanceler = $q.defer();
       var deferred = $q.defer();
       //paramsObj.q = decodeURIComponent(paramsObj.q);
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
         params: paramsObj,
-        ignoreLoadingBar: paramsObj.fromWall
+        ignoreLoadingBar: paramsObj.fromWall,
+        timeout: $rootScope.httpCanceler.promise
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
@@ -72,6 +77,20 @@ function SearchService($q, $http, $rootScope, AppSettings) {
 
       return deferred.promise;
   };
+
+  service.getTrendsAggregation = function(paramsObj) {
+        var deferred = $q.defer();
+        $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+          params: paramsObj,
+          ignoreLoadingBar: paramsObj.fromWall
+        }).success(function(data) {
+            deferred.resolve(data);
+        }).error(function(err, status) {
+            deferred.reject(err, status);
+        });
+
+        return deferred.promise;
+    };
 
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
