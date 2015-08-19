@@ -154,7 +154,12 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
          * Toggle map feed to slide left/hide or slide right/show
         */
         vm.toggleMapFeed = function() {
+            // Push effect between map and activity feed
+            // Map is pushed to the left, feed slides in the right, and vice versa
+            angular.element('#map').toggleClass("unpush-map");
             angular.element('.activity-feed').toggleClass("show-feed");
+
+            // Only show switch to timeline when activity feed is shown
             angular.element(".switch-to-timeline").toggleClass("switch-inactive");
         }
 

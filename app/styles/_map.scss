@@ -9,6 +9,22 @@
 		#map {
 			width: 100vw;
 			height: 100vh;
+			transform: translateX(-270px);
+			transition: all 0.5s ease-in-out;
+			.leaflet-left .leaflet-control {
+			    margin-left: 280px;
+			    transition: margin 0.5s ease-in-out;
+			}
+			
+		}
+
+		#map.unpush-map {
+			transform: translateX(0%);
+			transition: all 0.5s ease-in-out;
+			.leaflet-left .leaflet-control {
+			    margin-left: 10px;
+			    transition: margin 0.5s ease-in-out;
+			}
 		}
 
 		.leaflet-popup-close-button {
