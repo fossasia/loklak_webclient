@@ -7,7 +7,7 @@
 
 	<div id="my-connection-panel">
 		<div class="buttonPanel pull-right">
-			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal">Add Source</button>
+			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal" ng-click="clearModalData()">Add Source</button>
 		</div>
 		<h1>Active Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
 		<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">

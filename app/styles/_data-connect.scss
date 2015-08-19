@@ -186,7 +186,7 @@
 	font-size: 1em;
 }
 
-.source-type-item {
+.source-format-item {
 	box-sizing: content-box;
 	margin-bottom: 20px;
 	border: 2px solid #e1e8ed;
@@ -196,7 +196,7 @@
 	padding: 28px 10px 15px 10px;
 	height: 100px;
 }
-.source-type-item.nologo h4 {
+.source-format-item.nologo h4 {
 	position: inherit;
 	margin: auto;
 	text-align: center;
@@ -204,25 +204,25 @@
 	font-size: 40px;
 	transform: inherit;
 }
-.source-type-item:hover, .source-type-item.selected {
+.source-format-item:hover, .source-format-item.selected {
 	border : 2px solid #55acee;
 	cursor: pointer;
 }
-.source-type-item:hover {
+.source-format-item:hover {
 	background: #f7f7f7;
 }
-.source-type-item h4 {
+.source-format-item h4 {
 	position: absolute;
 	top: 16px;
 	transform: translateX(-50%);
 	left: 50%;
 }
-.source-type-item h2 span {
+.source-format-item h2 span {
 	color: black;
 	letter-spacing: -1px;
 	padding: 10px; 
 } 
-.source-type-item img {
+.source-format-item img {
 	opacity: 0.8;
 	position: relative;
 	display: block;
@@ -230,7 +230,7 @@
 	margin-right: auto;
 }
 
-.source-type-item:after {
+.source-format-item:after {
 	content: "";
 	background-repeat: no-repeat;
 	opacity: 0.5;
