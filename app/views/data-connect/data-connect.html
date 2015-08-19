@@ -1,12 +1,13 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.min.css">
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
+<link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css">
 <div class="content-wrapper">
 	<div ng-show="root.twitterSession" class="container-fluid content-container container">
 
 	<div id="my-connection-panel">
 		<div class="buttonPanel pull-right">
-			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal">Add Source</button>
+			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal" ng-click="clearModalData()">Add Source</button>
 		</div>
 		<h1>Active Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
 		<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
@@ -27,7 +28,7 @@
 				<div class="col col-md-2">Last edit</div>
 				<div class="col col-md-1">Item</div>
 				<div class="col col-md-1">Map</div>
-				<div class="col col-md-1">Share</div>
+				<div class="col col-md-1">Shared by</div>
 			</div>
 		</li>
 		<li ng-repeat="item in dataSourceItems" ng-click="showRowDetail($event)">
@@ -38,9 +39,17 @@
 				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
 				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal" ng-click="setMessageView(item.imported)">File <span class="badge">{{item.imported.length}}</span></a></div>
 				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal" ng-click="setMapView(item.imported)">View</a></div>
-				<div class="col col-md-1">{{item.screen_name}}</div>
+				<div class="col col-md-1">{{item.sharers | arraySize}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
+				<div class="row">
+					<div class="col-md-2">
+						<label for="privacy">Public data</label>
+					</div>
+					<div class="col-md-10">
+						<toggle-switch name="privacy" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="item.public" ng-disabled="!item.editing"></toggle-switch>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 						<label for="harvesting_freq">Update frequency</label>
@@ -66,8 +75,7 @@
 				</div>
 			</div>
 		</li>
-		</ul>
-	</div><div id="single-data-map"></div>
+		</ul><div id="single-data-map"></div>
 	<div add-connection-modal></div>
 	<div map-view-modal></div>
 	<button id="open-confirm-modal" class="hide" data-toggle="modal" data-target="#confirm-delete-modal">Delete</button>
