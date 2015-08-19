@@ -15,12 +15,8 @@ var marker=[];
 
 
     
-    //View handling
-
-    $('#analyze-modal').modal('show');
-    $('#loader').hide();
-    $('#notfoundmessage').hide();
-    $('#loadmsg').hide();
+    
+    viewlanding(); 
     var chart1 = {};
     chart1.type = "GeoChart";
     chart1.data = [
@@ -49,14 +45,9 @@ var marker=[];
     var counter=0;
     
      $scope.getstatfollower=function()
-     {    
-        $('#errormsg').hide();
-        $('#notfoundmessage').hide();
-        $('#loader').show(); 
-        $('#analysis-report').hide();
-        $('#inffollowers').hide();
-        $('#loadmsg').show();
-        $('#loadingmessage').show();
+     {   
+        
+        viewloading();
         
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
@@ -65,9 +56,7 @@ var marker=[];
 
                 if(!data.user)
                 {
-                    $('#loader').hide();
-                    $('#loadingmessage').hide();
-                    $('#notfoundmessage').show();
+                    viewnodata();
                     return 0;
 
                 }
@@ -97,6 +86,10 @@ var marker=[];
                 $scope.citylabels=[];
                 $scope.citydata=[];
                 $scope.countrydata=[];
+                $('#loader').hide(); 
+                $('#loadmsg').hide();
+                $('#inffollowers').show();
+                $('#analysis-report').show();
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -233,17 +226,15 @@ var marker=[];
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
-                $('#loader').hide(); 
-                $('#loadmsg').hide();
-                $('#inffollowers').show();
-                $('#analysis-report').show();
+                
 
                 }).error(function(data, status, headers, config) {
                     
                     
                     $scope.followers_status="Sorry there's some glitch :(. Please try again later.";
                     $('#loader').hide(); 
-                    $('#loadmsg').hide();
+                    $('#loadingmessage').hide();
+                    $('#loadmsg').show();
                     $('#errormsg').show();
 
                     
@@ -286,7 +277,31 @@ $rootScope.$watch(function() {
             });
 
       
+function viewlanding()
+{
+    $('#analyze-modal').modal('show');
+    $('#loader').hide();
+    $('#notfoundmessage').hide();
+    $('#loadmsg').hide();
+}
+function viewnodata()
+{
+    $('#loader').hide();
+    $('#loadingmessage').hide();
+    $('#notfoundmessage').show();
+}
 
+function viewloading()
+{
+    $('#errormsg').hide();
+    $('#notfoundmessage').hide();
+    $('#loader').show(); 
+    $('#analysis-report').hide();
+    $('#inffollowers').hide();
+    $('#loadmsg').show();
+    $('#loadingmessage').show();  
+    $('#errormsg').show(); 
+}
 
 }]);
 
