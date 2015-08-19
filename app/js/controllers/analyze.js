@@ -19,7 +19,7 @@ var marker=[];
     $('#analyze-modal').modal('show');
     $('#loader').hide();
     $('#notfoundmessage').hide();
-
+    $('#loadmsg').hide();
     var chart1 = {};
     chart1.type = "GeoChart";
     chart1.data = [
@@ -52,6 +52,10 @@ var marker=[];
     
         $('#notfoundmessage').hide();
         $('#loader').show(); 
+        $('#analysis-report').hide();
+        $('#inffollowers').hide();
+        $('#loadmsg').show();
+        $('#loadingmessage').show();
         console.log($scope.username);
         $http.jsonp("http://loklak.org/api/user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
@@ -61,6 +65,7 @@ var marker=[];
                 if(!data.user)
                 {
                     $('#loader').hide();
+                    $('#loadingmessage').hide();
                     $('#notfoundmessage').show();
                     return 0;
 
@@ -222,6 +227,9 @@ var marker=[];
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
                 $('#loader').hide(); 
+                $('#loadmsg').hide();
+                $('#inffollowers').show();
+                $('#analysis-report').show();
 
                 }).error(function(data, status, headers, config) {
                     

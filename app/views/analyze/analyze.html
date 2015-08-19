@@ -83,6 +83,11 @@ td
     font-weight: 600;
 
 }
+#loadmsg
+{   text-align: center;
+    padding-top: 30%;
+    padding-bottom:40%;
+}
 #message
 {
     margin-top:20%;
@@ -118,8 +123,7 @@ td
     margin-bottom: 10px;
 }
 </style>
-
-<div class="content-wrapper" ng-show="root.twitterSession" >
+<div class="content-wrapper" >
     <div class="search-container container-fluid">
 
         <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
@@ -160,10 +164,10 @@ td
     <br><center>
     <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
     <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
-    </button><img id="loader" src="../images/whiteloader.gif"></img>
+    </button>
     </center><br>
     
-    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+    
         </div>
             <!-- Center result + option filters -->
             <div  class="result-container col-md-6">
@@ -187,9 +191,10 @@ td
                
 
                 <!-- Main analysis -->
-                <div  class="main-result-container whitebg" >
-                    <div id="loadmsg"><center><img id="loader" src="../images/whiteloader.gif"></img></center></div>
-                    <div id="analysis-report">
+                <div id="loadmsg" class="main-result-container whitebg"><img id="loader" src="../images/whiteloader.gif"></img><h3 id="loadingmessage">Analyzing the latest data for you.Please hold on.<h3>
+                    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+                </div>
+                <div id="analysis-report" class="main-result-container whitebg" >
                     <div class="row">
                         <div class="col-md-7">
                             <h3 class="analysis-titles">Country wise Followers</h3>
@@ -234,7 +239,7 @@ td
             </div>
 
             <!-- Right content: Other statistics -->
-            <div class="dashboard dashboard-right col-md-3 padded">
+            <div id="inffollowers" class="dashboard dashboard-right col-md-3 padded">
                 <div class="row whitebg" style="margin-left:5px">
                     <h3 class="analysis-titles">Follower's distribution</h3>
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
@@ -275,5 +280,4 @@ td
 
         </div>
     </div>
-</div>
 </div>
