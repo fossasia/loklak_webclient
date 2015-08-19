@@ -78,7 +78,7 @@ var marker=[];
                 $scope.followingstotal=data.user.friends_count;
                 $scope.name=data.user.name;
                 $scope.profilepicurl=data.user.profile_image_url_https;
-                $scope.profilebanner=data.user.profile_background_image_url_https;
+                $scope.profilebanner=data.user.profile_banner_url;
                 $scope.tweetcount=data.user.statuses_count;
 
                 //data about followers
@@ -111,7 +111,7 @@ var marker=[];
                             "screenname" : ele.screen_name,
                             "statuses_count" : ele.statuses_count,
                             "following" : ele.friends_count,
-                            "profile_banner" : ele.profile_background_image_url_https
+                            "profile_banner" : ele.profile_banner_url
                             
                         });
 
