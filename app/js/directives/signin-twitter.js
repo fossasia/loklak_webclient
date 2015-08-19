@@ -203,13 +203,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			        fields: 'hashtags',
 			        limit: 6
 			    };
-			    SearchService.initData(params).then(function(data) {
+			    SearchService.getTrendsAggregation(params).then(function(data) {
 			               hashtagData = hashtagData.concat(data.aggregations.hashtags);
 			               $rootScope.root.trends = hashtagData[0];
 			        }, function() {
 
 			        });
 			}, 3000);
+
 		},
 		link: function(scope) {
 			var hello = scope.hello;

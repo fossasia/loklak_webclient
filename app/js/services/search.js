@@ -77,6 +77,22 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       return deferred.promise;
   };
 
+  service.getTrendsAggregation = function(paramsObj) {
+        $rootScope.httpCanceler = $q.defer();
+        var deferred = $q.defer();
+        $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
+          params: paramsObj,
+          ignoreLoadingBar: paramsObj.fromWall,
+          timeout: $rootScope.httpCanceler.promise
+        }).success(function(data) {
+            deferred.resolve(data);
+        }).error(function(err, status) {
+            deferred.reject(err, status);
+        });
+
+        return deferred.promise;
+    };
+
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
