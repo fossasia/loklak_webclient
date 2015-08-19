@@ -82,8 +82,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
         var deferred = $q.defer();
         $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
           params: paramsObj,
-          ignoreLoadingBar: paramsObj.fromWall,
-          timeout: $rootScope.httpCanceler.promise
+          ignoreLoadingBar: paramsObj.fromWall
         }).success(function(data) {
             deferred.resolve(data);
         }).error(function(err, status) {
