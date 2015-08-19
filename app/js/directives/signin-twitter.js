@@ -151,7 +151,10 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 
 				// If suggestions are shown, clicked out of its area will disable it
 				if(!targetClasses || targetClasses.indexOf("suggestion-item") === -1) {
-					$rootScope.root.haveSearchSuggestion = false;
+					if ($rootScope.root.haveSearchSuggestion !== false) {
+						$rootScope.suggestionsHttpCanceler.resolve();
+						$rootScope.root.haveSearchSuggestion = false;
+					}
 				}
 				
 			};
@@ -243,6 +246,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 						if (toState.name === "Search") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
+							$rootScope.root.globalSearchTerm = "";
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
 						}		
 					} else {

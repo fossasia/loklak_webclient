@@ -43,6 +43,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
   };
 
   service.getSearchSuggestions = function(term) {
+      $rootScope.suggestionsHttpCanceler = $q.defer();
       var deferred = $q.defer();
       $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
         params: {
@@ -78,7 +79,6 @@ function SearchService($q, $http, $rootScope, AppSettings) {
   };
 
   service.getTrendsAggregation = function(paramsObj) {
-        $rootScope.httpCanceler = $q.defer();
         var deferred = $q.defer();
         $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
           params: paramsObj,
