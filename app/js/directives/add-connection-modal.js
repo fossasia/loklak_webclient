@@ -4,12 +4,13 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
-	function($http, $timeout, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
+	function($http, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
 		controller: function($scope, $element, $attrs) {
+
 			$scope.harvestingFreqList = HarvestingFrequencyService.values;
 			$scope.sourceTypeList = SourceTypeService.sourceTypeList;
 			$scope.sourceTypeListWEndpoint = {};
@@ -55,11 +56,6 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 			];
 			$scope.selectedTab = 0;
 			$scope.showNext = true;
-
-			$scope.closeSettingModal = function() {
-				angular.element("#add-connect-setting-modal").css('display', 'none');
-				angular.element(".modal-backdrop").remove();
-			};
 
 			$scope.setSourceFormat = function(e) {
 				$scope.inputs.sourceFormat = e.currentTarget.id;
@@ -139,7 +135,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 						}
 					).then(function(data) {
 			 			$scope.messages.error = '';
-			 			$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
+			 			setTimeout(function() {
+							angular.element('#close-add-connection-modal').trigger('click');
+						}, 0);
+			 			$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
 			 		}, function(err, status) {
 			 			$scope.messages.success = '';
 			 			$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -153,8 +152,11 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 						  lifetime: lifetime,
 						  public: $scope.inputs.public
 						}, $scope.sourceTypeList[$scope.inputs.sourceFormat].endpoint).then(function(data) {
-						$scope.messages.error = '';
-						$scope.messages.success = data.known + ' source(s) known, ' + data['new'] + ' new source(s) added';
+							$scope.messages.error = '';
+							setTimeout(function() {
+								angular.element('#close-add-connection-modal').trigger('click');
+							}, 0);
+							$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
 					}, function(err, status) {
 						$scope.messages.success = '';
 						$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -202,6 +204,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$timeout', '$statePa
 						$scope.validateStatus = 'success';
 						$scope.messages.validateError = '';
 						$scope.currentData = JSON.parse(data.content);
+
 					}
 				}, function(err, status) {
 					$scope.validateStatus = 'error';

@@ -91,7 +91,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			if (callback) callback();
 		}, function() {});
 	};
-
+	$scope.returnFromAddConnection = function(message) {
+		$scope.dataSourceMessages.success = message;
+		setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
+	}
 	$scope.onUpdateDataSources = function() {
 		$scope.dataSourceMessages = {};
 		var refreshButton = angular.element("#refreshButton i"); 
