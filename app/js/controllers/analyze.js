@@ -16,6 +16,7 @@ var marker=[];
 
     
     //View handling
+
     $('#analyze-modal').modal('show');
     $('#loader').hide();
     $('#notfoundmessage').hide();
@@ -49,15 +50,15 @@ var marker=[];
     
      $scope.getstatfollower=function()
      {    
-    
+        $('#errormsg').hide();
         $('#notfoundmessage').hide();
         $('#loader').show(); 
         $('#analysis-report').hide();
         $('#inffollowers').hide();
         $('#loadmsg').show();
         $('#loadingmessage').show();
-        console.log($scope.username);
-        $http.jsonp("http://loklak.org/api/user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+        
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
                 console.log("recieved data");
@@ -186,7 +187,7 @@ var marker=[];
                     country_stat_result[country_Array[i]] = 0;
                     ++country_stat_result[country_Array[i]];
                 }
-                console.log(country_stat_result);
+               
 
                 var countrynames = Object.keys( country_stat_result );
                 
@@ -234,8 +235,10 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     
-                    $scope.followers_status="Load Failed.Twitter did not respond.";
-                    console.log($scope.followers_status);
+                    $scope.followers_status="Sorry there's some glitch :(. Please try again later.";
+                    $('#loader').hide(); 
+                    $('#loadmsg').hide();
+                    $('#errormsg').show();
 
                     
                         // called asynchronously if an error occurs
