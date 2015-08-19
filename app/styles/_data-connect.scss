@@ -181,6 +181,26 @@
 #source-info-form .fa-check {
 	color: green;
 }
+#map-view-modal-dialog {
+	width: 100%;
+	height: 98%;
+	margin-top: 10px;
+	padding: 0px 10px 0 10px;
+}
+
+#map-view-modal-dialog .modal-header {
+	height: 73px;
+}
+#map-view-modal-dialog .modal-content {
+	height: 98%;
+	overflow: hidden;
+}
+#map-view-modal-dialog .modal-body {
+	height: calc(100% - 73px);
+}
+#single-data-map {
+	height: 100%;
+}
 #single-data-map .single-tweet .user-data-wrapper .name, 
 #single-data-map .single-tweet .user-data-wrapper .screen-name {
 	font-size: 1em;
