@@ -246,6 +246,11 @@
 }
 
 /* Anonymous content */
+    .map-view {
+    	.anonymous-session-content {
+    		padding-top: 0;	
+    	}
+    }
 	.anonymous-session-content {
 		min-height: 100vh;
 	    margin-top: -46px;

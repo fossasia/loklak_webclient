@@ -239,14 +239,24 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					}
 				}
 
+				/*
+	             * Dynamic UI on state changes
+				 */
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+					// If moving away from search: cancel old search, suggestion, empty search field
+					if (toState.name !== "Search") {
+						$rootScope.root.globalSearchTerm = "";
+						if ($rootScope.httpCanceler) { $rootScope.httpCanceler.resolve();}
+						if ($rootScope.suggestionsHttpCanceler) { $rootScope.suggestionsHttpCanceler.resolve();}
+						$rootScope.root.haveSearchSuggestion = false;
+					}
 
-				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse(); 
 					if (!isOnline) {
 						if (toState.name === "Search") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
-							$rootScope.root.globalSearchTerm = "";
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
 						}		
 					} else {
