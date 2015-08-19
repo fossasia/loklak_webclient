@@ -25,7 +25,7 @@
 .scrollr
 {
     overflow-y: scroll; 
-    height : 350px ;
+    height : 340px ;
 
 }
 .no-top-margin
@@ -123,7 +123,7 @@ td
     margin-bottom: 10px;
 }
 </style>
-<div class="content-wrapper" >
+<div class="content-wrapper" ng-show="root.twitterSession">
     <div class="search-container container-fluid">
 
         <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
@@ -246,7 +246,7 @@ td
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
-                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;">
+                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;margin-top:10px;">
                     <h3 class="analysis-titles">Most Influential Followers</h3>
                                         <div class="scrollr">
                                         <div ng-repeat="follower in followers_follower | limitTo:100">
@@ -282,3 +282,4 @@ td
         </div>
     </div>
 </div>
+ <div ng-hide="root.twitterSession" ng-include src="'anonymous-session-content.html'"></div>
