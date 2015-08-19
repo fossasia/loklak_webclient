@@ -212,7 +212,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			        }, function() {
 
 			        });
-			}, 3000);
+			}, 1000);
 
 		},
 		link: function(scope) {
