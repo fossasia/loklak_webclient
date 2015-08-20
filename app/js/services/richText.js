@@ -16,7 +16,13 @@ function RichTextService() {
 
 	service.parseJSON = function(text) {
 		var splitted = service.parse(text);
-		return [splitted[0], JSON.parse(splitted[1])];
+		if (splitted.length == 2) {
+			return [splitted[0], JSON.parse(splitted[1])];
+		} else {
+			// doesn't contain rich data
+			return [text, null];
+		}
+
 	}
 
 	return service;

@@ -17,3 +17,12 @@
 .single-imported-status .footer p {
 	float: right;
 }
+
+.single-imported-status .importer img {
+	width: 20px;
+	border-radius: 10px;
+}
+
+.single-imported-status .action-list i {
+	cursor: pointer;
+}

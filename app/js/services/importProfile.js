@@ -11,7 +11,7 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 
 	service.update = function(item) {
 		var deferred = $q.defer();
-		var params = {action : 'update', data : item, screen_name : $rootScope.root.twitterSession};
+		var params = {action : 'update', data : item, screen_name : $rootScope.root.twitterSession.screen_name};
 		$http.jsonp(AppSettings.apiUrl
 			+'import.json?callback=JSON_CALLBACK', {
 			params: params, method: 'POST'
@@ -25,7 +25,7 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 
 	service.delete = function(item) {
 		var deferred = $q.defer();
-		var params = {action : 'delete', source_url : item.source_url, screen_name : $rootScope.root.twitterSession};
+		var params = {action : 'delete', source_url : item.source_url, screen_name : $rootScope.root.twitterSession.screen_name};
 		$http.jsonp(AppSettings.apiUrl
 			+'import.json?callback=JSON_CALLBACK', {
 			params: params
@@ -36,6 +36,18 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 		});
 		return deferred.promise;
 	};
+
+	service.share = function(item) {
+		if (!item.sharers) {
+			item.sharers = [];
+		}
+		if (item.sharers.indexOf($rootScope.root.twitterSession.screen_name) !== -1) {
+			console.error('You already shared this data');
+			return;
+		}
+		item.sharers.push($rootScope.root.twitterSession.screen_name);
+		return service.update(item);
+	}
 
 	return service;
 }

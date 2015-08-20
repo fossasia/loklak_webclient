@@ -8,8 +8,9 @@ var directivesModule = require('./_index.js');
  * @ngInject
  */
 
-directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', 'RichTextService', 'SourceTypeService', 'SearchService',
-    function($location, $rootScope, RichTextService, SourceTypeService, SearchService) {
+directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', 'RichTextService', 'SourceTypeService', 
+    'SearchService', 'ImportProfileService',
+    function($location, $rootScope, RichTextService, SourceTypeService, SearchService, ImportProfileService) {
     return {
         scope: {
             data: '=',
@@ -27,6 +28,14 @@ directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', '
             }, function(err) {
                 console.error(err);
             });
+
+            $scope.share = function() {
+                ImportProfileService.share($scope.profile).then(function(data) {
+                    console.log(data);
+                }, function(err) {
+                console.error(err);
+                });
+            };
         },
         link: function(scope, element, attrs) {
         }
