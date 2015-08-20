@@ -20,6 +20,11 @@
 {
     margin-right: -8px;
 }
+.countryname
+{
+    min-width: 90px;
+    padding-right: 2px;
+}
 .analysis-titles
 {
     margin: 0;
@@ -42,7 +47,7 @@
 }
 td
 {
-    width: 50%
+    font-size: 12px;
 
 }
 .whitebg
@@ -216,9 +221,9 @@ td
                         </div>
                         <div class="col-md-6 margin-right-pos" >
                             <table class="table ">
-                                <th class="tableheading">Country</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
+                                <th class="tableheading countryname">Country</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
-                                        <td>{{country.country}}</td><td><i>{{country.followers}}</i></td><td><i>{{country.percentage}}%</i></td>
+                                        <td align="left" >{{country.country}}</td><td align="center">{{country.followers}}</td><td align="center">{{country.percentage}}%</td>
                             </table> 
                         </div><!--end span8-->
                     </div>
@@ -232,7 +237,7 @@ td
                             <table class="table">
                                 <th class="tableheading">City</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
-                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}</i></b></td><td><i>{{city.percentage}}%</i></b></td>
+                                        <td align="left">{{city.city}}</td><td align="center">{{city.followers}}</td><td align="center">{{city.percentage}}%</i></td>
                             </table> 
                         </div><!--end span8-->
                     </div>
