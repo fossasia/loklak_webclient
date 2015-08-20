@@ -34,7 +34,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var maplongEast = $("#maplongEast").val();
         var maplatNorth = $("#maplatNorth").val();
         var optionChosen = $("#optionChoice").val();
-        var mapZoomLevel = $("#mapZoomLevel").val()
+        var mapZoomLevel = $("#mapZoomLevel").val();
+        var crossPOSTURLbase = 'http://localhost:9000/api/push.json?data=';
 
         $rootScope.root.geoTile = $("#fileInput").val();
         console.log($("#fileInput").val());
@@ -127,6 +128,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             else {
 
                 console.log("Regular Tweet !");
+                var pushObject = {};
 
                 if(tweetLen <= 140 && tweetLen > 0) {
 
@@ -136,6 +138,27 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                         long: longitude,
                     }).then(function(json) {
                         console.log(json);
+                        // The Push service should send the data to be cross posted to loklak server
+                        var dateString = json.created_at;
+                        var convertedDate = new Date(dateString);
+                        var ISODate = convertedDate.toISOString();
+                        pushObject['created_at'] = ISODate;
+                        pushObject['screen_name'] = json.user.screen_name;
+                        pushObject['text'] = json.text;
+                        pushObject['canonical_id'] = json.id_str;
+                        pushObject['source_type'] = "TWITTER";
+                        var dataObject = {};
+                        dataObject['statuses'] = [pushObject];
+                        var paramString = JSON.stringify(dataObject);
+                        var crossPostRequest = crossPOSTURLbase + paramString;
+
+                        // Making the post request
+
+                        $http.post(crossPostRequest)
+                        .then(function() {
+                            console.log('Successfully Cross posted to loklak');
+                        });
+                        // End of post request
                     }, function (e) {
                         console.log(e);
                     });
