@@ -1,6 +1,19 @@
 .content-wrapper.home-view-content-wrapper {
 	opacity: 1;
 	transition: all 0.5s ease-in-out;
+	> .content-container {
+		position: relative;
+		transition: all 1s ease-in-out;
+		margin-left: 50%;
+	    transform: translateX(-50%);
+	    -ms-transform: translateX(-50%);
+	}
+	> .content-container.moved-right {
+		transition: all 1s ease-in-out 0.5s;
+		margin-left: 100%;
+		transform: translateX(-100%);
+		-ms-transform: translateX(-100%);
+	}
 }
 .content-wrapper.home-view-content-wrapper.ng-hide {
 	opacity: 0;
@@ -14,7 +27,32 @@
 		@media (min-width: 992px) {
 				padding-left: 0;
 		}
+		position: absolute;
+		left: 0;
+		transition: all 1s ease-in-out;
+		z-index: 501;
+		.home-user-info {
+			transition: all 0.5s ease-in-out;
+		}
 	}
+	.left-result-container.moved-right {
+		background: white;
+		transition: all 1s ease-in-out 0.5s;
+		left: calc(100% - 270px);
+	    width: 270px;
+	    padding-right: 0;
+	    .home-user-info {
+	    	padding: 5px;
+	    	border: 1px solid transparent;
+	    	transition: all 0.5s ease-in-out 1s;
+	    }
+		.followers-list-container {
+			opacity: 0;
+			transition: all 0.5s ease-in-out;
+		}
+
+	}
+
 	.home-user-info {
 		border: 1px solid #e1e8ed;
 		margin-top: 20px; 
@@ -157,6 +195,9 @@
 	}
 
 	.followers-list-container {
+		opacity: 1;
+		transition: all 0.5s ease-in-out 1s;
+		display: block;
 		padding: 10px;
 		background-color: white;
 		margin-top: 20px;
@@ -203,12 +244,34 @@
 
 /* Center result */
 .center-result-container {
+	z-index: 502;
+	transition: all 1s ease-in-out;
+	margin-left: 25%;
+	position: relative;
+	top: 0;
 	@media (min-width: 992px) {
 		padding-left: 0;
 		padding-right: 0;
 	}
+	.cms-view {
+		transition: all 0.5s ease-in-out;
+	}
 }
+.center-result-container.moved-right {
+	transition: all 1s ease-in-out 0.5s;
+	margin-left: calc(100% - 255px);
+	position: relative;
+	top: 208px;
+	width: 270px;
+	> .cms-view {
+		transition: all 0.5s ease-in-out 1s;
+		padding: 20px 0 0 0;
+		margin: 0;
+	}
+}
+
 .main-result-container {
+	
 	.statuses-container {
 		> div {
 			background-color: white;
@@ -238,11 +301,20 @@
 	}
 }
 
+
 /* Right dashboard */
 .right-result-container {
 	@media (min-width: 992px) {
 		padding-right: 0;
 	}
+	opacity: 1;
+	transition: all 0.5s ease-in-out 1s;
+	position: absolute;
+	right: 0;
+}
+.right-result-container.moved-right {
+	transition: all 0.5s ease-in-out;
+	opacity: 0;
 }
 
 /* Anonymous content */

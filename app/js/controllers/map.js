@@ -11,7 +11,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     var vm = this;
     vm.feedLimit = 20;
     vm.failNoticeShown = false;
-    vm.isShowingMapNotHome = true;
+    vm.isShowingMapNotHome = false;
     vm.showFollowersLimit = 20;
     vm.showFollowingsLimit = 20;
 
@@ -172,8 +172,11 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     }
 
     /* SWITCHING BETWEEN TIMELINE AND MAP */
+    vm.timelineState = true;
     vm.toggleMapAndTimeline = function() {
-        vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+        //vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+        $(".center-result-container, .right-result-container, .left-result-container").toggleClass("moved-right");
+        $(".home-view-content-wrapper > .content-container").toggleClass("moved-right");  
     }
 
 }]);
