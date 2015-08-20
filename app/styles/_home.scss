@@ -2,6 +2,7 @@
 	opacity: 1;
 	transition: all 0.5s ease-in-out;
 	> .content-container {
+		z-index: 500;
 		position: relative;
 		transition: all 1s ease-in-out;
 		margin-left: 50%;
@@ -13,6 +14,7 @@
 		margin-left: 100%;
 		transform: translateX(-100%);
 		-ms-transform: translateX(-100%);
+		z-index: 499;
 	}
 }
 .content-wrapper.home-view-content-wrapper.ng-hide {
@@ -42,9 +44,18 @@
 	    width: 270px;
 	    padding-right: 0;
 	    .home-user-info {
-	    	padding: 5px;
-	    	border: 1px solid transparent;
+	    	padding: 7px;
+	    	border: 0px solid transparent;
 	    	transition: all 0.5s ease-in-out 1s;
+	    	margin-top: 0;
+	    	.switch-to-map {
+	    		opacity: 0;
+	    		transition: all 0.5s ease-in-out;
+	    	}
+	    	.switch-to-timeline-text {
+	    		opacity: 1;
+	    		transition: all 0.5s ease-in-out 1.5s;
+	    	}
 	    }
 		.followers-list-container {
 			opacity: 0;
@@ -176,6 +187,29 @@
 	}
 
 	.switch-to-map {
+		transition: all 0.5s ease-in-out 1s;
+		opacity: 1;
+		display: inline-block;
+		position: absolute;
+		top: 13px;
+		left: 12px;
+		padding: 4px 6px;
+		background-color: #55ACEE;
+		color: white;
+		span {
+			font-size: 14px;
+			&:nth-child(2) {
+				margin-left: 10px;
+			}
+		}
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	.switch-to-timeline-text {
+		transition: all 0.5s ease-in-out;
+		opacity: 0;
 		display: inline-block;
 		position: absolute;
 		top: 13px;
