@@ -4,8 +4,11 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
-	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
+controllersModule.controller('DataConnectCtrl', 
+	['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 
+	'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
+	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService,
+		ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -41,7 +44,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	$scope.harvestingFreqList = HarvestingFrequencyService.values;
 	$scope.mapRulesNum = 0;
 
-	$scope.setMessageView= function(messageIds) {
+	$scope.setMessageView= function(profile) {
+		$scope.selectedProfile = profile;
+		var messageIds = profile.imported;
 		if (messageIds !== $scope.fileIds) {
 			$scope.fileIds = messageIds;
 			var query = '';
@@ -54,7 +59,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		}
 	};
 
-	$scope.setMapView = function(messageIds) {
+	$scope.setMapView = function(profile) {
+		$scope.selectedMapProfile = profile;
+		var messageIds = profile.imported;
 		if (messageIds !== $scope.mapIds) {
 			$scope.mapIds = messageIds;
 			var query = '';

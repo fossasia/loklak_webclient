@@ -137,13 +137,22 @@
 		width: 100%;
 	}
 }
-
+#message-view-modal .modal-dialog {
+	max-height: 92%;
+}
+#message-view-modal .modal-content {
+	height: 98%;
+	overflow-y: auto;
+}
 #message-view-modal .single-tweet {
 	position: relative;
 	transform: none;
 	top: 0;
 	left: 0;
 	width: 100%;
+}
+#message-view-modal .modal-header .close {
+	margin-top: -11px;
 }
 #add-connection-modal {
 	overflow-y: hidden;

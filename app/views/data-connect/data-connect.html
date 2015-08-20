@@ -37,8 +37,8 @@
 				<div class="col col-md-2"><a ng-href="/connect/{{item.source_type}}" ng-click="$event.stopPropagation();">{{item.display_source_type}}</a></div>
 				<div class="col col-md-2" am-time-ago="item.created_at"></div>
 				<div class="col col-md-2" am-time-ago="item.last_modified"></div>
-				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal" ng-click="setMessageView(item.imported)">File <span class="badge">{{item.imported.length}}</span></a></div>
-				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal" ng-click="setMapView(item.imported)">View</a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#message-view-modal" ng-click="setMessageView(item)">File <span class="badge">{{item.imported.length}}</span></a></div>
+				<div class="col col-md-1"><a data-toggle="modal" data-target="#map-view-modal" ng-click="setMapView(item)">View</a></div>
 				<div class="col col-md-1">{{item.sharers | arraySize}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
@@ -87,11 +87,8 @@
 				</div>
 				<div class="modal-body">
 					<div ng-repeat="value in selectedMessages">
-						<div single-status open-swipe="false" data="value" show-status="true"></div>
+						<div single-imported-status data="value" profile="selectedProfile"></div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<a id="close-map-view-button" data-dismiss="modal" type="button" class="btn btn-loklak-blue">Close</a>
 				</div>
 			</div>
 		</div>

@@ -92,6 +92,18 @@ function SearchService($q, $http, $rootScope, AppSettings) {
         return deferred.promise;
     };
 
+  service.retrieveAccount = function(user_screen_name) {
+    var deferred = $q.defer();
+    $http.jsonp(AppSettings.apiUrl+'account.json?callback=JSON_CALLBACK', {
+      params: {screen_name: user_screen_name}
+    }).success(function(data) {
+        deferred.resolve(data);
+    }).error(function(err, status) {
+        deferred.reject(err, status);
+    });
+
+    return deferred.promise;
+  };
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {

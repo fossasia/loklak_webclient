@@ -1,0 +1,13 @@
+<div ng-attr-id="{{data.id_str}}" class="single-imported-status">
+	<div class="body">
+		<div class="right-logo">
+			<img src="{{sourceType.logo}}"/>
+		</div>
+		<h3>{{richData[sourceType.template.header]}}</h3>
+		{{richData[sourceType.template.subHeader]}}
+	</div>
+	<div class="footer">
+		<div>Importer: <img src="{{importer.user.profile_image_url_https}}"/></div>
+		<p>Shared by {{profile.sharers | arraySize}} users</p>
+	</div>
+</div>
