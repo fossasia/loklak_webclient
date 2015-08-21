@@ -6,9 +6,37 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function MapPopUpTemplateService($filter) {
+function MapPopUpTemplateService($filter, SourceTypeService, JsonFieldAccessorService, RichTextService) {
 
   var service = {};
+
+  service.genImportedStatus = function(status, profile) {
+    var sourceType = SourceTypeService.sourceTypeList[status.source_type.toLowerCase()];
+
+    var richData = RichTextService.parseJSON(status.text)[1];
+
+    var shareNum;
+    if (!profile.sharers) {
+      shareNum = 0;
+    } else {
+      shareNum = profile.sharers.length;
+    }
+    var result = '<div ng-attr-id="' + status.id_str + '" class="single-imported-status map-view">'
+      +     '<div class="body">'
+      +       '<div class="right-logo">'
+      +         '<img src="' + sourceType.logo + '"/>'
+      +        '</div>'
+      +       '<h3>' + JsonFieldAccessorService.accessField(richData, sourceType.template.header) + '</h3>'
+      +       JsonFieldAccessorService.accessField(richData, sourceType.template.subHeader)
+      +     '</div>'
+      +   '<div class="footer">'
+      +     '<p>Shared by ' + shareNum + ' users</p>'
+      +     '<hr/>'
+      +   '</div>'
+      +  '</div>';
+
+      return result;
+  };
 
   service.genStaticTwitterStatus = function(status) {
   	var result = "";
@@ -84,11 +112,10 @@ function MapPopUpTemplateService($filter) {
 
     return result;
 
-
   };
 
   return service;
 
 }
 
-servicesModule.service('MapPopUpTemplateService', ['$filter', MapPopUpTemplateService]);
+servicesModule.service('MapPopUpTemplateService', ['$filter', 'SourceTypeService', 'JsonFieldAccessorService', 'RichTextService', MapPopUpTemplateService]);

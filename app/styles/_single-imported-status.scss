@@ -26,3 +26,13 @@
 .single-imported-status .action-list span {
 	cursor: pointer;
 }
+
+.single-imported-status.map-view {
+	margin: 0;
+	padding: 0;
+	min-width: 250px;
+	position: relative;
+	transform: none;
+	left: 0;
+	top: 0;
+}
