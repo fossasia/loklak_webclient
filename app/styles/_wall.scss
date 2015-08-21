@@ -486,11 +486,10 @@
 
 .coa {
     display: block;
-    height: 400px;
+    height: 70vh;
     background: white;
-    padding: 30px 22px;
-    margin-bottom: 25px;
-    margin-top: 10%;
+    padding: 10vh 2vw;
+    margin-top: 8vh;
     border-bottom: 1px solid $search-grey-border;
     &:first-child {
         border-top-left-radius: 6px;

@@ -19,7 +19,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function calculateTerm(argument) {
         term = "";
-        if(vm.wallOptions.mainHashtag){
+        if (vm.wallOptions.mainHashtag) {
             term = vm.wallOptions.mainHashtag;
         }
         for (var i = 0; i < vm.wallOptions.all.length; i++) {
@@ -28,14 +28,14 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         for (var i = 0; i < vm.wallOptions.none.length; i++) {
             term = term + ' -' + vm.wallOptions.none[i].text;
         };
-        if(vm.wallOptions.any.length>0){
+        if (vm.wallOptions.any.length > 0) {
             term = term + ' ' + vm.wallOptions.any[0].text;
             for (var i = 1; i < vm.wallOptions.any.length; i++) {
                 term = term + ' OR ' + vm.wallOptions.any[i].text;
             };
         }
-        if (vm.wallOptions.layoutStyle == '4'){
-            if(term==""){
+        if (vm.wallOptions.layoutStyle == '4') {
+            if (term == "") {
                 term = "/location";
             } else {
                 term = term + " /location";
@@ -67,10 +67,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 term = term + ' -/profanity';
             }
         }
-        if(!vm.wallOptions.blockRetweets) {
-                term = term + ' include:retweets';
+        if (!vm.wallOptions.blockRetweets) {
+            term = term + ' include:retweets';
         }
-        if(vm.wallOptions.chosenLocation) {
+        if (vm.wallOptions.chosenLocation) {
             term = term + ' near:' + vm.wallOptions.chosenLocation;
         }
         if (vm.wallOptions.sinceDate) {
@@ -87,13 +87,23 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
+        console.log(vm.wallOptions.cyclePostLimit);
+        if (vm.wallOptions.cycle) {
+            if (vm.wallOptions.cyclePostLimit > searchParams.count) {
+                searchParams.count = vm.wallOptions.cyclePostLimit;
+            }
+        }
         searchParams.fromWall = true;
     }
 
-    function getWallData(){
-        vm.wallOptions = AppsService.get({user:$stateParams.user, app:'wall', id: $stateParams.id});
-        vm.wallOptions.$promise.then(function(data){
-            if(vm.wallOptions.id){
+    function getWallData() {
+        vm.wallOptions = AppsService.get({
+            user: $stateParams.user,
+            app: 'wall',
+            id: $stateParams.id
+        });
+        vm.wallOptions.$promise.then(function(data) {
+            if (vm.wallOptions.id) {
                 if (vm.wallOptions.layoutStyle == '1') {
                     maxStatusCount = 10; //linear
                 } else if (vm.wallOptions.layoutStyle == '2') {
@@ -107,11 +117,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 //On INIT
                 vm.update2(0);
                 vm.loadLeaderboard();
-            }
-            else {
+            } else {
                 vm.invalidId = true;
             }
-            
+
         });
     }
 
@@ -249,13 +258,19 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                         console.log(refreshTime + 10000);
                     } else {
                         if (vm.statuses.length <= 0) {
-                            vm.statuses = data.statuses.splice(0, maxStatusCount);
+                            vm.statuses = data.statuses.splice(0, searchParams.count);
                             nextStatuses = vm.statuses;
                         } else {
                             for (var i = data.statuses.length - 1; i > -1; i--) {
                                 if (data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                    // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
+                                    // $timeout(function() {
                                     vm.statuses.unshift(data.statuses[i]);
+                                    //$('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
                                     vm.statuses.pop();
+                                    //},200);
+
+
                                 }
                             }
                         }
@@ -396,22 +411,47 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
     }
 
-    vm.loadLeaderboard = function () {
+    vm.loadLeaderboard = function() {
         if (vm.wallOptions.showStatistics == true) {
             //if (vm.statuses.length > 0) {
-                var statParams = searchParams;
-                StatisticsService.getStatistics(statParams)
-                    .then(function(statistics) {
-                            evalHistogram(statistics);
-                        },
-                        function() {}
-                    );
+            var statParams = searchParams;
+            StatisticsService.getStatistics(statParams)
+                .then(function(statistics) {
+                        evalHistogram(statistics);
+                    },
+                    function() {}
+                );
             //}
         }
     };
+
     $interval(function() {
         vm.loadLeaderboard();
     }, 20000);
+
+    vm.cycleTweets = function() {
+        if (vm.wallOptions.cycle) {
+            if (vm.statuses.length > 0) {
+                var tempTweet = vm.statuses.pop();
+                // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
+                // $timeout(function() {
+                vm.statuses.unshift(tempTweet);
+                //     $('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
+
+                // }, 200);
+
+            }
+
+        }
+    };
+
+    // $scope.$watchCollection("wall.statuses", function() {
+
+    // });
+
+    $interval(function() {
+        vm.cycleTweets();
+    }, 5000)
 
 
 }
