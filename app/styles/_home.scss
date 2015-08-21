@@ -8,6 +8,10 @@
 		margin-left: 50%;
 	    transform: translateX(-50%);
 	    -ms-transform: translateX(-50%);
+	    @media (min-width: 0px) and (max-width: 991px) {
+			margin-left: auto;
+			transform: translateX(0);
+		}
 	}
 	> .content-container.moved-right {
 		transition: all 0.6s ease-in-out 0.3s;
@@ -28,6 +32,10 @@
 	.left-result-container {
 		@media (min-width: 992px) {
 				padding-left: 0;
+		}
+		@media (min-width: 0px) and (max-width: 991px) {
+			position: relative;
+			padding: 20px;
 		}
 		position: absolute;
 		padding: 20px 15px 0 0;
@@ -121,9 +129,12 @@
 				    color: $search-grey;
 				}
 				.home-user-name {
-					font-size: 20px;
+					font-size: 18px;
 					font-weight: 700;
 					margin-bottom: 3px;
+					width: 160px;
+					box-sizing: border-box;
+					overflow: hidden;
 				}
 			}
 		}
@@ -309,9 +320,13 @@
 	margin-left: 25%;
 	position: relative;
 	top: 0;
-	@media (min-width: 992px) {
+	@media (min-width: 992px) and (max-width: 1200px){
 		padding-left: 0;
 		padding-right: 0;
+		margin-left: 33%
+	}
+	@media (min-width: 0px) and (max-width: 991px) {
+		margin-left: 0;
 	}
 	.cms-view {
 		transition: all 0.3s ease-in-out;
@@ -321,12 +336,15 @@
 	transition: all .6s ease-in-out .3s;
 	margin-left: calc(100% - 255px);
 	position: relative;
-	top: 208px;
+	top: 179px;
 	width: 270px;
 	> .cms-view {
 		transition: all 0.3s ease-in-out 0.6s;
 		padding: 20px 0 0 0;
 		margin: 0;
+		.main-result-container .statuses-container > div:first-child  .item{
+		    border-top: 1px solid #E1E8ED;
+		}
 	}
 }
 
