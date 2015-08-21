@@ -9,8 +9,8 @@ var directivesModule = require('./_index.js');
  */
 
 directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', 'RichTextService', 'SourceTypeService', 
-    'SearchService', 'ImportProfileService', 'JsonFieldAccessorService',
-    function($location, $rootScope, RichTextService, SourceTypeService, SearchService, ImportProfileService, JsonFieldAccessorService) {
+    'ImportProfileService', 'JsonFieldAccessorService',
+    function($location, $rootScope, RichTextService, SourceTypeService, ImportProfileService, JsonFieldAccessorService) {
     return {
         scope: {
             data: '=',
@@ -22,13 +22,6 @@ directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', '
 
             $scope.sourceType = SourceTypeService.sourceTypeList[$scope.data.source_type.toLowerCase()];
             $scope.richData = RichTextService.parseJSON($scope.data.text)[1];
-
-            SearchService.retrieveAccount($scope.profile.importer).then(function(data) {
-                $scope.importer = data.accounts[0];
-            }, function(err) {
-                console.error(err);
-            });
-
             $scope.share = function() {
                 ImportProfileService.share($scope.profile).then(function(data) {
                     console.log(data);

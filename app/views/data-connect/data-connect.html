@@ -9,7 +9,7 @@
 		<div class="buttonPanel pull-right">
 			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal" ng-click="clearModalData()">Add Source</button>
 		</div>
-		<h1>Active Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
+		<h1>My Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
 		<div class="alert alert-success alert-dismissible" role="alert" ng-show="dataSourceMessages.success">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{dataSourceMessages.success}}
@@ -84,6 +84,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4><a ng-href="selectedProfile.source_url" target="_blank">{{selectedProfile.source_url}}</a></h4>
 				</div>
 				<div class="modal-body">
 					<div ng-repeat="value in selectedMessages">

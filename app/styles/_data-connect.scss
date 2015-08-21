@@ -150,6 +150,7 @@
 #message-view-modal .modal-body {
 	max-height: calc(100% - 73px);
 	overflow-y: auto;
+	padding: 5px 15px;
 }
 #message-view-modal .single-tweet {
 	position: relative;
