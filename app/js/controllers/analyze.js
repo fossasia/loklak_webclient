@@ -49,6 +49,7 @@ var marker=[];
         
         viewloading();
         
+        
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
@@ -231,11 +232,11 @@ var marker=[];
                 }).error(function(data, status, headers, config) {
                     
                     
-                    $scope.followers_status="Sorry there's some glitch :(. Please try again later.";
+                    
                     $('#loader').hide(); 
                     $('#loadingmessage').hide();
                     $('#loadmsg').show();
-                    $('#errormsg').show();
+                    $('#errormessage').show();
 
                     
                         // called asynchronously if an error occurs
@@ -263,18 +264,24 @@ $scope.increaseLimit = function(){
             counter++;
         }
 }
-$rootScope.$watch(function() {
-            return $rootScope.root.twitterSession;
-            }, function(session) {
-                if (session) {
-                    $scope.getstatfollower();
-                    $scope.username=$rootScope.root.twitterSession.screen_name;
-                }
-                else
-                {
-                    $('#signupModal').modal('show');
-                }
-            });
+$rootScope.$watch(function() 
+{
+    return $rootScope.root.twitterSession;
+},  function(session)
+    {
+        
+        if ($rootScope.root.twitterSession.screen_name)
+        {   
+
+            $scope.username=$rootScope.root.twitterSession.screen_name;
+            $scope.getstatfollower();
+        
+        }
+        else
+        {
+            $('#signupModal').modal('show');
+        }
+    });
 
       
 function viewlanding()
@@ -283,6 +290,7 @@ function viewlanding()
     $('#loader').hide();
     $('#notfoundmessage').hide();
     $('#loadmsg').hide();
+    $('#errormessage').hide();
 }
 function viewnodata()
 {
@@ -293,14 +301,14 @@ function viewnodata()
 
 function viewloading()
 {
-    $('#errormsg').hide();
+    $('#errormessage').hide();
     $('#notfoundmessage').hide();
     $('#loader').show(); 
     $('#analysis-report').hide();
     $('#inffollowers').hide();
     $('#loadmsg').show();
     $('#loadingmessage').show();  
-    $('#errormsg').show(); 
+    
 }
 
 }]);
