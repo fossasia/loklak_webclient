@@ -291,6 +291,7 @@ function viewlanding()
     $('#notfoundmessage').hide();
     $('#loadmsg').hide();
     $('#errormessage').hide();
+    $('#analysis-report').hide();
 }
 function viewnodata()
 {
