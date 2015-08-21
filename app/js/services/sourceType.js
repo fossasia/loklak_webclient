@@ -31,7 +31,7 @@ function SourceTypeService() {
 			'logo': '/images/external/freifunk.net.png',
 			'template': {
 				'header' : 'id',
-				'subHeader': 'key'
+				'subHeader': 'value.hostname'
 			}
 		},
 		'nodelist':
@@ -60,7 +60,7 @@ function SourceTypeService() {
 		{
 			'key': 'FREIFUNK_NODE',
 			'name': 'Freifunk Node',
-			'endpoint': 'freifunk_node.json',
+			'endpoint': 'freifunknode.json',
 			'logo': '/images/external/freifunk.net.png',
 			'template': {
 				'header' : 'name',

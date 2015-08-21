@@ -4,8 +4,10 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
-	function($http, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 
+	'LoklakFieldService', 'PushService', 'SourceTypeService', 'JsonFieldAccessorService',
+	function($http, $stateParams, SearchService, HarvestingFrequencyService, 
+		LoklakFieldService, PushService, SourceTypeService, JsonFieldAccessorService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -225,7 +227,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 			}
 
 			$scope.accessDataField = function(row) {
-				if ($scope.inputs.mapRules[row][0] && $scope.currentData) return accessDataField($scope.currentData, $scope.inputs.mapRules[row][0]);
+				if ($scope.inputs.mapRules[row][0] && $scope.currentData)
+					return JsonFieldAccessorService.accessField($scope.currentData, $scope.inputs.mapRules[row][0]);
 			}
 
 			$scope.clearModalData = function() {

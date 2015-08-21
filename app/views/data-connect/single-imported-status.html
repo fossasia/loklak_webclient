@@ -3,15 +3,15 @@
 		<div class="right-logo">
 			<img src="{{sourceType.logo}}"/>
 		</div>
-		<h3>{{richData[sourceType.template.header]}}</h3>
-		{{richData[sourceType.template.subHeader]}}
+		<h3>{{accessField(richData, sourceType.template.header)}}</h3>
+		{{accessField(richData, sourceType.template.subHeader)}}
 	</div>
 	<div class="footer">
 		<p>Shared by {{profile.sharers | arraySize}} users</p>
 		<span class="importer">Importer: <img src="{{importer.user.profile_image_url_https}}"/></span>
 		<hr/>
 		<div class="action-list">
-			<i class="fa fa-share" ng-click="share()" tile="Share this"></i>
+			<span ng-click="share()">Share <i class="fa fa-share" tile="Share this"></i></span>
 		</div>
 	</div>
 </div>

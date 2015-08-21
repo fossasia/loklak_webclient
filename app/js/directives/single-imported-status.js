@@ -9,8 +9,8 @@ var directivesModule = require('./_index.js');
  */
 
 directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', 'RichTextService', 'SourceTypeService', 
-    'SearchService', 'ImportProfileService',
-    function($location, $rootScope, RichTextService, SourceTypeService, SearchService, ImportProfileService) {
+    'SearchService', 'ImportProfileService', 'JsonFieldAccessorService',
+    function($location, $rootScope, RichTextService, SourceTypeService, SearchService, ImportProfileService, JsonFieldAccessorService) {
     return {
         scope: {
             data: '=',
@@ -36,6 +36,8 @@ directivesModule.directive('singleImportedStatus', ['$location', '$rootScope', '
                 console.error(err);
                 });
             };
+
+            $scope.accessField = JsonFieldAccessorService.accessField;
         },
         link: function(scope, element, attrs) {
         }

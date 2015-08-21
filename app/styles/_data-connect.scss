@@ -137,11 +137,18 @@
 		width: 100%;
 	}
 }
+#message-view-modal {
+	overflow-y: hidden;
+}
 #message-view-modal .modal-dialog {
-	max-height: 92%;
+	max-height: 98%;
+	margin-top: 10px;
 }
 #message-view-modal .modal-content {
-	height: 98%;
+	max-height: 98%;
+}
+#message-view-modal .modal-body {
+	max-height: calc(100% - 73px);
 	overflow-y: auto;
 }
 #message-view-modal .single-tweet {
@@ -151,8 +158,8 @@
 	left: 0;
 	width: 100%;
 }
-#message-view-modal .modal-header .close {
-	margin-top: -11px;
+#message-view-modal .modal-header{
+	height: 73px;
 }
 #add-connection-modal {
 	overflow-y: hidden;
