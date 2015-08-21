@@ -11,7 +11,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     var vm = this;
     vm.feedLimit = 20;
     vm.failNoticeShown = false;
-    vm.isShowingMapNotHome = true;
+    vm.isShowingMapNotHome = false;
     vm.showFollowersLimit = 20;
     vm.showFollowingsLimit = 20;
 
@@ -154,8 +154,18 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
          * Toggle map feed to slide left/hide or slide right/show
         */
         vm.toggleMapFeed = function() {
-            angular.element('.activity-feed').toggleClass("show-feed");
-            angular.element(".switch-to-timeline").toggleClass("switch-inactive");
+            // Push effect between map and activity feed
+            // Map is pushed to the left, feed slides in the right, and vice versa
+            angular.element('#map, .logged-content.map-container-parent.moved-right').toggleClass("unpush-map");
+            angular.element('.center-result-container, .left-result-container').toggleClass("hide-feed");
+            angular.element('.toggle-map-feed').toggleClass('fa-chevron-circle-left').toggleClass('fa-chevron-circle-right');
+            setTimeout(function() {
+                angular.element('#map, .logged-content.map-container-parent.moved-right').toggleClass("unpushed");
+                angular.element('.center-result-container, .left-result-container').toggleClass("hidden-feed");
+            }, 500);            
+
+            // Only show switch to timeline when activity feed is shown
+            //angular.element(".switch-to-timeline").toggleClass("switch-inactive");
         }
 
     /* TIMELINE VIEW MODELS */
@@ -167,8 +177,13 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     }
 
     /* SWITCHING BETWEEN TIMELINE AND MAP */
+    vm.timelineState = true;
     vm.toggleMapAndTimeline = function() {
-        vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+        //vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+        $(".center-result-container, .right-result-container, .left-result-container, .logged-content.map-container-parent").toggleClass("moved-right");
+        $(".home-view-content-wrapper > .content-container").toggleClass("moved-right");
+        vm.timelineState = !vm.timelineState;  
+
     }
 
 }]);

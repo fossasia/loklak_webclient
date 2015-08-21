@@ -1,14 +1,22 @@
 /* Map view */
-	.content-wrapper.map-view {
-		transition: all 0.5s ease-in-out !important;
-		opacity: 1;
-		position: absolute;
-		width: 100vw;
-		height: 100vh;
-		top: 0;
+	// Map view leaflet map specific mixin
+	@mixin modified-leaflet-map() {
 		#map {
-			width: 100vw;
-			height: 100vh;
+			width: 100%;
+			.leaflet-left .leaflet-control {
+			    margin-left: 280px;
+			    transition: margin 0.3s ease-in-out;
+			}
+			
+		}
+
+		#map.unpush-map {
+			transform: translateX(0%);
+			transition: all 0.5s ease-in-out;
+			.leaflet-left .leaflet-control {
+			    margin-left: 10px;
+			    transition: margin 0.3s ease-in-out;
+			}
 		}
 
 		.leaflet-popup-close-button {
@@ -16,7 +24,7 @@
 		}
 
 		.leaflet-top {
-		    top: 50px !important;
+		   // top: 50px !important;
 		}
 		.leaflet-top .leaflet-control {
 		    margin-top: 22px;
@@ -85,22 +93,67 @@
 			}
 		}
 	}
+
+	.content-wrapper.map-view {
+		transition: all 0.5s ease-in-out !important;
+		opacity: 1;
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
+		top: 0;
+		@include modified-leaflet-map();
+		
+	}
 	.content-wrapper.map-view.ng-hide {
 		opacity: 0;
 		transition: all 0.5s ease-in-out !important;
+		@include modified-leaflet-map();
 	}
+
+	.logged-content.map-container-parent {
+		@include modified-leaflet-map();
+		transition: all 0.3s ease-in-out !important;
+		z-index: 499;
+		opacity: 0;
+		position: fixed;
+	    top: 46px;
+	    left: 0;
+	    width: calc(100%);
+	    transform: translateX(-270px);
+	    height: 100%;
+	    #map {
+    	    height: calc(100vh - 46px);
+	    }
+	}
+	.logged-content.map-container-parent.moved-right {
+		transition: all .3s ease-in-out .9s !important;
+		opacity: 1;
+		z-index: 500;
+	}
+	.logged-content.map-container-parent.moved-right.unpush-map {
+		transform: translateX(0px);
+		transition: all 0.3s ease-in-out !important;
+	}
+	.logged-content.map-container-parent.unpushed {
+		transform: translateX(-270px);
+		transition: all 0.3s ease-in-out !important;
+	}
+	
 
 
 	.toggle-map-feed {
+		right: 9px;
 		display: inline-block;
 		position: absolute;
-		top: 50px;
-		right: 5px;
+		top: 9px;
 		color: white;
 	    font-size: 23px !important;
 		&:hover {
 			cursor: pointer;
 		}
+	}
+	.toggle-map-feed.fa-chevron-circle-left {
+		
 	}
 	
 	.switch-to-timeline {
@@ -240,7 +293,21 @@
 	}
 	.activity-feed.show-feed {
 		transform: translateX(0%);
-		transition: all 0.5s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+	.center-result-container.hide-feed {
+		transform: translateX(100%);
+		transition: all 0.3s ease-in-out;
+	}
+	.left-result-container.hide-feed {
+		transform: translateX(100%);
+		transition: all 0.3s ease-in-out;
+	}
+	.center-result-container.hidden-feed {
+		transition: all 0.3s ease-in-out !important;
+	}
+	.left-result-container.hidden-feed {
+		transition: all 0.3s ease-in-out;
 	}
 
 	.topologyItem {
@@ -253,8 +320,8 @@
 	.location-fail-notice {
 		display: none;
 		position: absolute;
-	    right: 300px;
-	    top: 7%;
+	    right: 36px;
+	    top: 12px;
 	    width: 300px;
 	    background-color: white;
 	    background-color: rgba(255,255,255,0.80);
