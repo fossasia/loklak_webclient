@@ -5,7 +5,7 @@
 			width: 100%;
 			.leaflet-left .leaflet-control {
 			    margin-left: 280px;
-			    transition: margin 0.5s ease-in-out;
+			    transition: margin 0.3s ease-in-out;
 			}
 			
 		}
@@ -15,7 +15,7 @@
 			transition: all 0.5s ease-in-out;
 			.leaflet-left .leaflet-control {
 			    margin-left: 10px;
-			    transition: margin 0.5s ease-in-out;
+			    transition: margin 0.3s ease-in-out;
 			}
 		}
 
@@ -132,11 +132,11 @@
 	}
 	.logged-content.map-container-parent.moved-right.unpush-map {
 		transform: translateX(0px);
-		transition: all 0.5s ease-in-out !important;
+		transition: all 0.3s ease-in-out !important;
 	}
 	.logged-content.map-container-parent.unpushed {
 		transform: translateX(-270px);
-		transition: all 0.5s ease-in-out !important;
+		transition: all 0.3s ease-in-out !important;
 	}
 	
 
@@ -293,21 +293,21 @@
 	}
 	.activity-feed.show-feed {
 		transform: translateX(0%);
-		transition: all 0.5s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 	.center-result-container.hide-feed {
 		transform: translateX(100%);
-		transition: all 0.5s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 	.left-result-container.hide-feed {
 		transform: translateX(100%);
-		transition: all 0.5s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 	.center-result-container.hidden-feed {
-		transition: all 0.5s ease-in-out !important;
+		transition: all 0.3s ease-in-out !important;
 	}
 	.left-result-container.hidden-feed {
-		transition: all 0.5s ease-in-out;
+		transition: all 0.3s ease-in-out;
 	}
 
 	.topologyItem {

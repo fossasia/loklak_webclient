@@ -30,15 +30,16 @@
 
 /* Left user info  */
 	.left-result-container {
-		@media (min-width: 992px) {
-				padding-left: 0;
+		@media (min-width: 992px) and (max-width: 1200px){
+			padding-left: 0;
+			padding-right: 20px;
 		}
 		@media (min-width: 0px) and (max-width: 991px) {
 			position: relative;
 			padding: 20px;
 		}
 		position: absolute;
-		padding: 20px 15px 0 0;
+		padding: 20px 0 0 0;
 		left: 0;
 		transition: all 0.6s ease-in-out;
 		z-index: 501;
@@ -320,6 +321,8 @@
 	margin-left: 25%;
 	position: relative;
 	top: 0;
+	margin-top: 20px;
+	background-color: white;
 	@media (min-width: 992px) and (max-width: 1200px){
 		padding-left: 0;
 		padding-right: 0;
@@ -330,6 +333,7 @@
 	}
 	.cms-view {
 		transition: all 0.3s ease-in-out;
+		padding: 0 0 0 0;
 	}
 }
 .center-result-container.moved-right {
@@ -340,7 +344,6 @@
 	width: 270px;
 	> .cms-view {
 		transition: all 0.3s ease-in-out 0.6s;
-		padding: 20px 0 0 0;
 		margin: 0;
 		.main-result-container .statuses-container > div:first-child  .item{
 		    border-top: 1px solid #E1E8ED;
@@ -382,6 +385,7 @@
 
 /* Right dashboard */
 .right-result-container {
+	padding-left: 0;
 	@media (min-width: 992px) {
 		padding-right: 0;
 	}
