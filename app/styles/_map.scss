@@ -112,7 +112,7 @@
 
 	.logged-content.map-container-parent {
 		@include modified-leaflet-map();
-		transition: all 0.5s ease-in-out !important;
+		transition: all 0.3s ease-in-out !important;
 		z-index: 499;
 		opacity: 0;
 		position: fixed;
@@ -126,7 +126,7 @@
 	    }
 	}
 	.logged-content.map-container-parent.moved-right {
-		transition: all 0.5s ease-in-out 1.5s !important;
+		transition: all .3s ease-in-out .9s !important;
 		opacity: 1;
 		z-index: 500;
 	}
