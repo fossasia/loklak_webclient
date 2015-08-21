@@ -142,10 +142,10 @@
 
 
 	.toggle-map-feed {
+		right: 20px;
 		display: inline-block;
 		position: absolute;
 		top: 17px;
-		right: -250px;
 		color: white;
 	    font-size: 23px !important;
 		&:hover {
@@ -153,7 +153,7 @@
 		}
 	}
 	.toggle-map-feed.fa-chevron-circle-left {
-		right: 20px;
+		
 	}
 	
 	.switch-to-timeline {

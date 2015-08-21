@@ -30,6 +30,7 @@
 				padding-left: 0;
 		}
 		position: absolute;
+		padding: 20px 15px 0 0;
 		left: 0;
 		transition: all 1s ease-in-out;
 		z-index: 501;
@@ -42,20 +43,19 @@
 		transition: all 1s ease-in-out 0.5s;
 		left: calc(100% - 270px);
 	    width: 270px;
-	    padding-right: 0;
+	    padding: 7px;
 	    .home-user-info {
-	    	padding: 7px;
 	    	border: 0px solid transparent;
 	    	transition: all 0.5s ease-in-out 1s;
-	    	margin-top: 0;
-	    	.switch-to-map {
-	    		opacity: 0;
-	    		transition: all 0.5s ease-in-out;
-	    	}
-	    	.switch-to-timeline-text {
-	    		opacity: 1;
-	    		transition: all 0.5s ease-in-out 1.5s;
-	    	}
+	    	margin-top: 10px;
+	    }
+	    .switch-to-map {
+	    	opacity: 0;
+	    	transition: all 0.5s ease-in-out;
+	    }
+	    .switch-to-timeline-text {
+	    	opacity: 1;
+	    	transition: all 0.5s ease-in-out 1.5s;
 	    }
 		.followers-list-container {
 			opacity: 0;
@@ -94,6 +94,8 @@
 				border-radius: 9px;
 			}
 			.name-and-screen-name {
+				position: relative;
+				top: -5px;
 				display: inline-block;
 				vertical-align: bottom;
 				font-size:13px;
@@ -103,7 +105,6 @@
 				}
 				.home-user-screen-name {
 					margin-top: -5px;	
-					font-style: italic;
 					display: inline-block;
 					font-size: 13px;
 				}
@@ -146,6 +147,8 @@
 						color: #2b7bb9;
 						font-size: 18px;
 						font-weight: 500;
+						position: relative;
+						top: -5px;
 					}
 				}
 			}
@@ -186,14 +189,25 @@
 		}
 	}
 
+	.switchers {
+		position: relative;
+		height: 30px;
+		background: #55ACEE;
+		border-radius: 10px;
+	}
+
 	.switch-to-map {
+		border-radius: 10px;
+		width: 100%;
+		text-align: center;
 		transition: all 0.5s ease-in-out 1s;
 		opacity: 1;
 		display: inline-block;
 		position: absolute;
-		top: 13px;
-		left: 12px;
-		padding: 4px 6px;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+		padding: 7px 6px;
 		background-color: #55ACEE;
 		color: white;
 		span {
@@ -208,13 +222,17 @@
 	}
 
 	.switch-to-timeline-text {
-		transition: all 0.5s ease-in-out;
+		border-radius: 10px;
+		width: 100%;
+		text-align: center;
+		transition: all 0.5s ease-in-out 1s;
 		opacity: 0;
 		display: inline-block;
 		position: absolute;
-		top: 13px;
-		left: 12px;
-		padding: 4px 6px;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+		padding: 7px 6px;
 		background-color: #55ACEE;
 		color: white;
 		span {

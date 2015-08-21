@@ -7,25 +7,28 @@
         <!-- Left content: Who to follow, trends -->
         <div class="left-result-container col-md-4 col-lg-3" ng-show="root.twitterSession">
             
+            <div class="switchers">
+                <div class="switch-to-map" ng-click="map.toggleMapAndTimeline();">
+                    <span>Open Map</span>
+                    <span class="fa fa-chevron-circle-right">
+                    </span>    
+                </div>
+                <div class="switch-to-timeline-text" ng-click="map.toggleMapAndTimeline();">
+                    <span class="fa fa-chevron-circle-left">
+                    </span>
+                    <span>Timeline</span>    
+                </div>
+            </div>
+
             <div class="home-user-info">
                 <div class="blue-background-placeholder">
-                    <div class="switch-to-map" ng-click="map.toggleMapAndTimeline();">
-                        <span>Open Map</span>
-                        <span class="fa fa-chevron-circle-right">
-                        </span>    
-                    </div>
-                    <div class="switch-to-timeline-text" ng-click="map.toggleMapAndTimeline();">
-                        <span class="fa fa-chevron-circle-left">
-                        </span>
-                        <span>Return to timeline</span>    
-                    </div>
                     <img ng-src="{{root.twitterSession.profile_banner_url }}" alt="user-banner-photo" ng-show="root.twitterSession.profile_banner_url">    
                 </div>
                 <div class="home-user-info-content">
                     <div class="top-content">
                         <img ng-src="{{root.twitterSession.profile_image_url_https | homePageImage }}">
                         <div class="name-and-screen-name">
-                            <span class="home-user-name">{{root.twitterSession.name}}</span><br>
+                            <span class="home-user-name">{{root.twitterSession.name}}</span>
                             <span class="home-user-screen-name">@{{root.twitterSession.screen_name}}</span>
                         </div>
                     </div>
@@ -40,7 +43,7 @@
                             <a href="">Followers<br><span>{{root.twitterSession.followers_count}}</span></a>
                         </div>
                     </div>
-                    <div class="user-info-text">
+                    <div ng-show="root.twitterSession.description" class="user-info-text">
                         {{root.twitterSession.description}}
                     </div>
                 </div>
