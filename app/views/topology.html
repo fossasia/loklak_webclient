@@ -61,7 +61,10 @@
 
 			<!-- Activity from users -->
 			<div class="center-component-container col-md-8 col-sm-12 col-lg-6">
-				
+				<div ng-show="topology.showResult" class="main-result-container" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
+                    <div ng-repeat="status in topology.statuses track by $index" status open-swipe="topology.openSwipe" data="status">
+                    </div>   
+                </div>
 			</div>
 
 			<!-- Right content Other statsz -->

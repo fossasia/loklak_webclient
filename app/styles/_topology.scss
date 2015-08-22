@@ -1,6 +1,24 @@
 
 .user-top-banner {
 	height: 460px;
+	@media (max-width: 1511px) {
+		height: 420px;
+	}
+	@media (max-width: 1450px) {
+		height: 380px;
+	}
+	@media (max-width: 1370px) {
+		height: 360px;
+	}
+	@media (max-width: 1200px) {
+		height: 320px;
+	}
+	@media (max-width: 1100px) {
+		height: 300px;
+	}
+	@media (max-width: 1000px) {
+		height: 280px;
+	}
 	width: 100%;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -108,6 +126,14 @@
 			}
 		}
 	}
+
+	.center-component-container {
+		margin-top: 10px;
+		.tweet {
+			@include single-tweet-style();
+		}	
+	}
+	
 
 	.right-component-container {
 		.home-user-trends {
