@@ -154,7 +154,7 @@ td
             <div class="col-md-3 padded ">
                 <div class="home-user-info no-top-margin">
                 <div class="blue-background-placeholder">
-                    <img ng-src="{{profilebanner}}" alt="user-banner-photo">    
+                    <img ng-src="{{profilebanner}}" s>    
                 </div>
                 <div class="home-user-info-content" style="width:268px;">
                     <div class="top-content">
@@ -208,9 +208,11 @@ td
                
 
                 <!-- Main analysis -->
-                <div id="loadmsg" class="main-result-container whitebg"><img id="loader" src="../images/whiteloader.gif"></img><h3 id="loadingmessage">Analyzing the latest data for you.Please hold on.<h3>
+                <div id="loadmsg" class="main-result-container whitebg">
+                    <img id="loader" src="../images/whiteloader.gif"></img>
+                    <h3 id="loadingmessage">Analyzing the latest data for you.Please hold on.<h3>
                     <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
-                    <div id="errormessage">{{followers_status}}</div>
+                    <div id="errormessage">Sorry there's some glitch :(. Please try again later.</div>
                 </div>
                 <div id="analysis-report" class="main-result-container whitebg" >
                     <div class="row">
