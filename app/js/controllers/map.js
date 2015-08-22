@@ -6,7 +6,7 @@ var controllersModule = require('./_index');
  * @ngInject
  */
 
-controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationService', 'HelloService' , function($rootScope, $scope, MapCreationService, hello) {
+controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationService', 'HelloService', 'SearchService' , function($rootScope, $scope, MapCreationService, hello, SearchService) {
 
     var vm = this;
     vm.feedLimit = 20;
@@ -121,7 +121,22 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     templateEngine: "genUserInfoPopUp",
                     markerType: "userAvatar",
                     cbOnMapAction: cbOnMap
-                });                
+                });  
+            }
+        })
+
+
+        $rootScope.$watch(function() {
+            return $rootScope.root.activityFeedIdStrArray;
+        }, function(val) {
+            if (val.length > 0) {
+                var idStrArrayClone = val.slice();
+                idStrArrayClone[0] = "id:" + idStrArrayClone[0];
+                var idStrSearchTerm = idStrArrayClone.join(" OR id:");
+                console.log(idStrSearchTerm)
+                SearchService.getData(idStrSearchTerm).then(function(activityFeedFromLoklak) {
+                    console.log(activityFeedFromLoklak);
+                }, function() {});    
             }
         })
 

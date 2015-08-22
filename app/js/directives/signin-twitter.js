@@ -86,13 +86,24 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
 					window.foo = twitterFriendFeed;
+					// Gather id_str from result from Twitter API
+					// for later the get similar results from loklak
+					var activityFeedIdStrArray = [];
+					twitterFriendFeed.data.forEach(function(feed) {
+						if (feed.status) {
+							activityFeedIdStrArray.push(feed.status.id_str);
+						}
+					});
+					// Sort by created time to show on timeline
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
 						}
 					});
+					// Injection out of angular operations
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						$rootScope.root.activityFeedIdStrArray = activityFeedIdStrArray;
 						$rootScope.root.homeFeedLimit = 15;
 						$rootScope.root.loadMoreHomeFeed = function(operand) {
 							$rootScope.root.homeFeedLimit += operand;
@@ -122,7 +133,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").toggle(); 
+				$(".hidden-items").toggle();
+				$(".topnav-user-actions .signin-twitter").toggle(); 
 			};
 
 			/* Listen on user avatar */
