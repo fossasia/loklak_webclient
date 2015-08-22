@@ -1,40 +1,40 @@
-<div class="content-wrapper topology-view-content-wrapper">
+<div class="content-wrapper topology-view-content-wrapper" ng-show="topology.showPage">
 	<!-- Top banner picture -->
-	<div class="user-top-banner" ng-style="{'background-image': 'url(https://pbs.twimg.com/profile_banners/270996860/1417202427)', 'background-color' : 'blue'}">
+	<div class="user-top-banner" ng-style="{'background-image': 'url(' + topology.user.profile_banner_url + ')', 'background-color' : '#' + topology.user.profile_background_color}">
 		<!-- Aggregated data -->
 		<div class="row aggregated-data-container">
 			<div class="container aggregated-data-content">
 				<div class="user-info-column col-md-offset-4">
 					<ul>
-						<li class="active">
+						<li>
 							<span class="info-prop">Tweets</span>
-							<span clasS="info-value">145</span>
+							<span clasS="info-value">{{topology.user.statuses_count}}</span>
 						</li>
 
 						<li>
 							<span class="info-prop">Following</span>
-							<span clasS="info-value">38</span>
+							<span clasS="info-value">{{topology.user.friends_count}}</span>
 						</li>
 
 						<li>
 							<span class="info-prop">Followers</span>
-							<span clasS="info-value">27</span>
+							<span clasS="info-value">{{topology.user.followers_count}}</span>
 						</li>
 
 						<li>
 							<span class="info-prop">Favorites</span>
-							<span clasS="info-value">87</span>
+							<span clasS="info-value">{{topology.user.favourites_count}}</span>
 						</li>
 
 						<li>
 							<span class="info-prop">Lists</span>
-							<span clasS="info-value">5</span>
+							<span clasS="info-value">{{topology.user.listed_count}}</span>
 						</li>
 					</ul>
 				</div>
 
 				<div class="profile-picture-container">
-					<img src="https://pbs.twimg.com/profile_images/538411288750075904/LFHZVqNk.jpeg">	
+					<img ng-src="{{topology.user.profile_image_url}}">	
 				</div>
 			</div>
 		</div>
@@ -47,14 +47,18 @@
 			<div class="left-component-container col-md-4 col-sm-12 col-lg-3">
 				
 				<div class="user-name-and-screen-name">
-					<p class="username">Phuc Tran</p>
-					<p class="screen_name">@phucdn2005</p>
+					<p class="username">{{topology.user.name}}</p>
+					<p class="screen_name">@{{topology.user.screen_name}}</p>
 				</div>
 
+				<p ng-show="topology.user.description" class="user-description">
+					{{topology.user.description}}
+				</p>
+
 				<div class="more-user-metadata">
-					<p class="location"><i class="fa fa-map-marker"></i>Helsinki</p>
-					<p class="company"><i class="fa fa-link"></i>g-works.fi</p>
-					<p class="when-joined"><i class="fa fa-clock-o"></i>Joined March 2011</p>
+					<p class="location" ng-show="topology.user.location" ><i class="fa fa-map-marker"></i>{{topology.user.location}}</p>
+					<p class="company" ng-show="topology.user.entities.url.urls[0].display_url"><i class="fa fa-link"></i>{{topology.user.entities.url.urls[0].display_url}}</p>
+					<p class="when-joined" ng-show="topology.created_at"><i class="fa fa-clock-o"></i>Joined {{topology.created_at}}</p>
 				</div>
 
 			</div>

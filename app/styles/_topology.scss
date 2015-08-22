@@ -88,7 +88,20 @@
 
 .user-topology-container {
 	.left-component-container {
+		padding-right: 0;
 		margin-top: 40px;
+		@media (max-width: 991pxpx) {
+			display: inline-block;
+		}
+		.user-description {
+			margin-top: 10px;
+			font-size: 14px;
+		    font-weight: 400;
+		    line-height: 20px;
+		    margin-bottom: 10px;
+		    word-wrap: break-word;
+		    color: $search-grey;
+		}
 		.user-name-and-screen-name {
 			color: $search-light-black;
 			.username {
@@ -111,6 +124,10 @@
 				margin: 0 0 10px 0;
 				font-size: 14px; 
 				line-height: 1;
+				@media (max-width: 991px) {
+					display: inline-block;
+					margin-right: 20px;
+				}
 				i {
 					&.fa-map-marker {
 						right: -4px;
@@ -136,6 +153,7 @@
 	
 
 	.right-component-container {
+		padding-left: 0;
 		.home-user-trends {
 			margin-top: 10px;
 		}

@@ -9,6 +9,7 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 
 	var vm = this;
 	vm.pool = [];
+	vm.showPage = false;
 	vm.showResult = false;
 	vm.statuses = [];
 	vm.screenName = "loklak_app";
@@ -19,7 +20,7 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 	 * An @amount of statuses will be concatenated to the current result
 	 * If the pool of statuses's level is low, get more statuses
 	 * Is also used to init the shown result
-	*/
+	 */
 	$scope.loadMore = function(amount) {
 	    if (vm.pool.length < (2 * amount + 1)) {
             getMoreStatuses();
@@ -28,7 +29,6 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
         vm.pool = vm.pool.splice(amount);
 	    
 	};
-
 	function getMoreStatuses() {
 	    if (vm.pool.length > 0) { 
 	        // Get new time span bound from the lastest status
@@ -50,12 +50,26 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 
 
 
-
+	/*
+	 * Main operations: onload, get needed data including
+	 * - User metadata
+	 * - User's tweets from search result
+	 */
 	angular.element(document).ready(function() {
 		if ($location.search().screen_name) {
 			vm.screenName = $location.search().screen_name;
 		}
 
+		// Get metadata
+		SearchService.retrieveTopology(vm.screenName).then(function(data) {
+			if (data.user) {
+				vm.user = data.user
+				vm.showPage = true;	
+				vm.created_at = data.user.created_at.split(" ").slice(1,3).join(" ");
+			}
+		}, function() {});
+
+		// Get search result
 		var term = "from:" + vm.screenName;
 		SearchService.getData(term).then(function(data) {
 			vm.pool = data.statuses;
