@@ -235,8 +235,9 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
+			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
+		    		$rootScope.root.aSearchWasDone = true;
 			    }
 			}
 

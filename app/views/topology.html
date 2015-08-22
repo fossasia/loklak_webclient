@@ -1,0 +1,95 @@
+<div class="content-wrapper topology-view-content-wrapper">
+	<!-- Top banner picture -->
+	<div class="user-top-banner" ng-style="{'background-image': 'url(https://pbs.twimg.com/profile_banners/270996860/1417202427)', 'background-color' : 'blue'}">
+		<!-- Aggregated data -->
+		<div class="row aggregated-data-container">
+			<div class="container aggregated-data-content">
+				<div class="user-info-column col-md-offset-4">
+					<ul>
+						<li class="active">
+							<span class="info-prop">Tweets</span>
+							<span clasS="info-value">145</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Following</span>
+							<span clasS="info-value">38</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Followers</span>
+							<span clasS="info-value">27</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Favorites</span>
+							<span clasS="info-value">87</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Lists</span>
+							<span clasS="info-value">5</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="profile-picture-container">
+					<img src="https://pbs.twimg.com/profile_images/538411288750075904/LFHZVqNk.jpeg">	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main content -->
+	<div class="container user-topology-container">
+		<div class="row">
+			<!-- Left content user profile pic & desc -->
+			<div class="left-component-container col-md-4 col-sm-12 col-lg-3">
+				
+				<div class="user-name-and-screen-name">
+					<p class="username">Phuc Tran</p>
+					<p class="screen_name">@phucdn2005</p>
+				</div>
+
+				<div class="more-user-metadata">
+					<p class="location"><i class="fa fa-map-marker"></i>Helsinki</p>
+					<p class="company"><i class="fa fa-link"></i>g-works.fi</p>
+					<p class="when-joined"><i class="fa fa-clock-o"></i>Joined March 2011</p>
+				</div>
+
+			</div>
+
+			<!-- Activity from users -->
+			<div class="center-component-container col-md-8 col-sm-12 col-lg-6">
+				
+			</div>
+
+			<!-- Right content Other statsz -->
+			<div class="right-component-container col-md-3 visible-lg">
+	            <div class="home-user-trends">
+	                <h3 class="trend-title">Trends</h3>
+	                <ul id="home-trend-list">
+	                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+	                    <li ng-repeat="(key, value) in root.trends">
+	                        <!-- -->
+	                        <a href="./search?q=%23{{key}}">#{{key}}</a>
+	                        <!-- -->
+	                    </li>
+	                </ul>
+	            </div>
+
+	            <div class="credits-container">
+	                <div class="credits">
+	                    <a>© 2015 loklak</a><span>-</span>
+	                    <a href="./about">About</a><span>-</span>
+	                    <a href="http://blog.loklak.net/" target="_blank" >Blog</a><span>-</span>
+	                    <a href="https://github.com/loklak" target="_blank" >Github</a><span>-</span>
+	                    <a href="http://facebook.com/loklakmessages" target="_blank" >Facebook</a>
+	                </div>
+	            </div>
+        	</div>
+		</div>
+	</div>
+
+
+</div>
