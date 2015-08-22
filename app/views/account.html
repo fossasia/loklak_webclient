@@ -5,7 +5,7 @@
     </div>
     <div class="home-user-info-content">
         <div class="top-content">
-            <img ng-src="{{data.profile_image_url_https}}">
+            <img ng-src="{{data.profile_image_url_https | homePageImage }}">
             <div class="name-and-screen-name">
                 <span class="home-user-name">{{data.name | shortenTo:19  }}</span><br>
                 <span class="home-user-screen-name">@{{data.screen_name}}</span>
