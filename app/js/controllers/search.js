@@ -369,6 +369,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             if (value.q && value.q.indexOf("id:") > -1) { // When q has "id=.." Leave this for single-tweet view
                 return 1; 
             }
+
+            if (value.q && value.q.indexOf("from:") > -1) { // When q has "id=.." Leave this for single-tweet view
+                var screen_name = value.q.slice(5); //Get screen_name only
+                $location.url("/topology?screen_name=" + encodeURIComponent(screen_name));
+                return 1; 
+            }
+
             if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);

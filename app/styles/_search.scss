@@ -1113,6 +1113,13 @@
 	}
 
 /* Search view user trends */
+	.search-view-container {
+		.dashboard-left {
+			@media (max-width: 991px) {
+				padding-right: 0;
+			}
+		}	
+	}
 	.dashboard-left {
 		padding-left: 0;
 	}
