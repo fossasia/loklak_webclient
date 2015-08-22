@@ -133,7 +133,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").toggle(); 
+				$(".hidden-items").toggle();
+				$(".topnav-user-actions .signin-twitter").toggle(); 
 			};
 
 			/* Listen on user avatar */

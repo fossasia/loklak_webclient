@@ -186,7 +186,8 @@
 			.topnav-user-actions .signin-twitter {
 				position: absolute;
 			    right: 139px;
-			    top: 94px
+			    top: 94px;
+			    display: none;
 			}
 		}
 		@media (min-width: 0px) and (max-width: 453px) {
