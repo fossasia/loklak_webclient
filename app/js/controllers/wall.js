@@ -133,11 +133,11 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     });
 
     $scope.proceed = function() {
-        if (!$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
+        if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
             alert("Invalid cycle post limit! Please enter a value between 1 and 100. We have set it to the recommended value.")
             $scope.newWallOptions.cyclePostLimit = 15;
         } else {
-            if (!$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
+            if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
                 alert("Invalid cycle delay time! Please enter a value between 1 and 20. We have set it to the recommended value.")
                 $scope.newWallOptions.cycleDelayTime = 5;
             } else {
