@@ -235,8 +235,9 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
+			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
+		    		$rootScope.root.aSearchWasDone = true;
 			    }
 			}
 
@@ -246,7 +247,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    $(this).keypress(function (e) { idleTime = 0; });
 
 				if (!isOnline) {
-					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch" && $location.path() !== "/topology") {
 						angular.element(".topnav .global-search-container").addClass("ng-hide");
 					}
 				}
@@ -266,7 +267,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse(); 
 					if (!isOnline) {
-						if (toState.name === "Search") {
+						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
