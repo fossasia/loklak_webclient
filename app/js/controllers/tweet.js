@@ -212,13 +212,26 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     }
 
     $rootScope.root.setNewLocation = function(newLocation) {
-        $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
+        if(newLocation != -1)
+            $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
+        else {
+            $('#newLocation').show();
+            $('#addNewLocation').show();
+        }
+    }
+
+    $rootScope.root.setNewLocationOther = function() {
+        var xtemp  = $('#newLocation').val();
+        console.log(xtemp);
     }
 
     // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
+            $("#subDropDownMenu").find('input').click(function(e){
+                e.stopPropagation(); 
+            });
         }
         else {
             alert("Geolocation isn't supported by this browser");
