@@ -631,25 +631,28 @@
     border-bottom: 2px solid $background-dark;
     /*margin: 8px;*/
     padding: 4px 0;
-    font-size: 14px;
+    font-size: 1.8vh;
     img {
         border-radius: 50%;
     }
-}
-
-.leaderboard-item td {
-    position: relative;
-    img {
-        height: 48px;
-        width: 48px;
+    td {
+        position: relative;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        img {
+            height: 6vh;
+            width: 6vh;
+        }
     }
 }
 
+.leaderboard-item {}
+
 .leaderboard-count {
     background-color: #00a65a;
-    height: 48px;
-    width: 48px;
-    padding: 14px 0;
+    height: 6vh;
+    width: 6vh;
+    padding: 2vh 0;
     text-align: center;
     border-radius: 50%;
     font-weight: bold;
@@ -658,11 +661,17 @@
 .leaderboard-label {
     top: 9px;
     position: absolute;
-    left: 48px;
+    left: 5.8vh;
     text-align: center;
     line-height: .9;
     padding: 2px 3px;
     background-color: #8FB40D;
+}
+
+.leaderboard-text {
+    font-size: 2.1vh;
+    padding-top: 8vh 0;
+    overflow: hidden;
 }
 
 .histogram-loader {
@@ -671,6 +680,34 @@
     width: 64px;
     display: block;
     margin-top: 20px;
+}
+
+.histogram-container {
+    position: fixed;
+    /*padding-top: 5vh;*/
+    /*background-color: red;*/
+    margin-bottom: 0;
+    bottom: 0;
+    /*bottom: 30vh;*/
+    width: 33vw;
+    .box {
+        margin-bottom: 0;
+    }
+    .wall-histogram {
+        height: 25vh;
+    }
+    .histogram-gradient {
+        background: -webkit-linear-gradient(transparent, #F5F8FA);
+        /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(transparent, #F5F8FA);
+        /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(transparent, #F5F8FA);
+        /* For Firefox 3.6 to 15 */
+        background: linear-gradient(transparent, #F5F8FA);
+        /* Standard syntax */
+        /*background-color: #F5F8FA`;*/
+        height: 8vh;
+    }
 }
 
 
@@ -758,33 +795,5 @@
                 }
             }
         }
-    }
-}
-
-.histogram-container {
-    position: fixed;
-    /*padding-top: 5vh;*/
-    /*background-color: red;*/
-    margin-bottom: 0;
-    bottom: 0;
-    /*bottom: 30vh;*/
-    width: 33vw;
-    .box {
-        margin-bottom: 0;
-    }
-    .wall-histogram {
-        height: 25vh;
-    }
-    .histogram-gradient {
-        background: -webkit-linear-gradient(transparent, #F5F8FA);
-        /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(transparent, #F5F8FA);
-        /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(transparent, #F5F8FA);
-        /* For Firefox 3.6 to 15 */
-        background: linear-gradient(transparent, #F5F8FA);
-        /* Standard syntax */
-        /*background-color: #F5F8FA`;*/
-        height: 8vh;
     }
 }

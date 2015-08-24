@@ -39,9 +39,9 @@
                 <h4>LEADERBOARD</h4>
                 <div class="row leaderboard-container">
                     <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
-                    <div class="col-xs-7">
+                    <div class="col-xs-4">
                         <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
-                        <h4 ng-show="wall.topTwitterersData">Top Twitterers</h4>
+                        <h4 ng-show="wall.topTwitterersData">Twitterers</h4>
                         <table class="table leaderboard">
                             <tbody>
                                 <tr class="leaderboard-item" ng-repeat="obj in wall.topTwitterersData">
@@ -49,8 +49,8 @@
                                         <img ng-src="http://avatars.io/twitter/{{obj[0]}}" alt="">
                                         <span ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="label leaderboard-label">{{obj[1]}}</span>
                                     </td>
-                                    <td>
-                                        <a ng-href="{{'./search?q=from:' +  obj[0]}}" target="_blank"><h4>@{{obj[0]}}</h4></a>
+                                    <td class="leaderboard-text">
+                                        <a ng-href="{{'./search?q=from:' +  obj[0]}}" target="_blank">@{{obj[0]}}</a>
                                     </td>
                                     <!-- <td>
                                                 <div class="leaderboard-item">{{obj[1]}}</div>
@@ -61,16 +61,31 @@
                     </div>
                     <div class="col-xs-4">
                         <!-- <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas> -->
-                        <h4 ng-show="wall.topTwitterersData">Top Hashtags</h4>
-                        <!-- table.table>tbody>(tr>((td>div.leaderboard-item{{{wall.topHashtagsData[$@0][0]}}})+(td>div.leaderboard-item{{{wall.topHashtagsData[$@0][1]}}})))*3 -->
+                        <h4 ng-show="wall.topTwitterersData">Hashtags</h4>
                         <table class="table">
                             <tbody>
                                 <tr class="leaderboard-item" ng-repeat="obj in wall.topHashtagsData">
                                     <td>
                                         <div ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="leaderboard-count">{{obj[1]}}</div>
                                     </td>
+                                    <td class="leaderboard-text">
+                                        #{{obj[0]}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-4">
+                        <!-- <canvas class="chart chart-pie" options="wall.topHashtagsOptions" labels="wall.topHashtagsLabels" data="wall.topHashtagsData"></canvas> -->
+                        <h4 ng-show="wall.topTwitterersData">Mentions</h4>
+                        <table class="table">
+                            <tbody>
+                                <tr class="leaderboard-item" ng-repeat="obj in wall.topMentionsData">
                                     <td>
-                                        <h4>#{{obj[0]}}</h4>
+                                        <div ng-style="{'background-color': wall.wallOptions.headerColour, 'color': wall.wallOptions.headerForeColour}" class="leaderboard-count">{{obj[1]}}</div>
+                                    </td>
+                                    <td class="leaderboard-text">
+                                        @{{obj[0]}}
                                     </td>
                                 </tr>
                             </tbody>
