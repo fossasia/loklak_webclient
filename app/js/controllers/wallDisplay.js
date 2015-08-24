@@ -22,68 +22,83 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         if(vm.wallOptions.mainHashtag){
             term = vm.wallOptions.mainHashtag;
         }
-        for (var i = 0; i < vm.wallOptions.all.length; i++) {
+        var i;
+
+        for (i = 0; i < vm.wallOptions.all.length; i++) {
             term = term + ' ' + vm.wallOptions.all[i].text;
-        };
-        for (var i = 0; i < vm.wallOptions.none.length; i++) {
+        }
+
+        for (i = 0; i < vm.wallOptions.none.length; i++) {
             term = term + ' -' + vm.wallOptions.none[i].text;
-        };
+        }
+
         if(vm.wallOptions.any.length>0){
             term = term + ' ' + vm.wallOptions.any[0].text;
-            for (var i = 1; i < vm.wallOptions.any.length; i++) {
+            for (i = 1; i < vm.wallOptions.any.length; i++) {
                 term = term + ' OR ' + vm.wallOptions.any[i].text;
-            };
+            }
         }
-        if (vm.wallOptions.layoutStyle == '4'){
-            if(term==""){
+
+        if (vm.wallOptions.layoutStyle === '4'){
+            if(term === ""){
                 term = "/location";
             } else {
                 term = term + " /location";
             }
         }
+
         if (vm.wallOptions.images) {
-            if (vm.wallOptions.images == "only") {
+            if (vm.wallOptions.images === "only") {
                 term = term + ' /image';
-            } else if (vm.wallOptions.images == "none") {
+            } else if (vm.wallOptions.images === "none") {
                 term = term + ' -/image';
             }
         }
+
         if (vm.wallOptions.videos) {
-            if (vm.wallOptions.videos == "only") {
+            if (vm.wallOptions.videos === "only") {
                 term = term + ' /video';
-            } else if (vm.wallOptions.videos == "none") {
+            } else if (vm.wallOptions.videos === "none") {
                 term = term + ' -/video';
             }
         }
+
         if (vm.wallOptions.audio) {
-            if (vm.wallOptions.audio == "only") {
+            if (vm.wallOptions.audio === "only") {
                 term = term + ' /audio';
-            } else if (vm.wallOptions.audio == "none") {
+            } else if (vm.wallOptions.audio === "none") {
                 term = term + ' -/audio';
             }
         }
+
         if (vm.wallOptions.profanity) {
-            if (vm.wallOptions.profanity == true) {
+            if (vm.wallOptions.profanity === true) {
                 term = term + ' -/profanity';
             }
         }
+
         if(!vm.wallOptions.blockRetweets) {
                 term = term + ' include:retweets';
         }
+
         if(vm.wallOptions.chosenLocation) {
             term = term + ' near:' + vm.wallOptions.chosenLocation;
         }
+
         if (vm.wallOptions.sinceDate) {
             term = term + ' since:' + moment(vm.wallOptions.sinceDate).format('YYYY-MM-DD_HH:mm');
         }
+
         if (vm.wallOptions.untilDate) {
             term = term + ' until:' + moment(vm.wallOptions.untilDate).format('YYYY-MM-DD_HH:mm');
         }
+
         //clean up
         term = term.trim();
-        if (term.substring(0, 2) == 'OR') {
+        if (term.substring(0, 2) === 'OR') {
             term = term.substring(2).trim();
         }
+
         console.log(term);
         searchParams.q = term;
         searchParams.count = maxStatusCount;
@@ -94,13 +109,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         vm.wallOptions = AppsService.get({user:$stateParams.user, app:'wall', id: $stateParams.id});
         vm.wallOptions.$promise.then(function(data){
             if(vm.wallOptions.id){
-                if (vm.wallOptions.layoutStyle == '1') {
+                if (vm.wallOptions.layoutStyle === '1') {
                     maxStatusCount = 10; //linear
-                } else if (vm.wallOptions.layoutStyle == '2') {
+                } else if (vm.wallOptions.layoutStyle === '2') {
                     maxStatusCount = 20; //masonry
-                } else if (vm.wallOptions.layoutStyle == '3') {
+                } else if (vm.wallOptions.layoutStyle === '3') {
                     maxStatusCount = 1; //single
-                } else if (vm.wallOptions.layoutStyle == '4') {
+                } else if (vm.wallOptions.layoutStyle === '4') {
                     maxStatusCount = 10; //map
                 }
                 calculateTerm();
@@ -135,7 +150,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     $scope.getHeaderClass = function() {
-        return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
+        return vm.wallOptions.headerPosition === 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
     };
 
     var getRefreshTime = function(period) {
@@ -192,7 +207,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function contains(Statuses, status_id) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i] == status_id) {
+            if (Statuses[i] === status_id) {
                 return true;
             }
         }
@@ -207,37 +222,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
         return 0;
     }
-
-
-
-    // vm.update = function(refreshTime) {
-    //     return $timeout(function() {
-    //         SearchService.getData(term).then(function(data) {
-    //             if (data.statuses) {
-    //                 for (var i = data.statuses.length - 1; i >= 0; i--) {
-    //                     if (!contains(allStatuses, data.statuses[i].id_str)) {
-    //                         try {
-    //                             // var profileURLString = data.statuses[i].user.profile_image_url_https;
-    //                             // var splitURL = profileURLString.split('_bigger');
-    //                             // data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
-    //                             nextStatuses.push(data.statuses[i]);
-    //                             allStatuses.push(data.statuses[i].id_str);
-    //                         } catch (ex) {
-
-    //                         }
-
-    //                     }
-    //                 }
-    //             }
-    //             nextStatuses.sort(compare);
-    //             var newRefreshTime = getRefreshTime(data.search_metadata.period);
-    //             vm.update(newRefreshTime);
-    //         }, function(error) {
-
-    //         });
-    //     }, refreshTime);
-
-    // };
 
     vm.update2 = function(refreshTime) {
         return $timeout(function() {
@@ -349,8 +333,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             var bins = calculateBins(labels, data);
             data = bins.data;
             labels = bins.labels;
-            //labels = labels.slice(labels.length - 25, labels.length);
-            //data = data.slice(data.length - 25, data.length);
             vm.histogram2 = [];
             vm.histogram2.push(data);
             vm.labels = labels;
@@ -397,7 +379,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     }
 
     vm.loadLeaderboard = function () {
-        if (vm.wallOptions.showStatistics == true) {
+        if (vm.wallOptions.showStatistics === true) {
             //if (vm.statuses.length > 0) {
                 var statParams = searchParams;
                 StatisticsService.getStatistics(statParams)
