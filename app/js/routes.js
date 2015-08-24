@@ -40,7 +40,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   })
   .state('Instagram', {
     url: '/instagram',
-    templateUrl: 'instagram',
+    templateUrl: 'instagram.html',
     controller: 'InstaCtrl as insta',
     title: 'Instagram'
   })
