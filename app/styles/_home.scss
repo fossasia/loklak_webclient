@@ -315,73 +315,86 @@
 	}
 
 /* Center result */
-.center-result-container {
-	z-index: 502;
-	transition: all 0.6s ease-in-out;
-	margin-left: 25%;
-	position: relative;
-	top: 0;
-	margin-top: 20px;
-	background-color: white;
-	@media (min-width: 992px) and (max-width: 1200px){
-		padding-left: 0;
-		padding-right: 0;
-		margin-left: 33%
-	}
-	@media (min-width: 0px) and (max-width: 991px) {
-		margin-left: 0;
-	}
-	.cms-view {
-		transition: all 0.3s ease-in-out;
-		padding: 0 0 0 0;
-	}
-}
-.center-result-container.moved-right {
-	transition: all .6s ease-in-out .3s;
-	margin-left: calc(100% - 255px);
-	position: relative;
-	top: 179px;
-	width: 270px;
-	> .cms-view {
-		transition: all 0.3s ease-in-out 0.6s;
-		margin: 0;
-		.main-result-container .statuses-container > div:first-child  .item{
-		    border-top: 1px solid #E1E8ED;
+	.center-result-container {
+		z-index: 502;
+		transition: all 0.6s ease-in-out;
+		margin-left: 25%;
+		position: relative;
+		top: 0;
+		margin-top: 20px;
+		background-color: white;
+		@media (min-width: 992px) and (max-width: 1200px){
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: 33%
+		}
+		@media (min-width: 0px) and (max-width: 991px) {
+			margin-left: 0;
+		}
+		.cms-view {
+			transition: all 0.3s ease-in-out;
+			padding: 0 0 0 0;
 		}
 	}
-}
+	.center-result-container.moved-right {
+		transition: all .6s ease-in-out .3s;
+		margin-left: calc(100% - 255px);
+		position: relative;
+		top: 179px;
+		width: 270px;
+		> .cms-view {
+			transition: all 0.3s ease-in-out 0.6s;
+			margin: 0;
+			.main-result-container .statuses-container > div:first-child  .item{
+			    border-top: 1px solid #E1E8ED;
+			}
+		}
+	}
 
-.main-result-container {
-	
-	.statuses-container {
-		> div {
-			background-color: white;
-		}
-		padding: 0;
-		.item {
-			padding: 15px 10px;
-			border-bottom: 1px solid #E1E8ED;
-			margin-bottom: 0;
-			.home-user-screen-name {
-				display: inline-block;
-				font-weight: 500;
-				color: grey;
-				font-size: 12px;
-			}
-			.friend-profile-img {
-				border: none;
-				padding: 0 !important;
-			}
-			.home-tweet-text {
-				padding-bottom: 0;
-				font-size: 13px;
-				line-height: 18px;
-			}
-		}
+	.main-result-container {
 		
+		.statuses-container {
+			> div {
+				background-color: white;
+			}
+			padding: 0;
+			.item {
+				padding: 15px 10px;
+				border-bottom: 1px solid #E1E8ED;
+				margin-bottom: 0;
+				.home-user-screen-name {
+					display: inline-block;
+					font-weight: 500;
+					color: grey;
+					font-size: 12px;
+				}
+				.friend-profile-img {
+					border: none;
+					padding: 0 !important;
+				}
+				.home-tweet-text {
+					padding-bottom: 0;
+					font-size: 13px;
+					line-height: 18px;
+				}
+			}
+			
+		}
 	}
-}
-
+	.timeline-more-result {
+		width: 100%;
+	    background: #F5F8FA;
+	    border: none;
+	    border-top: 1px solid #E1E8ED;
+	    border-bottom: 1px solid #E1E8ED;
+	    font-size: 15px;
+	    text-align: center;
+	    padding: 13px;
+	    &:hover {
+	    	font-weight: bold;
+	    	color: $search-twitter-blue;
+	    }
+	}
 
 /* Right dashboard */
 .right-result-container {

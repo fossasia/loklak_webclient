@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
+directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -14,6 +14,9 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
+			var timelineIntervals = [];
+			$rootScope.root.timelineNewTweets = [];
+			$rootScope.root.haveNewerTweets = false;
 			/* Check if a session is available before hello.js even initialize
 	         * in order to determine if the application is going to login automatically or not
 			 */
@@ -85,7 +88,6 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
-					window.foo = twitterFriendFeed;
 					// Gather id_str from result from Twitter API
 					// for later the get similar results from loklak
 					var activityFeedIdStrArray = [];
@@ -113,7 +115,55 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					console.log('Unable to load tweets from your followers');
 				});
 
-				//
+				var updateTimeline = function() {
+					hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+						console.log(twitterFriendFeed);
+						// Sort by created time to show on timeline
+						twitterFriendFeed.data.sort(function(a,b) {
+							if (b.status && a.status) {
+								return new Date(b.status.created_at) - new Date(a.status.created_at);	
+							}
+						});
+						var haveNewerTweet = true;
+						var i = 0; 
+						var newerTweets = [];
+						var currentNewest = new Date($rootScope.root.twitterFriends.data[0].status.created_at)
+						console.log(currentNewest);
+						while (haveNewerTweet && i < twitterFriendFeed.data.length) {
+							console.log(twitterFriendFeed.data[i].status);
+							if (!twitterFriendFeed.data[i].status) {
+								console.log("doesn't have a status");
+								i++
+							} else {
+								var beingEvalTimestamp = new Date(twitterFriendFeed.data[i].status.created_at);
+								console.log(beingEvalTimestamp);
+								if (beingEvalTimestamp < currentNewest) {
+									console.log("smaller than");
+									haveNewerTweet = false;
+								} else {
+									newerTweets.push(twitterFriendFeed.data[i]);
+									console.log("bigger than");
+									i++;	
+								}
+							}
+						}
+						console.log(newerTweets);
+						if (newerTweets.length > 0) {
+							$rootScope.$apply(function() {
+								$rootScope.root.timelineNewTweets = newerTweets;
+								$rootScope.root.haveNewerTweets = true;
+							});
+						}
+					}, function(){
+						console.log('Unable to load tweets from your followers');
+					});
+				}
+
+				// Start an interval to update timeline
+				angular.forEach(timelineIntervals, function(interval) {
+				    $interval.cancel(interval);
+				})
+				timelineIntervals.push($interval(updateTimeline, 30000)); 
 			});
 
 			hello.on('auth.logout', function(auth) {
@@ -129,6 +179,12 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			}, function() {
 					console.log("Signed out failed, try again later");
 			});   
+
+			$rootScope.root.timelineShowNewerTweets = function() {
+				$rootScope.root.twitterFriends.data = $rootScope.root.timelineNewTweets.concat($rootScope.root.twitterFriends.data);
+				$rootScope.root.timelineNewTweets = [];
+				$rootScope.root.haveNewerTweets = false;
+			}
 
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
