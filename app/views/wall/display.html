@@ -37,7 +37,7 @@
             </div>
             <div ng-if="wall.wallOptions.showStatistics && wall.statuses.length>0" class="col-md-4">
                 <h4>LEADERBOARD</h4>
-                <div class="row">
+                <div class="row leaderboard-container">
                     <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
                     <div class="col-xs-7">
                         <!-- <canvas class="chart chart-pie" options="wall.topTwitterersOptions" labels="wall.topTwitterersLabels" data="wall.topTwitterersData"></canvas> -->
@@ -77,17 +77,17 @@
                         </table>
                     </div>
                 </div>
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">TWEETS FREQUENCY</h3>
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <div class="histogram-container">
+                    <div class="row histogram-gradient"></div>
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">TWEETS FREQUENCY</h3>
                         </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <img class="histogram-loader" ng-hide="wall.histogram2" src="images/loading.gif">
-                            <canvas id="wallHistogram" class="chart chart-bar" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
+                        <div class="box-body">
+                            <div class="row">
+                                <img class="histogram-loader" ng-hide="wall.histogram2" src="images/loading.gif">
+                                <canvas id="wallHistogram" class="chart chart-bar wall-histogram" options="wall.histogramOptions" labels="wall.labels" data="wall.histogram2"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>

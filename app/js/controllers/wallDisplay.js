@@ -6,6 +6,7 @@ var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
 var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
 var moment = require('moment');
+var Chart = require('chart.js');
 /**
  * @ngInject
  */
@@ -14,8 +15,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     var vm, flag, allStatuses, nextStatuses, term, count, searchParams, maxStatusCount;
     vm = this;
     vm.invalidId = false;
-
-    // vm.wallOptions = JSON.parse(decodeURI($location.search().data));
 
     function calculateTerm(argument) {
         term = "";
@@ -381,7 +380,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             sortable.sort(function(a, b) {
                 return b[1] - a[1];
             });
-            sortable = (sortable.slice(0, 3));
+            sortable = (sortable.slice(0, 10));
             vm.topTwitterersData = sortable;
 
             //Top Hashtags
@@ -392,7 +391,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             sortable.sort(function(a, b) {
                 return b[1] - a[1];
             });
-            sortable = (sortable.slice(0, 3));
+            sortable = (sortable.slice(0, 10));
             vm.topHashtagsData = sortable;
 
             //Top Mentions
@@ -404,7 +403,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             sortable.sort(function(a, b) {
                 return b[1] - a[1];
             });
-            sortable = (sortable.slice(0, 3));
+            sortable = (sortable.slice(0, 10));
             vm.topMentionsData = sortable;
         } else {
             //vm.histogram2 = [];

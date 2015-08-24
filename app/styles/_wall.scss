@@ -760,3 +760,31 @@
         }
     }
 }
+
+.histogram-container {
+    position: fixed;
+    /*padding-top: 5vh;*/
+    /*background-color: red;*/
+    margin-bottom: 0;
+    bottom: 0;
+    /*bottom: 30vh;*/
+    width: 33vw;
+    .box {
+        margin-bottom: 0;
+    }
+    .wall-histogram {
+        height: 25vh;
+    }
+    .histogram-gradient {
+        background: -webkit-linear-gradient(transparent, #F5F8FA);
+        /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(transparent, #F5F8FA);
+        /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(transparent, #F5F8FA);
+        /* For Firefox 3.6 to 15 */
+        background: linear-gradient(transparent, #F5F8FA);
+        /* Standard syntax */
+        /*background-color: #F5F8FA`;*/
+        height: 8vh;
+    }
+}
