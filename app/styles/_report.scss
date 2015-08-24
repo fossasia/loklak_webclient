@@ -1,0 +1,216 @@
+/* Old style by Prashant */
+	.background{
+	    width : 100%;
+	    height: 100vh; 
+	    text-align: center;
+	    padding-top: 15%
+	}
+	.margin-right-pos
+	{
+	    margin-right: 8px;
+	}
+	.margin-right-neg
+	{
+	    margin-right: -8px;
+	}
+	.countryname
+	{
+	    min-width: 90px;
+	    padding-right: 2px;
+	}
+	.analysis-titles
+	{
+	    margin: 0;
+	    margin-left:5px; 
+	    color: #66757f;
+	    font-size: 18px;
+	    font-weight: 300;
+	    font-family: 'Source Sans Pro', sans-serif;
+	}
+	.scrollr
+	{
+	    overflow-y: scroll; 
+	    height : 340px ;
+
+	}
+	.no-top-margin
+	{
+	    margin-top:0px; 
+	    padding: 0px;
+	}
+	td
+	{
+	    font-size: 12px;
+
+	}
+	.whitebg
+	{   
+	    border-radius:5px; 
+	    background: #fff;
+	}
+	.heading
+	{
+	    color: #fff;
+	    font-family: "Lucida Console", Monaco, monospace;
+	    margin-bottom: 25px;
+	}
+	.inputname
+	{
+	    color: #292f33;
+	    margin-top:8px;
+	    background-color: #fff;
+	    border: 2px solid #e1e8ed;
+	    border-radius: 21px;
+	    width: 100%;
+	    padding: 8px 10px;
+	    font-size: 14px;
+	    
+	}
+	.big {
+	    margin-top: 15px;
+	    height : 50px;
+	    size : 10%;
+	    font-size: 20px;
+	    background: #55ACEE;
+	    border-color: #55ACEE;
+	    color : #fff;
+	    font-family: "Lucida Console", Monaco, monospace;
+	}
+	.tableheading
+	{
+	    background-color: #f5f8fa;
+	    border-bottom: 2px solid #ECECEC;
+	    color: #66757f;
+	    border-top-left-radius: 0px;
+	    border-top-right-radius: 0px;
+	    width: 50%;
+	    margin-top: 10px;
+	    font-size: 14px;
+	    font-weight: 400;
+
+	}
+	#loadmsg
+	{   text-align: center;
+	    padding-top: 30%;
+	    padding-bottom:40%;
+	}
+	#message
+	{
+	    margin-top:20%;
+	    font-family: "Lucida Console", Monaco, monospace; 
+	    font-size: 24px ;
+	    color: #555555;
+	    text-align: center;
+	}
+	#notfoundmessage
+	{
+	    color: red;
+	    font-size : 15px;
+	    font-family: "Lucida Console", Monaco, monospace; 
+	}
+	.fillit
+	{
+	    width: 70%;
+	    height:100%;
+	    margin : 0 auto;
+
+	}
+	#percentage-modal .modal-dialog
+	{
+	    padding: 10px;
+	    min-width: 1080px;
+	    margin: 0 auto;
+	}
+	.padded
+	{
+	    padding-left: 0px;
+	}
+	.bottom-margin-small{
+	    margin-bottom: 10px;
+	}
+	.top-margin-mid
+	{
+	    margin-top: 40px;
+	}
+
+/* Overuling styles by Phuc */
+.report-content-wrapper {
+	.filters-container {
+		background: none;
+		background-color: none;
+		.search-modes {
+			background-color: white;
+		}
+	}
+
+	.col-md-3.padded {
+		padding-right: 10px;
+		.inputname {
+			margin-top: 10px;
+		    color: #292f33;
+		    background-color: white;
+		    border: 1px solid #e1e8ed;
+		    border-radius: 21px;
+		    width: auto;
+		    padding: 8px 10px;
+		    font-size: 12px;
+		    width: 100%;
+		}
+	}
+	#analysis-report {
+		.row {
+			padding: 15px;
+			background-color: white;
+			> .col-md-6 {
+				padding: 10px;
+			}	
+			.analysis-titles {
+				text-align: center;
+			}
+		} 
+	}
+	#inffollowers {
+		padding-left: 10px;
+		.analysis-titles {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		.analysis-titles-list {
+			text-align: center;
+			margin-bottom: 0;
+			margin: 0;
+			margin-left: 5px;
+			color: #66757f;
+			font-size: 18px;
+			font-weight: 300;
+			font-family: 'Source Sans Pro', sans-serif;
+		}
+		> .row {
+			padding: 25px 10px 10px 10px;
+			.chart {
+				left: -10px;
+				margin-bottom: 10px;
+			}
+		}
+		.doughnut-legend {
+			li {
+				margin-bottom: 11px;
+			}
+		}
+	}
+	.scrollr {
+		position: relative;
+		right: -10px;
+		margin-left: -20px;
+		.home-user-info {
+			border: none;
+			border-bottom: 1px solid $search-grey-border;
+			border-radius: 0;
+			img {
+				position: relative;
+				left: -2px;
+			}
+		}
+		
+	}
+}

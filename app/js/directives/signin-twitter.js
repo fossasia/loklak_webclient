@@ -132,7 +132,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 								i++
 							} else {
 								var beingEvalTimestamp = new Date(twitterFriendFeed.data[i].status.created_at);
-								if (beingEvalTimestamp < currentNewest) {
+								if (beingEvalTimestamp <= currentNewest) {
 									haveNewerTweet = false;
 								} else {
 									newerTweets.push(twitterFriendFeed.data[i]);
