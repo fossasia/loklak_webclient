@@ -1,0 +1,168 @@
+
+.user-top-banner {
+	height: 460px;
+	@media (max-width: 1511px) {
+		height: 420px;
+	}
+	@media (max-width: 1450px) {
+		height: 380px;
+	}
+	@media (max-width: 1370px) {
+		height: 360px;
+	}
+	@media (max-width: 1200px) {
+		height: 320px;
+	}
+	@media (max-width: 1100px) {
+		height: 300px;
+	}
+	@media (max-width: 1000px) {
+		height: 280px;
+	}
+	width: 100%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-bottom: 60px;
+	position: relative;
+}
+
+
+.aggregated-data-container {
+	background-color: white;
+	margin: 0;
+	width: 100%;
+	height: 60px;
+	position: absolute;
+	bottom: 0;
+	border-bottom: 1px solid $search-grey-border;
+	.aggregated-data-content {
+		position: relative;
+		height: 100%;
+		.user-info-column {
+			ul {
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				li {
+					display: inline-block;
+					height: 60px;
+					overflow: hidden;
+					box-sizing: border-box;
+					padding: 14px 15px 7px 15px;
+					text-align: center;
+					&.active {
+						border-bottom: 4px solid $search-twitter-blue;
+					} 
+					.info-prop {
+						text-transform: uppercase;
+						font-size: 11px;
+						display: block;
+					}
+					.info-value {
+						position: relative;
+						top: 4px;
+						font-size: 18px;
+					}
+				}
+			}
+		}
+		.profile-picture-container {
+			width: 210px;
+			height: 210px;
+			background: #fff;
+		    border: 5px solid #fff;
+		    border-radius: 12px;
+		    box-shadow: 0 1px 1px rgba(136,153,166,0.15);
+		    position: absolute;
+		    bottom: -28px;
+		    left: 10px;
+		    img {
+		    	width: 100%;
+		    	height: 100%;
+		    }
+		}
+	}
+
+
+}
+
+.user-topology-container {
+	.left-component-container {
+		padding-right: 0;
+		margin-top: 40px;
+		@media (max-width: 991pxpx) {
+			display: inline-block;
+		}
+		.user-description {
+			margin-top: 10px;
+			font-size: 14px;
+		    font-weight: 400;
+		    line-height: 20px;
+		    margin-bottom: 10px;
+		    word-wrap: break-word;
+		    color: $search-grey;
+		}
+		.user-name-and-screen-name {
+			color: $search-light-black;
+			.username {
+				line-height: 1;
+				font-size: 22px;
+				font-weight: 700;
+				word-wrap: break-word;
+				margin: 0 0 2px 0;
+			}
+			.screen_name {
+				font-size: 14px;
+				color: $search-grey;
+				margin: 0;
+			}
+		}
+		.more-user-metadata {
+			margin-top: 15px;
+			color: $search-light-black;
+			p {
+				margin: 0 0 10px 0;
+				font-size: 14px; 
+				line-height: 1;
+				@media (max-width: 991px) {
+					display: inline-block;
+					margin-right: 20px;
+				}
+				i {
+					&.fa-map-marker {
+						right: -4px;
+					}
+					padding-right: 7px;
+				    font-size: 17px;
+				    position: relative;
+				    top: 1px;
+				    color: $search-grey;
+				    width: 23px;
+				    box-sizing: border-box;
+				}
+			}
+		}
+	}
+
+	.center-component-container {
+		margin-top: 10px;
+		.tweet {
+			@include single-tweet-style();
+		}	
+	}
+	
+
+	.right-component-container {
+		padding-left: 0;
+		.home-user-trends {
+			margin-top: 10px;
+		}
+		.credits-container{
+			position: initial;
+			transform: none;
+			width: 100%;
+			margin-top: 10px;
+			margin-bottom: 0;
+		}
+	}
+}

@@ -65,17 +65,26 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			 * Used for related events such as click, enter to submit
 			 */
 			$rootScope.root.submitSearchForm = function() {
-			    if ($rootScope.root.globalSearchTerm && $location.path() !== "/search") {
-			        $location.url("/search?q=" + encodeURIComponent($rootScope.root.globalSearchTerm));
-			    } else if ($rootScope.root.globalSearchTerm && $location.path() === "/search") {
-			    	var q = $rootScope.root.globalSearchTerm;
-			    	if ($rootScope.root.globalFilter) {
-			    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
-						$location.url("/search?q=" + encodeURIComponent(q));
-			    	} else {
-			    		$location.url("/search?q=" + encodeURIComponent(q));
-			    	}
+				console.log($rootScope.root.globalSearchTerm.indexOf("from:"));
+				console.log($rootScope.root.globalSearchTerm);
+				if ($rootScope.root.globalSearchTerm && ($rootScope.root.globalSearchTerm.indexOf("from:") > -1)) {
+					console.log("Ready");
+					var screen_name = $rootScope.root.globalSearchTerm.slice(5); //Get screen_name only
+					$location.url("/topology?screen_name=" + encodeURIComponent(screen_name));
+			    } else {
+		    	    if ($rootScope.root.globalSearchTerm && $location.path() !== "/search") {
+		    	        $location.url("/search?q=" + encodeURIComponent($rootScope.root.globalSearchTerm));
+		    	    } else if ($rootScope.root.globalSearchTerm && $location.path() === "/search") {
+		    	    	var q = $rootScope.root.globalSearchTerm;
+		    	    	if ($rootScope.root.globalFilter) {
+		    	    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
+		    				$location.url("/search?q=" + encodeURIComponent(q));
+		    	    	} else {
+		    	    		$location.url("/search?q=" + encodeURIComponent(q));
+		    	    	}
+		    	    }	
 			    }
+			    
 			    $rootScope.root.selectedTermIndex = -1;
 			};
 

@@ -1,5 +1,294 @@
 /* Styling for SEARCH FRONT END */
 
+	@mixin single-tweet-style() {
+		display: block;
+		min-height: 71px;
+		background: white;
+		padding: 9px 12px;
+		border-bottom: 1px solid $search-grey-border;
+		&:first-child {
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+		}
+		&:hover {
+			background: $search-grey-bg;
+			cursor: pointer;
+		}
+		.avatar {
+			height: 48px;
+			float: left;
+			border-radius: 6px;
+		}
+		.tweet-content {
+			margin-left: 58px;
+			.name {
+				font-size: 14px;
+				font-weight: bold;
+				color: black;
+				&:hover {
+					color: $search-twitter-blue;
+				}
+			}
+			.screen-name, .created-at {
+				font-size: 13px;
+				color: #8899A6;
+			}
+			.tweet-content-container {
+				p {
+					margin: 0 0 0 0;
+					display: inline;
+				}	
+				a {
+					&:hover {
+						cursor: pointer;
+						text-decoration: underline;
+					}
+				}
+				margin-bottom: 10px;
+			}
+			.tweet-content-text {
+				word-break: keep-all;
+				color: #292f33;
+				font-size: 14px;
+				line-height: 18px;
+				.tweet-hashtag {
+					color: #55ACEE;
+				}
+				.tweet-hashtag-current {
+					font-weight: bold;
+				}
+			}
+			.images-wrapper {
+				margin-top: 8px;
+				max-height: 203px;
+				overflow: hidden;
+				border-radius: 8px;
+				img {
+					width: 100%
+				}
+				img.landscape {
+					width: auto;
+					height: 100%;
+				}
+				> div {
+					overflow: hidden;
+				}
+			}
+			.images-wrapper.showdetail {
+				overflow: visible;
+				max-height: none;
+				img {
+					width: 100%;
+					height: auto;
+				}
+				img.landscape {
+					width: auto;
+					height: 100%;
+				}
+			}
+			.images-wrapper.showcomposition {
+				max-height: initial;
+			}
+			.images-wrapper {
+				.double-masonry-item {
+					width: 49%;
+					max-height: 250px;
+					float: left;
+					&:first-child {
+						margin-right: 1%;
+						border-top-left-radius: 5px;
+						border-bottom-left-radius: 5px;
+					}
+					&:last-child {
+						border-top-right-radius: 5px;
+						border-bottom-right-radius: 5px;
+					}
+				}
+				.triple-masonry-item {
+					width: 49%;
+					float: left;
+					&:first-child {
+						height: 250px;
+						border-top-left-radius: 5px;
+						border-bottom-left-radius: 5px;
+						margin-right: 1%;
+					} 
+					&:nth-child(2) {
+						margin-bottom: 5px;
+						height: 123px;
+						border-top-right-radius: 5px;
+					}
+					&:last-child {
+						height: 123px;
+						border-bottom-right-radius: 5px;
+					}
+				}
+				.quad-masonry-item {
+					width: 49%;
+					height: 123px;
+					position: relative;
+					float: left;
+					&:first-child {
+						margin-bottom: 6px;
+						margin-right: 1%;
+						border-top-left-radius: 5px;
+					}
+					&:nth-child(2) {
+						margin-bottom: 6px;
+						border-top-right-radius: 5px;
+					}
+					&:nth-child(3) {
+						border-bottom-left-radius: 5px;
+						margin-right: 1%;
+					}
+					&:last-child {
+						border-bottom-right-radius: 5px;
+					}
+				}
+			}
+		}
+
+		.detail-metadata {
+			transition: all linear 0.1s;
+			display: block;
+			margin-top: 10px;
+			span, a {
+				font-size: 13px;
+				line-height: 24px;
+				cursor: pointer;
+				color: #8899a6;
+
+			}
+			span.link-to-tweet {
+				&:hover {
+					text-decoration: underline;
+					color: #505050;
+				}
+			}
+		}
+		.detail-metadata.ng-hide {
+			opacity: 0;
+		}
+
+		.action-list {
+			.rt-count, .fav-count {
+				color: #8899A6;
+				font-size: 12px;
+				font-weight: bold;
+				display: inline-block;
+				height: 16px;
+				margin-left: 5px;
+				margin-top: 0;
+				vertical-align: middle
+			}
+			display: inline-block;
+			margin-top: 10px;
+			> div {
+				display: inline-block;
+				margin-right: 31px;
+			}
+			.action-reply {
+				button {
+					border:none;
+					width: 16px;
+					height: 16px;
+					background: url('../images/reply-sprite.png');
+				}
+				&:hover {
+					button {
+						background-position-x: 100%;
+					}
+				}
+			}
+			.action-favor {
+				button {
+					border:none;
+					width: 16px;
+					height: 16px;
+					background: url('../images/favorite-sprite.png');
+				}
+				&.already {
+					button {
+						background-position-x: 100%;
+					}
+				}
+				&:hover {
+					button {
+						background-position-x: 50%;
+					}
+				}
+			}
+			.action-retweet {
+				button {
+					border:none;
+					width: 19px;
+					height: 16px;
+					background: url('../images/retweet-sprite.png');
+				}
+				&.already {
+					button {
+						background-position-x: 100%;
+					}
+				}
+				&:hover {
+					button {
+						background-position-x: 50%;
+					}
+				}
+			}
+			.action-more {
+				padding-top: 5px;
+				padding-bottom: 5px;
+				transition: all 0.3s ease-in-out;
+				font-size: 6px;
+				color: #ADAFB0;
+				position: relative;
+				top: 2px;
+				vertical-align: top;
+				.more-actions {
+					position: absolute;
+					min-width: 230px;
+					top: 15px;
+					transform: translateX(-2%);
+					padding: 10px 0;
+					text-align: left;
+					background: #FFF none repeat scroll 0% 0% padding-box;
+					border: 0px solid rgba(0, 0, 0, 0.25);
+					border-radius: 4px;
+					box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+					ul {
+						margin: 0;
+						padding: 0;
+						li {
+							a {
+								font-size: 15px;
+								display: block;
+								padding: 7px 20px;
+								color: $search-grey;
+								&:hover {
+									background-color: $search-twitter-blue;
+									color: white;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.tweet-images-container {
+			max-height: 253px;
+			max-width: 100%;
+		}
+		.tweet-single-image {
+			max-height: 253px;
+			max-width: 100%;
+			border-radius: 6px;
+			display: inline-block;
+		}
+		
+	}	
+
 	.content-wrapper {
 	    // Overfule adminLTE admin.css
 	   // min-height: 100vh !important;
@@ -719,6 +1008,10 @@
 				.leaflet-top.leaflet-left, .leaflet-top.leaflet-right {
 					top: 52px;
 				}
+				.from-map-to-single-tweet {
+					margin-right: 5px;
+					text-decoration: none;
+				}
 			}
 		}
 	}
@@ -820,6 +1113,13 @@
 	}
 
 /* Search view user trends */
+	.search-view-container {
+		.dashboard-left {
+			@media (max-width: 991px) {
+				padding-right: 0;
+			}
+		}	
+	}
 	.dashboard-left {
 		padding-left: 0;
 	}

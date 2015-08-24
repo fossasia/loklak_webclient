@@ -6,6 +6,7 @@
 		width: 100%;
 		top: 0;
 		left: 0;
+		border-bottom: 1px solid $search-grey-border;
 		> .topnav {
 			background: white;
 			height: 46px;
@@ -178,6 +179,25 @@
 			}
 		}
 
+		@media (min-width: 0px) and (max-width: 767px) {
+			.topnav-user-actions { width:  0%;}
+			.topnav-user-actions .signin-twitter.isNotLoggedIn {
+				display: none;
+			}
+			.topnav-user-actions .signin-twitter {
+				position: absolute;
+			    right: 139px;
+			    top: 94px;
+			    display: none;
+			}
+		}
+		@media (min-width: 0px) and (max-width: 453px) {
+			.topnav-user-actions .signin-twitter {
+				position: absolute;
+			    right: 150px;
+			    top: 141px;
+			}
+		}
 		.signin-twitter {
 			overflow: visible;
 			line-height: 20px;
@@ -375,7 +395,7 @@
 			vertical-align: top;
 			#global-new-tweet-button {
 				margin-top: 1px;
-				margin-right: 20px;
+				margin-right: -13px;
 			}
 		}
 	}

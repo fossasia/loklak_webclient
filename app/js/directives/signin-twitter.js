@@ -86,13 +86,24 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
 					window.foo = twitterFriendFeed;
+					// Gather id_str from result from Twitter API
+					// for later the get similar results from loklak
+					var activityFeedIdStrArray = [];
+					twitterFriendFeed.data.forEach(function(feed) {
+						if (feed.status) {
+							activityFeedIdStrArray.push(feed.status.id_str);
+						}
+					});
+					// Sort by created time to show on timeline
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
 						}
 					});
+					// Injection out of angular operations
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						$rootScope.root.activityFeedIdStrArray = activityFeedIdStrArray;
 						$rootScope.root.homeFeedLimit = 15;
 						$rootScope.root.loadMoreHomeFeed = function(operand) {
 							$rootScope.root.homeFeedLimit += operand;
@@ -122,7 +133,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").toggle(); 
+				$(".hidden-items").toggle();
+				$(".topnav-user-actions .signin-twitter").toggle(); 
 			};
 
 			/* Listen on user avatar */
@@ -223,8 +235,9 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
+			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
+		    		$rootScope.root.aSearchWasDone = true;
 			    }
 			}
 
@@ -234,7 +247,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    $(this).keypress(function (e) { idleTime = 0; });
 
 				if (!isOnline) {
-					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch" && $location.path() !== "/topology") {
 						angular.element(".topnav .global-search-container").addClass("ng-hide");
 					}
 				}
@@ -254,7 +267,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse(); 
 					if (!isOnline) {
-						if (toState.name === "Search") {
+						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
