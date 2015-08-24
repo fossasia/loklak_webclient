@@ -8,13 +8,13 @@ var servicesModule = require('./_index.js');
 function AppsService($q, $http, $resource, AppSettings) {
 
     var url = AppSettings.oauthProxyUrl.split('/')[0] + '/' + AppSettings.oauthProxyUrl.split('/')[1] + '/' + AppSettings.oauthProxyUrl.split('/')[2];
-    
+
     return $resource(url + '/:user/:app/:id', {
         user: '@user',
         app: '@app',
         id: '@id'
-    }
-    , {
+    }, {
+
         save: {
             method: 'POST',
             transformRequest: function(data) {
@@ -43,8 +43,7 @@ function AppsService($q, $http, $resource, AppSettings) {
                 id: '@id'
             }
         }
-    }
-    );
+    });
 
 }
 

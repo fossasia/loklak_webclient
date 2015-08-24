@@ -74,6 +74,7 @@
 </header>
 
 <!-- Modal -->
+<div tweet-feature-drt></div>
 <div id="myModal" class="modal" role="dialog">
   <div class="modal-dialog">
 
@@ -89,9 +90,14 @@
               
                 <textarea name="tweet" id="tweet" cols="30" rows="5" class="form-control" ng-model="root.tweet" ng-change="root.tweetLengthCalculate()"></textarea>
                 <input type="hidden" name="optionChoice" ng-model="root.option" id="optionChoice">
+                <input type="hidden" name="mapZoomLevel" ng-model="root.mapZoomLevel" id="mapZoomLevel">
                 <input type="hidden" name="latitude"  ng-model="root.latitude" id="mapLat">
                 <input type="hidden" name="longitude" ng-model="root.longitude" id="mapLng">
-                <div id="map" style="width: 100%; height: 450px;"></div>
+                <input type="hidden" name="maplongWest" ng-model="root.maplongWest" id="maplongWest">
+                <input type="hidden" name="maplatSouth" ng-model="root.maplatSouth" id="maplatSouth">
+                <input type="hidden" name="maplongEast" ng-model="root.maplongEast" id="maplongEast">
+                <input type="hidden" name="maplatNorth" ng-model="root.maplatNorth" id="maplatNorth">
+                <div id="tweet-map" style="width: 100%; height: 300px;"></div>
                 <textarea name="largeTextAttachment" id="largeTextAttachment" ng-model="root.largeTextAttachment"></textarea>
             </div>
         </div>
@@ -150,8 +156,8 @@
         <h4 class="modal-title" style="text-align:center">Signup for loklak</h4>
       </div>
       <div class="modal-body">
-        <h1 class="fa fa-twitter fa-6" style="color:#55acee;margin-left:45%;font-size:500%;"></h1>
-        <h3 style="text-align:center;">Not on loklak ? Sign up, tune into things as they happen and get updates as they happen</h3>
+        <img id="loklak-signup-icon" src="../images/loklak_icon_yellow_signup.png">
+        <h3 style="text-align:center;">Not on loklak? Get more out of your twitter and weibo! Use maps, create walls, see trends and reports and help to build an open education project.</h3>
       </div>
       <div class="modal-footer" style="text-align:center;">
         <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
@@ -164,10 +170,6 @@
 
 var latitude;
 var longitude;
-
-function getLocation() {
-  alert("From Function!");
-}
 
 $(document).click(function(){
  $("#subDropDownMenu").hide('slow'); 
@@ -196,7 +198,7 @@ $('#myModal').on('shown.bs.modal', function (e) {
   }
 
   var imageHandlerCount = 1;
-  var map;
+  var tweetmap;
 
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -246,7 +248,7 @@ $('#myModal').on('shown.bs.modal', function (e) {
     sendPositionDetails(latitude, longitude);
   }
 
-  $("#map").hide();
+  $("#tweet-map").hide();
   $("#CancelMap").hide();
   $("#largeTextAttachment").hide();
   $("#cancelLargeTextAttachment").hide();
@@ -257,10 +259,22 @@ $('#myModal').on('shown.bs.modal', function (e) {
 
   function onMapClick(e) {
     console.log(e);
+    var mapZoomLevel = tweetmap.getZoom();
+    $("#mapZoomLevel").val(mapZoomLevel);
+    console.log(tweetmap.getBounds());
+    var bound = tweetmap.getBounds();
+    var longWest = parseFloat(bound._southWest.lng);
+    var latSouth = parseFloat(bound._southWest.lat);
+    var longEast = parseFloat(bound._northEast.lng);
+    var latNorth = parseFloat(bound._northEast.lat);
+    $("#maplongWest").val(longWest);
+    $("#maplatSouth").val(latSouth);
+    $("#maplongEast").val(longEast);
+    $("#maplatNorth").val(latNorth);
     if(typeof(new_event_marker)==='undefined')
     {
-      new_event_marker = new L.marker(e.latlng,{bounceOnAdd: true}).addTo(map); 
-      map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+      new_event_marker = new L.marker(e.latlng,{bounceOnAdd: true}).addTo(tweetmap); 
+      tweetmap.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
       latitude = e.latlng.lat;
       longitude = e.latlng.lng;
       sendPositionDetails(latitude, longitude);
@@ -268,7 +282,7 @@ $('#myModal').on('shown.bs.modal', function (e) {
     else 
     {
       new_event_marker.setLatLng(e.latlng);  
-      map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+      tweetmap.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
       latitude = e.latlng.lat;
       longitude = e.latlng.lng;
       sendPositionDetails(latitude, longitude);
@@ -278,31 +292,37 @@ $('#myModal').on('shown.bs.modal', function (e) {
   console.log(latitude + ',' + longitude);
 
   function setMap(latitude, longitude) {
-    map.panTo(new L.LatLng(latitude, longitude));
+    tweetmap.panTo(new L.LatLng(latitude, longitude));
   }
 
-  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    osmAttrib = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
 
-  map = L.map('map').setView([51.505, -0.159], 15).addLayer(osm);
+  tweetmap = L.map('tweet-map').setView([51.505, -0.159], 15).addLayer(osm);
 
-  map.on('tileerror', function(error, tile) {
+  tweetmap.on('tileerror', function(error, tile) {
     console.log(error);
     console.log(tile);
   });
 
   function setMapTile() {
-    $("#map").show();
+    $("#tweet-map").show();
     $("#CancelMap").show();
     $("#attachMap").hide();
     $('#filePicker').hide();
     $("#optionChoice").val('mapAttachment');
+    setTimeout(function() {
+      console.log("Triggered");
+      tweetmap.invalidateSize();
+    }, 1000);
   }
 
   function cancelMapTile() {
     $("#CancelMap").hide();
-    $("#map").hide();
+    $("#tweet-map").hide();
     $("#attachMap").show();
     $('#filePicker').show();
     $("#optionChoice").val('');
@@ -340,7 +360,7 @@ $('#myModal').on('shown.bs.modal', function (e) {
     $("#optionChoice").val('');
   }
 
-  map.on('click', onMapClick);
+  tweetmap.on('click', onMapClick);
 
 document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 

@@ -15,11 +15,8 @@ var marker=[];
 
 
     
-    //View handling
-    $('#analyze-modal').modal('show');
-    $('#loader').hide();
-    $('#notfoundmessage').hide();
-
+    
+    viewlanding(); 
     var chart1 = {};
     chart1.type = "GeoChart";
     chart1.data = [
@@ -48,21 +45,18 @@ var marker=[];
     var counter=0;
     
      $scope.getstatfollower=function()
-     {
-        console.log("yepbuddy");
+     {   
         
+        viewloading();
         
-    
-        $('#notfoundmessage').hide();
-        $('#loader').show(); 
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
             .success(function(data, status, headers, config) {
                 
+                console.log("recieved data");
 
                 if(!data.user)
                 {
-                    $('#loader').hide();
-                    $('#notfoundmessage').show();
+                    viewnodata();
                     return 0;
 
                 }
@@ -73,7 +67,7 @@ var marker=[];
                 $scope.followingstotal=data.user.friends_count;
                 $scope.name=data.user.name;
                 $scope.profilepicurl=data.user.profile_image_url_https;
-                $scope.profilebanner=data.user.profile_background_image_url_https;
+                $scope.profilebanner=data.user.profile_banner_url;
                 $scope.tweetcount=data.user.statuses_count;
 
                 //data about followers
@@ -83,7 +77,7 @@ var marker=[];
                 var city_stat_result = {};
                 var city_Array=[];
                 var top5=[];
-                var followers_category=[0,0,0,0,0];
+                var followers_category=[0,0,0,0,0,0];
                 var followerwithloc=0;
                 var followerwithcity=0;
                 $scope.countryvalues=[];
@@ -92,6 +86,10 @@ var marker=[];
                 $scope.citylabels=[];
                 $scope.citydata=[];
                 $scope.countrydata=[];
+                $('#loader').hide(); 
+                $('#loadmsg').hide();
+                $('#inffollowers').show();
+                $('#analysis-report').show();
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -106,7 +104,7 @@ var marker=[];
                             "screenname" : ele.screen_name,
                             "statuses_count" : ele.statuses_count,
                             "following" : ele.friends_count,
-                            "profile_banner" : ele.profile_background_image_url_https
+                            "profile_banner" : ele.profile_banner_url
                             
                         });
 
@@ -130,7 +128,8 @@ var marker=[];
                     percentage=Number(percentage).toFixed(2);
                     $scope.citydata.push({
                         "city" : ele ,
-                        "followers" : percentage
+                        "percentage" : percentage ,
+                        "followers"  : city_stat_result[ele]
 
                     });
                     
@@ -147,25 +146,29 @@ var marker=[];
                 //Getting country wise stats
 
                  data.topology.followers.forEach(function(ele){
-                    if(ele.followers_count<200)
+                    if(ele.followers_count<100)
                     {
                         followers_category[0]++;
                     }
-                    if(ele.followers_count>200 && ele.followers_count<=500)
+                    if(ele.followers_count>100 && ele.followers_count<=200)
                     {
                         followers_category[1]++;
                     }
-                    if((ele.followers_count>500 && ele.followers_count<=1000))
+                    if(ele.followers_count>200 && ele.followers_count<=500)
                     {
                         followers_category[2]++;
                     }
-                    if((ele.followers_count>1000 && ele.followers_count<=10000))
+                    if((ele.followers_count>500 && ele.followers_count<=1000))
                     {
                         followers_category[3]++;
                     }
-                    if((ele.followers_count>=10000))
+                    if((ele.followers_count>1000 && ele.followers_count<=10000))
                     {
                         followers_category[4]++;
+                    }
+                    if((ele.followers_count>10000))
+                    {
+                        followers_category[5]++;
                     }
 
                     if(ele.location_country)
@@ -182,7 +185,7 @@ var marker=[];
                     country_stat_result[country_Array[i]] = 0;
                     ++country_stat_result[country_Array[i]];
                 }
-                console.log(country_stat_result);
+               
 
                 var countrynames = Object.keys( country_stat_result );
                 
@@ -195,7 +198,8 @@ var marker=[];
                         [ele,country_stat_result[ele],percentage]);
                     $scope.countrydata.push({
                         "country" : ele ,
-                        "followers" : percentage
+                        "percentage" : percentage,
+                        "followers"  : country_stat_result[ele]
 
                     });
                     if(percentage>1.5)
@@ -213,7 +217,7 @@ var marker=[];
                 $scope.city_stat_result=city_stat_result;
                 $scope.country_stat_result=country_stat_result;
 
-                $scope.categorylabels=["<200" , "200-500" ,"500-1000","1000-10000", "Greater than 10000"];
+                $scope.categorylabels=["<100" ,"100-200", "200-500" ,"500-1000","1000-10000", "> 10000"];
                 $scope.categoryvalues=followers_category;
         
                 getTopfive($scope.followers_follower);
@@ -222,13 +226,16 @@ var marker=[];
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
-                $('#loader').hide(); 
+                
 
                 }).error(function(data, status, headers, config) {
                     
                     
-                    $scope.followers_status="Load Failed.Twitter did not respond.";
-                
+                    $scope.followers_status="Sorry there's some glitch :(. Please try again later.";
+                    $('#loader').hide(); 
+                    $('#loadingmessage').hide();
+                    $('#loadmsg').show();
+                    $('#errormsg').show();
 
                     
                         // called asynchronously if an error occurs
@@ -270,7 +277,31 @@ $rootScope.$watch(function() {
             });
 
       
+function viewlanding()
+{
+    $('#analyze-modal').modal('show');
+    $('#loader').hide();
+    $('#notfoundmessage').hide();
+    $('#loadmsg').hide();
+}
+function viewnodata()
+{
+    $('#loader').hide();
+    $('#loadingmessage').hide();
+    $('#notfoundmessage').show();
+}
 
+function viewloading()
+{
+    $('#errormsg').hide();
+    $('#notfoundmessage').hide();
+    $('#loader').show(); 
+    $('#analysis-report').hide();
+    $('#inffollowers').hide();
+    $('#loadmsg').show();
+    $('#loadingmessage').show();  
+    $('#errormsg').show(); 
+}
 
 }]);
 

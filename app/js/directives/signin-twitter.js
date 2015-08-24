@@ -14,7 +14,17 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
-			$rootScope.root.aSearchWasDone = false;
+			/* Check if a session is available before hello.js even initialize
+	         * in order to determine if the application is going to login automatically or not
+			 */
+			var twitterStorageObject = JSON.parse(localStorage.getItem("hello"));
+			if (!twitterStorageObject || !twitterStorageObject.twitter) {
+				$rootScope.root.twitterSession = false;
+			} else {
+				$rootScope.root.twitterSession = true;
+			}
+			
+			$rootScope.root.isHelloDoneCheckingCookies = true;				
 
 			/* Hello related init*/
 			var hello = $scope.hello;
@@ -45,11 +55,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					SearchService.retrieveTopology($rootScope.root.twitterSession.screen_name, 10000).then(function(result) {
 						result.topology.followers.forEach(function(status) {
 							status.isAFollower = true;
+							status.isAFollowing = status.following;
 						})
 						result.topology.following.forEach(function(status) {
 							status.isAFollower = false;
+							status.isAFollowing = true;
 						})
 						$rootScope.userTopology  = result.topology;
+						console.log($rootScope.userTopology);
 						$rootScope.userTopology.noOfFollowings = result.user.friends_count
 						$rootScope.userTopology.noOfFollowers = result.user.followers_count
 					}, function() {});
@@ -97,7 +110,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					$rootScope.root.twitterSession = false;	
 				});	
 				angular.element("#map").remove();
-				if ($location.path() !== "/") {
+				if ($location.path() === "/search") {
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
 				} else {
 					angular.element(".topnav .global-search-container").addClass("ng-hide");
@@ -116,9 +129,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$scope.toggleOptions = function() {
 				angular.element(".hidden-user-info").toggleClass("hide");
 			};
+
+
+			/* Global listener, mainly used to disable features when clicked out of area*/
 			window.onclick = function(e) {
 				var targetClasses = e.target.className;
 				var targetId = e.target.id;
+
+				// If user-info (top-right nav) is shown, clicked out of its area will disable it
 				if (!targetClasses || typeof(targetClasses) === "object") {
 					if (!angular.element(".hidden-user-info").hasClass("hide")) {
 						angular.element(".hidden-user-info").toggleClass("hide");
@@ -129,6 +147,14 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 							angular.element(".hidden-user-info").toggleClass("hide");
 						}		
 					}	
+				}
+
+				// If suggestions are shown, clicked out of its area will disable it
+				if(!targetClasses || targetClasses.indexOf("suggestion-item") === -1) {
+					if ($rootScope.root.haveSearchSuggestion !== false) {
+						$rootScope.suggestionsHttpCanceler.resolve();
+						$rootScope.root.haveSearchSuggestion = false;
+					}
 				}
 				
 			};
@@ -155,12 +181,10 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			}
 
 			/** Get hashtag trends **/
-			$rootScope.root.getHashtagTrends = function() {
-
+			$timeout(function() {
 			    function getMonth(monthStr){
 			        return new Date(monthStr+'-1-01').getMonth()+1
 			    }
-
 			    var hashtagData = [];
 			    var queryString = '';
 			    var currentDate = new Date();
@@ -173,11 +197,8 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    var sinceDay = ('0' + sinceDate.getDate()).slice(-2);
 			    var sinceMonth = ('0' + (sinceDate.getMonth()+1)).slice(-2);
 			    var sinceYear = sinceDate.getFullYear();
-
 			    var sinceDateString = 'since:'+sinceYear+'-'+sinceMonth+'-'+sinceDay+' ';
-
 			    queryString = sinceDateString+untilDateString;
-
 			    var params = {
 			        q: queryString,
 			        source: 'cache',
@@ -185,22 +206,21 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			        fields: 'hashtags',
 			        limit: 6
 			    };
-
-			    SearchService.initData(params).then(function(data) {
+			    SearchService.getTrendsAggregation(params).then(function(data) {
 			               hashtagData = hashtagData.concat(data.aggregations.hashtags);
 			               $rootScope.root.trends = hashtagData[0];
 			        }, function() {
 
 			        });
-			};
-			
-			$rootScope.root.getHashtagTrends();
+			}, 1000);
 
 		},
 		link: function(scope) {
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
 			var idleTime = 0;
+
+			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
 			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
@@ -214,19 +234,34 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    $(this).keypress(function (e) { idleTime = 0; });
 
 				if (!isOnline) {
-					$('#signupModal').modal('show');	
 					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
 						angular.element(".topnav .global-search-container").addClass("ng-hide");
 					}
 				}
 
+				/*
+	             * Dynamic UI on state changes
+				 */
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+					// If moving away from search: cancel old search, suggestion, empty search field
+					if (toState.name !== "Search") {
+						$rootScope.root.globalSearchTerm = "";
+						if ($rootScope.httpCanceler) { $rootScope.httpCanceler.resolve();}
+						if ($rootScope.suggestionsHttpCanceler) { $rootScope.suggestionsHttpCanceler.resolve();}
+						$rootScope.root.haveSearchSuggestion = false;
+					}
 
-				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-				    if (toState.name === "Search") {
-				    	angular.element(".topnav .global-search-container").removeClass("ng-hide");
-				    } else {
-				    	angular.element(".topnav .global-search-container").addClass("ng-hide");
-				    }
+					// Maintain only one search box in all views when logged/not logged in.
+					var isOnline = hello('twitter').getAuthResponse(); 
+					if (!isOnline) {
+						if (toState.name === "Search") {
+							angular.element(".topnav .global-search-container").removeClass("ng-hide");
+						} else {
+							angular.element(".topnav .global-search-container").addClass("ng-hide");
+						}		
+					} else {
+						angular.element(".topnav .global-search-container").removeClass("ng-hide");
+					}
 				});
 			});
 

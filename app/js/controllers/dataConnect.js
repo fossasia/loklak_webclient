@@ -4,8 +4,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService',
-	function($scope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
+	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -41,8 +41,36 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 	$scope.harvestingFreqList = HarvestingFrequencyService.values;
 	$scope.mapRulesNum = 0;
 
+	$scope.setMessageView= function(messageIds) {
+		if (messageIds !== $scope.fileIds) {
+			$scope.fileIds = messageIds;
+			var query = '';
+			for (var key in messageIds) {
+				query += 'id:' + messageIds[key] + ' ';
+			}
+			SearchService.getData(query).then(function(data) {
+				$scope.selectedMessages = data.statuses;
+			}, function() {});
+		}
+	};
+
+	$scope.setMapView = function(messageIds) {
+		if (messageIds !== $scope.mapIds) {
+			$scope.mapIds = messageIds;
+			var query = '';
+			for (var key in messageIds) {
+				query += 'id:' + messageIds[key] + ' ';
+			}
+			SearchService.getData(query).then(function(data) {
+				$scope.selectedMapMessages = data.statuses;
+				$scope.updateMap();
+			}, function() {});
+		}
+	};
+
 	function updateDataSources(callback) {
-		SearchService.getImportProfiles($stateParams.source_type || "").then(function(data) {
+		if (!$rootScope.root.twitterSession) return;
+		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -55,6 +83,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 				} else {
 					profile.display_source_type = $scope.sourceTypesList[profile.source_type].name;
 				}
+				profile.public = profile.privacy_status === 'PUBLIC';
 				profile.editing = false;
 				$scope.dataSourceItems[count_item] = profile;
 				count_item++;
@@ -62,7 +91,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 			if (callback) callback();
 		}, function() {});
 	};
-
+	$scope.returnFromAddConnection = function(message) {
+		$scope.dataSourceMessages.success = message;
+		setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
+	}
 	$scope.onUpdateDataSources = function() {
 		$scope.dataSourceMessages = {};
 		var refreshButton = angular.element("#refreshButton i"); 
@@ -73,6 +105,8 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 	};
 
 	$scope.showRowDetail = function(e) {
+		// do not trigger when event source is a link or the span badge
+		if (e.target.localName === 'a' || e.target.localName === 'span') return;
 		angular.element(e.currentTarget).toggleClass("showing-detail");
 	};
 
@@ -87,8 +121,13 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 	}
 
 	$scope.saveDataSource = function(item) {
-		console.log("Saving" + item);
+		if (item.public) {
+			item.privacy_status = 'PUBLIC';
+		} else {
+			item.privacy_status = 'PRIVATE';
+		}
 		ImportProfileService.update(item).then(function(data) {
+			console.log(item);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
@@ -99,10 +138,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 	$scope.openConfirmDeleteModal = function(item) {
 		$scope.toDeleteItem = item;
 		angular.element('#open-confirm-modal').trigger('click');
+
 	}
 	$scope.deleteDataSource = function() {
 		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
-			console.log(data);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 			$scope.dataSourceMessages.success = 'Data source deleted.';
 		}, function(error) {
@@ -111,5 +150,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$stateParams', 'Sear
 		});
 	}
 
-	updateDataSources();
+	// wait until logged in to uploadDataSource
+	// this is necessary since sometimes this function is called before user finished logging in
+	$rootScope.$watchCollection('root.twitterSession', function() {
+		if($rootScope.root.twitterSession)
+			updateDataSources();
+	});
 }]);

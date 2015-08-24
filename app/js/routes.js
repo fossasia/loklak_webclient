@@ -9,7 +9,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
   $stateProvider
   .state('Home', {
     url: '/',
-    controller: 'HomeCtrl as home',
+    controller: 'MapCtrl as map',
     templateUrl: 'home.html',
     title: 'Home'
   })
@@ -106,6 +106,10 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
 
   cfpLoadingBarProvider.includeBar = false;
   cfpLoadingBarProvider.includeSpinner = true;
+
+  //token injector http interceptor
+  $httpProvider.interceptors.push('tokenInjector'); 
+
 }
 
 module.exports = ['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'cfpLoadingBarProvider', Routes];

@@ -60,7 +60,20 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
     };
 
-    
+    /*
+     * When a new search is made or the outgoing search is terminated
+     * $rootScope.cancelPromise is defined when a search is made from SearchService
+     */
+    var cancelAllRequest = function() {
+        if ($rootScope.httpCanceler) {
+            angular.forEach(intervals, function(interval) {
+                $interval.cancel(interval);
+            })
+            $rootScope.httpCanceler.resolve(); 
+            ;    
+        }
+    }
+
     /*
      * Wrapper for SearchService, including
      * Updating path operation before search
@@ -68,6 +81,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      * Init a background interval to update the result
      */
     vm.update = function(term) {
+        cancelAllRequest();
         updatePath(term);
         SearchService.getData(term).then(function(data) {
                vm.pool = data.statuses;
@@ -101,6 +115,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterAccounts = function() {
+        cancelAllRequest();
         $rootScope.root.globalFilter = 'accounts';
         vm.newStasuses = [];
         vm.accountsPretty = [];
@@ -132,6 +147,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterVideos = function() {
+        cancelAllRequest();
         $rootScope.root.globalFilter = 'videos';
         vm.statuses = [];   
         vm.newStasuses = [];
@@ -161,6 +177,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterMap = function() {
+        cancelAllRequest();
         if (window.map) { delete(window.map); }
         vm.newStasuses = [];
         $rootScope.root.globalFilter = "map";

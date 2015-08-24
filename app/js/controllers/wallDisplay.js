@@ -93,8 +93,6 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     function getWallData(){
         vm.wallOptions = AppsService.get({user:$stateParams.user, app:'wall', id: $stateParams.id});
         vm.wallOptions.$promise.then(function(data){
-            console.log("this is");
-            console.log(vm.wallOptions);
             if(vm.wallOptions.id){
                 if (vm.wallOptions.layoutStyle == '1') {
                     maxStatusCount = 10; //linear

@@ -24,11 +24,10 @@ function getAuthorizedData(servlet, paramsObj, callback) {
     
 }
 
-function updateData(user, data, callback) {
-    var dataToSend = {
-        screen_name: user,
-        apps: data
-    }
+function updateData(authData, data, callback) {
+    var dataToSend = authData;
+    dataToSend.apps = data;
+    console.log(JSON.stringify(dataToSend));
     request.post({
             url: config.apiUrl + 'account.json',
             form: {
@@ -48,23 +47,37 @@ function updateData(user, data, callback) {
  * An authorized req requires 3 fields for now_ screen_name, oauth, secret
  */
 var isAuthorized = function(req, res, next) {
-    if (!(req.query.screen_name) || (!(req.query.oauth_token) || !(req.query.oauth_token_secret))) {
-        next(false, null);
+
+	function parseAccessToken(accessToken) {
+	    var splitted = accessToken.split(":");
+	    var oauth_token = splitted[0];
+	    var oauth_token_secret = splitted[1].split("@")[0];
+	    var userObject = {};
+	    userObject['oauth_token'] = oauth_token;
+	    userObject['oauth_token_secret'] = oauth_token_secret;
+	    return userObject;
+	}
+
+    if (!(req.get('x-screen-name')) || (!(req.get('x-access-token')))) {
+        res.end("Access unauthorized");
         return;
     }
 
+    var userObject = parseAccessToken(req.get('x-access-token'));
+
     var params = {
-        "screen_name" : req.query.screen_name,
-        "token" : req.query.oauth_token,
-        "secret" : req.query.oauth_token_secret
+        "screen_name" : req.get('x-screen-name'),
+        "token" : userObject.oauth_token,
+        "secret" : userObject.oauth_token_secret
     };
 
     request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {  
         var data = JSON.parse(response.body).accounts[0];
-        if (data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
-            next(true, response);    
+        if (data && data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
+        	req.accountData = data;
+            next();
         } else {
-            next(false, error);
+            res.end("Access unauthorized");
         }    
     });
 }
@@ -72,29 +85,34 @@ var isAuthorized = function(req, res, next) {
 /* 
  * Authorized API, an example for the use case of the middleware above
  */
-router.get('/authorized?', function(req, res) {
-    var cb = function(responseState, response) {
-        if (responseState) {
-            res.jsonp(response);  
-        } else {
-            res.send("Access unauthorized");
-        }
-    }
+router.get('/authorized?', isAuthorized, function(req, res) {
+	res.jsonp(req.accountData);
+    // var cb = function(responseState, response) {
+    //     if (responseState) {
+    //         res.jsonp(response);  
+    //     } else {
+    //         res.send("Access unauthorized");
+    //     }
+    // }
     
-    isAuthorized(req, res, cb);
+    // isAuthorized(req, res, cb);
 })
 
 /* Wall API */
 //LIST
-router.get('/:user/:app', function(req, res) {
+router.get('/:user/:app', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
+        var authData = {};
+        authData.oauth_token = data.oauth_token;
+        authData.oauth_token_secret = data.oauth_token_secret;
+        authData.screen_name = data.screen_name;
         if (data.apps) {
             if (data.apps[req.params.app]) {
                 //Migration to new system
                 if (data.apps[req.params.app].walls) {
                     //clear everything.
-                    updateData(req.params.user, {}, function() {
+                    updateData(authData, {}, function() {
                         res.jsonp([]);
                     });
                 } else {
@@ -105,14 +123,14 @@ router.get('/:user/:app', function(req, res) {
             }
         } else {
             //clear everything.
-            updateData(req.params.user, {}, function() {
+            updateData(authData, {}, function() {
                 res.jsonp([]);
             });
         }
     });
 });
 
-//READ
+//READ (Publicly accessible, middleware not required)
 router.get('/:user/:app/:id', function(req, res) {
     getData(req.params.user, function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
@@ -130,10 +148,15 @@ router.get('/:user/:app/:id', function(req, res) {
 });
 
 //CREATE
-router.post('/:user/:app', function(req, res) {
+router.post('/:user/:app', isAuthorized, function(req, res) {
     var newWall = req.body;
     getData(req.params.user, function(error, response, body) {
-        var appData = JSON.parse(response.body).accounts[0].apps;
+    	var responseData = JSON.parse(response.body);
+        var appData = responseData.accounts[0].apps;
+        var authData = {};
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
         if(!appData){
             appData = {};
         }
@@ -142,9 +165,8 @@ router.post('/:user/:app', function(req, res) {
         }
         newWall.id = shortid.generate();
         appData[req.params.app].push(newWall);
-        console.log(newWall.id);
-        updateData(req.params.user, appData, function(error, response, body) {
-            console.log(response.body);
+        //console.log(newWall.id);
+        updateData(authData, appData, function(error, response, body) {
             return res.json({
                 id: newWall.id
             });
@@ -153,9 +175,15 @@ router.post('/:user/:app', function(req, res) {
 });
 
 //DELETE
-router.delete('/:user/:app/:id', function(req, res) {
+router.delete('/:user/:app/:id', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
-        var appData = JSON.parse(response.body).accounts[0].apps;
+        var responseData = JSON.parse(response.body);
+        var appData = responseData.accounts[0].apps;
+        var authData = {};
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
+        console.log(authData);
         if (!appData[req.params.app]) {
             appData[req.params.app] = [];
         }
@@ -168,7 +196,7 @@ router.delete('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                updateData(req.params.user, appData, function(error, response, body) {
+                updateData(authData, appData, function(error, response, body) {
                     console.log(response.body);
                     return res.json({
                         status: "OK"
@@ -186,9 +214,14 @@ router.delete('/:user/:app/:id', function(req, res) {
 });
 
 //UPDATE
-router.put('/:user/:app/:id', function(req, res) {
+router.put('/:user/:app/:id', isAuthorized, function(req, res) {
     getData(req.params.user, function(error, response, body) {
-        var appData = JSON.parse(response.body).accounts[0].apps;
+    	var responseData = JSON.parse(response.body);
+        var appData = responseData.accounts[0].apps;
+        var authData = {};
+        authData.oauth_token = responseData.accounts[0].oauth_token;
+        authData.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
+        authData.screen_name = responseData.accounts[0].screen_name;
         if (!appData[req.params.app]) {
             appData[req.params.app] = [];
         }
@@ -201,8 +234,8 @@ router.put('/:user/:app/:id', function(req, res) {
                     screen_name: req.params.user,
                     apps: appData
                 }
-                updateData(req.params.user, appData, function(error, response2, body) {
-                    console.log(response2.body);
+                updateData(authData, appData, function(error, response2, body) {
+                    //console.log(response2.body);
                     return res.json(JSON.parse(response2.body).accounts[0].apps[req.params.app][i]);
                 });
             }
