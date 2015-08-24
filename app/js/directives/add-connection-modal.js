@@ -5,9 +5,9 @@
 var directivesModule = require('./_index.js');
 
 directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 
-	'LoklakFieldService', 'PushService', 'SourceTypeService', 'JsonFieldAccessorService',
+	'LoklakFieldService', 'PushService', 'SourceTypeService', 'JsonFieldAccessorService', 'ImportProfileService',
 	function($http, $stateParams, SearchService, HarvestingFrequencyService, 
-		LoklakFieldService, PushService, SourceTypeService, JsonFieldAccessorService) {
+		LoklakFieldService, PushService, SourceTypeService, JsonFieldAccessorService, ImportProfileService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -136,11 +136,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  public: $scope.inputs.public
 						}
 					).then(function(data) {
-			 			$scope.messages.error = '';
-			 			setTimeout(function() {
-							angular.element('#close-add-connection-modal').trigger('click');
-						}, 0);
-			 			$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
+						pushActionOnSuccess(data);
 			 		}, function(err, status) {
 			 			$scope.messages.success = '';
 			 			$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -154,17 +150,36 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  lifetime: lifetime,
 						  public: $scope.inputs.public
 						}, $scope.sourceTypeList[$scope.inputs.sourceFormat].endpoint).then(function(data) {
-							$scope.messages.error = '';
-							setTimeout(function() {
-								angular.element('#close-add-connection-modal').trigger('click');
-							}, 0);
-							$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
-					}, function(err, status) {
+							pushActionOnSuccess(data);
+						}, function(err, status) {
 						$scope.messages.success = '';
 						$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
 					});
 				}
 			};
+
+			function pushActionOnSuccess(data) {
+	 			$scope.messages.error = '';
+	 			setTimeout(function() {
+					angular.element('#close-add-connection-modal').trigger('click');
+				}, 0);
+				var returnMessage;
+				if (data['new'] > 0) {
+					returnMessage = data['new'] + ' new source(s) added.';
+	 			} else {
+	 				returnMessage = 'No new source added.';
+	 			}
+	 			if (data['known'] > 0) {
+	 				ImportProfileService.search(null, null, data.knownIds[0]).then(function(result) {
+	 					$scope.returnFromAddConnection(returnMessage, result.profiles);
+	 				}, function(err) {
+	 					console.error(err);
+	 					$scope.returnFromAddConnection(returnMessage);
+	 				});
+	 			} else {
+	 				$scope.returnFromAddConnection(returnMessage);
+	 			}
+			}
 
 			$scope.hideErrorPanel = function() {
 				$scope.messages.error = '';

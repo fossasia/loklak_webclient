@@ -9,6 +9,18 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 	
 	var service = {};
 
+	service.search = function(screen_name, source_type, msg_id) {
+		var deferred = $q.defer();
+		$http.jsonp(AppSettings.apiUrl+'import.json?callback=JSON_CALLBACK', {
+			params: {source_type : source_type, screen_name: screen_name, msg_id : msg_id}
+		}).success(function(data) {
+			deferred.resolve(data);
+		}).error(function(err, status) {
+			deferred.reject(err, status);
+		});
+		return deferred.promise;
+	}
+
 	service.update = function(item) {
 		var deferred = $q.defer();
 		var params = {action : 'update', data : item, screen_name : $rootScope.root.twitterSession.screen_name};

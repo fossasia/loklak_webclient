@@ -98,8 +98,9 @@ controllersModule.controller('DataConnectCtrl',
 			if (callback) callback();
 		}, function() {});
 	};
-	$scope.returnFromAddConnection = function(message) {
+	$scope.returnFromAddConnection = function(message, knownProfiles) {
 		$scope.dataSourceMessages.success = message;
+		$scope.dataSourceMessages.knownProfiles = knownProfiles;
 		setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 	}
 	$scope.onUpdateDataSources = function() {
