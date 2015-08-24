@@ -1,4 +1,5 @@
 'use strict';
+/* global $ */
 /* jshint unused:false */
 
 var directivesModule = require('./_index.js');
@@ -58,7 +59,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 				$rootScope.root.globalSearchTerm = term;
 				$rootScope.root.submitSearchForm();
 				document.activeElement.blur(); // Stop focusing search box	
-			}
+			};
 
 			/*
 			 * Evaluate current state of search form
@@ -95,7 +96,8 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			 */
 			$rootScope.root.highlightSelection = function(event) {
 				$(".global-search-container .suggestions li").removeClass("active");
-			}
+			};
+
 			$rootScope.root.watchArrowFromSearchBox = function($event) {
 				var code = $event.keyCode;
 				var limit = ($rootScope.root.searchSuggestions.length && $rootScope.root.searchSuggestions.length >= 5) ? 4 : ($rootScope.root.searchSuggestions.length - 1);
@@ -121,7 +123,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 
 					$rootScope.root.setGlobalSearchTerm($rootScope.root.globalSearchTerm );
 				}			
-			}
+			};
 
 			/*
 			 * High light selected option on keyEvent

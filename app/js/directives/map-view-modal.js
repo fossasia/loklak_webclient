@@ -1,5 +1,5 @@
 'use strict';
-/* global angular */
+/* global angular, L */
 /* jshint unused:false */
 
 var directivesModule = require('./_index.js');
@@ -24,8 +24,9 @@ function($http, MapCreationService, SearchService) {
 			var map = window.map;
 			scope.updateMap = function() {
 				map.invalidateSize();
-				if (scope.markerLayer)
+				if (scope.markerLayer) {
 					map.removeLayer(scope.markerLayer);
+				}
 				var center = scope.selectedMapMessages[0].location_mark;
 				map.panTo(new L.LatLng(center[1], center[0]));
 				var mapPoints = MapCreationService.initMapPoints(scope.selectedMapMessages, 'genStaticTwitterStatus');

@@ -1,4 +1,5 @@
 'use strict';
+/* global $, alert, twttr */
 
 var directivesModule = require('./_index.js');
 
@@ -15,12 +16,12 @@ var directivesModule = require('./_index.js');
  			$rootScope.root.userLocation = {};
  			$rootScope.root.locationName = "";
  			$rootScope.root.VariableLocations = [];
- 			$rootScope.root.geoTile;
- 			$rootScope.root.hashtagTrends;
+ 			$rootScope.root.geoTile = "";
+ 			$rootScope.root.hashtagTrends = "";
  			$rootScope.root.trends = "";
  			$rootScope.root.location={};
- 			$rootScope.root.latitude;
- 			$rootScope.root.longitude;
+ 			$rootScope.root.latitude = "";
+ 			$rootScope.root.longitude = "";
 
  			console.log($rootScope.root.tweetLength);
  			$rootScope.root.postTweet = function() {
@@ -86,7 +87,7 @@ var directivesModule = require('./_index.js');
  			        }
  			        else if (optionChosen === 'markdownAttachment') {
  			            console.log("Markdown Attachment going on here.");
- 			            var lines =  $('.CodeMirror-code > pre')
+ 			            var lines =  $('.CodeMirror-code > pre');
  			            var tempArr = [];
 
  			            for (var line = 0; line < lines.length; line++) {
@@ -211,11 +212,11 @@ var directivesModule = require('./_index.js');
 
  			$rootScope.root.clearLocation = function() {
  			    $rootScope.root.locationName = "";
- 			}
+ 			};
 
  			$rootScope.root.setNewLocation = function(newLocation) {
  			    $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
- 			}
+ 			};
 
  			// Get the location from the GeoLocation API of HTML5
  			$rootScope.root.getLocation = function() {
@@ -232,15 +233,15 @@ var directivesModule = require('./_index.js');
  			    $rootScope.root.userLocation.latitude = position.coords.latitude;
  			    $rootScope.root.userLocation.longitude = position.coords.longitude;
  			    // Now make a query to loklak
- 			    var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
- 			    $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
+ 			    // var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
+ 			    // $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
 
  			    $("#locationtile").attr("src", $rootScope.root.location.tile);
  			    $("#locationtile").removeClass('hidden');
 
- 			    var locationRequestParam = []
- 			    var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude
- 			    locationRequestParam.push(encodeURI(positionParam))
+ 			    var locationRequestParam = [];
+ 			    var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude;
+ 			    locationRequestParam.push(encodeURI(positionParam));
  			    // Location request parameter attached.
  			    var locationNameRequest = 'http://localhost:9000/api/geocode.json?callback=JSON_CALLBACK';
 

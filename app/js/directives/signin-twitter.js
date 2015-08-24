@@ -56,15 +56,15 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 						result.topology.followers.forEach(function(status) {
 							status.isAFollower = true;
 							status.isAFollowing = status.following;
-						})
+						});
 						result.topology.following.forEach(function(status) {
 							status.isAFollower = false;
 							status.isAFollowing = true;
-						})
+						});
 						$rootScope.userTopology  = result.topology;
 						console.log($rootScope.userTopology);
-						$rootScope.userTopology.noOfFollowings = result.user.friends_count
-						$rootScope.userTopology.noOfFollowers = result.user.followers_count
+						$rootScope.userTopology.noOfFollowings = result.user.friends_count;
+						$rootScope.userTopology.noOfFollowers = result.user.followers_count;
 					}, function() {});
 
 					var oauth_info = hello("twitter").getAuthResponse();
@@ -177,7 +177,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				if ($event.target.className === "operator-overlay-container") {
 					$rootScope.root.home.operatorOverlayShow = false;
 				}
-			}
+			};
 
 			$rootScope.root.home.operators = {
 				'loklak messages': 'containing both "loklak" and "messages". This is the default operators',
@@ -190,12 +190,12 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				'#haiku': 'containing the hastag "haiku"',
 				'from:alexiskold' : 'shared by user with screen name "alexiskold"',
 				'near:London': 'shared near London'
-			}
+			};
 
 			/** Get hashtag trends **/
 			$timeout(function() {
 			    function getMonth(monthStr){
-			        return new Date(monthStr+'-1-01').getMonth()+1
+			        return new Date(monthStr+'-1-01').getMonth()+1;
 			    }
 			    var hashtagData = [];
 			    var queryString = '';
@@ -239,7 +239,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		    		$('#signupModal').modal('show');		
 		    		$rootScope.root.aSearchWasDone = true;
 			    }
-			}
+			};
 
 			angular.element(document).ready(function() {
 				var idleInterval = setInterval(timerIncrement, 1000);
