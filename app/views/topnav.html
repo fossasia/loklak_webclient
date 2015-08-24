@@ -117,9 +117,9 @@
               </button>
               <ul class="fa dropdown-menu" aria-labelledby="dropdownMenu1" id="subDropDownMenu">
                 <li ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa">&#xf041; {{loc}}</a></li>
-                <li><a ng-bind="root.newLocationSet">&#xf041; </li>
+                <li><a href="" ng-bind="root.newLocationSet" ng-click="root.setNewLocationOther()">&#xf041; </a></li>
                 <li role="separator" class="divider"></li>
-                <input type="text" class="form-content" ng-model="root.newLocationSet">
+                <input type="text" class="form-content" ng-model="root.newLocationSet" id="newLoc">
                 <li><a ng-click="root.clearLocation()">Disable Location</a></li>
               </ul>
 

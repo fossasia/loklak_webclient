@@ -215,14 +215,16 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         if(newLocation != -1)
             $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
         else {
-            $('#newLocation').show();
-            $('#addNewLocation').show();
+            var newLoc = $('#newLoc').val();
+            console.log(newLoc);
+            $rootScope.root.locationName = newLoc;
         }
     }
 
     $rootScope.root.setNewLocationOther = function() {
-        var xtemp  = $('#newLocation').val();
+        var xtemp  = $('#newLoc').val();
         console.log(xtemp);
+        $('#dropdownMenu1').text(xtemp);
     }
 
     // Get the location from the GeoLocation API of HTML5
@@ -268,6 +270,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             var result = response.locations[keyObject].place[0];
             $rootScope.root.VariableLocations = response.locations[keyObject].place;
             $rootScope.root.locationName = result;
+            $rootScope.root.newLocationSet = response.locations[0].place;
         });
     }
 
