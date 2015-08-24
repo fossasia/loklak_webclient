@@ -1,4 +1,5 @@
 'use strict';
+/* global angular */
 
 var controllersModule = require('./_index');
 var PhotoSwipe = require('photoswipe');
@@ -29,10 +30,11 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
         vm.pool = vm.pool.splice(amount);
 	    
 	};
+
 	function getMoreStatuses() {
 	    if (vm.pool.length > 0) { 
 	        // Get new time span bound from the lastest status
-	        var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at)
+	        var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at);
 	        var newUntilBound = new Date(currentUntilBound.getTime() - 1);
 	        var untilSearchParam = $filter("date")(newUntilBound, "yyyy-MM-dd_HH:mm");
 	        var newSearchParam = "from:" + vm.screenName + "+until:" + untilSearchParam;
@@ -46,7 +48,7 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 	               vm.pool = vm.pool.concat(data.statuses);
 	        }, function() {});    
 	    }
-	};
+	}
 
 
 
@@ -63,7 +65,7 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 		// Get metadata
 		SearchService.retrieveTopology(vm.screenName).then(function(data) {
 			if (data.user) {
-				vm.user = data.user
+				vm.user = data.user;
 				vm.showPage = true;	
 				vm.created_at = data.user.created_at.split(" ").slice(1,3).join(" ");
 			}
@@ -77,7 +79,7 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 			$scope.loadMore(20);
 			vm.showResult = true;
 		}, function() {});		
-	})
+	});
 
 	/*
 	 * Status's dỉrective openSwipe fn  
