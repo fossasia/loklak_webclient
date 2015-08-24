@@ -117,7 +117,6 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 
 				var updateTimeline = function() {
 					hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
-						console.log(twitterFriendFeed);
 						// Sort by created time to show on timeline
 						twitterFriendFeed.data.sort(function(a,b) {
 							if (b.status && a.status) {
@@ -127,27 +126,20 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 						var haveNewerTweet = true;
 						var i = 0; 
 						var newerTweets = [];
-						var currentNewest = new Date($rootScope.root.twitterFriends.data[0].status.created_at)
-						console.log(currentNewest);
+						var currentNewest = new Date($rootScope.root.twitterFriends.data[0].status.created_at);
 						while (haveNewerTweet && i < twitterFriendFeed.data.length) {
-							console.log(twitterFriendFeed.data[i].status);
 							if (!twitterFriendFeed.data[i].status) {
-								console.log("doesn't have a status");
 								i++
 							} else {
 								var beingEvalTimestamp = new Date(twitterFriendFeed.data[i].status.created_at);
-								console.log(beingEvalTimestamp);
 								if (beingEvalTimestamp < currentNewest) {
-									console.log("smaller than");
 									haveNewerTweet = false;
 								} else {
 									newerTweets.push(twitterFriendFeed.data[i]);
-									console.log("bigger than");
 									i++;	
 								}
 							}
 						}
-						console.log(newerTweets);
 						if (newerTweets.length > 0) {
 							$rootScope.$apply(function() {
 								$rootScope.root.timelineNewTweets = newerTweets;

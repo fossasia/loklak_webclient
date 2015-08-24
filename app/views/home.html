@@ -81,7 +81,7 @@
                             <div class="item" ng-click="toggleDetail($event)">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">
-                                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                                <span class="home-user-screen-name">@{{ status.screen_name }} - </span><span time ng-attr-timecreated="{{status.status.created_at}}"></span>
                                 <br>
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
