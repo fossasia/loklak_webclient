@@ -430,14 +430,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             return $interval(function() {
                 if (vm.statuses.length > 0) {
                     var tempTweet = vm.statuses.pop();
-                    // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
-                    // $timeout(function() {
                     vm.statuses.unshift(tempTweet);
-                    //     $('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
-
-                    // }, 200);
                 }
-            }, 5000);
+            }, vm.wallOptions.cycleDelayTime*1000);
         } else {
             return;
         }
