@@ -150,6 +150,15 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
     };
 
+    $scope.stopLeaderboardTimer = function() {
+        $interval.cancel(leaderboardInterval);
+        leaderboardInterval = undefined;
+    };
+
+    $scope.startLeaderboardTimer = function() {
+        leaderboardInterval = vm.cycleLeaderboard();
+    };
+
     var getRefreshTime = function(period) {
         // if (period < 7000) {
         //     return 3000;
@@ -189,10 +198,10 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }, 0);
     };
 
-    // /* 
-    //  * Get img tag attr 
-    //  * Return in objects
-    //  */
+    /* 
+     * Get img tag attr 
+     * Return in objects
+     */
     function scrapeImgTag(imgTag) {
         var ngEle = angular.element(imgTag);
         return {
@@ -202,9 +211,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         };
     }
 
-    function contains(Statuses, status_id) {
+    function contains(Statuses, status) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i] == status_id) {
+            if (Statuses[i].id_str == status.id_str) {
                 return true;
             }
         }
@@ -220,36 +229,15 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return 0;
     }
 
-
-
-    // vm.update = function(refreshTime) {
-    //     return $timeout(function() {
-    //         SearchService.getData(term).then(function(data) {
-    //             if (data.statuses) {
-    //                 for (var i = data.statuses.length - 1; i >= 0; i--) {
-    //                     if (!contains(allStatuses, data.statuses[i].id_str)) {
-    //                         try {
-    //                             // var profileURLString = data.statuses[i].user.profile_image_url_https;
-    //                             // var splitURL = profileURLString.split('_bigger');
-    //                             // data.statuses[i].user.profile_image_url = splitURL[0] + splitURL[1];
-    //                             nextStatuses.push(data.statuses[i]);
-    //                             allStatuses.push(data.statuses[i].id_str);
-    //                         } catch (ex) {
-
-    //                         }
-
-    //                     }
-    //                 }
-    //             }
-    //             nextStatuses.sort(compare);
-    //             var newRefreshTime = getRefreshTime(data.search_metadata.period);
-    //             vm.update(newRefreshTime);
-    //         }, function(error) {
-
-    //         });
-    //     }, refreshTime);
-
-    // };
+    function removeLeastRecentTweet() {
+        var minIndex = 0;
+        for (var i = 0; i < vm.statuses.length; i++) {
+            if (vm.statuses[i].created_at < vm.statuses[minIndex]) {
+                minIndex = i;
+            }
+        };
+        vm.statuses.splice(minIndex, 1);
+    }
 
     vm.update2 = function(refreshTime) {
         return $timeout(function() {
@@ -262,18 +250,23 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                     } else {
                         if (vm.statuses.length <= 0) {
                             vm.statuses = data.statuses.splice(0, searchParams.count);
-                            nextStatuses = vm.statuses;
                         } else {
                             for (var i = data.statuses.length - 1; i > -1; i--) {
-                                if (data.statuses[i].created_at > vm.statuses[0].created_at) {
-                                    // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
-                                    // $timeout(function() {
-                                    vm.statuses.unshift(data.statuses[i]);
-                                    //$('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
-                                    vm.statuses.pop();
-                                    //},200);
-
-
+                                if (vm.wallOptions.cycle) {
+                                    if (!contains(vm.statuses, data.statuses[i])) {
+                                        console.log("triggered");
+                                        removeLeastRecentTweet();
+                                        $interval.cancel(cycleInterval);
+                                        cycleInterval = undefined;
+                                        vm.statuses.unshift(data.statuses[i]);
+                                        cycleInterval = vm.cycleTweets();
+                                        
+                                    }
+                                } else {
+                                    if (data.statuses[i].created_at > vm.statuses[0].created_at) {
+                                        vm.statuses.unshift(data.statuses[i]);
+                                        vm.statuses.pop();
+                                    }
                                 }
                             }
                         }
@@ -465,11 +458,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     $scope.$on('$destroy', function() {
-        if(tweetTimeout)
+        if (tweetTimeout)
             $timeout.cancel(tweetTimeout);
-        if(cycleInterval)
+        if (cycleInterval)
             $interval.cancel(cycleInterval);
-        if(leaderboardInterval)
+        if (leaderboardInterval)
             $interval.cancel(leaderboardInterval);
     });
 
