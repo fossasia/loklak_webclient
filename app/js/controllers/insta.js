@@ -94,7 +94,7 @@ var plotted=0;
     $scope.photos.forEach(function(ele){
 
 
-      
+      var textpopup=MapPopUpTemplateService.InstaInfoPopUp(ele);      
       var pointObject = {
         "geometry": {
           "type": "Point",
@@ -105,7 +105,7 @@ var plotted=0;
           },
        "type": "Feature",
        "properties": {
-          "popupContent" : "<div class='foobar'><img src="+ele.images.standard_resolution.url+" width=350px></div>" ,
+          "popupContent" : "<div class='foobar'>"+textpopup+"</div>" ,
           "propic" : ele.images.thumbnail.url
         },
                         "id": "123"
