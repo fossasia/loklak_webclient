@@ -60,7 +60,20 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         }
     };
 
-    
+    /*
+     * When a new search is made or the outgoing search is terminated
+     * $rootScope.cancelPromise is defined when a search is made from SearchService
+     */
+    var cancelAllRequest = function() {
+        if ($rootScope.httpCanceler) {
+            angular.forEach(intervals, function(interval) {
+                $interval.cancel(interval);
+            })
+            $rootScope.httpCanceler.resolve(); 
+            ;    
+        }
+    }
+
     /*
      * Wrapper for SearchService, including
      * Updating path operation before search
@@ -68,6 +81,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      * Init a background interval to update the result
      */
     vm.update = function(term) {
+        cancelAllRequest();
         updatePath(term);
         SearchService.getData(term).then(function(data) {
                vm.pool = data.statuses;
@@ -101,6 +115,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterAccounts = function() {
+        cancelAllRequest();
         $rootScope.root.globalFilter = 'accounts';
         vm.newStasuses = [];
         vm.accountsPretty = [];
@@ -132,6 +147,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterVideos = function() {
+        cancelAllRequest();
         $rootScope.root.globalFilter = 'videos';
         vm.statuses = [];   
         vm.newStasuses = [];
@@ -161,6 +177,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     };
 
     vm.filterMap = function() {
+        cancelAllRequest();
         if (window.map) { delete(window.map); }
         vm.newStasuses = [];
         $rootScope.root.globalFilter = "map";
@@ -352,6 +369,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             if (value.q && value.q.indexOf("id:") > -1) { // When q has "id=.." Leave this for single-tweet view
                 return 1; 
             }
+
+            if (value.q && value.q.indexOf("from:") > -1) { // When q has "id=.." Leave this for single-tweet view
+                var screen_name = value.q.slice(5); //Get screen_name only
+                $location.url("/topology?screen_name=" + encodeURIComponent(screen_name));
+                return 1; 
+            }
+
             if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);

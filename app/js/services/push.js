@@ -11,14 +11,22 @@ function PushService($q, $http, AppSettings, $rootScope) {
 
 	service.pushData = undefined;
 
-	service.pushCustomData = function(url, endpoint, harvesting_freq, lifetime) {
+	/* 'params' object can contain following values (some are required) :
+		- url* : url of the source
+		- source type* : source format & origine, e.g. Twitter
+		- harvesting_freq : harvesting frequency of the data
+		- lifetime : data lifetime
+		- public : set to true to make data public for other users
+	*/
+	service.pushCustomData = function(params, endpoint) {
 		if (!$rootScope.root.twitterSession) {
 			console.err("Unable to push message of unauthenticated user");
 			return;
 		}
+		params.screen_name = $rootScope.root.twitterSession.screen_name;
 		var deferred = $q.defer();
 		$http.jsonp(AppSettings.apiUrl+'push/' + endpoint + '?callback=JSON_CALLBACK', {
-			params: {url: url, harvesting_freq : harvesting_freq, lifetime : lifetime, screen_name: $rootScope.root.twitterSession.screen_name}
+			params: params
 			}).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
@@ -27,18 +35,24 @@ function PushService($q, $http, AppSettings, $rootScope) {
 		return deferred.promise;
 	};
 
-	service.pushGeoJsonData = function(url, source_type, map_type, harvesting_freq, lifetime) {
+	/* 'params' object can contain following values (some are required) :
+		- url* : url of the source
+		- source type* : source format & origine, e.g. Twitter
+		- map_type : map rules to map custom data to loklak backend
+		- harvesting_freq : harvesting frequency of the data
+		- lifetime : data lifetime
+		- public : set to true to make data public for other users
+		For detailed list checkout http://loklak.org/api.html#geojsonpush
+	*/
+	service.pushGeoJsonData = function(params) {
 		if (!$rootScope.root.twitterSession) {
 			console.err("Unable to push message of unauthenticated user");
 			return;
 		}
+		params.screen_name = $rootScope.root.twitterSession.screen_name;
 		var deferred = $q.defer();
-		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', {
-			params: {
-				url: url, source_type : source_type || 'IMPORT', 
-				map_type : map_type, harvesting_freq : harvesting_freq, lifetime : lifetime,
-				screen_name: $rootScope.root.twitterSession.screen_name
-			}}).success(function(data) {
+		$http.jsonp(AppSettings.apiUrl+'push/geojson.json?callback=JSON_CALLBACK', { 
+			params: params }).success(function(data) {
 				deferred.resolve(data);
 			}).error(function(err, status) {
 				deferred.reject(err, status);

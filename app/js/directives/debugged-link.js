@@ -133,6 +133,10 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						} else { // When embed is available and there are multiple choice
 							var detailedData = findHtml(data.links);
 							if (detailedData) {
+								// Remove auto_play of videos from twitch
+								if (detailedData.indexOf('playerType=facebook') > -1 && detailedData.indexOf('auto_play=false') === -1) {
+									detailedData = detailedData.replace('playerType=facebook', 'playerType=facebook&auto_play=false');
+								}
 								tagToAppend = detailedData;
 							} else {
 								var moreDetailedData = findThumb(data);

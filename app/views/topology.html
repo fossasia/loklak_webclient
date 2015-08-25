@@ -1,0 +1,102 @@
+<div class="content-wrapper topology-view-content-wrapper" ng-show="topology.showPage">
+	<!-- Top banner picture -->
+	<div class="user-top-banner" ng-style="{'background-image': 'url(' + topology.user.profile_banner_url + ')', 'background-color' : '#' + topology.user.profile_background_color}">
+		<!-- Aggregated data -->
+		<div class="row aggregated-data-container">
+			<div class="container aggregated-data-content">
+				<div class="user-info-column col-md-offset-4">
+					<ul>
+						<li>
+							<span class="info-prop">Tweets</span>
+							<span clasS="info-value">{{topology.user.statuses_count}}</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Following</span>
+							<span clasS="info-value">{{topology.user.friends_count}}</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Followers</span>
+							<span clasS="info-value">{{topology.user.followers_count}}</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Favorites</span>
+							<span clasS="info-value">{{topology.user.favourites_count}}</span>
+						</li>
+
+						<li>
+							<span class="info-prop">Lists</span>
+							<span clasS="info-value">{{topology.user.listed_count}}</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="profile-picture-container">
+					<img ng-src="{{topology.user.profile_image_url}}">	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main content -->
+	<div class="container user-topology-container">
+		<div class="row">
+			<!-- Left content user profile pic & desc -->
+			<div class="left-component-container col-md-4 col-sm-12 col-lg-3">
+				
+				<div class="user-name-and-screen-name">
+					<p class="username">{{topology.user.name}}</p>
+					<p class="screen_name">@{{topology.user.screen_name}}</p>
+				</div>
+
+				<p ng-show="topology.user.description" class="user-description">
+					{{topology.user.description}}
+				</p>
+
+				<div class="more-user-metadata">
+					<p class="location" ng-show="topology.user.location" ><i class="fa fa-map-marker"></i>{{topology.user.location}}</p>
+					<p class="company" ng-show="topology.user.entities.url.urls[0].display_url"><i class="fa fa-link"></i>{{topology.user.entities.url.urls[0].display_url}}</p>
+					<p class="when-joined" ng-show="topology.created_at"><i class="fa fa-clock-o"></i>Joined {{topology.created_at}}</p>
+				</div>
+
+			</div>
+
+			<!-- Activity from users -->
+			<div class="center-component-container col-md-8 col-sm-12 col-lg-6">
+				<div ng-show="topology.showResult" class="main-result-container" infinite-scroll="loadMore(15)" infinite-scroll-distance="1">
+                    <div ng-repeat="status in topology.statuses track by $index" status open-swipe="topology.openSwipe" data="status">
+                    </div>   
+                </div>
+			</div>
+
+			<!-- Right content Other statsz -->
+			<div class="right-component-container col-md-3 visible-lg">
+	            <div class="home-user-trends">
+	                <h3 class="trend-title">Trends</h3>
+	                <ul id="home-trend-list">
+	                    <li><a href="./search?q=%23loklak">#loklak</a></li>
+	                    <li ng-repeat="(key, value) in root.trends">
+	                        <!-- -->
+	                        <a href="./search?q=%23{{key}}">#{{key}}</a>
+	                        <!-- -->
+	                    </li>
+	                </ul>
+	            </div>
+
+	            <div class="credits-container">
+	                <div class="credits">
+	                    <a>© 2015 loklak</a><span>-</span>
+	                    <a href="./about">About</a><span>-</span>
+	                    <a href="http://blog.loklak.net/" target="_blank" >Blog</a><span>-</span>
+	                    <a href="https://github.com/loklak" target="_blank" >Github</a><span>-</span>
+	                    <a href="http://facebook.com/loklakmessages" target="_blank" >Facebook</a>
+	                </div>
+	            </div>
+        	</div>
+		</div>
+	</div>
+
+
+</div>

@@ -12,11 +12,23 @@
     text-align: center;
     padding-top: 15%
 }
+.margin-right-pos
+{
+    margin-right: 8px;
+}
+.margin-right-neg
+{
+    margin-right: -8px;
+}
+.countryname
+{
+    min-width: 90px;
+    padding-right: 2px;
+}
 .analysis-titles
 {
     margin: 0;
     margin-left:5px; 
-    margin-top:8px; 
     color: #66757f;
     font-size: 18px;
     font-weight: 300;
@@ -25,7 +37,7 @@
 .scrollr
 {
     overflow-y: scroll; 
-    height : 350px ;
+    height : 340px ;
 
 }
 .no-top-margin
@@ -35,11 +47,11 @@
 }
 td
 {
-    width: 50%
+    font-size: 12px;
 
 }
 .whitebg
-{
+{   padding-top: 8px;
     border-radius:5px; 
     background: #fff;
 }
@@ -73,15 +85,21 @@ td
 }
 .tableheading
 {
-    background-color: #66757f;
+    background-color: #f5f8fa;
     border-bottom: 2px solid #ECECEC;
-    color: #FFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    width: 50%
-    font-size: 18px;
-    font-weight: 600;
+    color: #66757f;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 50%;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
 
+}
+#loadmsg
+{   text-align: center;
+    padding-top: 30%;
+    padding-bottom:40%;
 }
 #message
 {
@@ -117,12 +135,16 @@ td
 .bottom-margin-small{
     margin-bottom: 10px;
 }
+.top-margin-mid
+{
+    margin-top: 40px;
+}
 </style>
-<div class="content-wrapper" >
+<div class="content-wrapper" ng-show="root.twitterSession">
     <div class="search-container container-fluid">
-
-        <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
-            <span>report:@{{username}}</span>
+        
+        <div class="title-as-current-search-term bottom-margin-small">
+            <center><span>report:{{username}}</span></center>
         </div>
         
     </div>    
@@ -132,7 +154,7 @@ td
             <div class="col-md-3 padded ">
                 <div class="home-user-info no-top-margin">
                 <div class="blue-background-placeholder">
-                    <img ng-src="{{profilebanner}}" alt="user-banner-photo">    
+                    <img ng-src="{{profilebanner}}" s>    
                 </div>
                 <div class="home-user-info-content" style="width:268px;">
                     <div class="top-content">
@@ -147,7 +169,7 @@ td
                             <a href="">Tweets<br><span>{{tweetcount}}</span></a>
                         </div>
                         <div class="user-no-followings">
-                            <a href="">Followings<br><span>{{followingstotal}}</span></a>
+                            <a href="">Following<br><span>{{followingstotal}}</span></a>
                         </div>
                         <div class="user-no-followers">
                             <a href="">Followers<br><span>{{followerstotal}}</span></a>
@@ -159,10 +181,10 @@ td
     <br><center>
     <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
     <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
-    </button><img id="loader" src="../images/whiteloader.gif"></img>
+    </button>
     </center><br>
     
-    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+    
         </div>
             <!-- Center result + option filters -->
             <div  class="result-container col-md-6">
@@ -186,32 +208,38 @@ td
                
 
                 <!-- Main analysis -->
-                <div  class="main-result-container whitebg" >
+                <div id="loadmsg" class="main-result-container whitebg">
+                    <img id="loader" src="../images/whiteloader.gif"></img>
+                    <h3 id="loadingmessage">Analyzing the latest data for you.Please hold on.<h3>
+                    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+                    <div id="errormessage">Sorry there's some glitch :(. Please try again later.</div>
+                </div>
+                <div id="analysis-report" class="main-result-container whitebg" >
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6 margin-right-neg">
                             <h3 class="analysis-titles">Country wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
+                            <canvas id="doughnut" class="chart chart-doughnut top-margin-mid" data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 margin-right-pos" >
                             <table class="table ">
-                                <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
+                                <th class="tableheading countryname">Country</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="country in countrydata | limitTo:5">
-                                        <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
+                                        <td align="left" >{{country.country}}</td><td align="center">{{country.followers}}</td><td align="center">{{country.percentage}}%</td>
                             </table> 
                         </div><!--end span8-->
                     </div>
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6 margin-right-neg">
                             <h3 class="analysis-titles">City wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
+                            <canvas id="doughnut" class="chart chart-doughnut top-margin-mid"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
                             </canvas>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 margin-right-pos">
                             <table class="table">
-                                <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
+                                <th class="tableheading">City</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
                                     <tr ng-repeat="city in citydata | limitTo:5">
-                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}%</i></b></td>
+                                        <td align="left">{{city.city}}</td><td align="center">{{city.followers}}</td><td align="center">{{city.percentage}}%</i></td>
                             </table> 
                         </div><!--end span8-->
                     </div>
@@ -231,13 +259,13 @@ td
             </div>
 
             <!-- Right content: Other statistics -->
-            <div class="dashboard dashboard-right col-md-3 padded">
+            <div id="inffollowers" class="dashboard dashboard-right col-md-3 padded">
                 <div class="row whitebg" style="margin-left:5px">
                     <h3 class="analysis-titles">Follower's distribution</h3>
                     <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
                     </canvas>
                 </div>
-                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;">
+                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;margin-top:10px;">
                     <h3 class="analysis-titles">Most Influential Followers</h3>
                                         <div class="scrollr">
                                         <div ng-repeat="follower in followers_follower | limitTo:100">
@@ -255,7 +283,7 @@ td
                                             <a href="">Tweets<br><span>{{follower.statuses_count}}</span></a>
                                         </div>
                                         <div class="user-no-followings">
-                                            <a href="">Followings<br><span>{{follower.following}}</span></a>
+                                            <a href="">Following<br><span>{{follower.following}}</span></a>
                                         </div>
                                         <div class="user-no-followers">
                                             <a href="">Followers<br><span>{{follower.followers}}</span></a>
@@ -273,3 +301,4 @@ td
         </div>
     </div>
 </div>
+ <div ng-hide="root.twitterSession" ng-include src="'anonymous-session-content.html'"></div>
