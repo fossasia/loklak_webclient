@@ -41,10 +41,18 @@ var plotted=0;
       var pairs=vars[1].split("=");
       access_token=pairs[1];
       url=url+access_token;
-      var i;
-      for(i=0;i<10;i++)
-      {
-        console.log("url being used"+url)
+      var i=0;
+      getData(url,1);
+      
+
+    
+
+
+  $scope.curr_page=0;
+  $scope.lastpage;
+     function getData(url,i)
+    { 
+
       $http.jsonp(url).then(function(response)
       {   
          var picdata=response.data.data;
@@ -52,34 +60,33 @@ var plotted=0;
           if(ele.location)
           {
             if(ele.location.latitude)
-            {
+            { 
+              console.log(ele);
               $scope.photos.push(ele);
             }
           }
-         })
-        // console.log(url)
-         url=response.data.pagination.next_url; 
-        // console.log(url);
-        // console.log(url);
-         //plotOnMap();
+         });
+
+        url=response.data.pagination.next_url; 
+        console.log(url);
+        plotOnMap();
+        if(i<20)
+        {
+          i++;
+         url=url+"&callback=JSON_CALLBACK";
+         getData(url,i);
+        }
       }, function(response)
          {
             console.log(response);
          });
 
     }
-
-
-    
-
-
-  $scope.curr_page=0;
-  $scope.lastpage;
- 
+      
 
    function plotOnMap()
    {
-   // console.log("called");
+    console.log("called");
     var photosMarker = {
                 "type": "FeatureCollection",
                 "features": []
@@ -98,7 +105,7 @@ var plotted=0;
           },
        "type": "Feature",
        "properties": {
-          "popupContent" : "<div class='foobar'><img src="+ele.images.standard_resolution.url+"></div>" ,
+          "popupContent" : "<div class='foobar'><img src="+ele.images.standard_resolution.url+" width=350px></div>" ,
           "propic" : ele.images.thumbnail.url
         },
                         "id": "123"
@@ -143,7 +150,7 @@ var plotted=0;
                     }
                     
                 }
-      
+
 
 
 }]);
