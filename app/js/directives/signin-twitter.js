@@ -116,6 +116,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 				});
 
 				var updateTimeline = function() {
+					console.log("Getting newer tweets");
 					hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
 						// Sort by created time to show on timeline
 						twitterFriendFeed.data.sort(function(a,b) {
@@ -151,11 +152,24 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					});
 				}
 
-				// Start an interval to update timeline
+				/*
+				 * Start an interval to update timeline
+				 * The interval is incremental
+				 * implemented with recursive interval
+				 * base interval is 20s, increment is 11s
+				 */
 				angular.forEach(timelineIntervals, function(interval) {
 				    $interval.cancel(interval);
 				})
-				timelineIntervals.push($interval(updateTimeline, 30000)); 
+				var updateTimlineInterval = function(refreshTime) {
+					return $timeout(function() {
+						updateTimeline();
+						refreshTime += 11000;
+						updateTimlineInterval(refreshTime)
+					}, refreshTime)
+				}
+				updateTimlineInterval(20000);
+
 			});
 
 			hello.on('auth.logout', function(auth) {
