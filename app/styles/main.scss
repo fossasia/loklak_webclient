@@ -427,8 +427,8 @@
 	.animate-repeat.ng-leave-stagger,
 	.animate-repeat.ng-move-stagger {
 	  /* 200ms will be applied between each sucessive enter operation */ 
-	  -webkit-transition-delay:2s;
-	  transition-delay:2s;
+	  -webkit-transition-delay:0.2s;
+	  transition-delay:0.2s;
 	}
 
 	.animate-repeat.ng-enter,
