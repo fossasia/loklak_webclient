@@ -15,6 +15,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     var vm, flag, allStatuses, nextStatuses, term, count, searchParams, maxStatusCount;
     vm = this;
     vm.invalidId = false;
+    var tweetTimeout, cycleInterval, leaderboardInterval;
 
     function calculateTerm(argument) {
         term = "";
@@ -114,8 +115,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 }
                 calculateTerm();
                 //On INIT
-                vm.update2(0);
+                tweetTimeout = vm.update2(0);
                 vm.loadLeaderboard();
+                cycleInterval = vm.cycleTweets();
+                leaderboardInterval = vm.cycleLeaderboard();
+
             } else {
                 vm.invalidId = true;
             }
@@ -253,7 +257,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                 if (data.statuses) {
                     if (data.statuses.length <= 0) {
                         vm.showEmpty = true;
-                        vm.update2(refreshTime + 10000);
+                        tweetTimeout = vm.update2(refreshTime + 10000);
                         console.log(refreshTime + 10000);
                     } else {
                         if (vm.statuses.length <= 0) {
@@ -274,15 +278,15 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
                             }
                         }
                         var newRefreshTime = getRefreshTime(data.search_metadata.period);
-                        vm.update2(newRefreshTime);
+                        tweetTimeout = vm.update2(newRefreshTime);
                         vm.showEmpty = false;
                     }
                 } else {
-                    vm.update2(refreshTime + 10000);
+                    tweetTimeout = vm.update2(refreshTime + 10000);
                     console.log(refreshTime + 10000);
                 }
             }, function(error) {
-                vm.update2(refreshTime + 10000);
+                tweetTimeout = vm.update2(refreshTime + 10000);
                 console.log(refreshTime + 10000);
 
             });
@@ -430,27 +434,46 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     vm.cycleTweets = function() {
         if (vm.wallOptions.cycle) {
-            if (vm.statuses.length > 0) {
-                var tempTweet = vm.statuses.pop();
-                // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
-                // $timeout(function() {
-                vm.statuses.unshift(tempTweet);
-                //     $('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
+            return $interval(function() {
+                if (vm.statuses.length > 0) {
+                    var tempTweet = vm.statuses.pop();
+                    // $('#wall-tweet-container').find('div').first().addClass('linear-list-animation');
+                    // $timeout(function() {
+                    vm.statuses.unshift(tempTweet);
+                    //     $('#wall-tweet-container').find('div').first().removeClass('linear-list-animation');
 
-                // }, 200);
-
-            }
-
+                    // }, 200);
+                }
+            }, 5000);
+        } else {
+            return;
         }
     };
 
-    // $scope.$watchCollection("wall.statuses", function() {
+    vm.cycleLeaderboard = function() {
+        if (vm.wallOptions.showStatistics == true) {
+            return $interval(function() {
+                var tabs = $('.nav-tabs-custom > .nav-tabs > li'),
+                    active = tabs.filter('.active'),
+                    next = active.next('li'),
+                    toClick = next.length ? next.find('a') : tabs.eq(0).find('a');
+                toClick.trigger('click');
+            }, 5000);
+        } else {
+            return;
+        }
+    };
 
-    // });
+    $scope.$on('$destroy', function() {
+        if(tweetTimeout)
+            $timeout.cancel(tweetTimeout);
+        if(cycleInterval)
+            $interval.cancel(cycleInterval);
+        if(leaderboardInterval)
+            $interval.cancel(leaderboardInterval);
+    });
 
-    $interval(function() {
-        vm.cycleTweets();
-    }, 5000)
+
 
 
 }

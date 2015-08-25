@@ -631,7 +631,7 @@
     border-bottom: 2px solid $background-dark;
     /*margin: 8px;*/
     padding: 4px 0;
-    font-size: 1.8vh;
+    font-size: 2.5vh;
     img {
         border-radius: 50%;
     }
@@ -640,8 +640,9 @@
         padding-left: 0 !important;
         padding-right: 0 !important;
         img {
-            height: 6vh;
-            width: 6vh;
+            height: 8vh;
+            width: 8vh;
+            line-height: 8vh;
         }
     }
 }
@@ -650,8 +651,8 @@
 
 .leaderboard-count {
     background-color: #00a65a;
-    height: 6vh;
-    width: 6vh;
+    height: 8vh;
+    width: 8vh;
     padding: 2vh 0;
     text-align: center;
     border-radius: 50%;
@@ -661,7 +662,7 @@
 .leaderboard-label {
     top: 9px;
     position: absolute;
-    left: 5.8vh;
+    left: 6.8vh;
     text-align: center;
     line-height: .9;
     padding: 2px 3px;
@@ -669,9 +670,11 @@
 }
 
 .leaderboard-text {
-    font-size: 2.1vh;
-    padding-top: 8vh 0;
-    overflow: hidden;
+    a {
+        font-size: 2.8vh;
+        height: 8vh;
+        line-height: 8vh;
+    }
 }
 
 .histogram-loader {
@@ -688,7 +691,6 @@
     /*background-color: red;*/
     margin-bottom: 0;
     bottom: 0;
-    /*bottom: 30vh;*/
     width: 33vw;
     .box {
         margin-bottom: 0;
