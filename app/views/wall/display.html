@@ -39,7 +39,7 @@
                 <h4>LEADERBOARD</h4>
                 <div class="row leaderboard-container">
                     <img class="histogram-loader" ng-hide="wall.topTwitterersData" src="images/loading.gif">
-                    <div class="nav-tabs-custom" style="margin: 0 15px; width:33vw;">
+                    <div class="nav-tabs-custom" style="margin: 0 15px; width:33vw;" ng-mouseover="stopLeaderboardTimer()" ng-mouseleave="startLeaderboardTimer()">
                         <ul class="nav nav-tabs">
                             <li class="active" ng-style="getTabStyle(this)">
                                 <a data-toggle="tab" href="#tab-twitterers">Top Twitterers</a>
