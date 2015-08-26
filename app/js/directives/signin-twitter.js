@@ -17,6 +17,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 			var timelineIntervals = [];
 			$rootScope.root.timelineNewTweets = [];
 			$rootScope.root.haveNewerTweets = false;
+			$rootScope.root.doneGettingFeed = false;
 			/* Check if a session is available before hello.js even initialize
 	         * in order to determine if the application is going to login automatically or not
 			 */
@@ -107,6 +108,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 						$rootScope.root.twitterFriends = twitterFriendFeed;
 						$rootScope.root.activityFeedIdStrArray = activityFeedIdStrArray;
 						$rootScope.root.homeFeedLimit = 15;
+						$rootScope.root.doneGettingFeed = true;
 						$rootScope.root.loadMoreHomeFeed = function(operand) {
 							$rootScope.root.homeFeedLimit += operand;
 						};
