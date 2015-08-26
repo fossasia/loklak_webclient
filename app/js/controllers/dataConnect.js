@@ -1,6 +1,5 @@
 'use strict';
 /* jshint unused:false */
-/* global angular */
 
 var controllersModule = require('./_index');
 
@@ -8,7 +7,7 @@ var controllersModule = require('./_index');
 controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
 	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
-	if ($stateParams.source_type !== null) {
+	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
 
 		// invalid 'source_type' parameter : returning to default MyConnection page
@@ -32,7 +31,6 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			'field': 'lifetime'
 		}
 	];
-
 	$scope.dataSourceItems = [];
 	/**
 	 * Messages that are displayed in the main datasource page
@@ -74,8 +72,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		if (!$rootScope.root.twitterSession) {
 			return;
 		}
-
-		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
+		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -115,7 +112,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 
 	$scope.showRowDetail = function(e) {
 		// do not trigger when event source is a link or the span badge
-		if (e.target.localName === 'a' || e.target.localName === 'span') {
+		if (e.target.localName === 'a' || e.target.localName === 'span') {
 			return;
 		}
 		angular.element(e.currentTarget).toggleClass("showing-detail");
@@ -164,8 +161,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	// wait until logged in to uploadDataSource
 	// this is necessary since sometimes this function is called before user finished logging in
 	$rootScope.$watchCollection('root.twitterSession', function() {
-		if($rootScope.root.twitterSession) {
+		if($rootScope.root.twitterSession)
 			updateDataSources();
-		}
 	});
 }]);
