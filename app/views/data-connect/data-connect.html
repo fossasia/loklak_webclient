@@ -9,7 +9,7 @@
 		<div class="buttonPanel pull-right">
 			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal" ng-click="clearModalData()">Add Source</button>
 		</div>
-		<h1>My Data Sources</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
+		<h1>My Data</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
 		<div data-connect-alert messages="dataSourceMessages" set-message-view="setMessageView(profile)"></div>
 		<hr/>
 		<ul id="datasource-table">
@@ -82,6 +82,7 @@
 				<div class="modal-body">
 					<div ng-repeat="value in selectedMessages">
 						<div single-imported-status data="value" profile="selectedProfile"></div>
+						<hr/>
 					</div>
 				</div>
 			</div>
