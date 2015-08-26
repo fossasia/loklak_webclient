@@ -685,13 +685,18 @@
     margin-top: 20px;
 }
 
+.leaderboard-container {
+    width: 32vw;
+    margin-right: 15px;
+}
+
 .histogram-container {
     position: fixed;
     /*padding-top: 5vh;*/
     /*background-color: red;*/
     margin-bottom: 0;
     bottom: 0;
-    width: 33vw;
+    width: 30vw;
     .box {
         margin-bottom: 0;
     }
