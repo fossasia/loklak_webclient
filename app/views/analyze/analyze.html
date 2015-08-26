@@ -4,272 +4,166 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
-
- <style type="text/css">
-.background{
-    width : 100%;
-    height: 100vh; 
-    text-align: center;
-    padding-top: 15%
-}
-.analysis-titles
-{
-    margin: 0;
-    margin-left:5px; 
-    margin-top:8px; 
-    color: #66757f;
-    font-size: 18px;
-    font-weight: 300;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-.scrollr
-{
-    overflow-y: scroll; 
-    height : 350px ;
-
-}
-.no-top-margin
-{
-    margin-top:0px; 
-    padding: 0px;
-}
-td
-{
-    width: 50%
-
-}
-.whitebg
-{
-    border-radius:5px; 
-    background: #fff;
-}
-.heading
-{
-    color: #fff;
-    font-family: "Lucida Console", Monaco, monospace;
-    margin-bottom: 25px;
-}
-.inputname
-{
-    color: #292f33;
-    margin-top:8px;
-    background-color: #fff;
-    border: 2px solid #e1e8ed;
-    border-radius: 21px;
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 14px;
-    
-}
-.big {
-    margin-top: 15px;
-    height : 50px;
-    size : 10%;
-    font-size: 20px;
-    background: #55ACEE;
-    border-color: #55ACEE;
-    color : #fff;
-    font-family: "Lucida Console", Monaco, monospace;
-}
-.tableheading
-{
-    background-color: #66757f;
-    border-bottom: 2px solid #ECECEC;
-    color: #FFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    width: 50%
-    font-size: 18px;
-    font-weight: 600;
-
-}
-#message
-{
-    margin-top:20%;
-    font-family: "Lucida Console", Monaco, monospace; 
-    font-size: 24px ;
-    color: #555555;
-    text-align: center;
-}
-#notfoundmessage
-{
-    color: red;
-    font-size : 15px;
-    font-family: "Lucida Console", Monaco, monospace; 
-}
-.fillit
-{
-    width: 70%;
-    height:100%;
-    margin : 0 auto;
-
-}
-#percentage-modal .modal-dialog
-{
-    padding: 10px;
-    min-width: 1080px;
-    margin: 0 auto;
-}
-.padded
-{
-    padding-left: 0px;
-}
-.bottom-margin-small{
-    margin-bottom: 10px;
-}
-</style>
-<div class="content-wrapper" >
+<div class="content-wrapper report-content-wrapper" ng-show="root.twitterSession">
     <div class="search-container container-fluid">
-
-        <div ng-show="!search.showMap" class="title-as-current-search-term bottom-margin-small">
-            <span>report:@{{username}}</span>
+        
+        <div class="title-as-current-search-term bottom-margin-small">
+            <center><span>report:{{username}}</span></center>
         </div>
         
     </div>    
+
+        <div class="filters-container container">
+            <ul class="search-modes">
+                <li class="active" ng-class="(root.globalFilter === 'followers') ? 'active' : ''" ng-click="getstatfollower()">
+                    <a href="#">Followers</a>
+                </li>
+                <li  ng-class="(root.globalFilter === 'following') ? 'active' : ''" ng-click="getstatfollowing()">
+                    <a href="#">Following</a>
+                </li>
+                <li  ng-class="(root.globalFilter === 'iot') ? 'active' : ''" ng-click="getstatiot()">
+                    <a href="#">IoT</a>
+                </li>
+            </ul>
+        </div>
         <!-- Main content -->
         <div class="container content-container">
             <!-- Left content: Who to follow, trends -->
             <div class="col-md-3 padded ">
                 <div class="home-user-info no-top-margin">
-                <div class="blue-background-placeholder">
-                    <img ng-src="{{profilebanner}}" alt="user-banner-photo">    
-                </div>
-                <div class="home-user-info-content" style="width:268px;">
-                    <div class="top-content">
-                        <img ng-src="{{profilepicurl | homePageImage }}">
-                        <div class="name-and-screen-name">
-                            <span class="home-user-name">{{name}}</span><br>
-                            <span class="home-user-screen-name">@{{username}}</span>
+                    <div class="blue-background-placeholder">
+                        <img ng-src="{{profilebanner}}" s>    
+                    </div>
+                    <div class="home-user-info-content" style="width:268px;">
+                        <div class="top-content">
+                            <img ng-src="{{profilepicurl | homePageImage }}">
+                            <div class="name-and-screen-name">
+                                <span class="home-user-name">{{name}}</span>
+                                <span class="home-user-screen-name">@{{username}}</span>
+                            </div>
+                        </div>
+                        <div class="bottom-content">
+                            <div class="user-no-tweets">
+                                <a href="">Tweets<br><span>{{tweetcount}}</span></a>
+                            </div>
+                            <div class="user-no-followings">
+                                <a href="">Following<br><span>{{followingstotal}}</span></a>
+                            </div>
+                            <div class="user-no-followers">
+                                <a href="">Followers<br><span>{{followerstotal}}</span></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="bottom-content">
-                        <div class="user-no-tweets">
-                            <a href="">Tweets<br><span>{{tweetcount}}</span></a>
-                        </div>
-                        <div class="user-no-followings">
-                            <a href="">Following<br><span>{{followingstotal}}</span></a>
-                        </div>
-                        <div class="user-no-followers">
-                            <a href="">Followers<br><span>{{followerstotal}}</span></a>
-                        </div>
-                    </div>
                 </div>
+                <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
+                <br><center>
+                <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
+                <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
+                </button>
+                </center><br>
             </div>
-            <input type="text" class="inputname" ng-model="username"  placeholder="screenname" required></input> 
-    <br><center>
-    <button type="button" class="btn btn-default big" aria-label="Left Align"  ng-click="getstatfollower()"  >
-    <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
-    </button><img id="loader" src="../images/whiteloader.gif"></img>
-    </center><br>
-    
-    <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+
+        <!-- Center result + option filters -->
+        <div  class="result-container col-md-6">
+            <!-- Filters -->
+
+            
+           
+
+            <!-- Main analysis -->
+            <div id="loadmsg" class="main-result-container whitebg">
+                <img id="loader" src="../images/whiteloader.gif"></img>
+                <h3 id="loadingmessage">Analyzing the latest data for you.Please hold on.<h3>
+                <div id="notfoundmessage">Sorry we did not find anyone with this account</div>  
+                <div id="errormessage">Sorry there's some glitch :(. Please try again later.</div>
+            </div>
+            <div id="analysis-report" class="main-result-container whitebg" >
+                <div class="row">
+                    <div class="col-md-6 margin-right-neg">
+                        <h3 class="analysis-titles">Country wise Followers</h3>
+                        <canvas id="doughnut" class="chart chart-doughnut top-margin-mid" data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
+                        </canvas>
+                    </div>
+                    <div class="col-md-6 margin-right-pos" >
+                        <table class="table ">
+                            <th class="tableheading countryname">Country</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
+                                <tr ng-repeat="country in countrydata | limitTo:5">
+                                    <td align="left" >{{country.country}}</td><td align="center">{{country.followers}}</td><td align="center">{{country.percentage}}%</td>
+                        </table> 
+                    </div><!--end span8-->
+                </div>
+                <div class="row">
+                    <div class="col-md-6 margin-right-neg">
+                        <h3 class="analysis-titles">City wise Followers</h3>
+                        <canvas id="doughnut" class="chart chart-doughnut top-margin-mid"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
+                        </canvas>
+                    </div>
+                    <div class="col-md-6 margin-right-pos">
+                        <table class="table">
+                            <th class="tableheading">City</th><th class="tableheading">Followers</th><th class="tableheading">Percentage</th>
+                                <tr ng-repeat="city in citydata | limitTo:5">
+                                    <td align="left">{{city.city}}</td><td align="center">{{city.followers}}</td><td align="center">{{city.percentage}}%</i></td>
+                        </table> 
+                    </div><!--end span8-->
+                </div>
+
+            </div>                   
+
+            <!-- People results -->
+            <div ng-if="search.peopleSearch" class="main-result-container">
+                <div ng-repeat="account in search.accounts" account data="account"></div>
+            </div>
+      
         </div>
-            <!-- Center result + option filters -->
-            <div  class="result-container col-md-6">
-                <!-- Filters -->
-                <div class="filters-container">
-                    <ul class="search-modes">
-                        <!-- General filters -->
-                        <li class="active" ng-class="(root.globalFilter === 'followers') ? 'active' : ''" ng-click="getstatfollower()">
-                            <a href="#">Followers</a>
-                        </li>
-                        <li  ng-class="(root.globalFilter === 'following') ? 'active' : ''" ng-click="getstatfollowing()">
-                            <a href="#">Following</a>
-                        </li>
-                        <li  ng-class="(root.globalFilter === 'iot') ? 'active' : ''" ng-click="getstatiot()">
-                            <a href="#">IoT</a>
-                        </li>
-                    </ul>
-                </div>
+         <!-- Map result -->
+        <div ng-show="search.showMap" class="search-map-wrapper map-container-parent">
+            <div id="search-map"></div>
+        </div>
 
-                
-               
-
-                <!-- Main analysis -->
-                <div  class="main-result-container whitebg" >
-                    <div class="row">
-                        <div class="col-md-7">
-                            <h3 class="analysis-titles">Country wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="countryvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="countrylabels">
-                            </canvas>
-                        </div>
-                        <div class="col-md-5">
-                            <table class="table ">
-                                <th class="tableheading"><b>Country</th><th class="tableheading">Followers</b></th>
-                                    <tr ng-repeat="country in countrydata | limitTo:5">
-                                        <td><b>{{country.country}}</td><td><i>{{country.followers}}%</i></b></td>
-                            </table> 
-                        </div><!--end span8-->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            <h3 class="analysis-titles">City wise Followers</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"data="cityvalues" colour="{#F7464A,#46BFBD,#FDB45C,#878BB6}" labels="citylabels">
-                            </canvas>
-                        </div>
-                        <div class="col-md-5">
-                            <table class="table">
-                                <th class="tableheading"><b>City</th><th class="tableheading">Followers</b></th>
-                                    <tr ng-repeat="city in citydata | limitTo:5">
-                                        <td><b>{{city.city}}</td><td><i>{{city.followers}}%</i></b></td>
-                            </table> 
-                        </div><!--end span8-->
-                    </div>
-
-                </div>                   
-
-                <!-- People results -->
-                <div ng-if="search.peopleSearch" class="main-result-container">
-                    <div ng-repeat="account in search.accounts" account data="account"></div>
-                </div>
-
-               
+        <!-- Right content: Other statistics -->
+        <div id="inffollowers" class="dashboard dashboard-right col-md-3 padded">
+            <div class="row whitebg" style="margin-left:5px">
+                <h3 class="analysis-titles">Follower's distribution</h3>
+                <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
+                </canvas>
             </div>
-             <!-- Map result -->
-            <div ng-show="search.showMap" class="search-map-wrapper map-container-parent">
-                <div id="search-map"></div>
+            <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;margin-top:10px;">
+                <h3 class="analysis-titles-list">Most Influential Followers</h3>
+                                    <div class="scrollr">
+                                    <div ng-repeat="follower in followers_follower | limitTo:100">
+                                    <div class="home-user-info" style="width:100%;padding-top:20px; margin-bottom:5px;">
+                                    <div class="home-user-info-content">
+                                        <div class="top-content">
+                                            <img src="{{follower.profileimg}}">
+                                        <div class="name-and-screen-name">
+                                            <span class="home-user-name">{{follower.name}}</span>
+                                            <span class="home-user-screen-name">@{{follower.screenname}}</span>
+                                        </div>
+                                  </div>
+                                  <div class="bottom-content">
+                                    <div class="user-no-tweets">
+                                        <a href="">Tweets<br><span>{{follower.statuses_count}}</span></a>
+                                    </div>
+                                    <div class="user-no-followings">
+                                        <a href="">Following<br><span>{{follower.following}}</span></a>
+                                    </div>
+                                    <div class="user-no-followers">
+                                        <a href="">Followers<br><span>{{follower.followers}}</span></a>
+                                    </div>
+                                  </div>
+                    
+                                    </div>
+                                    </div>
+                                    </div>
+                                
             </div>
-
-            <!-- Right content: Other statistics -->
-            <div class="dashboard dashboard-right col-md-3 padded">
-                <div class="row whitebg" style="margin-left:5px">
-                    <h3 class="analysis-titles">Follower's distribution</h3>
-                    <canvas id="doughnut" class="chart chart-doughnut" legend="true" data="categoryvalues"labels="categorylabels">
-                    </canvas>
-                </div>
-                <div class="row whitebg " style="margin-left:5px; margin-bottom:10px;">
-                    <h3 class="analysis-titles">Most Influential Followers</h3>
-                                        <div class="scrollr">
-                                        <div ng-repeat="follower in followers_follower | limitTo:100">
-                                        <div class="home-user-info" style="width:100%;padding-top:20px; margin-bottom:5px;">
-                                        <div class="home-user-info-content">
-                                            <div class="top-content">
-                                                <img src="{{follower.profileimg}}">
-                                            <div class="name-and-screen-name">
-                                                <span class="home-user-name">{{follower.name}}</span><br>
-                                                <span class="home-user-screen-name">@{{follower.screenname}}</span>
-                                            </div>
-                                      </div>
-                                      <div class="bottom-content">
-                                        <div class="user-no-tweets">
-                                            <a href="">Tweets<br><span>{{follower.statuses_count}}</span></a>
-                                        </div>
-                                        <div class="user-no-followings">
-                                            <a href="">Following<br><span>{{follower.following}}</span></a>
-                                        </div>
-                                        <div class="user-no-followers">
-                                            <a href="">Followers<br><span>{{follower.followers}}</span></a>
-                                        </div>
-                                      </div>
-                        
-                                        </div>
-                                        </div>
-                                        </div>
-                                    
-                </div>
-            </div>
+        </div>
             </div>
 
         </div>
     </div>
 </div>
+ <div ng-hide="root.twitterSession" ng-include src="'anonymous-session-content.html'"></div>
+<!-- 
+    
+ -->

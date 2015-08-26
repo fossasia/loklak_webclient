@@ -43,6 +43,7 @@ function MapPopUpTemplateService($filter, SourceTypeService, JsonFieldAccessorSe
   	var text = $filter('tweetHashtag')($filter('tweetMention')($filter('tweetTextLink')(status.text)));
   	var created_at = $filter('date')(status.created_at, 'dd MMM yyyy hh:mm:ss');
     var placetext="";
+    var linkToTweet = (status.id_str) ? ("./tweet?q=id:" + status.id_str) : "#";
     if ((status.location_source === "REPORT" || status.location_source === "PLACE") && status.location_source) { placetext='<i class="fa fa-map-marker text"></i>&nbsp'+status.place_name; }
 
   	result='<div class="single-tweet tweet map-tweet">'
@@ -57,6 +58,7 @@ function MapPopUpTemplateService($filter, SourceTypeService, JsonFieldAccessorSe
   		+			'</div>'
   		+ 			'<p class="tweet-content-text">' + text +  '</p>'
   		+				'<div class="detail-metadata">'
+      +           '<a href="' + linkToTweet + '" class="from-map-to-single-tweet">Details</a>'   
   		+			    	'<span class="metadata">' + created_at + '</span> · '
       +             placetext
   		+				'</div>'        
@@ -68,13 +70,14 @@ function MapPopUpTemplateService($filter, SourceTypeService, JsonFieldAccessorSe
 
   service.genUserInfoPopUp = function(status) {
     var result = "Failed loading data from twitter";
+    var title;
 
     if (status.isAFollower && status.isAFollowing) {
-      var title = '<h4 id="user-' + status.id_str + '" class="follower-and-following-button">Follower/Following</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="follower-and-following-button">Follower/Following</h4>';
     } else if (status.isAFollowing) {
-      var title = '<h4 id="user-' + status.id_str + '" class="following-button">Following</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="following-button">Following</h4>';
     } else {
-      var title = '<h4 id="user-' + status.id_str + '" class="follower-button">Follower</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="follower-button">Follower</h4>';
     }
 
     var location = (status.location) ? '<span class="twitter-api-user-location"> - ' + status.location + ', ' + status.location_country + '</span>' : '';

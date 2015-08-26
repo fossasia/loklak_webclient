@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, $ */
+/* global angular, alert, $ */
 /* jshint unused:false */
 
 var controllersModule = require('./_index');
@@ -60,12 +60,12 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
     $scope.tabSelected = function(index) {
         $scope.selectedTab = index;
-        if (index == 2) {
+        if (index === 2) {
             $scope.showNext = false;
         } else {
             $scope.showNext = true;
         }
-    }
+    };
 
     initWallOptions();
 
@@ -99,7 +99,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                 $scope.invalidFile = true;
                 delete $scope.newWallOptions.logo;
             } else {
-                $scope.invalidFile = false
+                $scope.invalidFile = false;
             }
         }
     });
@@ -118,7 +118,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
     $scope.$watch('newWallOptions.images', function() {
         if ($scope.newWallOptions.images) {
-            if ($scope.newWallOptions.images == 'only') {
+            if ($scope.newWallOptions.images === 'only') {
                 $scope.newWallOptions.videos = ['none'];
             }
         }
@@ -126,19 +126,44 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
     $scope.$watch('newWallOptions.videos', function() {
         if ($scope.newWallOptions.videos) {
-            if ($scope.newWallOptions.videos == 'only') {
+            if ($scope.newWallOptions.videos === 'only') {
                 $scope.newWallOptions.images = ['none'];
             }
         }
     });
 
     $scope.proceed = function() {
-        $scope.selectedTab++;
-        $('.nav-tabs > .active').next('li').find('a').trigger('click');
-        if ($scope.selectedTab == 2) {
-            $scope.showNext = false;
+        if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
+            alert("Invalid cycle post limit! Please enter a value between 1 and 100. We have set it to the recommended value.")
+            $scope.newWallOptions.cyclePostLimit = 15;
+        } else {
+            if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
+                alert("Invalid cycle delay time! Please enter a value between 1 and 20. We have set it to the recommended value.")
+                $scope.newWallOptions.cycleDelayTime = 5;
+            } else {
+                $scope.selectedTab++;
+                $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                if ($scope.selectedTab == 2) {
+                    $scope.showNext = false;
+                }
+            }
+
         }
+
     };
+
+
+    $scope.lostCycleDelayFocus = function() {
+        // if(!$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit<1) || ($scope.newWallOptions.cyclePostLimit>20)){
+        //     $scope.newWallOptions.cyclePostLimit = 15;
+        // }
+    }
+
+    $scope.lostCyclePostsFocus = function() {
+        // if(!$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime<1) || ($scope.newWallOptions.cycleDelayTime>100)){
+        //     $scope.newWallOptions.cycleDelayTime = 5;
+        // }
+    }
 
     $scope.start = function() {
         //construct term
@@ -156,7 +181,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             for (var k in $scope.newWallOptions) {
                 saveData[k] = $scope.newWallOptions[k];
             }
-            if (isEditing != -1) {
+            if (isEditing !== -1) {
                 $scope.userWalls[isEditing].showLoading = true;
                 for (var k in $scope.newWallOptions) {
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
@@ -205,7 +230,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     $scope.resetLogo = function() {
         $scope.newWallOptions.logo = null;
         //$scope.$apply();
-    }
+    };
 
     $scope.deleteWall = function(index) {
         //console.log(index);
@@ -216,15 +241,11 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
         }, function(data) {
             $scope.userWalls[index].showLoading = false;
             $scope.userWalls.splice(index, 1);
-            if ($scope.userWalls.length == 0)
+            if ($scope.userWalls.length === 0) {
                 $scope.wallsPresent = false;
+            }
             //$scope.userWalls[index].showLoading = false;
         });
-
-        // var saveData = {};
-        // saveData.screen_name = $scope.screen_name;
-        // saveData.apps = $scope.userData;
-        // AppsService.updateData(saveData);
     };
 
     $scope.editWall = function(index) {
@@ -237,7 +258,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     $scope.openModal = function() {
         initWallOptions();
         $('#wall-modal').modal('toggle');
-    }
+    };
 
     var init = function() {
 
@@ -248,7 +269,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                 user: auth.screen_name,
                 app: 'wall'
             }, function(result) {
-                if ($scope.userWalls.length == 0) {
+                if ($scope.userWalls.length === 0) {
                     $scope.wallsPresent = false;
                     console.log("No walls");
                 }
@@ -262,7 +283,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             user: auth.authResponse.screen_name,
             app: 'wall'
         }, function(result) {
-            if ($scope.userWalls.length == 0) {
+            if ($scope.userWalls.length === 0) {
                 $scope.wallsPresent = false;
                 console.log("No walls");
             }

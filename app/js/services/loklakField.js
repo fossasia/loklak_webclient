@@ -34,7 +34,7 @@ function LoklakFieldService() {
 		'netmon': [],
 		'freifunk_node': [],
 		'ninux': []
-	}
+	};
 
 	return service;
 }

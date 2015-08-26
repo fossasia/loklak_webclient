@@ -64,11 +64,11 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     templateUrl: 'single-tweet.html',
     title: 'SingleTweet'
   })
-  .state('Map', {
-    url: '/map',
-    templateUrl: 'map/tweetmap.html',
-    controller: 'MapCtrl as map',
-    title: 'Map'
+  .state('Topology', {
+    url: '/topology?screen_name',
+    templateUrl: 'topology.html',
+    controller: 'TopologyCtrl as topology',
+    title: 'Topology'
   })
   .state('DataConnect', {
     url: '/connect',

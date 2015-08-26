@@ -153,7 +153,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     });
 
     return deferred.promise;
-  }
+  };
   return service;
 
 }

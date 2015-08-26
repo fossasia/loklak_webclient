@@ -1,5 +1,6 @@
 'use strict';
 /* jshint unused:false */
+/* global angular */
 
 /**
  * @ngInject

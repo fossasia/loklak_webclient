@@ -4,7 +4,6 @@
 
 var directivesModule = require('./_index.js');
 module.exports = function (_module) {
-  'use strict';
   _module.directive('scrolltoadd', function ($parse) {
     return function ($scope, element, attrs) {
       var handler = $parse(attrs.bufferedScroll);

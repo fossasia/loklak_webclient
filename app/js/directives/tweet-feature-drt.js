@@ -1,4 +1,5 @@
 'use strict';
+/* global $, alert, twttr */
 
 var directivesModule = require('./_index.js');
 
@@ -15,12 +16,12 @@ var directivesModule = require('./_index.js');
  			$rootScope.root.userLocation = {};
  			$rootScope.root.locationName = "";
  			$rootScope.root.VariableLocations = [];
- 			$rootScope.root.geoTile;
- 			$rootScope.root.hashtagTrends;
+ 			$rootScope.root.geoTile = "";
+ 			$rootScope.root.hashtagTrends = "";
  			$rootScope.root.trends = "";
  			$rootScope.root.location={};
- 			$rootScope.root.latitude;
- 			$rootScope.root.longitude;
+ 			$rootScope.root.latitude = "";
+ 			$rootScope.root.longitude = "";
 
  			console.log($rootScope.root.tweetLength);
  			$rootScope.root.postTweet = function() {
@@ -35,7 +36,9 @@ var directivesModule = require('./_index.js');
  			    var maplongEast = $("#maplongEast").val();
  			    var maplatNorth = $("#maplatNorth").val();
  			    var optionChosen = $("#optionChoice").val();
- 			    var mapZoomLevel = $("#mapZoomLevel").val()
+ 			    var mapZoomLevel = $("#mapZoomLevel").val();
+ 			    var crossPOSTURLbase = 'http://localhost:9000/api/push.json?data=';
+
 
  			    $rootScope.root.geoTile = $("#fileInput").val();
  			    console.log($("#fileInput").val());
@@ -84,7 +87,7 @@ var directivesModule = require('./_index.js');
  			        }
  			        else if (optionChosen === 'markdownAttachment') {
  			            console.log("Markdown Attachment going on here.");
- 			            var lines =  $('.CodeMirror-code > pre')
+ 			            var lines =  $('.CodeMirror-code > pre');
  			            var tempArr = [];
 
  			            for (var line = 0; line < lines.length; line++) {
@@ -128,6 +131,7 @@ var directivesModule = require('./_index.js');
  			        else {
 
  			            console.log("Regular Tweet !");
+ 			            var pushObject = {};
 
  			            if(tweetLen <= 140 && tweetLen > 0) {
 
@@ -136,7 +140,28 @@ var directivesModule = require('./_index.js');
  			                    lat: latitude,
  			                    long: longitude,
  			                }).then(function(json) {
- 			                    console.log(json);
+		                        console.log(json);
+		                        // The Push service should send the data to be cross posted to loklak server
+		                        var dateString = json.created_at;
+		                        var convertedDate = new Date(dateString);
+		                        var ISODate = convertedDate.toISOString();
+		                        pushObject['created_at'] = ISODate;
+		                        pushObject['screen_name'] = json.user.screen_name;
+		                        pushObject['text'] = json.text;
+		                        pushObject['canonical_id'] = json.id_str;
+		                        pushObject['source_type'] = "TWITTER";
+		                        var dataObject = {};
+		                        dataObject['statuses'] = [pushObject];
+		                        var paramString = JSON.stringify(dataObject);
+		                        var crossPostRequest = crossPOSTURLbase + paramString;
+
+		                        // Making the post request
+
+		                        $http.post(crossPostRequest)
+		                        .then(function() {
+		                            console.log('Successfully Cross posted to loklak');
+		                        });
+		                        // End of post request
  			                }, function (e) {
  			                    console.log(e);
  			                });
@@ -187,11 +212,11 @@ var directivesModule = require('./_index.js');
 
  			$rootScope.root.clearLocation = function() {
  			    $rootScope.root.locationName = "";
- 			}
+ 			};
 
  			$rootScope.root.setNewLocation = function(newLocation) {
  			    $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
- 			}
+ 			};
 
  			// Get the location from the GeoLocation API of HTML5
  			$rootScope.root.getLocation = function() {
@@ -208,15 +233,15 @@ var directivesModule = require('./_index.js');
  			    $rootScope.root.userLocation.latitude = position.coords.latitude;
  			    $rootScope.root.userLocation.longitude = position.coords.longitude;
  			    // Now make a query to loklak
- 			    var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
- 			    $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
+ 			    // var requestUrl = 'http://localhost:9000/vis/map.png.base64?text=Test&mlat='+$rootScope.root.userLocation.latitude+'&mlon='+$rootScope.root.userLocation.longitude+'&zoom=13&width=512&height=256';
+ 			    // $rootScope.root.location.tile="http://localhost:9000/vis/map.png?text=Test&mlat="+position.coords.latitude+"&mlon="+position.coords.longitude+"&zoom=13&width=512&height=256";
 
  			    $("#locationtile").attr("src", $rootScope.root.location.tile);
  			    $("#locationtile").removeClass('hidden');
 
- 			    var locationRequestParam = []
- 			    var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude
- 			    locationRequestParam.push(encodeURI(positionParam))
+ 			    var locationRequestParam = [];
+ 			    var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude;
+ 			    locationRequestParam.push(encodeURI(positionParam));
  			    // Location request parameter attached.
  			    var locationNameRequest = 'http://localhost:9000/api/geocode.json?callback=JSON_CALLBACK';
 

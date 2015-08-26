@@ -44,7 +44,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     function getMoreStatuses() {
         if (vm.pool.length > 0) { 
             // Get new time span bound from the lastest status
-            var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at)
+            var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at);
             var newUntilBound = new Date(currentUntilBound.getTime() - 1);
             var untilSearchParam = $filter("date")(newUntilBound, "yyyy-MM-dd_HH:mm");
             var newSearchParam = $location.search().q + "+until:" + untilSearchParam;
@@ -58,7 +58,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                    vm.pool = vm.pool.concat(data.statuses);
             }, function() {});    
         }
-    };
+    }
 
     /*
      * When a new search is made or the outgoing search is terminated
@@ -68,11 +68,10 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         if ($rootScope.httpCanceler) {
             angular.forEach(intervals, function(interval) {
                 $interval.cancel(interval);
-            })
-            $rootScope.httpCanceler.resolve(); 
-            ;    
+            });
+            $rootScope.httpCanceler.resolve();   
         }
-    }
+    };
 
     /*
      * Wrapper for SearchService, including
@@ -124,13 +123,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
 
         SearchService.getData(term).then(function(data) {
             // Get screen_name, then remove duplicates
-            data.statuses.forEach(function(ele) { vm.accounts.push(ele.screen_name) });
-            vm.accounts = vm.accounts.filter(function(item, pos) { return vm.accounts.indexOf(item) == pos; })
+            data.statuses.forEach(function(ele) { vm.accounts.push(ele.screen_name); });
+            vm.accounts = vm.accounts.filter(function(item, pos) { return vm.accounts.indexOf(item) === pos; });
             SearchService.retrieveMultipleImg(vm.accounts).then(function(data) {
-                vm.accountsPretty = data.users
+                vm.accountsPretty = data.users;
                 vm.peopleSearch = true;
                 vm.showMap = false;
-            }, function() {})
+            }, function() {});
         }, function() {});
         updatePath(vm.term + '+' + '/accounts');
     };
@@ -194,7 +193,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 if (!ele.location_mark) {
                     withoutLocation.push(data.statuses.splice(index, 1)[0]);
                 }
-            })
+            });
 
             MapCreationService.initMap({
                 data: data.statuses,
@@ -369,6 +368,13 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
             if (value.q && value.q.indexOf("id:") > -1) { // When q has "id=.." Leave this for single-tweet view
                 return 1; 
             }
+
+            if (value.q && value.q.indexOf("from:") > -1) { // When q has "id=.." Leave this for single-tweet view
+                var screen_name = value.q.slice(5); //Get screen_name only
+                $location.url("/topology?screen_name=" + encodeURIComponent(screen_name));
+                return 1; 
+            }
+
             if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);

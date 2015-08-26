@@ -71,7 +71,7 @@ function PushService($q, $http, AppSettings, $rootScope) {
 				deferred.reject(err, status);
 			});
 		return deferred.promise;
-	}
+	};
 
 	return service;
 }

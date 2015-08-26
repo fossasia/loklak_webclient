@@ -118,7 +118,7 @@
 
 .wall-modal-body {
     max-height: calc(100% - 140px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .mainhashtag-addon {
@@ -445,7 +445,7 @@
         max-width: 130px;
         float: left;
         border-radius: 6px;
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
     }
     .linear-content {
         position: relative;
@@ -463,7 +463,7 @@
         .linear-content-text {
             word-break: keep-all;
             color: #292f33;
-            font-size: 26px;
+            font-size: 1.5vw;
             line-height: 120%;
             .linear-hashtag {
                 color: #55ACEE;
@@ -476,7 +476,7 @@
             position: absolute;
             bottom: 0;
             margin-top: 5px;
-            font-size: 18px;
+            font-size: 1.2vw;
             color: #8899A6;
             font-weight: normal;
             font-style: italic;
@@ -486,11 +486,10 @@
 
 .coa {
     display: block;
-    height: 400px;
+    height: 70vh;
     background: white;
-    padding: 30px 22px;
-    margin-bottom: 25px;
-    margin-top: 10%;
+    padding: 10vh 2vw;
+    margin-top: 8vh;
     border-bottom: 1px solid $search-grey-border;
     &:first-child {
         border-top-left-radius: 6px;
@@ -632,25 +631,29 @@
     border-bottom: 2px solid $background-dark;
     /*margin: 8px;*/
     padding: 4px 0;
-    font-size: 14px;
+    font-size: 2.5vh;
     img {
         border-radius: 50%;
     }
-}
-
-.leaderboard-item td {
-    position: relative;
-    img {
-        height: 48px;
-        width: 48px;
+    td {
+        position: relative;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        img {
+            height: 8vh;
+            width: 8vh;
+            line-height: 8vh;
+        }
     }
 }
 
+.leaderboard-item {}
+
 .leaderboard-count {
     background-color: #00a65a;
-    height: 48px;
-    width: 48px;
-    padding: 14px 0;
+    height: 8vh;
+    width: 8vh;
+    padding: 2vh 0;
     text-align: center;
     border-radius: 50%;
     font-weight: bold;
@@ -659,11 +662,19 @@
 .leaderboard-label {
     top: 9px;
     position: absolute;
-    left: 48px;
+    left: 6.8vh;
     text-align: center;
     line-height: .9;
     padding: 2px 3px;
     background-color: #8FB40D;
+}
+
+.leaderboard-text {
+    a {
+        font-size: 2.8vh;
+        height: 8vh;
+        line-height: 8vh;
+    }
 }
 
 .histogram-loader {
@@ -672,6 +683,38 @@
     width: 64px;
     display: block;
     margin-top: 20px;
+}
+
+.leaderboard-container {
+    width: 32vw;
+    margin-right: 15px;
+}
+
+.histogram-container {
+    position: fixed;
+    /*padding-top: 5vh;*/
+    /*background-color: red;*/
+    margin-bottom: 0;
+    bottom: 0;
+    width: 30vw;
+    .box {
+        margin-bottom: 0;
+    }
+    .wall-histogram {
+        height: 25vh;
+    }
+    .histogram-gradient {
+        background: -webkit-linear-gradient(transparent, #F5F8FA);
+        /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(transparent, #F5F8FA);
+        /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(transparent, #F5F8FA);
+        /* For Firefox 3.6 to 15 */
+        background: linear-gradient(transparent, #F5F8FA);
+        /* Standard syntax */
+        /*background-color: #F5F8FA`;*/
+        height: 8vh;
+    }
 }
 
 

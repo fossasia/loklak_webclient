@@ -32,7 +32,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				}
 			}
 			// Add geojson as a datasource format
-			$scope.sourceTypeListWEndpoint['geojson'] =
+			$scope.sourceTypeListWEndpoint.geojson =
 			{
 				'key': 'FOSSASIA_API',
 				'name': 'GeoJson',
@@ -67,8 +67,8 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 
 				// pick only map rules that apply for this source type
 				$scope.currentLoklakFields = {};
-				if (sourceTypeFields[$scope.inputs.sourceFormat]
-					&& sourceTypeFields[$scope.inputs.sourceFormat].length != 0) {
+				if (sourceTypeFields[$scope.inputs.sourceFormat] &&
+					sourceTypeFields[$scope.inputs.sourceFormat].length !== 0) {
 					for (var key in sourceTypeFields[$scope.inputs.sourceFormat]) {
 						var data = sourceTypeFields[$scope.inputs.sourceFormat][key];
 						$scope.currentLoklakFields[data] = $scope.loklakFields[data];
@@ -80,7 +80,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 
 			$scope.proceed = function() {
 				$scope.selectedTab++;
-				if ($scope.selectedTab == 2) {
+				if ($scope.selectedTab === 2) {
 					$scope.showNext = false;
 				}
 				setTimeout(function() {
@@ -90,7 +90,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 
 			$scope.tabSelected = function(selected) {
 				$scope.selectedTab =selected;
-				if ($scope.selectedTab == 2) {
+				if ($scope.selectedTab === 2) {
 					$scope.showNext = false;
 				} else {
 					$scope.showNext = true;
@@ -120,8 +120,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					return mapRulesStr;
 				}
 				var lifetime = null;
-				if ($scope.inputs.lifetime)
+				if ($scope.inputs.lifetime) {
 					lifetime = new Date($scope.inputs.lifetime).getTime();
+				}
 				if ($scope.inputs.sourceFormat === 'geojson') {
 					if (!$scope.inputs.sourceType) {
 						$scope.messages.error = 'Please select a source type';
@@ -191,7 +192,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 
 			$scope.hideValidateErrorPanel = function() {
 				$scope.messages.validateError = '';
-			}
+			};
 
 			$scope.validateSourceUrl = function() {
 				$scope.currentData = null;
@@ -207,13 +208,13 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				}
 				$scope.validateStatus = 'waiting';
 				PushService.validate($scope.inputs.url, $scope.inputs.sourceFormat).then(function(data) {
-					if (data.status == 'offline') {
+					if (data.status === 'offline') {
 						$scope.validateStatus = 'error';
 						$scope.messages.validateError = 'The provided url is unreachable.';
-					} else if (data.status == 'invalid') {
+					} else if (data.status === 'invalid') {
 						$scope.validateStatus = 'error';
 						$scope.messages.validateError = 'Data format is not valid for source type ' + $scope.sourceTypeList[$scope.inputs.sourceFormat].name;
-					} else if (data.status = 'unsupported') {
+					} else if (data.status === 'unsupported') {
 						$scope.validateStatus = '';
 						$scope.messages.validateError = '';
 						$scope.currentData = JSON.parse(data.content);
@@ -226,8 +227,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				}, function(err, status) {
 					$scope.validateStatus = 'error';
 					$scope.messages.validateError = 'Unknown server error'; 
-					if (err) 
+					if (err) {
 						$scope.messages.validateError += ': ' + err;
+					}
 				});
 			};
 

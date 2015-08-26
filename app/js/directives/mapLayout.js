@@ -24,7 +24,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
             var tweetsArray = [];
             var cycle = attrs.cycletweets;
             var intervalId;
-            if (typeof(cycle) == 'undefined' || cycle == null) {
+            if (typeof(cycle) === 'undefined' || cycle === null) {
                 cycle = false;
             }
             var centerLat = 2.252776;
@@ -68,9 +68,9 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
             }).addTo(map);
 
             map.on('popupopen', function(e) {
-                if (cycle == 'true') {
+                if (cycle === 'true') {
                     var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
-                    px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+                    px.y -= e.popup._container.clientHeight / 2 ; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
                     map.panTo(map.unproject(px), {
                         animate: true
                     }); // pan to new center
@@ -85,12 +85,13 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
 
             function contains(elem) {
                 for (var i = 0; i < tweetsArray.length; i++) {
-                    if (tweetsArray[i].id_str == elem.id_str) {
+                    if (tweetsArray[i].id_str === elem.id_str) {
                         return true;
                     }
-                };
+                }
                 return false;
             }
+
             scope.$watchCollection('data', function() {
                 var cleanRun = 0;
                 setTimeout(function() {
@@ -125,10 +126,11 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
                         }
                     }
                 });
+
                 if (tweetsArray.length > tweetsArrayLength) {
                     for (var i = tweetsArray.length - 1; i >= tweetsArrayLength; i--) {
                         map.removeLayer(tweetsArray[i].marker);
-                    };
+                    }
                     tweetsArray.splice(tweetsArrayLength - 1, tweetsArray.length - tweetsArrayLength);
                 }
                 if (tweetsArray[0]) {
@@ -141,7 +143,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
                         }
                         return 0;
                     });
-                    if (tweetsArray[0].id_str != tempTweetId) {
+                    if (tweetsArray[0].id_str !== tempTweetId) {
                         curr = 0;
                     }
                 }
@@ -156,7 +158,7 @@ function mapLayoutDirective(MapPopUpTemplateService, $interval, $location, MapCr
 
 
             intervalId = $interval(function() {
-                if (cycle == 'true') {
+                if (cycle === 'true') {
                     if (tweetsArray.length > 0) {
                         tweetsArray[curr++].marker.openPopup();
                         if (curr === tweetsArray.length) {

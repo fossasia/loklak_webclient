@@ -17,11 +17,8 @@
                     </div>
                     <div class="col-xs-offset-2 col-xs-10">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="info">
+                            <div class="tab-pane active" id="info" style="margin-bottom: 80px;">
                                 <div>
-                                    <div class="box-header">
-                                        <h3 class="box-title">Just a few questions to get things started</h3>
-                                    </div>
                                     <form name="step1" role="form" class="wall-creation-form">
                                         <div class="box-body">
                                             <div class="form-group">
@@ -110,19 +107,19 @@
                                                     <toggle-switch class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="newWallOptions.cycle">
                                                     </toggle-switch>
                                                 </div>
-                                                <!-- <hr>
+                                                <hr>
                                                 <div ng-if="newWallOptions.cycle==true" class="form-group row">
                                                     <h4 class="col-xs-9">Cycle Delay Time
                                                             <br><small>When there are no new posts, show a tweet for how many seconds?</small></h4>
-                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cycleDelayTime">
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" min="1" max="20" ng-blur="lostCycleDelayFocus()" ng-model="newWallOptions.cycleDelayTime">
                                                     <hr>
                                                 </div>
                                                 <div ng-if="newWallOptions.cycle==true" class="form-group row">
                                                     <h4 class="col-xs-9">Cycle Post Limit
                                                             <br><small>How many of the most recent posts should we cycle?</small></h4>
-                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" ng-model="newWallOptions.cyclePostLimit">
+                                                    <input style="min-width:100px;width:10%;" class="col-xs-2" type="number" min="1" max="100" ng-blur="lostCyclePostsFocus()" ng-model="newWallOptions.cyclePostLimit">
                                                     <hr>
-                                                </div> -->
+                                                </div>
                                                 <hr>
                                                 <div class="form-group">
                                                     <h3>Which media do you want to show on the wall?</h3>

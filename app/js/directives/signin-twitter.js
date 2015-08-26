@@ -6,7 +6,7 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
+directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
 	return {
 		scope: {
 			hello: '=',
@@ -14,6 +14,9 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {
+			var timelineIntervals = [];
+			$rootScope.root.timelineNewTweets = [];
+			$rootScope.root.haveNewerTweets = false;
 			/* Check if a session is available before hello.js even initialize
 	         * in order to determine if the application is going to login automatically or not
 			 */
@@ -56,15 +59,15 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 						result.topology.followers.forEach(function(status) {
 							status.isAFollower = true;
 							status.isAFollowing = status.following;
-						})
+						});
 						result.topology.following.forEach(function(status) {
 							status.isAFollower = false;
 							status.isAFollowing = true;
-						})
+						});
 						$rootScope.userTopology  = result.topology;
 						console.log($rootScope.userTopology);
-						$rootScope.userTopology.noOfFollowings = result.user.friends_count
-						$rootScope.userTopology.noOfFollowers = result.user.followers_count
+						$rootScope.userTopology.noOfFollowings = result.user.friends_count;
+						$rootScope.userTopology.noOfFollowers = result.user.followers_count;
 					}, function() {});
 
 					var oauth_info = hello("twitter").getAuthResponse();
@@ -85,14 +88,24 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				});
 
 				hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
-					window.foo = twitterFriendFeed;
+					// Gather id_str from result from Twitter API
+					// for later the get similar results from loklak
+					var activityFeedIdStrArray = [];
+					twitterFriendFeed.data.forEach(function(feed) {
+						if (feed.status) {
+							activityFeedIdStrArray.push(feed.status.id_str);
+						}
+					});
+					// Sort by created time to show on timeline
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
 							return new Date(b.status.created_at) - new Date(a.status.created_at);	
 						}
 					});
+					// Injection out of angular operations
 					$rootScope.$apply(function() {
 						$rootScope.root.twitterFriends = twitterFriendFeed;
+						$rootScope.root.activityFeedIdStrArray = activityFeedIdStrArray;
 						$rootScope.root.homeFeedLimit = 15;
 						$rootScope.root.loadMoreHomeFeed = function(operand) {
 							$rootScope.root.homeFeedLimit += operand;
@@ -102,7 +115,61 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					console.log('Unable to load tweets from your followers');
 				});
 
-				//
+				var updateTimeline = function() {
+					console.log("Getting newer tweets");
+					hello(auth.network).api('/me/friends').then(function(twitterFriendFeed) {
+						// Sort by created time to show on timeline
+						twitterFriendFeed.data.sort(function(a,b) {
+							if (b.status && a.status) {
+								return new Date(b.status.created_at) - new Date(a.status.created_at);	
+							}
+						});
+						var haveNewerTweet = true;
+						var i = 0; 
+						var newerTweets = [];
+						var currentNewest = new Date($rootScope.root.twitterFriends.data[0].status.created_at);
+						while (haveNewerTweet && i < twitterFriendFeed.data.length) {
+							if (!twitterFriendFeed.data[i].status) {
+								i++
+							} else {
+								var beingEvalTimestamp = new Date(twitterFriendFeed.data[i].status.created_at);
+								if (beingEvalTimestamp <= currentNewest) {
+									haveNewerTweet = false;
+								} else {
+									newerTweets.push(twitterFriendFeed.data[i]);
+									i++;	
+								}
+							}
+						}
+						if (newerTweets.length > 0) {
+							$rootScope.$apply(function() {
+								$rootScope.root.timelineNewTweets = newerTweets;
+								$rootScope.root.haveNewerTweets = true;
+							});
+						}
+					}, function(){
+						console.log('Unable to load tweets from your followers');
+					});
+				}
+
+				/*
+				 * Start an interval to update timeline
+				 * The interval is incremental
+				 * implemented with recursive interval
+				 * base interval is 20s, increment is 11s
+				 */
+				angular.forEach(timelineIntervals, function(interval) {
+				    $interval.cancel(interval);
+				})
+				var updateTimlineInterval = function(refreshTime) {
+					return $timeout(function() {
+						updateTimeline();
+						refreshTime += 11000;
+						updateTimlineInterval(refreshTime)
+					}, refreshTime)
+				}
+				updateTimlineInterval(20000);
+
 			});
 
 			hello.on('auth.logout', function(auth) {
@@ -119,10 +186,17 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					console.log("Signed out failed, try again later");
 			});   
 
+			$rootScope.root.timelineShowNewerTweets = function() {
+				$rootScope.root.twitterFriends.data = $rootScope.root.timelineNewTweets.concat($rootScope.root.twitterFriends.data);
+				$rootScope.root.timelineNewTweets = [];
+				$rootScope.root.haveNewerTweets = false;
+			}
+
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
-				$(".hidden-items").toggle(); 
+				$(".hidden-items").toggle();
+				$(".topnav-user-actions .signin-twitter").toggle(); 
 			};
 
 			/* Listen on user avatar */
@@ -165,7 +239,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				if ($event.target.className === "operator-overlay-container") {
 					$rootScope.root.home.operatorOverlayShow = false;
 				}
-			}
+			};
 
 			$rootScope.root.home.operators = {
 				'loklak messages': 'containing both "loklak" and "messages". This is the default operators',
@@ -178,12 +252,12 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 				'#haiku': 'containing the hastag "haiku"',
 				'from:alexiskold' : 'shared by user with screen name "alexiskold"',
 				'near:London': 'shared near London'
-			}
+			};
 
 			/** Get hashtag trends **/
 			$timeout(function() {
 			    function getMonth(monthStr){
-			        return new Date(monthStr+'-1-01').getMonth()+1
+			        return new Date(monthStr+'-1-01').getMonth()+1;
 			    }
 			    var hashtagData = [];
 			    var queryString = '';
@@ -223,10 +297,11 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 7 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
+			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
 		    		$('#signupModal').modal('show');		
+		    		$rootScope.root.aSearchWasDone = true;
 			    }
-			}
+			};
 
 			angular.element(document).ready(function() {
 				var idleInterval = setInterval(timerIncrement, 1000);
@@ -234,7 +309,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 			    $(this).keypress(function (e) { idleTime = 0; });
 
 				if (!isOnline) {
-					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch") {
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch" && $location.path() !== "/topology") {
 						angular.element(".topnav .global-search-container").addClass("ng-hide");
 					}
 				}
@@ -254,7 +329,7 @@ directivesModule.directive('signinTwitter', ['$location', '$timeout', '$rootScop
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse(); 
 					if (!isOnline) {
-						if (toState.name === "Search") {
+						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");

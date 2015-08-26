@@ -14,12 +14,12 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
     $rootScope.root.userLocation = {};
     $rootScope.root.locationName = "";
     $rootScope.root.VariableLocations = [];
-    $rootScope.root.geoTile;
-    $rootScope.root.hashtagTrends;
+    $rootScope.root.geoTile = "";
+    $rootScope.root.hashtagTrends = "";
     $rootScope.root.trends = "";
-    $rootScope.root.location={};
-    $rootScope.root.latitude;
-    $rootScope.root.longitude;
+    $rootScope.root.location = {};
+    $rootScope.root.latitude = "";
+    $rootScope.root.longitude = "";
 
     console.log($rootScope.root.tweetLength);
     $rootScope.root.postTweet = function() {
@@ -34,7 +34,8 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var maplongEast = $("#maplongEast").val();
         var maplatNorth = $("#maplatNorth").val();
         var optionChosen = $("#optionChoice").val();
-        var mapZoomLevel = $("#mapZoomLevel").val()
+        var mapZoomLevel = $("#mapZoomLevel").val();
+        var crossPOSTURLbase = 'http://localhost:9000/api/push.json?data=';
 
         $rootScope.root.geoTile = $("#fileInput").val();
         console.log($("#fileInput").val());
@@ -83,7 +84,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             }
             else if (optionChosen === 'markdownAttachment') {
                 console.log("Markdown Attachment going on here.");
-                var lines =  $('.CodeMirror-code > pre')
+                var lines =  $('.CodeMirror-code > pre');
                 var tempArr = [];
 
                 for (var line = 0; line < lines.length; line++) {
@@ -127,6 +128,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             else {
 
                 console.log("Regular Tweet !");
+                var pushObject = {};
 
                 if(tweetLen <= 140 && tweetLen > 0) {
 
@@ -136,6 +138,27 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                         long: longitude,
                     }).then(function(json) {
                         console.log(json);
+                        // The Push service should send the data to be cross posted to loklak server
+                        var dateString = json.created_at;
+                        var convertedDate = new Date(dateString);
+                        var ISODate = convertedDate.toISOString();
+                        pushObject['created_at'] = ISODate;
+                        pushObject['screen_name'] = json.user.screen_name;
+                        pushObject['text'] = json.text;
+                        pushObject['canonical_id'] = json.id_str;
+                        pushObject['source_type'] = "TWITTER";
+                        var dataObject = {};
+                        dataObject['statuses'] = [pushObject];
+                        var paramString = JSON.stringify(dataObject);
+                        var crossPostRequest = crossPOSTURLbase + paramString;
+
+                        // Making the post request
+
+                        $http.post(crossPostRequest)
+                        .then(function() {
+                            console.log('Successfully Cross posted to loklak');
+                        });
+                        // End of post request
                     }, function (e) {
                         console.log(e);
                     });
@@ -186,16 +209,32 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
 
     $rootScope.root.clearLocation = function() {
         $rootScope.root.locationName = "";
-    }
+    };
 
     $rootScope.root.setNewLocation = function(newLocation) {
-        $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
-    }
+        if(newLocation !== -1) {
+            $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
+        }
+        else {
+            var newLoc = $('#newLoc').val();
+            console.log(newLoc);
+            $rootScope.root.locationName = newLoc;
+        }
+    };
+
+    $rootScope.root.setNewLocationOther = function() {
+        var xtemp  = $('#newLoc').val();
+        console.log(xtemp);
+        $('#dropdownMenu1').text(xtemp);
+    };
 
     // Get the location from the GeoLocation API of HTML5
     $rootScope.root.getLocation = function() {
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
+            $("#subDropDownMenu").find('input').click(function(e){
+                e.stopPropagation(); 
+            });
         }
         else {
             alert("Geolocation isn't supported by this browser");
@@ -213,9 +252,9 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         $("#locationtile").attr("src", $rootScope.root.location.tile);
         $("#locationtile").removeClass('hidden');
 
-        var locationRequestParam = []
-        var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude
-        locationRequestParam.push(encodeURI(positionParam))
+        var locationRequestParam = [];
+        var positionParam = 'Value: '+$rootScope.root.userLocation.latitude+','+$rootScope.root.userLocation.longitude;
+        locationRequestParam.push(encodeURI(positionParam));
         // Location request parameter attached.
         var locationNameRequest = 'http://localhost:9000/api/geocode.json?callback=JSON_CALLBACK';
 
@@ -232,6 +271,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             var result = response.locations[keyObject].place[0];
             $rootScope.root.VariableLocations = response.locations[keyObject].place;
             $rootScope.root.locationName = result;
+            $rootScope.root.newLocationSet = response.locations[0].place;
         });
     }
 
