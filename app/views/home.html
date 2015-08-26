@@ -75,12 +75,13 @@
         <div class="center-result-container col-md-8 col-sm-12 col-lg-6" ng-show="root.twitterSession">
             <div class="row cms-view">
                 <div class="main-result-container">
+                    <button ng-show="root.timelineNewTweets.length > 0" class="timeline-more-result" ng-click="root.timelineShowNewerTweets();">Load {{root.timelineNewTweets.length}} new tweets!</button>
                     <div class="statuses-container box-body chat" id="chat-box" style="width: auto;" infinite-scroll="root.loadMoreHomeFeed(15)">
                         <div ng-repeat="status in root.twitterFriends.data | limitTo: root.homeFeedLimit" ng-attr-id="{{status.id}}" ng-click="map.openPopup(status.id);">
                             <div class="item" ng-click="toggleDetail($event)">
                                 <img class="friend-profile-img" src="{{status.profile_image_url}}">
                                 <p class="message home-tweet-text">
-                                <span class="home-user-screen-name">@{{ status.screen_name }} - {{ status.status.created_at | tweetFromNow }}</span>
+                                <span class="home-user-screen-name">@{{ status.screen_name }} - </span><span time ng-attr-timecreated="{{status.status.created_at}}"></span>
                                 <br>
                                 <span ng-bind-html="status.status.text | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted "></span>
                                 </p>
