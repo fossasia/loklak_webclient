@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, L */
+/* global angular, L, $ */
 /* jshint unused:false */
 
 var controllersModule = require('./_index');
@@ -40,7 +40,7 @@ var marker=[];
     };
 
     $scope.chart = chart1;
-    $scope.username;
+    $scope.username = "";
     $scope.influentialfollowers=[];
     var counter=0;
     
@@ -81,6 +81,7 @@ var marker=[];
                 var followers_category=[0,0,0,0,0,0];
                 var followerwithloc=0;
                 var followerwithcity=0;
+                var i=0;
                 $scope.countryvalues=[];
                 $scope.countrylabels=[];
                 $scope.cityvalues=[];
@@ -114,10 +115,11 @@ var marker=[];
                 });
 
                 //Counting per city
-                for(var i = 0; i < city_Array.length; ++i) 
+                for(i = 0; i < city_Array.length; ++i) 
                 {
-                    if(!city_stat_result[city_Array[i]])
-                    city_stat_result[city_Array[i]] = 0;
+                    if(!city_stat_result[city_Array[i]]) {
+                        city_stat_result[city_Array[i]] = 0;
+                    }
                     ++city_stat_result[city_Array[i]];
                 }
                 var citynames = Object.keys( city_stat_result );
@@ -179,11 +181,12 @@ var marker=[];
 
                 });
 
-                 //Counting country wise stats
-                for(var i = 0; i < country_Array.length; ++i) {
+                //Counting country wise stats
+                for(i = 0; i < country_Array.length; ++i) {
 
-                    if(!country_stat_result[country_Array[i]])
-                    country_stat_result[country_Array[i]] = 0;
+                    if(!country_stat_result[country_Array[i]]) {
+                        country_stat_result[country_Array[i]] = 0;
+                    }
                     ++country_stat_result[country_Array[i]];
                 }
                
@@ -211,7 +214,7 @@ var marker=[];
                     
                 });
              
-                $scope.countrydata.sort(function(a, b){return b.followers-a.followers});
+                $scope.countrydata.sort(function (a, b) { return b.followers-a.followers; });
                 
                 
                
@@ -244,18 +247,19 @@ var marker=[];
             });
         function getTopfive(followers_follower){
             function compare(a,b) {
-                if (a.followers > b.followers)
+                if (a.followers > b.followers) {
                     return -1;
-                if (a.followers < b.followers)
+                }
+                if (a.followers < b.followers) {
                     return 1;
+                }
                 return 0;
             }
             followers_follower.sort(compare);
             
-        }
- 
-     
-}
+        }   
+};
+
 $scope.increaseLimit = function(){
     var i;
     for(i=counter;i<counter+5;i++)
@@ -263,7 +267,8 @@ $scope.increaseLimit = function(){
             $scope.influentialfollowers.push($scope.followers_follower[counter]);
             counter++;
         }
-}
+};
+
 $rootScope.$watch(function() 
 {
     return $rootScope.root.twitterSession;
@@ -284,33 +289,31 @@ $rootScope.$watch(function()
     });
 
       
-function viewlanding()
-{
-    $('#analyze-modal').modal('show');
-    $('#loader').hide();
-    $('#notfoundmessage').hide();
-    $('#loadmsg').hide();
-    $('#errormessage').hide();
-    $('#analysis-report').hide();
-}
-function viewnodata()
-{
-    $('#loader').hide();
-    $('#loadingmessage').hide();
-    $('#notfoundmessage').show();
-}
+    function viewlanding() {
+        $('#analyze-modal').modal('show');
+        $('#loader').hide();
+        $('#notfoundmessage').hide();
+        $('#loadmsg').hide();
+        $('#errormessage').hide();
+        $('#analysis-report').hide();
+    }
 
-function viewloading()
-{
-    $('#errormessage').hide();
-    $('#notfoundmessage').hide();
-    $('#loader').show(); 
-    $('#analysis-report').hide();
-    $('#inffollowers').hide();
-    $('#loadmsg').show();
-    $('#loadingmessage').show();  
-    
-}
+    function viewnodata() {
+        $('#loader').hide();
+        $('#loadingmessage').hide();
+        $('#notfoundmessage').show();
+    }
+
+    function viewloading() {
+        $('#errormessage').hide();
+        $('#notfoundmessage').hide();
+        $('#loader').show(); 
+        $('#analysis-report').hide();
+        $('#inffollowers').hide();
+        $('#loadmsg').show();
+        $('#loadingmessage').show();  
+        
+    }
 
 }]);
 

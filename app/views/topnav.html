@@ -112,23 +112,20 @@
             <span class="pull-left">
             <div class="dropdown" ng-if="root.locationName">
               <button class="fa btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              &#xf041; {{root.locationName}}
+              {{root.locationName}}
               <span class="caret"></span>
               </button>
               <ul class="fa dropdown-menu" aria-labelledby="dropdownMenu1" id="subDropDownMenu">
-                <li ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa">&#xf041; {{loc}}</a></li>
+                <li ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa" id="locationAng" onclick="changeLocationName(event)" value="{{loc}}">{{loc}}</a></li>
+                <li><a href="" ng-bind="root.newLocationSet" ng-click="root.setNewLocationOther()">&#xf041; </a></li>
                 <li role="separator" class="divider"></li>
+                <input type="text" class="form-content" ng-model="root.newLocationSet" id="newLoc" onkeyup="return inputNewLocation(event)" >
                 <li><a ng-click="root.clearLocation()">Disable Location</a></li>
               </ul>
 
-             <!--  <select class="fa dropdown-menu selectpicker" aria-labelledby="dropdownMenu1">
-                <option value="&#xf041; {{root.locationName}}">&#xf041; {{root.locationName}}</option>
-                <option ng-repeat="loc in root.VariableLocations | limitTo:5"><a href="#" ng-click="root.setNewLocation($index)" class="fa">&#xf041; {{loc}}</a></li>
-                <option role="separator" class="divider"></li>
-                <option><a ng-click="root.clearLocation()">Disable Location</a></li>
-              </select> -->
             </div>
             </span>
+            &nbsp;
             <!-- Map Tile -->
             <input type="button" class="fa fa btn btn-default pull-left" onclick="setMapTile()" id="attachMap" value="&#xf041; Attach Map">
             <input type="button" class="fa fa btn btn-default pull-left" onclick="cancelMapTile()" id="CancelMap" value="&#xf041; Cancel Map">
@@ -171,11 +168,14 @@ var latitude;
 var longitude;
 
 $(document).click(function(){
- $("#subDropDownMenu").hide('slow'); 
+ $("#subDropDownMenu").hide('slow');
+ $("#subDropDownMenu").find('input').click(function(e){
+    e.stopPropagation(); 
+  });
  reActivate();
 });
 
-$("#subDropDownMenu").click(function(e){
+$("#subDropDownMenu").find('input').click(function(e){
   e.stopPropagation(); 
 });
 
@@ -251,6 +251,8 @@ $('#myModal').on('shown.bs.modal', function (e) {
   $("#CancelMap").hide();
   $("#largeTextAttachment").hide();
   $("#cancelLargeTextAttachment").hide();
+  $('#newLocation').hide();
+  $('#addNewLocation').hide();
 
   var popup = L.popup();
   var new_event_marker;
@@ -357,6 +359,32 @@ $('#myModal').on('shown.bs.modal', function (e) {
     $("#largeTextAttachment").hide();
     $("#cancelLargeTextAttachment").hide();
     $("#optionChoice").val('');
+  }
+
+  function inputNewLocation() {
+    var inputBox = document.getElementById('newLoc');
+    if(inputBox.value != '') {
+      var x = inputBox.value;
+      $('#dropdownMenu1').text(x).html();
+    }
+  }
+
+  function changeLocationName(locName) {
+    var x = locName.target.childNodes[0].nodeValue;
+    console.log(x);
+    $('#dropdownMenu1').text(x).html();
+  }
+
+  function inputNewLocation(e) {
+    var inputBox = document.getElementById('newLoc');
+    if(inputBox.value != '') {
+      var x = inputBox.value;
+      $('#dropdownMenu1').text(x).html();
+    }
+  }
+
+  document.getElementById('locationAng').onclick = function (event) {
+    console.log(event.target);
   }
 
   tweetmap.on('click', onMapClick);

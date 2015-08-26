@@ -1,4 +1,5 @@
 'use strict';
+/* global angular, $ */
 
 var controllersModule = require('./_index');
 
@@ -29,7 +30,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     "name" : ele.name,
                     "profile_image_url_https" : ele.profile_image_url_https,
                 };
-            })
+            });
         }    
 
         /*
@@ -51,7 +52,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 $(".location-fail-notice").fadeIn();
                 vm.failNoticeShown = true;
             } 
-        }
+        };
 
 
         /* 
@@ -87,23 +88,23 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 var id_str = $(this).attr("id").replace("user-", "");
                 hello('twitter').api('me/unfollow', 'POST', {
                     user_id: id_str
-                }).then(function(json) {
+                }).then(function (json) {
                     $(this).text("Follow"); $(this).toggleClass('follower-button'); $(this).toggleClass('follow-button');
                 }, function(e) {
                     console.log(e);
                 });
-            })
+            });
 
             $('#map').on('click', '.follow-button, .fresh-follow-button', function() {
                 var id_str = $(this).attr("id").replace("user-", "");
                 $(this).text("Following"); $(this).addClass('following-button'); $(this).removeClass('follow-button'); $(this).removeClass('fresh-follow-button');
                 hello('twitter').api('me/follow', 'POST', {
                     user_id: id_str
-                }).then(function(json) {
+                }).then(function (json) {
                 }, function(e) {
                     console.log(e);
                 });
-            })
+            });
         };
 
         // START MAP WHEN DATA IS RETURNED
@@ -123,7 +124,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     cbOnMapAction: cbOnMap
                 });  
             }
-        })
+        });
 
 
         $rootScope.$watch(function() {
@@ -133,12 +134,12 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 var idStrArrayClone = val.slice();
                 idStrArrayClone[0] = "id:" + idStrArrayClone[0];
                 var idStrSearchTerm = idStrArrayClone.join(" OR id:");
-                console.log(idStrSearchTerm)
+                console.log(idStrSearchTerm);
                 SearchService.getData(idStrSearchTerm).then(function(activityFeedFromLoklak) {
                     console.log(activityFeedFromLoklak);
                 }, function() {});    
             }
-        })
+        });
 
         /*
          * Manual code for scroll down to load more feature
@@ -162,7 +163,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     console.log("");
                 }
             });
-        })
+        });
 
 
         /*
@@ -181,15 +182,16 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
 
             // Only show switch to timeline when activity feed is shown
             //angular.element(".switch-to-timeline").toggleClass("switch-inactive");
-        }
+        };
 
     /* TIMELINE VIEW MODELS */
     vm.showAllFollowers = function() {
         vm.showFollowersLimit = $rootScope.userTopology.followers.length;
-    }
+    };
+
     vm.showAllFollowings = function() {
         vm.showFollowingsLimit = $rootScope.userTopology.following.length;
-    }
+    };
 
     /* SWITCHING BETWEEN TIMELINE AND MAP */
     vm.timelineState = true;
@@ -199,6 +201,6 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         $(".home-view-content-wrapper > .content-container").toggleClass("moved-right");
         vm.timelineState = !vm.timelineState;  
 
-    }
+    };
 
 }]);

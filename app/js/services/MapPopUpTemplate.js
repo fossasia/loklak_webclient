@@ -42,13 +42,14 @@ function MapPopUpTemplateService($filter) {
 
   service.genUserInfoPopUp = function(status) {
     var result = "Failed loading data from twitter";
+    var title;
 
     if (status.isAFollower && status.isAFollowing) {
-      var title = '<h4 id="user-' + status.id_str + '" class="follower-and-following-button">Follower/Following</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="follower-and-following-button">Follower/Following</h4>';
     } else if (status.isAFollowing) {
-      var title = '<h4 id="user-' + status.id_str + '" class="following-button">Following</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="following-button">Following</h4>';
     } else {
-      var title = '<h4 id="user-' + status.id_str + '" class="follower-button">Follower</h4>'
+      title = '<h4 id="user-' + status.id_str + '" class="follower-button">Follower</h4>';
     }
 
     var location = (status.location) ? '<span class="twitter-api-user-location"> - ' + status.location + ', ' + status.location_country + '</span>' : '';

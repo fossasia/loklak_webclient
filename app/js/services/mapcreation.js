@@ -1,4 +1,5 @@
 'use strict';
+/* global angular, L */
 
 var servicesModule = require('./_index.js');
 
@@ -90,7 +91,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
                         numFollowingsOnMap += 1;
                     }
                 }
-            })
+            });
 
             followers.addTo(window.map);
             followings.addTo(window.map);
@@ -146,7 +147,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
     function initMap(params) {
         var data = params.data;
         var mapId = params.mapId;
-        var markerType = params.markerType
+        var markerType = params.markerType;
         var templateEngine = params.templateEngine;
         var cbOnMapAction = params.cbOnMapAction;
 

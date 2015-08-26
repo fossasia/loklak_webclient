@@ -30,7 +30,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			'label': 'Lifetime',
 			'field': 'lifetime'
 		}
-	]
+	];
 	$scope.dataSourceItems = [];
 	/**
 	 * Messages that are displayed in the main datasource page
@@ -69,8 +69,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	};
 
 	function updateDataSources(callback) {
-		if (!$rootScope.root.twitterSession) return;
-		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
+		if (!$rootScope.root.twitterSession) {
+			return;
+		}
+		SearchService.getImportProfiles($stateParams.source_type || "", $rootScope.root.twitterSession.screen_name).then(function(data) {
 			var count_item = 0;
 			$scope.dataSourceItems = [];
 			for (var k in data.profiles) {
@@ -88,13 +90,17 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 				$scope.dataSourceItems[count_item] = profile;
 				count_item++;
 			}
-			if (callback) callback();
+			if (callback) {
+				callback();
+			}
 		}, function() {});
-	};
+	}
+
 	$scope.returnFromAddConnection = function(message) {
 		$scope.dataSourceMessages.success = message;
 		setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
-	}
+	};
+
 	$scope.onUpdateDataSources = function() {
 		$scope.dataSourceMessages = {};
 		var refreshButton = angular.element("#refreshButton i"); 
@@ -106,7 +112,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 
 	$scope.showRowDetail = function(e) {
 		// do not trigger when event source is a link or the span badge
-		if (e.target.localName === 'a' || e.target.localName === 'span') return;
+		if (e.target.localName === 'a' || e.target.localName === 'span') {
+			return;
+		}
 		angular.element(e.currentTarget).toggleClass("showing-detail");
 	};
 
@@ -118,7 +126,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			item.editing = true;
 			angular.element(event.target).text("Cancel").removeClass("btn-loklak-blue").addClass("btn-default");
 		}
-	}
+	};
 
 	$scope.saveDataSource = function(item) {
 		if (item.public) {
@@ -132,14 +140,14 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		}, function(error) {
 			console.error(error);
 			$scope.dataSourceMessages.error = 'Unable to save edited changes. If the problem persists, please contact loklak administrator for help.';
-		})
+		});
 	};
 
 	$scope.openConfirmDeleteModal = function(item) {
 		$scope.toDeleteItem = item;
 		angular.element('#open-confirm-modal').trigger('click');
+	};
 
-	}
 	$scope.deleteDataSource = function() {
 		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
@@ -148,7 +156,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 			console.error(error);
 			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
 		});
-	}
+	};
 
 	// wait until logged in to uploadDataSource
 	// this is necessary since sometimes this function is called before user finished logging in

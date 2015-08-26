@@ -93,7 +93,6 @@
 			overflow: hidden;
 			img {
 				width: 100%;
-				height: 100%;
 			}
 		}
 		.top-content {
@@ -101,12 +100,12 @@
 			margin-top: -20px;
 			margin-left: 10px;
 			img {
-				height: 70px;
-				width: 72px;
+				width: 80px;
 				display: inline-block;
 				vertical-align: top;
 				border: 4px solid white;
 				border-radius: 9px;
+				margin-left:-2%;
 			}
 			.name-and-screen-name {
 				position: relative;

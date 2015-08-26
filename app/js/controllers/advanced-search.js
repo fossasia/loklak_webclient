@@ -75,7 +75,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	 */
 	vm.toggleProfanity = function() {
 		vm.removeProfane = !vm.removeProfane;
-	}
+	};
 
 	/** 
 	 * Process advanced search options

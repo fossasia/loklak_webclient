@@ -1,4 +1,5 @@
 'use strict';
+/* global md */
 
 var filtersModule = require('./_index.js');
 var md = require("markdown");

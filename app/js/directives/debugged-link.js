@@ -76,9 +76,9 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		}
 
 		// Just find a thumbnail
-		var keepSearching = true;
-		var i = 0;
-		var result = false;
+		keepSearching = true;
+		i = 0;
+		result = false;
 		while (keepSearching && i < data.links.length) {
 			if (linkObj.rel.indexOf("thumbnail") > -1) {
 				data.meta.thumbnail_url = linkObj.href;
