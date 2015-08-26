@@ -27,7 +27,7 @@
     </div>
 
     <!-- Search box for anonymous user-no-followers -->
-    <div ng-include src="'anonymous-session-content.html'"></div>
+    <div ng-show="!root.twitterSession" ng-include src="'anonymous-session-content.html'"></div>
     <!-- End search box for anonymous users -->
 </div>
 <div ng-include="'wall/wallCreationModal.html'"></div>

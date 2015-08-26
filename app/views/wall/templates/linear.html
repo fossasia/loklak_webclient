@@ -5,7 +5,7 @@
         <!-- Main content -->
         <p class="linear-content-text" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'" ng-bind-html="data.text | tweetTextLink | tweetMention | tweetHashtag | toTrusted"></p>
         <!-- Images -->
-        <div style="height: 100%;" class="col-xs-3">
+        <div style="height: 100%; padding-left:0; text-align: right;" class="col-xs-3">
             <img alt="" ng-if="data.images.length>0" ng-src="{{data.images[0] | instaFilter}}">
         </div>
         <!--         <div data-ng-click="open(data.id_str);" ng-class="{'images-wrapper': true, 'showdetail': showdetail}" ng-if="data.images_count"> -->
@@ -15,7 +15,7 @@
             </div>
         </div> -->
         <!-- Metadata -->
-        <div class="metadata col-xs-12">
+        <div class="metadata" ng-class="data.images.length>0?'col-xs-9':'col-xs-12'">
             <a class="name" ng-href="{{'./search?q=from:' + data.user.screen_name}}">{{data.user.name}}</a>
             <span class="screen-name">{{ "@" + data.user.screen_name}}</span>
             <span><i class="fa fa-twitter"></i></span> •
