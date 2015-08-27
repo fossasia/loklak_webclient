@@ -90,7 +90,10 @@ var marker=[];
                 $scope.citylabels=[];
                 $scope.citydata=[];
                 $scope.countrydata=[];
-                
+                $('#loader').hide(); 
+                $('#loadmsg').hide();
+                $('#inffollowers').show();
+                $('#analysis-report').show();
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -240,10 +243,7 @@ var marker=[];
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
-                $('#loader').hide(); 
-                $('#loadmsg').hide();
-                $('#inffollowers').show();
-                $('#analysis-report').show();
+                
 
                 }).error(function(data, status, headers, config) {
                     
