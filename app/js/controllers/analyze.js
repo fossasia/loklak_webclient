@@ -129,7 +129,7 @@ var marker=[];
                     }
                     ++city_stat_result[city_Array[i]];
                 }
-                city_stat_result["City Unspecified"]= followerwithoutcity;
+                city_stat_result["Unspecified"]= followerwithoutcity;
                 var citynames = Object.keys( city_stat_result );
 
                 var totalfollowers=followerwithoutcity+followerwithcity;
@@ -193,7 +193,7 @@ var marker=[];
                     }
 
                 });
-                country_stat_result["Country Unspecified"]= followerwithoutloc;
+                country_stat_result["Unspecified"]= followerwithoutloc;
                 //Counting country wise stats
                 for(i = 0; i < country_Array.length; ++i) {
 
