@@ -80,6 +80,8 @@ var marker=[];
                 var top5=[];
                 var followers_category=[0,0,0,0,0,0];
                 var followerwithloc=0;
+                var followerwithoutloc=0;
+                var followerwithoutcity=0;
                 var followerwithcity=0;
                 var i=0;
                 $scope.countryvalues=[];
@@ -111,6 +113,11 @@ var marker=[];
                         });
 
                     }
+                    else
+                    {
+                        followerwithoutcity++;
+                    }
+
 
                 });
 
@@ -122,12 +129,14 @@ var marker=[];
                     }
                     ++city_stat_result[city_Array[i]];
                 }
+                city_stat_result["Unspecified"]= followerwithoutcity;
                 var citynames = Object.keys( city_stat_result );
 
+                var totalfollowers=followerwithoutcity+followerwithcity;
                 //Populating Data Set
                 var cityData=[];
                 citynames.forEach(function(ele){
-                    var percentage=((city_stat_result[ele]/followerwithcity)*100);
+                    var percentage=((city_stat_result[ele]/totalfollowers)*100);
                     percentage=Number(percentage).toFixed(2);
                     $scope.citydata.push({
                         "city" : ele ,
@@ -178,9 +187,13 @@ var marker=[];
                     {   followerwithloc++;
                         country_Array.push(ele.location_country);
                     }
+                    else
+                    {
+                        followerwithoutloc++;
+                    }
 
                 });
-
+                country_stat_result["Unspecified"]= followerwithoutloc;
                 //Counting country wise stats
                 for(i = 0; i < country_Array.length; ++i) {
 
@@ -194,9 +207,9 @@ var marker=[];
                 var countrynames = Object.keys( country_stat_result );
                 
                 //Populating Data Set
-               
+               var totalfollowerswithcountry=followerwithoutloc+followerwithloc;
                 countrynames.forEach(function(ele){
-                    var percentage=((country_stat_result[ele]/followerwithloc)*100);
+                    var percentage=((country_stat_result[ele]/totalfollowerswithcountry)*100);
                     percentage=Number(percentage).toFixed(2);
                     chart1.data.push(
                         [ele,country_stat_result[ele],percentage]);
