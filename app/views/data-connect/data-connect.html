@@ -10,7 +10,7 @@
 			<button class="btn btn-loklak-blue btn-lg" data-toggle="modal" data-target="#add-connection-modal" ng-click="clearModalData()">Add Source</button>
 		</div>
 		<h1>My Data</h1> <button id="refreshButton" class="btn btn-default" ng-click="onUpdateDataSources()" title="Refresh"><i class="fa fa-refresh"></i></button>
-		<div data-connect-alert messages="dataSourceMessages" set-message-view="setMessageView(profile)"></div>
+		<div connect-alert messages="dataSourceMessages" set-message-view="setMessageView(profile)"></div>
 		<hr/>
 		<ul id="datasource-table">
 		<li>
@@ -35,14 +35,6 @@
 				<div class="col col-md-1">{{item.sharers | arraySize}}</div>
 			</div>
 			<div class="detail" ng-click="$event.stopPropagation();">
-				<div class="row">
-					<div class="col-md-2">
-						<label for="privacy">Public data</label>
-					</div>
-					<div class="col-md-10">
-						<toggle-switch name="privacy" class="wall-toggle-switch" on-label="YES" off-label="NO" ng-model="item.public" ng-disabled="!item.editing"></toggle-switch>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-md-2">
 						<label for="harvesting_freq">Update frequency</label>

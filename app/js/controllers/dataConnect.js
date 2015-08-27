@@ -136,13 +136,7 @@ controllersModule.controller('DataConnectCtrl',
 	};
 
 	$scope.saveDataSource = function(item) {
-		if (item.public) {
-			item.privacy_status = 'PUBLIC';
-		} else {
-			item.privacy_status = 'PRIVATE';
-		}
 		ImportProfileService.update(item).then(function(data) {
-			console.log(item);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);

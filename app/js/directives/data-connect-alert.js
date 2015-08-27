@@ -4,7 +4,7 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("dataConnectAlert", ['$http',
+directivesModule.directive("connectAlert", ['$http',
 function($http) {
 	return {
 		restrict: 'A',

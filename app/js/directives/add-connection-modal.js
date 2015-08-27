@@ -133,8 +133,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  source_type: $scope.inputs.sourceType.key,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
-						  lifetime: lifetime,
-						  public: $scope.inputs.public
+						  lifetime: lifetime
 						}
 					).then(function(data) {
 						pushActionOnSuccess(data);
@@ -148,8 +147,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  source_type: $scope.inputs.sourceFormat,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
-						  lifetime: lifetime,
-						  public: $scope.inputs.public
+						  lifetime: lifetime
 						}, $scope.sourceTypeList[$scope.inputs.sourceFormat].endpoint).then(function(data) {
 							pushActionOnSuccess(data);
 						}, function(err, status) {
@@ -256,7 +254,6 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				$scope.messages = {};
 				// Default values
 				$scope.inputs.harvesting_freq = {'value': 360, 'label':'6 hours'};
-				$scope.inputs.public = true;
 
 				for (var key in $scope.loklakFields) {
 					if (!$scope.inputs.mapRules[key]) {
