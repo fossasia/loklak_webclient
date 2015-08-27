@@ -9,7 +9,7 @@ var PhotoSwipeUI_Default = require('../components/photoswipe-ui-default');
  * @ngInject
  */
 
-controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', 'MapPopUpTemplateService', 'MapCreationService' , function($stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService, MapPopUpTemplateService, MapCreationService) {
+controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootScope', '$scope', '$timeout', '$location', '$filter', '$interval', 'SearchService', 'DebugLinkService', 'MapPopUpTemplateService', 'MapCreationService' , function($window, $stateParams, $rootScope, $scope, $timeout, $location, $filter, $interval, SearchService, DebugLinkService, MapPopUpTemplateService, MapCreationService) {
 
     // Define models here
     var intervals = [];
@@ -406,4 +406,15 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
                 vm.showResult = true;
             }
         });
+
+    ////////////
+    // MANAGING STATE OF FAILURE REQUESTS
+    ///////////
+        $rootScope.$watch(function() {
+            return $rootScope.root.numberOfFailedReq;
+        }, function(val) {
+            if (val >= 2) {
+                $window.location.reload();
+            }
+        })
 }]);
