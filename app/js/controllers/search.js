@@ -22,6 +22,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
     vm.term = '';
     vm.pool = [];
     vm.statuses = [];
+    vm.showingResultInAcc = 9;
     
     $rootScope.root.globalFilter = '';
     
@@ -34,11 +35,16 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
      * Is also used to init the shown result
     */
     $scope.loadMore = function(amount) {
-        if (vm.pool.length < (2 * amount + 1)) {
-            getMoreStatuses();
-        }
-        vm.statuses = vm.statuses.concat(vm.pool.slice(0,amount));
-        vm.pool = vm.pool.splice(amount);
+        if (!vm.peopleSearch) {
+            if (vm.pool.length < (2 * amount + 1)) {
+                getMoreStatuses();
+            }
+            vm.statuses = vm.statuses.concat(vm.pool.slice(0,amount));
+            vm.pool = vm.pool.splice(amount);    
+        } else {
+            vm.showingResultInAcc += amount;
+        }   
+        
     };
 
     function getMoreStatuses() {
@@ -121,7 +127,7 @@ controllersModule.controller('SearchCtrl', ['$stateParams', '$rootScope', '$scop
         vm.accounts = [];
         var term = vm.term;
 
-        SearchService.getData(term).then(function(data) {
+        SearchService.initData({q: term, count: 200}).then(function(data) {
             // Get screen_name, then remove duplicates
             data.statuses.forEach(function(ele) { vm.accounts.push(ele.screen_name); });
             vm.accounts = vm.accounts.filter(function(item, pos) { return vm.accounts.indexOf(item) === pos; });
