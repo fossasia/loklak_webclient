@@ -9,6 +9,13 @@ function SearchService($q, $http, $rootScope, AppSettings) {
 
   var service = {};
 
+  $rootScope.root.numberOfFailedReq = 0;
+  var evalNumberOfFailure = function(status) {
+    if (status === 404 || status === 503) {
+      $rootScope.root.numberOfFailedReq += 1;
+    }
+  }
+
   service.getData = function(term) {
       $rootScope.root.aSearchWasDone = true;
       $rootScope.httpCanceler = $q.defer();
@@ -20,6 +27,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
+          evalNumberOfFailure(status);
           deferred.reject(err, status);
       });
 
@@ -72,6 +80,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       }).success(function(data) {
           deferred.resolve(data);
       }).error(function(err, status) {
+          evalNumberOfFailure(status);
           deferred.reject(err, status);
       });
 

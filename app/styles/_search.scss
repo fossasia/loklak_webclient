@@ -1174,6 +1174,15 @@
 				height: 135px;
 			}
 		}
+		.home-user-screen-name {
+			margin-top: 5px !important;
+		}
+		.home-user-screen-name, .home-user-name {
+			&:hover {
+				color: #3c8dbc;
+				text-decoration: underline;
+			}
+		}
 	}
 }
 

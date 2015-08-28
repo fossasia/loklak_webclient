@@ -73,12 +73,15 @@ controllersModule.controller('TopologyCtrl', ['$filter', '$timeout', '$location'
 
 		// Get search result
 		var term = "from:" + vm.screenName;
-		SearchService.getData(term).then(function(data) {
-			vm.pool = data.statuses;
-			vm.statuses = [];
-			$scope.loadMore(20);
-			vm.showResult = true;
-		}, function() {});		
+		$timeout(function() {
+			SearchService.getData(term).then(function(data) {
+				vm.pool = data.statuses;
+				vm.statuses = [];
+				$scope.loadMore(20);
+				vm.showResult = true;
+			}, function() {});			
+		}, 1000);
+		
 	});
 
 	/*

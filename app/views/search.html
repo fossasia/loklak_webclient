@@ -72,8 +72,8 @@
                 </div>
 
                 <!-- People results -->
-                <div ng-if="search.peopleSearch" class="main-result-container">
-                    <div class="col-md-4 col-sm-6 account-item" ng-repeat="account in search.accountsPretty" account data="account"></div>
+                <div ng-if="search.peopleSearch" class="main-result-container" infinite-scroll="loadMore(3)" infinite-scroll-distance="1">
+                    <div class="col-md-4 col-sm-6 account-item" ng-repeat="account in search.accountsPretty | limitTo: search.showingResultInAcc" account data="account"></div>
                 </div>
 
                
