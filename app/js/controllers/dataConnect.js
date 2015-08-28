@@ -144,17 +144,17 @@ controllersModule.controller('DataConnectCtrl',
 		});
 	};
 
-	$scope.openConfirmDeleteModal = function(item) {
-		$scope.toDeleteItem = item;
+	$scope.openConfirmUnsubcribeModal = function(item) {
+		$scope.toUnsubscribeItem = item;
 		angular.element('#open-confirm-modal').trigger('click');
 	};
-	$scope.deleteDataSource = function() {
-		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
+	$scope.unsubscribeDataSource = function() {
+		ImportProfileService.unsubscribe($scope.toUnsubscribeItem).then(function(data) {
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
-			$scope.dataSourceMessages.success = 'Data source deleted.';
+			$scope.dataSourceMessages.success = 'Data source unsubscribed.';
 		}, function(error) {
 			console.error(error);
-			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
+			$scope.dataSourceMessages.error = 'Unable to unsubscribe data source. If the problem persists, please contact loklak administrator for help.';
 		});
 	};
 

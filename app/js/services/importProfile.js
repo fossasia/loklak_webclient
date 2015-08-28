@@ -35,9 +35,9 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 		return deferred.promise;
 	};
 
-	service.delete = function(item) {
+	service.unsubscribe = function(item) {
 		var deferred = $q.defer();
-		var params = {action : 'delete', source_url : item.source_url, screen_name : $rootScope.root.twitterSession.screen_name};
+		var params = {action : 'delete', id_str : item.id_str, screen_name : $rootScope.root.twitterSession.screen_name};
 		$http.jsonp(AppSettings.apiUrl
 			+'import.json?callback=JSON_CALLBACK', {
 			params: params
