@@ -13,8 +13,8 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     vm.feedLimit = 20;
     vm.failNoticeShown = false;
     vm.isShowingMapNotHome = false;
-    vm.showFollowersLimit = 20;
-    vm.showFollowingsLimit = 20;
+    vm.showFollowersLimit = 12;
+    vm.showFollowingsLimit = 12;
 
 
     /* MAP VIEW MODELS */

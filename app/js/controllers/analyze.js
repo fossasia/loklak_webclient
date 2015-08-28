@@ -13,9 +13,20 @@ var marker=[];
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
 
+    var vm = this;
+    // Followers & following models
+    vm.showFollowersLimit = 12;
+    vm.showFollowingsLimit = 12;
+    vm.showAllFollowers = function() {
+        vm.showFollowersLimit = $rootScope.userTopology.followers.length;
+    };
 
+    vm.showAllFollowings = function() {
+        vm.showFollowingsLimit = $rootScope.userTopology.following.length;
+    };
     
-    
+
+
     viewlanding(); 
     var chart1 = {};
     chart1.type = "GeoChart";

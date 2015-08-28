@@ -61,6 +61,27 @@
                 <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
                 </button>
                 </center><br>
+
+                <div ng-show="userTopology.followers.length !== 0" class="followers-list-container">
+                    <h2>Followers<span ng-click="Analyze.showAllFollowers();" ng-show="userTopology.followers.length > Analyze.showFollowersLimit">Show all</span></h2>
+                    <div class="followers-link-container clearfix">
+                        <a class="topology-item" ng-repeat="item in userTopology.followers | limitTo: Analyze.showFollowersLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                            <img ng-src="{{item.profile_image_url_https}}">
+                        </a>
+                    </div>
+                </div>  
+
+
+
+
+                <div ng-show="userTopology.following.length !== 0" class="followers-list-container">
+                    <h2>Following<span ng-click="Analyze.showAllFollowings();" ng-show="userTopology.following.length > Analyze.showFollowingsLimit">Show all</span></h2>
+                    <div class="followers-link-container clearfix">
+                        <a class="topology-item" ng-repeat="item in userTopology.following | limitTo: Analyze.showFollowingsLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                            <img ng-src="{{item.profile_image_url_https}}">
+                        </a>
+                    </div>
+                </div>  
             </div>
 
         <!-- Center result + option filters -->
