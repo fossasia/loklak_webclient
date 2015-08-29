@@ -53,9 +53,9 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
     }
   };
 
-  service.debugLinkIframely = function(undebuggedLink) {
+  service.debugLinkOembed = function(undebuggedLink) {
     var deferred = $q.defer();
-    var debugApiUrl = debugServiceApi + '/iframely';
+    var debugApiUrl = debugServiceApi + '/oembed';
     $http.get(debugApiUrl, {
       params: {
         url: undebuggedLink,

@@ -124,7 +124,16 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 					element.append(generateMp4Template(undebuggedLink));
 					scope.debuggable = true;
 					return;
-				} else if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1) {
+				} else if (undebuggedLink && undebuggedLink.indexOf("www.facebook.com") > -1) {
+					console.log("FOOOOOOOOOOOOOOOOOOO");
+					DebugLinkService.debugLinkOembed(undebuggedLink).then(function(data) {
+						console.log(data);
+						if (data && data.html) {
+							element.append(data.html);
+						}
+					}, function() {});
+				} else if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1 && undebuggedLink.indexOf("www.facebook.com") === -1) {
+					console.log("BARRRRRRRRRRRRRRR")
 					DebugLinkService.debugLink(undebuggedLink).then(function(data) {
 						var tagToAppend = "";
 						if (data.html) { // When embed is available and html is the only choice
