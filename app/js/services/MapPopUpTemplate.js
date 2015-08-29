@@ -89,6 +89,20 @@ function MapPopUpTemplateService($filter) {
 
 
   };
+  service.InstaInfoPopUp = function(data) {
+    var result;
+    
+    result = '<div class=container style="width:300px">'
+    +           '<img class=img-circle src=' + data.user.profile_picture + ' width="50px">'
+    +                '<span class="home-user-name"> <b>'+data.user.full_name+'</b></span>'
+    +             '<img class=circle src=' + data.images.standard_resolution.url + ' style="width:275px; marigin-top:2px;">'
+    +             '<h5>'+data.caption.text+'</h5>'
+    +       '</div>'
+
+    return result;
+
+
+  };
 
   return service;
 

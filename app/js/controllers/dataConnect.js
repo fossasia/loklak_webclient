@@ -4,8 +4,8 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
-	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
+controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'AppSettings','PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
+	function($scope, $rootScope, $stateParams, SearchService,AppSettings,PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -32,6 +32,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		}
 	];
 	$scope.dataSourceItems = [];
+	$scope.instaurl = "https://instagram.com/oauth/authorize/?client_id=a98ae74120464cf6a92f63ee9f4d90e9&redirect_uri="+AppSettings.domain+"/instagram&response_type=token";
 	/**
 	 * Messages that are displayed in the main datasource page
 	 */

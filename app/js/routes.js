@@ -38,6 +38,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     controller: 'WallCtrl as wall',
     title: 'Wall'
   })
+  .state('Instagram', {
+    url: '/instagram',
+    templateUrl: 'instagram.html',
+    controller: 'InstaCtrl as insta',
+    title: 'Instagram'
+  })
   // .state('WallCreate', {
   //   url: '/wall/create',
   //   templateUrl: 'wall/create.html',
