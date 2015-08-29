@@ -1047,11 +1047,14 @@
 	}
 
 /* Search filters */
+	.search-filters-container {
+		height: 42px;
+	}
 	.filters-container {
 		position: relative;
 		z-index: 100;
 		background: white;
-		border-radius: 5px;
+		border-radius: 6px;
 		text-align: center;
 		.result-filters-separator {
 			width: 100%;
@@ -1118,6 +1121,7 @@
 			@media (max-width: 991px) {
 				padding-right: 0;
 			}
+			padding-right: 10px;
 		}	
 	}
 	.dashboard-left {
