@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="css/ng-tags-input.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <link rel="stylesheet" type="text/css" href="css/angular-chart.css">
-<div class="content-wrapper report-content-wrapper" ng-show="root.twitterSession">
+<div class="content-wrapper report-content-wrapper" ng-show="root.twitterSession && Analyze.doneReporting">
     <div class="search-container container-fluid">
         
         <div class="title-as-current-search-term bottom-margin-small">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="home-user-info-content" style="width:268px;">
                         <div class="top-content">
-                            <img ng-src="{{profilepicurl | homePageImage }}">
+                            <img ng-src="{{profilepicurl}}" fallback-src="/images/anon_200x200.png" >
                             <div class="name-and-screen-name">
                                 <span class="home-user-name">{{name}}</span>
                                 <span class="home-user-screen-name">@{{username}}</span>
@@ -61,6 +61,27 @@
                 <span class="fa fa-bar-chart" aria-hidden="true">Analyze!</span>
                 </button>
                 </center><br>
+
+                <div ng-show="Analyze.topology.followers.length !== 0" class="followers-list-container followers-list">
+                    <h2>Followers<span ng-click="Analyze.showAllFollowers();" ng-show="Analyze.topology.followers.length > Analyze.showFollowersLimit">Show all</span></h2>
+                    <div class="followers-link-container clearfix">
+                        <a class="topology-item" ng-repeat="item in Analyze.topology.followers | limitTo: Analyze.showFollowersLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                            <img ng-src="{{item.profile_image_url_https}}">
+                        </a>
+                    </div>
+                </div>  
+
+
+
+
+                <div ng-show="Analyze.topology.following.length !== 0" class="followers-list-container">
+                    <h2>Following<span ng-click="Analyze.showAllFollowings();" ng-show="Analyze.topology.following.length > Analyze.showFollowingsLimit">Show all</span></h2>
+                    <div class="followers-link-container clearfix">
+                        <a class="topology-item" ng-repeat="item in Analyze.topology.following | limitTo: Analyze.showFollowingsLimit" ng-href="{{ './search?q=from:' + item.screen_name}}">
+                            <img ng-src="{{item.profile_image_url_https}}">
+                        </a>
+                    </div>
+                </div>  
             </div>
 
         <!-- Center result + option filters -->

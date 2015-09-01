@@ -39,7 +39,7 @@
 			padding: 20px;
 		}
 		position: absolute;
-		padding: 20px 0 0 0;
+		padding: 10px 0 0 0;
 		left: 0;
 		transition: all 0.6s ease-in-out;
 		z-index: 501;
@@ -76,18 +76,21 @@
 			opacity: 0;
 			transition: all .3s ease-in-out;
 		}
+		.home-user-info .blue-background-placeholder img {
+			height: 100%;
+		}
 
 	}
 
 	.home-user-info {
 		border: 1px solid #e1e8ed;
-		margin-top: 20px; 
-		border-radius: 10px;
+		margin-top: 10px; 
+		border-radius: 6px;
 		background: white;
 		.blue-background-placeholder {
 			position: relative;
-			border-top-left-radius: 10px;
-			border-top-right-radius: 10px;
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
 			height: 90px;
 			background-color: $search-twitter-blue;
 			overflow: hidden;
@@ -183,9 +186,9 @@
 
 	.home-user-trends {
 		border: 1px solid #e1e8ed;
-		margin-top: 20px;
+		margin-top: 10px;
 		background: white;
-		border-radius: 10px; 
+		border-radius: 6px; 
 		padding: 15px 14px;
 		.trend-title {
 			margin: 0;
@@ -213,11 +216,11 @@
 		position: relative;
 		height: 30px;
 		background: #55ACEE;
-		border-radius: 10px;
+		border-radius: 6px;
 	}
 
 	.switch-to-map {
-		border-radius: 10px;
+		border-radius: 6px;
 		width: 100%;
 		text-align: center;
 		transition: all .3s ease-in-out .6s;
@@ -243,7 +246,7 @@
 	}
 
 	.switch-to-timeline-text {
-		border-radius: 10px;
+		border-radius: 6px;
 		width: 100%;
 		text-align: center;
 		transition: all .3s ease-in-out .6s;
@@ -274,8 +277,8 @@
 		display: block;
 		padding: 10px;
 		background-color: white;
-		margin-top: 20px;
-	    border-radius: 10px;
+		margin-top: 10px;
+	    border-radius: 6px;
 	    border: 1px solid #e1e8ed;
 		h2 {
 			font-size: 18px;
@@ -299,7 +302,7 @@
 			> a {
 				width: 25%;
 				@media (min-width: 769px) and (max-width: 992px) {
-					width: 10%;
+					width: 8%;
 				}
 				@media (min-width: 0) and (max-width: 768px) {
 					width: 45px;
@@ -323,8 +326,7 @@
 		margin-left: 25%;
 		position: relative;
 		top: 0;
-		margin-top: 20px;
-		background-color: white;
+		margin-top: 10px;
 		@media (min-width: 992px) and (max-width: 1200px){
 			padding-left: 0;
 			padding-right: 0;
@@ -339,10 +341,11 @@
 		}
 	}
 	.center-result-container.moved-right {
+		background-color: white;
 		transition: all .6s ease-in-out .3s;
 		margin-left: calc(100% - 255px);
 		position: relative;
-		top: 179px;
+		top: 195px;
 		width: 270px;
 		> .cms-view {
 			transition: all 0.3s ease-in-out 0.6s;
@@ -356,11 +359,15 @@
 	.main-result-container {
 		
 		.statuses-container {
-			> div {
-				background-color: white;
+			> div:first-child {
+				.item {
+					border-top-left-radius: 6px;
+					border-top-right-radius: 6px;	
+				}
 			}
 			padding: 0;
 			.item {
+				background-color: white;
 				padding: 15px 10px;
 				border-bottom: 1px solid #E1E8ED;
 				margin-bottom: 0;
@@ -387,8 +394,9 @@
 		width: 100%;
 	    background: #F5F8FA;
 	    border: none;
-	    border-top: 1px solid #E1E8ED;
-	    border-bottom: 1px solid #E1E8ED;
+	    border: 1px solid #E1E8ED;
+	    border-top-right-radius: 6px;
+	    border-top-left-radius: 6px;
 	    font-size: 15px;
 	    text-align: center;
 	    padding: 13px;
@@ -631,8 +639,8 @@
 			position: initial;
 			transform: none;
 			width: 100%;
-			border-radius: 10px;
-		    margin-top: 15px;
+			border-radius: 6px;
+		    margin-top: 10px;
 		    line-height: 17px;
 			a {
 				color: #8899a6;

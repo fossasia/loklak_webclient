@@ -13,9 +13,23 @@ var marker=[];
 
  controllersModule.controller('AnalyzeCtrl', ['$rootScope','$http','$scope','AppSettings', function($rootScope,$http,$scope,AppSettings) {
 
+    var vm = this;
+    vm.doneReporting = false;
+    // Followers & following models
+    vm.followers = [];
+    vm.following = [];
+    vm.showFollowersLimit = 12;
+    vm.showFollowingsLimit = 12;
+    vm.showAllFollowers = function() {
+        vm.showFollowersLimit = $rootScope.userTopology.followers.length;
+    };
 
+    vm.showAllFollowings = function() {
+        vm.showFollowingsLimit = $rootScope.userTopology.following.length;
+    };
     
-    
+
+
     viewlanding(); 
     var chart1 = {};
     chart1.type = "GeoChart";
@@ -50,7 +64,7 @@ var marker=[];
         viewloading();
         
         
-        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 20000  } })
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 10000, following : 10000  } })
             .success(function(data, status, headers, config) {
                 
                 console.log("recieved data");
@@ -64,6 +78,7 @@ var marker=[];
                 //data about the user analysing
                 var topology = data.topology;
                 var followerstotal=data.user.followers_count;
+                vm.topology = data.topology;
                 $scope.followerstotal=data.user.followers_count;
                 $scope.followingstotal=data.user.friends_count;
                 $scope.name=data.user.name;
@@ -240,6 +255,7 @@ var marker=[];
                 {
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
+
                 $('#loader').hide(); 
                 $('#loadmsg').hide();
                 $('#inffollowers').show();
@@ -269,8 +285,9 @@ var marker=[];
                 return 0;
             }
             followers_follower.sort(compare);
-            
-        }   
+        }
+
+        vm.doneReporting = true;
 };
 
 $scope.increaseLimit = function(){
