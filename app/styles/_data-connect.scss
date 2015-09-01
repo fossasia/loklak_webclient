@@ -34,6 +34,9 @@
 	border-color: #d6e9c6;
 	color: #3c763d !important;
 }
+#my-connection-panel .alert-link {
+	cursor: pointer;
+}
 
 #datasource-table {
 	padding: 0 20px;
@@ -95,11 +98,11 @@
 	text-decoration: underline;
 }
 
-#confirm-delete-modal-dialog {
-	width: 350px;
+#confirm-unsubscribe-modal-dialog {
+	width: 400px;
 }
 
-#confirm-delete-modal-dialog .modal-header {
+#confirm-unsubscribe-modal-dialog .modal-header {
 	border-bottom: none;
 }
 
@@ -137,13 +140,30 @@
 		width: 100%;
 	}
 }
-
+#message-view-modal {
+	overflow-y: hidden;
+}
+#message-view-modal .modal-dialog {
+	height: 98%;
+	margin-top: 10px;
+	padding: 5px 15px;
+}
+#message-view-modal .modal-content {
+	max-height: 98%;
+	overflow-y: auto;
+}
+#message-view-modal .modal-body {
+	max-height: calc(100% - 73px);
+}
 #message-view-modal .single-tweet {
 	position: relative;
 	transform: none;
 	top: 0;
 	left: 0;
 	width: 100%;
+}
+#message-view-modal .modal-header{
+	height: 73px;
 }
 #add-connection-modal {
 	overflow-y: hidden;

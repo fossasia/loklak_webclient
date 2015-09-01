@@ -13,7 +13,7 @@ function($http, MapCreationService, SearchService) {
 			MapCreationService.initMap({
 				data: [],
 				mapId: 'single-data-map',
-				templateEngine: 'genStaticTwitterStatus',
+				templateEngine: 'genImportedStatus',
 				markerType: 'simpleCircle',
 				cbOnMapAction: function() {
 					console.log('callback');
@@ -29,7 +29,7 @@ function($http, MapCreationService, SearchService) {
 				}
 				var center = scope.selectedMapMessages[0].location_mark;
 				map.panTo(new L.LatLng(center[1], center[0]));
-				var mapPoints = MapCreationService.initMapPoints(scope.selectedMapMessages, 'genStaticTwitterStatus');
+				var mapPoints = MapCreationService.initMapPoints(scope.selectedMapMessages, 'genImportedStatus', scope.selectedMapProfile);
 				scope.markerLayer = MapCreationService.addPointsToMap(map, mapPoints, 'simpleCircle', function() {
 					console.log("Added succesfully");
 				});

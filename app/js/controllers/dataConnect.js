@@ -4,8 +4,11 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
-	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService, ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
+controllersModule.controller('DataConnectCtrl', 
+	['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 
+	'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
+	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService,
+		ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
 	if ($stateParams.source_type != null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
@@ -41,7 +44,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	$scope.harvestingFreqList = HarvestingFrequencyService.values;
 	$scope.mapRulesNum = 0;
 
-	$scope.setMessageView= function(messageIds) {
+	$scope.setMessageView= function(profile) {
+		$scope.selectedProfile = profile;
+		var messageIds = profile.imported;
 		if (messageIds !== $scope.fileIds) {
 			$scope.fileIds = messageIds;
 			var query = '';
@@ -54,7 +59,9 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		}
 	};
 
-	$scope.setMapView = function(messageIds) {
+	$scope.setMapView = function(profile) {
+		$scope.selectedMapProfile = profile;
+		var messageIds = profile.imported;
 		if (messageIds !== $scope.mapIds) {
 			$scope.mapIds = messageIds;
 			var query = '';
@@ -94,10 +101,10 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 				callback();
 			}
 		}, function() {});
-	}
-
-	$scope.returnFromAddConnection = function(message) {
+	};
+	$scope.returnFromAddConnection = function(message, knownProfiles) {
 		$scope.dataSourceMessages.success = message;
+		$scope.dataSourceMessages.knownProfiles = knownProfiles;
 		setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 	};
 
@@ -129,13 +136,7 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 	};
 
 	$scope.saveDataSource = function(item) {
-		if (item.public) {
-			item.privacy_status = 'PUBLIC';
-		} else {
-			item.privacy_status = 'PRIVATE';
-		}
 		ImportProfileService.update(item).then(function(data) {
-			console.log(item);
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
 		}, function(error) {
 			console.error(error);
@@ -143,18 +144,17 @@ controllersModule.controller('DataConnectCtrl', ['$scope', '$rootScope', '$state
 		});
 	};
 
-	$scope.openConfirmDeleteModal = function(item) {
-		$scope.toDeleteItem = item;
+	$scope.openConfirmUnsubcribeModal = function(item) {
+		$scope.toUnsubscribeItem = item;
 		angular.element('#open-confirm-modal').trigger('click');
 	};
-
-	$scope.deleteDataSource = function() {
-		ImportProfileService.delete($scope.toDeleteItem).then(function(data) {
+	$scope.unsubscribeDataSource = function() {
+		ImportProfileService.unsubscribe($scope.toUnsubscribeItem).then(function(data) {
 			setTimeout(updateDataSources, DELAY_BEFORE_RELOAD);
-			$scope.dataSourceMessages.success = 'Data source deleted.';
+			$scope.dataSourceMessages.success = 'Data source unsubscribed.';
 		}, function(error) {
 			console.error(error);
-			$scope.dataSourceMessages.error = 'Unable to delete data source. If the problem persists, please contact loklak administrator for help.';
+			$scope.dataSourceMessages.error = 'Unable to unsubscribe data source. If the problem persists, please contact loklak administrator for help.';
 		});
 	};
 

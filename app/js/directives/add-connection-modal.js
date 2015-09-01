@@ -4,8 +4,10 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 'LoklakFieldService', 'PushService', 'SourceTypeService',
-	function($http, $stateParams, SearchService, HarvestingFrequencyService, LoklakFieldService, PushService, SourceTypeService) {
+directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 
+	'LoklakFieldService', 'PushService', 'SourceTypeService', 'JsonFieldAccessorService', 'ImportProfileService',
+	function($http, $stateParams, SearchService, HarvestingFrequencyService, 
+		LoklakFieldService, PushService, SourceTypeService, JsonFieldAccessorService, ImportProfileService) {
 	return {
 		restrict: 'A',
 		templateUrl: "data-connect/add-connection-modal.html",
@@ -131,15 +133,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  source_type: $scope.inputs.sourceType.key,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
-						  lifetime: lifetime,
-						  public: $scope.inputs.public
+						  lifetime: lifetime
 						}
 					).then(function(data) {
-			 			$scope.messages.error = '';
-			 			setTimeout(function() {
-							angular.element('#close-add-connection-modal').trigger('click');
-						}, 0);
-			 			$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
+						pushActionOnSuccess(data);
 			 		}, function(err, status) {
 			 			$scope.messages.success = '';
 			 			$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
@@ -150,20 +147,38 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						  source_type: $scope.inputs.sourceFormat,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
-						  lifetime: lifetime,
-						  public: $scope.inputs.public
+						  lifetime: lifetime
 						}, $scope.sourceTypeList[$scope.inputs.sourceFormat].endpoint).then(function(data) {
-							$scope.messages.error = '';
-							setTimeout(function() {
-								angular.element('#close-add-connection-modal').trigger('click');
-							}, 0);
-							$scope.returnFromAddConnection(data.known + ' source(s) known, ' + data['new'] + ' new source(s) added');
-					}, function(err, status) {
+							pushActionOnSuccess(data);
+						}, function(err, status) {
 						$scope.messages.success = '';
 						$scope.messages.error = 'Add new source failed. Please verify link avaibility & data format.';
 					});
 				}
 			};
+
+			function pushActionOnSuccess(data) {
+	 			$scope.messages.error = '';
+	 			setTimeout(function() {
+					angular.element('#close-add-connection-modal').trigger('click');
+				}, 0);
+				var returnMessage;
+				if (data['new'] > 0) {
+					returnMessage = data['new'] + ' new source(s) added.';
+	 			} else {
+	 				returnMessage = 'No new source added.';
+	 			}
+	 			if (data['known'] > 0) {
+	 				ImportProfileService.search(null, null, data.knownIds[0]).then(function(result) {
+	 					$scope.returnFromAddConnection(returnMessage, result.profiles);
+	 				}, function(err) {
+	 					console.error(err);
+	 					$scope.returnFromAddConnection(returnMessage);
+	 				});
+	 			} else {
+	 				$scope.returnFromAddConnection(returnMessage);
+	 			}
+			}
 
 			$scope.hideErrorPanel = function() {
 				$scope.messages.error = '';
@@ -227,10 +242,9 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 			}
 
 			$scope.accessDataField = function(row) {
-				if ($scope.inputs.mapRules[row][0] && $scope.currentData) {
-					return accessDataField($scope.currentData, $scope.inputs.mapRules[row][0]);
-				}
-			};
+				if ($scope.inputs.mapRules[row][0] && $scope.currentData)
+					return JsonFieldAccessorService.accessField($scope.currentData, $scope.inputs.mapRules[row][0]);
+			}
 
 			$scope.clearModalData = function() {
 				$scope.currentData = null;
@@ -240,7 +254,6 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				$scope.messages = {};
 				// Default values
 				$scope.inputs.harvesting_freq = {'value': 360, 'label':'6 hours'};
-				$scope.inputs.public = true;
 
 				for (var key in $scope.loklakFields) {
 					if (!$scope.inputs.mapRules[key]) {

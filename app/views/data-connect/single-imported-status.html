@@ -1,0 +1,15 @@
+<div ng-attr-id="{{data.id_str}}" class="single-imported-status">
+	<div class="body">
+		<div class="right-logo">
+			<img src="{{sourceType.logo}}"/>
+		</div>
+		<h3>{{accessField(richData, sourceType.template.header)}}</h3>
+		{{accessField(richData, sourceType.template.subHeader)}}
+	</div>
+	<div class="footer">
+		<p>{{profile.sharers | shortenSharersList}}</p>
+		<div class="action-list">
+			<span ng-click="share()">Share <i class="fa fa-share" tile="Share this"></i></span>
+		</div>
+	</div>
+</div>

@@ -101,6 +101,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
         return deferred.promise;
     };
 
+
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {

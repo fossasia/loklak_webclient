@@ -17,35 +17,55 @@ function SourceTypeService() {
 			'key': 'FOSSASIA_API',
 			'name': 'FOSSASIA API',
 			'endpoint': 'fossasia.json',
-			'logo': '/images/external/fossasia.png'
+			'logo': '/images/external/fossasia.png',
+			'template': {
+				'header' : 'text',
+				'subHeader': 'metacommunity'
+			}
 		},
 		'openwifimap':
 		{
 			'key': 'OPENWIFIMAP',
 			'name': 'Openwifimap',
 			'endpoint': 'openwifimap.json',
-			'logo': '/images/external/freifunk.net.png'
+			'logo': '/images/external/freifunk.net.png',
+			'template': {
+				'header' : 'id',
+				'subHeader': 'value.hostname'
+			}
 		},
 		'nodelist':
 		{
 			'key': 'NODELIST',
 			'name': 'Nodelist',
 			'endpoint': 'nodelist.json',
-			'logo': '/images/external/freifunk.net.png'
+			'logo': '/images/external/freifunk.net.png',
+			'template': {
+				'header' : 'name',
+				'subHeader': 'id'
+			}
 		},
 		'netmon':
 		{
 			'key': 'NETMON',
 			'name': 'Netmon',
 			'endpoint': 'netmon.xml',
-			'logo': '/images/external/freifunk.net.png'
+			'logo': '/images/external/freifunk.net.png',
+			'template': {
+				'header' : 'hostname',
+				'subHeader': 'router_id'
+			}
 		},
 		'freifunk_node':
 		{
 			'key': 'FREIFUNK_NODE',
 			'name': 'Freifunk Node',
-			'endpoint': 'freifunk_node.json',
-			'logo': '/images/external/freifunk.net.png'
+			'endpoint': 'freifunknode.json',
+			'logo': '/images/external/freifunk.net.png',
+			'template': {
+				'header' : 'name',
+				'subHeader': 'hardware'
+			}
 		},
 		'ninux':
 		{

@@ -16,14 +16,14 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
     var mapId = 'examples.map-20v6611k';
     var tileLayerSrc = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
-    function initMapPoints(statuses, templateEngine) {
+    function initMapPoints(statuses, templateEngine, profile) {
         var tweets = { "type": "FeatureCollection", "features": []};
         statuses.forEach(function(status) {
             var isAFollower = (status.isAFollower) ? true : false;
             var isAFollowing = (status.isAFollowing) ? true : false;
             var geo_enabled = (status.location_mark) ? true: false;
             if (status.location_mark && status.user) {
-                var text = MapPopUpTemplateService[templateEngine](status);
+                var text = MapPopUpTemplateService[templateEngine](status, profile);
                 var pointObject = {
                     "geometry": {"type": "Point", "coordinates": [status.location_mark[0], status.location_mark[1]]},
                     "type": "Feature",
