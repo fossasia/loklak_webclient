@@ -66,7 +66,7 @@ module.exports = {
             },
             json: true,
             limit: 1, 
-            timeout: 1000
+            timeout: 3000
         }, function (error, response, body) {
 
             if (error) {
