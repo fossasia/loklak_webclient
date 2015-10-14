@@ -13,7 +13,7 @@ function WallService($q, $http, AppSettings) {
 		var deferred = $q.defer();
 
 		$http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-			params: {q: term},
+			params: {q: term, minified: true},
 			timeout: 20000
 		}).success(function(data) {
 			deferred.resolve(data);

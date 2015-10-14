@@ -22,7 +22,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       var deferred = $q.defer();
 
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-        params: {q: term},
+        params: {q: term, minified: true},
         timeout: $rootScope.httpCanceler.promise
       }).success(function(data) {
           deferred.resolve(data);
@@ -39,7 +39,8 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       $http.jsonp(AppSettings.apiUrl+'suggest.json?callback=JSON_CALLBACK', {
         params: {
           q: term,
-          source: "geo"
+          source: "geo",
+          minified: true
         }
       }).success(function(data) {
           deferred.resolve(data);
@@ -57,7 +58,8 @@ function SearchService($q, $http, $rootScope, AppSettings) {
         params: {
           q: term,
           orderby: "query_count",
-          order: "desc"
+          order: "desc",
+          minified: true
         }
       }).success(function(data) {
           deferred.resolve(data);
