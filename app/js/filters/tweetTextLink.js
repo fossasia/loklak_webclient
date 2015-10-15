@@ -1,7 +1,7 @@
 'use strict';
 
 var filtersModule = require('./_index.js');
-
+var Autolinker = require('autolinker');
 /**
  * @ngInject
  */
@@ -11,16 +11,6 @@ filtersModule.filter('tweetTextLink', function() {
         if (!input) {
           return "";
         }
-        
-        var urlRegex = /(https?:\/\/[^\s]+)/g;
-        return input.replace(urlRegex, function(url) {
-            var changedUrl = url.replace(/.*?:\/\//g, "");
-            if( changedUrl.length > 22) {
-                return '<a class=\'external_link\' href=\'' + url + '\' target=\'_blank\'>' + changedUrl.substr(0,22) + '...' + '</a>';
-            }
-            else {
-                return "<a class='external_link' href='" + url + "' target='_blank'>" + changedUrl + "</a>";
-            }
-        });
+        return Autolinker.link(input);
     };
 });
