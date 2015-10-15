@@ -40,7 +40,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
         params: {
           q: term,
           source: "geo",
-          minified: true
+          minified: "true"
         }
       }).success(function(data) {
           deferred.resolve(data);
