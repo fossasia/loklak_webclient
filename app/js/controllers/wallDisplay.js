@@ -119,13 +119,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         });
         vm.wallOptions.$promise.then(function(data) {
             if (vm.wallOptions.id) {
-                if (vm.wallOptions.layoutStyle === '1') {
+                if (vm.wallOptions.layoutStyle === 1) {
                     maxStatusCount = 10; //linear
-                } else if (vm.wallOptions.layoutStyle === '2') {
+                } else if (vm.wallOptions.layoutStyle === 2) {
                     maxStatusCount = 20; //masonry
-                } else if (vm.wallOptions.layoutStyle === '3') {
+                } else if (vm.wallOptions.layoutStyle === 3) {
                     maxStatusCount = 1; //single
-                } else if (vm.wallOptions.layoutStyle === '4') {
+                } else if (vm.wallOptions.layoutStyle === 4) {
                     maxStatusCount = 10; //map
                 }
                 calculateTerm();
