@@ -22,7 +22,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       var deferred = $q.defer();
 
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
-        params: {q: term, minified: true},
+        params: {q: term, minified: "true"},
         timeout: $rootScope.httpCanceler.promise
       }).success(function(data) {
           deferred.resolve(data);
@@ -59,7 +59,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
           q: term,
           orderby: "query_count",
           order: "desc",
-          minified: true
+          minified: "true"
         }
       }).success(function(data) {
           deferred.resolve(data);
