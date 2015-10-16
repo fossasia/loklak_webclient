@@ -98,7 +98,7 @@
                                                 </div>
                                                 <div class="form-group wall-tag-label-contain">
                                                     <label class="wall-contains-header">Show tweets that contain <strong>ANY</strong> of these</label>
-                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.any" placeholder="Type and hit enter" name="ors"></tags-input>
                                                 </div>
                                                 <h3 style="margin-bottom: 10px;" ng-if="newWallOptions.mainHashtagText">Main hashtag: <span class="label label-primary">{{newWallOptions.mainHashtag}}</span></h3>
                                                 <div class="form-group row">
@@ -135,8 +135,8 @@
                                                     <div class="row">
                                                         <h4 class="col-xs-8">Videos<br><small>Show tweets with videos?</small></h4>
                                                         <choices class="wall-media-toggle" data-type="array" btn-type="btn-default" ng-model="newWallOptions.videos">
-                                                            <choice ng-disabled="newWallOptions.images[0]=='only'" active value="both">Yes</choice>
-                                                            <choice ng-disabled="newWallOptions.images[0]=='only'" value="none">No</choice>
+                                                            <choice ng-disabled="newWallOptions.images[0]=='only'" value="both">Yes</choice>
+                                                            <choice ng-disabled="newWallOptions.images[0]=='only'" active value="none">No</choice>
                                                             <choice ng-disabled="newWallOptions.images[0]=='only'" value="only">Only</choice>
                                                         </choices>
                                                     </div>
@@ -161,7 +161,7 @@
                                                 </div>
                                                 <div class="form-group wall-tag-label-not-contain">
                                                     <label class="wall-not-contains-header">Show tweets that contain NONE of these</label>
-                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="ands"></tags-input>
+                                                    <tags-input class="wall-tag-input" ng-model="newWallOptions.none" placeholder="Type and hit enter" name="nones"></tags-input>
                                                 </div>
                                                 <div>
                                                     <hr>
