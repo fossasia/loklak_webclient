@@ -49,11 +49,15 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
     var initWallOptions = function() {
         $scope.newWallOptions = {};
+        $scope.newWallOptions.profanity = true;
+        $scope.newWallOptions.images = true;
+        $scope.newWallOptions.videos = false;
         $scope.newWallOptions.headerColour = '#3c8dbc';
         $scope.newWallOptions.headerForeColour = '#FFFFFF';
         $scope.newWallOptions.headerPosition = 'Top';
         $scope.newWallOptions.layoutStyle = 1;
         $scope.newWallOptions.showLoading = false;
+        $scope.newWallOptions.showStatistics = true;
         $scope.newWallOptions.showLoklakLogo = true;
         $scope.newWallOptions.showEventName = true;
     };
