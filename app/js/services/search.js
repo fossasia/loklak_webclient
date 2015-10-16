@@ -74,6 +74,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       $rootScope.root.aSearchWasDone = true;
       $rootScope.httpCanceler = $q.defer();
       var deferred = $q.defer();
+      paramsObj.minified = true;
       //paramsObj.q = decodeURIComponent(paramsObj.q);
       $http.jsonp(AppSettings.apiUrl+'search.json?callback=JSON_CALLBACK', {
         params: paramsObj,
