@@ -19,11 +19,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function calculateTerm(argument) {
         term = "";
-        if (vm.wallOptions.mainHashtag) {
-            term = vm.wallOptions.mainHashtag;
-        }
+        
         var i;
-
         for (i = 0; i < vm.wallOptions.all.length; i++) {
             term = term + ' ' + vm.wallOptions.all[i].text;
         }
@@ -37,6 +34,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             for (i = 1; i < vm.wallOptions.any.length; i++) {
                 term = term + ' OR ' + vm.wallOptions.any[i].text;
             }
+        }
+        if (vm.wallOptions.mainHashtag) {
+        	if (term) {
+        	    term = term + ' OR ' + vm.wallOptions.mainHashtag;
+        	} else {
+        	    term = vm.wallOptions.mainHashtag;
+        	}
         }
 
         if (vm.wallOptions.layoutStyle == '4') {
