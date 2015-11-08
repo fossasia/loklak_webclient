@@ -64,7 +64,7 @@ var marker=[];
         viewloading();
         
         
-        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 10000, following : 10000  } })
+        $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 10000, following : 10000, minified: true } })
             .success(function(data, status, headers, config) {
                 
                 console.log("recieved data");

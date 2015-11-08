@@ -108,7 +108,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
   service.retrieveImg = function(user_screen_name) {
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
-      params: {screen_name: user_screen_name}
+      params: {screen_name: user_screen_name, minified: true}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -123,7 +123,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     console.log(combined_user_screen_names);
     var deferred = $q.defer();
     $http.jsonp(AppSettings.apiUrl+'user.json?callback=JSON_CALLBACK', {
-      params: {screen_name: combined_user_screen_names}
+      params: {screen_name: combined_user_screen_names, minified: true}
     }).success(function(data) {
         deferred.resolve(data);
     }).error(function(err, status) {
@@ -139,7 +139,8 @@ function SearchService($q, $http, $rootScope, AppSettings) {
       params: {
         screen_name: user_screen_name,
         following: limit,
-        followers: limit
+        followers: limit,
+        minified: true
       }
     }).success(function(data) {
         deferred.resolve(data);
