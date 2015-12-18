@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -9,10 +11,11 @@ var shortid = require('shortid');
  */
 function serialize(obj) {
   var str = [];
-  for(var p in obj)
+  for(var p in obj) {
     if (obj.hasOwnProperty(p)) {
       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
     }
+  }
   return str.join("&");
 }
 
@@ -21,7 +24,7 @@ function getData(user, callback) {
 }
 
 function getAuthorizedData(servlet, paramsObj, callback) {
-    
+
 }
 
 function updateData(authData, data, callback) {
@@ -53,8 +56,8 @@ var isAuthorized = function(req, res, next) {
 	    var oauth_token = splitted[0];
 	    var oauth_token_secret = splitted[1].split("@")[0];
 	    var userObject = {};
-	    userObject['oauth_token'] = oauth_token;
-	    userObject['oauth_token_secret'] = oauth_token_secret;
+	    userObject.oauth_token = oauth_token;
+	    userObject.oauth_token_secret = oauth_token_secret;
 	    return userObject;
 	}
 
@@ -71,32 +74,32 @@ var isAuthorized = function(req, res, next) {
         "secret" : userObject.oauth_token_secret
     };
 
-    request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {  
+    request(config.apiUrl + 'account.json?' + serialize(params), function(error, response, body) {
         var data = JSON.parse(response.body).accounts[0];
         if (data && data.oauth_token === params.token && data.oauth_token_secret === params.secret) {
-        	req.accountData = data;
+        	  req.accountData = data;
             next();
         } else {
             res.end("Access unauthorized");
-        }    
+        }
     });
-}
+};
 
-/* 
+/*
  * Authorized API, an example for the use case of the middleware above
  */
 router.get('/authorized?', isAuthorized, function(req, res) {
 	res.jsonp(req.accountData);
     // var cb = function(responseState, response) {
     //     if (responseState) {
-    //         res.jsonp(response);  
+    //         res.jsonp(response);
     //     } else {
     //         res.send("Access unauthorized");
     //     }
     // }
-    
+
     // isAuthorized(req, res, cb);
-})
+});
 
 /* Wall API */
 //LIST
@@ -136,7 +139,7 @@ router.get('/:user/:app/:id', function(req, res) {
         var data = JSON.parse(response.body).accounts[0];
         if (data.apps[req.params.app]) {
             for (var i = 0; i < data.apps[req.params.app].length; i++) {
-                if (data.apps[req.params.app][i].id == req.params.id) {
+                if (data.apps[req.params.app][i].id === req.params.id) {
                     return res.jsonp(data.apps[req.params.app][i]);
                 }
             }
@@ -189,13 +192,13 @@ router.delete('/:user/:app/:id', isAuthorized, function(req, res) {
         }
         var found = false;
         for (var i = 0; i < appData[req.params.app].length; i++) {
-            if (appData[req.params.app][i].id == req.params.id) {
+            if (appData[req.params.app][i].id === req.params.id) {
                 found = true;
-                appData[req.params.app].splice(i, 1)
+                appData[req.params.app].splice(i, 1);
                 var dataToSend = {
                     screen_name: req.params.user,
                     apps: appData
-                }
+                };
                 updateData(authData, appData, function(error, response, body) {
                     console.log(response.body);
                     return res.json({
@@ -204,7 +207,7 @@ router.delete('/:user/:app/:id', isAuthorized, function(req, res) {
                 });
             }
         }
-        if (found == false) {
+        if (found === false) {
             res.json({
                 status: "ERROR"
             });
@@ -227,20 +230,20 @@ router.put('/:user/:app/:id', isAuthorized, function(req, res) {
         }
         var found = false;
         for (var i = 0; i < appData[req.params.app].length; i++) {
-            if (appData[req.params.app][i].id == req.params.id) {
+            if (appData[req.params.app][i].id === req.params.id) {
                 found = true;
                 appData[req.params.app][i] = req.body;
                 var dataToSend = {
                     screen_name: req.params.user,
                     apps: appData
-                }
+                };
                 updateData(authData, appData, function(error, response2, body) {
                     //console.log(response2.body);
                     return res.json(JSON.parse(response2.body).accounts[0].apps[req.params.app][i]);
                 });
             }
         }
-        if (found == false) {
+        if (found === false) {
             res.json({
                 status: "ERROR"
             });
