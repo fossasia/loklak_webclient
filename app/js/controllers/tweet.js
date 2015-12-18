@@ -104,7 +104,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                 }).success(function(response) {
                     var markdownBlob = FileService.Base64StrToBlobStr(response);
                     console.log("Successfully retrieved for " + markdownRequestUrl);
-                    
+
                     if(tweetLen <= 140 && tweetLen > 0) {
                         hello('twitter').api('me/share', 'POST', {
                             message : message,
@@ -142,13 +142,13 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                         var dateString = json.created_at;
                         var convertedDate = new Date(dateString);
                         var ISODate = convertedDate.toISOString();
-                        pushObject['created_at'] = ISODate;
-                        pushObject['screen_name'] = json.user.screen_name;
-                        pushObject['text'] = json.text;
-                        pushObject['canonical_id'] = json.id_str;
-                        pushObject['source_type'] = "TWITTER";
+                        pushObject.created_at = ISODate;
+                        pushObject.screen_name = json.user.screen_name;
+                        pushObject.text = json.text;
+                        pushObject.canonical_id = json.id_str;
+                        pushObject.source_type = "TWITTER";
                         var dataObject = {};
-                        dataObject['statuses'] = [pushObject];
+                        dataObject.statuses = [pushObject];
                         var paramString = JSON.stringify(dataObject);
                         var crossPostRequest = crossPOSTURLbase + paramString;
 
@@ -194,7 +194,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                   $('#myModal').modal('hide');
               }
             };
-           
+
         }
         else {
             console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
@@ -226,19 +226,6 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
         var xtemp  = $('#newLoc').val();
         console.log(xtemp);
         $('#dropdownMenu1').text(xtemp);
-    };
-
-    // Get the location from the GeoLocation API of HTML5
-    $rootScope.root.getLocation = function() {
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(setPosition);
-            $("#subDropDownMenu").find('input').click(function(e){
-                e.stopPropagation(); 
-            });
-        }
-        else {
-            alert("Geolocation isn't supported by this browser");
-        }
     };
 
     // Latitude and Longitude is retrieved and the request is made for the map tile
@@ -274,6 +261,19 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
             $rootScope.root.newLocationSet = response.locations[0].place;
         });
     }
+
+    // Get the location from the GeoLocation API of HTML5
+    $rootScope.root.getLocation = function() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+            $("#subDropDownMenu").find('input').click(function(e){
+                e.stopPropagation();
+            });
+        }
+        else {
+            alert("Geolocation isn't supported by this browser");
+        }
+    };
 
     $rootScope.root.retweet = function(id) {
         console.log(id);

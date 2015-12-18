@@ -31,7 +31,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     "profile_image_url_https" : ele.profile_image_url_https,
                 };
             });
-        }    
+        }
 
         /*
          * Stimulate a marker's clicking's trigger
@@ -44,22 +44,22 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 vm.failNoticeShown = false;
 
                 window.map.panTo(window.mapViewMarker[userId]._latlng);
-                window.mapViewMarker[userId].openPopup();    
-                
+                window.mapViewMarker[userId].openPopup();
+
             } else {
-                if (vm.failNoticeShown) { $(".location-fail-notice").fadeOut(200).fadeIn(200); } 
+                if (vm.failNoticeShown) { $(".location-fail-notice").fadeOut(200).fadeIn(200); }
                 window.map.closePopup();
                 $(".location-fail-notice").fadeIn();
                 vm.failNoticeShown = true;
-            } 
+            }
         };
 
 
-        /* 
-         * Callback after map is created 
+        /*
+         * Callback after map is created
          * Most of these are DOM manipulation, which is relevant only when map is created
          */
-        var cbOnMap = function() { 
+        var cbOnMap = function() {
             var hintText = '<p class="map-control-hint-text">The first number shows the actual followers. The second number shows the number of followers with a location info. These are displayed on the map.</p>';
             $(".leaflet-control-layers-overlays").append(hintText);
             $(".map-control-hint").hover(function() {
@@ -88,7 +88,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 var id_str = $(this).attr("id").replace("user-", "");
                 hello('twitter').api('me/unfollow', 'POST', {
                     user_id: id_str
-                }).then(function (json) {
+                }).then(function () {
                     $(this).text("Follow"); $(this).toggleClass('follower-button'); $(this).toggleClass('follow-button');
                 }, function(e) {
                     console.log(e);
@@ -100,7 +100,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 $(this).text("Following"); $(this).addClass('following-button'); $(this).removeClass('follow-button'); $(this).removeClass('fresh-follow-button');
                 hello('twitter').api('me/follow', 'POST', {
                     user_id: id_str
-                }).then(function (json) {
+                }).then(function () {
                 }, function(e) {
                     console.log(e);
                 });
@@ -113,7 +113,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         }, function(val) {
             if (val) {
                 if (window.map) { delete(window.map); }
-        
+
                 var topologyPool = $rootScope.userTopology.followers.concat($rootScope.userTopology.following);
                 addUserProp(topologyPool);
                 MapCreationService.initMap({
@@ -122,7 +122,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                     templateEngine: "genUserInfoPopUp",
                     markerType: "userAvatar",
                     cbOnMapAction: cbOnMap
-                });  
+                });
             }
         });
 
@@ -137,7 +137,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
                 console.log(idStrSearchTerm);
                 SearchService.getData(idStrSearchTerm).then(function(activityFeedFromLoklak) {
                     console.log(activityFeedFromLoklak);
-                }, function() {});    
+                }, function() {});
             }
         });
 
@@ -158,7 +158,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
             $(".activity-feed").scroll(function() {
                 if (hasReachBottom()) {
                     $scope.$apply(function() {
-                        vm.feedLimit += 20;    
+                        vm.feedLimit += 20;
                     });
                     console.log("");
                 }
@@ -178,7 +178,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
             setTimeout(function() {
                 angular.element('#map, .logged-content.map-container-parent.moved-right').toggleClass("unpushed");
                 angular.element('.center-result-container, .left-result-container').toggleClass("hidden-feed");
-            }, 500);            
+            }, 500);
 
             // Only show switch to timeline when activity feed is shown
             //angular.element(".switch-to-timeline").toggleClass("switch-inactive");
@@ -196,10 +196,10 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
     /* SWITCHING BETWEEN TIMELINE AND MAP */
     vm.timelineState = true;
     vm.toggleMapAndTimeline = function() {
-        //vm.isShowingMapNotHome = !vm.isShowingMapNotHome;        
+        //vm.isShowingMapNotHome = !vm.isShowingMapNotHome;
         $(".center-result-container, .right-result-container, .left-result-container, .logged-content.map-container-parent").toggleClass("moved-right");
         $(".home-view-content-wrapper > .content-container").toggleClass("moved-right");
-        vm.timelineState = !vm.timelineState;  
+        vm.timelineState = !vm.timelineState;
 
     };
 

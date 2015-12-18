@@ -43,17 +43,15 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
     function addPointsToMap(map, tweets, markerType, cbOnMapAction) {
         var addLayer;
         if (markerType === "simpleCircle") {
-            function onEachFeature(feature, layer) {
-                var popupContent;
-                if (feature.properties && feature.properties.popupContent) {
-                    popupContent = feature.properties.popupContent;
-                }
-                layer.bindPopup(popupContent);
-            }
-
             addLayer = L.geoJson([tweets], {
                 style: function (feature) { return feature.properties && feature.properties.style; },
-                onEachFeature: onEachFeature,
+                onEachFeature: function (feature, layer) {
+                    var popupContent;
+                    if (feature.properties && feature.properties.popupContent) {
+                        popupContent = feature.properties.popupContent;
+                    }
+                    layer.bindPopup(popupContent);
+                },
                 pointToLayer: function (feature, latlng) {
                     return L.circleMarker(latlng, {
                         radius: 8,
@@ -103,9 +101,9 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
             controlOptions[numFollowings + "/" + numFollowingsOnMap + '<span class="map-control-hint"> (i) </span>'] = followings;
 
             L.control.layers({}, controlOptions, {position: 'topleft'}).addTo(window.map);
-           
+
         }
-            
+
         cbOnMapAction();
         return addLayer;
     }
@@ -124,11 +122,11 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
             if (ele.user && ele.user.profile_image_url_https) {
                 SearchService.getUserInfo(ele.user.screen_name).then(function(userInfo) {
                     if (userInfo.user && userInfo.user.location_mark) {
-                        ele.location_mark = userInfo.user.location_mark;    
+                        ele.location_mark = userInfo.user.location_mark;
                     }
                     if (index === noLocationStatuses.length - 1) {
                         // After getting the last one's userinfo, start adding points to map
-                        addPointsToMap(window.map, initMapPoints(noLocationStatuses), "simpleCircle", function() {});    
+                        addPointsToMap(window.map, initMapPoints(noLocationStatuses), "simpleCircle", function() {});
                     }
                 }, function() {});
             }
@@ -152,7 +150,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
         var cbOnMapAction = params.cbOnMapAction;
 
         // Reassure that old map is remove
-        delete(window.map); 
+        delete(window.map);
         angular.element("#" + mapId).remove();
         angular.element(".map-container-parent").prepend('<div id="' + mapId + '"></div>');
 
@@ -165,7 +163,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
         }).addTo(window.map);
 
         addPointsToMap(window.map, tweets, markerType, cbOnMapAction);
-    }  
+    }
 
 
     service.initMap = initMap;
@@ -173,7 +171,7 @@ function MapCreationService($rootScope, MapPopUpTemplateService, SearchService) 
     service.initMapPoints = initMapPoints;
     service.getLocationParamFromBound = getLocationParamFromBound;
     service.addLocationFromUser = addLocationFromUser;
-    
+
     return service;
 
 }

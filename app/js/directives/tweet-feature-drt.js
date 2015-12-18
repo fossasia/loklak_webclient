@@ -107,7 +107,7 @@ var directivesModule = require('./_index.js');
  			            }).success(function(response) {
  			                var markdownBlob = FileService.Base64StrToBlobStr(response);
  			                console.log("Successfully retrieved for " + markdownRequestUrl);
- 			                
+
  			                if(tweetLen <= 140 && tweetLen > 0) {
  			                    hello('twitter').api('me/share', 'POST', {
  			                        message : message,
@@ -145,13 +145,13 @@ var directivesModule = require('./_index.js');
 		                        var dateString = json.created_at;
 		                        var convertedDate = new Date(dateString);
 		                        var ISODate = convertedDate.toISOString();
-		                        pushObject['created_at'] = ISODate;
-		                        pushObject['screen_name'] = json.user.screen_name;
-		                        pushObject['text'] = json.text;
-		                        pushObject['canonical_id'] = json.id_str;
-		                        pushObject['source_type'] = "TWITTER";
+		                        pushObject.created_at = ISODate;
+		                        pushObject.screen_name = json.user.screen_name;
+		                        pushObject.text = json.text;
+		                        pushObject.canonical_id = json.id_str;
+		                        pushObject.source_type = "TWITTER";
 		                        var dataObject = {};
-		                        dataObject['statuses'] = [pushObject];
+		                        dataObject.statuses = [pushObject];
 		                        var paramString = JSON.stringify(dataObject);
 		                        var crossPostRequest = crossPOSTURLbase + paramString;
 
@@ -197,7 +197,7 @@ var directivesModule = require('./_index.js');
  			              $('#myModal').modal('hide');
  			          }
  			        };
- 			       
+
  			    }
  			    else {
  			        console.log("The tweet doesn't validate as a valid tweet. Reduce the number of characters and try again");
@@ -218,17 +218,7 @@ var directivesModule = require('./_index.js');
  			    $rootScope.root.locationName = $rootScope.root.VariableLocations[newLocation];
  			};
 
- 			// Get the location from the GeoLocation API of HTML5
- 			$rootScope.root.getLocation = function() {
- 			    if(navigator.geolocation) {
- 			        navigator.geolocation.getCurrentPosition(setPosition);
- 			    }
- 			    else {
- 			        alert("Geolocation isn't supported by this browser");
- 			    }
- 			};
-
- 			// Latitude and Longitude is retrieved and the request is made for the map tile
+      // Latitude and Longitude is retrieved and the request is made for the map tile
  			function setPosition (position) {
  			    $rootScope.root.userLocation.latitude = position.coords.latitude;
  			    $rootScope.root.userLocation.longitude = position.coords.longitude;
@@ -260,6 +250,16 @@ var directivesModule = require('./_index.js');
  			        $rootScope.root.locationName = result;
  			    });
  			}
+
+ 			// Get the location from the GeoLocation API of HTML5
+ 			$rootScope.root.getLocation = function() {
+ 			    if(navigator.geolocation) {
+ 			        navigator.geolocation.getCurrentPosition(setPosition);
+ 			    }
+ 			    else {
+ 			        alert("Geolocation isn't supported by this browser");
+ 			    }
+ 			};
 
  			$rootScope.root.retweet = function(id) {
  			    console.log(id);

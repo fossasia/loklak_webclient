@@ -6,7 +6,7 @@ var servicesModule = require('./_index.js');
  * @ngInject
  */
 function ImportProfileService($q, $http, $rootScope, AppSettings) {
-	
+
 	var service = {};
 
 	service.search = function(screen_name, source_type, msg_id) {
@@ -19,13 +19,12 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 			deferred.reject(err, status);
 		});
 		return deferred.promise;
-	}
+	};
 
 	service.update = function(item) {
 		var deferred = $q.defer();
 		var params = {action : 'update', data : item, screen_name : $rootScope.root.twitterSession.screen_name};
-		$http.jsonp(AppSettings.apiUrl
-			+'import.json?callback=JSON_CALLBACK', {
+		$http.jsonp(AppSettings.apiUrl + 'import.json?callback=JSON_CALLBACK', {
 			params: params, method: 'POST'
 		}).success(function(data) {
 			deferred.resolve(data);
@@ -38,8 +37,7 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 	service.unsubscribe = function(item) {
 		var deferred = $q.defer();
 		var params = {action : 'delete', id_str : item.id_str, screen_name : $rootScope.root.twitterSession.screen_name};
-		$http.jsonp(AppSettings.apiUrl
-			+'import.json?callback=JSON_CALLBACK', {
+		$http.jsonp(AppSettings.apiUrl + 'import.json?callback=JSON_CALLBACK', {
 			params: params
 		}).success(function(data) {
 			deferred.resolve(data);
@@ -59,7 +57,7 @@ function ImportProfileService($q, $http, $rootScope, AppSettings) {
 		}
 		item.sharers.push($rootScope.root.twitterSession.screen_name);
 		return service.update(item);
-	}
+	};
 
 	return service;
 }

@@ -27,10 +27,18 @@ var marker=[];
     vm.showAllFollowings = function() {
         vm.showFollowingsLimit = $rootScope.userTopology.following.length;
     };
+
+    function viewlanding() {
+        $('#analyze-modal').modal('show');
+        $('#loader').hide();
+        $('#notfoundmessage').hide();
+        $('#loadmsg').hide();
+        $('#errormessage').hide();
+        $('#analysis-report').hide();
+    }
+
+    viewlanding();
     
-
-
-    viewlanding(); 
     var chart1 = {};
     chart1.type = "GeoChart";
     chart1.data = [
@@ -57,16 +65,42 @@ var marker=[];
     $scope.username = "";
     $scope.influentialfollowers=[];
     var counter=0;
-    
-     $scope.getstatfollower=function()
-     {   
-        
+
+    function getTopfive(followers_follower){
+        function compare(a,b) {
+            if (a.followers > b.followers) {
+                return -1;
+            }
+            if (a.followers < b.followers) {
+                return 1;
+            }
+            return 0;
+        }
+        followers_follower.sort(compare);
+    }
+
+    function viewnodata() {
+        $('#loader').hide();
+        $('#loadingmessage').hide();
+        $('#notfoundmessage').show();
+    }
+
+    function viewloading() {
+        $('#errormessage').hide();
+        $('#notfoundmessage').hide();
+        $('#loader').show();
+        $('#analysis-report').hide();
+        $('#inffollowers').hide();
+        $('#loadmsg').show();
+        $('#loadingmessage').show();
+    }
+
+     $scope.getstatfollower = function () {
         viewloading();
-        
-        
+
         $http.jsonp(AppSettings.apiUrl+"user.json?callback=JSON_CALLBACK", {params : { screen_name :$scope.username, followers : 10000, following : 10000, minified: true } })
             .success(function(data, status, headers, config) {
-                
+
                 console.log("recieved data");
 
                 if(!data.user)
@@ -105,7 +139,7 @@ var marker=[];
                 $scope.citylabels=[];
                 $scope.citydata=[];
                 $scope.countrydata=[];
-                
+
                 //Getting citywise Stats
                 data.topology.followers.forEach(function(ele){
                     if(ele.location)
@@ -121,7 +155,7 @@ var marker=[];
                             "statuses_count" : ele.statuses_count,
                             "following" : ele.friends_count,
                             "profile_banner" : ele.profile_banner_url
-                            
+
                         });
 
                     }
@@ -133,40 +167,39 @@ var marker=[];
 
                 });
 
-                //Counting per city
-                for(i = 0; i < city_Array.length; ++i) 
+                // Counting per city
+                for(i = 0; i < city_Array.length; ++i)
                 {
                     if(!city_stat_result[city_Array[i]]) {
                         city_stat_result[city_Array[i]] = 0;
                     }
                     ++city_stat_result[city_Array[i]];
                 }
-                city_stat_result["Unspecified"]= followerwithoutcity;
-                var citynames = Object.keys( city_stat_result );
+                city_stat_result.Unspecified = followerwithoutcity;
+                var citynames = Object.keys(city_stat_result);
 
-                var totalfollowers=followerwithoutcity+followerwithcity;
-                //Populating Data Set
+                var totalfollowers = followerwithoutcity+followerwithcity;
+                // Populating Data Set
                 var cityData=[];
                 citynames.forEach(function(ele){
                     var percentage=((city_stat_result[ele]/totalfollowers)*100);
                     percentage=Number(percentage).toFixed(2);
                     $scope.citydata.push({
-                        "city" : ele ,
-                        "percentage" : percentage ,
+                        "city" : ele,
+                        "percentage" : percentage,
                         "followers"  : city_stat_result[ele]
-
                     });
-                    
+
                     if(percentage>0.5)
-                    {    
+                    {
                      $scope.cityvalues.push(percentage);
                      $scope.citylabels.push(ele);
                     }
-                    
+
                 });
                 getTopfive($scope.citydata);
-                
-                
+
+
                 //Getting country wise stats
 
                  data.topology.followers.forEach(function(ele){
@@ -205,8 +238,8 @@ var marker=[];
                     }
 
                 });
-                country_stat_result["Unspecified"]= followerwithoutloc;
-                //Counting country wise stats
+                country_stat_result.Unspecified = followerwithoutloc;
+                // Counting country wise stats
                 for(i = 0; i < country_Array.length; ++i) {
 
                     if(!country_stat_result[country_Array[i]]) {
@@ -214,10 +247,10 @@ var marker=[];
                     }
                     ++country_stat_result[country_Array[i]];
                 }
-               
+
 
                 var countrynames = Object.keys( country_stat_result );
-                
+
                 //Populating Data Set
                var totalfollowerswithcountry=followerwithoutloc+followerwithloc;
                 countrynames.forEach(function(ele){
@@ -232,23 +265,23 @@ var marker=[];
 
                     });
                     if(percentage>1.5)
-                    {    
+                    {
                         $scope.countryvalues.push(percentage);
                         $scope.countrylabels.push(ele);
                     }
-                    
+
                 });
-             
+
                 $scope.countrydata.sort(function (a, b) { return b.followers-a.followers; });
-                
-                
-               
+
+
+
                 $scope.city_stat_result=city_stat_result;
                 $scope.country_stat_result=country_stat_result;
 
                 $scope.categorylabels=["<100" ,"100-200", "200-500" ,"500-1000","1000-10000", "> 10000"];
                 $scope.categoryvalues=followers_category;
-        
+
                 getTopfive($scope.followers_follower);
                 var influencers = $scope.followers_follower.length > 150 ? 150 : $scope.followers_follower.length;
                 for(counter=0;counter<influencers;counter++)
@@ -256,36 +289,24 @@ var marker=[];
                     $scope.influentialfollowers.push($scope.followers_follower[counter]);
                 }
 
-                $('#loader').hide(); 
+                $('#loader').hide();
                 $('#loadmsg').hide();
                 $('#inffollowers').show();
                 $('#analysis-report').show();
 
                 }).error(function(data, status, headers, config) {
-                    
-                    
-                    
-                    $('#loader').hide(); 
+
+
+
+                    $('#loader').hide();
                     $('#loadingmessage').hide();
                     $('#loadmsg').show();
                     $('#errormessage').show();
 
-                    
+
                         // called asynchronously if an error occurs
                         // or server returns response with an error status.
-            });
-        function getTopfive(followers_follower){
-            function compare(a,b) {
-                if (a.followers > b.followers) {
-                    return -1;
-                }
-                if (a.followers < b.followers) {
-                    return 1;
-                }
-                return 0;
-            }
-            followers_follower.sort(compare);
-        }
+        });
 
         vm.doneReporting = true;
 };
@@ -299,18 +320,18 @@ $scope.increaseLimit = function(){
         }
 };
 
-$rootScope.$watch(function() 
+$rootScope.$watch(function()
 {
     return $rootScope.root.twitterSession;
 },  function(session)
     {
-        
+
         if ($rootScope.root.twitterSession.screen_name)
-        {   
+        {
 
             $scope.username=$rootScope.root.twitterSession.screen_name;
             $scope.getstatfollower();
-        
+
         }
         else
         {
@@ -318,32 +339,4 @@ $rootScope.$watch(function()
         }
     });
 
-      
-    function viewlanding() {
-        $('#analyze-modal').modal('show');
-        $('#loader').hide();
-        $('#notfoundmessage').hide();
-        $('#loadmsg').hide();
-        $('#errormessage').hide();
-        $('#analysis-report').hide();
-    }
-
-    function viewnodata() {
-        $('#loader').hide();
-        $('#loadingmessage').hide();
-        $('#notfoundmessage').show();
-    }
-
-    function viewloading() {
-        $('#errormessage').hide();
-        $('#notfoundmessage').hide();
-        $('#loader').show(); 
-        $('#analysis-report').hide();
-        $('#inffollowers').hide();
-        $('#loadmsg').show();
-        $('#loadingmessage').show();  
-        
-    }
-
 }]);
-

@@ -4,13 +4,13 @@
 var controllersModule = require('./_index');
 
 
-controllersModule.controller('DataConnectCtrl', 
-	['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService', 
+controllersModule.controller('DataConnectCtrl',
+	['$scope', '$rootScope', '$stateParams', 'SearchService', 'PushService', 'SourceTypeService',
 	'ImportProfileService', 'HarvestingFrequencyService', 'MapPopUpTemplateService',
 	function($scope, $rootScope, $stateParams, SearchService, PushService, SourceTypeService,
 		ImportProfileService, HarvestingFrequencyService, MapPopUpTemplateService) {
 
-	if ($stateParams.source_type != null) {
+	if ($stateParams.source_type !== null) {
 		$stateParams.source_type = $stateParams.source_type.toLowerCase();
 
 		// invalid 'source_type' parameter : returning to default MyConnection page
@@ -23,7 +23,7 @@ controllersModule.controller('DataConnectCtrl',
 	// duration (in ms) of waiting for elastic up-to-date state before retrieval new datasource list
 	const DELAY_BEFORE_RELOAD = 2000;
 
-	$scope.dataSourceEditableItems = 
+	$scope.dataSourceEditableItems =
 	[
 		{
 			'label': 'Update frequency',
@@ -101,7 +101,8 @@ controllersModule.controller('DataConnectCtrl',
 				callback();
 			}
 		}, function() {});
-	};
+	}
+
 	$scope.returnFromAddConnection = function(message, knownProfiles) {
 		$scope.dataSourceMessages.success = message;
 		$scope.dataSourceMessages.knownProfiles = knownProfiles;
@@ -110,7 +111,7 @@ controllersModule.controller('DataConnectCtrl',
 
 	$scope.onUpdateDataSources = function() {
 		$scope.dataSourceMessages = {};
-		var refreshButton = angular.element("#refreshButton i"); 
+		var refreshButton = angular.element("#refreshButton i");
 		refreshButton.addClass("fa-spin");
 		updateDataSources(function() {
 			refreshButton.removeClass("fa-spin");
@@ -161,7 +162,8 @@ controllersModule.controller('DataConnectCtrl',
 	// wait until logged in to uploadDataSource
 	// this is necessary since sometimes this function is called before user finished logging in
 	$rootScope.$watchCollection('root.twitterSession', function() {
-		if($rootScope.root.twitterSession)
+		if ($rootScope.root.twitterSession) {
 			updateDataSources();
+		}
 	});
 }]);

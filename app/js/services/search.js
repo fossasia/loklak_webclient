@@ -14,7 +14,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
     if (status === 404 || status === 503) {
       $rootScope.root.numberOfFailedReq += 1;
     }
-  }
+  };
 
   service.getData = function(term) {
       $rootScope.root.aSearchWasDone = true;
@@ -31,7 +31,7 @@ function SearchService($q, $http, $rootScope, AppSettings) {
           deferred.reject(err, status);
       });
 
-      return deferred.promise; 
+      return deferred.promise;
   };
 
   service.getLocationSuggestions = function(term) {

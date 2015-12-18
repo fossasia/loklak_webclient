@@ -18,7 +18,7 @@ directivesModule.directive('homeDebuggedLink', ['DebugLinkService', '$timeout', 
 			var thumbnail = '<a href="' + data.canonical + '" class="article-img-container"><img src="' + data.thumbnail_url + '"></a href="' + data.canonical + '">';
 			var container = '<div class="article-container" href="' + data.canonical + '">';
 
-			return container + site + thumbnail + title + '</div>';	
+			return container + site + thumbnail + title + '</div>';
 	};
 
 	/**
@@ -65,7 +65,7 @@ directivesModule.directive('homeDebuggedLink', ['DebugLinkService', '$timeout', 
 			i = i+1;
 		}
 		if (result) {
-			return result; 
+			return result;
 		}
 
 		// Just find a thumbnail
@@ -73,6 +73,7 @@ directivesModule.directive('homeDebuggedLink', ['DebugLinkService', '$timeout', 
 		i = 0;
 		result = false;
 		while (keepSearching && i < data.links.length) {
+			linkObj = data.links[i];
 			if (linkObj.rel.indexOf("thumbnail") > -1) {
 				data.meta.thumbnail_url = linkObj.href;
 				result = data.meta;
@@ -92,9 +93,9 @@ directivesModule.directive('homeDebuggedLink', ['DebugLinkService', '$timeout', 
 		controller: function($scope) {
 			$scope.debuggable = false;
 		},
-		link: function(scope, element) {	
+		link: function(scope, element) {
 			/**
-			 * Take the embeded link 
+			 * Take the embeded link
 			 *     Pic.twitter.com is already render in images and is not processed again
 			 * Debug the link with injected service
 			 * If return data is rich content [video], embed straigtfoward
@@ -143,8 +144,8 @@ directivesModule.directive('homeDebuggedLink', ['DebugLinkService', '$timeout', 
 							}
 						}, function() {});
 					}
-				} 
-			}, 1000);	
+				}
+			}, 1000);
 		}
 	};
 }]);
