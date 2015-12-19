@@ -27,8 +27,8 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 			} else {
 				$rootScope.root.twitterSession = true;
 			}
-			
-			$rootScope.root.isHelloDoneCheckingCookies = true;				
+
+			$rootScope.root.isHelloDoneCheckingCookies = true;
 
 			/* Hello related init*/
 			var hello = $scope.hello;
@@ -51,7 +51,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					$rootScope.root.twitterSession = true;
 
 					$rootScope.$apply(function() {
-						$rootScope.root.twitterSession = twitterSession;	
+						$rootScope.root.twitterSession = twitterSession;
 						$scope.imageURLClear = twitterSession.profile_image_url_https.split('_normal');
 						$rootScope.root.twitterSession.profileURL = $scope.imageURLClear[0]+$scope.imageURLClear[1];
 					});
@@ -78,7 +78,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					    var secret = oauth_info.access_token.split(":")[1].split("@")[0];
 					    AuthorizedSearch.getLoggedInAccountInfo(screen_name, token, secret).then(function(data) {
 					        	$rootScope.root.authorizedUserInfo = data;
-					    }, function() {}); 
+					    }, function() {});
 					}
 
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
@@ -100,7 +100,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					// Sort by created time to show on timeline
 					twitterFriendFeed.data.sort(function(a,b) {
 						if (b.status && a.status) {
-							return new Date(b.status.created_at) - new Date(a.status.created_at);	
+							return new Date(b.status.created_at) - new Date(a.status.created_at);
 						}
 					});
 					// Injection out of angular operations
@@ -123,23 +123,23 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 						// Sort by created time to show on timeline
 						twitterFriendFeed.data.sort(function(a,b) {
 							if (b.status && a.status) {
-								return new Date(b.status.created_at) - new Date(a.status.created_at);	
+								return new Date(b.status.created_at) - new Date(a.status.created_at);
 							}
 						});
 						var haveNewerTweet = true;
-						var i = 0; 
+						var i = 0;
 						var newerTweets = [];
 						var currentNewest = new Date($rootScope.root.twitterFriends.data[0].status.created_at);
 						while (haveNewerTweet && i < twitterFriendFeed.data.length) {
 							if (!twitterFriendFeed.data[i].status) {
-								i++
+								i++;
 							} else {
 								var beingEvalTimestamp = new Date(twitterFriendFeed.data[i].status.created_at);
 								if (beingEvalTimestamp <= currentNewest) {
 									haveNewerTweet = false;
 								} else {
 									newerTweets.push(twitterFriendFeed.data[i]);
-									i++;	
+									i++;
 								}
 							}
 						}
@@ -152,7 +152,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					}, function(){
 						console.log('Unable to load tweets from your followers');
 					});
-				}
+				};
 
 				/*
 				 * Start an interval to update timeline
@@ -162,22 +162,22 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 				 */
 				angular.forEach(timelineIntervals, function(interval) {
 				    $interval.cancel(interval);
-				})
+				});
 				var updateTimlineInterval = function(refreshTime) {
 					return $timeout(function() {
 						updateTimeline();
 						refreshTime += 11000;
-						updateTimlineInterval(refreshTime)
-					}, refreshTime)
-				}
+						updateTimlineInterval(refreshTime);
+					}, refreshTime);
+				};
 				updateTimlineInterval(20000);
 
 			});
 
 			hello.on('auth.logout', function(auth) {
 				$rootScope.$apply(function() {
-					$rootScope.root.twitterSession = false;	
-				});	
+					$rootScope.root.twitterSession = false;
+				});
 				angular.element("#map").remove();
 				if ($location.path() === "/search") {
 					angular.element(".topnav .global-search-container").removeClass("ng-hide");
@@ -186,19 +186,19 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 				}
 			}, function() {
 					console.log("Signed out failed, try again later");
-			});   
+			});
 
 			$rootScope.root.timelineShowNewerTweets = function() {
 				$rootScope.root.twitterFriends.data = $rootScope.root.timelineNewTweets.concat($rootScope.root.twitterFriends.data);
 				$rootScope.root.timelineNewTweets = [];
 				$rootScope.root.haveNewerTweets = false;
-			}
+			};
 
 			/* Listener on nav */
 			$rootScope.root.ToggleMobileNav = function() {
 				angular.element("#pull .lines-button").toggleClass("close");
 				$(".hidden-items").toggle();
-				$(".topnav-user-actions .signin-twitter").toggle(); 
+				$(".topnav-user-actions .signin-twitter").toggle();
 			};
 
 			/* Listen on user avatar */
@@ -221,8 +221,8 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					if (targetClasses.indexOf("hidden-user-info") === -1 && targetId.indexOf("home-view-user-avatar") === -1) {
 						if (!angular.element(".hidden-user-info").hasClass("hide")) {
 							angular.element(".hidden-user-info").toggleClass("hide");
-						}		
-					}	
+						}
+					}
 				}
 
 				// If suggestions are shown, clicked out of its area will disable it
@@ -232,7 +232,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 						$rootScope.root.haveSearchSuggestion = false;
 					}
 				}
-				
+
 			};
 
 			/** Model for home view **/
@@ -299,8 +299,8 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
 			    idleTime = idleTime + 1;
-			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) { 
-		    		$('#signupModal').modal('show');		
+			    if (idleTime > 10 && (!$rootScope.root.twitterSession && !$rootScope.root.aSearchWasDone)) {
+		    		$('#signupModal').modal('show');
 		    		$rootScope.root.aSearchWasDone = true;
 			    }
 			};
@@ -329,13 +329,13 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 					}
 
 					// Maintain only one search box in all views when logged/not logged in.
-					var isOnline = hello('twitter').getAuthResponse(); 
+					var isOnline = hello('twitter').getAuthResponse();
 					if (!isOnline) {
 						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
-						}		
+						}
 					} else {
 						angular.element(".topnav .global-search-container").removeClass("ng-hide");
 					}

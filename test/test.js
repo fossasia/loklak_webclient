@@ -1,3 +1,5 @@
+"use strict";
+
 var fs = require('fs');
 
 fs.exists('build/index.html', function (exists) {

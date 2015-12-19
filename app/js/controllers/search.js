@@ -23,9 +23,27 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
     vm.pool = [];
     vm.statuses = [];
     vm.showingResultInAcc = 9;
-    
+
     $rootScope.root.globalFilter = '';
-    
+
+    function getMoreStatuses() {
+        if (vm.pool.length > 0) {
+            // Get new time span bound from the lastest status
+            var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at);
+            var newUntilBound = new Date(currentUntilBound.getTime() - 1);
+            var untilSearchParam = $filter("date")(newUntilBound, "yyyy-MM-dd_HH:mm");
+            var newSearchParam = $location.search().q + "+until:" + untilSearchParam;
+            var params = {
+               q: newSearchParam,
+               timezoneOffset: (new Date().getTimezoneOffset())
+            };
+
+            // Get new data and concat to the current result
+            SearchService.initData(params).then(function(data) {
+                   vm.pool = vm.pool.concat(data.statuses);
+            }, function() {});
+        }
+    }
 
     /*
      * Infinity scroll directive's trigger
@@ -40,31 +58,12 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
                 getMoreStatuses();
             }
             vm.statuses = vm.statuses.concat(vm.pool.slice(0,amount));
-            vm.pool = vm.pool.splice(amount);    
+            vm.pool = vm.pool.splice(amount);
         } else {
             vm.showingResultInAcc += amount;
-        }   
-        
-    };
-
-    function getMoreStatuses() {
-        if (vm.pool.length > 0) { 
-            // Get new time span bound from the lastest status
-            var currentUntilBound = new Date(vm.pool[vm.pool.length -1 ].created_at);
-            var newUntilBound = new Date(currentUntilBound.getTime() - 1);
-            var untilSearchParam = $filter("date")(newUntilBound, "yyyy-MM-dd_HH:mm");
-            var newSearchParam = $location.search().q + "+until:" + untilSearchParam;
-            var params = {
-               q: newSearchParam,
-               timezoneOffset: (new Date().getTimezoneOffset())
-            };
-
-            // Get new data and concat to the current result
-            SearchService.initData(params).then(function(data) {
-                   vm.pool = vm.pool.concat(data.statuses);
-            }, function() {});    
         }
-    }
+
+    };
 
     /*
      * When a new search is made or the outgoing search is terminated
@@ -75,8 +74,61 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
             angular.forEach(intervals, function(interval) {
                 $interval.cancel(interval);
             });
-            $rootScope.httpCanceler.resolve();   
+            $rootScope.httpCanceler.resolve();
         }
+    };
+
+    /*
+     * Helper fn for filters, including
+     * A method to update path based on current search term & filter
+     * A method to convert current path params => search term & filter
+     * A method for vice versa
+     */
+    function updatePath(query) {
+      $location.search({q: query});
+      $rootScope.root.globalSearchTerm = vm.term;
+    }
+
+    function filterToQuery(filterName) {
+        var filtersToQueries = {
+            'photos' : '/image',
+            'videos' :'/video',
+            'accounts' : '/accounts',
+            'news' : '/news',
+            'map' : '/map'
+        };
+        return filtersToQueries[filterName];
+    }
+
+    /*
+     * Background process to get newest result, including
+     * A fn to get more result, compare created_at and update statuses's pool
+     * A method defintion to clear and start a new interval
+     * A ng-click trigger to load newest statuses
+     */
+    var getManuallyNewestStatuses = function() {
+        if (vm.statuses[0]) {
+            var lastestDateObj = new Date(vm.statuses[0].created_at);
+            var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
+            SearchService.getData(term).then(function(data) {
+                var keepComparing = true; var i = 0;
+                while (keepComparing) {
+                   if (new Date(data.statuses[i].created_at) <= lastestDateObj) {
+                     vm.newStasuses = data.statuses.slice(0, i);
+                     vm.noOfNewStatuses = vm.newStasuses.length;
+                     keepComparing = false;
+                   }
+                   i++;
+                }
+            }, function() {});
+        }
+    };
+
+    var startNewInterval = function(period) {
+        angular.forEach(intervals, function(interval) {
+            $interval.cancel(interval);
+        });
+        intervals.push($interval(getManuallyNewestStatuses, parseInt(period)));
     };
 
     /*
@@ -94,16 +146,16 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
                $scope.loadMore(20);
                vm.showResult = true;
                startNewInterval(data.search_metadata.period);
-        }, function() {}); 
+        }, function() {});
     };
-    
+
     ////////
     //// FILTERS FEATURE
     //// filter fn is used as ng-click trigger
     //// a typical filter trigger will include these operation:
     //// - change current filter model;  - show/hide related result according to filter
     //// - request for new result; - update path based on search term & filter
-    //// Filter explanation: live = no filter; accounts = show accounts only; 
+    //// Filter explanation: live = no filter; accounts = show accounts only;
     //// photos = tweet with native twitter photo + tweet with recognized photo link
     //// video = tweet with native twitter video + tweet with recognized video link
     //// map = no filter, but results are shown on a map
@@ -145,7 +197,7 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         vm.newStasuses = [];
         vm.statuses = [];
         vm.peopleSearch = false;
-        vm.showMap = false; 
+        vm.showMap = false;
         var term = vm.term + '+' + '/image';
 
         vm.update(term);
@@ -154,7 +206,7 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
     vm.filterVideos = function() {
         cancelAllRequest();
         $rootScope.root.globalFilter = 'videos';
-        vm.statuses = [];   
+        vm.statuses = [];
         vm.newStasuses = [];
         vm.peopleSearch = false;
         vm.showMap = false;
@@ -176,10 +228,53 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
             vm.statuses = [];
             $scope.loadMore(15);
             startNewInterval(data.search_metadata.period);
-        }, function() {});    
+        }, function() {});
 
         updatePath(vm.term + '+' + '/video');
     };
+
+    /*
+     * Add listener on maps' action
+     * When zoom/pan, new /location bound is calculated, and then is used to get & add more map points
+     * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
+     */
+    function getMoreLocationOnMapAction() {
+        var bound = window.map.getBounds();
+        var locationTerm = MapCreationService.getLocationParamFromBound(bound);
+        var params = { q: vm.term + "+" + locationTerm, count: 300};
+        SearchService.initData(params).then(function(data) {
+            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), "simpleCircle", addListenersOnMap);
+        }, function(data) {});
+    }
+
+    function addListenersOnMap() {
+        window.map.on("zoomend", function(event) {
+            if (!prevZoomAction) {
+                prevZoomAction = new Date();
+                getMoreLocationOnMapAction();
+            } else {
+                newZoomAction = new Date();
+                var interval = (newZoomAction - prevZoomAction);
+                if (interval > 1000) {
+                    getMoreLocationOnMapAction();
+                    prevZoomAction = newZoomAction;
+                }
+            }
+        });
+        window.map.on("dragend", function(event) {
+            if (!prevPanAction) {
+                prevPanAction = new Date();
+                getMoreLocationOnMapAction();
+            } else {
+                newPanAction = new Date();
+                var interval = (newPanAction - prevPanAction);
+                if (interval > 1000) {
+                    getMoreLocationOnMapAction();
+                    prevPanAction = newPanAction;
+                }
+            }
+        });
+    }
 
     vm.filterMap = function() {
         cancelAllRequest();
@@ -207,7 +302,7 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
                 markerType: "simpleCircle",
                 templateEngine: "genStaticTwitterStatus",
                 cbOnMapAction: addListenersOnMap
-            });   
+            });
             MapCreationService.addLocationFromUser(withoutLocation);
         }, function() {});
 
@@ -216,23 +311,12 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         });
     };
 
-    /*
-     * Helper fn for filters, including
-     * A method to update path based on current search term & filter
-     * A method to convert current path params => search term & filter
-     * A method for vice versa
-     */
-    function updatePath(query) {
-      $location.search({q: query});
-      $rootScope.root.globalSearchTerm = vm.term;
-    }
-
     function evalSearchQuery() {
         var queryParts = $location.search().q.split('+');
         var queryToFilter = {
             '/image': 'photos',
             '/video': 'videos',
-            '/accounts': 'accounts', 
+            '/accounts': 'accounts',
             '/news' : 'news',
             '/map' : 'map'
         };
@@ -240,20 +324,17 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         $rootScope.root.globalFilter = (queryParts[1]) ? queryToFilter[queryParts[1]] : 'live';
     }
 
-    function filterToQuery(filterName) {
-        var filtersToQueries = {
-            'photos' : '/image',
-            'videos' :'/video',
-            'accounts' : '/accounts', 
-            'news' : '/news',
-            'map' : '/map'
+    function scrapeImgTag(imgTag) {
+        var ngEle = angular.element(imgTag);
+        return {
+            src: ngEle.attr('src'),
+            w: parseInt(ngEle.css('width').replace('px', '')),
+            h: parseInt(ngEle.css('height').replace('px', ''))
         };
-        return filtersToQueries[filterName];
     }
 
-
     /*
-     * Status's dỉrective openSwipe fn  
+     * Status's dỉrective openSwipe fn
      * Clicking on an image results in a photoswipe
      * Docs: http://photoswipe.com/documentation/getting-started.html
      */
@@ -269,98 +350,14 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         }, items);
         $timeout(function() {
             window[swipeObject] = new PhotoSwipe(swipeEle, PhotoSwipeUI_Default, items, options);
-            window[swipeObject].init();    
+            window[swipeObject].init();
         }, 0);
-    };
-
-    function scrapeImgTag(imgTag) {
-        var ngEle = angular.element(imgTag);
-        return {
-            src: ngEle.attr('src'),
-            w: parseInt(ngEle.css('width').replace('px', '')),
-            h: parseInt(ngEle.css('height').replace('px', ''))
-        };
-    }
-
-    /*
-     * Background process to get newest result, including
-     * A fn to get more result, compare created_at and update statuses's pool
-     * A method defintion to clear and start a new interval
-     * A ng-click trigger to load newest statuses
-     */
-    var getManuallyNewestStatuses = function() {
-        if (vm.statuses[0]) {
-            var lastestDateObj = new Date(vm.statuses[0].created_at);
-            var term = ($rootScope.root.globalFilter === 'live') ? vm.term : vm.term + '+' + filterToQuery($rootScope.root.globalFilter);
-            SearchService.getData(term).then(function(data) {
-                var keepComparing = true; var i = 0;
-                while (keepComparing) {
-                   if (new Date(data.statuses[i].created_at) <= lastestDateObj) {  
-                     vm.newStasuses = data.statuses.slice(0, i);
-                     vm.noOfNewStatuses = vm.newStasuses.length;
-                     keepComparing = false;
-                   }
-                   i++;
-                }
-            }, function() {});    
-        }
-    };
-
-    var startNewInterval = function(period) {
-        angular.forEach(intervals, function(interval) {
-            $interval.cancel(interval);
-        });
-        intervals.push($interval(getManuallyNewestStatuses, parseInt(period)));
     };
 
     vm.showNewStatuses = function() {
         vm.statuses = vm.newStasuses.concat(vm.statuses);
         vm.newStasuses = [];
     };
-
-    /*
-     * Add listener on maps' action 
-     * When zoom/pan, new /location bound is calculated, and then is used to get & add more map points
-     * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
-     */
-    function getMoreLocationOnMapAction() {
-        var bound = window.map.getBounds();
-        var locationTerm = MapCreationService.getLocationParamFromBound(bound);
-        var params = { q: vm.term + "+" + locationTerm, count: 300};
-        SearchService.initData(params).then(function(data) {
-            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), "simpleCircle", addListenersOnMap);    
-        }, function(data) {});
-    }
-
-    function addListenersOnMap() {
-        window.map.on("zoomend", function(event) {
-            if (!prevZoomAction) {
-                prevZoomAction = new Date();
-                getMoreLocationOnMapAction();
-            } else {
-                newZoomAction = new Date();
-                var interval = (newZoomAction - prevZoomAction);
-                if (interval > 1000) {
-                    getMoreLocationOnMapAction();
-                    prevZoomAction = newZoomAction;        
-                }
-            }   
-        });
-        window.map.on("dragend", function(event) {
-            if (!prevPanAction) {
-                prevPanAction = new Date();
-                getMoreLocationOnMapAction();
-            } else {
-                newPanAction = new Date();
-                var interval = (newPanAction - prevPanAction);
-                if (interval > 1000) {
-                    getMoreLocationOnMapAction();
-                    prevPanAction = newPanAction;        
-                }
-            }
-        });
-    }
-
 
     ////////////
     // MANAGING STATE CHANGES RESULTING IN SEARCH
@@ -372,19 +369,19 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         }, function(value, Oldvalue) {
 
             if (value.q && value.q.indexOf("id:") > -1) { // When q has "id=.." Leave this for single-tweet view
-                return 1; 
+                return 1;
             }
 
             if (value.q && value.q.indexOf("from:") > -1) { // When q has "id=.." Leave this for single-tweet view
                 var screen_name = value.q.slice(5); //Get screen_name only
                 $location.url("/topology?screen_name=" + encodeURIComponent(screen_name));
-                return 1; 
+                return 1;
             }
 
             if (value.q.split("+")[0] !== vm.term) { // Else evaluate path and start search operation
                 evalSearchQuery();
                 var filterFn = 'filter' + $filter('capitalize')($rootScope.root.globalFilter);
-                vm[filterFn]();   
+                vm[filterFn]();
                 vm.showResult = true;
             }
             // Edge case: when click on map tweet, but search term stay the same
@@ -398,7 +395,7 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
                        $scope.loadMore(20);
                        vm.showResult = true;
                        startNewInterval(data.search_metadata.period);
-                }, function() {}); 
+                }, function() {});
 
                 $rootScope.root.globalSearchTerm = vm.term;
                 vm.showMap = false;
@@ -416,5 +413,5 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
             if (val >= 2) {
                 $window.location.reload();
             }
-        })
+        });
 }]);

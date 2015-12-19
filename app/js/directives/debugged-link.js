@@ -18,7 +18,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			var thumbnail = '<a href="' + data.canonical + '" class="article-img-container"><img src="' + data.thumbnail_url + '"></a href="' + data.canonical + '">';
 			var container = '<div class="article-container" href="' + data.canonical + '">';
 
-			return container + site + thumbnail + title + '</div>';	
+			return container + site + thumbnail + title + '</div>';
 	};
 
 	/**
@@ -72,7 +72,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 			i = i+1;
 		}
 		if (result) {
-			return result; 
+			return result;
 		}
 
 		// Just find a thumbnail
@@ -80,6 +80,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		i = 0;
 		result = false;
 		while (keepSearching && i < data.links.length) {
+		  linkObj = data.links[i];
 			if (linkObj.rel.indexOf("thumbnail") > -1) {
 				data.meta.thumbnail_url = linkObj.href;
 				result = data.meta;
@@ -102,9 +103,9 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 		controller: function($scope) {
 			$scope.debuggable = false;
 		},
-		link: function(scope, element) {	
+		link: function(scope, element) {
 			/**
-			 * Take the embeded link 
+			 * Take the embeded link
 			 *     Pic.twitter.com is already render in images and is not processed again
 			 * Debug the link with injected service
 			 * If return data is rich content [video], embed straigtfoward
@@ -125,7 +126,6 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 					scope.debuggable = true;
 					return;
 				} else if (undebuggedLink && undebuggedLink.indexOf("www.facebook.com") > -1) {
-					console.log("FOOOOOOOOOOOOOOOOOOO");
 					DebugLinkService.debugLinkOembed(undebuggedLink).then(function(data) {
 						console.log(data);
 						if (data && data.html) {
@@ -133,7 +133,6 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						}
 					}, function() {});
 				} else if (undebuggedLink && undebuggedLink.indexOf("pic.twitter.com") === -1 && undebuggedLink.indexOf("www.facebook.com") === -1) {
-					console.log("BARRRRRRRRRRRRRRR")
 					DebugLinkService.debugLink(undebuggedLink).then(function(data) {
 						var tagToAppend = "";
 						if (data.html) { // When embed is available and html is the only choice
@@ -178,7 +177,7 @@ directivesModule.directive('debuggedLink', ['DebugLinkService', '$timeout', func
 						}*/
 					}, function() {scope.debuggable = false;});
 				}
-			}, 1000);	
+			}, 1000);
 		}
 	};
 }]);

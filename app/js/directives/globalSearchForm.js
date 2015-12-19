@@ -11,16 +11,16 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 	    var filtersToQueries = {
 	        'photos' : '/image',
 	        'videos' :'/video',
-	        'accounts' : '/accounts', 
+	        'accounts' : '/accounts',
 	        'news' : '/news',
 	        'map' : '/map'
 	    };
 	    if (filterName === "live") {
 	    	return "";
 	    } else {
-	    	return filtersToQueries[filterName];	
+	    	return filtersToQueries[filterName];
 	    }
-	    
+
 	}
 
 	return {
@@ -43,7 +43,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 						if ((currentTimeStamp - $rootScope.root.lastSearchTimeStamp) > 1000) {
 							$rootScope.root.selectedTermIndex = -1;
 							$rootScope.root.searchSuggestions = data.queries;
-							$rootScope.root.haveSearchSuggestion = true;	
+							$rootScope.root.haveSearchSuggestion = true;
 						}
 					}, function() { $rootScope.root.haveSearchSuggestion = false; });
 				} else { $rootScope.root.haveSearchSuggestion = false; }
@@ -58,7 +58,7 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 				$rootScope.root.searchSuggestions = [];
 				$rootScope.root.globalSearchTerm = term;
 				$rootScope.root.submitSearchForm();
-				document.activeElement.blur(); // Stop focusing search box	
+				document.activeElement.blur(); // Stop focusing search box
 			};
 
 			/*
@@ -78,14 +78,14 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 		    	    } else if ($rootScope.root.globalSearchTerm && $location.path() === "/search") {
 		    	    	var q = $rootScope.root.globalSearchTerm;
 		    	    	if ($rootScope.root.globalFilter) {
-		    	    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);	
+		    	    		q = q + "+" + filterToQuery($rootScope.root.globalFilter);
 		    				$location.url("/search?q=" + encodeURIComponent(q));
 		    	    	} else {
 		    	    		$location.url("/search?q=" + encodeURIComponent(q));
 		    	    	}
-		    	    }	
+		    	    }
 			    }
-			    
+
 			    $rootScope.root.selectedTermIndex = -1;
 			};
 
@@ -97,6 +97,14 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 			$rootScope.root.highlightSelection = function(event) {
 				$(".global-search-container .suggestions li").removeClass("active");
 			};
+
+			/*
+			 * High light selected option on keyEvent
+			 */
+			function highlightSelected(index) {
+				$(".global-search-container .suggestions li").removeClass("active");
+				$($(".global-search-container .suggestions li")[index]).addClass("active");
+			}
 
 			$rootScope.root.watchArrowFromSearchBox = function($event) {
 				var code = $event.keyCode;
@@ -118,20 +126,12 @@ directivesModule.directive("globalSearchForm", ["$rootScope", "$location", "$win
 				if (code === 13) {
 					$event.preventDefault();
 					if ($rootScope.root.selectedTermIndex !== -1) {
-						$rootScope.root.globalSearchTerm  = $($(".global-search-container .suggestions li")[$rootScope.root.selectedTermIndex]).text().trim();	
+						$rootScope.root.globalSearchTerm  = $($(".global-search-container .suggestions li")[$rootScope.root.selectedTermIndex]).text().trim();
 					}
 
 					$rootScope.root.setGlobalSearchTerm($rootScope.root.globalSearchTerm );
-				}			
+				}
 			};
-
-			/*
-			 * High light selected option on keyEvent
-			 */
-			function highlightSelected(index) {
-				$(".global-search-container .suggestions li").removeClass("active");
-				$($(".global-search-container .suggestions li")[index]).addClass("active");
-			}
 		}
 	};
 }]);

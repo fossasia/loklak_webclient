@@ -24,7 +24,7 @@ function JsonFieldAccessorService() {
 		var firstPart = field.substr(0, dotPos);
 		var secondPart = field.substr(dotPos+1);
 		return service.accessField(json[firstPart], secondPart);
-	}
+	};
 
 	return service;
 }

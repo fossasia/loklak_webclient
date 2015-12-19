@@ -4,9 +4,9 @@
 
 var directivesModule = require('./_index.js');
 
-directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService', 
+directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'SearchService', 'HarvestingFrequencyService',
 	'LoklakFieldService', 'PushService', 'SourceTypeService', 'JsonFieldAccessorService', 'ImportProfileService',
-	function($http, $stateParams, SearchService, HarvestingFrequencyService, 
+	function($http, $stateParams, SearchService, HarvestingFrequencyService,
 		LoklakFieldService, PushService, SourceTypeService, JsonFieldAccessorService, ImportProfileService) {
 	return {
 		restrict: 'A',
@@ -17,7 +17,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 			$scope.sourceTypeList = SourceTypeService.sourceTypeList;
 			$scope.sourceTypeListWEndpoint = {};
 			$scope.loklakFields = LoklakFieldService.fieldList;
-			
+
 			const sourceTypeFields = LoklakFieldService.sourceTypeFields;
 			// List of fields that user can map data to. Depending on selected source type
 			$scope.currentLoklakFields = null;
@@ -97,6 +97,29 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 				}
 			};
 
+			function pushActionOnSuccess(data) {
+				$scope.messages.error = '';
+				setTimeout(function() {
+					angular.element('#close-add-connection-modal').trigger('click');
+				}, 0);
+				var returnMessage;
+				if (data.new > 0) {
+					returnMessage = data.new + ' new source(s) added.';
+				} else {
+					returnMessage = 'No new source added.';
+				}
+				if (data.known > 0) {
+					ImportProfileService.search(null, null, data.knownIds[0]).then(function(result) {
+						$scope.returnFromAddConnection(returnMessage, result.profiles);
+					}, function(err) {
+						console.error(err);
+						$scope.returnFromAddConnection(returnMessage);
+					});
+				} else {
+					$scope.returnFromAddConnection(returnMessage);
+				}
+			}
+
 			$scope.submit = function() {
 				if (!$scope.inputs.url) {
 					$scope.messages.error = 'Please provide a valid source url';
@@ -129,7 +152,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 						return;
 					}
 					PushService.pushGeoJsonData(
-						{ url: $scope.inputs.url, 
+						{ url: $scope.inputs.url,
 						  source_type: $scope.inputs.sourceType.key,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
@@ -143,7 +166,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					});
 				} else {
 					PushService.pushCustomData(
-						{ url: $scope.inputs.url, 
+						{ url: $scope.inputs.url,
 						  source_type: $scope.inputs.sourceFormat,
 						  map_type: constructMapRules(),
 						  harvesting_freq: $scope.inputs.harvesting_freq.value,
@@ -156,29 +179,6 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					});
 				}
 			};
-
-			function pushActionOnSuccess(data) {
-	 			$scope.messages.error = '';
-	 			setTimeout(function() {
-					angular.element('#close-add-connection-modal').trigger('click');
-				}, 0);
-				var returnMessage;
-				if (data['new'] > 0) {
-					returnMessage = data['new'] + ' new source(s) added.';
-	 			} else {
-	 				returnMessage = 'No new source added.';
-	 			}
-	 			if (data['known'] > 0) {
-	 				ImportProfileService.search(null, null, data.knownIds[0]).then(function(result) {
-	 					$scope.returnFromAddConnection(returnMessage, result.profiles);
-	 				}, function(err) {
-	 					console.error(err);
-	 					$scope.returnFromAddConnection(returnMessage);
-	 				});
-	 			} else {
-	 				$scope.returnFromAddConnection(returnMessage);
-	 			}
-			}
 
 			$scope.hideErrorPanel = function() {
 				$scope.messages.error = '';
@@ -224,7 +224,7 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					}
 				}, function(err, status) {
 					$scope.validateStatus = 'error';
-					$scope.messages.validateError = 'Unknown server error'; 
+					$scope.messages.validateError = 'Unknown server error';
 					if (err) {
 						$scope.messages.validateError += ': ' + err;
 					}
@@ -242,9 +242,10 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 			}
 
 			$scope.accessDataField = function(row) {
-				if ($scope.inputs.mapRules[row][0] && $scope.currentData)
+				if ($scope.inputs.mapRules[row][0] && $scope.currentData) {
 					return JsonFieldAccessorService.accessField($scope.currentData, $scope.inputs.mapRules[row][0]);
-			}
+				}
+			};
 
 			$scope.clearModalData = function() {
 				$scope.currentData = null;

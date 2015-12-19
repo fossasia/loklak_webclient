@@ -1,3 +1,5 @@
+"use strict";
+
 var oauthshim = require('oauth-shim'),
     express = require('express'),
     api = require('./api.js'),
@@ -39,7 +41,7 @@ app.get('/updateData', function(req, res) {
 });
 
 app.get('/getData', function(req, res) {
-    request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function(error, response, body) {
+    request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function(error, response) {
         console.log(response.body);
         res.jsonp(JSON.parse(response.body));
     });
@@ -79,19 +81,19 @@ function customHandler(req, res, next) {
         var oauth_token = splitted[0];
         var oauth_token_secret = splitted[1].split("@")[0];
         var userObject = {};
-        userObject['screen_name'] = req.oauthshim.data.screen_name;
-        userObject['oauth_token'] = oauth_token;
-        userObject['oauth_token_secret'] = oauth_token_secret;
-        userObject['source_type'] = "TWITTER";
+        userObject.screen_name = req.oauthshim.data.screen_name;
+        userObject.oauth_token = oauth_token;
+        userObject.oauth_token_secret = oauth_token_secret;
+        userObject.source_type = "TWITTER";
         //got it. Now send to backend
         //but wait!! We need to get the current data from the backend first and then update it with the new data
-        request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
+        request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function(error, response) {
+            if (!error && response.statusCode === 200) {
                 var responseData = JSON.parse(response.body);
-                if (responseData.accounts.length == 0) {
+                if (responseData.accounts.length === 0) {
                     console.log("new user!");
                 } else {
-                    userObject['apps'] = responseData.accounts[0].apps;
+                    userObject.apps = responseData.accounts[0].apps;
                     // userObject.oauth_token = responseData.accounts[0].oauth_token;
                     // userObject.oauth_token_secret = responseData.accounts[0].oauth_token_secret;
                 }
@@ -103,8 +105,8 @@ function customHandler(req, res, next) {
                             data: requestJSON
                         }
                     },
-                    function(error, response, body) {
-                        if (!error && response.statusCode == 200) {
+                    function(error, response) {
+                        if (!error && response.statusCode === 200) {
                             console.log("user saved");
                         } else {
                             console.log("The user was not saved in loklak_server. Handle this error");

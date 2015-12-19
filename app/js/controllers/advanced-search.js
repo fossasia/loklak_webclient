@@ -9,7 +9,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	var vm = this;
 	var map = false;
 	var prevZoomAction, prevPanAction, newZoomAction, newPanAction;
-	
+
 	vm.showLookUp = false;
 	vm.isResultShow = false;
 	vm.isNumberOfResultShown = false;
@@ -21,7 +21,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	vm.resultMessage = "";
 	vm.finalParams = {};
 	vm.currentFilter = 'live';
-	
+
 	if ($stateParams.q === undefined) {
 		vm.showAdvancedSearch = true;
 	} else {
@@ -77,76 +77,19 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		vm.removeProfane = !vm.removeProfane;
 	};
 
-	/** 
-	 * Process advanced search options
-	 * With given Union params & Intersect params
-	 */
-	vm.processSearch = function() {
-		vm.showAdvancedSearch = false;
-		vm.currentResult = {};
-		var unionQ = getUnionSearchParams(); 
-		var intersectQ = getIntersectSeachParams();
-		
-		// Currently, there're three cases to process intersect term
-		// If it's an OR, like loklak OR food, use this & overrule the rest
-		// If it's an from:screen_name, append this to union search
-		// It it's only one word, also append this to union search
-		// If empty use union
-		if (intersectQ) {
-			if (intersectQ.indexOf("OR") > -1) {
-				vm.finalParams.q = intersectQ;
-			} else {
-				vm.finalParams.q = unionQ + " " + intersectQ;
-			}
-		} else {
-			vm.finalParams.q = unionQ;
-		}
-
-		vm.getResult(vm.finalParams);
-		updatePath(vm.finalParams.q);
-	};
-
-	/*
-	 * Based on processed search params, get search result 
-	 */
-	vm.getResult = function(Params) {
-		if (window.map) { window.map.remove();}
-		vm.mapSearch = false;
- 		vm.peopleSearch = false;
-		vm.currentResult = [];
-		SearchService.initData(Params).then(function(data) {
-			vm.currentResult = data.statuses;
-			processResultLayout(vm.currentResult);
-			vm.isResultShow = true;
-			if (vm.currentResult.length === 0) {
-				console.log("No result from server");
-			}
-		}, function() {});
-	};
-
-	/* 
-	 * Empty all field, show a new search
-	 */
-	vm.initNewSearchView = function() {
-		vm.finalParams = {};
-		$location.search({
-		});
-		vm.showAdvancedSearch = true;
-		vm.isResultShow = false;
-	};
-
-	// Init search if path is a search url
-	angular.element(document).ready(function() {
-	    if ($stateParams.q !== undefined) {
-	    	vm.finalParams.q = $stateParams.q;
-	    	vm.getResult(vm.finalParams);
-	    	vm.currentFilter = 'live';
-	    }
-	});
-
-	
 	/**
-	 * Process union values including 
+	 * Create search param for location search
+	 */
+	function getLocationSearchParams(place) {
+		if (place === "None chosen" && place === "") {
+			return "";
+		} else {
+			return "near:" + place;
+		}
+	}
+
+	/**
+	 * Process union values including
 	 * all of these words/this exact phrase/none of these words/these hashtags/these mention
 	 * and time
 	 */
@@ -179,7 +122,7 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	}
 
 	/**
-	 * Process intersect values including 
+	 * Process intersect values including
 	 * any of these words/from these accounts
 	 * for now support only one parameter each field
 	 */
@@ -203,10 +146,10 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 		}
 
  		if (hasInput) {
- 			return intersectTermResult;	
+ 			return intersectTermResult;
  		} else {
  			return "";
- 		} 		
+ 		}
  	}
 
 
@@ -224,17 +167,6 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
     }
 
 	/**
-	 * Create search param for location search
-	 */
-	function getLocationSearchParams(place) {
-		if (place === "None chosen" && place === "") {
-			return "";
-		} else {
-			return "near:" + place;	
-		}
-	}    
-
-	/**
 	 * Change stateParams on search
 	 */
 	function updatePath(query) {
@@ -242,13 +174,80 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	}
 
 
+	/**
+	 * Process advanced search options
+	 * With given Union params & Intersect params
+	 */
+	vm.processSearch = function() {
+		vm.showAdvancedSearch = false;
+		vm.currentResult = {};
+		var unionQ = getUnionSearchParams();
+		var intersectQ = getIntersectSeachParams();
+
+		// Currently, there're three cases to process intersect term
+		// If it's an OR, like loklak OR food, use this & overrule the rest
+		// If it's an from:screen_name, append this to union search
+		// It it's only one word, also append this to union search
+		// If empty use union
+		if (intersectQ) {
+			if (intersectQ.indexOf("OR") > -1) {
+				vm.finalParams.q = intersectQ;
+			} else {
+				vm.finalParams.q = unionQ + " " + intersectQ;
+			}
+		} else {
+			vm.finalParams.q = unionQ;
+		}
+
+		vm.getResult(vm.finalParams);
+		updatePath(vm.finalParams.q);
+	};
+
+	/*
+	 * Based on processed search params, get search result
+	 */
+	vm.getResult = function(Params) {
+		if (window.map) { window.map.remove();}
+		vm.mapSearch = false;
+ 		vm.peopleSearch = false;
+		vm.currentResult = [];
+		SearchService.initData(Params).then(function(data) {
+			vm.currentResult = data.statuses;
+			processResultLayout(vm.currentResult);
+			vm.isResultShow = true;
+			if (vm.currentResult.length === 0) {
+				console.log("No result from server");
+			}
+		}, function() {});
+	};
+
+	/*
+	 * Empty all field, show a new search
+	 */
+	vm.initNewSearchView = function() {
+		vm.finalParams = {};
+		$location.search({
+		});
+		vm.showAdvancedSearch = true;
+		vm.isResultShow = false;
+	};
+
+	// Init search if path is a search url
+	angular.element(document).ready(function() {
+	    if ($stateParams.q !== undefined) {
+	    	vm.finalParams.q = $stateParams.q;
+	    	vm.getResult(vm.finalParams);
+	    	vm.currentFilter = 'live';
+	    }
+	});
+
 	////////
     //// FILTERS FEATURE
     //// filter fn is used as ng-click trigger
     //// a typical filter trigger will include these operation:
     //// - change current filter model;  - show/hide related result according to filter
     //// - request for new result; - update path based on search term & filter
-    //// Filter explanation: live = no filter; accounts = show accounts only; 
+    //// Filter explanation: live = no filter; accounts = show accounts only;
     //// photos = tweet with native twitter photo + tweet with recognized photo link
     //// video = tweet with native twitter video + tweet with recognized video link
     //// map = no filter, but results are shown on a map
@@ -285,8 +284,8 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
 	                    vm.currentResult.push(status);
 	                }
 	            });
-	            processResultLayout(vm.currentResult); 
-	        }, function() {});    
+	            processResultLayout(vm.currentResult);
+	        }, function() {});
 	    };
 
  	vm.filterAccounts = function() {
@@ -305,9 +304,52 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
                });
                if (notYetInAccounts) { vm.accounts.push(ele);}
            });
-           processResultLayout(vm.accounts); 
+           processResultLayout(vm.accounts);
        }, function() {});
  	};
+
+	/*
+     * Add listener on maps' action
+     * When zoom/pan, new /location bound is calculated, and then is used to get & add more map points
+     * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
+     */
+    function getMoreLocationOnMapAction() {
+        var bound = window.map.getBounds();
+        var locationTerm = MapCreationService.getLocationParamFromBound(bound);
+        var params = { q: vm.term + "+" + locationTerm, count: 300};
+        SearchService.initData(params).then(function(data) {
+            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), "simpleCircle", addListenersOnMap);
+        }, function(data) {});
+    }
+
+	function addListenersOnMap() {
+			window.map.on("zoomend", function(event) {
+					if (!prevZoomAction) {
+							prevZoomAction = new Date();
+							getMoreLocationOnMapAction();
+					} else {
+							newZoomAction = new Date();
+							var interval = (newZoomAction - prevZoomAction);
+							if (interval > 1000) {
+									getMoreLocationOnMapAction();
+									prevZoomAction = newZoomAction;
+							}
+					}
+			});
+			window.map.on("dragend", function(event) {
+					if (!prevPanAction) {
+							prevPanAction = new Date();
+							getMoreLocationOnMapAction();
+					} else {
+							newPanAction = new Date();
+							var interval = (newPanAction - prevPanAction);
+							if (interval > 1000) {
+									getMoreLocationOnMapAction();
+									prevPanAction = newPanAction;
+							}
+					}
+			});
+	}
 
  	vm.filterMap = function() {
  		if (window.map) { delete(window.map); }
@@ -330,52 +372,10 @@ function AdvancedSearchCtrl($http, $scope, $filter, $location, $stateParams, App
  		    	markerType: "simpleCircle",
  		    	templateEngine: "genStaticTwitterStatus",
  		    	cbOnMapAction: addListenersOnMap
- 		    }); 
+ 		    });
  		}, function() {});
  	};
 
- 	/*
-     * Add listener on maps' action 
-     * When zoom/pan, new /location bound is calculated, and then is used to get & add more map points
-     * prevZoomAction, prevPanAction, newZoomAction, newPanAction are used to prevent event bubbling
-     */
-    function getMoreLocationOnMapAction() {
-        var bound = window.map.getBounds();
-        var locationTerm = MapCreationService.getLocationParamFromBound(bound);
-        var params = { q: vm.term + "+" + locationTerm, count: 300};
-        SearchService.initData(params).then(function(data) {
-            MapCreationService.addPointsToMap(window.map, MapCreationService.initMapPoints(data.statuses, "genStaticTwitterStatus"), "simpleCircle", addListenersOnMap);    
-        }, function(data) {});
-    }
-
-    function addListenersOnMap() {
-        window.map.on("zoomend", function(event) {
-            if (!prevZoomAction) {
-                prevZoomAction = new Date();
-                getMoreLocationOnMapAction();
-            } else {
-                newZoomAction = new Date();
-                var interval = (newZoomAction - prevZoomAction);
-                if (interval > 1000) {
-                    getMoreLocationOnMapAction();
-                    prevZoomAction = newZoomAction;        
-                }
-            }   
-        });
-        window.map.on("dragend", function(event) {
-            if (!prevPanAction) {
-                prevPanAction = new Date();
-                getMoreLocationOnMapAction();
-            } else {
-                newPanAction = new Date();
-                var interval = (newPanAction - prevPanAction);
-                if (interval > 1000) {
-                    getMoreLocationOnMapAction();
-                    prevPanAction = newPanAction;        
-                }
-            }
-        });
-    }
 }
 
 controllersModule.controller('AdvancedSearchCtrl', ['$http', '$scope', '$filter', '$location', '$stateParams', 'AppSettings', 'SearchService', 'MapPopUpTemplateService', 'MapCreationService', AdvancedSearchCtrl

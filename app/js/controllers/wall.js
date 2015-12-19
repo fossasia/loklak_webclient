@@ -137,17 +137,17 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
     });
 
     $scope.proceed = function() {
-        if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
-            alert("Invalid cycle post limit! Please enter a value between 1 and 100. We have set it to the recommended value.")
+        if ($scope.selectedTab === 1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit < 1) || ($scope.newWallOptions.cyclePostLimit > 100)) {
+            alert("Invalid cycle post limit! Please enter a value between 1 and 100. We have set it to the recommended value.");
             $scope.newWallOptions.cyclePostLimit = 15;
         } else {
-            if ($scope.selectedTab==1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
-                alert("Invalid cycle delay time! Please enter a value between 1 and 20. We have set it to the recommended value.")
+            if ($scope.selectedTab === 1 && $scope.newWallOptions.cycle && !$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime < 1) || ($scope.newWallOptions.cycleDelayTime > 20)) {
+                alert("Invalid cycle delay time! Please enter a value between 1 and 20. We have set it to the recommended value.");
                 $scope.newWallOptions.cycleDelayTime = 5;
             } else {
                 $scope.selectedTab++;
                 $('.nav-tabs > .active').next('li').find('a').trigger('click');
-                if ($scope.selectedTab == 2) {
+                if ($scope.selectedTab === 2) {
                     $scope.showNext = false;
                 }
             }
@@ -161,13 +161,13 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
         // if(!$scope.newWallOptions.cyclePostLimit || ($scope.newWallOptions.cyclePostLimit<1) || ($scope.newWallOptions.cyclePostLimit>20)){
         //     $scope.newWallOptions.cyclePostLimit = 15;
         // }
-    }
+    };
 
     $scope.lostCyclePostsFocus = function() {
         // if(!$scope.newWallOptions.cycleDelayTime || ($scope.newWallOptions.cycleDelayTime<1) || ($scope.newWallOptions.cycleDelayTime>100)){
         //     $scope.newWallOptions.cycleDelayTime = 5;
         // }
-    }
+    };
 
     $scope.start = function() {
         //construct term
@@ -187,7 +187,7 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             }
             if (isEditing !== -1) {
                 $scope.userWalls[isEditing].showLoading = true;
-                for (var k in $scope.newWallOptions) {
+                for (k in $scope.newWallOptions) {
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
                 }
                 //$scope.userWalls[isEditing].internal.showLoading = true;
