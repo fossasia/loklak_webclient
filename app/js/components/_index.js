@@ -1,3 +1,5 @@
+/*jslint node: true */
+/*archiebnz linted 1/1*/
 'use strict';
 
 var angular = require('angular');

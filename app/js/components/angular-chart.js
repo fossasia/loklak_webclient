@@ -1,41 +1,43 @@
+/*jslint node: true */
+/*archiebnz linted 1/1*/
 (function (factory) {
-  'use strict';
-  if (typeof define === 'function' && define.amd) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['angular', 'chart.js'], factory);
-  } else if (typeof exports === 'object') {
+        define(['angular', 'chart.js'], factory);
+    } else if (typeof exports === 'object') {
     // Node/CommonJS
-    module.exports = factory(require('angular'), require('chart.js'));
-  } else {
+        module.exports = factory(require('angular'), require('chart.js'));
+    } else {
     // Browser globals
-    factory(angular, Chart);
-  }
+        factory(angular, Chart);
+    }
 }(function (angular, Chart) {
-  'use strict';
+    'use strict';
 
-  Chart.defaults.global.responsive = true;
-  Chart.defaults.global.multiTooltipTemplate = '<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>';
+    Chart.defaults.global.responsive = true;
+    Chart.defaults.global.multiTooltipTemplate = '<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>';
 
-  Chart.defaults.global.colours = [
-    '#97BBCD', // blue
-    '#DCDCDC', // light grey
-    '#F7464A', // red
-    '#46BFBD', // green
-    '#FDB45C', // yellow
-    '#949FB1', // grey
-    '#4D5360'  // dark grey
-  ];
+    Chart.defaults.global.colours = [
+        '#97BBCD', // blue
+        '#DCDCDC', // light grey
+        '#F7464A', // red
+        '#46BFBD', // green
+        '#FDB45C', // yellow
+        '#949FB1', // grey
+        '#4D5360'  // dark grey
+    ];
 
-  angular.module('chart.js', [])
-    .provider('ChartJs', ChartJsProvider)
-    .factory('ChartJsFactory', ['ChartJs', ChartJsFactory])
-    .directive('chartBase', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory(); }])
-    .directive('chartLine', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Line'); }])
-    .directive('chartBar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Bar'); }])
-    .directive('chartRadar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Radar'); }])
-    .directive('chartDoughnut', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Doughnut'); }])
-    .directive('chartPie', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Pie'); }])
-    .directive('chartPolarArea', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('PolarArea'); }]);
+    angular.module('chart.js', [])
+        .provider('ChartJs', ChartJsProvider)
+        .factory('ChartJsFactory', ['ChartJs', ChartJsFactory])
+        .directive('chartBase', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory(); }])
+        .directive('chartLine', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Line'); }])
+        .directive('chartBar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Bar'); }])
+        .directive('chartRadar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Radar'); }])
+        .directive('chartDoughnut', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Doughnut'); }])
+        .directive('chartPie', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Pie'); }])
+        .directive('chartPolarArea', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('PolarArea'); }]);
 
   /**
    * Wrapper for chart.js
@@ -46,11 +48,11 @@
    *   ChartJsProvider.setOptions('Line', { responsive: false });
    * })))
    */
-  function ChartJsProvider () {
-    var options = {};
-    var ChartJs = {
-      Chart: Chart,
-      getOptions: function (type) {
+    function ChartJsProvider() {
+        var options = {},
+            ChartJs = {
+                Chart: Chart,
+             getOptions: function (type) {
         var typeOptions = type && options[type] || {};
         return angular.extend({}, options, typeOptions);
       }
@@ -94,7 +96,7 @@
         link: function (scope, elem/*, attrs */) {
           var chart, container = document.createElement('div');
           container.className = 'chart-container';
-          elem.replaceWith(container);
+                  elem.replaceWith(container);
           container.appendChild(elem[0]);
 
           if (typeof window.G_vmlCanvasManager === 'object' && window.G_vmlCanvasManager !== null) {
