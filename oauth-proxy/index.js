@@ -1,3 +1,5 @@
+/*jslint node: true */
+/*archiebnz linted 1/1*/
 "use strict";
 
 var oauthshim = require('oauth-shim'),
@@ -22,7 +24,7 @@ app.use(bodyParser.json({
 // Set application to list on PORT
 app.listen(config.oauthProxyPort);
 
-app.all('*', function(req, res, next) {
+app.all('*', function (req, res, next) {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Origin", config.domain);
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-access-token, x-screen-name");
@@ -31,8 +33,8 @@ app.all('*', function(req, res, next) {
 
 console.log("OAuth Shim listening on " + config.oauthProxyPort);
 
-app.get('/updateData', function(req, res) {
-    request(config.apiUrl + 'account.json?action=update&data=' + encodeURIComponent(req.query.data), function(error, response, body) {
+app.get('/updateData', function (req, res) {
+    request(config.apiUrl + 'account.json?action=update&data=' + encodeURIComponent(req.query.data), function (error, response, body) {
         console.log(response.body);
         res.status(response.statusCode).jsonp({
             ok: "ok"
@@ -40,8 +42,8 @@ app.get('/updateData', function(req, res) {
     });
 });
 
-app.get('/getData', function(req, res) {
-    request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function(error, response) {
+app.get('/getData', function (req, res) {
+    request(config.apiUrl + 'account.json?screen_name=' + req.query.screen_name, function (error, response) {
         console.log(response.body);
         res.jsonp(JSON.parse(response.body));
     });
@@ -71,23 +73,23 @@ function customHandler(req, res, next) {
 
     // Check that this is a login redirect with an access_token (not a RESTful API call via proxy)
     if (req.oauthshim &&
-        req.oauthshim.redirect &&
-        req.oauthshim.data &&
-        req.oauthshim.data.access_token &&
-        req.oauthshim.options &&
-        !req.oauthshim.options.path) {
+            req.oauthshim.redirect &&
+            req.oauthshim.data &&
+            req.oauthshim.data.access_token &&
+            req.oauthshim.options &&
+            !req.oauthshim.options.path) {
         //The access token is of the form "oauth_token:oauth_token_secret@app_id". Need to separate
-        var splitted = req.oauthshim.data.access_token.split(":");
-        var oauth_token = splitted[0];
-        var oauth_token_secret = splitted[1].split("@")[0];
-        var userObject = {};
+        var splitted = req.oauthshim.data.access_token.split(":"),
+            oauth_token = splitted[0],
+            oauth_token_secret = splitted[1].split("@")[0],
+            userObject = {};
         userObject.screen_name = req.oauthshim.data.screen_name;
         userObject.oauth_token = oauth_token;
         userObject.oauth_token_secret = oauth_token_secret;
         userObject.source_type = "TWITTER";
         //got it. Now send to backend
         //but wait!! We need to get the current data from the backend first and then update it with the new data
-        request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function(error, response) {
+        request(config.apiUrl + 'account.json?screen_name=' + userObject.screen_name, function (error, response) {
             if (!error && response.statusCode === 200) {
                 var responseData = JSON.parse(response.body);
                 if (responseData.accounts.length === 0) {
@@ -99,20 +101,20 @@ function customHandler(req, res, next) {
                 }
                 var requestJSON = JSON.stringify(userObject);
                 request.post({
-                        url: config.apiUrl + 'account.json',
-                        form: {
-                            action: 'update',
-                            data: requestJSON
-                        }
-                    },
-                    function(error, response) {
+                    url: config.apiUrl + 'account.json',
+                    form: {
+                        action: 'update',
+                        data: requestJSON
+                    }
+                },
+                    function (error, response) {
                         if (!error && response.statusCode === 200) {
                             console.log("user saved");
                         } else {
                             console.log("The user was not saved in loklak_server. Handle this error");
                         }
                     }
-                );
+                     );
             }
         });
     }

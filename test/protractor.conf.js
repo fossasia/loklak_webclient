@@ -1,28 +1,28 @@
+/*jslint node: true */
+/*archiebnz linted 1/1*/
 'use strict';
 
 exports.config = {
+    allScriptsTimeout: 11000,
+    baseUrl: 'http://localhost:3000/',
 
-  allScriptsTimeout: 11000,
+    capabilities: {
+        browserName: 'chrome',
+        version: '',
+        platform: 'ANY'
+    },
 
-  baseUrl: 'http://localhost:3000/',
+    framework: 'jasmine',
 
-  capabilities: {
-    browserName: 'chrome',
-    version: '',
-    platform: 'ANY'
-  },
+    jasmineNodeOpts: {
+        isVerbose: false,
+        showColors: true,
+        includeStackTrace: true,
+        defaultTimeoutInterval: 30000
+    },
 
-  framework: 'jasmine',
-
-  jasmineNodeOpts: {
-    isVerbose: false,
-    showColors: true,
-    includeStackTrace: true,
-    defaultTimeoutInterval: 30000
-  },
-
-  specs: [
-    'e2e/**/*.js'
-  ]
+    specs: [
+        'e2e/**/*.js'
+    ]
 
 };
