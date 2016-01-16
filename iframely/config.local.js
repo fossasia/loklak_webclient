@@ -1,11 +1,12 @@
+'use strict';
 (function() {
 
-    var repoConfig = require('../custom_configFile.json'); 
+    var repoConfig = require('../custom_configFile.json');
 
     var getPosition = function(str, m, i) {
            return str.split(m, i).join(m).length;
     };
-    
+
     var appDomain = (function() {
       var domain = repoConfig.linkDebuggingServiceHost;
       if (domain.match(/:/g).length > 1) {
@@ -31,7 +32,7 @@
 
         port: repoConfig.linkDebuggingServicePort,
 
-        // Optional SSL cert, if you serve under HTTPS. 
+        // Optional SSL cert, if you serve under HTTPS.
         /*
         ssl: {
             key: require('fs').readFileSync(__dirname + '/key.pem'),
@@ -65,7 +66,7 @@
         }
         */
 
-        
+
         // Access-Control-Allow-Origin list.
         allowedOrigins: [
             appDomain,
@@ -75,7 +76,7 @@
             repoConfig.domain + ':' + repoConfig.gulpDevExpressPort,
             repoConfig.domain + ':3000'
         ],
-        
+
 
         /*
         // Uncomment to enable plugin testing framework.
@@ -153,7 +154,7 @@
         // More about format: https://iframely.com/docs/qa-format
 
         /*
-        WHITELIST_WILDCARD: {  
+        WHITELIST_WILDCARD: {
               "twitter": {
                 "player": "allow",
                 "photo": "deny"
