@@ -1,3 +1,4 @@
+'use strict';
 var sysUtils = require('./utils');
 
 console.log("");
@@ -16,7 +17,7 @@ app.set('view engine', 'ejs');
 
 if (CONFIG.allowedOrigins) {
     app.use(function(req, res, next) {
-        var origin = req.headers["origin"];
+        var origin = req.headers.origin;
 
         if (origin) {
             if (CONFIG.allowedOrigins.indexOf('*') > -1) {
@@ -34,7 +35,7 @@ app.disable( 'x-powered-by' );
 app.use(function(req, res, next) {
     res.setHeader('X-Powered-By', 'Iframely');
     next();
-}); 
+});
 
 app.use(sysUtils.cacheMiddleware);
 
@@ -42,10 +43,6 @@ app.use(sysUtils.cacheMiddleware);
 require('./modules/api/views')(app);
 require('./modules/debug/views')(app);
 require('./modules/tests-ui/views')(app);
-
-app.use(logErrors);
-app.use(errorHandler);
-
 
 function logErrors(err, req, res, next) {
     if (CONFIG.RICH_LOG_ENABLED) {
@@ -84,6 +81,9 @@ function errorHandler(err, req, res, next) {
         res.end(err.message);
     }
 }
+
+app.use(logErrors);
+app.use(errorHandler);
 
 process.on('uncaughtException', function(err) {
     if (CONFIG.DEBUG) {
