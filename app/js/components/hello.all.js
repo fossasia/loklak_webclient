@@ -1,4 +1,6 @@
 /*! hellojs v1.7.0 | (c) 2012-2015 Andrew Dodson | MIT https://adodson.com/hello.js/LICENSE */
+'use strict';
+
 // ES5 Object.create
 if (!Object.create) {
 
@@ -10,7 +12,7 @@ if (!Object.create) {
 
 		return function(o) {
 
-			if (arguments.length != 1) {
+			if (arguments.length !== 1) {
 				throw new Error('Object.create implementation only accepts one parameter.');
 			}
 
@@ -27,8 +29,7 @@ if (!Object.keys) {
 	Object.keys = function(o, k, r) {
 		r = [];
 		for (k in o) {
-			if (r.hasOwnProperty.call(o, k))
-				r.push(k);
+			if (r.hasOwnProperty.call(o, k)) { r.push(k); }
 		}
 
 		return r;
@@ -326,6 +327,8 @@ hello.utils.extend(hello, {
 			hello.emit(s, value);
 		}
 
+		function encodeFunction(s) { return s; }
+
 		promise.proxy.then(emit.bind(this, 'auth.login auth'), emit.bind(this, 'auth.failed auth'));
 
 		// Is our service valid?
@@ -549,8 +552,6 @@ hello.utils.extend(hello, {
 		}
 
 		return promise.proxy;
-
-		function encodeFunction(s) {return s;}
 	},
 
 	// Remove any data associated with a given service
@@ -893,7 +894,7 @@ hello.utils.extend(hello.utils, {
 
 		// Passing in hash object of arguments?
 		// Where the first argument can't be an object
-		if ((args.length === 1) && (typeof (args[0]) === 'object') && o[x] != 'o!') {
+		if ((args.length === 1) && (typeof (args[0]) === 'object') && o[x] !== 'o!') {
 
 			// Could this object still belong to a property?
 			// Check the object keys if they match any of the property keys
@@ -973,8 +974,7 @@ hello.utils.extend(hello.utils, {
 	isEmpty: function(obj) {
 
 		// Scalar
-		if (!obj)
-			return true;
+		if (!obj) { return true; }
 
 		// Array
 		if (Array.isArray(obj)) {
@@ -1009,8 +1009,7 @@ hello.utils.extend(hello.utils, {
 		/*  promise object constructor  */
 		var api = function (executor) {
 			/*  optionally support non-constructor/plain-function call  */
-			if (!(this instanceof api))
-				return new api(executor);
+			if (!(this instanceof api)) { return new api(executor); }
 
 			/*  initialize object  */
 			this.id           = "Thenable/1.0.6";
@@ -1026,27 +1025,35 @@ hello.utils.extend(hello.utils, {
 			};
 
 			/*  support optional executor function  */
-			if (typeof executor === "function")
-				executor.call(this, this.fulfill.bind(this), this.reject.bind(this));
+			if (typeof executor === "function") { executor.call(this, this.fulfill.bind(this), this.reject.bind(this)); }
 		};
 
-		/*  promise API methods  */
-		api.prototype = {
-			/*  promise resolving methods  */
-			fulfill: function (value) { return deliver(this, STATE_FULFILLED, "fulfillValue", value); },
-			reject:  function (value) { return deliver(this, STATE_REJECTED,  "rejectReason", value); },
+		/*  execute particular set of handlers  */
+		var execute_handlers = function (curr, name, value) {
+			/* global process: true */
+			/* global setImmediate: true */
+			/* global setTimeout: true */
 
-			/*  "The then Method" [Promises/A+ 1.1, 1.2, 2.2]  */
-			then: function (onFulfilled, onRejected) {
-				var curr = this;
-				var next = new api();                                    /*  [Promises/A+ 2.2.7]  */
-				curr.onFulfilled.push(
-					resolver(onFulfilled, next, "fulfill"));             /*  [Promises/A+ 2.2.2/2.2.6]  */
-				curr.onRejected.push(
-					resolver(onRejected,  next, "reject" ));             /*  [Promises/A+ 2.2.3/2.2.6]  */
-				execute(curr);
-				return next.proxy;                                       /*  [Promises/A+ 2.2.7, 3.3]  */
-			}
+			/*  short-circuit processing  */
+			if (curr[name].length === 0) { return; }
+
+			/*  iterate over all handlers, exactly once  */
+			var handlers = curr[name];
+			curr[name] = [];                                             /*  [Promises/A+ 2.2.2.3, 2.2.3.3]  */
+			var func = function () {
+				for (var i = 0; i < handlers.length; i++) { handlers[i](value); }                                  /*  [Promises/A+ 2.2.5]  */
+			};
+
+			/*  execute procedure asynchronously  */                     /*  [Promises/A+ 2.2.4, 3.1]  */
+			if (typeof process === "object" && typeof process.nextTick === "function") { process.nextTick(func); }
+			else if (typeof setImmediate === "function") { setImmediate(func); }
+			else { setTimeout(func, 0); }
+		};
+
+		/*  execute all handlers  */
+		var execute = function (curr) {
+			if (curr.state === STATE_FULFILLED) { execute_handlers(curr, "onFulfilled", curr.fulfillValue); }
+			else if (curr.state === STATE_REJECTED)	{ execute_handlers(curr, "onRejected",  curr.rejectReason); }
 		};
 
 		/*  deliver an action  */
@@ -1057,58 +1064,6 @@ hello.utils.extend(hello.utils, {
 				execute(curr);
 			}
 			return curr;
-		};
-
-		/*  execute all handlers  */
-		var execute = function (curr) {
-			if (curr.state === STATE_FULFILLED)
-				execute_handlers(curr, "onFulfilled", curr.fulfillValue);
-			else if (curr.state === STATE_REJECTED)
-				execute_handlers(curr, "onRejected",  curr.rejectReason);
-		};
-
-		/*  execute particular set of handlers  */
-		var execute_handlers = function (curr, name, value) {
-			/* global process: true */
-			/* global setImmediate: true */
-			/* global setTimeout: true */
-
-			/*  short-circuit processing  */
-			if (curr[name].length === 0)
-				return;
-
-			/*  iterate over all handlers, exactly once  */
-			var handlers = curr[name];
-			curr[name] = [];                                             /*  [Promises/A+ 2.2.2.3, 2.2.3.3]  */
-			var func = function () {
-				for (var i = 0; i < handlers.length; i++)
-					handlers[i](value);                                  /*  [Promises/A+ 2.2.5]  */
-			};
-
-			/*  execute procedure asynchronously  */                     /*  [Promises/A+ 2.2.4, 3.1]  */
-			if (typeof process === "object" && typeof process.nextTick === "function")
-				process.nextTick(func);
-			else if (typeof setImmediate === "function")
-				setImmediate(func);
-			else
-				setTimeout(func, 0);
-		};
-
-		/*  generate a resolver function  */
-		var resolver = function (cb, next, method) {
-			return function (value) {
-				if (typeof cb !== "function")                            /*  [Promises/A+ 2.2.1, 2.2.7.3, 2.2.7.4]  */
-					next[method].call(next, value);                      /*  [Promises/A+ 2.2.7.3, 2.2.7.4]  */
-				else {
-					var result;
-					try { result = cb(value); }                          /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
-					catch (e) {
-						next.reject(e);                                  /*  [Promises/A+ 2.2.7.2]  */
-						return;
-					}
-					resolve(next, result);                               /*  [Promises/A+ 2.2.7.1]  */
-				}
-			};
 		};
 
 		/*  "Promise Resolution Procedure"  */                           /*  [Promises/A+ 2.3]  */
@@ -1139,29 +1094,67 @@ hello.utils.extend(hello.utils, {
 					then.call(x,
 						/*  resolvePromise  */                           /*  [Promises/A+ 2.3.3.3.1]  */
 						function (y) {
-							if (resolved) return; resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
-							if (y === x)                                 /*  [Promises/A+ 3.6]  */
+							if (resolved) { return; } resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
+							if (y === x) {                                /*  [Promises/A+ 3.6]  */
 								promise.reject(new TypeError("circular thenable chain"));
-							else
-								resolve(promise, y);
+							}
+							else { resolve(promise, y); }
 						},
 
 						/*  rejectPromise  */                            /*  [Promises/A+ 2.3.3.3.2]  */
 						function (r) {
-							if (resolved) return; resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
+							if (resolved) { return; } resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
 							promise.reject(r);
 						}
 					);
 				}
 				catch (e) {
-					if (!resolved)                                       /*  [Promises/A+ 2.3.3.3.3]  */
+					if (!resolved) {                                      /*  [Promises/A+ 2.3.3.3.3]  */
 						promise.reject(e);                               /*  [Promises/A+ 2.3.3.3.4]  */
+					}
 				}
 				return;
 			}
 
 			/*  handle other values  */
 			promise.fulfill(x);                                          /*  [Promises/A+ 2.3.4, 2.3.3.4]  */
+		};
+
+		/*  generate a resolver function  */
+		var resolver = function (cb, next, method) {
+			return function (value) {
+				if (typeof cb !== "function") {                          /*  [Promises/A+ 2.2.1, 2.2.7.3, 2.2.7.4]  */
+					next[method].call(next, value);                      /*  [Promises/A+ 2.2.7.3, 2.2.7.4]  */
+				}
+				else {
+					var result;
+					try { result = cb(value); }                          /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
+					catch (e) {
+						next.reject(e);                                  /*  [Promises/A+ 2.2.7.2]  */
+						return;
+					}
+					resolve(next, result);                               /*  [Promises/A+ 2.2.7.1]  */
+				}
+			};
+		};
+
+		/*  promise API methods  */
+		api.prototype = {
+			/*  promise resolving methods  */
+			fulfill: function (value) { return deliver(this, STATE_FULFILLED, "fulfillValue", value); },
+			reject:  function (value) { return deliver(this, STATE_REJECTED,  "rejectReason", value); },
+
+			/*  "The then Method" [Promises/A+ 1.1, 1.2, 2.2]  */
+			then: function (onFulfilled, onRejected) {
+				var curr = this;
+				var next = new api();                                    /*  [Promises/A+ 2.2.7]  */
+				curr.onFulfilled.push(
+					resolver(onFulfilled, next, "fulfill"));             /*  [Promises/A+ 2.2.2/2.2.6]  */
+				curr.onRejected.push(
+					resolver(onRejected,  next, "reject" ));             /*  [Promises/A+ 2.2.3/2.2.6]  */
+				execute(curr);
+				return next.proxy;                                       /*  [Promises/A+ 2.2.7, 3.3]  */
+			}
 		};
 
 		/*  export API  */
@@ -1473,6 +1466,66 @@ hello.utils.extend(hello.utils, {
 
 		p = _this.merge(_this.param(location.search || ''), _this.param(location.hash || ''));
 
+		function closeWindow() {
+
+			// Close this current window
+			try {
+				window.close();
+			}
+			catch (e) {}
+
+			// IOS bug wont let us close a popup if still loading
+			if (window.addEventListener) {
+				window.addEventListener('load', function() {
+					window.close();
+				});
+			}
+		}
+
+		// Trigger a callback to authenticate
+		function authCallback(obj, window, parent) {
+
+			// Trigger the callback on the parent
+			_this.store(obj.network, obj);
+
+			// If this is a page request it has no parent or opener window to handle callbacks
+			if (('display' in obj) && obj.display === 'page') {
+				return;
+			}
+
+			if (parent) {
+				// Call the generic listeners
+				// Win.hello.emit(network+":auth."+(obj.error?'failed':'login'), obj);
+
+				// TODO: remove from session object
+				var cb = obj.callback;
+				try {
+					delete obj.callback;
+				}
+				catch (e) {}
+
+				// Update store
+				_this.store(obj.network, obj);
+
+				// Call the globalEvent function on the parent
+				if (cb in parent) {
+
+					// It's safer to pass back a string to the parent,
+					// Rather than an object/array (better for IE8)
+					var str = JSON.stringify(obj);
+
+					try {
+						parent[cb](str);
+					}
+					catch (e) {
+						// Error thrown whilst executing parent callback
+					}
+				}
+			}
+
+			closeWindow();
+		}
+
 		// If p.state
 		if (p && 'state' in p) {
 
@@ -1540,66 +1593,6 @@ hello.utils.extend(hello.utils, {
 
 			location.assign(decodeURIComponent(p.oauth_redirect));
 			return;
-		}
-
-		// Trigger a callback to authenticate
-		function authCallback(obj, window, parent) {
-
-			// Trigger the callback on the parent
-			_this.store(obj.network, obj);
-
-			// If this is a page request it has no parent or opener window to handle callbacks
-			if (('display' in obj) && obj.display === 'page') {
-				return;
-			}
-
-			if (parent) {
-				// Call the generic listeners
-				// Win.hello.emit(network+":auth."+(obj.error?'failed':'login'), obj);
-
-				// TODO: remove from session object
-				var cb = obj.callback;
-				try {
-					delete obj.callback;
-				}
-				catch (e) {}
-
-				// Update store
-				_this.store(obj.network, obj);
-
-				// Call the globalEvent function on the parent
-				if (cb in parent) {
-
-					// It's safer to pass back a string to the parent,
-					// Rather than an object/array (better for IE8)
-					var str = JSON.stringify(obj);
-
-					try {
-						parent[cb](str);
-					}
-					catch (e) {
-						// Error thrown whilst executing parent callback
-					}
-				}
-			}
-
-			closeWindow();
-		}
-
-		function closeWindow() {
-
-			// Close this current window
-			try {
-				window.close();
-			}
-			catch (e) {}
-
-			// IOS bug wont let us close a popup if still loading
-			if (window.addEventListener) {
-				window.addEventListener('load', function() {
-					window.close();
-				});
-			}
 		}
 	}
 });
@@ -1780,6 +1773,92 @@ hello.api = function() {
 	// Query
 	p.query = p.query || {};
 
+	// If url needs a base
+	// Wrap everything in
+	function getPath(url) {
+
+		// Format the string if it needs it
+		url = url.replace(/\@\{([a-z\_\-]+)(\|.*?)?\}/gi, function(m, key, defaults) {
+			var val = defaults ? defaults.replace(/^\|/, '') : '';
+			if (key in p.query) {
+				val = p.query[key];
+				delete p.query[key];
+			}
+			else if (!defaults) {
+				promise.reject(error('missing_attribute', 'The attribute ' + key + ' is missing from the request'));
+			}
+
+			return val;
+		});
+
+		// Add base
+		if (!url.match(/^https?:\/\//)) {
+			url = o.base + url;
+		}
+
+		// Define the request URL
+		p.url = url;
+
+		// Make the HTTP request with the curated request object
+		// CALLBACK HANDLER
+		// @ response object
+		// @ statusCode integer if available
+		utils.request(p, function(r, headers) {
+
+			// Should this be an object
+			if (r === true) {
+				r = {success:true};
+			}
+			else if (!r) {
+				r = {};
+			}
+
+			// The delete callback needs a better response
+			if (p.method === 'delete') {
+				r = (!r || utils.isEmpty(r)) ? {success:true} : r;
+			}
+
+			// FORMAT RESPONSE?
+			// Does self request have a corresponding formatter
+			if (o.wrap && ((p.path in o.wrap) || ('default' in o.wrap))) {
+				var wrap = (p.path in o.wrap ? p.path : 'default');
+				var time = (new Date()).getTime();
+
+				// FORMAT RESPONSE
+				var b = o.wrap[wrap](r, headers, p);
+
+				// Has the response been utterly overwritten?
+				// Typically self augments the existing object.. but for those rare occassions
+				if (b) {
+					r = b;
+				}
+			}
+
+			// Is there a next_page defined in the response?
+			if (r && 'paging' in r && r.paging.next) {
+
+				// Add the relative path if it is missing from the paging/next path
+				if (r.paging.next[0] === '?') {
+					r.paging.next = p.path + r.paging.next;
+				}
+
+				// The relative path has been defined, lets markup the handler in the HashFragment
+				else {
+					r.paging.next += '#' + p.path;
+				}
+			}
+
+			// Dispatch to listeners
+			// Emit events which pertain to the formatted response
+			if (!r || 'error' in r) {
+				promise.reject(r);
+			}
+			else {
+				promise.fulfill(r);
+			}
+		});
+	}
+
 	// If get, put all parameters into query
 	if (p.method === 'get' || p.method === 'delete') {
 		utils.extend(p.query, p.data);
@@ -1809,7 +1888,7 @@ hello.api = function() {
 	// Network & Provider
 	// Define the network that this request is made for
 	p.network = _this.settings.default_service = p.network || _this.settings.default_service;
-	var o = _this.services[p.network];
+	o = _this.services[p.network];
 
 	// INVALID
 	// Is there no service by the given network name?
@@ -1918,92 +1997,6 @@ hello.api = function() {
 	}
 
 	return promise.proxy;
-
-	// If url needs a base
-	// Wrap everything in
-	function getPath(url) {
-
-		// Format the string if it needs it
-		url = url.replace(/\@\{([a-z\_\-]+)(\|.*?)?\}/gi, function(m, key, defaults) {
-			var val = defaults ? defaults.replace(/^\|/, '') : '';
-			if (key in p.query) {
-				val = p.query[key];
-				delete p.query[key];
-			}
-			else if (!defaults) {
-				promise.reject(error('missing_attribute', 'The attribute ' + key + ' is missing from the request'));
-			}
-
-			return val;
-		});
-
-		// Add base
-		if (!url.match(/^https?:\/\//)) {
-			url = o.base + url;
-		}
-
-		// Define the request URL
-		p.url = url;
-
-		// Make the HTTP request with the curated request object
-		// CALLBACK HANDLER
-		// @ response object
-		// @ statusCode integer if available
-		utils.request(p, function(r, headers) {
-
-			// Should this be an object
-			if (r === true) {
-				r = {success:true};
-			}
-			else if (!r) {
-				r = {};
-			}
-
-			// The delete callback needs a better response
-			if (p.method === 'delete') {
-				r = (!r || utils.isEmpty(r)) ? {success:true} : r;
-			}
-
-			// FORMAT RESPONSE?
-			// Does self request have a corresponding formatter
-			if (o.wrap && ((p.path in o.wrap) || ('default' in o.wrap))) {
-				var wrap = (p.path in o.wrap ? p.path : 'default');
-				var time = (new Date()).getTime();
-
-				// FORMAT RESPONSE
-				var b = o.wrap[wrap](r, headers, p);
-
-				// Has the response been utterly overwritten?
-				// Typically self augments the existing object.. but for those rare occassions
-				if (b) {
-					r = b;
-				}
-			}
-
-			// Is there a next_page defined in the response?
-			if (r && 'paging' in r && r.paging.next) {
-
-				// Add the relative path if it is missing from the paging/next path
-				if (r.paging.next[0] === '?') {
-					r.paging.next = p.path + r.paging.next;
-				}
-
-				// The relative path has been defined, lets markup the handler in the HashFragment
-				else {
-					r.paging.next += '#' + p.path;
-				}
-			}
-
-			// Dispatch to listeners
-			// Emit events which pertain to the formatted response
-			if (!r || 'error' in r) {
-				promise.reject(r);
-			}
-			else {
-				promise.fulfill(r);
-			}
-		});
-	}
 };
 
 // API utilities
@@ -2014,6 +2007,57 @@ hello.utils.extend(hello.utils, {
 
 		var _this = this;
 		var error = _this.error;
+
+		// Format URL
+		// Constructs the request URL, optionally wraps the URL through a call to a proxy server
+		// Returns the formatted URL
+		function formatUrl(p, callback) {
+
+			// Are we signing the request?
+			var sign;
+
+			// OAuth1
+			// Remove the token from the query before signing
+			if (p.oauth && parseInt(p.oauth.version, 10) === 1) {
+
+				// OAUTH SIGNING PROXY
+				sign = p.query.access_token;
+
+				// Remove the access_token
+				delete p.query.access_token;
+
+				// Enfore use of Proxy
+				p.proxy = true;
+			}
+
+			// POST body to querystring
+			if (p.data && (p.method === 'get' || p.method === 'delete')) {
+				// Attach the p.data to the querystring.
+				_this.extend(p.query, p.data);
+				p.data = null;
+			}
+
+			// Construct the path
+			var path = _this.qs(p.url, p.query);
+
+			// Proxy the request through a server
+			// Used for signing OAuth1
+			// And circumventing services without Access-Control Headers
+			if (p.proxy) {
+				// Use the proxy as a path
+				path = _this.qs(p.oauth_proxy, {
+					path: path,
+					access_token: sign || '',
+
+					// This will prompt the request to be signed as though it is OAuth1
+					then: p.proxy_response_type || (p.method.toLowerCase() === 'get' ? 'redirect' : 'proxy'),
+					method: p.method.toLowerCase(),
+					suppress_response_codes: true
+				});
+			}
+
+			callback(path);
+		}
 
 		// This has to go through a POST request
 		if (!_this.isEmpty(p.data) && !('FileList' in window) && _this.hasBinary(p.data)) {
@@ -2111,57 +2155,6 @@ hello.utils.extend(hello.utils, {
 		callback(error('invalid_request', 'There was no mechanism for handling this request'));
 
 		return;
-
-		// Format URL
-		// Constructs the request URL, optionally wraps the URL through a call to a proxy server
-		// Returns the formatted URL
-		function formatUrl(p, callback) {
-
-			// Are we signing the request?
-			var sign;
-
-			// OAuth1
-			// Remove the token from the query before signing
-			if (p.oauth && parseInt(p.oauth.version, 10) === 1) {
-
-				// OAUTH SIGNING PROXY
-				sign = p.query.access_token;
-
-				// Remove the access_token
-				delete p.query.access_token;
-
-				// Enfore use of Proxy
-				p.proxy = true;
-			}
-
-			// POST body to querystring
-			if (p.data && (p.method === 'get' || p.method === 'delete')) {
-				// Attach the p.data to the querystring.
-				_this.extend(p.query, p.data);
-				p.data = null;
-			}
-
-			// Construct the path
-			var path = _this.qs(p.url, p.query);
-
-			// Proxy the request through a server
-			// Used for signing OAuth1
-			// And circumventing services without Access-Control Headers
-			if (p.proxy) {
-				// Use the proxy as a path
-				path = _this.qs(p.oauth_proxy, {
-					path: path,
-					access_token: sign || '',
-
-					// This will prompt the request to be signed as though it is OAuth1
-					then: p.proxy_response_type || (p.method.toLowerCase() === 'get' ? 'redirect' : 'proxy'),
-					method: p.method.toLowerCase(),
-					suppress_response_codes: true
-				});
-			}
-
-			callback(path);
-		}
 	},
 
 	// Return the type of DOM object
@@ -2262,17 +2255,19 @@ hello.utils.extend(hello.utils, {
 		else if (data && typeof (data) !== 'string' && !(data instanceof FormData) && !(data instanceof File) && !(data instanceof Blob)) {
 			// Loop through and add formData
 			var f = new FormData();
-			for (x in data) if (data.hasOwnProperty(x)) {
-				if (data[x] instanceof HTMLInputElement) {
-					if ('files' in data[x] && data[x].files.length > 0) {
-						f.append(x, data[x].files[0]);
+			for (x in data) {
+				if (data.hasOwnProperty(x)) {
+					if (data[x] instanceof HTMLInputElement) {
+						if ('files' in data[x] && data[x].files.length > 0) {
+							f.append(x, data[x].files[0]);
+						}
 					}
-				}
-				else if (data[x] instanceof Blob) {
-					f.append(x, data[x], data.name);
-				}
-				else {
-					f.append(x, data[x]);
+					else if (data[x] instanceof Blob) {
+						f.append(x, data[x], data.name);
+					}
+					else {
+						f.append(x, data[x]);
+					}
 				}
 			}
 

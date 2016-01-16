@@ -25,6 +25,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+'use strict';
+
 (function () {
 
   // Retain the value of the original onAdd and onRemove functions
@@ -82,17 +84,17 @@
         delta: delta,
         step: function (delta) {
           self._dropPoint.y =
-            start_y
-          + (distance * delta)
-          - (self._map.project(self._map.getCenter()).y - self._origMapCenter.y);
+            start_y +
+            (distance * delta) -
+            (self._map.project(self._map.getCenter()).y - self._origMapCenter.y);
           self._dropPoint.x =
-            start_x
-          - (self._map.project(self._map.getCenter()).x - self._origMapCenter.x);
+            start_x -
+            (self._map.project(self._map.getCenter()).x - self._origMapCenter.x);
           self.setLatLng(self._toLatLng(self._dropPoint));
         },
         end: function () {
           self.setLatLng(original);
-          if (typeof callback === "function") callback();
+          if (typeof callback === "function") { callback(); }
         }
       });
     },

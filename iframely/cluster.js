@@ -1,3 +1,5 @@
+'use strict';
+
 var cluster = require('cluster');
 var sysUtils = require('./utils');
 var numCPUs = require('os').cpus().length;
@@ -30,7 +32,7 @@ if (cluster.isMaster) {
             usage.lookup(process.pid, function(error, result) {
 
                 if (error) {
-                    console.error('Error getting process stats', err);
+                    console.error('Error getting process stats', error);
                     return;
                 }
 

@@ -15,7 +15,7 @@ angular.module('ngIdle.keepalive', [])
     };
 
     this.http = function(value) {
-      if (!value) throw new Error('Argument must be a string containing a URL, or an object containing the HTTP request configuration.');
+      if (!value) { throw new Error('Argument must be a string containing a URL, or an object containing the HTTP request configuration.'); }
       if (angular.isString(value)) {
         value = {
           url: value,
@@ -31,7 +31,7 @@ angular.module('ngIdle.keepalive', [])
     var setInterval = this.interval = function(seconds) {
       seconds = parseInt(seconds);
 
-      if (isNaN(seconds) || seconds <= 0) throw new Error('Interval must be expressed in seconds and be greater than 0.');
+      if (isNaN(seconds) || seconds <= 0) { throw new Error('Interval must be expressed in seconds and be greater than 0.'); }
       options.interval = seconds;
     };
 
@@ -94,9 +94,9 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
      *  @param {Number|Boolean} seconds A positive number representing seconds OR 0 or false to disable this feature.
      */
     var setTimeout = this.timeout = function(seconds) {
-      if (seconds === false) options.timeout = 0;
-      else if (angular.isNumber(seconds) && seconds >= 0) options.timeout = seconds;
-      else throw new Error('Timeout must be zero or false to disable the feature, or a positive integer (in seconds) to enable it.');
+      if (seconds === false) { options.timeout = 0; }
+      else if (angular.isNumber(seconds) && seconds >= 0) { options.timeout = seconds; }
+      else { throw new Error('Timeout must be zero or false to disable the feature, or a positive integer (in seconds) to enable it.'); }
     };
 
     this.interrupt = function(events) {
@@ -104,7 +104,7 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
     };
 
     var setIdle = this.idle = function(seconds) {
-      if (seconds <= 0) throw new Error('Idle must be a value in seconds, greater than 0.');
+      if (seconds <= 0) { throw new Error('Idle must be a value in seconds, greater than 0.'); }
 
       options.idle = seconds;
     };
@@ -114,9 +114,9 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
     };
 
     this.autoResume = function(value) {
-      if (value === true) options.autoResume = 'idle';
-      else if (value === false) options.autoResume = 'off';
-      else options.autoResume = value;
+      if (value === true) { options.autoResume = 'idle'; }
+      else if (value === false) { options.autoResume = 'off'; }
+      else { options.autoResume = value; }
     };
 
     this.keepalive = function(enabled) {
@@ -136,17 +136,41 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
         var id = new Date().getTime();
 
         function startKeepalive() {
-          if (!options.keepalive) return;
+          if (!options.keepalive) { return; }
 
-          if (state.running) Keepalive.ping();
+          if (state.running) { Keepalive.ping(); }
 
           Keepalive.start();
         }
 
         function stopKeepalive() {
-          if (!options.keepalive) return;
+          if (!options.keepalive) { return; }
 
           Keepalive.stop();
+        }
+
+        function timeout() {
+          stopKeepalive();
+          $interval.cancel(state.idle);
+          $interval.cancel(state.timeout);
+
+          state.idling = true;
+          state.running = false;
+          state.countdown = 0;
+
+          $rootScope.$broadcast('IdleTimeout');
+        }
+
+        function countdown() {
+          // countdown has expired, so signal timeout
+          if (state.countdown <= 0) {
+            timeout();
+            return;
+          }
+
+          // countdown hasn't reached zero, so warn and decrement
+          $rootScope.$broadcast('IdleWarn', state.countdown);
+          state.countdown--;
         }
 
         function toggleState() {
@@ -169,36 +193,12 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
           $interval.cancel(state.idle);
         }
 
-        function countdown() {
-          // countdown has expired, so signal timeout
-          if (state.countdown <= 0) {
-            timeout();
-            return;
-          }
-
-          // countdown hasn't reached zero, so warn and decrement
-          $rootScope.$broadcast('IdleWarn', state.countdown);
-          state.countdown--;
-        }
-
-        function timeout() {
-          stopKeepalive();
-          $interval.cancel(state.idle);
-          $interval.cancel(state.timeout);
-
-          state.idling = true;
-          state.running = false;
-          state.countdown = 0;
-
-          $rootScope.$broadcast('IdleTimeout');
-        }
-
         function changeOption(self, fn, value) {
           var reset = self.running();
 
           self.unwatch();
           fn(value);
-          if (reset) self.watch();
+          if (reset) { self.watch(); }
         }
 
         function getExpiry() {
@@ -208,8 +208,8 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
         }
 
         function setExpiry(date) {
-          if (!date) LocalStorage.remove('expiry');
-          else LocalStorage.set('expiry', {id: id, time: date});
+          if (!date) { LocalStorage.remove('expiry'); }
+          else { LocalStorage.set('expiry', {id: id, time: date}); }
         }
 
         var svc = {
@@ -253,11 +253,11 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
 
             // calculate the absolute expiry date, as added insurance against a browser sleeping or paused in the background
             var timeout = !options.timeout ? 0 : options.timeout;
-            if (!noExpiryUpdate) setExpiry(new Date(new Date().getTime() + ((options.idle + timeout) * 1000)));
+            if (!noExpiryUpdate) { setExpiry(new Date(new Date().getTime() + ((options.idle + timeout) * 1000))); }
 
 
-            if (state.idling) toggleState(); // clears the idle state if currently idling
-            else if (!state.running) startKeepalive(); // if about to run, start keep alive
+            if (state.idling) { toggleState(); } // clears the idle state if currently idling
+            else if (!state.running) { startKeepalive(); } // if about to run, start keep alive
 
             state.running = true;
 
@@ -274,7 +274,7 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
             stopKeepalive();
           },
           interrupt: function(noExpiryUpdate) {
-            if (!state.running) return;
+            if (!state.running) { return; }
 
             if (options.timeout && this.isExpired()) {
               timeout();
@@ -282,7 +282,7 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
             }
 
             // note: you can no longer auto resume once we exceed the expiry; you will reset state by calling watch() manually
-            if (options.autoResume === 'idle' || (options.autoResume === 'notIdle' && !state.idling)) this.watch(noExpiryUpdate);
+            if (options.autoResume === 'idle' || (options.autoResume === 'notIdle' && !state.idling)) { this.watch(noExpiryUpdate); }
           }
         };
 
@@ -293,13 +293,13 @@ angular.module('ngIdle.idle', ['ngIdle.keepalive', 'ngIdle.localStorage'])
         var wrap = function(event) {
           if (event.key === 'ngIdle.expiry' && event.newValue !== event.oldValue) {
             var val = angular.fromJson(event.newValue);
-            if (val.id === id) return;
+            if (val.id === id) { return; }
             svc.interrupt(true);
           }
         };
 
-        if ($window.addEventListener) $window.addEventListener('storage', wrap, false);
-        else $window.attachEvent('onstorage', wrap);
+        if ($window.addEventListener) { $window.addEventListener('storage', wrap, false); }
+        else { $window.attachEvent('onstorage', wrap); }
 
         return svc;
       }
@@ -347,25 +347,25 @@ angular.module('ngIdle.title', [])
 
     return {
       original: function(val) {
-        if (angular.isUndefined(val)) return state.original;
+        if (angular.isUndefined(val)) { return state.original; }
 
         state.original = val;
       },
       store: function(overwrite) {
-        if (overwrite || !state.original) state.original = this.value();
+        if (overwrite || !state.original) { state.original = this.value(); }
       },
       value: function(val) {
-        if (angular.isUndefined(val)) return $document[0].title;
+        if (angular.isUndefined(val)) { return $document[0].title; }
 
         $document[0].title = val;
       },
       idleMessage: function(val) {
-        if (angular.isUndefined(val)) return state.idle;
+        if (angular.isUndefined(val)) { return state.idle; }
 
         state.idle = val;
       },
       timedOutMessage: function(val) {
-        if (angular.isUndefined(val)) return state.timedout;
+        if (angular.isUndefined(val)) { return state.timedout; }
 
         state.timedout = val;
       },
@@ -384,7 +384,7 @@ angular.module('ngIdle.title', [])
         this.value(this.timedOutMessage());
       },
       restore: function() {
-        if (this.original()) this.value(this.original());
+        if (this.original()) { this.value(this.original()); }
       }
     };
   }])
@@ -392,7 +392,7 @@ angular.module('ngIdle.title', [])
       return {
         restrict: 'E',
         link: function($scope, $element, $attr) {
-          if (Idle.isTitleDisabled() || $attr.idleDisabled) return;
+          if (Idle.isTitleDisabled() || $attr.idleDisabled) { return; }
 
           Title.store(true);
 
@@ -418,7 +418,7 @@ angular.module('ngIdle.title', [])
 angular.module('ngIdle.localStorage', [])
   .service('IdleLocalStorage', ['$window', function($window) {
     var storage = $window.localStorage;
-    
+
     return {
       set: function(key, value) {
         storage.setItem('ngIdle.'+key, angular.toJson(value));

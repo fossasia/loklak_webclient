@@ -58,17 +58,6 @@ creds[config.twitterConsumerKey] = config.twitterConsumerSecret;
 // Initiate the shim with Client ID's and secret, e.g.
 oauthshim.init(creds);
 
-// Define a path where to put this OAuth Shim
-app.all('/oauthproxy',
-    oauthshim.interpret,
-    customHandler,
-    oauthshim.proxy,
-    oauthshim.redirect,
-    oauthshim.unhandled);
-
-/*RESTful routes for apps */
-app.use('/', api);
-
 function customHandler(req, res, next) {
 
     // Check that this is a login redirect with an access_token (not a RESTful API call via proxy)
@@ -122,3 +111,14 @@ function customHandler(req, res, next) {
     // Call next to complete the operation
     next();
 }
+
+// Define a path where to put this OAuth Shim
+app.all('/oauthproxy',
+    oauthshim.interpret,
+    customHandler,
+    oauthshim.proxy,
+    oauthshim.redirect,
+    oauthshim.unhandled);
+
+/*RESTful routes for apps */
+app.use('/', api);
