@@ -1,6 +1,6 @@
 /*jslint node: true */
 /*archiebnz linted 1/1*/
-"use strict";
+'use strict';
 
 var express = require('express');
 var router = express.Router();

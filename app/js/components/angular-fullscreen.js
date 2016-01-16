@@ -1,3 +1,5 @@
+'use strict';
+
 (function(window) {
    var createModule = function(angular) {
       var module = angular.module('FBAngular', []);
@@ -9,12 +11,6 @@
          var isKeyboardAvailbleOnFullScreen = (typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element) && Element.ALLOW_KEYBOARD_INPUT;
 
          var emitter = $rootScope.$new();
-
-         // listen event on document instead of element to avoid firefox limitation
-         // see https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode
-         $document.on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange', function(){
-            emitter.$emit('FBFullscreen.change', serviceInstance.isEnabled());
-         });
 
          var serviceInstance = {
             $on: angular.bind(emitter, emitter.$on),
@@ -62,6 +58,12 @@
             }
          };
 
+         // listen event on document instead of element to avoid firefox limitation
+         // see https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode
+         $document.on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange', function(){
+            emitter.$emit('FBFullscreen.change', serviceInstance.isEnabled());
+         });
+
          return serviceInstance;
       }]);
 
@@ -102,7 +104,7 @@
                   }
 
                   $element.on('click', function (ev) {
-                     Fullscreen.enable(  $element[0] );
+                     Fullscreen.enable( $element[0] );
                   });
                }
             }
