@@ -135,7 +135,7 @@ controllersModule.controller('HomeCtrl', ['$rootScope', 'HelloService', 'FileSer
                     hello('twitter').api('me/share', 'POST', {
                         message : tweet,
                         lat: latitude,
-                        long: longitude,
+                        long: longitude
                     }).then(function(json) {
                         console.log(json);
                         // The Push service should send the data to be cross posted to loklak server

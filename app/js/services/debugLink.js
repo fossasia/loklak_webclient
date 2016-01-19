@@ -13,7 +13,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
   var getPosition = function(str, m, i) {
          return str.split(m, i).join(m).length;
   };
-  
+
   var debugServiceApi = (function() {
     var domain = AppSettings.linkDebuggingServiceHost;
     if (domain.match(/:/g).length > 1) {
@@ -31,7 +31,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
     var debugApiUrl = debugServiceApi + defService;
     $http.get(debugApiUrl, {
       params: {
-        url: undebuggedLink,
+        url: undebuggedLink
       }
     }).success(function(data) {
         deferred.resolve(data);
@@ -58,7 +58,7 @@ servicesModule.service('DebugLinkService',['$q', '$http', 'AppSettings', functio
     var debugApiUrl = debugServiceApi + '/oembed';
     $http.get(debugApiUrl, {
       params: {
-        url: undebuggedLink,
+        url: undebuggedLink
       }
     }).success(function(data) {
         deferred.resolve(data);

@@ -128,7 +128,7 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         angular.forEach(intervals, function(interval) {
             $interval.cancel(interval);
         });
-        intervals.push($interval(getManuallyNewestStatuses, parseInt(period)));
+        intervals.push($interval(getManuallyNewestStatuses, parseInt(period, 10)));
     };
 
     /*
@@ -328,8 +328,8 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
         var ngEle = angular.element(imgTag);
         return {
             src: ngEle.attr('src'),
-            w: parseInt(ngEle.css('width').replace('px', '')),
-            h: parseInt(ngEle.css('height').replace('px', ''))
+            w: parseInt(ngEle.css('width').replace('px', ''), 10),
+            h: parseInt(ngEle.css('height').replace('px', ''), 10)
         };
     }
 
