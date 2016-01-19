@@ -54,7 +54,9 @@ angular.module('ui.choices', []).directive('toggle', function ($compile) {
         ref$ = [s.data, (v && s.data[v]) || {}], d = ref$[0], v = ref$[1];
         res$ = [];
         for (k in d) {
-          res$.push(k);
+          if(d.hasOwnProperty(k)){
+            res$.push(k);
+          }
         }
         k = res$;
         if (v.e) {
@@ -122,7 +124,9 @@ angular.module('ui.choices', []).directive('toggle', function ($compile) {
           d = (function(){
             var results$ = [];
             for (k in d) {
-              results$.push(k);
+              if(d.hasOwnProperty(k)){
+                results$.push(k);
+              }
             }
             return results$;
           }()).filter(function(it){
@@ -130,10 +134,12 @@ angular.module('ui.choices', []).directive('toggle', function ($compile) {
           });
         }
         for (k in ref$ = s.data) {
-          v = ref$[k];
-          v.e[((v.on = in$(k, d)) ? 'add' : 'remove') + "Class"]('active');
-          if (v.m) {
-            results$.push(s.$parent.$eval(v.m + "=" + v.on));
+          if(ref$.hasOwnProperty(k)){
+            v = ref$[k];
+            v.e[((v.on = in$(k, d)) ? 'add' : 'remove') + "Class"]('active');
+            if (v.m) {
+              results$.push(s.$parent.$eval(v.m + "=" + v.on));
+            }
           }
         }
         return results$;
@@ -200,7 +206,7 @@ angular.module('ui.choices', []).directive('toggle', function ($compile) {
       }
       if (s.d) {
         ref$ = s.d, a.value = ref$.value, a.fallback = ref$.fallback, a.active = ref$.active, a.ngModel = ref$.ngModel;
-        if ((ref$ = s.d.btntype) != null) {
+        if ((ref$ = s.d.btntype) !== null) {
           a.btnType = ref$;
         }
       }

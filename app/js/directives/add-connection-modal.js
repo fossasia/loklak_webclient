@@ -134,10 +134,12 @@ directivesModule.directive("addConnectionModal", ['$http', '$stateParams', 'Sear
 					const mapRules = $scope.inputs.mapRules;
 					var prefix = '';
 					for (var key in mapRules) {
-						var data = $scope.inputs.mapRules[key];
-						if (data[0] && data[0].length > 0) {
-							mapRulesStr += prefix + mapRules[key][0] + ':' + mapRules[key][1];
-							prefix = ',';
+						if(mapRules.hasOwnProperty(key)){
+							var data = $scope.inputs.mapRules[key];
+							if (data[0] && data[0].length > 0) {
+								mapRulesStr += prefix + mapRules[key][0] + ':' + mapRules[key][1];
+								prefix = ',';
+							}
 						}
 					}
 					return mapRulesStr;
