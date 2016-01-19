@@ -10,7 +10,7 @@ directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout
 	return {
 		scope: {
 			hello: '=',
-			twitterSession: '=',
+			twitterSession: '='
 		},
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {

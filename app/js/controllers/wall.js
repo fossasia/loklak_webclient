@@ -188,7 +188,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             if (isEditing !== -1) {
                 $scope.userWalls[isEditing].showLoading = true;
                 for (k in $scope.newWallOptions) {
+                  if($scope.newWallOptions.hasOwnProperty(k)){
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
+                  }
                 }
                 //$scope.userWalls[isEditing].internal.showLoading = true;
                 $scope.userWalls[isEditing].$update({
@@ -213,7 +215,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                     $scope.newWallOptions.id = result.id;
                     console.log(saveData);
                     for (var k in $scope.newWallOptions) {
+                      if($scope.newWallOptions.hasOwnProperty(k)){
                         $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
+                      }
                     }
                     $scope.wallsPresent = true;
                     $window.open('/' + $scope.screen_name + '/wall/' + result.id, '_blank');
