@@ -6,7 +6,7 @@
  */
 
 
-(function () { 
+(function () {
 "use strict";
 
 var KEY = {
@@ -280,7 +280,7 @@ uis.controller('uiSelectCtrl',
   if (ctrl.searchInput.length !== 1) {
     throw uiSelectMinErr('searchInput', "Expected 1 input.ui-select-search but got '{0}'.", ctrl.searchInput.length);
   }
-  
+
   ctrl.isEmpty = function() {
     return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
   };
@@ -300,7 +300,7 @@ uis.controller('uiSelectCtrl',
       var i, j, result = [];
       for(i = 0; i < groupNames.length ;i++){
         for(j = 0; j < groups.length ;j++){
-          if(groups[j].name == [groupNames[i]]){
+          if(groups[j].name === [groupNames[i]]){
             result.push(groups[j]);
           }
         }
@@ -780,7 +780,7 @@ uis.directive('uiSelect',
       if (angular.isDefined(tAttrs.multiple))
         tElement.append("<ui-select-multiple/>").removeAttr('multiple');
       else
-        tElement.append("<ui-select-single/>");       
+        tElement.append("<ui-select-single/>");
 
       return function(scope, element, attrs, ctrls, transcludeFn) {
 
@@ -802,7 +802,7 @@ uis.directive('uiSelect',
 
         $select.onSelectCallback = $parse(attrs.onSelect);
         $select.onRemoveCallback = $parse(attrs.onRemove);
-        
+
         //Set reference to ngModel from uiSelectCtrl
         $select.ngModel = ngModel;
 
@@ -1098,7 +1098,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
           $select = $scope.$select,
           ngModel;
 
-      //Wait for link fn to inject it 
+      //Wait for link fn to inject it
       $scope.$evalAsync(function(){ ngModel = $scope.ngModel; });
 
       ctrl.activeMatchIndex = -1;
@@ -1110,7 +1110,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
 
       ctrl.refreshComponent = function(){
         //Remove already selected items
-        //e.g. When user clicks on a selection, the selected array changes and 
+        //e.g. When user clicks on a selection, the selected array changes and
         //the dropdown should remove that item
         $select.refreshItems();
         $select.sizeSearchInput();
@@ -1195,7 +1195,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
             result = $select.parserResult.modelMapper(scope, locals);
             if($select.parserResult.trackByExp){
                 var matches = /\.(.+)/.exec($select.parserResult.trackByExp);
-                if(matches.length>0 && result[matches[1]] == value[matches[1]]){
+                if(matches.length>0 && result[matches[1]] === value[matches[1]]){
                     resultMultiple.unshift(list[p]);
                     return true;
                 }
@@ -1209,7 +1209,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
         };
         if (!inputValue) return resultMultiple; //If ngModel was undefined
         for (var k = inputValue.length - 1; k >= 0; k--) {
-          //Check model array of currently selected items 
+          //Check model array of currently selected items
           if (!checkFnMultiple($select.selected, inputValue[k])){
             //Check model array of all items available
             if (!checkFnMultiple(data, inputValue[k])){
@@ -1220,10 +1220,10 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
         }
         return resultMultiple;
       });
-      
-      //Watch for external model changes 
+
+      //Watch for external model changes
       scope.$watchCollection(function(){ return ngModel.$modelValue; }, function(newValue, oldValue) {
-        if (oldValue != newValue){
+        if (oldValue !== newValue){
           ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
           $selectMultiple.refreshComponent();
         }
@@ -1265,7 +1265,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
           if(KEY.isHorizontalMovement(key)){
             processed = _handleMatchSelection(key);
           }
-          if (processed  && key != KEY.TAB) {
+          if (processed  && key !== KEY.TAB) {
             //TODO Check si el tab selecciona aun correctamente
             //Crear test
             e.preventDefault();
@@ -1290,7 +1290,7 @@ uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelec
             prev  = $selectMultiple.activeMatchIndex-1,
             newIndex = curr;
 
-        if(caretPosition > 0 || ($select.search.length && key == KEY.RIGHT)) return false;
+        if(caretPosition > 0 || ($select.search.length && key === KEY.RIGHT)) return false;
 
         $select.close();
 
@@ -1515,7 +1515,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
           var checkFnSingle = function(d){
             locals[$select.parserResult.itemName] = d;
             result = $select.parserResult.modelMapper(scope, locals);
-            return result == inputValue;
+            return result === inputValue;
           };
           //If possible pass same object stored in $select.selected
           if ($select.selected && checkFnSingle($select.selected)) {
@@ -1587,7 +1587,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
           return;
         }
 
-        if (e.which == KEY.DOWN  || e.which == KEY.UP || e.which == KEY.ENTER || e.which == KEY.SPACE){
+        if (e.which === KEY.DOWN  || e.which === KEY.UP || e.which === KEY.ENTER || e.which === KEY.SPACE){
           e.preventDefault();
           e.stopPropagation();
           $select.activate();
@@ -1598,7 +1598,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
 
       focusser.bind("keyup input", function(e){
 
-        if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC || e.which == KEY.ENTER || e.which === KEY.BACKSPACE) {
+        if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC || e.which === KEY.ENTER || e.which === KEY.BACKSPACE) {
           return;
         }
 
@@ -1735,7 +1735,7 @@ uis.directive('uiSelectSort', ['$timeout', 'uiSelectConfig', 'uiSelectMinErr', f
       });
 
       element.on('dragleave', function(e) {
-        if (e.target != element) {
+        if (e.target !== element) {
           return;
         }
         element.removeClass(droppingClassName);

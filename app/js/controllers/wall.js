@@ -183,12 +183,16 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                 app: 'wall'
             });
             for (var k in $scope.newWallOptions) {
+              if($scope.newWallOptions.hasOwnProperty(k)){
                 saveData[k] = $scope.newWallOptions[k];
+              }
             }
             if (isEditing !== -1) {
                 $scope.userWalls[isEditing].showLoading = true;
                 for (k in $scope.newWallOptions) {
+                  if($scope.newWallOptions.hasOwnProperty(k)){
                     $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
+                  }
                 }
                 //$scope.userWalls[isEditing].internal.showLoading = true;
                 $scope.userWalls[isEditing].$update({

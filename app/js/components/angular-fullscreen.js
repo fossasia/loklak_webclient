@@ -53,7 +53,11 @@
                return fullscreenElement ? true : false;
             },
             toggleAll: function(){
-                serviceInstance.isEnabled() ? serviceInstance.cancel() : serviceInstance.all();
+                if(serviceInstance.isEnabled() === true){
+                  serviceInstance.cancel();
+                }else{
+                  serviceInstance.all();
+                }
             },
             isSupported: function(){
                 var docElm = document.documentElement;

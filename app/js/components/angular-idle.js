@@ -29,7 +29,7 @@ angular.module('ngIdle.keepalive', [])
     };
 
     var setInterval = this.interval = function(seconds) {
-      seconds = parseInt(seconds);
+      seconds = parseInt(seconds,10);
 
       if (isNaN(seconds) || seconds <= 0) throw new Error('Interval must be expressed in seconds and be greater than 0.');
       options.interval = seconds;
@@ -418,7 +418,7 @@ angular.module('ngIdle.title', [])
 angular.module('ngIdle.localStorage', [])
   .service('IdleLocalStorage', ['$window', function($window) {
     var storage = $window.localStorage;
-    
+
     return {
       set: function(key, value) {
         storage.setItem('ngIdle.'+key, angular.toJson(value));

@@ -7,7 +7,7 @@
     var n = t.L
       , o = {};
     o.version = "0.7.2",
-    "object" == typeof module && "object" == typeof module.exports ? module.exports = o : "function" == typeof define && define.amd && define(o),
+    "object" === typeof module && "object" === typeof module.exports ? module.exports = o : "function" == typeof define && define.amd && define(o),
     o.noConflict = function() {
         return t.L = n,
         this
@@ -85,8 +85,11 @@
         },
         getParamString: function(t, e, i) {
             var n = [];
-            for (var o in t)
+            for (var o in t){
+              if(t.hasOwnProperty(n)){
                 n.push(encodeURIComponent(i ? o.toUpperCase() : o) + "=" + encodeURIComponent(t[o]));
+              }
+            }
             return (e && -1 !== e.indexOf("?") ? "&" : "?") + n.join("&")
         },
         template: function(t, e) {
@@ -315,7 +318,7 @@
             var i = e.createElement("div")
               , n = !1;
             return i.setAttribute ? (i.setAttribute(t, "return;"),
-            "function" == typeof i[t] && (n = !0),
+            "function" === typeof i[t] && (n = !0),
             i.removeAttribute(t),
             i = null ,
             n) : !1
@@ -454,7 +457,7 @@
         },
         contains: function(t) {
             var e, i;
-            return t = "number" == typeof t[0] || t instanceof o.Point ? o.point(t) : o.bounds(t),
+            return t = "number" === typeof t[0] || t instanceof o.Point ? o.point(t) : o.bounds(t),
             t instanceof o.Bounds ? (e = t.min,
             i = t.max) : e = i = t,
             e.x >= this.min.x && i.x <= this.max.x && e.y >= this.min.y && i.y <= this.max.y
@@ -508,7 +511,7 @@
             if (!n && t.currentStyle && (n = t.currentStyle[i]),
             (!n || "auto" === n) && e.defaultView) {
                 var o = e.defaultView.getComputedStyle(t, null );
-                n = o ? o[i] : null 
+                n = o ? o[i] : null
             }
             return "auto" === n ? null  : n
         },
@@ -710,7 +713,7 @@
         }
     },
     o.latLng = function(t, e) {
-        return t instanceof o.LatLng ? t : o.Util.isArray(t) ? "number" == typeof t[0] || "string" == typeof t[0] ? new o.LatLng(t[0],t[1],t[2]) : null  : t === i || null  === t ? t : "object" == typeof t && "lat" in t ? new o.LatLng(t.lat,"lng" in t ? t.lng : t.lon) : e === i ? null  : new o.LatLng(t,e)
+        return t instanceof o.LatLng ? t : o.Util.isArray(t) ? "number" === typeof t[0] || "string" == typeof t[0] ? new o.LatLng(t[0],t[1],t[2]) : null  : t === i || null  === t ? t : "object" == typeof t && "lat" in t ? new o.LatLng(t.lat,"lng" in t ? t.lng : t.lon) : e === i ? null  : new o.LatLng(t,e)
     }
     ,
     o.LatLngBounds = function(t, e) {
@@ -1440,7 +1443,7 @@
             }, this),
             this.options.updateWhenIdle || t.off("move", this._limitedUpdate, this),
             this._container = null ,
-            this._map = null 
+            this._map = null
         },
         bringToFront: function() {
             var t = this._map._panes.tilePane;
@@ -1496,8 +1499,11 @@
         _updateOpacity: function() {
             var t, e = this._tiles;
             if (o.Browser.ielt9)
-                for (t in e)
+                for (t in e){
+                  if(e.hasOwnProperty(t)){
                     o.DomUtil.setOpacity(e[t], this.options.opacity);
+                  }
+                }
             else
                 o.DomUtil.setOpacity(this._container, this.options.opacity)
         },
@@ -1916,7 +1922,7 @@
             if (!i) {
                 if ("icon" === t)
                     throw new Error("iconUrl not set in Icon options (see the docs).");
-                return null 
+                return null
             }
             var n;
             return n = e && "IMG" === e.tagName ? this._createImg(i, e) : this._createImg(i),
@@ -2013,7 +2019,7 @@
                 viewreset: this.update,
                 zoomanim: this._animateZoom
             }, this),
-            this._map = null 
+            this._map = null
         },
         getLatLng: function() {
             return this._latlng
@@ -2074,11 +2080,11 @@
         _removeIcon: function() {
             this.options.riseOnHover && o.DomEvent.off(this._icon, "mouseover", this._bringToFront).off(this._icon, "mouseout", this._resetZIndex),
             this._map._panes.markerPane.removeChild(this._icon),
-            this._icon = null 
+            this._icon = null
         },
         _removeShadow: function() {
             this._shadow && this._map._panes.shadowPane.removeChild(this._shadow),
-            this._shadow = null 
+            this._shadow = null
         },
         _setPos: function(t) {
             o.DomUtil.setPosition(this._icon, t),
@@ -2163,7 +2169,7 @@
             i
         },
         createShadow: function() {
-            return null 
+            return null
         }
     }),
     o.divIcon = function(t) {
@@ -2463,7 +2469,7 @@
         },
         onRemove: function(t) {
             this.eachLayer(t.removeLayer, t),
-            this._map = null 
+            this._map = null
         },
         addTo: function(t) {
             return t.addLayer(this),
@@ -2897,7 +2903,7 @@
             this.options.clickable && (this._map.off("click", this._onClick, this),
             this._map.off("mousemove", this._onMouseMove, this)),
             this._requestUpdate(),
-            this._map = null 
+            this._map = null
         },
         _requestUpdate: function() {
             this._map && !o.Path._updateRequest && (o.Path._updateRequest = o.Util.requestAnimFrame(this._fireMapMoveEnd, this._map))
@@ -4047,7 +4053,7 @@
                     }
                     h.type = "dblclick",
                     i(h),
-                    r = null 
+                    r = null
                 }
             }
             var r, h, l = !1, u = 250, c = "_leaflet_", d = this._touchstart, p = this._touchend, _ = [];

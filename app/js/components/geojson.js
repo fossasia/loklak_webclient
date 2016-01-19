@@ -15,7 +15,7 @@
     geomAttrs.length = 0; // Reset the list of geometry fields
     setGeom(settings);
     propFunc = getPropFunction(settings);
-    
+
     objects.forEach(function(item){
       geojson.features.push(getFeature(item, settings, propFunc));
     });
@@ -122,18 +122,21 @@
         attr;
 
     for(var gtype in params.geom) {
-      var val = params.geom[gtype];
+      //see http://stackoverflow.com/questions/1963102/what-does-the-jslint-error-body-of-a-for-in-should-be-wrapped-in-an-if-statemen
+      if( params.geom.hasOwnProperty(gtype) ){
+        var val = params.geom[gtype];
 
-      // Geometry parameter specified as: {Point: 'coords'}
-      if(typeof val === 'string' && item.hasOwnProperty(val)) {
-        geom.type = gtype;
-        geom.coordinates = item[val];
-      }
+        // Geometry parameter specified as: {Point: 'coords'}
+        if(typeof val === 'string' && item.hasOwnProperty(val)) {
+          geom.type = gtype;
+          geom.coordinates = item[val];
+        }
 
-      // Geometry parameter specified as: {Point: ['lat', 'lng']}
-      else if(Array.isArray(val) && item.hasOwnProperty(val[0]) && item.hasOwnProperty(val[1])){
-        geom.type = gtype;
-        geom.coordinates = [item[val[1]], item[val[0]]];
+        // Geometry parameter specified as: {Point: ['lat', 'lng']}
+        else if(Array.isArray(val) && item.hasOwnProperty(val[0]) && item.hasOwnProperty(val[1])){
+          geom.type = gtype;
+          geom.coordinates = [item[val[1]], item[val[0]]];
+        }
       }
     }
 
@@ -191,4 +194,4 @@
     return properties;
   }
 
-}(typeof module == 'object' ? module.exports : window.GeoJSON = {}));
+}(typeof module === 'object' ? module.exports : window.GeoJSON = {}));

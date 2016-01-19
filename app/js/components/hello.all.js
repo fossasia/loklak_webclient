@@ -426,10 +426,12 @@ hello.utils.extend(hello, {
 			else {
 				// Loop through all services and determine whether the scope is generic
 				for (var x in _this.services) {
-					var serviceScopes = _this.services[x].scope;
-					if (serviceScopes && m in serviceScopes) {
-						// Found an instance of this scope, so lets not assume its special
-						return '';
+					if(_this.services.hasOwnProperty(x)){
+						var serviceScopes = _this.services[x].scope;
+						if (serviceScopes && m in serviceScopes) {
+							// Found an instance of this scope, so lets not assume its special
+							return '';
+						}
 					}
 				}
 

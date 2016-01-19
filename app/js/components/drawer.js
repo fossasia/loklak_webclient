@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap: drawer.js v1.0
- # Heavily based on collapse, but had to change the name to "fold" to 
+ # Heavily based on collapse, but had to change the name to "fold" to
  # avoid transition conflicts.
  * ========================================================================
 */
@@ -164,11 +164,11 @@
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.drawer')
-      var options = $.extend({}, Drawer.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var options = $.extend({}, Drawer.DEFAULTS, $this.data(), typeof option === 'object' && option)
 
-      if (!data && options.toggle && option == 'show') options.toggle = false
+      if (!data && options.toggle && option === 'show') options.toggle = false
       if (!data) $this.data('bs.drawer', (data = new Drawer(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (typeof option === 'string') data[option]()
     })
   }
 
