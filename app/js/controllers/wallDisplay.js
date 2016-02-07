@@ -43,8 +43,8 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         	}
         }
 
-        if (vm.wallOptions.layoutStyle === '4') {
-            if (term === "") {
+        if (vm.wallOptions.layoutStyle == '4') {
+            if (term == "") {
                 term = "/location";
             } else {
                 term = term + " /location";
@@ -52,31 +52,31 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         }
 
         if (vm.wallOptions.images) {
-            if (vm.wallOptions.images === "only") {
+            if (vm.wallOptions.images == "only") {
                 term = term + ' /image';
-            } else if (vm.wallOptions.images === "none") {
+            } else if (vm.wallOptions.images == "none") {
                 term = term + ' -/image';
             }
         }
 
         if (vm.wallOptions.videos) {
-            if (vm.wallOptions.videos === "only") {
+            if (vm.wallOptions.videos == "only") {
                 term = term + ' /video';
-            } else if (vm.wallOptions.videos === "none") {
+            } else if (vm.wallOptions.videos == "none") {
                 term = term + ' -/video';
             }
         }
 
         if (vm.wallOptions.audio) {
-            if (vm.wallOptions.audio === "only") {
+            if (vm.wallOptions.audio == "only") {
                 term = term + ' /audio';
-            } else if (vm.wallOptions.audio === "none") {
+            } else if (vm.wallOptions.audio == "none") {
                 term = term + ' -/audio';
             }
         }
 
         if (vm.wallOptions.profanity) {
-            if (vm.wallOptions.profanity === true) {
+            if (vm.wallOptions.profanity == true) {
                 term = term + ' -/profanity';
             }
         }
@@ -99,7 +99,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
         //clean up
         term = term.trim();
-        if (term.substring(0, 2) === 'OR') {
+        if (term.substring(0, 2) == 'OR') {
             term = term.substring(2).trim();
         }
 
@@ -123,13 +123,13 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         });
         vm.wallOptions.$promise.then(function(data) {
             if (vm.wallOptions.id) {
-                if (vm.wallOptions.layoutStyle === 1) {
+                if (vm.wallOptions.layoutStyle == 1) {
                     maxStatusCount = 10; //linear
-                } else if (vm.wallOptions.layoutStyle === 2) {
+                } else if (vm.wallOptions.layoutStyle == 2) {
                     maxStatusCount = 20; //masonry
-                } else if (vm.wallOptions.layoutStyle === 3) {
+                } else if (vm.wallOptions.layoutStyle == 3) {
                     maxStatusCount = 1; //single
-                } else if (vm.wallOptions.layoutStyle === 4) {
+                } else if (vm.wallOptions.layoutStyle == 4) {
                     maxStatusCount = 10; //map
                 }
                 calculateTerm();
@@ -166,7 +166,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     $scope.getHeaderClass = function() {
-        return vm.wallOptions.headerPosition === 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
+        return vm.wallOptions.headerPosition == 'Bottom' ? 'row wall-header wall-footer' : 'row wall-header';
     };
 
     $scope.stopLeaderboardTimer = function() {
@@ -232,7 +232,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
 
     function contains(Statuses, status) {
         for (var i = 0; i < Statuses.length; i++) {
-            if (Statuses[i].id_str === status.id_str) {
+            if (Statuses[i].id_str == status.id_str) {
                 return true;
             }
         }
@@ -425,7 +425,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     }
 
     vm.loadLeaderboard = function () {
-        if (vm.wallOptions.showStatistics === true) {
+        if (vm.wallOptions.showStatistics == true) {
             //if (vm.statuses.length > 0) {
             var statParams = searchParams;
             StatisticsService.getStatistics(statParams)
@@ -456,7 +456,7 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
     };
 
     vm.cycleLeaderboard = function() {
-        if (vm.wallOptions.showStatistics === true) {
+        if (vm.wallOptions.showStatistics == true) {
             return $interval(function() {
                 var tabs = $('.nav-tabs-custom > .nav-tabs > li'),
                     active = tabs.filter('.active'),

@@ -9,7 +9,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, SearchService) {
+function WallCtrl($scope, $rootScope, $window, $timeout, AppsService, HelloService, SearchService) {
 
     var vm = this;
     var term = '';
@@ -146,7 +146,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                 $scope.newWallOptions.cycleDelayTime = 5;
             } else {
                 $scope.selectedTab++;
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                $timeout(function() {
+                          $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                });
                 if ($scope.selectedTab === 2) {
                     $scope.showNext = false;
                 }
@@ -303,4 +305,4 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', 'SearchService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', '$timeout', 'AppsService', 'HelloService', 'SearchService', WallCtrl]);
