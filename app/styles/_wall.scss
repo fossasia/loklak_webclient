@@ -341,6 +341,17 @@
         color: white;
         font-size: 24px;
     }
+    .hashtag,
+    .event-name {
+        width: 33.33333%;
+    }
+    .banner col-md-3 {
+        width: 25%;
+    }
+    .banner col-md-1 {
+        width: 8.33333%;
+    }
+
 }
 
 .wall-header > [class^="col-"],
@@ -457,7 +468,8 @@
             }
         }
         img {
-            max-height: 130px;
+            height: 100%;
+            width: auto;
             max-width: 100%;
         }
         .linear-content-text {
@@ -689,18 +701,20 @@
 
 .leaderboard-container {
     width: 32vw;
-    margin-right: 15px;
+    max-height: 19.5vw;
+    overflow: hidden;
 }
 
 .histogram-container {
-    position: fixed;
+    /*position: fixed;*/
     /*padding-top: 5vh;*/
     /*background-color: red;*/
     margin-bottom: 0;
     bottom: 0;
-    width: 30vw;
+    width: 32vw;
     .box {
         margin-bottom: 0;
+        width: initial;
     }
     .wall-histogram {
         height: 25vh;
@@ -715,7 +729,7 @@
         background: linear-gradient(transparent, #F5F8FA);
         /* Standard syntax */
         /*background-color: #F5F8FA`;*/
-        height: 8vh;
+        height: 2vh;
     }
 }
 
