@@ -690,17 +690,20 @@
 .leaderboard-container {
     width: 32vw;
     margin-right: 15px;
+    max-height: 19.5vw;
+    overflow: hidden;
 }
 
 .histogram-container {
-    position: fixed;
+    /*position: fixed;*/
     /*padding-top: 5vh;*/
     /*background-color: red;*/
     margin-bottom: 0;
     bottom: 0;
-    width: 30vw;
+    width: 32vw;
     .box {
         margin-bottom: 0;
+        width: initial;
     }
     .wall-histogram {
         height: 25vh;
@@ -715,7 +718,7 @@
         background: linear-gradient(transparent, #F5F8FA);
         /* Standard syntax */
         /*background-color: #F5F8FA`;*/
-        height: 8vh;
+        height: 2vh;
     }
 }
 
