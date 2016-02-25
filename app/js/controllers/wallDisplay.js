@@ -36,11 +36,11 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             }
         }
         if (vm.wallOptions.mainHashtag) {
-        	if (term) {
-        	    term = term + ' OR ' + vm.wallOptions.mainHashtag;
-        	} else {
-        	    term = vm.wallOptions.mainHashtag;
-        	}
+            if (term) {
+                term = term + ' OR ' + vm.wallOptions.mainHashtag;
+            } else {
+                term = vm.wallOptions.mainHashtag;
+            }
         }
 
         if (vm.wallOptions.layoutStyle === '4') {
@@ -365,15 +365,37 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
         return retval;
     }
 
+    function groupByMonths(statistics) {
+        var date = {};
+
+        for (var property in statistics.created_at) {
+            var d = new Date(property);
+            var prop = d.toLocaleString("en-us", { month: "long" }) + "-" + d.getFullYear();
+            
+            if(date[prop])
+                date[prop] = date[prop] + statistics.created_at[property];
+            else date[prop] = statistics.created_at[property];
+        }   
+
+        statistics.created_month = date;
+    }
+
     function evalHistogram(statistics) {
         if (Object.getOwnPropertyNames(statistics.created_at).length !== 0) {
             var data = [];
             var labels = [];
+            var chosen_attr = statistics.created_at;
 
-            for (var property in statistics.created_at) {
-                if (statistics.created_at.hasOwnProperty(property)) {
+            groupByMonths(statistics);
+
+            // If number of months increases 2 then show month wise histogram
+            if (Object.keys(statistics.created_month).length > 2)
+                chosen_attr = statistics.created_month;
+
+            for (var property in chosen_attr) {
+                if (chosen_attr.hasOwnProperty(property)) {
                     labels.push(property);
-                    data.push(statistics.created_at[property]);
+                    data.push(chosen_attr[property]);
                 }
             }
             var bins = calculateBins(labels, data);
