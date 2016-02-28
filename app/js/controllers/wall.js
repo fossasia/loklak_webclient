@@ -9,7 +9,7 @@ var moment = require('moment');
 /**
  * @ngInject
  */
-function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, SearchService) {
+function WallCtrl($scope, $rootScope, $window, $timeout, AppsService, HelloService, SearchService) {
 
     var vm = this;
     var term = '';
@@ -146,7 +146,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                 $scope.newWallOptions.cycleDelayTime = 5;
             } else {
                 $scope.selectedTab++;
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                $timeout(function() {
+                    $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                });
                 if ($scope.selectedTab === 2) {
                     $scope.showNext = false;
                 }
@@ -188,9 +190,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
             if (isEditing !== -1) {
                 $scope.userWalls[isEditing].showLoading = true;
                 for (k in $scope.newWallOptions) {
-                  if($scope.newWallOptions.hasOwnProperty(k)){
-                    $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
-                  }
+                    if ($scope.newWallOptions.hasOwnProperty(k)) {
+                        $scope.userWalls[isEditing][k] = $scope.newWallOptions[k];
+                    }
                 }
                 //$scope.userWalls[isEditing].internal.showLoading = true;
                 $scope.userWalls[isEditing].$update({
@@ -215,9 +217,9 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
                     $scope.newWallOptions.id = result.id;
                     console.log(saveData);
                     for (var k in $scope.newWallOptions) {
-                      if($scope.newWallOptions.hasOwnProperty(k)){
-                        $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
-                      }
+                        if ($scope.newWallOptions.hasOwnProperty(k)) {
+                            $scope.userWalls[$scope.userWalls.length - 1][k] = $scope.newWallOptions[k];
+                        }
                     }
                     $scope.wallsPresent = true;
                     $window.open('/' + $scope.screen_name + '/wall/' + result.id, '_blank');
@@ -307,4 +309,4 @@ function WallCtrl($scope, $rootScope, $window, AppsService, HelloService, Search
 
 }
 
-controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', 'AppsService', 'HelloService', 'SearchService', WallCtrl]);
+controllersModule.controller('WallCtrl', ['$scope', '$rootScope', '$window', '$timeout', 'AppsService', 'HelloService', 'SearchService', WallCtrl]);
