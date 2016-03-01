@@ -130,7 +130,7 @@ controllersModule.controller('MapCtrl', [ '$rootScope', '$scope', 'MapCreationSe
         $rootScope.$watch(function() {
             return $rootScope.root.activityFeedIdStrArray;
         }, function(val) {
-            if (val.length > 0) {
+            if (val && val.length > 0) {
                 var idStrArrayClone = val.slice();
                 idStrArrayClone[0] = "id:" + idStrArrayClone[0];
                 var idStrSearchTerm = idStrArrayClone.join(" OR id:");
