@@ -61,7 +61,7 @@
   position: fixed;
   z-index: 10002;
   top: 18px;
-  left: 51%;
+  left: 50%;
   margin-left: -7px;
 }
 
@@ -70,9 +70,9 @@
   height: 14px;
 
   border:  solid 2px transparent;
-  border-top-color:  #55acee;
-  border-left-color: #55acee;
-  border-radius: 10px;
+  border-top-color:  #29d;
+  border-left-color: #29d;
+  border-radius: 50%;
 
   -webkit-animation: loading-bar-spinner 400ms linear infinite;
   -moz-animation:    loading-bar-spinner 400ms linear infinite;

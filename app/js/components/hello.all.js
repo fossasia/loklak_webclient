@@ -1,6 +1,4 @@
-/*! hellojs v1.7.0 | (c) 2012-2015 Andrew Dodson | MIT https://adodson.com/hello.js/LICENSE */
-'use strict';
-
+/*! hellojs v1.12.0 | (c) 2012-2016 Andrew Dodson | MIT https://adodson.com/hello.js/LICENSE */
 // ES5 Object.create
 if (!Object.create) {
 
@@ -12,7 +10,7 @@ if (!Object.create) {
 
 		return function(o) {
 
-			if (arguments.length !== 1) {
+			if (arguments.length != 1) {
 				throw new Error('Object.create implementation only accepts one parameter.');
 			}
 
@@ -29,7 +27,8 @@ if (!Object.keys) {
 	Object.keys = function(o, k, r) {
 		r = [];
 		for (k in o) {
-			if (r.hasOwnProperty.call(o, k)) { r.push(k); }
+			if (r.hasOwnProperty.call(o, k))
+				r.push(k);
 		}
 
 		return r;
@@ -175,12 +174,21 @@ hello.utils = {
 
 		// Get the arguments as an array but ommit the initial item
 		Array.prototype.slice.call(arguments, 1).forEach(function(a) {
-			if (r instanceof Object && a instanceof Object && r !== a) {
+			if (Array.isArray(r) && Array.isArray(a)) {
+				Array.prototype.push.apply(r, a);
+			}
+			else if (r instanceof Object && a instanceof Object && r !== a) {
 				for (var x in a) {
 					r[x] = hello.utils.extend(r[x], a[x]);
 				}
 			}
 			else {
+
+				if (Array.isArray(a)) {
+					// Clone it
+					a = a.slice(0);
+				}
+
 				r = a;
 			}
 		});
@@ -207,6 +215,27 @@ hello.utils.extend(hello, {
 
 		// API timeout in milliseconds
 		timeout: 20000,
+
+		// Popup Options
+		popup: {
+			resizable: 1,
+			scrollbars: 1,
+			width: 500,
+			height: 550
+		},
+
+		// Default scope
+		// Many services require atleast a profile scope,
+		// HelloJS automatially includes the value of provider.scope_map.basic
+		// If that's not required it can be removed via hello.settings.scope.length = 0;
+		scope: ['basic'],
+
+		// Scope Maps
+		// This is the default module scope, these are the defaults which each service is mapped too.
+		// By including them here it prevents the scope from being applied accidentally
+		scope_map: {
+			basic: ''
+		},
 
 		// Default service / network
 		default_service: null,
@@ -273,14 +302,6 @@ hello.utils.extend(hello, {
 		// Merge services if there already exists some
 		utils.extend(this.services, services);
 
-		// Format the incoming
-		for (x in this.services) {
-			if (this.services.hasOwnProperty(x)) {
-				this.services[x].scope = this.services[x].scope || {};
-			}
-		}
-
-		//
 		// Update the default settings with this one.
 		if (options) {
 			utils.extend(this.settings, options);
@@ -313,8 +334,14 @@ hello.utils.extend(hello, {
 		// Local vars
 		var url;
 
+		// Get all the custom options and store to be appended to the querystring
+		var qs = utils.diffKey(p.options, _this.settings);
+
 		// Merge/override options with app defaults
 		var opts = p.options = utils.merge(_this.settings, p.options || {});
+
+		// Merge/override options with app defaults
+		opts.popup = utils.merge(_this.settings.popup, p.options.popup || {});
 
 		// Network
 		p.network = p.network || _this.settings.default_service;
@@ -326,8 +353,6 @@ hello.utils.extend(hello, {
 		function emit(s, value) {
 			hello.emit(s, value);
 		}
-
-		function encodeFunction(s) { return s; }
 
 		promise.proxy.then(emit.bind(this, 'auth.login auth'), emit.bind(this, 'auth.failed auth'));
 
@@ -384,12 +409,11 @@ hello.utils.extend(hello, {
 		}
 
 		// Query string parameters, we may pass our own arguments to form the querystring
-		p.qs = {
+		p.qs = utils.merge(qs, {
 			client_id: encodeURIComponent(provider.id),
 			response_type: encodeURIComponent(responseType),
 			redirect_uri: encodeURIComponent(redirectUri),
 			display: opts.display,
-			scope: 'basic',
 			state: {
 				client_id: provider.id,
 				network: p.network,
@@ -398,59 +422,65 @@ hello.utils.extend(hello, {
 				state: opts.state,
 				redirect_uri: redirectUri
 			}
-		};
+		});
 
 		// Get current session for merging scopes, and for quick auth response
 		var session = utils.store(p.network);
 
 		// Scopes (authentication permisions)
-		// Convert any array, or falsy value to a string.
-		var scope = (opts.scope || '').toString();
+		// Ensure this is a string - IE has a problem moving Arrays between windows
+		// Append the setup scope
+		var SCOPE_SPLIT = /[,\s]+/;
 
-		scope = (scope ? scope + ',' : '') + p.qs.scope;
+		// Include default scope settings (cloned).
+		var scope = _this.settings.scope ? [_this.settings.scope.toString()] : [];
+
+		// Extend the providers scope list with the default
+		var scopeMap = utils.merge(_this.settings.scope_map, provider.scope || {});
+
+		// Add user defined scopes...
+		if (opts.scope) {
+			scope.push(opts.scope.toString());
+		}
 
 		// Append scopes from a previous session.
 		// This helps keep app credentials constant,
 		// Avoiding having to keep tabs on what scopes are authorized
 		if (session && 'scope' in session && session.scope instanceof String) {
-			scope += ',' + session.scope;
+			scope.push(session.scope);
 		}
 
-		// Save in the State
-		// Convert to a string because IE, has a problem moving Arrays between windows
-		p.qs.state.scope = utils.unique(scope.split(/[,\s]+/)).join(',');
+		// Join and Split again
+		scope = scope.join(',').split(SCOPE_SPLIT);
 
-		// Map replace each scope with the providers default scopes
-		p.qs.scope = scope.replace(/[^,\s]+/ig, function(m) {
+		// Format remove duplicates and empty values
+		scope = utils.unique(scope).filter(filterEmpty);
+
+		// Save the the scopes to the state with the names that they were requested with.
+		p.qs.state.scope = scope.join(',');
+
+		// Map scopes to the providers naming convention
+		scope = scope.map(function(item) {
 			// Does this have a mapping?
-			if (m in provider.scope) {
-				return provider.scope[m];
-			}
-			else {
-				// Loop through all services and determine whether the scope is generic
-				for (var x in _this.services) {
-					var serviceScopes = _this.services[x].scope;
-					if (serviceScopes && m in serviceScopes) {
-						// Found an instance of this scope, so lets not assume its special
-						return '';
-					}
-				}
+			return (item in scopeMap) ? scopeMap[item] : item;
+		});
 
-				// This is a unique scope to this service so lets in it.
-				return m;
-			}
+		// Stringify and Arrayify so that double mapped scopes are given the chance to be formatted
+		scope = scope.join(',').split(SCOPE_SPLIT);
 
-		}).replace(/[,\s]+/ig, ',');
+		// Again...
+		// Format remove duplicates and empty values
+		scope = utils.unique(scope).filter(filterEmpty);
 
-		// Remove duplication and empty spaces
-		p.qs.scope = utils.unique(p.qs.scope.split(/,+/)).join(provider.scope_delim || ',');
+		// Join with the expected scope delimiter into a string
+		p.qs.scope = scope.join(provider.scope_delim || ',');
 
 		// Is the user already signed in with the appropriate scopes, valid access_token?
 		if (opts.force === false) {
 
 			if (session && 'access_token' in session && session.access_token && 'expires' in session && session.expires > ((new Date()).getTime() / 1e3)) {
 				// What is different about the scopes in the session vs the scopes in the new login?
-				var diff = utils.diff(session.scope || [], p.qs.state.scope || []);
+				var diff = utils.diff((session.scope || '').split(SCOPE_SPLIT), (p.qs.state.scope || '').split(SCOPE_SPLIT));
 				if (diff.length === 0) {
 
 					// OK trigger the callback
@@ -516,17 +546,20 @@ hello.utils.extend(hello, {
 			url = utils.qs(provider.oauth.auth, p.qs, encodeFunction);
 		}
 
+		// Broadcast this event as an auth:init
+		emit('auth.init', p);
+
 		// Execute
 		// Trigger how we want self displayed
 		if (opts.display === 'none') {
 			// Sign-in in the background, iframe
-			utils.iframe(url);
+			utils.iframe(url, redirectUri);
 		}
 
 		// Triggering popup?
 		else if (opts.display === 'popup') {
 
-			var popup = utils.popup(url, redirectUri, opts.window_width || 500, opts.window_height || 550);
+			var popup = utils.popup(url, redirectUri, opts.popup);
 
 			var timer = setInterval(function() {
 				if (!popup || popup.closed) {
@@ -552,6 +585,10 @@ hello.utils.extend(hello, {
 		}
 
 		return promise.proxy;
+
+		function encodeFunction(s) {return s;}
+
+		function filterEmpty(s) {return !!s;}
 	},
 
 	// Remove any data associated with a given service
@@ -582,19 +619,20 @@ hello.utils.extend(hello, {
 
 		// Network
 		p.name = p.name || this.settings.default_service;
+		p.authResponse = utils.store(p.name);
 
 		if (p.name && !(p.name in _this.services)) {
 
 			promise.reject(error('invalid_network', 'The network was unrecognized'));
 
 		}
-		else if (p.name && utils.store(p.name)) {
+		else if (p.name && p.authResponse) {
 
 			// Define the callback
 			var callback = function(opts) {
 
 				// Remove from the store
-				utils.store(p.name, '');
+				utils.store(p.name, null);
 
 				// Emit events by default
 				promise.fulfill(hello.utils.merge({network:p.name}, opts || {}));
@@ -608,7 +646,7 @@ hello.utils.extend(hello, {
 					// Convert logout to URL string,
 					// If no string is returned, then this function will handle the logout async style
 					if (typeof (logout) === 'function') {
-						logout = logout(callback);
+						logout = logout(callback, p);
 					}
 
 					// If logout is a string then assume URL and open in iframe.
@@ -669,18 +707,28 @@ hello.utils.extend(hello.utils, {
 	// @param string url
 	// @param object parameters
 	qs: function(url, params, formatFunction) {
+
 		if (params) {
-			var reg;
+
+			// Set default formatting function
+			formatFunction = formatFunction || encodeURIComponent;
+
+			// Override the items in the URL which already exist
 			for (var x in params) {
-				if (url.indexOf(x) > -1) {
-					var str = '[\\?\\&]' + x + '=[^\\&]*';
-					reg = new RegExp(str);
-					url = url.replace(reg, '');
+				var str = '([\\?\\&])' + x + '=[^\\&]*';
+				var reg = new RegExp(str);
+				if (url.match(reg)) {
+					url = url.replace(reg, '$1' + x + '=' + formatFunction(params[x]));
+					delete params[x];
 				}
 			}
 		}
 
-		return url + (!this.isEmpty(params) ? (url.indexOf('?') > -1 ? '&' : '?') + this.param(params, formatFunction) : '');
+		if (!this.isEmpty(params)) {
+			return url + (url.indexOf('?') > -1 ? '&' : '?') + this.param(params, formatFunction);
+		}
+
+		return url;
 	},
 
 	// Param
@@ -724,26 +772,32 @@ hello.utils.extend(hello.utils, {
 	},
 
 	// Local storage facade
-	store: (function(localStorage) {
+	store: (function() {
 
-		var a = [localStorage, window.sessionStorage];
-		var i = 0;
+		var a = ['localStorage', 'sessionStorage'];
+		var i = -1;
+		var prefix = 'test';
 
 		// Set LocalStorage
-		localStorage = a[i++];
+		var localStorage;
 
-		while (localStorage) {
+		while (a[++i]) {
 			try {
-				localStorage.setItem(i, i);
-				localStorage.removeItem(i);
+				// In Chrome with cookies blocked, calling localStorage throws an error
+				localStorage = window[a[i]];
+				localStorage.setItem(prefix + i, i);
+				localStorage.removeItem(prefix + i);
 				break;
 			}
 			catch (e) {
-				localStorage = a[i++];
+				localStorage = null;
 			}
 		}
 
 		if (!localStorage) {
+
+			var cache = null;
+
 			localStorage = {
 				getItem: function(prop) {
 					prop = prop + '=';
@@ -755,13 +809,17 @@ hello.utils.extend(hello.utils, {
 						}
 					}
 
-					return null;
+					return cache;
 				},
 
 				setItem: function(prop, value) {
+					cache = value;
 					document.cookie = prop + '=' + value;
 				}
 			};
+
+			// Fill the cache up
+			cache = localStorage.getItem('hello');
 		}
 
 		function get() {
@@ -807,7 +865,7 @@ hello.utils.extend(hello.utils, {
 			return json || null;
 		};
 
-	})(window.localStorage),
+	})(),
 
 	// Create and Append new DOM elements
 	// @param node string
@@ -894,7 +952,7 @@ hello.utils.extend(hello.utils, {
 
 		// Passing in hash object of arguments?
 		// Where the first argument can't be an object
-		if ((args.length === 1) && (typeof (args[0]) === 'object') && o[x] !== 'o!') {
+		if ((args.length === 1) && (typeof (args[0]) === 'object') && o[x] != 'o!') {
 
 			// Could this object still belong to a property?
 			// Check the object keys if they match any of the property keys
@@ -949,7 +1007,7 @@ hello.utils.extend(hello.utils, {
 		else {
 			var a = document.createElement('a');
 			a.href = path;
-			return a;
+			return a.cloneNode(false);
 		}
 	},
 
@@ -957,6 +1015,23 @@ hello.utils.extend(hello.utils, {
 		return b.filter(function(item) {
 			return a.indexOf(item) === -1;
 		});
+	},
+
+	// Get the different hash of properties unique to `a`, and not in `b`
+	diffKey: function(a, b) {
+		if (a || !b) {
+			var r = {};
+			for (var x in a) {
+				// Does the property not exist?
+				if (!(x in b)) {
+					r[x] = a[x];
+				}
+			}
+
+			return r;
+		}
+
+		return a;
 	},
 
 	// Unique
@@ -974,7 +1049,8 @@ hello.utils.extend(hello.utils, {
 	isEmpty: function(obj) {
 
 		// Scalar
-		if (!obj) { return true; }
+		if (!obj)
+			return true;
 
 		// Array
 		if (Array.isArray(obj)) {
@@ -1009,7 +1085,8 @@ hello.utils.extend(hello.utils, {
 		/*  promise object constructor  */
 		var api = function (executor) {
 			/*  optionally support non-constructor/plain-function call  */
-			if (!(this instanceof api)) { return new api(executor); }
+			if (!(this instanceof api))
+				return new api(executor);
 
 			/*  initialize object  */
 			this.id           = "Thenable/1.0.6";
@@ -1025,35 +1102,27 @@ hello.utils.extend(hello.utils, {
 			};
 
 			/*  support optional executor function  */
-			if (typeof executor === "function") { executor.call(this, this.fulfill.bind(this), this.reject.bind(this)); }
+			if (typeof executor === "function")
+				executor.call(this, this.fulfill.bind(this), this.reject.bind(this));
 		};
 
-		/*  execute particular set of handlers  */
-		var execute_handlers = function (curr, name, value) {
-			/* global process: true */
-			/* global setImmediate: true */
-			/* global setTimeout: true */
+		/*  promise API methods  */
+		api.prototype = {
+			/*  promise resolving methods  */
+			fulfill: function (value) { return deliver(this, STATE_FULFILLED, "fulfillValue", value); },
+			reject:  function (value) { return deliver(this, STATE_REJECTED,  "rejectReason", value); },
 
-			/*  short-circuit processing  */
-			if (curr[name].length === 0) { return; }
-
-			/*  iterate over all handlers, exactly once  */
-			var handlers = curr[name];
-			curr[name] = [];                                             /*  [Promises/A+ 2.2.2.3, 2.2.3.3]  */
-			var func = function () {
-				for (var i = 0; i < handlers.length; i++) { handlers[i](value); }                                  /*  [Promises/A+ 2.2.5]  */
-			};
-
-			/*  execute procedure asynchronously  */                     /*  [Promises/A+ 2.2.4, 3.1]  */
-			if (typeof process === "object" && typeof process.nextTick === "function") { process.nextTick(func); }
-			else if (typeof setImmediate === "function") { setImmediate(func); }
-			else { setTimeout(func, 0); }
-		};
-
-		/*  execute all handlers  */
-		var execute = function (curr) {
-			if (curr.state === STATE_FULFILLED) { execute_handlers(curr, "onFulfilled", curr.fulfillValue); }
-			else if (curr.state === STATE_REJECTED)	{ execute_handlers(curr, "onRejected",  curr.rejectReason); }
+			/*  "The then Method" [Promises/A+ 1.1, 1.2, 2.2]  */
+			then: function (onFulfilled, onRejected) {
+				var curr = this;
+				var next = new api();                                    /*  [Promises/A+ 2.2.7]  */
+				curr.onFulfilled.push(
+					resolver(onFulfilled, next, "fulfill"));             /*  [Promises/A+ 2.2.2/2.2.6]  */
+				curr.onRejected.push(
+					resolver(onRejected,  next, "reject" ));             /*  [Promises/A+ 2.2.3/2.2.6]  */
+				execute(curr);
+				return next.proxy;                                       /*  [Promises/A+ 2.2.7, 3.3]  */
+			}
 		};
 
 		/*  deliver an action  */
@@ -1064,6 +1133,58 @@ hello.utils.extend(hello.utils, {
 				execute(curr);
 			}
 			return curr;
+		};
+
+		/*  execute all handlers  */
+		var execute = function (curr) {
+			if (curr.state === STATE_FULFILLED)
+				execute_handlers(curr, "onFulfilled", curr.fulfillValue);
+			else if (curr.state === STATE_REJECTED)
+				execute_handlers(curr, "onRejected",  curr.rejectReason);
+		};
+
+		/*  execute particular set of handlers  */
+		var execute_handlers = function (curr, name, value) {
+			/* global process: true */
+			/* global setImmediate: true */
+			/* global setTimeout: true */
+
+			/*  short-circuit processing  */
+			if (curr[name].length === 0)
+				return;
+
+			/*  iterate over all handlers, exactly once  */
+			var handlers = curr[name];
+			curr[name] = [];                                             /*  [Promises/A+ 2.2.2.3, 2.2.3.3]  */
+			var func = function () {
+				for (var i = 0; i < handlers.length; i++)
+					handlers[i](value);                                  /*  [Promises/A+ 2.2.5]  */
+			};
+
+			/*  execute procedure asynchronously  */                     /*  [Promises/A+ 2.2.4, 3.1]  */
+			if (typeof process === "object" && typeof process.nextTick === "function")
+				process.nextTick(func);
+			else if (typeof setImmediate === "function")
+				setImmediate(func);
+			else
+				setTimeout(func, 0);
+		};
+
+		/*  generate a resolver function  */
+		var resolver = function (cb, next, method) {
+			return function (value) {
+				if (typeof cb !== "function")                            /*  [Promises/A+ 2.2.1, 2.2.7.3, 2.2.7.4]  */
+					next[method].call(next, value);                      /*  [Promises/A+ 2.2.7.3, 2.2.7.4]  */
+				else {
+					var result;
+					try { result = cb(value); }                          /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
+					catch (e) {
+						next.reject(e);                                  /*  [Promises/A+ 2.2.7.2]  */
+						return;
+					}
+					resolve(next, result);                               /*  [Promises/A+ 2.2.7.1]  */
+				}
+			};
 		};
 
 		/*  "Promise Resolution Procedure"  */                           /*  [Promises/A+ 2.3]  */
@@ -1094,67 +1215,29 @@ hello.utils.extend(hello.utils, {
 					then.call(x,
 						/*  resolvePromise  */                           /*  [Promises/A+ 2.3.3.3.1]  */
 						function (y) {
-							if (resolved) { return; } resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
-							if (y === x) {                                /*  [Promises/A+ 3.6]  */
+							if (resolved) return; resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
+							if (y === x)                                 /*  [Promises/A+ 3.6]  */
 								promise.reject(new TypeError("circular thenable chain"));
-							}
-							else { resolve(promise, y); }
+							else
+								resolve(promise, y);
 						},
 
 						/*  rejectPromise  */                            /*  [Promises/A+ 2.3.3.3.2]  */
 						function (r) {
-							if (resolved) { return; } resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
+							if (resolved) return; resolved = true;       /*  [Promises/A+ 2.3.3.3.3]  */
 							promise.reject(r);
 						}
 					);
 				}
 				catch (e) {
-					if (!resolved) {                                      /*  [Promises/A+ 2.3.3.3.3]  */
+					if (!resolved)                                       /*  [Promises/A+ 2.3.3.3.3]  */
 						promise.reject(e);                               /*  [Promises/A+ 2.3.3.3.4]  */
-					}
 				}
 				return;
 			}
 
 			/*  handle other values  */
 			promise.fulfill(x);                                          /*  [Promises/A+ 2.3.4, 2.3.3.4]  */
-		};
-
-		/*  generate a resolver function  */
-		var resolver = function (cb, next, method) {
-			return function (value) {
-				if (typeof cb !== "function") {                          /*  [Promises/A+ 2.2.1, 2.2.7.3, 2.2.7.4]  */
-					next[method].call(next, value);                      /*  [Promises/A+ 2.2.7.3, 2.2.7.4]  */
-				}
-				else {
-					var result;
-					try { result = cb(value); }                          /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
-					catch (e) {
-						next.reject(e);                                  /*  [Promises/A+ 2.2.7.2]  */
-						return;
-					}
-					resolve(next, result);                               /*  [Promises/A+ 2.2.7.1]  */
-				}
-			};
-		};
-
-		/*  promise API methods  */
-		api.prototype = {
-			/*  promise resolving methods  */
-			fulfill: function (value) { return deliver(this, STATE_FULFILLED, "fulfillValue", value); },
-			reject:  function (value) { return deliver(this, STATE_REJECTED,  "rejectReason", value); },
-
-			/*  "The then Method" [Promises/A+ 1.1, 1.2, 2.2]  */
-			then: function (onFulfilled, onRejected) {
-				var curr = this;
-				var next = new api();                                    /*  [Promises/A+ 2.2.7]  */
-				curr.onFulfilled.push(
-					resolver(onFulfilled, next, "fulfill"));             /*  [Promises/A+ 2.2.2/2.2.6]  */
-				curr.onRejected.push(
-					resolver(onRejected,  next, "reject" ));             /*  [Promises/A+ 2.2.3/2.2.6]  */
-				execute(curr);
-				return next.proxy;                                       /*  [Promises/A+ 2.2.7, 3.3]  */
-			}
 		};
 
 		/*  export API  */
@@ -1287,18 +1370,12 @@ hello.utils.extend(hello.utils, {
 		window[guid] = function() {
 			// Trigger the callback
 			try {
-				bool = callback.apply(this, arguments);
+				if (callback.apply(this, arguments)) {
+					delete window[guid];
+				}
 			}
 			catch (e) {
 				console.error(e);
-			}
-
-			if (bool) {
-				// Remove this handler reference
-				try {
-					delete window[guid];
-				}
-				catch (e) {}
 			}
 		};
 
@@ -1307,114 +1384,32 @@ hello.utils.extend(hello.utils, {
 
 	// Trigger a clientside popup
 	// This has been augmented to support PhoneGap
-	popup: function(url, redirectUri, windowWidth, windowHeight) {
+	popup: function(url, redirectUri, options) {
 
 		var documentElement = document.documentElement;
 
 		// Multi Screen Popup Positioning (http://stackoverflow.com/a/16861050)
 		// Credit: http://www.xtf.dk/2011/08/center-new-popup-window-even-on.html
 		// Fixes dual-screen position                         Most browsers      Firefox
-		var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-		var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
 
-		var width = window.innerWidth || documentElement.clientWidth || screen.width;
-		var height = window.innerHeight || documentElement.clientHeight || screen.height;
+		if (options.height) {
+			var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+			var height = screen.height || window.innerHeight || documentElement.clientHeight;
+			options.top = parseInt((height - options.height) / 2, 10) + dualScreenTop;
+		}
 
-		var left = ((width - windowWidth) / 2) + dualScreenLeft;
-		var top = ((height - windowHeight) / 2) + dualScreenTop;
+		if (options.width) {
+			var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+			var width = screen.width || window.innerWidth || documentElement.clientWidth;
+			options.left = parseInt((width - options.width) / 2, 10) + dualScreenLeft;
+		}
 
-		// Create a function for reopening the popup, and assigning events to the new popup object
-		// This is a fix whereby triggering the
-		var open = function(url) {
-
-			// Trigger callback
-			var popup = window.open(
-				url,
-				'_blank',
-				'resizeable=true,scrollbars,height=' + windowHeight + ',width=' + windowWidth + ',left=' + left + ',top=' + top
-			);
-
-			// PhoneGap support
-			// Add an event listener to listen to the change in the popup windows URL
-			// This must appear before popup.focus();
-			if (popup && popup.addEventListener) {
-
-				// Get the origin of the redirect URI
-
-				var a = hello.utils.url(redirectUri);
-				var redirectUriOrigin = a.origin || (a.protocol + '//' + a.hostname);
-
-				// Listen to changes in the InAppBrowser window
-
-				popup.addEventListener('loadstart', function(e) {
-
-					var url = e.url;
-
-					// Is this the path, as given by the redirectUri?
-					// Check the new URL agains the redirectUriOrigin.
-					// According to #63 a user could click 'cancel' in some dialog boxes ....
-					// The popup redirects to another page with the same origin, yet we still wish it to close.
-
-					if (url.indexOf(redirectUriOrigin) !== 0) {
-						return;
-					}
-
-					// Split appart the URL
-					var a = hello.utils.url(url);
-
-					// We dont have window operations on the popup so lets create some
-					// The location can be augmented in to a location object like so...
-
-					var _popup = {
-						location: {
-							// Change the location of the popup
-							assign: function(location) {
-
-								// Unfourtunatly an app is may not change the location of a InAppBrowser window.
-								// So to shim this, just open a new one.
-
-								popup.addEventListener('exit', function() {
-
-									// For some reason its failing to close the window if a new window opens too soon.
-
-									setTimeout(function() {
-										open(location);
-									}, 1000);
-								});
-							},
-
-							search: a.search,
-							hash: a.hash,
-							href: a.href
-						},
-						close: function() {
-							if (popup.close) {
-								popup.close();
-							}
-						}
-					};
-
-					// Then this URL contains information which HelloJS must process
-					// URL string
-					// Window - any action such as window relocation goes here
-					// Opener - the parent window which opened this, aka this script
-
-					hello.utils.responseHandler(_popup, window);
-
-					// Always close the popup regardless of whether the hello.utils.responseHandler detects a state parameter or not in the querystring.
-					// Such situations might arise such as those in #63
-
-					_popup.close();
-
-				});
-			}
-
-			if (popup && popup.focus) {
-				popup.focus();
-			}
-
-			return popup;
-		};
+		// Convert options into an array
+		var optionsArray = [];
+		Object.keys(options).forEach(function(name) {
+			var value = options[name];
+			optionsArray.push(name + (value !== null ? '=' + value : ''));
+		});
 
 		// Call the open() function with the initial path
 		//
@@ -1429,7 +1424,17 @@ hello.utils.extend(hello.utils, {
 			url = redirectUri + '#oauth_redirect=' + encodeURIComponent(encodeURIComponent(url));
 		}
 
-		return open(url);
+		var popup = window.open(
+			url,
+			'_blank',
+			optionsArray.join(',')
+		);
+
+		if (popup && popup.focus) {
+			popup.focus();
+		}
+
+		return popup;
 	},
 
 	// OAuth and API response handler
@@ -1443,7 +1448,7 @@ hello.utils.extend(hello.utils, {
 		p = _this.param(location.search);
 
 		// OAuth2 or OAuth1 server response?
-		if (p && ((p.code && p.state) || (p.oauth_token && p.proxy_url))) {
+		if (p && p.state && (p.code || p.oauth_token)) {
 
 			var state = JSON.parse(p.state);
 
@@ -1451,7 +1456,7 @@ hello.utils.extend(hello.utils, {
 			p.redirect_uri = state.redirect_uri || location.href.replace(/[\?\#].*$/, '');
 
 			// Redirect to the host
-			var path = (state.oauth_proxy || p.proxy_url) + '?' + _this.param(p);
+			var path = state.oauth_proxy + '?' + _this.param(p);
 
 			location.assign(path);
 
@@ -1465,66 +1470,6 @@ hello.utils.extend(hello.utils, {
 		// SoundCloud is the state in the querystring and the token in the hashtag, so we'll mix the two together
 
 		p = _this.merge(_this.param(location.search || ''), _this.param(location.hash || ''));
-
-		function closeWindow() {
-
-			// Close this current window
-			try {
-				window.close();
-			}
-			catch (e) {}
-
-			// IOS bug wont let us close a popup if still loading
-			if (window.addEventListener) {
-				window.addEventListener('load', function() {
-					window.close();
-				});
-			}
-		}
-
-		// Trigger a callback to authenticate
-		function authCallback(obj, window, parent) {
-
-			// Trigger the callback on the parent
-			_this.store(obj.network, obj);
-
-			// If this is a page request it has no parent or opener window to handle callbacks
-			if (('display' in obj) && obj.display === 'page') {
-				return;
-			}
-
-			if (parent) {
-				// Call the generic listeners
-				// Win.hello.emit(network+":auth."+(obj.error?'failed':'login'), obj);
-
-				// TODO: remove from session object
-				var cb = obj.callback;
-				try {
-					delete obj.callback;
-				}
-				catch (e) {}
-
-				// Update store
-				_this.store(obj.network, obj);
-
-				// Call the globalEvent function on the parent
-				if (cb in parent) {
-
-					// It's safer to pass back a string to the parent,
-					// Rather than an object/array (better for IE8)
-					var str = JSON.stringify(obj);
-
-					try {
-						parent[cb](str);
-					}
-					catch (e) {
-						// Error thrown whilst executing parent callback
-					}
-				}
-			}
-
-			closeWindow();
-		}
 
 		// If p.state
 		if (p && 'state' in p) {
@@ -1594,22 +1539,76 @@ hello.utils.extend(hello.utils, {
 			location.assign(decodeURIComponent(p.oauth_redirect));
 			return;
 		}
+
+		// Trigger a callback to authenticate
+		function authCallback(obj, window, parent) {
+
+			var cb = obj.callback;
+			var network = obj.network;
+
+			// Trigger the callback on the parent
+			_this.store(network, obj);
+
+			// If this is a page request it has no parent or opener window to handle callbacks
+			if (('display' in obj) && obj.display === 'page') {
+				return;
+			}
+
+			// Remove from session object
+			if (parent && cb && cb in parent) {
+
+				try {
+					delete obj.callback;
+				}
+				catch (e) {}
+
+				// Update store
+				_this.store(network, obj);
+
+				// Call the globalEvent function on the parent
+				// It's safer to pass back a string to the parent,
+				// Rather than an object/array (better for IE8)
+				var str = JSON.stringify(obj);
+
+				try {
+					parent[cb](str);
+				}
+				catch (e) {
+					// Error thrown whilst executing parent callback
+				}
+			}
+
+			closeWindow();
+		}
+
+		function closeWindow() {
+
+			if (window.frameElement) {
+				// Inside an iframe, remove from parent
+				parent.document.body.removeChild(window.frameElement);
+			}
+			else {
+				// Close this current window
+				try {
+					window.close();
+				}
+				catch (e) {}
+
+				// IOS bug wont let us close a popup if still loading
+				if (window.addEventListener) {
+					window.addEventListener('load', function() {
+						window.close();
+					});
+				}
+			}
+
+		}
 	}
 });
 
 // Events
-
 // Extend the hello object with its own event instance
 hello.utils.Event.call(hello);
-
-/////////////////////////////////////
-//
-// Save any access token that is in the current page URL
-// Handle any response solicited through iframe hash tag following an API request
-//
-/////////////////////////////////////
-
-hello.utils.responseHandler(window, window.opener || window.parent);
 
 ///////////////////////////////////
 // Monitoring session state
@@ -1773,6 +1772,147 @@ hello.api = function() {
 	// Query
 	p.query = p.query || {};
 
+	// If get, put all parameters into query
+	if (p.method === 'get' || p.method === 'delete') {
+		utils.extend(p.query, p.data);
+		p.data = {};
+	}
+
+	var data = p.data = p.data || {};
+
+	// Completed event callback
+	promise.then(p.callback, p.callback);
+
+	// Remove the network from path, e.g. facebook:/me/friends
+	// Results in { network : facebook, path : me/friends }
+	if (!p.path) {
+		return promise.reject(error('invalid_path', 'Missing the path parameter from the request'));
+	}
+
+	p.path = p.path.replace(/^\/+/, '');
+	var a = (p.path.split(/[\/\:]/, 2) || [])[0].toLowerCase();
+
+	if (a in _this.services) {
+		p.network = a;
+		var reg = new RegExp('^' + a + ':?\/?');
+		p.path = p.path.replace(reg, '');
+	}
+
+	// Network & Provider
+	// Define the network that this request is made for
+	p.network = _this.settings.default_service = p.network || _this.settings.default_service;
+	var o = _this.services[p.network];
+
+	// INVALID
+	// Is there no service by the given network name?
+	if (!o) {
+		return promise.reject(error('invalid_network', 'Could not match the service requested: ' + p.network));
+	}
+
+	// PATH
+	// As long as the path isn't flagged as unavaiable, e.g. path == false
+
+	if (!(!(p.method in o) || !(p.path in o[p.method]) || o[p.method][p.path] !== false)) {
+		return promise.reject(error('invalid_path', 'The provided path is not available on the selected network'));
+	}
+
+	// PROXY
+	// OAuth1 calls always need a proxy
+
+	if (!p.oauth_proxy) {
+		p.oauth_proxy = _this.settings.oauth_proxy;
+	}
+
+	if (!('proxy' in p)) {
+		p.proxy = p.oauth_proxy && o.oauth && parseInt(o.oauth.version, 10) === 1;
+	}
+
+	// TIMEOUT
+	// Adopt timeout from global settings by default
+
+	if (!('timeout' in p)) {
+		p.timeout = _this.settings.timeout;
+	}
+
+	// Format response
+	// Whether to run the raw response through post processing.
+	if (!('formatResponse' in p)) {
+		p.formatResponse = true;
+	}
+
+	// Get the current session
+	// Append the access_token to the query
+	p.authResponse = _this.getAuthResponse(p.network);
+	if (p.authResponse && p.authResponse.access_token) {
+		p.query.access_token = p.authResponse.access_token;
+	}
+
+	var url = p.path;
+	var m;
+
+	// Store the query as options
+	// This is used to populate the request object before the data is augmented by the prewrap handlers.
+	p.options = utils.clone(p.query);
+
+	// Clone the data object
+	// Prevent this script overwriting the data of the incoming object.
+	// Ensure that everytime we run an iteration the callbacks haven't removed some data
+	p.data = utils.clone(data);
+
+	// URL Mapping
+	// Is there a map for the given URL?
+	var actions = o[{'delete': 'del'}[p.method] || p.method] || {};
+
+	// Extrapolate the QueryString
+	// Provide a clean path
+	// Move the querystring into the data
+	if (p.method === 'get') {
+
+		var query = url.split(/[\?#]/)[1];
+		if (query) {
+			utils.extend(p.query, utils.param(query));
+
+			// Remove the query part from the URL
+			url = url.replace(/\?.*?(#|$)/, '$1');
+		}
+	}
+
+	// Is the hash fragment defined
+	if ((m = url.match(/#(.+)/, ''))) {
+		url = url.split('#')[0];
+		p.path = m[1];
+	}
+	else if (url in actions) {
+		p.path = url;
+		url = actions[url];
+	}
+	else if ('default' in actions) {
+		url = actions['default'];
+	}
+
+	// Redirect Handler
+	// This defines for the Form+Iframe+Hash hack where to return the results too.
+	p.redirect_uri = _this.settings.redirect_uri;
+
+	// Define FormatHandler
+	// The request can be procesed in a multitude of ways
+	// Here's the options - depending on the browser and endpoint
+	p.xhr = o.xhr;
+	p.jsonp = o.jsonp;
+	p.form = o.form;
+
+	// Make request
+	if (typeof (url) === 'function') {
+		// Does self have its own callback?
+		url(p, getPath);
+	}
+	else {
+		// Else the URL is a string
+		getPath(url);
+	}
+
+	return promise.proxy;
+
 	// If url needs a base
 	// Wrap everything in
 	function getPath(url) {
@@ -1783,6 +1923,10 @@ hello.api = function() {
 			if (key in p.query) {
 				val = p.query[key];
 				delete p.query[key];
+			}
+			else if (p.data && key in p.data) {
+				val = p.data[key];
+				delete p.data[key];
 			}
 			else if (!defaults) {
 				promise.reject(error('missing_attribute', 'The attribute ' + key + ' is missing from the request'));
@@ -1804,6 +1948,19 @@ hello.api = function() {
 		// @ response object
 		// @ statusCode integer if available
 		utils.request(p, function(r, headers) {
+
+			// Is this a raw response?
+			if (!p.formatResponse) {
+				// Bad request? error statusCode or otherwise contains an error response vis JSONP?
+				if (typeof headers === 'object' ? (headers.statusCode >= 400) : (typeof r === 'object' && 'error' in r)) {
+					promise.reject(r);
+				}
+				else {
+					promise.fulfill(r);
+				}
+
+				return;
+			}
 
 			// Should this be an object
 			if (r === true) {
@@ -1858,145 +2015,6 @@ hello.api = function() {
 			}
 		});
 	}
-
-	// If get, put all parameters into query
-	if (p.method === 'get' || p.method === 'delete') {
-		utils.extend(p.query, p.data);
-		p.data = {};
-	}
-
-	var data = p.data = p.data || {};
-
-	// Completed event callback
-	promise.then(p.callback, p.callback);
-
-	// Remove the network from path, e.g. facebook:/me/friends
-	// Results in { network : facebook, path : me/friends }
-	if (!p.path) {
-		return promise.reject(error('invalid_path', 'Missing the path parameter from the request'));
-	}
-
-	p.path = p.path.replace(/^\/+/, '');
-	var a = (p.path.split(/[\/\:]/, 2) || [])[0].toLowerCase();
-
-	if (a in _this.services) {
-		p.network = a;
-		var reg = new RegExp('^' + a + ':?\/?');
-		p.path = p.path.replace(reg, '');
-	}
-
-	// Network & Provider
-	// Define the network that this request is made for
-	p.network = _this.settings.default_service = p.network || _this.settings.default_service;
-	o = _this.services[p.network];
-
-	// INVALID
-	// Is there no service by the given network name?
-	if (!o) {
-		return promise.reject(error('invalid_network', 'Could not match the service requested: ' + p.network));
-	}
-
-	// PATH
-	// As long as the path isn't flagged as unavaiable, e.g. path == false
-
-	if (!(!(p.method in o) || !(p.path in o[p.method]) || o[p.method][p.path] !== false)) {
-		return promise.reject(error('invalid_path', 'The provided path is not available on the selected network'));
-	}
-
-	// PROXY
-	// OAuth1 calls always need a proxy
-
-	if (!p.oauth_proxy) {
-		p.oauth_proxy = _this.settings.oauth_proxy;
-	}
-
-	if (!('proxy' in p)) {
-		p.proxy = p.oauth_proxy && o.oauth && parseInt(o.oauth.version, 10) === 1;
-	}
-
-	// TIMEOUT
-	// Adopt timeout from global settings by default
-
-	if (!('timeout' in p)) {
-		p.timeout = _this.settings.timeout;
-	}
-
-	//
-	// Get the current session
-	// Append the access_token to the query
-	var session = _this.getAuthResponse(p.network);
-	if (session && session.access_token) {
-		p.query.access_token = session.access_token;
-	}
-
-	var url = p.path;
-	var m;
-
-	// Store the query as options
-	// This is used to populate the request object before the data is augmented by the prewrap handlers.
-	p.options = utils.clone(p.query);
-
-	// Clone the data object
-	// Prevent this script overwriting the data of the incoming object.
-	// Ensure that everytime we run an iteration the callbacks haven't removed some data
-	p.data = utils.clone(data);
-
-	// URL Mapping
-	// Is there a map for the given URL?
-	var actions = o[{'delete': 'del'}[p.method] || p.method] || {};
-
-	// Extrapolate the QueryString
-	// Provide a clean path
-	// Move the querystring into the data
-	if (p.method === 'get') {
-
-		var query = url.split(/[\?#]/)[1];
-		if (query) {
-			utils.extend(p.query, utils.param(query));
-
-			// Remove the query part from the URL
-			url = url.replace(/\?.*?(#|$)/, '$1');
-		}
-	}
-
-	// Is the hash fragment defined
-	if ((m = url.match(/#(.+)/, ''))) {
-		url = url.split('#')[0];
-		p.path = m[1];
-	}
-	else if (url in actions) {
-		p.path = url;
-		url = actions[url];
-	}
-	else if ('default' in actions) {
-		url = actions['default'];
-	}
-
-	// Redirect Handler
-	// This defines for the Form+Iframe+Hash hack where to return the results too.
-	p.redirect_uri = _this.settings.redirect_uri;
-
-	// Set OAuth settings
-	p.oauth = o.oauth;
-
-	// Define FormatHandler
-	// The request can be procesed in a multitude of ways
-	// Here's the options - depending on the browser and endpoint
-	p.xhr = o.xhr;
-	p.jsonp = o.jsonp;
-	p.form = o.form;
-
-	// Make request
-	if (typeof (url) === 'function') {
-		// Does self have its own callback?
-		url(p, getPath);
-	}
-	else {
-		// Else the URL is a string
-		getPath(url);
-	}
-
-	return promise.proxy;
 };
 
 // API utilities
@@ -2008,57 +2026,6 @@ hello.utils.extend(hello.utils, {
 		var _this = this;
 		var error = _this.error;
 
-		// Format URL
-		// Constructs the request URL, optionally wraps the URL through a call to a proxy server
-		// Returns the formatted URL
-		function formatUrl(p, callback) {
-
-			// Are we signing the request?
-			var sign;
-
-			// OAuth1
-			// Remove the token from the query before signing
-			if (p.oauth && parseInt(p.oauth.version, 10) === 1) {
-
-				// OAUTH SIGNING PROXY
-				sign = p.query.access_token;
-
-				// Remove the access_token
-				delete p.query.access_token;
-
-				// Enfore use of Proxy
-				p.proxy = true;
-			}
-
-			// POST body to querystring
-			if (p.data && (p.method === 'get' || p.method === 'delete')) {
-				// Attach the p.data to the querystring.
-				_this.extend(p.query, p.data);
-				p.data = null;
-			}
-
-			// Construct the path
-			var path = _this.qs(p.url, p.query);
-
-			// Proxy the request through a server
-			// Used for signing OAuth1
-			// And circumventing services without Access-Control Headers
-			if (p.proxy) {
-				// Use the proxy as a path
-				path = _this.qs(p.oauth_proxy, {
-					path: path,
-					access_token: sign || '',
-
-					// This will prompt the request to be signed as though it is OAuth1
-					then: p.proxy_response_type || (p.method.toLowerCase() === 'get' ? 'redirect' : 'proxy'),
-					method: p.method.toLowerCase(),
-					suppress_response_codes: true
-				});
-			}
-
-			callback(path);
-		}
-
 		// This has to go through a POST request
 		if (!_this.isEmpty(p.data) && !('FileList' in window) && _this.hasBinary(p.data)) {
 
@@ -2068,10 +2035,12 @@ hello.utils.extend(hello.utils, {
 		}
 
 		// Check if the browser and service support CORS
-		if (
-			'withCredentials' in new XMLHttpRequest() &&
-			(!('xhr' in p) || (p.xhr && (typeof (p.xhr) !== 'function' || p.xhr(p, p.query))))
-		) {
+		var cors = this.request_cors(function() {
+			// If it does then run this...
+			return ((p.xhr === undefined) || (p.xhr && (typeof (p.xhr) !== 'function' || p.xhr(p, p.query))));
+		});
+
+		if (cors) {
 
 			formatUrl(p, function(url) {
 
@@ -2155,6 +2124,62 @@ hello.utils.extend(hello.utils, {
 		callback(error('invalid_request', 'There was no mechanism for handling this request'));
 
 		return;
+
+		// Format URL
+		// Constructs the request URL, optionally wraps the URL through a call to a proxy server
+		// Returns the formatted URL
+		function formatUrl(p, callback) {
+
+			// Are we signing the request?
+			var sign;
+
+			// OAuth1
+			// Remove the token from the query before signing
+			if (p.authResponse && p.authResponse.oauth && parseInt(p.authResponse.oauth.version, 10) === 1) {
+
+				// OAUTH SIGNING PROXY
+				sign = p.query.access_token;
+
+				// Remove the access_token
+				delete p.query.access_token;
+
+				// Enfore use of Proxy
+				p.proxy = true;
+			}
+
+			// POST body to querystring
+			if (p.data && (p.method === 'get' || p.method === 'delete')) {
+				// Attach the p.data to the querystring.
+				_this.extend(p.query, p.data);
+				p.data = null;
+			}
+
+			// Construct the path
+			var path = _this.qs(p.url, p.query);
+
+			// Proxy the request through a server
+			// Used for signing OAuth1
+			// And circumventing services without Access-Control Headers
+			if (p.proxy) {
+				// Use the proxy as a path
+				path = _this.qs(p.oauth_proxy, {
+					path: path,
+					access_token: sign || '',
+
+					// This will prompt the request to be signed as though it is OAuth1
+					then: p.proxy_response_type || (p.method.toLowerCase() === 'get' ? 'redirect' : 'proxy'),
+					method: p.method.toLowerCase(),
+					suppress_response_codes: true
+				});
+			}
+
+			callback(path);
+		}
+	},
+
+	// Test whether the browser supports the CORS response
+	request_cors: function(callback) {
+		return 'withCredentials' in new XMLHttpRequest() && callback();
 	},
 
 	// Return the type of DOM object
@@ -2185,13 +2210,13 @@ hello.utils.extend(hello.utils, {
 	// Create a clone of an object
 	clone: function(obj) {
 		// Does not clone DOM elements, nor Binary data, e.g. Blobs, Filelists
-		if (obj === null || typeof (obj) !== 'object' || obj instanceof Date || 'nodeName' in obj || this.isBinary(obj)) {
+		if (obj === null || typeof (obj) !== 'object' || obj instanceof Date || 'nodeName' in obj || this.isBinary(obj) || (typeof FormData === 'function' && obj instanceof FormData)) {
 			return obj;
 		}
 
 		if (Array.isArray(obj)) {
 			// Clone each item in the array
-			return obj.map(this.clone);
+			return obj.map(this.clone.bind(this));
 		}
 
 		// But does clone everything else.
@@ -2255,19 +2280,17 @@ hello.utils.extend(hello.utils, {
 		else if (data && typeof (data) !== 'string' && !(data instanceof FormData) && !(data instanceof File) && !(data instanceof Blob)) {
 			// Loop through and add formData
 			var f = new FormData();
-			for (x in data) {
-				if (data.hasOwnProperty(x)) {
-					if (data[x] instanceof HTMLInputElement) {
-						if ('files' in data[x] && data[x].files.length > 0) {
-							f.append(x, data[x].files[0]);
-						}
+			for (x in data) if (data.hasOwnProperty(x)) {
+				if (data[x] instanceof HTMLInputElement) {
+					if ('files' in data[x] && data[x].files.length > 0) {
+						f.append(x, data[x].files[0]);
 					}
-					else if (data[x] instanceof Blob) {
-						f.append(x, data[x], data.name);
-					}
-					else {
-						f.append(x, data[x]);
-					}
+				}
+				else if (data[x] instanceof Blob) {
+					f.append(x, data[x], data.name);
+				}
+				else {
+					f.append(x, data[x]);
 				}
 			}
 
@@ -2369,7 +2392,7 @@ hello.utils.extend(hello.utils, {
 		// This action will be ignored if we've already called the callback handler "cb" with a successful onload event
 		if (window.navigator.userAgent.toLowerCase().indexOf('opera') > -1) {
 			operaFix = _this.append('script', {
-				text: 'document.getElementById(\'' + callbackId + '\').onerror();'
+				text: 'document.getElementById(\'' + callbackID + '\').onerror();'
 			});
 			script.async = false;
 		}
@@ -2762,25 +2785,287 @@ hello.utils.extend(hello.utils, {
 
 })(hello);
 
+/////////////////////////////////////
+//
+// Save any access token that is in the current page URL
+// Handle any response solicited through iframe hash tag following an API request
+//
+/////////////////////////////////////
+
+hello.utils.responseHandler(window, window.opener || window.parent);
+
+// Script to support ChromeApps
+// This overides the hello.utils.popup method to support chrome.identity.launchWebAuthFlow
+// See https://developer.chrome.com/apps/app_identity#non
+
+// Is this a chrome app?
+
+if (typeof chrome === 'object' && typeof chrome.identity === 'object' && chrome.identity.launchWebAuthFlow) {
+
+	(function() {
+
+		// Swap the popup method
+		hello.utils.popup = function(url) {
+
+			return _open(url, true);
+
+		};
+
+		// Swap the hidden iframe method
+		hello.utils.iframe = function(url) {
+
+			_open(url, false);
+
+		};
+
+		// Swap the request_cors method
+		hello.utils.request_cors = function(callback) {
+
+			callback();
+
+			// Always run as CORS
+
+			return true;
+		};
+
+		// Swap the storage method
+		var _cache = {};
+		chrome.storage.local.get('hello', function(r) {
+			// Update the cache
+			_cache = r.hello || {};
+		});
+
+		hello.utils.store = function(name, value) {
+
+			// Get all
+			if (arguments.length === 0) {
+				return _cache;
+			}
+
+			// Get
+			if (arguments.length === 1) {
+				return _cache[name] || null;
+			}
+
+			// Set
+			if (value) {
+				_cache[name] = value;
+				chrome.storage.local.set({hello: _cache});
+				return value;
+			}
+
+			// Delete
+			if (value === null) {
+				delete _cache[name];
+				chrome.storage.local.set({hello: _cache});
+				return null;
+			}
+		};
+
+		// Open function
+		function _open(url, interactive) {
+
+			// Launch
+			var ref = {
+				closed: false
+			};
+
+			// Launch the webAuthFlow
+			chrome.identity.launchWebAuthFlow({
+				url: url,
+				interactive: interactive
+			}, function(responseUrl) {
+
+				// Did the user cancel this prematurely
+				if (responseUrl === undefined) {
+					ref.closed = true;
+					return;
+				}
+
+				// Split appart the URL
+				var a = hello.utils.url(responseUrl);
+
+				// The location can be augmented in to a location object like so...
+				// We dont have window operations on the popup so lets create some
+				var _popup = {
+					location: {
+
+						// Change the location of the popup
+						assign: function(url) {
+
+							// If there is a secondary reassign
+							// In the case of OAuth1
+							// Trigger this in non-interactive mode.
+							_open(url, false);
+						},
+
+						search: a.search,
+						hash: a.hash,
+						href: a.href
+					},
+					close: function() {}
+				};
+
+				// Then this URL contains information which HelloJS must process
+				// URL string
+				// Window - any action such as window relocation goes here
+				// Opener - the parent window which opened this, aka this script
+
+				hello.utils.responseHandler(_popup, window);
+			});
+
+			// Return the reference
+			return ref;
+		}
+
+	})();
+}
+
+// Phonegap override for hello.phonegap.js
+(function() {
+
+	// Is this a phonegap implementation?
+	if (!(/^file:\/{3}[^\/]/.test(window.location.href) && window.cordova)) {
+		// Cordova is not included.
+		return;
+	}
+
+	// Augment the hidden iframe method
+	hello.utils.iframe = function(url, redirectUri) {
+		hello.utils.popup(url, redirectUri, {hidden: 'yes'});
+	};
+
+	// Augment the popup
+	var utilPopup = hello.utils.popup;
+
+	// Replace popup
+	hello.utils.popup = function(url, redirectUri, options) {
+
+		// Run the standard
+		var popup = utilPopup.call(this, url, redirectUri, options);
+
+		// Create a function for reopening the popup, and assigning events to the new popup object
+		// PhoneGap support
+		// Add an event listener to listen to the change in the popup windows URL
+		// This must appear before popup.focus();
+		try {
+			if (popup && popup.addEventListener) {
+
+				// Get the origin of the redirect URI
+
+				var a = hello.utils.url(redirectUri);
+				var redirectUriOrigin = a.origin || (a.protocol + '//' + a.hostname);
+
+				// Listen to changes in the InAppBrowser window
+
+				popup.addEventListener('loadstart', function(e) {
+
+					var url = e.url;
+
+					// Is this the path, as given by the redirectUri?
+					// Check the new URL agains the redirectUriOrigin.
+					// According to #63 a user could click 'cancel' in some dialog boxes ....
+					// The popup redirects to another page with the same origin, yet we still wish it to close.
+
+					if (url.indexOf(redirectUriOrigin) !== 0) {
+						return;
+					}
+
+					// Split appart the URL
+					var a = hello.utils.url(url);
+
+					// We dont have window operations on the popup so lets create some
+					// The location can be augmented in to a location object like so...
+
+					var _popup = {
+						location: {
+							// Change the location of the popup
+							assign: function(location) {
+
+								// Unfourtunatly an app is may not change the location of a InAppBrowser window.
+								// So to shim this, just open a new one.
+								popup.executeScript({code: 'window.location.href = "' + location + ';"'});
+							},
+
+							search: a.search,
+							hash: a.hash,
+							href: a.href
+						},
+						close: function() {
+							if (popup.close) {
+								popup.close();
+								try {
+									popup.closed = true;
+								}
+								catch (_e) {}
+							}
+						}
+					};
+
+					// Then this URL contains information which HelloJS must process
+					// URL string
+					// Window - any action such as window relocation goes here
+					// Opener - the parent window which opened this, aka this script
+
+					hello.utils.responseHandler(_popup, window);
+
+				});
+			}
+		}
+		catch (e) {}
+
+		return popup;
+	};
+
+})();
+
 (function(hello) {
 
+	// OAuth1
+	var OAuth1Settings = {
+		version: '1.0',
+		auth: 'https://www.dropbox.com/1/oauth/authorize',
+		request: 'https://api.dropbox.com/1/oauth/request_token',
+		token: 'https://api.dropbox.com/1/oauth/access_token'
+	};
+
+	// OAuth2 Settings
+	var OAuth2Settings = {
+		version: 2,
+		auth: 'https://www.dropbox.com/1/oauth2/authorize',
+		grant: 'https://api.dropbox.com/1/oauth2/token'
+	};
+
+	// Initiate the Dropbox module
 	hello.init({
 
 		dropbox: {
 
 			name: 'Dropbox',
 
-			oauth: {
-				version: '1.0',
-				auth: 'https://www.dropbox.com/1/oauth/authorize',
-				request: 'https://api.dropbox.com/1/oauth/request_token',
-				token: 'https://api.dropbox.com/1/oauth/access_token'
-			},
+			oauth: OAuth2Settings,
 
 			login: function(p) {
+				// OAuth2 non-standard adjustments
+				p.qs.scope = '';
+				delete p.qs.display;
+
+				// Should this be run as OAuth1?
+				// If the redirect_uri is is HTTP (non-secure) then its required to revert to the OAuth1 endpoints
+				var redirect = decodeURIComponent(p.qs.redirect_uri);
+				if (redirect.indexOf('http:') === 0 && redirect.indexOf('http://localhost/') !== 0) {
+
+					// Override the dropbox OAuth settings.
+					hello.services.dropbox.oauth = OAuth1Settings;
+				}
+				else {
+					// Override the dropbox OAuth settings.
+					hello.services.dropbox.oauth = OAuth2Settings;
+				}
+
 				// The dropbox login window is a different size
-				p.options.window_width = 1000;
-				p.options.window_height = 1000;
+				p.options.popup.width = 1000;
+				p.options.popup.height = 1000;
 			},
 
 			/*
@@ -2809,9 +3094,9 @@ hello.utils.extend(hello.utils, {
 				me: 'account/info',
 
 				// Https://www.dropbox.com/developers/core/docs#metadata
-				'me/files': req('metadata/@{root|sandbox}/@{parent}'),
-				'me/folder': req('metadata/@{root|sandbox}/@{id}'),
-				'me/folders': req('metadata/@{root|sandbox}/'),
+				'me/files': req('metadata/auto/@{parent|}'),
+				'me/folder': req('metadata/auto/@{id}'),
+				'me/folders': req('metadata/auto/'),
 
 				'default': function(p, callback) {
 					if (p.path.match('https://api-content.dropbox.com/1/files/')) {
@@ -2838,7 +3123,7 @@ hello.utils.extend(hello.utils, {
 						p.data.file = hello.utils.toBlob(p.data.file);
 					}
 
-					callback('https://api-content.dropbox.com/1/files_put/@{root|sandbox}/' + path + '/' + fileName);
+					callback('https://api-content.dropbox.com/1/files_put/auto/' + path + '/' + fileName);
 				},
 
 				'me/folders': function(p, callback) {
@@ -2950,21 +3235,22 @@ hello.utils.extend(hello.utils, {
 			return;
 		}
 
-		var path = o.root + o.path.replace(/\&/g, '%26');
+		var path = (o.root !== 'app_folder' ? o.root : '') + o.path.replace(/\&/g, '%26');
+		path = path.replace(/^\//, '');
 		if (o.thumb_exists) {
-			o.thumbnail = hello.settings.oauth_proxy + '?path=' +
-			encodeURIComponent('https://api-content.dropbox.com/1/thumbnails/' + path + '?format=jpeg&size=m') + '&access_token=' + req.query.access_token;
+			o.thumbnail = req.oauth_proxy + '?path=' +
+			encodeURIComponent('https://api-content.dropbox.com/1/thumbnails/auto/' + path + '?format=jpeg&size=m') + '&access_token=' + req.options.access_token;
 		}
 
 		o.type = (o.is_dir ? 'folder' : o.mime_type);
 		o.name = o.path.replace(/.*\//g, '');
 		if (o.is_dir) {
-			o.files = 'metadata/' + path;
+			o.files = path.replace(/^\//, '');
 		}
 		else {
 			o.downloadLink = hello.settings.oauth_proxy + '?path=' +
-			encodeURIComponent('https://api-content.dropbox.com/1/files/' + path) + '&access_token=' + req.query.access_token;
-			o.file = 'https://api-content.dropbox.com/1/files/' + path;
+			encodeURIComponent('https://api-content.dropbox.com/1/files/auto/' + path) + '&access_token=' + req.options.access_token;
+			o.file = 'https://api-content.dropbox.com/1/files/auto/' + path;
 		}
 
 		if (!o.id) {
@@ -3002,10 +3288,11 @@ hello.utils.extend(hello.utils, {
 			scope: {
 				basic: 'public_profile',
 				email: 'email',
+				share: 'user_posts',
 				birthday: 'user_birthday',
 				events: 'user_events',
-				photos: 'user_photos,user_videos',
-				videos: 'user_photos,user_videos',
+				photos: 'user_photos',
+				videos: 'user_videos',
 				friends: 'user_friends',
 				files: 'user_photos,user_videos',
 				publish_files: 'user_photos,user_videos,publish_actions',
@@ -3014,7 +3301,7 @@ hello.utils.extend(hello.utils, {
 				// Deprecated in v2.0
 				// Create_event	: 'create_event',
 
-				offline_access: 'offline_access'
+				offline_access: ''
 			},
 
 			// Refresh the access_token
@@ -3028,21 +3315,16 @@ hello.utils.extend(hello.utils, {
 					p.qs.auth_type = 'reauthenticate';
 				}
 
-				// Support Facebook's unique auth_type parameter
-				if (p.options.auth_type) {
-					p.qs.auth_type = p.options.auth_type;
-				}
-
 				// The facebook login window is a different size.
-				p.options.window_width = 580;
-				p.options.window_height = 400;
+				p.options.popup.width = 580;
+				p.options.popup.height = 400;
 			},
 
-			logout: function(callback) {
+			logout: function(callback, options) {
 				// Assign callback to a global handler
 				var callbackID = hello.utils.globalEvent(callback);
 				var redirect = encodeURIComponent(hello.settings.redirect_uri + '?' + hello.utils.param({callback:callbackID, result: JSON.stringify({force:true}), state: '{}'}));
-				var token = (hello.utils.store('facebook') || {}).access_token;
+				var token = (options.authResponse || {}).access_token;
 				hello.utils.iframe('https://www.facebook.com/logout.php?next=' + redirect + '&access_token=' + token);
 
 				// Possible responses:
@@ -3057,19 +3339,19 @@ hello.utils.extend(hello.utils, {
 			},
 
 			// API Base URL
-			base: 'https://graph.facebook.com/',
+			base: 'https://graph.facebook.com/v2.4/',
 
 			// Map GET requests
 			get: {
-				me: 'me',
+				me: 'me?fields=email,first_name,last_name,name,timezone,verified',
 				'me/friends': 'me/friends',
 				'me/following': 'me/friends',
 				'me/followers': 'me/friends',
 				'me/share': 'me/feed',
 				'me/like': 'me/likes',
 				'me/files': 'me/albums',
-				'me/albums': 'me/albums',
-				'me/album': '@{id}/photos',
+				'me/albums': 'me/albums?fields=cover_photo,name',
+				'me/album': '@{id}/photos?fields=picture',
 				'me/photos': 'me/photos',
 				'me/photo': '@{id}',
 				'friend/albums': '@{id}/albums',
@@ -3161,6 +3443,13 @@ hello.utils.extend(hello.utils, {
 
 		if (o && 'data' in o) {
 			var token = req.query.access_token;
+
+			if (!(o.data instanceof Array)) {
+				var data = o.data;
+				delete o.data;
+				o.data = [data];
+			}
+
 			o.data.forEach(function(d) {
 
 				if (d.picture) {
@@ -3172,8 +3461,8 @@ hello.utils.extend(hello.utils, {
 						return a.width - b.width;
 					});
 
-				if (d.cover_photo) {
-					d.thumbnail = base + d.cover_photo + '/picture?access_token=' + token;
+				if (d.cover_photo && d.cover_photo.id) {
+					d.thumbnail = base + d.cover_photo.id + '/picture?access_token=' + token;
 				}
 
 				if (d.type === 'album') {
@@ -3544,7 +3833,6 @@ hello.utils.extend(hello.utils, {
 			},
 
 			scope: {
-				basic: '',
 				email: 'user:email'
 			},
 
@@ -3661,6 +3949,7 @@ hello.utils.extend(hello.utils, {
 				files: 'https://www.googleapis.com/auth/drive.readonly',
 				publish: '',
 				publish_files: 'https://www.googleapis.com/auth/drive',
+				share: '',
 				create_event: '',
 				offline_access: ''
 			},
@@ -3713,6 +4002,7 @@ hello.utils.extend(hello.utils, {
 				'me/photos': 'https://picasaweb.google.com/data/feed/api/user/default?alt=json&kind=photo&max-results=@{limit|100}&start-index=@{start|1}',
 
 				// See: https://developers.google.com/drive/v2/reference/files/list
+				'me/file': 'drive/v2/files/@{id}',
 				'me/files': 'drive/v2/files?q=%22@{parent|root}%22+in+parents+and+trashed=false&maxResults=@{limit|100}',
 
 				// See: https://developers.google.com/drive/v2/reference/files/list
@@ -3746,6 +4036,11 @@ hello.utils.extend(hello.utils, {
 			del: {
 				'me/files': 'drive/v2/files/@{id}',
 				'me/folder': 'drive/v2/files/@{id}'
+			},
+
+			// Map PATCH requests
+			patch: {
+				'me/file': 'drive/v2/files/@{id}'
 			},
 
 			wrap: {
@@ -3789,6 +4084,10 @@ hello.utils.extend(hello.utils, {
 
 				if (p.method === 'post' || p.method === 'put') {
 					toJSON(p);
+				}
+				else if (p.method === 'patch') {
+					hello.utils.extend(p.query, p.data);
+					p.data = null;
 				}
 
 				return true;
@@ -4225,8 +4524,15 @@ hello.utils.extend(hello.utils, {
 
 			scope: {
 				basic: 'basic',
+				photos: '',
 				friends: 'relationships',
-				publish: 'likes comments'
+				publish: 'likes comments',
+				email: '',
+				share: '',
+				publish_files: '',
+				files: '',
+				videos: '',
+				offline_access: ''
 			},
 
 			scope_delim: ' ',
@@ -4307,6 +4613,7 @@ hello.utils.extend(hello.utils, {
 				},
 
 				'default': function(o) {
+					o = formatError(o);
 					paging(o);
 					return o;
 				}
@@ -4348,12 +4655,23 @@ hello.utils.extend(hello.utils, {
 	}
 
 	function formatError(o) {
+		if (typeof o === 'string') {
+			return {
+				error: {
+					code: 'invalid_request',
+					message: o
+				}
+			};
+		}
+
 		if (o && 'meta' in o && 'error_type' in o.meta) {
 			o.error = {
 				code: o.meta.error_type,
 				message: o.meta.error_message
 			};
 		}
+
+		return o;
 	}
 
 	function formatFriends(o) {
@@ -4388,6 +4706,172 @@ hello.utils.extend(hello.utils, {
 
 	hello.init({
 
+		joinme: {
+
+			name: 'join.me',
+
+			oauth: {
+				version: 2,
+				auth: 'https://secure.join.me/api/public/v1/auth/oauth2',
+				grant: 'https://secure.join.me/api/public/v1/auth/oauth2'
+			},
+
+			refresh: false,
+
+			scope: {
+				basic: 'user_info',
+				user: 'user_info',
+				scheduler: 'scheduler',
+				start: 'start_meeting',
+				email: '',
+				friends: '',
+				share: '',
+				publish: '',
+				photos: '',
+				publish_files: '',
+				files: '',
+				videos: '',
+				offline_access: ''
+			},
+
+			scope_delim: ' ',
+
+			login: function(p) {
+				p.options.popup.width = 400;
+				p.options.popup.height = 700;
+			},
+
+			base: 'https://api.join.me/v1/',
+
+			get: {
+				me: 'user',
+				meetings: 'meetings',
+				'meetings/info': 'meetings/@{id}'
+			},
+
+			post: {
+				'meetings/start/adhoc': function(p, callback) {
+					callback('meetings/start');
+				},
+
+				'meetings/start/scheduled': function(p, callback) {
+					var meetingId = p.data.meetingId;
+					p.data = {};
+					callback('meetings/' + meetingId + '/start');
+				},
+
+				'meetings/schedule': function(p, callback) {
+					callback('meetings');
+				}
+			},
+
+			patch: {
+				'meetings/update': function(p, callback) {
+					callback('meetings/' + p.data.meetingId);
+				}
+			},
+
+			del: {
+				'meetings/delete': 'meetings/@{id}'
+			},
+
+			wrap: {
+				me: function(o, headers) {
+					formatError(o, headers);
+
+					if (!o.email) {
+						return o;
+					}
+
+					o.name = o.fullName;
+					o.first_name = o.name.split(' ')[0];
+					o.last_name = o.name.split(' ')[1];
+					o.id = o.email;
+
+					return o;
+				},
+
+				'default': function(o, headers) {
+					formatError(o, headers);
+
+					return o;
+				}
+			},
+
+			xhr: formatRequest
+
+		}
+	});
+
+	function formatError(o, headers) {
+		var errorCode;
+		var message;
+		var details;
+
+		if (o && ('Message' in o)) {
+			message = o.Message;
+			delete o.Message;
+
+			if ('ErrorCode' in o) {
+				errorCode = o.ErrorCode;
+				delete o.ErrorCode;
+			}
+			else {
+				errorCode = getErrorCode(headers);
+			}
+
+			o.error = {
+				code: errorCode,
+				message: message,
+				details: o
+			};
+		}
+
+		return o;
+	}
+
+	function formatRequest(p, qs) {
+		// Move the access token from the request body to the request header
+		var token = qs.access_token;
+		delete qs.access_token;
+		p.headers.Authorization = 'Bearer ' + token;
+
+		// Format non-get requests to indicate json body
+		if (p.method !== 'get' && p.data) {
+			p.headers['Content-Type'] = 'application/json';
+			if (typeof (p.data) === 'object') {
+				p.data = JSON.stringify(p.data);
+			}
+		}
+
+		if (p.method === 'put') {
+			p.method = 'patch';
+		}
+
+		return true;
+	}
+
+	function getErrorCode(headers) {
+		switch (headers.statusCode) {
+			case 400:
+				return 'invalid_request';
+			case 403:
+				return 'stale_token';
+			case 401:
+				return 'invalid_token';
+			case 500:
+				return 'server_error';
+			default:
+				return 'server_error';
+		}
+	}
+
+}(hello));
+
+(function(hello) {
+
+	hello.init({
+
 		linkedin: {
 
 			oauth: {
@@ -4403,8 +4887,14 @@ hello.utils.extend(hello.utils, {
 			scope: {
 				basic: 'r_basicprofile',
 				email: 'r_emailaddress',
-				friends: 'r_network',
-				publish: 'rw_nus'
+				files: '',
+				friends: '',
+				photos: '',
+				publish: 'w_share',
+				publish_files: 'w_share',
+				share: '',
+				videos: '',
+				offline_access: ''
 			},
 			scope_delim: ' ',
 
@@ -4412,9 +4902,6 @@ hello.utils.extend(hello.utils, {
 
 			get: {
 				me: 'people/~:(picture-url,first-name,last-name,id,formatted-name,email-address)',
-				'me/friends': 'people/~/connections?count=@{limit|500}',
-				'me/followers': 'people/~/connections?count=@{limit|500}',
-				'me/following': 'people/~/connections?count=@{limit|500}',
 
 				// See: http://developer.linkedin.com/documents/get-network-updates-and-statistics-api
 				'me/share': 'people/~/network/updates?count=@{limit|250}'
@@ -4713,23 +5200,48 @@ hello.utils.extend(hello.utils, {
 					var data = p.data;
 					p.data = null;
 
+					var status = [];
+
+					// Change message to status
+					if (data.message) {
+						status.push(data.message);
+						delete data.message;
+					}
+
+					// If link is given
+					if (data.link) {
+						status.push(data.link);
+						delete data.link;
+					}
+
+					if (data.picture) {
+						status.push(data.picture);
+						delete data.picture;
+					}
+
+					// Compound all the components
+					if (status.length) {
+						data.status = status.join(' ');
+					}
+
 					// Tweet media
 					if (data.file) {
-						p.data = {
-							status: data.message,
-							'media[]': data.file
-						};
+						data['media[]'] = data.file;
+						delete data.file;
+						p.data = data;
 						callback('statuses/update_with_media.json');
 					}
 
 					// Retweet?
-					else if (data.id) {
+					else if ('id' in data) {
 						callback('statuses/retweet/' + data.id + '.json');
 					}
 
 					// Tweet
 					else {
-						callback('statuses/update.json?include_entities=1&status=' + data.message);
+						// Assign the post body to the query parameters
+						hello.utils.extend(p.query, data);
+						callback('statuses/update.json?include_entities=1');
 					}
 				},
 
@@ -4738,20 +5250,6 @@ hello.utils.extend(hello.utils, {
 					var id = p.data.id;
 					p.data = null;
 					callback('favorites/create.json?id=' + id);
-				},
-
-				// See: https://dev.twitter.com/rest/reference/post/friendships/create
-				'me/follow': function(p, callback) {
-					var user_id = p.data.user_id;
-					p.data = null;
-					callback('friendships/create.json?follow=true&user_id=' + user_id);
-				},
-
-				// See: https://dev.twitter.com/rest/reference/post/friendships/destroy
-				'me/unfollow': function(p, callback) {
-					var user_id = p.data.user_id;
-					p.data = null;
-					callback('friendships/destroy.json?user_id=' + user_id);
 				}
 			},
 
@@ -4881,6 +5379,98 @@ hello.utils.extend(hello.utils, {
 
 })(hello);
 
+// Vkontakte (vk.com)
+(function(hello) {
+
+	hello.init({
+
+		vk: {
+			name: 'Vk',
+
+			// See https://vk.com/dev/oauth_dialog
+			oauth: {
+				version: 2,
+				auth: 'https://oauth.vk.com/authorize',
+				grant: 'https://oauth.vk.com/access_token'
+			},
+
+			// Authorization scopes
+			// See https://vk.com/dev/permissions
+			scope: {
+				email: 'email',
+				friends: 'friends',
+				photos: 'photos',
+				videos: 'video',
+				share: 'share',
+				offline_access: 'offline'
+			},
+
+			// Refresh the access_token
+			refresh: true,
+
+			login: function(p) {
+				p.qs.display = window.navigator &&
+					window.navigator.userAgent &&
+					/ipad|phone|phone|android/.test(window.navigator.userAgent.toLowerCase()) ? 'mobile' : 'popup';
+			},
+
+			// API Base URL
+			base: 'https://api.vk.com/method/',
+
+			// Map GET requests
+			get: {
+				me: function(p, callback) {
+					p.query.fields = 'id,first_name,last_name,photo_max';
+					callback('users.get');
+				}
+			},
+
+			wrap: {
+				me: function(res, headers, req) {
+					formatError(res);
+					return formatUser(res, req);
+				}
+			},
+
+			// No XHR
+			xhr: false,
+
+			// All requests should be JSONP as of missing CORS headers in https://api.vk.com/method/*
+			jsonp: true,
+
+			// No form
+			form: false
+		}
+	});
+
+	function formatUser(o, req) {
+
+		if (o !== null && 'response' in o && o.response !== null && o.response.length) {
+			o = o.response[0];
+			o.id = o.uid;
+			o.thumbnail = o.picture = o.photo_max;
+			o.name = o.first_name + ' ' + o.last_name;
+
+			if (req.authResponse && req.authResponse.email !== null)
+				o.email = req.authResponse.email;
+		}
+
+		return o;
+	}
+
+	function formatError(o) {
+
+		if (o.error) {
+			var e = o.error;
+			o.error = {
+				code: e.error_code,
+				message: e.error_msg
+			};
+		}
+	}
+
+})(hello);
+
 (function(hello) {
 
 	hello.init({
@@ -4913,6 +5503,7 @@ hello.utils.extend(hello.utils, {
 				files: 'wl.skydrive',
 				publish: 'wl.share',
 				publish_files: 'wl.skydrive_update',
+				share: 'wl.share',
 				create_event: 'wl.calendars_update,wl.events_create',
 				offline_access: 'wl.offline_access'
 			},
@@ -4948,7 +5539,7 @@ hello.utils.extend(hello.utils, {
 				'me/album': '@{id}/files/',
 
 				'me/folders': '@{id|me/skydrive/}',
-				'me/files': '@{parent|me/skydrive/}/files'
+				'me/files': '@{parent|me/skydrive}/files'
 			},
 
 			// Map DELETE requests
@@ -5085,7 +5676,7 @@ hello.utils.extend(hello.utils, {
 			login: function(p) {
 				// Change the default popup window to be at least 560
 				// Yahoo does dynamically change it on the fly for the signin screen (only, what if your already signed in)
-				p.options.window_width = 560;
+				p.options.popup.width = 560;
 
 				// Yahoo throws an parameter error if for whatever reason the state.scope contains a comma, so lets remove scope
 				try {delete p.qs.state.scope;}
@@ -5106,10 +5697,7 @@ hello.utils.extend(hello.utils, {
 				// It might be better to loop through the social.relationship table with has unique IDs of users.
 				'me/friends': formatFriends,
 				'me/following': formatFriends,
-				'default': function(res) {
-					paging(res);
-					return res;
-				}
+				'default': paging
 			}
 		}
 	});
@@ -5186,7 +5774,14 @@ hello.utils.extend(hello.utils, {
 
 	function formatFriend(contact) {
 		contact.id = null;
-		contact.fields.forEach(function(field) {
+
+		// #362: Reports of responses returning a single item, rather than an Array of items.
+		// Format the contact.fields to be an array.
+		if (contact.fields && !(contact.fields instanceof Array)) {
+			contact.fields = [contact.fields];
+		}
+
+		(contact.fields || []).forEach(function(field) {
 			if (field.type === 'email') {
 				contact.email = field.value;
 			}
@@ -5211,6 +5806,8 @@ hello.utils.extend(hello.utils, {
 				next: '?start=' + (res.query.count + (+request.options.start || 1))
 			};
 		}
+
+		return res;
 	}
 
 	function yql(q) {
