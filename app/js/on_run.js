@@ -60,6 +60,10 @@ function OnRun($rootScope, AppSettings, HelloService) {
 
       if (toState.currentView) {
         $rootScope.root.currentView = toState.currentView;
+      } else {
+        if ( toState.title ) {
+          $rootScope.root.currentView = toState.title;
+        }
       }
     });
     $rootScope.root = root;
