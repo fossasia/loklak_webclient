@@ -55,9 +55,12 @@ function OnRun($rootScope, AppSettings, HelloService) {
       var pageTitle = 'Loklak ';
       if ( toState.title ) {
         pageTitle += toState.title;
-        $rootScope.root.currentView = toState.title;
       }
       $rootScope.root.pageTitle = pageTitle;
+
+      if (toState.currentView) {
+        $rootScope.root.currentView = toState.currentView;
+      }
     });
     $rootScope.root = root;
 }
