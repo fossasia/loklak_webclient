@@ -34,26 +34,29 @@
             <div class="col-md-3 padded ">
                 <div class="home-user-info no-top-margin">
                     <div class="blue-background-placeholder">
-                        <img ng-src="{{profilebanner}}" s>    
+                        <img ng-src="{{root.twitterSession.profile_banner_url }}" alt="user-banner-photo" ng-show="root.twitterSession.profile_banner_url">    
                     </div>
-                    <div class="home-user-info-content" style="width:268px;">
+                    <div class="home-user-info-content">
                         <div class="top-content">
-                            <img ng-src="{{profilepicurl}}" fallback-src="/images/anon_200x200.png" >
+                            <img ng-src="{{root.twitterSession.profile_image_url_https | homePageImage }}">
                             <div class="name-and-screen-name">
-                                <span class="home-user-name">{{name}}</span>
-                                <span class="home-user-screen-name">@{{username}}</span>
+                                <span class="home-user-name">{{root.twitterSession.name}}</span>
+                                <span class="home-user-screen-name">@{{root.twitterSession.screen_name}}</span>
                             </div>
                         </div>
                         <div class="bottom-content">
                             <div class="user-no-tweets">
-                                <a href="">Tweets<br><span>{{tweetcount}}</span></a>
+                                <a href="">Tweets<br><span>{{root.twitterSession.statuses_count}}</span></a>
                             </div>
                             <div class="user-no-followings">
-                                <a href="">Following<br><span>{{followingstotal}}</span></a>
+                                <a href="">Following<br><span>{{root.twitterSession.friends_count}}</span></a>
                             </div>
                             <div class="user-no-followers">
-                                <a href="">Followers<br><span>{{followerstotal}}</span></a>
+                                <a href="">Followers<br><span>{{root.twitterSession.followers_count}}</span></a>
                             </div>
+                        </div>
+                        <div ng-show="root.twitterSession.description" class="user-info-text">
+                            {{root.twitterSession.description}}
                         </div>
                     </div>
                 </div>
@@ -71,7 +74,7 @@
                             <img ng-src="{{item.profile_image_url_https}}">
                         </a>
                     </div>
-                </div>  
+                </div>
 
 
 
