@@ -1121,7 +1121,7 @@
 			@media (max-width: 991px) {
 				padding-right: 0;
 			}
-			padding-right: 10px;
+			padding-right: 0px;
 		}	
 	}
 	.dashboard-left {
@@ -1157,9 +1157,11 @@
 
 /* Style for account search, reused from home view */
 .account-item {
+	padding-right: 0px;
+	padding-left: 10px;
 	.home-user-info {
 		margin-top: 0;
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 		padding-bottom: 20px;
 		height: 300px;
 		@media (min-width: 0px) and (max-width: 767px) {
