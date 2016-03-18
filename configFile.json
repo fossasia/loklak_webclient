@@ -1,6 +1,6 @@
 {
 	"apiUrl": "http://localhost:9000/api/",
-	"domain": "http://localhost:3001",
+	"domain": "http://localhost:3000",
 	"twitterConsumerKey": "KEY_HERE",
 	"twitterConsumerSecret": "KEY_HERE",
 	"twitterCallbackUrl": "http://localhost:3000/auth/twitter/callback",
