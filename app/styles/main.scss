@@ -41,6 +41,12 @@
 	min-height: 100vh;
 }
 
+.Emoji--forText {
+    width: 6%;
+    padding: 0 .5% 0 .5%;
+    vertical-align: middle;
+}
+
 * {
     font-family: $font-family;
 }
