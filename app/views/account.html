@@ -1,4 +1,3 @@
-
 <div ng-attr-id="{{data.id_str}}" class="home-user-info">
     <div class="blue-background-placeholder">
         <a ng-href="{{'./search?q=from:' + data.screen_name}}" ><img ng-src="{{data.profile_banner_url }}" alt="user-banner-photo" ng-show="data.profile_banner_url" fallback-src="/images/anon_400x400.png"></a>
@@ -12,7 +11,7 @@
             </div>
         </div>
         <div class="bottom-content">
-            <p>{{data.description | shortenTo:91 }}</p>
+            <p ng-bind-html="data.description | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted | shortenTo:91"></p>
         </div>
     </div>
 </div>
