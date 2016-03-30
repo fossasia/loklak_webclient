@@ -372,9 +372,12 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             var d = new Date(property);
             var prop = d.toLocaleString("en-us", { month: "long" }) + "-" + d.getFullYear();
             
-            if(date[prop])
+            if(date[prop]) {
                 date[prop] = date[prop] + statistics.created_at[property];
-            else date[prop] = statistics.created_at[property];
+            }
+            else {
+                date[prop] = statistics.created_at[property];
+            }
         }   
 
         statistics.created_month = date;
@@ -389,8 +392,9 @@ function WallDisplay($scope, $stateParams, $interval, $timeout, $location, $http
             groupByMonths(statistics);
 
             // If number of months increases 2 then show month wise histogram
-            if (Object.keys(statistics.created_month).length > 2)
+            if (Object.keys(statistics.created_month).length > 2) {
                 chosen_attr = statistics.created_month;
+            }
 
             for (var property in chosen_attr) {
                 if (chosen_attr.hasOwnProperty(property)) {
