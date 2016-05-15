@@ -4,7 +4,12 @@
     </div>
     <div class="home-user-info-content">
         <div class="top-content">
-            <a ng-href="{{'./search?q=from:' + data.screen_name}}"><img fallback-src="/images/anon_200x200.png" ng-src="{{data.profile_image_url_https | homePageImage }}"></a>
+            <div class="account-image-and-following-text">
+                <a ng-href="{{'./search?q=from:' + data.screen_name}}"><img fallback-src="/images/anon_200x200.png" ng-src="{{data.profile_image_url_https | homePageImage }}"></a>
+                <div ng-if="data.following" class="btn btn-loklak-blue following-text">
+                    Following
+                </div>
+            </div>
             <div class="name-and-screen-name">
                 <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-name">{{data.name | shortenTo:19  }}</a><br>
                 <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-screen-name">@{{data.screen_name}}</a>

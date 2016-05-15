@@ -111,6 +111,12 @@
 				border-radius: 9px;
 				margin-left:-2%;
 			}
+			.following-text {
+			    float: right;
+			    margin-right: 20px;
+			    margin-top: 40px;
+			    pointer-events: none;
+			}
 			.name-and-screen-name {
 				position: relative;
 				top: -5px;
