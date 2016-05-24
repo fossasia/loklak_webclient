@@ -4,7 +4,8 @@
     </div>
     <div class="home-user-info-content">
         <div class="top-content">
-            <div class="account-image-and-following-text">
+            <div>
+            <!--<div class="account-image-and-following-text">-->
                 <a ng-href="{{'./search?q=from:' + data.screen_name}}"><img fallback-src="/images/anon_200x200.png" ng-src="{{data.profile_image_url_https | homePageImage }}"></a>
                 <div ng-if="data.following" class="btn btn-loklak-blue following-text">
                     Following
@@ -12,7 +13,8 @@
             </div>
             <div class="name-and-screen-name">
                 <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-name">{{data.name | shortenTo:19  }}</a><br>
-                <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-screen-name">@{{data.screen_name}}</a>
+                    <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-screen-name">@{{data.screen_name}}</a>
+                    <div ng-if="data.friend" class="home-user-follows-text">FOLLOWS YOU</div>
             </div>
         </div>
         <div class="bottom-content">

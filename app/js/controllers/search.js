@@ -188,6 +188,13 @@ controllersModule.controller('SearchCtrl', ['$window', '$stateParams', '$rootSco
                 vm.peopleSearch = true;
                 vm.showMap = false;
             }, function() {});
+            vm.accountsPretty.forEach(function(ele) {
+                var result = $filter('filter')($rootScope.userTopology.followers, {screen_name : ele.screen_name}, true);
+                if(result.length) {
+                    ele.friend = true;
+                }
+                else ele.friend = false;
+            });
         }, function() {});
         updatePath(vm.term + '+' + '/accounts');
     };
