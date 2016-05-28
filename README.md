@@ -11,8 +11,15 @@ Install and run it first.
 
 ### Build
 
-1. Install the following: `git`, `npm`, `nodejs`, `nasm`, `libpng-dev` and `dh-autoreconf`.
-2. Run as root or administrator `npm install -g gulp`
+1. Install `git`, `npm`, `nodejs`, `nasm`, `libpng-dev` and `dh-autoreconf`packages. 
+   Run the commands as:
+   * `sudo apt-get install git-core`
+   * `sudo apt-get install npm`
+   * `sudo apt-get install nodejs`
+   * `sudo apt-get install nasm`
+   * `sudo apt-get install libpng-dev`
+   * `sudo apt-get install dh-autoreconf`
+2. Run `sudo npm install -g gulp` to install `gulp` systemwide as a tool to run the task.
 3. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
 4. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
