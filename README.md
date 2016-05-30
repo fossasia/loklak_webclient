@@ -11,8 +11,15 @@ Install and run it first.
 
 ### Build
 
-1. Install: git npm nodejs nasm libpng-dev dh-autoreconf
-2. run `npm install -g gulp`
+1. Install `git`, `npm`, `nodejs`, `nasm`, `libpng-dev` and `dh-autoreconf`packages. 
+   Run the commands as:
+    * `sudo apt-get install git-core`
+    * `sudo apt-get install npm`
+    * `sudo apt-get install nodejs`
+    * `sudo apt-get install nasm`
+    * `sudo apt-get install libpng-dev`
+    * `sudo apt-get install dh-autoreconf`
+2. Run `sudo npm install -g gulp` to install `gulp` systemwide as a tool to run the task.
 3. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
 4. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
@@ -20,11 +27,9 @@ Install and run it first.
 5. Run `npm install` from the root directory **AND** from `oauth-proxy` subdirectory, **AND** from `iframely`
 
 ### Add twitter credentials
-Create an twitter application at `https://apps.twitter.com`, remember to set the correct website url & callback url (for localhost, `http://127.0.0.1/` works better), then modify `custom_configFile.json`:
-1. Set the twitterConsumerKey var in `custom_configFile.json`
-  to set the Consumer Key (API Key) from your Twitter app
-2. Set the twitterConsumerSecret var in `custom_configFile.json`
-  to set the Consumer Secret from your Twitter app  
+Create a Twitter application at [https://apps.twitter.com](https://apps.twitter.com), remember to set the correct website url & callback url (for localhost, `http://127.0.0.1/` works better), then modify `custom_configFile.json` as:
+* Set the twitterConsumerKey var in `custom_configFile.json` to set the Consumer Key (API Key) from your Twitter app
+* Set the twitterConsumerSecret var in `custom_configFile.json` to set the Consumer Secret from your Twitter app  
 
 A twitter app is valid only for a domain (defined when creating the app). So the credentails above need to be changed also according to the domain (e.g. you'll need to create 2 twitter apps separately for a clone in localhost and for a clone in a remote server)
 
