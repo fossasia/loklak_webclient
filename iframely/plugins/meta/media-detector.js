@@ -8,21 +8,24 @@ module.exports = {
 
         if (meta.og) {
 
-            if (meta.og.video || (meta.og.type && typeof meta.og.type === 'string' && meta.og.type.match(/video|movie/i) || /\/(video|videos)\//i.test(url))) {
+            if ((meta.og.video && !meta.og.type )|| (meta.og.type && typeof meta.og.type === 'string' && meta.og.type.match(/video|movie/i)) || /\/videos?\//i.test(url)) {
 
                 has_player = true;
             }
+            
+        } else {
+            if (meta.video_src || meta.video_type) {
+                has_player = true;
+            }
+            if (meta.medium === 'video') {
+                has_player = true;
+            }
         }
+
         if (meta.twitter) {
             if (meta.twitter.player || meta.twitter.stream) {
                 has_player = true;
             }
-        }
-        if (meta.video_src || meta.video_type) {
-            has_player = true;
-        }
-        if (meta.medium === 'video') {
-            has_player = true;
         }
 
         if (has_player) {

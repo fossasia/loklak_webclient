@@ -1,6 +1,6 @@
 (function(cache) {
 
-    var DEFAULT_CACHE = "node-cache"
+    var DEFAULT_CACHE = "node-cache";
 
     function setCachingEngine(id) {
         try {
@@ -25,7 +25,7 @@
                 setCachingEngine(DEFAULT_CACHE);
             }
         }
-    };
+    }
 
     setCachingEngine(CONFIG.CACHE_ENGINE || DEFAULT_CACHE);
 

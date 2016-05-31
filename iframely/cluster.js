@@ -1,5 +1,3 @@
-'use strict';
-
 var cluster = require('cluster');
 var sysUtils = require('./utils');
 var numCPUs = require('os').cpus().length;
@@ -32,7 +30,7 @@ if (cluster.isMaster) {
             usage.lookup(process.pid, function(error, result) {
 
                 if (error) {
-                    console.error('Error getting process stats', error);
+                    console.error('Error getting process stats', err);
                     return;
                 }
 
@@ -66,5 +64,15 @@ if (cluster.isMaster) {
             }
 
         }, 1000);
+    }
+
+    if (CONFIG.CLUSTER_WORKER_RESTART_ON_PERIOD) {
+
+        setInterval(function() {
+
+            sysUtils.log('Cluster: worker ' + process.pid + ' restarting by timer...');
+            process.exit(1);
+
+        }, CONFIG.CLUSTER_WORKER_RESTART_ON_PERIOD);
     }
 }

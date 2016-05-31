@@ -43,26 +43,19 @@
         };
     }();
 
-    window.onresize = function() {
-        resize();
-    };
+    var contentElement = document.getElementById('iframely-content');
 
     var windowId;
     var height, width;
-    var preventOverloadCount = 0;
 
-    var TEST_INITIAL_HEIGHT_PERIOD = 200;
-    var TEST_INITIAL_HEIGHT_DURATION = 30000;
+    function resize(force) {
 
-    function resize() {
-
-        var bars = getSBLive(window);
-        var h = heightGetter(bars);
-        var w = widthGetter(bars);
+        var h = heightGetter();
+        var w = widthGetter();
 
         // h > height and w > width needed to prevent circular resize.
-        // h != height - facebook gives too big height at start. 
-        if (h && h != height && (h != height || !height || !w || w > width)) {
+        // h != height - facebook gives too big height at start.
+        if (h && (force || h != height || !height || !w || !width || w > width)) {
             height = h;
             width = w;
             windowMessaging.postMessage({
@@ -70,14 +63,21 @@
                 method: 'resize',
                 height: height
             });
-            preventOverloadCount = 0;
-        }
-
-        if (preventOverloadCount < TEST_INITIAL_HEIGHT_DURATION / TEST_INITIAL_HEIGHT_PERIOD) {
-            preventOverloadCount++;
-            setTimeout(resize, TEST_INITIAL_HEIGHT_PERIOD);
         }
     }
+
+    window.onresize = function() {
+        resize();
+    };
+
+    var lastContentElementHeight;
+    setInterval(function() {
+        var elHeight = contentElement.scrollHeight;
+        if (elHeight != lastContentElementHeight) {
+            lastContentElementHeight = elHeight;
+            resize();
+        }
+    }, 100);
 
     windowMessaging.receiveMessage(function(e, message) {
 
@@ -87,71 +87,24 @@
 
             // Reset height to force send size.
             height = null;
-            preventOverloadCount = 0;
 
-            resize();
+            resize(true);
         }
     });
 
-    // check current presence of H & V scrollbars
-    // @return array [ Boolean, Boolean ]
-    function getSBLive(w) {
-        var d = w.document, c = d.compatMode;
-        r = c && /CSS/.test(c) ? d.documentElement : d.body;
-        // Nee decimal precision.
-        var rect = r.getBoundingClientRect();
-        var rectWidth = Math.round(rect.width);
-        var rectHeight = Math.round(rect.height);
-        if (typeof w.innerWidth == 'number') {
-            return [ w.innerHeight > rectHeight, w.innerWidth > rectWidth ];
-        } else {
-            return [ r.scrollWidth > rectWidth, r.scrollHeight > rectHeight ];
-        }
+    function widthGetter() {
+        return window.document.documentElement.scrollWidth;
     }
 
-    // get current H & V scrollbars tickness
-    // @return array [ Number, Number ]
-    function getSBSize(w) {
-        var d = w.document, b = d.body, r = [ 0, 0 ], t;
-        if (b) {
-            t = d.createElement('div');
-            t.style.cssText = 'position:absolute;overflow:scroll;top:-100px;left:-100px;width:100px;height:100px;';
-            b.insertBefore(t, b.firstChild);
-            r = [ t.offsetHeight - t.clientHeight, t.offsetWidth - t.clientWidth ];
-            b.removeChild(t);
-        }
-        return r;
-    }
-
-    function widthGetter(bars) {
-        var d = window.document, r = d.documentElement;
-
-        var width = r.scrollWidth;
-
-        if (bars[1]) {
-            width += getSBSize(window)[1];
-        }
-
-        return width;
-    }
-
-    function heightGetter(bars) {
-        var d = document.getElementById('iframely-content');
-        var elHeight = d.scrollHeight;
+    function heightGetter() {
+        var elHeight = contentElement.scrollHeight;
         var docHeight = document.body.scrollHeight;
 
-        // If has vertical scroller get document height.
-        // If has no scroller - get container height.
         var height;
-        if (bars[1]) {
-            height = docHeight;
-        } else {
+        if (elHeight < docHeight && elHeight > 0) {
             height = elHeight;
-        }
-
-        // If has horizontal scroller - add scroller height.
-        if (bars[0]) {
-            height += getSBSize(window)[0];
+        } else {
+            height = docHeight;
         }
 
         return height;

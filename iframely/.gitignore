@@ -1,0 +1,15 @@
+.DS_Store
+.idea
+npm-debug.log
+node_modules
+config.local.js
+test/test2.js
+static/test
+iframely-*.json
+
+node_modules083
+node_modules2
+
+lib/new/test.html
+
+lib/new/test.js

@@ -5,14 +5,22 @@ module.exports = {
         /^https?:\/\/([a-z-\.]+)\/(post)\/(\d{9,13})(?:\/[a-z0-9-]+)?/i
     ],
 
-    getLink: function(tumblr_post, oembed) {
+    getLink: function(tumblr_post, oembed, options) {
 
         if (!oembed.html) {
             return;
         }
 
-        // Tumblr oembeds are not SSL yet // March 2, 2015
-        var rel = [CONFIG.R.oembed, CONFIG.R.inline];
+        var media_only = options.getProviderOptions('tumblr.media_only', false);
+        if ((tumblr_post.type === "photo" || tumblr_post.type === "video") && media_only) {
+            return;
+        }
+
+        var rel = [CONFIG.R.oembed, CONFIG.R.inline, CONFIG.R.html5];
+
+        if (!/http:\/\/embed\.tumblr\.com\/embed\//i.test(oembed.html)) { rel.push(CONFIG.R.ssl); }
+        // We could also try to replace http:// with https://, 
+        // but it appears Tumblr knows better when their embeds are not SSL-friendly and returns only http:// when required.
 
         if (tumblr_post.type !== "text") {
             rel.push (CONFIG.R.app);

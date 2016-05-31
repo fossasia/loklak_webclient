@@ -10,7 +10,7 @@ module.exports = {
 
     getLink: function(og, urlMatch) {
         return [{
-            href: "http://embed.beatport.com/player/?id=" + urlMatch[2] + "&type=" + urlMatch[1],
+            href: "//embed.beatport.com/player/?id=" + urlMatch[2] + "&type=" + urlMatch[1],
             type: CONFIG.T.text_html,
             rel: CONFIG.R.player,
             height: og.video && og.video.height || 162,
@@ -21,6 +21,10 @@ module.exports = {
             rel: CONFIG.R.player,
             height: og.video && og.video.height,
             'min-width': og.video && og.video.width
+        }, {
+            href: "https://www.beatport.com/favicon.ico",
+            type: CONFIG.T.image,
+            rel: CONFIG.R.icon
         }];
     },
 

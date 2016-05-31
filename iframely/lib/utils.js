@@ -14,8 +14,33 @@ if (!GLOBAL.CONFIG) {
     GLOBAL.CONFIG = require('../config');
 }
 
+var prepareRequestOptions = exports.prepareRequestOptions = function(request_options) {
+
+    if (CONFIG.PROXY) {
+
+        var url = request_options.uri || request_options.url;
+
+        // TODO: make 'for'.
+        var proxy = _.find(CONFIG.PROXY, function (p) {
+            return _.find(p.re, function (re) {
+                return url.match(re);
+            });
+        });
+        if (proxy) {
+            if (proxy.proxy_server) {
+                request_options.proxy = proxy.proxy_server;
+            }
+            if (proxy.user_agent && request_options.headers) {
+                request_options.headers['User-Agent'] = proxy.user_agent;
+            }
+        }
+    }
+
+    return request_options;
+};
+
 /**
- * @private
+ * @public
  * Do HTTP GET request and handle redirects
  * @param url Request uri (parsed object or string)
  * @param {Object} options
@@ -41,7 +66,7 @@ var getUrl = exports.getUrl = function(url, options) {
 
             var supportGzip = !process.version.match(/^v0\.8/);
 
-            var r = request({
+            var r = request(prepareRequestOptions({
                 uri: url,
                 method: 'GET',
                 headers: {
@@ -53,7 +78,7 @@ var getUrl = exports.getUrl = function(url, options) {
                 timeout: options.timeout || CONFIG.RESPONSE_TIMEOUT,
                 followRedirect: options.followRedirect,
                 jar: jar
-            })
+            }))
                 .on('error', function(error) {
                     req.emit('error', error);
                 })
@@ -254,7 +279,7 @@ exports.getImageMetadata = function(uri, options, callback){
 
                         if (content_type && content_type !== 'application/octet-stream' && content_type !== 'binary/octet-stream') {
 
-                            if (content_type.indexOf('image/') === -1) {
+                            if (content_type.indexOf('image') === -1) {
                                 cb('invalid content type: ' + res.headers['content-type']);
                             }
 
@@ -293,7 +318,10 @@ exports.getImageMetadata = function(uri, options, callback){
             }
         ], finish);
 
-    }, {disableCache: options.disableCache}, callback);
+    }, {
+        disableCache: options.disableCache,
+        ttl: CONFIG.IMAGE_META_CACHE_TTL || CONFIG.CACHE_TTL
+    }, callback);
 };
 
 exports.getUriStatus = function(uri, options, callback) {
@@ -341,7 +369,10 @@ exports.getUriStatus = function(uri, options, callback) {
 
         getUriStatus(uri, options, finish);
 
-    }, {disableCache: options.disableCache}, callback);
+    }, {
+        disableCache: options.disableCache,
+        ttl: CONFIG.IMAGE_META_CACHE_TTL || CONFIG.CACHE_TTL
+    }, callback);
 };
 
 exports.getContentType = function(uriForCache, uriOriginal, options, cb) {
@@ -417,6 +448,10 @@ var NOW = new Date().getTime();
 
 exports.unifyDate = function(date) {
 
+    if (typeof date === "string" && date.match(/^\d+$/)) {
+        date = parseInt(date);
+    }
+
     if (typeof date === "number") {
 
         if (date === 0) {
@@ -428,19 +463,23 @@ exports.unifyDate = function(date) {
             date = date * 1000;
         }
 
-        var parsedDate = moment(date);
-        if (parsedDate.isValid()) {
-            return parsedDate.toJSON();
-        }
+        return new Date(date).toISOString();
     }
 
     // TODO: time in format 'Mon, 29 October 2012 18:15:00' parsed as local timezone anyway.
-    var parsedDate = moment.utc(date);
-    
-    if (parsedDate && parsedDate.isValid()) {
-        return parsedDate.toJSON();
+    var timestamp = Date.parse(date);
+
+    if (isNaN(timestamp)) {
+        // allow Z at the end which Node doesn't seem to parse into timestamp otherwise        
+        timestamp = Date.parse(date.replace(/Z$/, ''));
     }
-    return date;
+
+    if (!isNaN(timestamp)) {
+        return new Date(timestamp).toISOString();
+    }
+
+    // Bad date to parse.
+    return null;
 };
 
 
@@ -464,14 +503,27 @@ exports.sendLogToWhitelist = function(uri, meta, oembed, whitelistRecord) {
         return
     }
 
-    if (whitelistRecord && !whitelistRecord.isDefault) {
-        // Skip whitelisted urls.
-        return;
-    }
-
     var data = getWhitelistLogData(meta, oembed);
 
     if (data) {
+
+        if (whitelistRecord && !whitelistRecord.isDefault) {
+            // Check if all detected rels present in whitelist record.
+            var hasNew = false;
+            for(var key in data) {
+                var bits = key.split('_');
+                var source = bits[0];
+                var rel = bits[1];
+                // Skip existing source-rel.
+                if (!whitelistRecord[source] || !whitelistRecord[source][rel]) {
+                    hasNew = true
+                }
+            }
+            if (!hasNew) {
+                return hasNew;
+            }
+        }
+
         data.uri = uri;
 
         request({
@@ -607,13 +659,25 @@ exports.generateLinksHtml = function(data, options) {
 
         // Prevent override main html field.
         var mainLink = htmlUtils.findMainLink(plain_data, options);
+
         if (mainLink) {
-            if (mainLink.html) {
+
+            var html = mainLink.html;
+
+            if (!html && mainLink.type.match(/^image/)) {
+                html = htmlUtils.generateLinkElementHtml(mainLink, {
+                    iframelyData: data
+                });
+            }
+
+            if (html) {
                 data.rel = mainLink.rel;
-                data.html = mainLink.html;
+                data.html = html;
             }
         }
     }
+
+    data.rel = data.rel || [];
 };
 
 //====================================================================================
@@ -637,7 +701,8 @@ var getUriStatus = function(uri, options, cb) {
             r.abort();
             cb(null, {
                 code: res.statusCode,
-                content_type: res.headers['content-type']
+                content_type: res.headers['content-type'],
+                content_length: res.headers['content-length'] ? parseInt(res.headers['content-length'] || '0', 10) : null
             });
         });
 };
@@ -684,7 +749,7 @@ function getWhitelistLogData(meta, oembed) {
 
     if (meta) {
         var isJetpack = meta.twitter && meta.twitter.card === 'jetpack';
-        var isWordpress = meta.twitter && meta.twitter.generator === 'wordpress';
+        var isWordpress = meta.generator && /wordpress/i.test(meta.generator);
 
         var isShopify = false;
         if (meta.alternate) {
@@ -738,7 +803,7 @@ function getWhitelistLogData(meta, oembed) {
             !!(meta.sm4 && meta.sm4.video && meta.sm4.video.embed)
     }
 
-    if (oembed && oembed.type !== 'link') {
+    if (oembed && oembed.type !== 'link' && !(oembed.type == 'rich' && isWordpress)) {        
         r['oembed_' + oembed.type] = true;
     }
 
@@ -750,8 +815,6 @@ function getWhitelistLogData(meta, oembed) {
             hasTrue = true;
         }
     }
-
-    // TODO: embedURL: getEl('[itemprop="embedURL"]')
-
+    
     return hasTrue && result;
 }

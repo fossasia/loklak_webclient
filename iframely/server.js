@@ -1,4 +1,3 @@
-'use strict';
 var sysUtils = require('./utils');
 
 console.log("");
@@ -17,7 +16,7 @@ app.set('view engine', 'ejs');
 
 if (CONFIG.allowedOrigins) {
     app.use(function(req, res, next) {
-        var origin = req.headers.origin;
+        var origin = req.headers["origin"];
 
         if (origin) {
             if (CONFIG.allowedOrigins.indexOf('*') > -1) {
@@ -35,7 +34,7 @@ app.disable( 'x-powered-by' );
 app.use(function(req, res, next) {
     res.setHeader('X-Powered-By', 'Iframely');
     next();
-});
+}); 
 
 app.use(sysUtils.cacheMiddleware);
 
@@ -43,6 +42,10 @@ app.use(sysUtils.cacheMiddleware);
 require('./modules/api/views')(app);
 require('./modules/debug/views')(app);
 require('./modules/tests-ui/views')(app);
+
+app.use(logErrors);
+app.use(errorHandler);
+
 
 function logErrors(err, req, res, next) {
     if (CONFIG.RICH_LOG_ENABLED) {
@@ -82,9 +85,6 @@ function errorHandler(err, req, res, next) {
     }
 }
 
-app.use(logErrors);
-app.use(errorHandler);
-
 process.on('uncaughtException', function(err) {
     if (CONFIG.DEBUG) {
         console.log(err.stack);
@@ -106,7 +106,9 @@ app.get('/', function(req, res) {
 process.title = "iframely";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-app.listen(CONFIG.port);
+var listener = app.listen(process.env.PORT || CONFIG.port, process.env.HOST || CONFIG.host, function(){
+    console.log('\niframely is listening on ' + listener.address().address + ':' + listener.address().port + '\n');
+});
 
 if (CONFIG.ssl) {
     var options = { key: CONFIG.ssl.key, cert: CONFIG.ssl.cert };
@@ -114,7 +116,6 @@ if (CONFIG.ssl) {
 }
 
 console.log('');
-console.log('Iframely listening on port', CONFIG.port);
 console.log(' - support@iframely.com - if you need help');
 console.log(' - twitter.com/iframely - news & updates');
 console.log(' - github.com/itteco/iframely - star & contribute');

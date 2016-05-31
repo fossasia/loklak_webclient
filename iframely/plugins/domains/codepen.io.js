@@ -8,18 +8,21 @@ module.exports = {
         "oembed-thumbnail",
         "oembed-author",
         "oembed-site",
-        "oembed-title"
+        "oembed-title",
+        "description",        
+        "domain-icon"
     ],
 
-    getLink: function(oembed) {
+    getLink: function(oembed, urlMatch) {
 
-        var links = [{
-            href: "http://codepen.io/favicon.ico",
-            type: CONFIG.T.image_icon,
-            rel: CONFIG.R.icon,
-            width: 32,
-            height: 32
-        }];
+        if (urlMatch[1] === 'anon') {
+            return { // Anonymous Pens can't be embedded
+                    // return icon to avoid fallback to generic (whitelisted) parser
+                href: 'http://codepen.io/logo-pin.svg',
+                type: CONFIG.T.icon,
+                rel: CONFIG.R.icon
+            }
+        }
 
         var $container = $('<div>');
         try{
@@ -29,15 +32,13 @@ module.exports = {
         var $iframe = $container.find('iframe');
 
         if ($iframe.length == 1) {
-            links.push({
+            return {
                 href: $iframe.attr('src'),
                 type: CONFIG.T.text_html,
-                rel: [CONFIG.R.app, CONFIG.R.oembed],
+                rel: [CONFIG.R.app, CONFIG.R.oembed, CONFIG.R.html5],
                 height: oembed.height
-            });
+            };
         }
-
-        return links;
     },
 
     tests: [ {

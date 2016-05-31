@@ -64,15 +64,15 @@ module.exports = {
                 type: type
             };
 
-            if (whitelistRecord.isAllowed('html-meta.embedURL', 'html5')) {
+            if (whitelistRecord.isAllowed('html-meta.embedURL', CONFIG.R.html5)) {
                 player.rel.push(CONFIG.R.html5);
             }
-            if (whitelistRecord.isAllowed('html-meta.embedURL', 'autoplay')) {
+            if (whitelistRecord.isAllowed('html-meta.embedURL', CONFIG.R.autoplay)) {
                 player.rel.push(CONFIG.R.autoplay);
             }
 
             if (whitelistRecord.isAllowed('html-meta.embedURL', 'responsive') || !schemaVideoObject.height) {
-                player["aspect-ratio"] = schemaVideoObject.height ? schemaVideoObject.width / schemaVideoObject.height : 4/3;
+                player["aspect-ratio"] = schemaVideoObject.height ? schemaVideoObject.width / schemaVideoObject.height : CONFIG.DEFAULT_ASPECT_RATIO;
             } else {
                 player.width = schemaVideoObject.width;
                 player.height = schemaVideoObject.height;

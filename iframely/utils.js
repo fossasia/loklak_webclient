@@ -1,4 +1,3 @@
-'use strict';
 (function() {
 
     GLOBAL.CONFIG = require('./config');
@@ -11,6 +10,8 @@
     var moment = require('moment');
     var _ = require('underscore');
     var urlLib = require('url');
+
+    var log = exports.log = require('./logging').log;
 
     var whitelist = require('./lib/whitelist');
     var pluginLoader = require('./lib/loader/pluginLoader');
@@ -30,27 +31,42 @@
 
     }
 
-    Object.setPrototypeOf(NotFound.prototype, Error.prototype);
+    NotFound.prototype.__proto__ = Error.prototype;
 
     exports.NotFound = NotFound;
 
-    var send = require('send'),
-        utils = require('connect/lib/utils'),
-        parse = utils.parseUrl,
-        url = require('url');
+    function HttpError(code, message) {
+
+        Error.call(this); //super constructor
+        Error.captureStackTrace(this, this.constructor); //super helper method to include stack trace in error object
+
+        this.name = this.constructor.name; //set our function’s name as error name.
+        this.message = message; //set the error message
+        this.code = code; //set the error code
+
+    }
+
+    HttpError.prototype.__proto__ = Error.prototype;
+
+    exports.HttpError = HttpError;
+
+    var send = require('send')
+        , utils = require('connect/lib/utils')
+        , parse = utils.parseUrl
+        , url = require('url');
 
 
     exports.static = function(root, options){
         options = options || {};
 
         // root required
-        if (!root) { throw new Error('static() root path required'); }
+        if (!root) throw new Error('static() root path required');
 
         // default redirect
         var redirect = false !== options.redirect;
 
         return function static(req, res, next) {
-            if ('GET' !== req.method && 'HEAD' !== req.method) { return next(); }
+            if ('GET' != req.method && 'HEAD' != req.method) return next();
             var path = parse(options.path ? {url: options.path} : req).pathname;
             var pause = utils.pause(req);
 
@@ -60,7 +76,7 @@
             }
 
             function directory() {
-                if (!redirect) { return resume(); }
+                if (!redirect) return resume();
                 var pathname = url.parse(req.originalUrl).pathname;
                 res.statusCode = 301;
                 res.setHeader('Location', pathname + '/');
@@ -68,7 +84,7 @@
             }
 
             function error(err) {
-                if (404 === err.status) { return resume(); }
+                if (404 == err.status) return resume();
                 next(err);
             }
 
@@ -83,12 +99,6 @@
     };
 
     var version = require('./package.json').version;
-
-    function log() {
-        var args = _.compact(Array.prototype.slice.apply(arguments));
-        args.splice(0, 0, "--", moment().utc().format("\\[YY-MM-DD HH:mm:ss\\]"));
-        console.log.apply(console, args);
-    }
 
     var etag = function(value) {
         return '"' + crypto.createHash('md5').update(value).digest("hex") + '"';
@@ -227,7 +237,7 @@
 
                                 if (head) {
 
-                                    log("Using cache for", req.url.replace(/\?.+/, ''), req.query.uri || req.query.url);
+                                    log(req, "Using cache for", req.url.replace(/\?.+/, ''), req.query.uri || req.query.url);
 
                                     var requestedEtag = req.headers['if-none-match'];
 
@@ -350,7 +360,7 @@
                         value = 'Requested page error: ' + error;
                     }
 
-                    setResponseToCache(error, 'text/html', req, res, value);
+                    setResponseToCache(error, 'text/html', req, res, value, CONFIG.CACHE_TTL_PAGE_404);
 
                 } else if (typeof error === "string" && error.match(/^timeout/)) {
 
@@ -387,12 +397,6 @@
 
             next();
         });
-    };
-
-    exports.log = function() {
-        var args = Array.prototype.slice.apply(arguments);
-        args.splice(0, 0, "--", moment().utc().format("\\[YY-MM-DD HH:mm:ss\\]"));
-        console.log.apply(console, args);
     };
 
 })();

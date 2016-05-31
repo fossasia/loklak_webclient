@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 var htmlUtils = require('./html-utils');
 
-exports.getOembed = function(uri, data) {
+exports.getOembed = function(uri, data, options) {
 
     if (!data) {
         return;
@@ -22,6 +22,9 @@ exports.getOembed = function(uri, data) {
     }
     if (data.meta.site) {
         oembed.provider_name = data.meta.site;
+    }
+    if (data.meta.description) {
+        oembed.description = data.meta.description;
     }
 
     // Search only promo for thumbnails.
@@ -57,13 +60,22 @@ exports.getOembed = function(uri, data) {
 
     var link;
     htmlUtils.sortLinks(data.links);
-    var foundRel = _.find(CONFIG.OEMBED_RELS_PRIORITY, function(rel) {
+    var foundRel = _.find(options && options.mediaPriority ? CONFIG.OEMBED_RELS_MEDIA_PRIORITY : CONFIG.OEMBED_RELS_PRIORITY, function(rel) {
         link = htmlUtils.filterLinksByRel(rel, data.links, {
             returnOne: true,
             excludeRel: CONFIG.R.autoplay
         });
         return link;
     });
+
+    if (!link) {
+        link = _.find(data.links, function(link) {
+            return link.type.indexOf('image') === 0 && link.rel.indexOf(CONFIG.R.file) > -1;
+        });
+        if (link) {
+            foundRel = CONFIG.R.image;
+        }
+    }
 
     var inlineReader = link && _.intersection(link.rel, [CONFIG.R.inline, CONFIG.R.reader]).length == 2;
 
@@ -75,9 +87,9 @@ exports.getOembed = function(uri, data) {
         if (m.height) {
             oembed.height = m.height;
         }
-        if (m.content_length) {
-            oembed.content_length = m.content_length;
-        }
+    }
+    if (link && link.content_length) {
+        oembed.content_length = link.content_length;
     }
 
     if (link && !inlineReader) {

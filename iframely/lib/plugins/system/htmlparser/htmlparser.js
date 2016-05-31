@@ -11,7 +11,7 @@ module.exports = {
 
     provides: [
         'self',
-        'nonHtmlContentType'
+        '__nonHtmlContentData'
     ],
 
     getData: function(url, options, cb) {
@@ -48,7 +48,10 @@ module.exports = {
 
                 if('content-type' in resp.headers && !/text\/html|application\/xhtml\+xml/gi.test(resp.headers['content-type'])){
                     return cb(null, {
-                        nonHtmlContentType: resp.headers['content-type']
+                        __nonHtmlContentData: {
+                            type: resp.headers['content-type'],
+                            content_length: resp.headers['content-length']
+                        }
                     });
                 }
 
@@ -70,20 +73,25 @@ module.exports = {
             });
     },
 
-    getLink: function(url, nonHtmlContentType) {
+    getLink: function(url, __nonHtmlContentData, cb) {
+        var nonHtmlContentType = __nonHtmlContentData.type;
+        var nonHtmlContentLength = __nonHtmlContentData.content_length;
 
         // HEADS UP: do not ever remove the below check for 'javascript' or 'flash' in content type
         // if left allowed, it'll make apps vulnerable for XSS attacks as such files will be rendered as regular embeds
-        if (nonHtmlContentType.indexOf('javascript') !== -1 || nonHtmlContentType.indexOf('flash') !== -1) {
-            return;
+        if (/javascript|flash|application\/json|text\/xml|application\/xml/i.test(nonHtmlContentType)) {
+            return cb({
+                responseStatusCode: 415
+            });
+        } else {
+            return cb(null, {
+                href: url,
+                type: nonHtmlContentType,
+                content_length: parseInt(nonHtmlContentLength, 10),
+                rel: CONFIG.R.file
+                // client-side iframely.js will also properly render video/mp4 and image files this way
+            });
         }
-
-        return {
-            href: url,
-            type: nonHtmlContentType,
-            rel: CONFIG.R.file
-            // client-side iframely.js will also properly render video/mp4 and image files this way
-        };
     }
 
 };

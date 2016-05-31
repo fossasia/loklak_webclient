@@ -1,6 +1,6 @@
 module.exports = {
 
-    // hulu.tv shortener is address through the re-directs handling
+    // hulu.tv shortener is addressed through the re-directs handling
     re: [
         /^https?:\/\/www\.hulu\.com\/watch\/([a-z0-9\-]+)/i
     ],    
@@ -10,7 +10,9 @@ module.exports = {
         "oembed-author",
         "oembed-duration",
         "oembed-thumbnail",
-        "oembed-site"
+        "oembed-site",
+        "domain-icon",
+        "twitter-player"
     ],
 
     getMeta: function(oembed) {
@@ -33,14 +35,10 @@ module.exports = {
             rel: CONFIG.R.thumbnail,
             width: oembed.large_thumbnail_width,
             height: oembed.large_thumbnail_height
-        }, {
-            href: "http://www.hulu.com/fat-favicon.ico",
-            type: CONFIG.T.image,
-            rel: CONFIG.R.icon,
         }];
     },
 
     tests: [
-        "http://www.hulu.com/watch/494551"
+        "http://www.hulu.com/watch/1271"
     ]    
 };

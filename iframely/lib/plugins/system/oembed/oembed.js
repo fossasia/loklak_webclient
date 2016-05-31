@@ -1,5 +1,4 @@
 var oembedUtils = require('./oembedUtils');
-var urlLib = require('url');
 
 module.exports = {
 
@@ -25,20 +24,11 @@ module.exports = {
             }
         }
 
-        if (self_endpoint && !options.forOembed) {
-            var urlObj = urlLib.parse(href, true);
-            delete urlObj.search;
-            urlObj.query['for'] = 'oembed';
-            href = urlLib.format(urlObj);
-            skip = false;
-        } else if (self_endpoint) {
-            skip = true;
-        }
-        if (skip) {
+        if (skip || self_endpoint) {
             return cb(null);
         }
 
-        oembedUtils.getOembed(href, function(error, oembed) {
+        oembedUtils.getOembed(href, options, function(error, oembed) {
 
             if (error) {
                 return cb('Oembed error "'+ oembedLinks[0].href + '": ' + error);

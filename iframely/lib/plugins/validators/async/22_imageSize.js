@@ -13,8 +13,7 @@ module.exports = {
         // Check if need link processing.
 
         // Check if disabled by config.
-        var imageOpts = CONFIG.providerOptions && CONFIG.providerOptions.images;
-        if (imageOpts && imageOpts.loadSize === false) {
+        if (options.getProviderOptions('images.loadSize') === false) {
             return cb();
         }
 
@@ -54,7 +53,7 @@ module.exports = {
                     };
                 }
 
-                if (error === 404 || (error.indexOf && error.indexOf('invalid') > -1)) {
+                if (error === 404 || (typeof error === 'string' && /invalid/i.test(error))) {
                     // Image not found. Exclude link from results.
                     link.error = error;
                 }
@@ -67,26 +66,26 @@ module.exports = {
                 };
 
                 if (data.content_length) {
-                    link._imageMeta.content_length = data.content_length;
+                    link.content_length = data.content_length;
                 }
-            }
 
-            // Special case: add rel image for image file with specific size.
-            if (link.rel.indexOf(CONFIG.R.image) === -1 && link.rel.indexOf(CONFIG.R.file) > -1 && data.width > 200 && data.height > 150) {
-                link.rel.push(CONFIG.R.image);
-            }
+                // Special case: add rel image for image file with specific size.
+                if (link.rel.indexOf(CONFIG.R.image) === -1 && link.rel.indexOf(CONFIG.R.file) > -1 && data.width >= 100 && data.height >= 100) {
+                    link.rel.push(CONFIG.R.image);
+                }
 
-            if (link.rel.indexOf(CONFIG.R.file) > -1 && data.width === 1 && data.height === 1) {
-                link.error = "Too small image file";
-            }
+                if (link.rel.indexOf(CONFIG.R.file) > -1 && data.width === 1 && data.height === 1) {
+                    link.error = "Too small image file";
+                }
 
-            // Store timing.
-            if (options.debug && data && data._time) {
-                link._imageMeta = link._imageMeta || {};
-                link._imageMeta.time = data && data._time;
-            }
+                // Store timing.
+                if (options.debug && data && data._time) {
+                    link._imageMeta = link._imageMeta || {};
+                    link._imageMeta.time = data && data._time;
+                }
 
-            mediaPlugin.prepareLink(link, options);
+                mediaPlugin.prepareLink(link, options);
+            }
 
             cb();
         });

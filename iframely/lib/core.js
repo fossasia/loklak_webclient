@@ -6,8 +6,10 @@
 
     var pluginUtils = require('./loader/utils'),
         utils = require('./utils'),
+        sysUtils = require('../logging'),
         oembedUtils = require('./oembed'),
-        pluginLoader = require('./loader/pluginLoader');
+        pluginLoader = require('./loader/pluginLoader'),
+        requestWrapper = require('./request');
 
     var plugins = pluginLoader._plugins,
         providedParamsDict = pluginLoader._providedParamsDict,
@@ -21,7 +23,7 @@
     /*
      * Recursively finds plugin methods to run, including 'mixins' and dependencies (up and down by tree).
      * */
-    function findPluginMethods(pluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, mandatoryParams) {
+    function findPluginMethods(pluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, usedDomains, mandatoryParams) {
 
        /*
         * Params:
@@ -103,7 +105,7 @@
             var mixins = plugin.module.mixins;
             if (mixins) {
                 for(var i = 0; i < mixins.length; i++) {
-                    findPluginMethods(mixins[i], loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds);
+                    findPluginMethods(mixins[i], loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, usedDomains);
                 }
             }
         }
@@ -163,20 +165,12 @@
 
                     // This branch finds methods in upper dependencies tree.
 
+                    var pluginsId = findPluginsForAbsentParams(absentParams, usedDomains, usedParams);
+
                     // Find absent params in other plugins 'provides' attribute.
-                    for(var j = 0; j < absentParams.length; j++) {
-                        var param = absentParams[j];
-                        var paramPlugins = providedParamsDict[param];
-                        if (paramPlugins && paramPlugins.length) {
-
-                            // Store dependency param. Need to determine mandatory params in feature.
-                            usedParams[param] = true;
-
-                            for(var k = 0; k < paramPlugins.length; k++) {
-                                var foundPluginId = paramPlugins[k];
-                                findPluginMethods(foundPluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds);
-                            }
-                        }
+                    for(var j = 0; j < pluginsId.length; j++) {
+                        var foundPluginId = pluginsId[j];
+                        findPluginMethods(foundPluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, usedDomains);
                     }
 
                 } else {
@@ -255,8 +249,9 @@
                     if (error) {
 
                         if (error.code) {
+                            var statusCode = error.code;
                             error = {};
-                            error[SYS_ERRORS.responseStatusCode] = error.code;
+                            error[SYS_ERRORS.responseStatusCode] = statusCode;
                         }
 
                         if (error instanceof Error) {
@@ -363,7 +358,7 @@
         // Find methods in each required plugin.
         for(var i = 0; i < requiredPlugins.length; i++) {
             var plugin = requiredPlugins[i];
-            findPluginMethods(plugin.id, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds);
+            findPluginMethods(plugin.id, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, usedDomains);
         }
 
         // If has new unused params (mandatoryParams) - then find plugins which can use them.
@@ -374,7 +369,7 @@
             // Find methods in plugins, which can use mandatory params.
             for(var i = 0; i < secondaryPlugins.length; i++) {
                 var pluginId = secondaryPlugins[i];
-                findPluginMethods(pluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, mandatoryParams);
+                findPluginMethods(pluginId, loadedParams, pluginsUrlMatches, usedMethods, usedParams, methods, scannedPluginsIds, usedDomains, mandatoryParams);
             }
         }
 
@@ -440,6 +435,9 @@
                             // Store match for plugin.
                             registerDomainPlugin(plugin, match);
                             pluginsUrlMatches[plugin.id] = match;
+                            continue;
+                        } else if (res.length) {
+                            // Skip plugin with unmatched re.
                             continue;
                         }
 
@@ -567,6 +565,38 @@
                     // Prevent duplicates.
                     // Find only generic plugins or plugins from matched domain.
                     if (!(pluginId in foundPluginsDict) && (!plugin.domain || (usedDomains && (plugin.domain in usedDomains)))) {
+                        foundPluginsDict[pluginId] = true;
+                        result.push(pluginId);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /*
+    * Find plugins which can produce 'absentParams'.
+    *
+    * Find only generic plugins or plugins from matched domain.
+    * */
+    function findPluginsForAbsentParams(absentParams, usedDomains, usedParams) {
+
+        var foundPluginsDict = {},
+            result = [];
+
+        for(var i = 0; i < absentParams.length; i++) {
+            var param = absentParams[i];
+            // Find absent params in other plugins 'provides' attribute.
+            var paramPlugins = providedParamsDict[param];
+            if (paramPlugins && paramPlugins.length) {
+                for (var j = 0; j < paramPlugins.length; j++) {
+                    var pluginId = paramPlugins[j];
+                    var plugin = plugins[pluginId];
+                    // Prevent duplicates.
+                    // Find only generic plugins or plugins from matched domain.
+                    if (!(pluginId in foundPluginsDict) && (!plugin.domain || (usedDomains && (plugin.domain in usedDomains)))) {
+                        usedParams[param] = true;
                         foundPluginsDict[pluginId] = true;
                         result.push(pluginId);
                     }
@@ -767,6 +797,10 @@
 
                         if (key === 'date') {
                             v = utils.unifyDate(v);
+                            if (!v) {
+                                // Disable invalid date.
+                                r.data[key] = v;
+                            }
                         }
 
                         if (key === 'title' || key === 'canonical') {
@@ -872,7 +906,7 @@
         return hasDomainData;
     }
 
-    var BIG_CONTEXT = ['htmlparser', 'readability'];
+    var BIG_CONTEXT = ['htmlparser', 'readability', 'decode'];
 
     function prepareResultData(uri, result, options) {
 
@@ -891,6 +925,10 @@
         // Remove canonical links.
         // Remove _meta data.
         var canonical = result.meta.canonical;
+
+        if (result.meta.title === result.meta.description) {
+            delete result.meta.description;
+        }
 
         for(var i = 0; i < links.length;) {
             var link = links[i];
@@ -915,7 +953,14 @@
                 links.splice(i, 1);
             } else {
 
-                if (link.rel.indexOf(CONFIG.R.player) > -1) {
+                if (link.type.indexOf('video/') === 0) {
+                    var autoplayIdx = link.rel.indexOf(CONFIG.R.autoplay);
+                    if (autoplayIdx > -1) {
+                        link.rel.splice(autoplayIdx, 1);
+                    }
+                }
+
+                if (!result.meta.media && link.rel.indexOf(CONFIG.R.player) > -1) {
                     result.meta.media = 'player';
                 }
 
@@ -982,16 +1027,55 @@
             return gr;
         }
         links.sort(function(l1, l2) {
+
             var groupDiff = getRelIndex(l1.rel) - getRelIndex(l2.rel);
 
-            if (groupDiff != 0) {
+            if (groupDiff !== 0) {
                 return groupDiff;
             }
 
             var iframely1 = l1.rel.indexOf(CONFIG.R.iframely) > -1 ? 0 : 1;
             var iframely2 = l2.rel.indexOf(CONFIG.R.iframely) > -1 ? 0 : 1;
 
-            return iframely1 - iframely2;
+            if (iframely1 !== iframely2) {
+                return iframely1 - iframely2;
+            }
+
+            var m1 = l1.media;
+            var m2 = l2.media;
+            if (m1 && m2) {
+
+                if (m1.width && m2.width) {
+                    // Bigger first.
+                    return m2.width - m1.width;
+
+                } else if (m1['aspect-ratio'] && !m2['aspect-ratio']) {
+                    // Has aspect - first.
+                    return -1;
+
+                } else if (!m1['aspect-ratio'] && m2['aspect-ratio']) {
+                    // Has aspect - first.
+                    return 1;
+
+                } else if (m1.width && !m2.width) {
+                    // Has width - first.
+                    return -1;
+
+                } else if (!m1.width && m2.width) {
+                    // Has width - first.
+                    return 1;
+                }
+
+            } else if (m1 && !m2) {
+                // Has media - first.
+                return -1;
+
+            } else if (!m1 && m2) {
+                // Has media - first.
+                return 1;
+            }
+
+            return 0;
         });
     };
 
@@ -1006,7 +1090,7 @@
             for(var i = 0; i < result.length; i++) {
                 var r = result[i];
                 if (r.error && r.error[SYS_ERRORS.redirect]) {
-                    console.error('   -- plugin redirect (by "' + r.method.pluginId + '")', r.error[SYS_ERRORS.redirect]);
+                    sysUtils.log('   -- plugin redirect (by "' + r.method.pluginId + '")', r.error[SYS_ERRORS.redirect]);
                     return r.error[SYS_ERRORS.redirect];
                 }
             }
@@ -1019,16 +1103,66 @@
                 var r = result[i];
 
                 if (r.error && r.error[SYS_ERRORS.responseStatusCode]) {
-                    console.error('   -- response (by "' + r.method.pluginId + '")', r.error[SYS_ERRORS.responseStatusCode]);
+                    sysUtils.log('   -- response (by "' + r.method.pluginId + '")', r.error[SYS_ERRORS.responseStatusCode]);
                     return r.error[SYS_ERRORS.responseStatusCode];
                 }
 
                 if (r.error && r.error === SYS_ERRORS.timeout) {
-                    console.error('   -- response (by "' + r.method.pluginId + '")', SYS_ERRORS.timeout);
+                    sysUtils.log('   -- response (by "' + r.method.pluginId + '")', SYS_ERRORS.timeout);
                     return SYS_ERRORS.timeout;
                 }
             }
         }
+    }
+
+    function searchParamInObj(start, bits, obj) {
+
+        if (start === bits.length) {
+            return obj;
+        }
+
+        if (!obj || !obj.hasOwnProperty) {
+            return;
+        }
+
+        var path = bits[start];
+        while(!obj.hasOwnProperty(path) && start < (bits.length - 1)) {
+            start++;
+            path += '.' + bits[start];
+        }
+
+        if (obj.hasOwnProperty(path)) {
+            return searchParamInObj(start + 1, bits, obj[path]);
+        } else {
+            return;
+        }
+    }
+
+    function generateProviderOptionsFunc(options) {
+        // Do not redefine getProviderOptions func.
+        if (options.getProviderOptions) {
+            return;
+        }
+
+        options.getProviderOptions = function(path, defaultValue) {
+            var bits = path.split('.');
+
+            var value = searchParamInObj(0, bits, options.providerOptions);
+
+            if (typeof value === 'object') {
+
+                // Result is object. Extend default settings with custom settings.
+                var valueDefault = searchParamInObj(0, bits, CONFIG.providerOptions);
+                value = _.extend({}, valueDefault, value);
+
+            } else if (typeof value === 'undefined') {
+
+                // Custom setting is undefined, get default.
+                value = searchParamInObj(0, bits, CONFIG.providerOptions);
+            }
+
+            return typeof value !== 'undefined' ? value : defaultValue;
+        };
     }
 
     /*
@@ -1045,7 +1179,9 @@
             options.jar = request.jar();
         }
 
-        if (options.redirectsCount && options.redirectsCount > 4) {
+        generateProviderOptionsFunc(options);
+
+        if (options.redirectsCount && options.redirectsCount > (CONFIG.MAX_REDIRECTS || 4)) {
             return cb('redirect loop');
         }
 
@@ -1078,7 +1214,7 @@
                 url: uri,
                 cb: true,
                 options: options,
-                request: request
+                request: requestWrapper
             },
 
             pluginsContexts = {},
@@ -1148,6 +1284,8 @@
                         redirect = urlLib.resolve(uri, redirect);
                     }
                     options.redirectsCount = (options.redirectsCount || 0) + 1;
+                    options.redirectsHistory = options.redirectsHistory || [];
+                    options.redirectsHistory.push(uri);
                     run(redirect, options, cb);
                     aborted = true;
                     return;
@@ -1191,7 +1329,7 @@
                     // If no data from domain plugins - try fallback to generic plugins.
                     if (!options.mixAllWithDomainPlugin && isDomainPluginsMode && !resultsHasDomainData(requiredPlugins, allResults.allData)) {
 
-                        console.log('   -- fallback from domain to generic', usedDomains);
+                        sysUtils.log('   -- fallback from domain to generic', usedDomains);
 
                         // Reload pluginsSet selecting only generic.
                         pluginsSet = getPluginsSet(uri, _.extend({}, options, {
@@ -1220,10 +1358,6 @@
             context.__promoUri = options.promoUri;
         }
 
-        if (options.forcePromo) {
-            context.__forcePromo = true;
-        }
-
         if (options.getWhitelistRecord) {
             var whitelistRecord = options.getWhitelistRecord(uri);
             if (whitelistRecord) {
@@ -1231,8 +1365,10 @@
             }
         }
 
-        if (CONFIG.providerOptions.readability && CONFIG.providerOptions.readability.enabled === true || options.readability) {
+        if (options.getProviderOptions('readability.enabled') === true || options.readability) {
             context.__readabilityEnabled = true;
+            // Prevent force load readability plugin.
+            usedParams.__readabilityEnabled = true;
         }
 
         asyncMethodCb('initial');

@@ -1,38 +1,31 @@
 module.exports = {
 
     re: [
-        /^https?:\/\/my\.mail\.ru\/(inbox|mail)\/[a-zA-Z0-9\._\-]+\/video\/(\d+)\/(\d+)\.html/i
+        /^https?:\/\/my\.mail\.ru\/(inbox|mail|list|bk|corp)\/[a-zA-Z0-9\._\-]+\/video\/([a-zA-Z0-9_]+)\/([a-zA-Z0-9_]+)\.html/i
     ],
 
     mixins: [
-        "og-image",
-        "favicon",
-        "canonical",
-        "keywords",
-        "og-site",
-        "og-title"
+        "*"
     ],
 
-    getLink: function(og, urlMatch) {
-                                                            // No id in canonical means - 404
-        if (!og.type || !/video/i.test(og.type) || !og.url || og.url.indexOf(urlMatch[3]) === -1) {
-            return;
-        }
+    getLink: function(og, url) {
 
-        if (!urlMatch) {
+        if (og.type !== 'video.other') {
             return;
         }
 
         return {
-                href: "//videoapi.my.mail.ru/videos/embed/" + og.url.match(/video\/([a-zA-Z0-9\.\-\/]+)/)[1],
+                href: '//videoapi.my.mail.ru/videos/embed/' + url.replace(/^https?:\/\/my\.mail\.ru\//, ''),
                 type: CONFIG.T.text_html,
-                rel: [CONFIG.R.player, CONFIG.R.html5],
+                rel: [CONFIG.R.player, CONFIG.R.ssl, CONFIG.R.html5],
                 "aspect-ratio": 626 / 367
             };
     },
 
     tests: [
         "http://my.mail.ru/mail/ee.vlz/video/22396/44907.html",
-        "http://my.mail.ru/mail/stryukova_lv/video/6177/1029.html"
+        "http://my.mail.ru/mail/stryukova_lv/video/6177/1029.html",
+        "http://my.mail.ru/mail/shiniavskii/video/_myvideo/4.html",
+        "https://my.mail.ru/inbox/wwf00/video/11/46.html"
     ]
 };

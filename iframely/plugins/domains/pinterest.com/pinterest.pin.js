@@ -24,8 +24,7 @@ module.exports = {
                 width: null,
                 height: null,
                 pinWidth: null
-            },
-            width: 250
+            }
         };
     },
 
@@ -45,7 +44,7 @@ module.exports = {
         // No Test Feed here not to violate "scrapping" restrictions of Pinterest
         noFeeds: true
     },
-        "http://pinterest.com/pin/30258628719483308/",
-        "https://www.pinterest.com/pin/312296555387898580/" //vimeo (good one)
+        "https://www.pinterest.com/pin/72831718944016807/",
+        "https://www.pinterest.com/pin/211669251206627341/"
     ]
 };

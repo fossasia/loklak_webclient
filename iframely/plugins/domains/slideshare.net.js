@@ -1,3 +1,4 @@
+var utils = require('../../lib/utils');
 var $ = require('cheerio');
 
 module.exports = {
@@ -6,7 +7,8 @@ module.exports = {
         "oembed-title",
         "oembed-author",
         "oembed-site",
-        "canonical"
+        "canonical",
+        "domain-icon"
     ],
 
     getMeta: function(meta) {
@@ -22,41 +24,62 @@ module.exports = {
         };
     },
 
-    getLink: function(oembed) {
+    getLink: function(oembed, options, cb) {
 
-        var $container = $('<div>');
-        try {
-            $container.html(oembed.html);
-        } catch(ex) {}
 
-        var $iframe = $container.find('iframe');
-        var doc; 
+        if (oembed.slide_image_baseurl && oembed.slide_image_baseurl_suffix) {
+            var links = [];
 
-        if ($iframe.length == 1) {
-            doc = {
-                href: $iframe.attr('src').replace('http:', ''),
-                type: CONFIG.T.text_html,
-                rel: [CONFIG.R.player, CONFIG.R.html5],
-                "aspect-ratio": oembed.width / oembed.height // 4:3 + 35px for nav bar :(
-                                                             // Would need to host embed as js file to address this.
-            };
+            var firstSlide = (/^\/\//.test(oembed.slide_image_baseurl) ? 'http:' : '') + oembed.slide_image_baseurl + '1' + oembed.slide_image_baseurl_suffix;
+
+            utils.getImageMetadata(firstSlide, options, function(error, data) {
+
+                if (error || data.error) {
+
+                    console.log ('Error getting first slide for Slideshare: ' + error);
+
+                } else if (data.width && data.height) {
+
+                    links.push({
+                        href: firstSlide,
+                        type: CONFIG.T.image, 
+                        rel: CONFIG.R.thumbnail,
+                        width: data.width,
+                        height: data.height
+                    });
+                }
+
+                var $container = $('<div>');
+                try {
+                    $container.html(oembed.html);
+                } catch(ex) {}
+
+                var $iframe = $container.find('iframe');
+
+                if ($iframe.length == 1) {
+                    links.push({
+                        href: $iframe.attr('src').replace('http:', ''),
+                        type: CONFIG.T.text_html,
+                        rel: [CONFIG.R.player, CONFIG.R.html5],
+                        "aspect-ratio": (data.width && data.height) ? data.width / data.height : oembed.width / oembed.height,
+                        "padding-bottom": 38
+                    });
+                }
+
+                links.push ({
+                    href: oembed.thumbnail,
+                    type: CONFIG.T.image,
+                    rel: [CONFIG.R.thumbnail, CONFIG.R.oembed],
+                    width: oembed.thumbnail_width,
+                    height: data.height ? Math.round (oembed.thumbnail_width / (data.width / data.height)) : oembed.thumbnail_height
+                });
+
+                cb(null, links);                
+
+            });
         }
 
-        return [
-            doc,
-            {
-                href: '//public.slidesharecdn.com/images/favicon.ico',
-                type: CONFIG.T.image,
-                rel: CONFIG.R.icon
 
-            }, {
-                href: oembed.thumbnail,
-                type: CONFIG.T.image,
-                rel: [CONFIG.R.thumbnail, CONFIG.R.oembed],
-                width: oembed.thumbnail_width,
-                height: oembed.thumbnail_height
-            }
-        ];
     },
 
     tests: [{

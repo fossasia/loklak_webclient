@@ -11,8 +11,7 @@ module.exports = {
             return cb();
         }
 
-        var imageOpts = CONFIG.providerOptions && CONFIG.providerOptions.images;
-        if (imageOpts && imageOpts.checkFavicon === false) {
+        if (options.getProviderOptions('images.checkFavicon') === false) {
             return cb();
         }
 
@@ -42,9 +41,16 @@ module.exports = {
                 if (data.code != 200) {
                     // Image not found or other error. Exclude link from results.                    
                     link.error = data.code;
-                } else if (!/^image/.test(data.content_type)) {
-                    link.error = "Non-image MIME type";
+                } else if (!/^image|application\/octet\-stream/.test(data.content_type)) {
+                    if (data.content_type) { // see rapgenius/cloudflare
+                        link.error = "Non-image MIME type: '" + data.content_type + "'";
+                    }
                 }
+                
+                if (data.code == 200 && data.content_length === 0) {
+                    link.error = "Image with 0 content_length";
+                }
+
             }
 
             // Store timing.

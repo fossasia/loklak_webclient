@@ -7,7 +7,6 @@ module.exports = {
     ],
 
     mixins: [
-        "oembed-title",
         "oembed-site",
         "oembed-author",
         "oembed-thumbnail",
@@ -15,8 +14,19 @@ module.exports = {
         "favicon"
     ],
 
-    getLinks: function(urlMatch, meta, oembed) {
+    getMeta: function (og, oembed) {
+        
+        return {
+            title: og.title ? og.title.match(/([^•]+)/i)[0] : "Post on Instagram",
+            description: oembed.title
+        }
+
+    },
+
+    getLinks: function(urlMatch, meta, oembed, options) {
         var src = 'http://instagram.com/p/' + urlMatch[1] + '/media/?size=';
+
+        var aspect = oembed.thumbnail_width && oembed.thumbnail_height ? oembed.thumbnail_width / oembed.thumbnail_height : 1/1
 
         var links = [
             // Images.
@@ -24,19 +34,19 @@ module.exports = {
                 href: src + 't',
                 type: CONFIG.T.image,
                 rel: CONFIG.R.thumbnail,
-                width: 150,
-                height: 150
+                width: Math.round(150 * aspect),
+                height: 150 
             }, {
                 href: src + 'm',
                 type: CONFIG.T.image,
                 rel: CONFIG.R.thumbnail,
-                width: 306,
+                width: Math.round(aspect * 306),
                 height: 306
             }, {
                 href: src + 'l',
                 type: CONFIG.T.image,
                 rel: (meta.og && meta.og.video) ? CONFIG.R.thumbnail : CONFIG.R.image,
-                width: 612,
+                width: Math.round(aspect * 612),
                 height: 612
             }];
 
@@ -63,7 +73,9 @@ module.exports = {
             });
         }
 
-        if (oembed.type === 'rich') {
+        var media_only = options.getProviderOptions('instagram.media_only', false);
+
+        if (oembed.type === 'rich' && !media_only) {
             links.push({
                 html: oembed.html,
                 type: CONFIG.T.text_html,
@@ -80,6 +92,7 @@ module.exports = {
     },
         "http://instagram.com/p/HbBy-ExIyF/",
         "http://instagram.com/p/a_v1-9gTHx/",
+        "https://www.instagram.com/p/-111keHybD/",
         {
             skipMixins: [
                 "oembed-title"

@@ -41,14 +41,7 @@
 
         if (sources.length == 0 && rels.indexOf("player") > -1) {
 
-            // Meta is not available in new version.
-            // Maybe need to create new tag.
-            //if (meta && meta.video_src) {
-                result.push({
-                    source: "html-meta",
-                    type: "video"
-                });
-            //}
+            // Skip single player rel.
 
         } else {
             sources.forEach(function(source) {
@@ -302,7 +295,10 @@
             p = path.resolve('.', p);
             // Check if newer file added.
             if (p.match(/iframely-.*\.json/)) {
-                loadLastWhitelist();
+                // Wait sometime to be sure write finished.
+                setTimeout(function() {
+                    loadLastWhitelist();
+                }, 5000);
             }
         });
 
@@ -310,7 +306,10 @@
             p = path.resolve('.', p);
             // Reload last whitelist.
             if (p == currentWhitelistFilename) {
-                readWhitelist(p);
+                // Wait sometime to be sure write finished.
+                setTimeout(function() {
+                    readWhitelist(p);
+                }, 5000);
             }
         });
 
@@ -330,7 +329,7 @@
                 uri: CONFIG.WHITELIST_URL,
                 json: true,
                 qs: {
-                    domain: CONFIG.baseAppUrl.replace(/.+\/\//, ''),
+                    domain: CONFIG.baseAppUrl && CONFIG.baseAppUrl.replace(/.+\/\//, ''),
                     v: CONFIG.VERSION
                 }
             }, function(error, r, newWhitelist) {

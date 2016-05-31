@@ -1,6 +1,11 @@
 var sax = require('sax');
+var urlLib = require('url');
+var async = require('async');
+var _ = require('underscore');
 
 var utils = require('../../../utils');
+var sysUtils = require('../../../../logging');
+var cache = require('../../../cache');
 
 var getUrl = utils.getUrl;
 var getCharset = utils.getCharset;
@@ -102,34 +107,96 @@ module.exports.findOembedLinks = function(uri, meta) {
  * @param {String} uri Full oEmbed endpoint plus URL and any needed format parameter.
  * @param {Function} callback Completion callback function. The callback gets two arguments (error, oembed) where oembed is json parsed oEmbed object.
  * */
-module.exports.getOembed = function(uri, callback) {
+module.exports.getOembed = function(uri, options, callback) {
 
-    getUrl(uri, {
-        maxRedirects: 3
-    })
-        .on('response', function(res) {
-            if (res.statusCode == 200) {
+    if (typeof options === 'function') {
+        callback = options;
+        options = null;
+    }
 
-                stream2oembed(res, function(error, oembed) {
-                    if (error) {
-                        return callback(error);
-                    }
+    var ADD_OEMBED_PARAMS = [];
+    if (options && options.ADD_OEMBED_PARAMS instanceof Array) {
+        ADD_OEMBED_PARAMS = ADD_OEMBED_PARAMS.concat(options.ADD_OEMBED_PARAMS);
+    }
+    if (CONFIG.ADD_OEMBED_PARAMS) {
+        ADD_OEMBED_PARAMS = ADD_OEMBED_PARAMS.concat(CONFIG.ADD_OEMBED_PARAMS);
+    }
 
-                    var result = {};
-                    for(var key in oembed) {
-                        var goodKey = key.replace(/-/g, "_");
-                        result[goodKey] = oembed[key];
-                    }
+    try {
+        // TODO: make 'for'.
+        var params = _.find(ADD_OEMBED_PARAMS, function (params) {
+            return _.find(params.re, function (re) {
+                return uri.match(re);
+            });
+        });
+        if (params) {
+            var urlObj = urlLib.parse(uri, true, true);
+            var query = urlObj.query;
+            delete urlObj.search;
 
-                    callback(null, result);
-                });
+            _.extend(query, params.params);
 
+            uri = urlLib.format(urlObj);
+        }
+    } catch(ex) {
+        console.error("Error using ADD_OEMBED_PARAMS", ex);
+    }
+
+    var oembed_key = 'meta:' + uri;
+
+    async.waterfall([
+
+        function(cb) {
+            if (options && options.refresh) {
+                cb(null, null);
             } else {
-                callback(res.statusCode);
+                cache.get(oembed_key, cb);
             }
-        })
-        .on('error', callback);
-}
+        },
+
+        function(data, cb) {
+
+            if (data) {
+                sysUtils.log('   -- Using cached oembed for: ' + uri);
+                return cb(null, data);
+            }
+
+            getUrl(uri, {
+                maxRedirects: 3
+            })
+                .on('response', function(res) {
+                    if (res.statusCode == 200) {
+
+                        stream2oembed(res, function(error, oembed) {
+                            if (error) {
+                                return cb(error);
+                            }
+
+                            var result = {};
+                            for(var key in oembed) {
+                                var goodKey = key.replace(/-/g, "_");
+                                result[goodKey] = oembed[key];
+                            }
+
+                            cb(null, result);
+                        });
+
+                    } else {
+                        cb(res.statusCode);
+                    }
+                })
+                .on('error', cb);
+        }
+
+    ], function(error, data) {
+
+        if (!error && data) {
+            cache.set(oembed_key, data);
+        }
+
+        callback(error, data);
+    });
+};
 
 /**
  * @private

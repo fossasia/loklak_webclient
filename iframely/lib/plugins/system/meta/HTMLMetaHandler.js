@@ -61,7 +61,7 @@ HTMLMetaHandler.prototype.onopentag = function(name, attributes) {
 
             if (typeof(value) === 'string') {
                 // Remove new lines.
-                value = value.replace(/(\r\n|\n|\r)/gm,"");
+                value = value.replace(/(\r\n|\n|\r)/gm, ' ');
                 // Trim.
                 value = value.replace(/^\s+|\s+$/g, '');
             }
@@ -89,6 +89,15 @@ HTMLMetaHandler.prototype.onopentag = function(name, attributes) {
         } else if (metaTag['http-equiv'] && metaTag['http-equiv'].toLowerCase() == 'x-frame-options') {
 
             this._customProperties["x-frame-options"] = metaTag.content;
+
+        } else if (!this._refresh && metaTag['http-equiv'] && metaTag['http-equiv'].toLowerCase() == 'refresh') {
+
+            // ex.: http://tv.sme.sk/v/29770/kalinak-o-ficovi-cudujem-sa-ze-vedie-vladu.html
+            var refresh = metaTag.content && metaTag.content.match(/url=(?:'|")?([^'"]+)(?:'|")?/i);
+
+            if (refresh) { 
+                this._refresh = refresh[1];
+            }
 
         } else if (metaTag.name == "description") {
 
@@ -312,6 +321,8 @@ HTMLMetaHandler.prototype._finalMerge = function() {
     lowerCaseKeys(this._result);
 
     this._result['charset'] = this._charset || 'UTF-8';
+
+    if (this._refresh) {this._result['refresh'] = this._refresh;}
 
     this._callback(null, this._result);
 };
