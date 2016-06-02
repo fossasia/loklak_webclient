@@ -2,10 +2,10 @@
 <!-- Template for home view -->
 <div ng-show="!map.isShowingMapNotHome" class="content-wrapper home-view-content-wrapper">
     <!-- Main content -->
-    <div ng-show="root.twitterSession && root.doneGettingFeed" class="container content-container">
+    <!-- <div ng-show="root.twitterSession && root.doneGettingFeed" class="container content-container"> -->
       
         <!-- Left content: Who to follow, trends -->
-        <div class="left-result-container col-md-4 col-sm-12 col-lg-3" ng-show="root.twitterSession">
+        <!-- <div class="left-result-container col-md-4 col-sm-12 col-lg-3" ng-show="root.twitterSession">
             
             <div class="switchers">
                 <div class="switch-to-map" ng-click="map.toggleMapAndTimeline();">
@@ -70,9 +70,9 @@
                 </div>
             </div>  
 
-        </div>
+        </div> -->
         <!-- Center result + option filters -->
-        <div class="center-result-container col-md-8 col-sm-12 col-lg-6" ng-show="root.twitterSession">
+        <!-- <div class="center-result-container col-md-8 col-sm-12 col-lg-6" ng-show="root.twitterSession">
             <div class="row cms-view">
                 <div class="main-result-container">
                     <button ng-show="root.timelineNewTweets.length > 0" class="timeline-more-result" ng-click="root.timelineShowNewerTweets();">Load {{root.timelineNewTweets.length}} new tweets!</button>
@@ -92,18 +92,16 @@
                     </div> 
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Right content: Other statistics -->
-        <div class="right-result-container col-md-3 visible-lg">
+        <!-- <div class="right-result-container col-md-3 visible-lg">
             <div class="home-user-trends">
                 <h3 class="trend-title">Trends</h3>
                 <ul id="home-trend-list">
                     <li><a href="./search?q=%23loklak">#loklak</a></li>
                     <li ng-repeat="(key, value) in root.trends">
-                        <!-- -->
                         <a href="./search?q=%23{{key}}">#{{key}}</a>
-                        <!-- -->
                     </li>
                 </ul>
             </div>
@@ -130,7 +128,7 @@
           <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
           <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
         </div>
-    </div>  
+    </div>   -->
     <!-- Search box for anonymous user-no-followers -->
     <div ng-include src="'anonymous-session-content.html'"></div>
     <!-- End search box for anonymous users -->
