@@ -19,14 +19,14 @@
                 <img class="hidden-xs" ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 <div global-search-form class="hidden-xs"></div>  
                 <div twitter-session="root.twitterSession" ng-class="{'isNotLoggedIn': !root.twitterSession, 'signin-twitter': true}" signin-twitter hello="root.hello" ></div>
-                <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
+                <!-- <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
                         <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip btn-loklak-blue" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
                             <span class="fa fa-twitter"></span>
                             <span class="text hidden-xs hidden-sm hidden-md">Tweet</span>
                         </button>
                     </li>
-                </ul>
+                </ul> -->
             </div>
 
             <!-- Mobile nav -->
@@ -57,7 +57,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="signin-status-container">
+                <!-- <div class="signin-status-container">
                     <ul class="global-tweet-button-container" ng-if="root.twitterSession">
                         <li>
                             <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip btn-loklak-blue" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
@@ -66,7 +66,7 @@
                             </button>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

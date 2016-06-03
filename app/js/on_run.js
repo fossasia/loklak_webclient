@@ -15,27 +15,21 @@ function OnRun($rootScope, AppSettings, HelloService) {
    */
     root.globalSearchTerm = '';
     root.topNavItems = [
-    		{
-    			'title': 'Home',
-    			'link' : '/',
-          'icon' : 'fa fa-home'
-    		},
-        {
-          'title': 'Report',
-          'link' : '/report',
-          'icon' : 'fa fa-bar-chart'
-        },
-        {
-          'title': 'Wall',
-          'link' : '/wall',
-          'icon' : 'fa fa-list'
-        },
-        {
-          'title': 'Connect',
-          'link' : '/connect',
-          'icon' : 'fa fa-cloud'
-        }
-        
+		{
+			'title': 'Home',
+			'link' : '/',
+			'icon' : 'fa fa-home'
+		},
+		{
+			'title': 'Wall',
+			'link' : '/wall',
+			'icon' : 'fa fa-list'
+		},
+		{
+			'title': 'Report',
+			'link' : '/report',
+			'icon' : 'fa fa-bar-chart'
+		}        
   	  ];
 
     root.fullscreenDisabled = true;

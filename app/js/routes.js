@@ -11,7 +11,7 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/',
     controller: 'MapCtrl as map',
     templateUrl: 'home.html',
-    title: 'Home'
+    title: 'Profile'
   })
   .state('About', {
     url: '/about',
