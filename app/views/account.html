@@ -1,18 +1,24 @@
-
 <div ng-attr-id="{{data.id_str}}" class="home-user-info">
     <div class="blue-background-placeholder">
         <a ng-href="{{'./search?q=from:' + data.screen_name}}" ><img ng-src="{{data.profile_banner_url }}" alt="user-banner-photo" ng-show="data.profile_banner_url" fallback-src="/images/anon_400x400.png"></a>
     </div>
     <div class="home-user-info-content">
         <div class="top-content">
-            <a ng-href="{{'./search?q=from:' + data.screen_name}}"><img fallback-src="/images/anon_200x200.png" ng-src="{{data.profile_image_url_https | homePageImage }}"></a>
+            <div>
+            <!--<div class="account-image-and-following-text">-->
+                <a ng-href="{{'./search?q=from:' + data.screen_name}}"><img fallback-src="/images/anon_200x200.png" ng-src="{{data.profile_image_url_https | homePageImage }}"></a>
+                <div ng-if="data.following" class="btn btn-loklak-blue following-text">
+                    Following
+                </div>
+            </div>
             <div class="name-and-screen-name">
                 <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-name">{{data.name | shortenTo:19  }}</a><br>
-                <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-screen-name">@{{data.screen_name}}</a>
+                    <a ng-href="{{'./search?q=from:' + data.screen_name}}" class="home-user-screen-name">@{{data.screen_name}}</a>
+                    <div ng-if="data.friend" class="home-user-follows-text">FOLLOWS YOU</div>
             </div>
         </div>
         <div class="bottom-content">
-            <p>{{data.description | shortenTo:91 }}</p>
+            <p ng-bind-html="data.description | tweetTextLink | tweetMention | tweetHashtag | removeTwitterPicLink | toTrusted | shortenTo:91"></p>
         </div>
     </div>
 </div>
