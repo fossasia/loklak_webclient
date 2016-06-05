@@ -6,14 +6,22 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
+directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', 'AuthService',
+function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http, AuthService) {
 	return {
 		scope: {
 			hello: '=',
-			twitterSession: '='
+			twitterSession: '=',
+            isLoggedIn: '=',
+            currentUser: '=',
+            logout: '='
 		},
 		templateUrl: 'signin-twitter.html',
-		controller: function($scope) {
+		controller: function($scope) {            
+            $scope.showOptions = false;
+            $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
+            $rootScope.root.currentUser = AuthService.currentUser();
+            
 			var timelineIntervals = [];
 			$rootScope.root.timelineNewTweets = [];
 			$rootScope.root.haveNewerTweets = false;

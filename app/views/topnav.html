@@ -18,15 +18,15 @@
             <div class="universal-topnav-item topnav-user-actions">
                 <img class="hidden-xs" ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 <div global-search-form class="hidden-xs"></div>  
-                <div twitter-session="root.twitterSession" ng-class="{'isNotLoggedIn': !root.twitterSession, 'signin-twitter': true}" signin-twitter hello="root.hello" ></div>
-                <!-- <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
+                <div twitter-session="root.twitterSession" ng-class="{'isNotLoggedIn': !root.twitterSession, 'signin-twitter': true}" signin-twitter hello="root.hello" is-logged-in="root.isLoggedIn" current-user="root.currentUser" logout="root.onLogout"></div>
+                <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
                         <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip btn-loklak-blue" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
                             <span class="fa fa-twitter"></span>
                             <span class="text hidden-xs hidden-sm hidden-md">Tweet</span>
                         </button>
                     </li>
-                </ul> -->
+                </ul>
             </div>
 
             <!-- Mobile nav -->
@@ -154,10 +154,30 @@
       <div class="modal-body">
         <img id="loklak-signup-icon" src="../images/loklak_icon_yellow_signup.png">
         <h3 style="text-align:center;">Not on loklak? Get more out of your twitter and weibo! Use maps, create walls, see trends and reports and help to build an open education project.</h3>
-      </div>
+     
       <div class="modal-footer" style="text-align:center;">
         <button class="btn btn-info btn-flat" value="Sign up Via Twitter" ng-click="root.hello('twitter').login()"><i class="fa fa-twitter"></i>&nbsp;Signup with Twitter</button>
       </div>
+
+      <h2 style="text-align:center;">Sign Up with Email</h2>
+      <div class="alert alert-danger" ng-if="errorMessage">{{errorMessage}}</div>
+      <form style="margin:20px" ng-submit="root.onSubmit();">
+          <fieldset class="form-group">
+              <label for="name">Full name</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter your name" ng-model="root.credentials.name">
+          </fieldset>
+          <fieldset class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="root.credentials.email">
+          </fieldset>
+          <fieldset class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password" ng-model="root.credentials.password">
+          </fieldset>
+          <button type="submit" class="btn btn-default" ng-click="root.onSubmit();" data-dismiss="modal">Submit</button>
+      </form>
+       </div>
+
     </div>
 
   </div>
