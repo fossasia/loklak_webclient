@@ -5,7 +5,7 @@
 /**
  * @ngInject
  */
-function OnRun($rootScope, AppSettings, HelloService) {
+function OnRun($rootScope, $location, AppSettings, HelloService, AuthService) {
 	var root = {};
   root.hello = HelloService;
   
@@ -54,6 +54,32 @@ function OnRun($rootScope, AppSettings, HelloService) {
       $rootScope.root.pageTitle = pageTitle;
     });
     $rootScope.root = root;
+    
+    $rootScope.root.credentials = {
+        name : "",
+        email : "",
+        password : ""
+    };
+    
+    $rootScope.root.onSubmit = function () {
+        console.log("s");
+        AuthService
+        .register($rootScope.root.credentials)
+        .error(function(err){
+            alert(err);
+        })
+        .then(function(){
+            $location.path('/');
+            $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
+            $rootScope.root.currentUser = AuthService.currentUser();
+        });
+    };
+    $rootScope.root.onLogout = function () {
+        AuthService.logout();
+        $location.path('/');
+        $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
+    };
+
 }
 
 module.exports = OnRun;

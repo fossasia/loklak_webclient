@@ -9,5 +9,6 @@
 	"oauthProxyPort": "3002",
 	"gulpDevExpressPort": "3001",
 	"linkDebuggingServiceHost":"http://localhost",
-	"linkDebuggingServicePort": "8061"
+	"linkDebuggingServicePort": "8061",
+  "jwtsecret": "CHANGE_THE_SECRET"
 }
