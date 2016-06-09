@@ -44,7 +44,7 @@
                 </div>
                 <a id="sign-in-button" href="" ng-show="!root.twitterSession">
                     <span class="link" ng-href="#signupModal" data-target="#signupModal">
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal"><i class="fa fa-twitter"></i>Sign in</button>
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal"><i class="fa fa-twitter"></i>Sign Up</button>
                     </span>
                 </a>
             </div>
@@ -160,26 +160,23 @@
       </div>
 
       <h2 style="text-align:center;">Sign Up with Email</h2>
-      <div class="alert alert-danger" ng-if="errorMessage">{{errorMessage}}</div>
-      <form style="margin:20px" ng-submit="root.onSubmit();">
-          <fieldset class="form-group">
-              <label for="name">Full name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter your name" ng-model="root.credentials.name">
-          </fieldset>
+
+      <form name="signup" style="margin:20px" >
           <fieldset class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="root.credentials.email">
+              <input type="email" name="email" required class="form-control" id="email" placeholder="Enter email" ng-model="root.credentials.email">
           </fieldset>
+          <p class="alert alert-danger" ng-show="signup.email.$touched && signup.email.$invalid">Email is invalid.</p>
           <fieldset class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" ng-model="root.credentials.password">
+              <input type="password" name="password" required ng-minlength="7" class="form-control" id="password" placeholder="Password" ng-model="root.credentials.password">
           </fieldset>
-          <button type="submit" class="btn btn-default" ng-click="root.onSubmit();" data-dismiss="modal">Submit</button>
+          <p class="alert alert-danger" ng-show="signup.password.$error.minlength">Password is too short.</p>
+          <button ng-disabled="signup.$invalid" type="submit" class="btn btn-default" ng-click="root.onSubmit();" data-dismiss="modal">Submit</button>
       </form>
-       </div>
-
+      
+      </div>
     </div>
-
   </div>
 </div>
 <script>

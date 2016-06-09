@@ -3,6 +3,9 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var config = require('../../custom_configFile.json');
+var SALT_WORK_FACTOR = 10;
+var bcrypt = require('bcrypt');
+
 
 // var WallSchema = new Schema({
 //         profanity: Boolean,
@@ -33,17 +36,11 @@ var UserSchema = new Schema({
   // apps: {
   //   wall: [WallSchema]
   // }
-  email: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
+  email: { type: String, unique: true, required: true },
+  name: { type: String, required: true },
   hash: String,
-  salt: String
+  salt: String,
+  isVerified: { type: Boolean, required: true }
 
 });
 
@@ -65,6 +62,7 @@ UserSchema.methods.generateJwt = function() {
     _id: this._id,
     email: this.email,
     name: this.name,
+    isVerified: this.isVerified,
     exp: parseInt(expiry.getTime() / 1000),
   }, config.jwtsecret); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };

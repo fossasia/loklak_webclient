@@ -3,24 +3,15 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 module.exports.register = function(req, res) {
-
-  // if(!req.body.name || !req.body.email || !req.body.password) {
-  //   sendJSONresponse(res, 400, {
-  //     "message": "All fields required"
-  //   });
-  //   return;
-  // }
   
   // Log in if found, else register
   passport.authenticate('local', function(err, user, info){
     var token;
-
     // If Passport throws/catches an error
     if (err) {
       res.status(404).json(err);
       return;
     }
-
     // If a user is found
     if(user){
         token = user.generateJwt();
@@ -30,14 +21,11 @@ module.exports.register = function(req, res) {
         });
     } else {
         // If user is not found
-        
         var user = new User();
-        
-        user.name = req.body.name;
+        user.name = req.body.email;
         user.email = req.body.email;
-        
+        user.isVerified = false;
         user.setPassword(req.body.password);
-        
         user.save(function(err) {
             var token;
             token = user.generateJwt();
