@@ -33,6 +33,7 @@ Create a Twitter application at [https://apps.twitter.com](https://apps.twitter.
 * Set the twitterConsumerKey var in `custom_configFile.json` to set the Consumer Key (API Key) from your Twitter app
 * Set the twitterConsumerSecret var in `custom_configFile.json` to set the Consumer Secret from your Twitter app  
 * Change the jwtsecret var in `custom_configFile.json` to a different string
+* Change the email var in `custom_configFile.json` to a different email
 
 A twitter app is valid only for a domain (defined when creating the app). So the credentails above need to be changed also according to the domain (e.g. you'll need to create 2 twitter apps separately for a clone in localhost and for a clone in a remote server)
 
