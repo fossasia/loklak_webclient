@@ -25,10 +25,10 @@ gulp.task('server', function() {
   server.use(bodyParser.urlencoded({ extended: false }));
   server.use(cookieParser());
 
-  // [SH] Initialise Passport before using the route middleware
+  // Initialise Passport before using the route middleware
   server.use(passport.initialize());
 
-  // [SH] Use the API routes when path starts with /api
+  // Use the API routes when path starts with /api
   server.use('/api', routesApi);
 
     //   var mock = {

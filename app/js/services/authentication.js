@@ -37,7 +37,8 @@ function AuthenticationService($http, $window) {
         payload = JSON.parse(payload);
         return {
           email : payload.email,
-          name : payload.name
+          name : payload.name,
+          isVerified: payload.isVerified
         };
       }
     };
@@ -45,7 +46,7 @@ function AuthenticationService($http, $window) {
     var register = function(user) {
       return $http.post('/api/register', user).success(function(data){
         saveToken(data.token);
-      });
+      });    
     };
 
     var login = function(user) {
