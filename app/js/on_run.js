@@ -5,7 +5,7 @@
 /**
  * @ngInject
  */
-function OnRun($rootScope, $location, AppSettings, HelloService, AuthService) {
+function OnRun($rootScope, $location, AppSettings, HelloService, AuthService, MailService) {
 	var root = {};
   root.hello = HelloService;
   
@@ -56,28 +56,30 @@ function OnRun($rootScope, $location, AppSettings, HelloService, AuthService) {
     $rootScope.root = root;
     
     $rootScope.root.credentials = {
-        name : "",
         email : "",
         password : ""
     };
-    
+    // AuthService.logout();
     $rootScope.root.onSubmit = function () {
-        console.log("s");
         AuthService
         .register($rootScope.root.credentials)
-        .error(function(err){
-            alert(err);
-        })
+		.error(function(err){
+			console.log(err);
+		})
         .then(function(){
-            $location.path('/');
+			$location.path('/');
             $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
             $rootScope.root.currentUser = AuthService.currentUser();
-        });
+            if(!$rootScope.root.currentUser.isVerified){
+				MailService.sendConfirmation($rootScope.root.credentials.email);	
+			} 
+        });    
     };
     $rootScope.root.onLogout = function () {
         AuthService.logout();
         $location.path('/');
         $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
+        $rootScope.root.currentUser = AuthService.currentUser();
     };
 
 }

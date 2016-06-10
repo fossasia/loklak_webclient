@@ -6,9 +6,9 @@
     <div class="container topnav">
         <div class="universal-topnav-container">
             <!-- Left -->   
-            <a href="./"><img ng-show="!root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"></a>
+            <a href="./"><img ng-show="!(root.isLoggedIn)" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo"></a>
             <div class="hidden-xs universal-topnav-item list-of-views">
-                <ul ng-show="root.twitterSession">
+                <ul ng-show="root.isLoggedIn">
                     <li ng-repeat="navItem in root.topNavItems">
                         <a ng-class="(navItem.title == root.currentView) ? 'active-view-nav' : ''" ng-href="{{navItem.link}}"><span class="{{navItem.icon}}"></span><span class="nav-item-title">{{navItem.title}}</span></a>
                     </li>
@@ -16,40 +16,41 @@
             </div>
             <!-- Right -->
             <div class="universal-topnav-item topnav-user-actions">
-                <img class="hidden-xs" ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
+                <!-- <img class="hidden-xs" ng-show="root.isLoggedIn" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo"> -->
                 <div global-search-form class="hidden-xs"></div>  
-                <div twitter-session="root.twitterSession" ng-class="{'isNotLoggedIn': !root.twitterSession, 'signin-twitter': true}" signin-twitter hello="root.hello" is-logged-in="root.isLoggedIn" current-user="root.currentUser" logout="root.onLogout"></div>
-                <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
+                <div signin-twitter twitter-session="root.twitterSession" ng-class="{'isNotLoggedIn': !(root.isLoggedIn), 'signin-twitter': true}" 
+                hello="root.hello" is-logged-in="root.isLoggedIn" current-user="root.currentUser" logout="root.onLogout"></div>
+                <!-- <ul class="hidden-xs global-tweet-button-container" ng-if="root.twitterSession">
                     <li>
                         <button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip btn-loklak-blue" data-placement="bottom" data-component-term="new_tweet_button" data-original-title=""  data-toggle="modal" data-target="#myModal" >
                             <span class="fa fa-twitter"></span>
                             <span class="text hidden-xs hidden-sm hidden-md">Tweet</span>
                         </button>
                     </li>
-                </ul>
+                </ul> -->
             </div>
 
             <!-- Mobile nav -->
             <div class="visible-xs hidden-mobile-nav">
                 <div class="left-logo-and-brand">
-                    <img ng-show="root.twitterSession" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
+                    <img ng-show="root.isLoggedIn" src="../images/loklak_icon_yellow_45x45_transparent.png" alt="Loklak logo" id="loklak-nav-logo">
                 </div>
                 <div global-search-form ></div>  
-                <div ng-show="root.twitterSession" class="hided">
+                <div ng-show="root.isLoggedIn" class="hided">
                     <a id="pull" href="#" ng-click="root.ToggleMobileNav()">
                         <button id="main-nav-button" class="lines-button x arrow arrow-left" type="button" role="button" aria-label="Toggle Navigation">
                           <span class="lines"></span>
                         </button>
                     </a>
                 </div>
-                <a id="sign-in-button" href="" ng-show="!root.twitterSession">
+                <a id="sign-in-button" href="" ng-show="!(root.isLoggedIn)">
                     <span class="link" ng-href="#signupModal" data-target="#signupModal">
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal"><i class="fa fa-twitter"></i>Sign in</button>
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal"><i class="fa fa-twitter"></i>Sign Up</button>
                     </span>
                 </a>
             </div>
             <!-- Hidden items -->
-            <div ng-show="root.twitterSession" class="hidden-items hidden-sm hidden-md hidden-lg hidden-init">
+            <div ng-show="root.isLoggedIn" class="hidden-items hidden-sm hidden-md hidden-lg hidden-init">
                 <div class="list-of-views">
                     <ul>
                         <li ng-repeat="navItem in root.topNavItems">
@@ -142,7 +143,7 @@
   </div>
 </div>
 <!-- Signup modal -->
-<div id="signupModal" class="modal" role="dialog" ng-if="!root.twitterSession">
+<div id="signupModal" class="modal" role="dialog" ng-if="!root.isLoggedIn">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -160,26 +161,23 @@
       </div>
 
       <h2 style="text-align:center;">Sign Up with Email</h2>
-      <div class="alert alert-danger" ng-if="errorMessage">{{errorMessage}}</div>
-      <form style="margin:20px" ng-submit="root.onSubmit();">
-          <fieldset class="form-group">
-              <label for="name">Full name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter your name" ng-model="root.credentials.name">
-          </fieldset>
+
+      <form name="signup" style="margin:20px" >
           <fieldset class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="root.credentials.email">
+              <input type="email" name="email" required class="form-control" id="email" placeholder="Enter email" ng-model="root.credentials.email">
           </fieldset>
+          <p class="alert alert-danger" ng-show="signup.email.$touched && signup.email.$invalid">Email is invalid.</p>
           <fieldset class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password" ng-model="root.credentials.password">
+              <input type="password" name="password" required ng-minlength="7" class="form-control" id="password" placeholder="Password" ng-model="root.credentials.password">
           </fieldset>
-          <button type="submit" class="btn btn-default" ng-click="root.onSubmit();" data-dismiss="modal">Submit</button>
+          <p class="alert alert-danger" ng-show="signup.password.$error.minlength">Password is too short.</p>
+          <button ng-disabled="signup.$invalid" type="submit" class="btn btn-default" ng-click="root.onSubmit();" data-dismiss="modal">Submit</button>
       </form>
-       </div>
-
+      
+      </div>
     </div>
-
   </div>
 </div>
 <script>

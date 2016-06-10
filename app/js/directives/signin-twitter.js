@@ -19,6 +19,7 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 		templateUrl: 'signin-twitter.html',
 		controller: function($scope) {            
             $scope.showOptions = false;
+            $scope.defaultPic = "../images/loklak_icon_yellow_45x45_transparent.png";
             $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
             $rootScope.root.currentUser = AuthService.currentUser();
             
@@ -338,7 +339,7 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse();
-					if (!isOnline) {
+					if (!(isOnline&&AuthService.isLoggedIn())) {
 						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {

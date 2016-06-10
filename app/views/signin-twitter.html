@@ -1,6 +1,7 @@
-<!-- <div ng-show="twitterSession" class="twitter-session">
-		<img id="home-view-user-avatar" ng-click="toggleOptions()" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}">
-		<div class="hidden-user-info hide">
+<div ng-show="(isLoggedIn)" class="twitter-session">
+	<!-- <img id="home-view-user-avatar" ng-click="toggleOptions()" ng-src="{{twitterSession.profile_image_url_https}}" class="user-image" alt="{{twitterSession.name}}"> -->
+	<img id="home-view-user-avatar" ng-click="showOptions=!showOptions" ng-src={{defaultPic}} class="user-image" alt="{{currentUser.name}}">
+		<!-- <div class="hidden-user-info hide">
 			<ul class="top-options">
 				<li>
 					<a href="./home">
@@ -12,29 +13,29 @@
 			<ul class="bottom-options">
 				<li><a href="#" ng-click="hello('twitter').logout()">Log out</a></li>
 			</ul>
+		</div> -->
+		<div class="hidden-user-info" ng-class="showOptions ? '':'hide' ">
+				<ul class="top-options">
+						<li>
+								<a href="./home">
+								<span class="full-name">{{ currentUser.email }}</span><br>
+								<span class="metadata">View profile</span>
+								</a>
+						</li>
+				</ul>
+				<ul class="bottom-options">
+						<li><a href="#" ng-click="logout();showOptions=!showOptions;">Log out</a></li>
+				</ul>
 		</div>
-</div> -->
 
-<div ng-show="!twitterSession" class="signin">
+</div>
+
+<div ng-show="!(isLoggedIn)" class="signin">
 	<a href="">
 		<span class="link" ng-href="#signupModal" data-target="#signupModal">
-            <button type="button" class="btn btn-loklak-blue btn-lg" ng-hide="isLoggedIn" data-toggle="modal" data-target="#signupModal"><i class="fa"></i>Sign in</button>
-			<button type="button" class="btn btn-loklak-blue btn-lg" ng-show="isLoggedIn" ng-click="showOptions=!showOptions"><i class="fa"></i>{{ currentUser.name }}</button>
+			<button type="button" class="btn btn-loklak-blue btn-lg" ng-hide="isLoggedIn" data-toggle="modal" data-target="#signupModal"><i class="fa"></i>Sign Up</button>
 		</span>
 	</a>
-    <div class="hidden-user-info" ng-class="showOptions ? '':'hide' ">
-        <ul class="top-options">
-            <li>
-                <a href="./home">
-                <span class="full-name">{{ currentUser.email }}</span><br>
-                <span class="metadata">View profile</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="bottom-options">
-            <li><a href="#" ng-click="logout()">Log out</a></li>
-        </ul>
-    </div>
 </div>
 
 
