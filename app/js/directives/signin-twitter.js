@@ -90,7 +90,7 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 					    }, function() {});
 					}
 
-					angular.element(".topnav .global-search-container").removeClass("ng-hide");
+					// angular.element(".topnav .global-search-container").removeClass("ng-hide");
 
 
 				}, function() {
@@ -304,6 +304,7 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
 			var idleTime = 0;
+			var currentPath = $location.path();			
 
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
@@ -319,11 +320,6 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 			    $(this).mousemove(function (e) { idleTime = 0; });
 			    $(this).keypress(function (e) { idleTime = 0; });
 
-				if (!isOnline) {
-					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch" && $location.path() !== "/topology") {
-						angular.element(".topnav .global-search-container").addClass("ng-hide");
-					}
-				}
 
 				/*
 	             * Dynamic UI on state changes
@@ -339,16 +335,24 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse();
-					if (!(isOnline&&AuthService.isLoggedIn())) {
+					console.log(toState);
+					
+					if (!$rootScope.root.isLoggedIn) {
 						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
 						}
-					} else {
+					} else if(toState.name === "Search"){
 						angular.element(".topnav .global-search-container").removeClass("ng-hide");
 					}
 				});
+
+				if (!$rootScope.root.isLoggedIn) {
+					if (currentPath!=="/search" && currentPath!=="/advancedsearch" && currentPath!=="/topology") {						
+						angular.element(".topnav .global-search-container").addClass("ng-hide");
+					}
+				}				
 			});
 
 			hello.on('auth.login', function(auth) {

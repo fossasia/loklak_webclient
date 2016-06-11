@@ -24,6 +24,15 @@ gulp.task('server', function() {
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
   server.use(cookieParser());
+  
+  // error handlers
+  // Catch unauthorised errors
+  server.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401);
+      res.json({"message" : err.name + ": " + err.message});
+    }
+  });
 
   // Initialise Passport before using the route middleware
   server.use(passport.initialize());
