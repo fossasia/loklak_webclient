@@ -27,6 +27,7 @@ Install and run it first.
    `cp configFile.json custom_configFile.json`.
    Edit your settings inside `custom_configFile.json`.
 5. Run `npm install` from the root directory **AND** from `oauth-proxy` subdirectory, **AND** from `iframely`
+6. Install mongodb and run `mongod`.
 
 ### Add twitter credentials
 Create a Twitter application at [https://apps.twitter.com](https://apps.twitter.com), remember to set the correct website url & callback url (for localhost, `http://127.0.0.1/` works better), then modify `custom_configFile.json` as:

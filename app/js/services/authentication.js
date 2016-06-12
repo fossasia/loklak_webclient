@@ -35,7 +35,7 @@ function AuthenticationService($http, $window) {
         var payload = token.split('.')[1];
         payload = $window.atob(payload);
         payload = JSON.parse(payload);
-        console.log(payload);
+        // console.log(payload);
         // no need for exp, iat, _id fields
         return {
           _id: payload._id,
