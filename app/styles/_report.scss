@@ -54,7 +54,7 @@
 	.inputname
 	{
 	    color: #292f33;
-      margin-top: 0px;
+	    margin-top:8px;
 	    background-color: #fff;
 	    border: 2px solid #e1e8ed;
 	    border-radius: 21px;
@@ -143,15 +143,15 @@
 	.col-md-3.padded {
 		padding-right: 10px;
 		.inputname {
-      margin-top: 0px;
-      color: #292f33;
-      background-color: white;
-      border: 1px solid #e1e8ed;
-      border-radius: 21px;
-      width: auto;
-      padding: 8px 10px;
-      font-size: 12px;
-      width: 105%;
+			margin-top: 10px;
+		    color: #292f33;
+		    background-color: white;
+		    border: 1px solid #e1e8ed;
+		    border-radius: 21px;
+		    width: auto;
+		    padding: 8px 10px;
+		    font-size: 12px;
+		    width: 100%;
 		}
 		.followers-list {
 			margin-top: 0;

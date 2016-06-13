@@ -9,8 +9,5 @@
 	"oauthProxyPort": "3002",
 	"gulpDevExpressPort": "3001",
 	"linkDebuggingServiceHost":"http://localhost",
-	"linkDebuggingServicePort": "8061",
-  "jwtsecret": "CHANGE_THE_SECRET",
-  "emailID": "CHANGE_THE_EMAIL_ID",
-  "emailPW": "CHANGE_THE_EMAIL_PW"
+	"linkDebuggingServicePort": "8061"
 }

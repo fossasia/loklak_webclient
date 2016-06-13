@@ -1,8 +1,8 @@
 <div class="anonymous-session-content">
-        <div class="blue-bar">
+        <div ng-show="!root.twitterSession" class="blue-bar">
             {{root.globalSearchTerm}}
         </div>
-        <div class="container anonymous-content-container">
+        <div ng-show="!root.twitterSession" class="container anonymous-content-container">
 
             <h1 class="wassup-title">What's going on</h1>
             <div class="search-form-wrapper">
