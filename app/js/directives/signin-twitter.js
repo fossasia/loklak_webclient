@@ -6,23 +6,14 @@ var directivesModule = require('./_index.js');
 
 
 
-directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', 'AuthService',
-function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http, AuthService) {
+directivesModule.directive('signinTwitter', ['$interval', '$location', '$timeout', '$rootScope', 'HelloService', 'SearchService', 'AppSettings', 'AuthorizedSearch', '$http', function($interval, $location, $timeout, $rootScope, HelloService, SearchService, AppSettings, AuthorizedSearch, $http) {
 	return {
 		scope: {
 			hello: '=',
-			twitterSession: '=',
-            isLoggedIn: '=',
-            currentUser: '=',
-            logout: '='
+			twitterSession: '='
 		},
 		templateUrl: 'signin-twitter.html',
-		controller: function($scope) {            
-            $scope.showOptions = false;
-            $scope.defaultPic = "../images/loklak_icon_yellow_45x45_transparent.png";
-            $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
-            $rootScope.root.currentUser = AuthService.currentUser();
-            
+		controller: function($scope) {
 			var timelineIntervals = [];
 			$rootScope.root.timelineNewTweets = [];
 			$rootScope.root.haveNewerTweets = false;
@@ -90,7 +81,7 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 					    }, function() {});
 					}
 
-					// angular.element(".topnav .global-search-container").removeClass("ng-hide");
+					angular.element(".topnav .global-search-container").removeClass("ng-hide");
 
 
 				}, function() {
@@ -304,7 +295,6 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 			var hello = scope.hello;
 			var isOnline = hello('twitter').getAuthResponse();
 			var idleTime = 0;
-			var currentPath = $location.path();			
 
 			$rootScope.root.aSearchWasDone = false;
 			var timerIncrement = function() {
@@ -320,6 +310,11 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 			    $(this).mousemove(function (e) { idleTime = 0; });
 			    $(this).keypress(function (e) { idleTime = 0; });
 
+				if (!isOnline) {
+					if ($location.path() !== "/search" && $location.path() !== "/advancedsearch" && $location.path() !== "/topology") {
+						angular.element(".topnav .global-search-container").addClass("ng-hide");
+					}
+				}
 
 				/*
 	             * Dynamic UI on state changes
@@ -335,24 +330,16 @@ function($interval, $location, $timeout, $rootScope, HelloService, SearchService
 
 					// Maintain only one search box in all views when logged/not logged in.
 					var isOnline = hello('twitter').getAuthResponse();
-					console.log(toState);
-					
-					if (!$rootScope.root.isLoggedIn) {
+					if (!isOnline) {
 						if (toState.name === "Search" || toState.name === "Topology") {
 							angular.element(".topnav .global-search-container").removeClass("ng-hide");
 						} else {
 							angular.element(".topnav .global-search-container").addClass("ng-hide");
 						}
-					} else if(toState.name === "Search"){
+					} else {
 						angular.element(".topnav .global-search-container").removeClass("ng-hide");
 					}
 				});
-
-				if (!$rootScope.root.isLoggedIn) {
-					if (currentPath!=="/search" && currentPath!=="/advancedsearch" && currentPath!=="/topology") {						
-						angular.element(".topnav .global-search-container").addClass("ng-hide");
-					}
-				}				
 			});
 
 			hello.on('auth.login', function(auth) {

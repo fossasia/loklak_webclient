@@ -5,7 +5,7 @@
 /**
  * @ngInject
  */
-function OnRun($rootScope, $location, AppSettings, HelloService, AuthService, MailService) {
+function OnRun($rootScope, AppSettings, HelloService) {
 	var root = {};
   root.hello = HelloService;
   
@@ -15,21 +15,27 @@ function OnRun($rootScope, $location, AppSettings, HelloService, AuthService, Ma
    */
     root.globalSearchTerm = '';
     root.topNavItems = [
-		{
-			'title': 'Home',
-			'link' : '/',
-			'icon' : 'fa fa-home'
-		},
-		{
-			'title': 'Wall',
-			'link' : '/wall',
-			'icon' : 'fa fa-list'
-		},
-		{
-			'title': 'Report',
-			'link' : '/report',
-			'icon' : 'fa fa-bar-chart'
-		}        
+    		{
+    			'title': 'Home',
+    			'link' : '/',
+          'icon' : 'fa fa-home'
+    		},
+        {
+          'title': 'Report',
+          'link' : '/report',
+          'icon' : 'fa fa-bar-chart'
+        },
+        {
+          'title': 'Wall',
+          'link' : '/wall',
+          'icon' : 'fa fa-list'
+        },
+        {
+          'title': 'Connect',
+          'link' : '/connect',
+          'icon' : 'fa fa-cloud'
+        }
+        
   	  ];
 
     root.fullscreenDisabled = true;
@@ -54,34 +60,6 @@ function OnRun($rootScope, $location, AppSettings, HelloService, AuthService, Ma
       $rootScope.root.pageTitle = pageTitle;
     });
     $rootScope.root = root;
-    
-    $rootScope.root.credentials = {
-        email : "",
-        password : ""
-    };
-    // AuthService.logout();
-    $rootScope.root.onSubmit = function () {
-        AuthService
-        .register($rootScope.root.credentials)
-		.error(function(err){
-			console.log(err);
-		})
-        .then(function(){
-			$location.path('/');
-            $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
-            $rootScope.root.currentUser = AuthService.currentUser();
-            if(!$rootScope.root.currentUser.isVerified){
-				MailService.sendConfirmation($rootScope.root.credentials.email);	
-			} 
-        });    
-    };
-    $rootScope.root.onLogout = function () {
-        AuthService.logout();
-        $location.path('/');
-        $rootScope.root.isLoggedIn = AuthService.isLoggedIn();
-        $rootScope.root.currentUser = AuthService.currentUser();
-    };
-
 }
 
 module.exports = OnRun;

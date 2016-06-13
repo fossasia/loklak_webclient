@@ -3,8 +3,7 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.vertical-tabs.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="css/angular-toggle-switch.css"> -->
 <div class="content-wrapper">
-  <!-- <div ng-show="root.twitterSession" class="container content-container"> -->
-    <div ng-show="isLoggedIn" class="container content-container">
+    <div ng-show="root.twitterSession" class="container content-container">
         <section class="content-header">
         </section>
         <section class="content">
@@ -12,23 +11,23 @@
                 <h1 style="float:left;margin-top:0px;">My Twitter Walls</h1>
                 <button style="float:right;" type="button" class="btn btn-loklak-blue btn-lg" ng-click="openModal()">Create a new wall</button>
             </div>
-            <div ng-hide="isLoggedIn" style="margin-top: 20px;" class="well alert alert-info">
+            <div ng-hide="root.twitterSession" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>Please sign up to start saving your twitter walls.</strong>
             </div>
-            <div ng-if="isLoggedIn && !wallsPresent" style="margin-top: 20px;" class="well alert alert-info">
+            <div ng-if="root.twitterSession && !wallsPresent" style="margin-top: 20px;" class="well alert alert-info">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>You haven't created any walls yet.</strong>
             </div>
-            <div ng-show="isLoggedIn" ng-if="userWalls.length>0" class="row wall-thumbnail-container">
-                <div ng-repeat="wallObj in userWalls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" screen-name="screen_name" user-id="current_id()" wallthumbnail>
+            <div ng-show="root.twitterSession" ng-if="userWalls.length>0" class="row wall-thumbnail-container">
+                <div ng-repeat="wallObj in userWalls" data="wallObj" delete-wall="deleteWall($index)" edit-wall="editWall($index)" screen-name="screen_name" wallthumbnail>
                 </div>
             </ul>
         </section>
     </div>
 
     <!-- Search box for anonymous user-no-followers -->
-    <div ng-show="!isLoggedIn" ng-include src="'anonymous-session-content.html'"></div>
+    <div ng-show="!root.twitterSession" ng-include src="'anonymous-session-content.html'"></div>
     <!-- End search box for anonymous users -->
 </div>
 <div ng-include="'wall/wallCreationModal.html'"></div>

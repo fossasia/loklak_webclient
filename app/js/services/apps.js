@@ -5,20 +5,15 @@ var servicesModule = require('./_index.js');
 /**
  * @ngInject
  */
-function AppsService($q, $http, $resource, AppSettings, AuthService) {
+function AppsService($q, $http, $resource, AppSettings) {
 
-    // var url = AppSettings.oauthProxyUrl.split('/')[0] + '/' + AppSettings.oauthProxyUrl.split('/')[1] + '/' + AppSettings.oauthProxyUrl.split('/')[2];
+    var url = AppSettings.oauthProxyUrl.split('/')[0] + '/' + AppSettings.oauthProxyUrl.split('/')[1] + '/' + AppSettings.oauthProxyUrl.split('/')[2];
 
-    // return $resource(url + '/:user/:app/:id', {
-    return $resource('/api/:user/:app/:id', {
+    return $resource(url + '/:user/:app/:id', {
         user: '@user',
         app: '@app',
         id: '@id'
     }, {
-        query: {
-            method: 'GET',
-            isArray: true
-        },
 
         save: {
             method: 'POST',
@@ -52,4 +47,4 @@ function AppsService($q, $http, $resource, AppSettings, AuthService) {
 
 }
 
-servicesModule.service('AppsService', ['$q', '$http', '$resource', 'AppSettings', 'AuthService', AppsService]);
+servicesModule.service('AppsService', ['$q', '$http', '$resource', 'AppSettings', AppsService]);
