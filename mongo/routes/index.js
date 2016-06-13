@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var jwt = require('express-jwt');
 var config = require('../../custom_configFile.json');
 
@@ -26,9 +27,18 @@ router.post  ('/:user/:app', auth, ctrlWalls.createWall);
 router.put   ('/:user/:app/:id', auth, ctrlWalls.updateWall);
 router.delete('/:user/:app/:id', auth, ctrlWalls.deleteWall);
 
-// AUTH
+// AUTH - Email
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+
+// AUTH - Twitter
+router.get('/login/twitter', passport.authenticate('twitter') );
+router.get('/login/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect : '/twitter',
+    failureRedirect : '/'
+  })
+);
 
 // EMAIL CONFIRMATIONS
 router.get('/send', ctrlMailer.send);

@@ -57,6 +57,7 @@
     "nodemailer": "^0.7.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "photoswipe": "4.0.7",
     "pretty-hrtime": "^0.2.2",
     "protractor": "^1.2.0",
