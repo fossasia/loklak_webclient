@@ -25,6 +25,10 @@ module.exports.register = function(req, res) {
         user.name = req.body.email;
         user.email = req.body.email;
         user.isVerified = false;
+        user.apps = {
+            walls: []
+        };
+
         user.setPassword(req.body.password);
         user.save(function(err) {
             var token;

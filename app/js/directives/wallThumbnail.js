@@ -12,7 +12,8 @@ function wallThumbnailDirective() {
     	data: '=',
     	deleteWall: '&',
     	editWall: '&',
-        screenName: '='
+        screenName: '=',
+        userId: "="
     },
     replace: true,
     templateUrl: 'wall/templates/wallThumbnail.html',

@@ -119,16 +119,16 @@
 
     </div>
 
-
-    <div class="logged-content map-container-parent" ng-show="root.twitterSession">
+  -->
+    <div class="logged-content map-container-parent" ng-show="root.isLoggedIn">
        <span class="toggle-map-feed fa fa-chevron-circle-right" ng-click="map.toggleMapFeed();"></span>
-       <div id="map" ng-show="root.twitterSession"></div>
+       <div id="map" ng-show="root.isLoggedIn"></div>
     
         <div class="location-fail-notice">
           <div class="warning-sign"><i class="fa fa-exclamation-triangle"></i></div>
           <p class="notice-text">The user you're searching for doesn't seem to have location enabled!</p>
         </div>
-    </div>   -->
+    </div> 
     <!-- Search box for anonymous user-no-followers -->
     <div ng-include src="'anonymous-session-content.html'"></div>
     <!-- End search box for anonymous users -->

@@ -46,7 +46,8 @@ angular.element(document).ready(function() {
     'akoenig.deckgrid',
     'chart.js',
     'naif.base64',
-    'nya.bootstrap.select'
+    'nya.bootstrap.select',
+    'ng-sweet-alert'
   ];
 
   // mount on window for testing

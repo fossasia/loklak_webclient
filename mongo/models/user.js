@@ -6,42 +6,40 @@ var config = require('../../custom_configFile.json');
 var SALT_WORK_FACTOR = 10;
 var bcrypt = require('bcrypt');
 
-
-// var WallSchema = new Schema({
-//         profanity: Boolean,
-//         images: Boolean,
-//         videos: Boolean,
-//         headerColour: String,
-//         headerForeColour: String,
-//         headerPosition: String,
-//         layoutStyle: Number,
-//         showStatistics: Boolean,
-//         showLoklakLogo: Boolean,
-//         showEventName: Boolean,
-//         all: [String],
-//         any: [String],
-//         none: [String],
-//         eventName: Number,
-//         sinceDate: Date,
-//         mainHashtagText: String,
-//         mainHashtag: String,
-//         id: String
-// })
+var WallSchema = new Schema()
 
 var UserSchema = new Schema({
   // screen_name: String,
   // oauth_token: String,
   // oauth_token_secret: String,
   // source_type: String,
-  // apps: {
-  //   wall: [WallSchema]
-  // }
   email: { type: String, unique: true, required: true },
   name: { type: String, required: true },
   hash: String,
   salt: String,
-  isVerified: { type: Boolean, required: true }
-
+  isVerified: { type: Boolean, required: true },
+  apps: {
+    wall: [{
+            profanity: Boolean,
+            images: Boolean,
+            videos: Boolean,
+            headerColour: String,
+            headerForeColour: String,
+            headerPosition: String,
+            layoutStyle: Number,
+            showStatistics: Boolean,
+            showLoklakLogo: Boolean,
+            showEventName: Boolean,
+            all: [String],
+            any: [String],
+            none: [String],
+            eventName: Number,
+            sinceDate: Date,
+            mainHashtagText: String,
+            mainHashtag: String,
+            id: String
+    }]
+  }
 });
 
 UserSchema.methods.setPassword = function(password){
@@ -62,7 +60,6 @@ UserSchema.methods.generateJwt = function() {
     _id: this._id,
     email: this.email,
     name: this.name,
-    isVerified: this.isVerified,
     exp: parseInt(expiry.getTime() / 1000),
   }, config.jwtsecret); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
