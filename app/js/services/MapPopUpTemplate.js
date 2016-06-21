@@ -116,6 +116,37 @@ function MapPopUpTemplateService($filter, SourceTypeService, JsonFieldAccessorSe
     return result;
 
   };
+  service.startupInfoPopUp = function(status) {
+    var result = "Failed loading data from twitter";
+    var title = "Start Up";
+    result = '<h4>' + title + '</h4>'
+            +'<div class="home-user-info" style="width:300px;">'
+            +     '<div class="home-user-info-content">'
+            +        '<div class="top-content">'
+            +            '<img src="'+status.logo_url+'">'
+            +            '<div class="name-and-screen-name">'
+            +                '<span class="home-user-name">'+status.startup_name+'</span><br>'
+            +            '</div>'
+            +            '<h3>'+status.product_desc+'</h3>'
+            +       '</div>'
+            +       '<div class="bottom-content">'
+            +            '<div class="user-no-tweets">'
+            +               '<a href=""><i class="fa fa-map-marker fa"></i><br><span><a href='+status.startup_url+'>'+status.location+'</a></span></a>'
+            +            '</div>'
+            +            '<div class="user-no-followings">'
+            +                '<i class="fa fa-globe fa"></i><br><span><a href='+status.startup_url+'>Website</a></span>'
+            +            '</div>'
+            +            '<div class="user-no-followers">'
+            +                '<a href=""><i class="fa fa-star fa"></i><br><span>'+status.quality+'</span></a>'
+            +            '</div>'
+            +        '</div>'
+            +    '</div>'
+            +'</div>';
+
+    return result;
+
+
+  };
 
   return service;
 

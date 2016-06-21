@@ -58,6 +58,12 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     templateUrl: 'statistics.html',
     title: 'Statistics'
   })
+  .state('Startups', {
+    url: '/startups',
+    controller: 'AngelCtrl as angel',
+    templateUrl: 'startup.html',
+    title: 'Startups'
+  })
   .state('SingleTweet', {
     url: '/tweet?q',
     controller: 'SingleTweetCtrl as singleTweet',
