@@ -4,6 +4,7 @@ loklak webclient
 [![Join the chat at https://gitter.im/loklak/loklak_webclient](https://badges.gitter.im/loklak/loklak_webclient.svg)](https://gitter.im/loklak/loklak_webclient?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/loklak/loklak_webclient.svg?branch=master)](https://travis-ci.org/loklak/loklak_webclient)
 [![Code Climate](https://codeclimate.com/github/loklak/loklak_webclient/badges/gpa.svg)](https://codeclimate.com/github/loklak/loklak_webclient)
+[![codecov](https://codecov.io/gh/loklak/loklak_webclient/branch/master/graph/badge.svg)](https://codecov.io/gh/loklak/loklak_webclient)
 
 Web client for loklak server (see: https://github.com/loklak/loklak_server ).
 To use the loklak webclient, you need a running loklak server.
