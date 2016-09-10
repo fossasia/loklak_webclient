@@ -1,0 +1,9 @@
+cd iframely/
+npm install
+echo "---------------1-------------------"
+cd ../
+cd oauth-proxy/
+npm install
+echo "------------------------------2--------------------------"
+cd ../
+gulp prod
