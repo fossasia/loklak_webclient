@@ -43,7 +43,7 @@ The goal is to have a demo version that is automatically deployed from our repos
 
 ### Components
 
-* Database - MongoDB
+* Nodejs
 
 ## Services and Dependencies
 
