@@ -1,7 +1,7 @@
 #loklak webclient
 
 [![Join the chat at https://gitter.im/loklak/loklak](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loklak/loklak)
-[![Build Status](https://travis-ci.org/fossasia/loklak_webclient.svg?branch=master)](https://travis-ci.org/fossasia/loklak_webclient)
+[![Build Status](https://travis-ci.org/fossasia/loklak_webclient.svg?branch=development)](https://travis-ci.org/fossasia/loklak_webclient)
 [![Code Climate](https://codeclimate.com/github/loklak/loklak_webclient/badges/gpa.svg)](https://codeclimate.com/github/fossasia/loklak_webclient)
 [![codecov](https://codecov.io/gh/fossasia/loklak_webclient/branch/master/graph/badge.svg)](https://codecov.io/gh/fossasia/loklak_webclient)
 [![Dependency Status](https://gemnasium.com/badges/github.com/fossasia/loklak_webclient.svg)](https://gemnasium.com/github.com/fossasia/loklak_webclient)
