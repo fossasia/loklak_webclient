@@ -11,7 +11,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/',
     controller: 'MapCtrl as map',
     templateUrl: 'home.html',
-    title: 'Home'
+    title: 'Home',
+    currentView: 'Home'
   })
   .state('About', {
     url: '/about',
@@ -36,7 +37,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/wall',
     templateUrl: 'wall/create.html',
     controller: 'WallCtrl as wall',
-    title: 'Wall'
+    title: 'Wall',
+    currentView: 'Wall'
   })
   // .state('WallCreate', {
   //   url: '/wall/create',
@@ -74,7 +76,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/connect',
     templateUrl: 'data-connect/data-connect.html',
     controller: 'DataConnectCtrl as dataConnect',
-    title: 'My Connections'
+    title: 'My Connections',
+    currentView: 'Connect'
   })
   .state('DataConnectWSourceType', {
     url: '/connect/:source_type',
@@ -86,7 +89,8 @@ function Routes($stateProvider, $locationProvider, $urlRouterProvider, $httpProv
     url: '/report',
     templateUrl: 'analyze/analyze.html',
     controller: 'AnalyzeCtrl as Analyze',
-    title: 'Analyze Data'
+    title: 'Analyze Data',
+    currentView: 'Report'
   })
   .state('Redirecting', {
     url: '/redirect',

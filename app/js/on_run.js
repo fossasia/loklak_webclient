@@ -6,7 +6,7 @@
  * @ngInject
  */
 function OnRun($rootScope, AppSettings, HelloService) {
-	var root = {};
+  var root = {};
   root.hello = HelloService;
   
   /**
@@ -15,11 +15,11 @@ function OnRun($rootScope, AppSettings, HelloService) {
    */
     root.globalSearchTerm = '';
     root.topNavItems = [
-    		{
-    			'title': 'Home',
-    			'link' : '/',
+        {
+          'title': 'Home',
+          'link' : '/',
           'icon' : 'fa fa-home'
-    		},
+        },
         {
           'title': 'Report',
           'link' : '/report',
@@ -36,7 +36,7 @@ function OnRun($rootScope, AppSettings, HelloService) {
           'icon' : 'fa fa-cloud'
         }
         
-  	  ];
+      ];
 
     root.fullscreenDisabled = true;
     root.sidebarEnabled = false;
@@ -55,9 +55,16 @@ function OnRun($rootScope, AppSettings, HelloService) {
       var pageTitle = 'Loklak ';
       if ( toState.title ) {
         pageTitle += toState.title;
-        $rootScope.root.currentView = toState.title;
       }
       $rootScope.root.pageTitle = pageTitle;
+
+      if (toState.currentView) {
+        $rootScope.root.currentView = toState.currentView;
+      } else {
+        if ( toState.title ) {
+          $rootScope.root.currentView = toState.title;
+        }
+      }
     });
     $rootScope.root = root;
 }
