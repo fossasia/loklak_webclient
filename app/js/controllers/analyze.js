@@ -107,7 +107,6 @@ var marker=[];
                 {
                     viewnodata();
                     return 0;
-
                 }
                 //data about the user analysing
                 var topology = data.topology;
