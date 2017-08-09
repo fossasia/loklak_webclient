@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "0.10.26"
-before_script:
+install:
   - npm install -g gulp
   - npm install
 script:
