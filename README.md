@@ -32,7 +32,7 @@ The goal is to have a demo version that is automatically deployed from our repos
     * `sudo apt-get install nasm`
     * `sudo apt-get install libpng-dev`
     * `sudo apt-get install dh-autoreconf`
-2. Run `sudo npm install -g gulp` to install `gulp` systemwide as a tool to run the task.
+2. Run `npm install -g gulp` to install `gulp` systemwide as a tool to run the task.
 3. Clone this repo from `https://github.com/loklak/loklak_webclient.git`
 4. Create your custom settings file by doing
    `cp configFile.json custom_configFile.json`.
